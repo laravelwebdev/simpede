@@ -1,0 +1,80 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "armancodes/laravel-download-link": "^1.1",
+        "chris-ware/nova-breadcrumbs": "^2.3",
+        "comodolab/nova-help": "^0.4.0",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "khalin/nova-link-field": "^1.2",
+        "laravel/framework": "^8.75",
+        "laravel/nova": "^3.30",
+        "laravel/sanctum": "^2.11",
+        "laravel/tinker": "^2.5",
+        "laravelwebdev/responsive": "^1.0",
+        "maatwebsite/excel": "^3.1",
+        "mattsplat/readmore": "^1.0",
+        "optimistdigital/nova-simple-repeatable": "^1.4",
+        "owenmelbz/nova-radio-field": "^1.0",
+        "phpoffice/phpword": "^0.18.2",
+        "royduin/laravel-nova-field-dynamic-select": "^1.9"
+    },
+    "require-dev": {
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^5.10",
+        "phpunit/phpunit": "^9.5.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

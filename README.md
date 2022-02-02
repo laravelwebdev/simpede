@@ -1,2 +1,2 @@
 # simpede
- SImpede BSP HST
+ Sistem Informasi Manajemen Permintaan dan SPD

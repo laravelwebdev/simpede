@@ -28,7 +28,7 @@ class KodeSuratPolicy
      */
     public function view(User $user)
     {
-        return ($user->role == 'admin');
+        return $user->role == 'admin';
     }
 
     /**

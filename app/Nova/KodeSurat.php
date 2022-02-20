@@ -2,18 +2,19 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
 use App\Nova\Actions\ImportKode;
-use Laravel\Nova\Fields\Textarea;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeSurat extends Resource
 {
     use Breadcrumbs;
     public static $group = 'Referensi';
+
     public static function label()
     {
         return 'Kode Surat';
@@ -107,6 +108,8 @@ class KodeSurat extends Resource
             return [
                 ImportKode::make()->standalone(),
             ];
-        } else return [];
+        } else {
+            return [];
+        }
     }
 }

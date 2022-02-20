@@ -29,12 +29,12 @@ class Helper
      * @param  string  $table  tabel surat
      * @param  string  $kode  kode surat
      * @param  string  $prefix  awalan nomor
-     *  @param  string  $jenis  sk|''
+     * @param  string  $jenis  sk|''
      * @return object Nomor
      */
     public function nomor($tanggal, $table, $kode, $prefix = '', $jenis = '')
     {
-        $abj1 = array('AA', 'AB', 'AC', 'AD', 'AE ', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM ', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', );
+        $abj1 = ['AA', 'AB', 'AC', 'AD', 'AE ', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM ', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'];
         $abj2 = range('A', 'Z');
         $abjad = array_merge($abj2, $abj1);
         $check1 = DB::table($table)->orderBy('tanggal', 'desc')->first();
@@ -45,26 +45,24 @@ class Helper
         if ($tanggal >= $maxdate) {
             $maxs1 = (! is_null($check2)) ? $check2->s1 : 0;
             $this->segmen = 1 + $maxs1;
-            if ($jenis == 'sk'){
+            if ($jenis == 'sk') {
                 $this->nomor = $prefix.Str::of(1 + $maxs1)->padLeft(3, '0')->append($kode)->append(' TAHUN ')->append($tahun);
             } else {
                 $this->nomor = $prefix.Str::of(1 + $maxs1)->padLeft(3, '0')->append('/')->append($kode)->append('/')->append($bulan)->append('/')->append($tahun);
-            }            
+            }
         } else {
             $maxs1 = DB::table($table)->where('tanggal', '<=', $tanggal)->orderBy('s1', 'desc')->first()->s1;
             $index = DB::table($table)->where('s1', '=', $maxs1)->count('id');
             $this->segmen = $maxs1;
-            if ($jenis == 'sk'){
+            if ($jenis == 'sk') {
                 $this->nomor = $prefix.Str::of($maxs1)->padLeft(3, '0')->append($abjad[$index - 1])->append($kode)->append(' TAHUN ')->append($tahun);
             } else {
                 $this->nomor = $prefix.Str::of($maxs1)->padLeft(3, '0')->append($abjad[$index - 1])->append('/')->append($kode)->append('/')->append($bulan)->append('/')->append($tahun);
-            }  
-            
+            }
         }
 
         return $this;
     }
-
 
     /**
      * Generate Keterangan Pejabat.
@@ -494,8 +492,8 @@ class Helper
     /**
      * Kode Surat.
      *
-     * @param  String $idklas id Klasifikasi 4
-     * @return String
+     * @param  string  $idklas  id Klasifikasi 4
+     * @return string
      */
     public static function kodeSurat($idklas, $seksi)
     {
@@ -520,6 +518,7 @@ class Helper
                 $kode_seksi = '63071';
                 break;
         }
+
         return $kode_seksi.'/'.$kode;
     }
 }

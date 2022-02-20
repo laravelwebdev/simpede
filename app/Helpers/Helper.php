@@ -501,7 +501,7 @@ class Helper
     {
         $kode = DB::table('kode_surats')->where('id', $idklas)->first()->kode;
         switch ($seksi) {
-            case 'IPDS':
+            case 'Fungsi IPDS':
                 $kode_seksi = '63076';
                 break;
             case 'Fungsi Statistik Sosial':

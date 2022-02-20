@@ -3,14 +3,14 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Line;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
 
 class SK extends Resource
 {
@@ -72,7 +72,6 @@ class SK extends Resource
         ];
     }
 
-
     /**
      * Get the fields displayed by the resource on index page.
      *
@@ -118,7 +117,6 @@ class SK extends Resource
     {
         return '/resources/'.static::uriKey();
     }
-
 
     /**
      * Get the cards available for the request.

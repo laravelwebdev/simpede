@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Surat extends Model
 {
@@ -19,7 +19,7 @@ class Surat extends Model
     {
         $this->attributes['tanggal'] = $value;
         $prefix = '';
-        if ($this->jenis == 'Surat Biasa'){
+        if ($this->jenis == 'Surat Biasa') {
             $prefix = 'B-';
         }
         $kode = Helper::kodeSurat($this->k4, Auth::user()->unit);

@@ -3,34 +3,30 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Textarea;
-use Illuminate\Support\Facades\DB;
-use OwenMelbz\RadioField\RadioButton;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 
-class Surat extends Resource
+class SkKpa extends Resource
 {
     use Breadcrumbs;
     public static $group = 'Referensi';
 
     public static function label()
     {
-        return 'Surat Keluar';
+        return 'SK KPA';
     }
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Surat::class;
+    public static $model = \App\Models\SkKpa::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -45,7 +41,7 @@ class Surat extends Resource
      * @var array
      */
     public static $search = [
-        'nomor', 'tanggal', 'perihal', 'tujuan',
+        'nomor', 'tanggal', 'perihal',
     ];
 
     /**
@@ -63,26 +59,19 @@ class Surat extends Resource
                     return $request->isUpdateOrUpdateAttachedRequest();
                 })->sortable()
                 ->rules('required'),
-            new Panel('Klasifikasi Surat', $this->klasifikasiFields()),
-            Date::make('Tanggal Surat', 'tanggal')
+            Date::make('Tanggal SK', 'tanggal')
                 ->readonly(function ($request) {
                     return $request->isUpdateOrUpdateAttachedRequest();
                 })->sortable()
                 ->rules('required')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 }),
-            Text::make('Tujuan', 'tujuan')
-                ->placeholder('Penerima surat')
-                ->rules('required'),
             Textarea::make('Perihal', 'perihal')
                 ->placeholder('Perihal surat')
                 ->rules('required')->alwaysShow(),
-            Text::make('Dikirimkan melalui', 'pengiriman'),
-            Date::make('Tanggal Kirim', 'kirim')->displayUsing(function ($tanggal) {
-                return Helper::terbilangTanggal($tanggal);
-            }),
         ];
     }
+
 
     /**
      * Get the fields displayed by the resource on index page.
@@ -96,62 +85,40 @@ class Surat extends Resource
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
-                Date::make('Tanggal Permintaan', 'tanggal')->displayUsing(function ($tanggal) {
+                Date::make('Tanggal ', 'tanggal')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 }),
             ]),
-            Text::make('Jenis Surat', 'jenis'),
-            Text::make('Tujuan'),
             Textarea::make('Perihal')
                 ->showOnIndex()
                 ->readMore(['max' => 255, 'mask' => '(...)']),
-            Stack::make('Pengiriman/Tanggal', [
-                Line::make('Pengiriman', 'pengiriman')->asHeading(),
-                Date::make('Tanggal Kirim', 'kirim')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                }),
-            ]),
         ];
     }
 
-
-    public function klasifikasiFields()
+    /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
-        return[
-            RadioButton::make('Jenis Surat', 'jenis')
-            ->options(Helper::$jenis_surat)
-            ->default('Surat Biasa'),
-            DynamicSelect::make('Klasifikasi 1', 'k1')
-            ->options(
-                DB::table('kode_surats')->select('k1')->pluck('k1', 'k1')
-            )
-            ->rules('required')->sortable(),
-            DynamicSelect::make('Klasifikasi 2', 'k2')
-            ->dependsOn(['k1'])
-            ->options(function ($values) {
-                return DB::table('kode_surats')->select(['k2'])
-                ->where('k1', $values['k1'])
-                ->pluck('k2', 'k2');
-            })->rules('required')->sortable(),
-            DynamicSelect::make('Klasifikasi 3', 'k3')
-            ->dependsOn(['k1','k2'])
-            ->options(function ($values) {
-                return DB::table('kode_surats')->select(['k3'])
-                ->where('k2', $values['k2'])
-                ->where('k1', $values['k1'])
-                ->pluck('k3', 'k3');
-            })->rules('required')->sortable(),
-            DynamicSelect::make('Klasifikasi 4', 'k4')
-            ->dependsOn(['k1','k3'])
-            ->options(function ($values) {
-                return DB::table('kode_surats')->select(['k4', 'id'])
-                ->where('k3', $values['k3'])
-                ->where('k1', $values['k1'])
-                ->pluck('k4', 'id');
-            })->rules('required')->sortable(),          
-
-        ];
+        return '/resources/'.static::uriKey();
     }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey();
+    }
+
 
     /**
      * Get the cards available for the request.

@@ -221,7 +221,7 @@ class Perjalanan extends Resource
         return [
             Select::make('Nomor Surat Tugas', 'no_st')
                 ->options(
-                    DB::table('surats')->select(['nomor'])->selectRaw("CONCAT(nomor,' ',perihal) AS keterangan")->pluck('keterangan', 'nomor')
+                    DB::table('surats')->where('jenis', 'Surat Tugas')->select(['nomor'])->selectRaw("CONCAT(nomor,' ',perihal) AS keterangan")->pluck('keterangan', 'nomor')
                 )
                 ->rules('required'),
             Text::make('Lama Pelaksanaan', 'waktu')

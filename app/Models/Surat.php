@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Surat extends Model
 {
@@ -17,7 +18,12 @@ class Surat extends Model
     public function setTanggalAttribute($value)
     {
         $this->attributes['tanggal'] = $value;
-        $this->attributes['s1'] = (new Helper)->nomor($value, 'surats', 'BPS')->segmen;
-        $this->attributes['nomor'] = (new Helper)->nomor($value, 'surats', 'BPS')->nomor;
+        $prefix = '';
+        if ($this->jenis == 'Surat Biasa'){
+            $prefix = 'B-';
+        }
+        $kode = Helper::kodeSurat($this->k4, Auth::user()->unit);
+        $this->attributes['s1'] = (new Helper)->nomor($value, 'surats', $kode, $prefix)->segmen;
+        $this->attributes['nomor'] = (new Helper)->nomor($value, 'surats', $kode, $prefix)->nomor;
     }
 }

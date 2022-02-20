@@ -142,7 +142,7 @@ class Permintaan extends Model
             ) {
                 PengadaanKecil::where('nomor', $permintaan->nomor)->delete();
             }
-            if ($permintaan->jenis == 'penyedia' && $permintaan->jumlah_bayar > 0 && $permintaan->jumlah_bayar <= 10000000) {
+            if ($permintaan->jenis == 'penyedia' && $permintaan->jumlah_bayar > 5000000 && $permintaan->jumlah_bayar <= 10000000) {
                 if (PengadaanKecil::where('nomor', $permintaan->nomor)->first('nomor')) {
                     PengadaanKecil::where('nomor', $permintaan->nomor)->update(
                             [

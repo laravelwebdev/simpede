@@ -32,6 +32,8 @@ class PengadaanKecil extends Model
         $this->attributes['nipppk'] = (new Helper)->getPejabat('ppk', 'nip');
         $this->attributes['pbj'] = (new Helper)->getPejabat('pbj', 'nama');
         $this->attributes['nippbj'] = (new Helper)->getPejabat('pbj', 'nip');
+        $this->attributes['bendahara'] = (new Helper)->getPejabat('bendahara', 'nama');
+        $this->attributes['nipbendahara'] = (new Helper)->getPejabat('bendahara', 'nip');
     }
 
     protected static function booted()

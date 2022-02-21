@@ -84,6 +84,7 @@ class CetakHelper
             'perkiraan' => Helper::formatRupiah((float) $data->perkiraan),
             'tgl_sp' => Helper::terbilangTanggal($data->tgl_sp),
             'penyedia' => DB::table('penyedias')->where('id', '=', $data->penyedia)->first('penyedia')->penyedia,
+            'penandatangan' => $data->penandatangan,
             'alamat' => $data->alamat,
             'jumlah_bayar' => Helper::formatRupiah((float) $data->jumlah_bayar),
             'program' => $data->program,
@@ -101,6 +102,8 @@ class CetakHelper
             'nipppk' => $data->nipppk,
             'pbj' => $data->pbj,
             'nippbj' => $data->nippbj,
+            'bendahara' => $data->bendahara,
+            'nipbendahara' => $data->nipbendahara,
 
             'no_permintaan' => Helper::nomorPengadaan($data->tgl_proses, $data->kode),
             'no_sp' => Helper::nomorPengadaan($data->tgl_sp, $data->kode, 'sp'),

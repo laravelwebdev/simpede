@@ -26,6 +26,7 @@ class CreatePengadaanKecilsTable extends Migration
             $table->date('tgl_sp')->nullable();
             $table->unsignedSmallInteger('penyedia')->nullable();
             $table->string('alamat')->nullable();
+            $table->string('penandatangan')->nullable();
             $table->unsignedInteger('jumlah_bayar');
             $table->string('mak');
             $table->string('program');
@@ -45,6 +46,8 @@ class CreatePengadaanKecilsTable extends Migration
             $table->string('nipppk')->nullable();
             $table->string('pbj')->nullable();
             $table->string('nippbj')->nullable();
+            $table->string('bendahara')->nullable();
+            $table->string('nipbendahara')->nullable();
 
             $table->string('link')->nullable();
 

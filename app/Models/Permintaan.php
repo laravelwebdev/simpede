@@ -142,7 +142,7 @@ class Permintaan extends Model
             ) {
                 PengadaanKecil::where('nomor', $permintaan->nomor)->delete();
             }
-            if ($permintaan->jenis == 'penyedia' && $permintaan->jumlah_bayar > 5000000 && $permintaan->jumlah_bayar <= 10000000) {
+            if ($permintaan->jenis == 'penyedia' && $permintaan->jumlah_bayar > 0 && $permintaan->jumlah_bayar <= 10000000) {
                 if (PengadaanKecil::where('nomor', $permintaan->nomor)->first('nomor')) {
                     PengadaanKecil::where('nomor', $permintaan->nomor)->update(
                             [
@@ -152,6 +152,7 @@ class Permintaan extends Model
                                 'mak' => $permintaan->mak,
                                 'detail' => $permintaan->detail,
                                 'alamat' => Penyedia::where('id', $permintaan->penyedia)->first('alamat')->alamat,
+                                'penandatangan' => Penyedia::where('id', $permintaan->penyedia)->first('penandatangan')->penandatangan,
                                 'program' => $permintaan->program,
                                 'kegiatan' => $permintaan->kegiatan,
                                 'kro' => $permintaan->kro,
@@ -174,6 +175,7 @@ class Permintaan extends Model
                                 'spesifikasi' => $permintaan->spesifikasi,
                                 'penyedia' => $permintaan->penyedia,
                                 'alamat' => Penyedia::where('id', $permintaan->penyedia)->first('alamat')->alamat,
+                                'penandatangan' => Penyedia::where('id', $permintaan->penyedia)->first('penandatangan')->penandatangan,
                                 'jumlah_bayar' => $permintaan->jumlah_bayar,
                                 'mak' => $permintaan->mak,
                                 'detail' => $permintaan->detail,

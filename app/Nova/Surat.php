@@ -3,18 +3,18 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Panel;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Line;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Stack;
-use Laravel\Nova\Fields\Textarea;
-use Illuminate\Support\Facades\DB;
-use OwenMelbz\RadioField\RadioButton;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Line;
+use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
+use OwenMelbz\RadioField\RadioButton;
 
 class Surat extends Resource
 {
@@ -114,7 +114,6 @@ class Surat extends Resource
         ];
     }
 
-
     public function klasifikasiFields()
     {
         return[
@@ -134,7 +133,7 @@ class Surat extends Resource
                 ->pluck('k2', 'k2');
             })->rules('required')->sortable(),
             DynamicSelect::make('Klasifikasi 3', 'k3')
-            ->dependsOn(['k1','k2'])
+            ->dependsOn(['k1', 'k2'])
             ->options(function ($values) {
                 return DB::table('kode_surats')->select(['k3'])
                 ->where('k2', $values['k2'])
@@ -142,13 +141,13 @@ class Surat extends Resource
                 ->pluck('k3', 'k3');
             })->rules('required')->sortable(),
             DynamicSelect::make('Klasifikasi 4', 'k4')
-            ->dependsOn(['k1','k3'])
+            ->dependsOn(['k1', 'k3'])
             ->options(function ($values) {
                 return DB::table('kode_surats')->select(['k4', 'id'])
                 ->where('k3', $values['k3'])
                 ->where('k1', $values['k1'])
                 ->pluck('k4', 'id');
-            })->rules('required')->sortable(),          
+            })->rules('required')->sortable(),
 
         ];
     }

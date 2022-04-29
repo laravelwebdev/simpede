@@ -109,6 +109,7 @@ class CetakHelper
             'no_sp' => Helper::nomorPengadaan($data->tgl_sp, $data->kode, 'sp'),
             'terbilang_jumlah_bayar' => Helper::terbilang((float) $data->jumlah_bayar, 'uw', 'rupiah'),
             'no_bast' => Helper::nomorPengadaan($data->akhir, $data->kode, 'bast'),
+            'no_kuitansi' => Helper::nomorPengadaan($data->akhir, $data->kode, 'kwt'),
             'hari_bast' => Helper::terbilangHari($data->akhir),
             'terbilang_tgl_bast' => Helper::terbilangTanggal($data->akhir, 'l'),
         ]);

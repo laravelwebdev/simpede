@@ -28,6 +28,7 @@ class CreateSuratsTable extends Migration
             $table->string('pengiriman')->nullable();
             $table->date('kirim')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

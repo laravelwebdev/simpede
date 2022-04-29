@@ -40,7 +40,7 @@ class PengadaanKecil extends Model
     {
         static::updating(function ($pengadaan_kecil) {
             $pengadaan_kecil->spesifikasi = Helper::simpanSpek($pengadaan_kecil->spesifikasi);
-            if ($pengadaan_kecil->jumlah_bayar !== Helper::sumSpek($pengadaan_kecil->spesifikasi)) {
+            if ($pengadaan_kecil->jumlah_bayar != Helper::sumSpek($pengadaan_kecil->spesifikasi)) {
                 throw_if(
                     true,
                     'Nilai Pembayaran tidak sama dengan total nilai barang'

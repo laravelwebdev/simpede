@@ -100,6 +100,7 @@ class CreatePermintaansTable extends Migration
             $table->string('link')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

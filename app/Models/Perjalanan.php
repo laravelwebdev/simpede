@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Perjalanan extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $guarded = [];
     protected $casts = [
         'tanggal' => 'date',
@@ -25,8 +26,8 @@ class Perjalanan extends Model
     public function setTanggalAttribute($value)
     {
         $this->attributes['tanggal'] = $value;
-        $this->attributes['s1'] = (new Helper)->nomor($value, 'perjalanans', 'SPPD')->segmen;
-        $this->attributes['nomor'] = (new Helper)->nomor($value, 'perjalanans', 'SPPD')->nomor;
+        $this->attributes['s1'] = (new Helper)->nomor($value, 'perjalanans', 'SPPD/6307')->segmen;
+        $this->attributes['nomor'] = (new Helper)->nomor($value, 'perjalanans', 'SPPD/6307')->nomor;
 
         $this->attributes['ppk'] = (new Helper)->getPejabat('ppk', 'nama');
         $this->attributes['nipppk'] = (new Helper)->getPejabat('ppk', 'nip');

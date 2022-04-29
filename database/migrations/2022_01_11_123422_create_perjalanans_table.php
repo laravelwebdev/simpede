@@ -49,6 +49,7 @@ class CreatePerjalanansTable extends Migration
             $table->string('link')->nullable();
             $table->string('link_dpr')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

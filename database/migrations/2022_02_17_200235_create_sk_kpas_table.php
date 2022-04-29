@@ -20,6 +20,7 @@ class CreateSkKpasTable extends Migration
             $table->date('tanggal');
             $table->string('perihal');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

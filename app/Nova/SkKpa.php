@@ -63,7 +63,7 @@ class SkKpa extends Resource
                 ->readonly(function ($request) {
                     return $request->isUpdateOrUpdateAttachedRequest();
                 })->sortable()
-                ->rules('required')->displayUsing(function ($tanggal) {
+                ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 }),
             Textarea::make('Perihal', 'perihal')

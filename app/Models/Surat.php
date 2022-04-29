@@ -6,10 +6,11 @@ use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Surat extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $casts = [
         'tanggal' => 'date',
         'kirim' => 'date',

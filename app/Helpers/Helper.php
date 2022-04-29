@@ -34,9 +34,10 @@ class Helper
      */
     public function nomor($tanggal, $table, $kode, $prefix = '', $jenis = '')
     {
-        $abj1 = ['AA', 'AB', 'AC', 'AD', 'AE ', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM ', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'];
-        $abj2 = range('A', 'Z');
-        $abjad = array_merge($abj2, $abj1);
+        $abj1 = range('A', 'Z');
+        $abj2 = ['AA', 'AB', 'AC', 'AD', 'AE ', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM ', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'];
+        $abj3 = ['BA', 'BB', 'BC', 'BD', 'BE ', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM ', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ'];
+        $abjad = array_merge($abj1, $abj2, $abj3);
         $check1 = DB::table($table)->orderBy('tanggal', 'desc')->first();
         $check2 = DB::table($table)->orderBy('s1', 'desc')->first();
         $maxdate = (! is_null($check1)) ? $check1->tanggal : '1970-01-01';
@@ -359,6 +360,9 @@ class Helper
                 break;
             case 'bast':
                     return '002/PPK/'.$kode.'/'.$split[1].'/'.$split[0];
+                    break;
+            case 'kwt':
+                    return '001/KW/'.$kode.'/'.$split[1].'/'.$split[0];
                     break;
             default:
                 return '001/PPK/'.$kode.'/'.$split[1].'/'.$split[0];

@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permintaan extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $casts = [
         'tanggal' => 'date',
         'awal' => 'date',
@@ -33,8 +34,8 @@ class Permintaan extends Model
     public function setTanggalAttribute($value)
     {
         $this->attributes['tanggal'] = $value;
-        $this->attributes['s1'] = (new Helper)->nomor($value, 'permintaans', 'PMT')->segmen;
-        $this->attributes['nomor'] = (new Helper)->nomor($value, 'permintaans', 'PMT')->nomor;
+        $this->attributes['s1'] = (new Helper)->nomor($value, 'permintaans', 'PMT/6307')->segmen;
+        $this->attributes['nomor'] = (new Helper)->nomor($value, 'permintaans', 'PMT/6307')->nomor;
 
         //pejabat
         $this->attributes['nama'] = Auth::user()->name;

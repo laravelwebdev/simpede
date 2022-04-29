@@ -14,21 +14,22 @@ class PoksImport implements ToModel
     public function model(array $row)
     {
         return new Pok([
-            'program'     => $row[0],
-            'kegiatan'    => $row[1],
-            'kro'    => $row[2],
-            'ro'    => $row[3],
-            'komponen'    => $row[4],
-            'sub'    => $row[5],
-            'akun'    => $row[6],
-            'detail'    => $row[7],
-            'volume'    => $row[8],
-            'harga'    => $row[9],
-            'jumlah'    => $row[10],
-            'mak'    => $row[11],
-            'revisi'    => $row[12],
-            'realisasi'    => $row[13],
-            'sisa'    => $row[14],
+            'id' => $row[0],
+            'program'     => $row[1],
+            'kegiatan'    => $row[2],
+            'kro'    => $row[3],
+            'ro'    => $row[4],
+            'komponen'    => $row[5],
+            'sub'    => $row[6],
+            'akun'    => $row[7],
+            'detail'    => $row[8],
+            'volume'    => $row[9],
+            'harga'    => $row[10],
+            'jumlah'    => $row[11],
+            'mak'    => $row[12],
+            'revisi'    => $row[13],
+            'realisasi'    => $row[14],
+            'sisa'    => $row[15],
         ]);
     }
 }

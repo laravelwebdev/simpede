@@ -2,9 +2,8 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
+use Marispro\NovaVueAvatar\NovaVueAvatar as Avatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
@@ -45,8 +44,9 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Gravatar::make()->maxWidth(50),
+            Avatar::make(function($user){
+                return $user->name;
+            })->size(32),
 
             Text::make('Name')
                 ->sortable()

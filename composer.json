@@ -12,15 +12,14 @@
     ],
     "require": {
         "php": "^8.2",
+        "abordage/nova-html-card": "^0.3.1",
         "armancodes/laravel-download-link": "^1.1",
-        "comodolab/nova-help": "^0.0.6",
-        "digital-creative/collapsible-resource-manager": "^2.2",
-        "digital-creative/table-widget": "^1.0",
-        "digital-creative/value-widget": "^1.0",
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "mostafaznv/laracache": "^2.4",
+        "oriondevelops/nova-greeter": "^0.0.2",
         "phpoffice/phpword": "^1.2",
         "upline/nova-link-field": "^1.0",
         "visanduma/nova-back-navigation": "^1.0"

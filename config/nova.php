@@ -59,7 +59,7 @@ return [
     |
     */
 
-    'path' => '/',
+    'path' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'pagination' => 'simple',
+    'pagination' => 'links',
 
     /*
     |--------------------------------------------------------------------------
@@ -202,24 +202,4 @@ return [
         'started' => '/',
         'stopped' => '/',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Collapsible Resource Manager
-    |--------------------------------------------------------------------------
-    |
-    | This configuration option allows you to specify a position of menu in resource manager.
-    |
-    */
-
-    'vendors' => [
-        'collapsible_resource_manager' => [
-            'move_user_menu' => false,
-            'move_theme_switcher' => true,
-            'move_notification_center' => false,
-            'section_title' => true,
-            'collapse_on_select' => true,
-            'collapse_on_refresh' => false,
-        ]
-        ],
   ];

@@ -4,8 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b4add35df1881b79a19c18230164913",
+    "content-hash": "565494a80043aa4a904a19a7a6393c7a",
     "packages": [
+        {
+            "name": "abordage/nova-html-card",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abordage/nova-html-card.git",
+                "reference": "0a10d7f681999b610abbbc6fdfa173f8da8f9d4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abordage/nova-html-card/zipball/0a10d7f681999b610abbbc6fdfa173f8da8f9d4b",
+                "reference": "0a10d7f681999b610abbbc6fdfa173f8da8f9d4b",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "nunomaduro/collision": "^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "nunomaduro/larastan": "^1.0 || ^2.0",
+                "orchestra/testbench": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "phpunit/phpunit": "^9.6 || ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Abordage\\HtmlCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Abordage\\HtmlCard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Bychko",
+                    "email": "box@abordage.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova card that displays any html content, e.g. lists, notifications, small custom reports",
+            "homepage": "https://github.com/abordage/nova-html-card",
+            "keywords": [
+                "laravel nova",
+                "nova card",
+                "nova html card"
+            ],
+            "support": {
+                "issues": "https://github.com/abordage/nova-html-card/issues",
+                "source": "https://github.com/abordage/nova-html-card/tree/0.3.1"
+            },
+            "time": "2024-03-23T18:22:42+00:00"
+        },
         {
             "name": "armancodes/laravel-download-link",
             "version": "v1.1.0",
@@ -259,59 +321,6 @@
             "time": "2024-02-09T16:56:22+00:00"
         },
         {
-            "name": "comodolab/nova-help",
-            "version": "0.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Comodolab/nova-help.git",
-                "reference": "b9211cb67963088c77affd145c6a24e586aab5c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Comodolab/nova-help/zipball/b9211cb67963088c77affd145c6a24e586aab5c6",
-                "reference": "b9211cb67963088c77affd145c6a24e586aab5c6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Comodolab\\Nova\\Fields\\Help\\FieldServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Comodolab\\Nova\\Fields\\Help\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alessandro Benoit",
-                    "email": "alessandro@comodolab.it"
-                }
-            ],
-            "description": "A Laravel Nova help field.",
-            "keywords": [
-                "help",
-                "laravel",
-                "nova"
-            ],
-            "support": {
-                "issues": "https://github.com/Comodolab/nova-help/issues",
-                "source": "https://github.com/Comodolab/nova-help/tree/master"
-            },
-            "abandoned": true,
-            "time": "2018-10-26T07:20:25+00:00"
-        },
-        {
             "name": "composer/semver",
             "version": "3.4.2",
             "source": {
@@ -468,195 +477,17 @@
             "time": "2024-07-08T12:26:09+00:00"
         },
         {
-            "name": "digital-creative/collapsible-resource-manager",
-            "version": "v2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dcasia/collapsible-resource-manager.git",
-                "reference": "85c031da5e25a95fe56b240405d094926cde6f89"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dcasia/collapsible-resource-manager/zipball/85c031da5e25a95fe56b240405d094926cde6f89",
-                "reference": "85c031da5e25a95fe56b240405d094926cde6f89",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "^4.28.0",
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "DigitalCreative\\CollapsibleResourceManager\\CollapsibleResourceManagerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DigitalCreative\\CollapsibleResourceManager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rafael Milewski"
-                }
-            ],
-            "description": "A custom sidebar menu with collapsible groups",
-            "keywords": [
-                "collapse",
-                "collapsible",
-                "laravel",
-                "nova",
-                "sidebar"
-            ],
-            "support": {
-                "issues": "https://github.com/dcasia/collapsible-resource-manager/issues",
-                "source": "https://github.com/dcasia/collapsible-resource-manager/tree/v2.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/milewski",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-07-24T09:01:56+00:00"
-        },
-        {
-            "name": "digital-creative/table-widget",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dcasia/table-widget.git",
-                "reference": "ed611f596b3aeecac307b0f91faadfbfa3ae141b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dcasia/table-widget/zipball/ed611f596b3aeecac307b0f91faadfbfa3ae141b",
-                "reference": "ed611f596b3aeecac307b0f91faadfbfa3ae141b",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "^4.0",
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "DigitalCreative\\TableWidget\\TableWidgetServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DigitalCreative\\TableWidget\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rafael Milewski"
-                }
-            ],
-            "description": "A table widget for laravel nova-dashboard.",
-            "keywords": [
-                "laravel",
-                "nova",
-                "nova-dashboard",
-                "widget"
-            ],
-            "support": {
-                "issues": "https://github.com/dcasia/table-widget/issues",
-                "source": "https://github.com/dcasia/table-widget/tree/v1.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/milewski",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-10-24T13:51:48+00:00"
-        },
-        {
-            "name": "digital-creative/value-widget",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dcasia/value-widget.git",
-                "reference": "05be232e574438ccff2fd81baf4dfa1ba0776d63"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dcasia/value-widget/zipball/05be232e574438ccff2fd81baf4dfa1ba0776d63",
-                "reference": "05be232e574438ccff2fd81baf4dfa1ba0776d63",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "^4.0",
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "DigitalCreative\\ValueWidget\\ValueWidgetServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DigitalCreative\\ValueWidget\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rafael Milewski"
-                }
-            ],
-            "description": "A basic widget for laravel nova-dashboard.",
-            "keywords": [
-                "laravel",
-                "nova",
-                "nova-dashboard",
-                "widget"
-            ],
-            "support": {
-                "issues": "https://github.com/dcasia/value-widget/issues",
-                "source": "https://github.com/dcasia/value-widget/tree/v1.0.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/milewski",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-10-24T14:56:22+00:00"
-        },
-        {
             "name": "doctrine/dbal",
-            "version": "4.0.4",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "50fda19f80724b55ff770bb4ff352407008e63c5"
+                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/50fda19f80724b55ff770bb4ff352407008e63c5",
-                "reference": "50fda19f80724b55ff770bb4ff352407008e63c5",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
+                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
                 "shasum": ""
             },
             "require": {
@@ -669,13 +500,13 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.2",
-                "phpstan/phpstan": "1.11.5",
+                "phpstan/phpstan": "1.11.7",
                 "phpstan/phpstan-phpunit": "1.4.0",
                 "phpstan/phpstan-strict-rules": "^1.6",
-                "phpunit/phpunit": "10.5.22",
+                "phpunit/phpunit": "10.5.28",
                 "psalm/plugin-phpunit": "0.19.0",
                 "slevomat/coding-standard": "8.13.1",
-                "squizlabs/php_codesniffer": "3.10.1",
+                "squizlabs/php_codesniffer": "3.10.2",
                 "symfony/cache": "^6.3.8|^7.0",
                 "symfony/console": "^5.4|^6.3|^7.0",
                 "vimeo/psalm": "5.24.0"
@@ -735,7 +566,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.0.4"
+                "source": "https://github.com/doctrine/dbal/tree/4.0.5"
             },
             "funding": [
                 {
@@ -751,7 +582,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-19T11:57:23+00:00"
+            "time": "2024-08-07T12:53:48+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1779,16 +1610,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.18.1",
+            "version": "v11.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b19ba518c56852567e99fbae9321bc436c2cc5a8"
+                "reference": "3cd7593dd9b67002fc416b46616f4d4d1da3e571"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b19ba518c56852567e99fbae9321bc436c2cc5a8",
-                "reference": "b19ba518c56852567e99fbae9321bc436c2cc5a8",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3cd7593dd9b67002fc416b46616f4d4d1da3e571",
+                "reference": "3cd7593dd9b67002fc416b46616f4d4d1da3e571",
                 "shasum": ""
             },
             "require": {
@@ -1981,21 +1812,21 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-07-26T10:39:29+00:00"
+            "time": "2024-08-06T14:39:21+00:00"
         },
         {
             "name": "laravel/nova",
-            "version": "4.34.3",
+            "version": "4.35.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "3c4188b09b1fb7364e60eafc8b28fc2f73e19c21"
+                "reference": "78ef7f728f63d30ce724dc877e30cc574e066308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-3c4188b09b1fb7364e60eafc8b28fc2f73e19c21-zip-6ad76c.zip",
-                "reference": "3c4188b09b1fb7364e60eafc8b28fc2f73e19c21",
-                "shasum": "0d6b99f7d9dc8e4577d66d06b71164a6326e2e15"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-78ef7f728f63d30ce724dc877e30cc574e066308-zip-716877.zip",
+                "reference": "78ef7f728f63d30ce724dc877e30cc574e066308",
+                "shasum": "38875c41792b5bb19994b7dcb10683223c971ec1"
             },
             "require": {
                 "brick/money": "^0.5|^0.6|^0.7|^0.8|^0.9",
@@ -2105,9 +1936,9 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel/nova/tree/v4.34.3"
+                "source": "https://github.com/laravel/nova/tree/v4.35.0"
             },
-            "time": "2024-06-12T16:57:44+00:00"
+            "time": "2024-08-06T14:25:25+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2169,26 +2000,27 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v1.3.3",
+            "version": "v1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "3dbf8a8e914634c48d389c1234552666b3d43754"
+                "reference": "61b87392d986dc49ad5ef64e75b1ff5fee24ef81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/3dbf8a8e914634c48d389c1234552666b3d43754",
-                "reference": "3dbf8a8e914634c48d389c1234552666b3d43754",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/61b87392d986dc49ad5ef64e75b1ff5fee24ef81",
+                "reference": "61b87392d986dc49ad5ef64e75b1ff5fee24ef81",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "nesbot/carbon": "^2.61",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "nesbot/carbon": "^2.61|^3.0",
                 "pestphp/pest": "^1.21.3",
                 "phpstan/phpstan": "^1.8.2",
-                "symfony/var-dumper": "^5.4.11"
+                "symfony/var-dumper": "^5.4.11|^6.2.0|^7.0.0"
             },
             "type": "library",
             "extra": {
@@ -2225,7 +2057,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2023-11-08T14:08:06+00:00"
+            "time": "2024-08-02T07:48:17+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -3103,6 +2935,76 @@
             "time": "2024-06-28T09:40:51+00:00"
         },
         {
+            "name": "mostafaznv/laracache",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mostafaznv/laracache.git",
+                "reference": "6ffddee022eb1a68953db2aa9509cba308512b36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mostafaznv/laracache/zipball/6ffddee022eb1a68953db2aa9509cba308512b36",
+                "reference": "6ffddee022eb1a68953db2aa9509cba308512b36",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.40.0|^9.0|^10.0|^11.0",
+                "php": "^8.0.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "pestphp/pest": "^1.20|^2.34",
+                "phpunit/phpunit": "^9.5.10|^10.0",
+                "spatie/pest-plugin-test-time": "^1.0|^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mostafaznv\\LaraCache\\LaraCacheServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Utils/Helpers.php"
+                ],
+                "psr-4": {
+                    "Mostafaznv\\LaraCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mostafaznv",
+                    "email": "mostafa.zeinivand@gmail.com"
+                }
+            ],
+            "description": "LaraCache is a customizable cache trait to cache queries on model's events",
+            "keywords": [
+                "cache",
+                "eloquent",
+                "laravel",
+                "laravel 8",
+                "laravel 9",
+                "memcache",
+                "mostafaznv",
+                "nova 4",
+                "orm",
+                "redis"
+            ],
+            "support": {
+                "docs": "https://github.com/mostafaznv/laracache/blob/master/README.md",
+                "issues": "https://github.com/mostafaznv/laracache/issues",
+                "source": "https://github.com/mostafaznv/laracache"
+            },
+            "time": "2024-03-03T10:30:10+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "3.7.0",
             "source": {
@@ -3272,20 +3174,20 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.4",
+            "version": "v4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218"
+                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
-                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
+                "url": "https://api.github.com/repos/nette/utils/zipball/736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
+                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0 <8.4"
+                "php": "8.0 - 8.4"
             },
             "conflict": {
                 "nette/finder": "<3",
@@ -3352,9 +3254,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.4"
+                "source": "https://github.com/nette/utils/tree/v4.0.5"
             },
-            "time": "2024-01-17T16:50:36+00:00"
+            "time": "2024-08-07T15:39:19+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3594,6 +3496,55 @@
                 }
             ],
             "time": "2024-07-26T05:48:04+00:00"
+        },
+        {
+            "name": "oriondevelops/nova-greeter",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oriondevelops/nova-greeter.git",
+                "reference": "97b23333722a439220b297af56e1048aba4c6b3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oriondevelops/nova-greeter/zipball/97b23333722a439220b297af56e1048aba4c6b3b",
+                "reference": "97b23333722a439220b297af56e1048aba4c6b3b",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orion\\NovaGreeter\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orion\\NovaGreeter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova greeter card.",
+            "keywords": [
+                "card",
+                "dashboard",
+                "greeter",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/oriondevelops/nova-greeter/issues",
+                "source": "https://github.com/oriondevelops/nova-greeter/tree/v0.0.2"
+            },
+            "time": "2024-08-02T09:32:03+00:00"
         },
         {
             "name": "phpoffice/math",
@@ -7816,16 +7767,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.17.0",
+            "version": "v1.17.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "4dba80c1de4b81dc4c4fb10ea6f4781495eb29f5"
+                "reference": "e8a88130a25e3f9d4d5785e6a1afca98268ab110"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/4dba80c1de4b81dc4c4fb10ea6f4781495eb29f5",
-                "reference": "4dba80c1de4b81dc4c4fb10ea6f4781495eb29f5",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/e8a88130a25e3f9d4d5785e6a1afca98268ab110",
+                "reference": "e8a88130a25e3f9d4d5785e6a1afca98268ab110",
                 "shasum": ""
             },
             "require": {
@@ -7836,13 +7787,13 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.59.3",
-                "illuminate/view": "^10.48.12",
-                "larastan/larastan": "^2.9.7",
+                "friendsofphp/php-cs-fixer": "^3.61.1",
+                "illuminate/view": "^10.48.18",
+                "larastan/larastan": "^2.9.8",
                 "laravel-zero/framework": "^10.4.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest": "^2.34.8"
+                "pestphp/pest": "^2.35.0"
             },
             "bin": [
                 "builds/pint"
@@ -7878,20 +7829,20 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2024-07-23T16:40:20+00:00"
+            "time": "2024-08-06T15:11:54+00:00"
         },
         {
             "name": "laravel/sail",
-            "version": "v1.31.0",
+            "version": "v1.31.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "48d89608a3bb5be763c9bb87121d31e7da27c1cb"
+                "reference": "3d06dd18cee8059baa7b388af00ba47f6d96bd85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/48d89608a3bb5be763c9bb87121d31e7da27c1cb",
-                "reference": "48d89608a3bb5be763c9bb87121d31e7da27c1cb",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/3d06dd18cee8059baa7b388af00ba47f6d96bd85",
+                "reference": "3d06dd18cee8059baa7b388af00ba47f6d96bd85",
                 "shasum": ""
             },
             "require": {
@@ -7941,7 +7892,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2024-07-22T14:36:50+00:00"
+            "time": "2024-08-02T07:45:47+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -8156,23 +8107,23 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v8.3.0",
+            "version": "v8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "b49f5b2891ce52726adfd162841c69d4e4c84229"
+                "reference": "e7d1aa8ed753f63fa816932bbc89678238843b4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/b49f5b2891ce52726adfd162841c69d4e4c84229",
-                "reference": "b49f5b2891ce52726adfd162841c69d4e4c84229",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/e7d1aa8ed753f63fa816932bbc89678238843b4a",
+                "reference": "e7d1aa8ed753f63fa816932bbc89678238843b4a",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.15.4",
                 "nunomaduro/termwind": "^2.0.1",
                 "php": "^8.2.0",
-                "symfony/console": "^7.1.2"
+                "symfony/console": "^7.1.3"
             },
             "conflict": {
                 "laravel/framework": "<11.0.0 || >=12.0.0",
@@ -8180,13 +8131,13 @@
             },
             "require-dev": {
                 "larastan/larastan": "^2.9.8",
-                "laravel/framework": "^11.16.0",
-                "laravel/pint": "^1.16.2",
-                "laravel/sail": "^1.30.2",
+                "laravel/framework": "^11.19.0",
+                "laravel/pint": "^1.17.1",
+                "laravel/sail": "^1.31.0",
                 "laravel/sanctum": "^4.0.2",
                 "laravel/tinker": "^2.9.0",
-                "orchestra/testbench-core": "^9.2.1",
-                "pestphp/pest": "^2.34.9 || ^3.0.0",
+                "orchestra/testbench-core": "^9.2.3",
+                "pestphp/pest": "^2.35.0 || ^3.0.0",
                 "sebastian/environment": "^6.1.0 || ^7.0.0"
             },
             "type": "library",
@@ -8249,7 +8200,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-07-16T22:41:01+00:00"
+            "time": "2024-08-03T15:32:23+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -8694,16 +8645,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.2.8",
+            "version": "11.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a7a29e8d3113806f18f99d670f580a30e8ffff39"
+                "reference": "a8dce73a8938dfec7ac0daa91bdbcaae7d7188a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7a29e8d3113806f18f99d670f580a30e8ffff39",
-                "reference": "a7a29e8d3113806f18f99d670f580a30e8ffff39",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a8dce73a8938dfec7ac0daa91bdbcaae7d7188a3",
+                "reference": "a8dce73a8938dfec7ac0daa91bdbcaae7d7188a3",
                 "shasum": ""
             },
             "require": {
@@ -8742,7 +8693,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "11.2-dev"
+                    "dev-main": "11.3-dev"
                 }
             },
             "autoload": {
@@ -8774,7 +8725,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.3.0"
             },
             "funding": [
                 {
@@ -8790,7 +8741,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-18T14:56:37+00:00"
+            "time": "2024-08-02T03:56:43+00:00"
         },
         {
             "name": "sebastian/cli-parser",

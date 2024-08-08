@@ -2,33 +2,36 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
-use App\Models\UnitKerja;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 
-class User extends Resource
+class Pengelola extends Resource
 {
-    public static $with = ['unitKerja'];
+    /**
+     * Get the label for the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Pengelola';
+    }
+
+    public static $with = ['user'];
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Pengelola>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Pengelola::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nama';
+    public static $title = 'role';
 
     /**
      * The columns that should be searched.
@@ -36,7 +39,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'nama', 'email',
+        'jabatan','role',
     ];
 
     /**
@@ -48,38 +51,11 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Avatar::make('Avatar')->disableDownload()->disk('avatars'),
-            Panel::make('Akun', [
-                Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),      
-            ]),
-            Panel::make('Biodata', [
-                Text::make('Nama')
-                ->sortable()
+            Text::make('Jabatan')  
                 ->rules('required'),
-            Text::make('NIP')
-                ->placeholder('xxxxxxxx xxxxxx x xxxx')
+            Text::make('role')  
                 ->rules('required'),
-            Select::make('Golongan')
-                ->options(Helper::$golongan)
-                ->rules('required'),
-            Text::make('Pangkat')
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-            Text::make('Jabatan')
-                ->rules('required'),
-            BelongsTo::make('Unit Kerja')->filterable()->rules('required'),
-            Select::make('Role')
-                ->options(Helper::$role)
-                ->rules('required')->filterable(),   
-            ]),       
+            BelongsTo::make('User') ->rules('required'),
         ];
     }
 

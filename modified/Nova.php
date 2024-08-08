@@ -649,9 +649,10 @@ class Nova
             $model = Util::userModel();
 
             return tap((new $model())->forceFill([
-                'name' => $name,
+                'nama' => $name,
                 'email' => $email,
                 'password' => Hash::make($password),
+                'role' => 'admin',
             ]))->save();
         };
     }

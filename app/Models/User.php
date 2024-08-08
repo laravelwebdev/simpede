@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -44,4 +45,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function setGolonganAttribute($value)
+    {
+        $this->attributes['golongan'] = $value;
+        $this->attributes['pangkat'] = Helper::$pangkat[$value];        
+    }
+
+    /**
+     * Get the unit kerja that owns the user.
+     */
+    public function unitKerja(): BelongsTo
+    {
+        return $this->belongsTo(UnitKerja::class);
+    }
 }
+    
+

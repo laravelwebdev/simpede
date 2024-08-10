@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 /.idx/.data/
 /composer-home
+.DS_Store

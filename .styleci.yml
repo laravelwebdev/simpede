@@ -6,3 +6,5 @@ enabled:
 finder:
   not-name:
     - index.php
+  exclude:
+    - "modified"

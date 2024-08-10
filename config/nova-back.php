@@ -8,7 +8,7 @@ return [
     */
     'enabled_urls' => [
 
-        "resources/*/*",
+        'resources/*/*',
 
-    ]
+    ],
 ];

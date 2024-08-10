@@ -15,9 +15,9 @@ class Helper
      * @var array
      */
     public static $role = [
-        'kepala'=>'kepala',
-        'koordinator'=>'koordinator',
-        'anggota'=>'anggota',       
+        'kepala' => 'kepala',
+        'koordinator' => 'koordinator',
+        'anggota' => 'anggota',
     ];
 
     /**
@@ -51,23 +51,23 @@ class Helper
      * @var array
      */
     public static $pangkat = [
-        "I/a" => "Juru Muda",
-        "I/b" => "Juru Muda Tingkat 1",
-        "I/c" => "Juru",
-        "I/d" => "Juru Tingkat 1",
-        "II/a" => "Pengatur Muda",
-        "II/b" => "Pengatur Muda Tingkat 1",
-        "II/c" => "Pengatur",
-        "II/d" => "Pengatur Tingkat 1",
-        "III/a" => "Penata Muda",
-        "III/b" => "Penata Muda Tingkat 1",
-        "III/c" => "Penata",
-        "III/d" => "Penata Tingkat 1",
-        "IV/a" => "Pembina",
-        "IV/b" => "Pembina Tingkat 1",
-        "IV/c" => "Pembina Utama Muda",
-        "IV/d" => "Pembina Utama Madya",
-        "IV/e" => "Pembina Utama",
+        'I/a' => 'Juru Muda',
+        'I/b' => 'Juru Muda Tingkat 1',
+        'I/c' => 'Juru',
+        'I/d' => 'Juru Tingkat 1',
+        'II/a' => 'Pengatur Muda',
+        'II/b' => 'Pengatur Muda Tingkat 1',
+        'II/c' => 'Pengatur',
+        'II/d' => 'Pengatur Tingkat 1',
+        'III/a' => 'Penata Muda',
+        'III/b' => 'Penata Muda Tingkat 1',
+        'III/c' => 'Penata',
+        'III/d' => 'Penata Tingkat 1',
+        'IV/a' => 'Pembina',
+        'IV/b' => 'Pembina Tingkat 1',
+        'IV/c' => 'Pembina Utama Muda',
+        'IV/d' => 'Pembina Utama Madya',
+        'IV/e' => 'Pembina Utama',
     ];
 
     /**
@@ -140,7 +140,6 @@ class Helper
         return $hasil;
     }
 
-
     /**
      * Mengubah Tanggal ke Kata.
      *
@@ -173,20 +172,20 @@ class Helper
      * @param  string  $group
      * @return array
      */
-    public static function setOptions($collection, $value, $label, $group='')
+    public static function setOptions($collection, $value, $label, $group = '')
     {
         $collection = $collection->all();
-        $options=[];
-        if ($group!=='') {
+        $options = [];
+        if ($group !== '') {
             foreach ($collection as $option) {
-                $options[$option->$value]= ['label' => $option->$label,'group'=> $option->$group];
+                $options[$option->$value] = ['label' => $option->$label, 'group' => $option->$group];
             }
         } else {
             foreach ($collection as $option) {
                 $options[$option->$value] = $option->$label;
             }
         }
-                
+
         return  $options;
     }
 
@@ -198,26 +197,26 @@ class Helper
      * @param  string  $unit_kerja_id
      * @param  string  $kode_arsip_id
      * @param  string  $derajat
-     * @return array   nomor, nomor_urut
+     * @return array nomor, nomor_urut
      */
-    public static function nomor($tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat) 
+    public static function nomor($tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
     {
-        $kode_naskah = KodeNaskah::cache()->get('all')->where('id',$kode_naskah_id)->first();
-        $unit_kerja= UnitKerja::cache()->get('all')->where('id',$unit_kerja_id)->first();
-        $kode_arsip= KodeArsip::cache()->get('all')->where('id',$kode_arsip_id)->first();
-        $max = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id',$kode_naskah->id)->max('no_urut');
+        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $kode_naskah_id)->first();
+        $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
+        $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
+        $max = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->max('no_urut');
         $format = $kode_naskah->format;
-        ($max>0) ? $no_urut = $max +1 : $no_urut = 1;
+        ($max > 0) ? $no_urut = $max + 1 : $no_urut = 1;
         $replaces ['<tahun>'] = $tahun;
         $replaces['<no_urut>'] = $no_urut;
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
         $replaces['<derajat>'] = $derajat;
-        $nomor = strtr($format,$replaces);
+        $nomor = strtr($format, $replaces);
+
         return [
             'nomor' => $nomor,
             'no_urut' => $no_urut,
         ];
     }
-
 }

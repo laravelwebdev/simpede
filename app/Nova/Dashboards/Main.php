@@ -20,21 +20,21 @@ class Main extends Dashboard
     {
         return [
             GreeterCard::make()
-                ->user(name: Auth::user()->nama, title: Auth::user()->email )
+                ->user(name: Auth::user()->nama, title: Auth::user()->email)
                 ->message(text: 'Welcome back,')
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
-                ->verified(text: (Pengelola::cache()->get('all')->where('role',session('role'))->first() !== null) ? Pengelola::cache()->get('all')->where('role',session('role'))->first()->jabatan :'Pegawai')
-                ->width('1/3'),     
+                ->verified(text: (Pengelola::cache()->get('all')->where('role', session('role'))->first() !== null) ? Pengelola::cache()->get('all')->where('role', session('role'))->first()->jabatan : 'Pegawai')
+                ->width('1/3'),
             GreeterCard::make()
                 ->user(name: 'PERHATIAN', title: 'Jangan Lupa untuk merefresh browser saat Anda mengganti peran.')
                 ->message(text: '')
                 ->avatar(url: Storage::disk('images')->url('warning.jpg'))
-                ->width('1/3'),    
+                ->width('1/3'),
             GreeterCard::make()
                 ->user(name: 'Quotes of the day', title: Inspiring::quote())
                 ->message(text: '')
                 ->avatar(url: Storage::disk('images')->url('quotes.jpg'))
-                ->width('1/3'),              
+                ->width('1/3'),
         ];
     }
 }

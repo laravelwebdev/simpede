@@ -62,7 +62,7 @@ class NaskahKeluar extends Resource
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
                 ->rules('required', 'before_or_equal:today')
-                ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal))
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')
                 ->onlyOnDetail(),
@@ -72,13 +72,14 @@ class NaskahKeluar extends Resource
                 ->rules('required'),
             Text::make('Dikirimkan melalui', 'pengiriman'),
             Date::make('Tanggal Kirim', 'tanggal_kirim')
-                ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal))
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('after_or_equal:tanggal'),
             new Panel('Klasifikasi Surat', $this->klasifikasiFields()),
             new Panel('Arsip', $this->arsipFields()),
         ];
     }
-        /**
+
+    /**
      * Get the fields displayed by the resource on index page.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
@@ -91,57 +92,57 @@ class NaskahKeluar extends Resource
                 Line::make('Nomor', 'nomor')
                     ->asHeading(),
                 Date::make('Tanggal Naskah', 'tanggal')
-                    ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal)),
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Text::make('Tujuan'),
-            Text::make('Perihal','perihal'),
+            Text::make('Perihal', 'perihal'),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),
                 Date::make('Tanggal Kirim', 'tanggal_kirim')
-                ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal)),
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
         ];
     }
 
     public function klasifikasiFields()
     {
-        return [           
+        return [
             Select::make('Derajat Kerahasiaan', 'derajat')
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options([
-                    'B' =>'Biasa',
-                    'T' =>'Terbatas',
-                    'R' =>'Rahasia'
+                    'B' => 'Biasa',
+                    'T' => 'Terbatas',
+                    'R' => 'Rahasia',
                 ]),
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsing(function ($kode) {
-                    return KodeArsip::cache()->get('all')->where('id',$kode)->first()->kode;
+                    return KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode;
                 })
-                ->options(Helper::setOptions(KodeArsip::cache()->get('all'),'id','detail','group')),
+                ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group')),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             Hidden::make('kode_naskah_id')
                 ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
-                $form->jenis_naskah_id == '' ?'':$field->setValue(JenisNaskah::cache()->get('all')->where('id',$form->jenis_naskah_id)->first()->kode_naskah_id);
+                    $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id);
                 }),
         ];
     }
 
     public function arsipFields()
     {
-        return [           
+        return [
             File::make('Draft')
                 ->disk('naskah')
                 ->rules('mimes:docx')
@@ -152,7 +153,6 @@ class NaskahKeluar extends Resource
                 ->acceptedTypes('.pdf'),
         ];
     }
-
 
     /**
      * Get the cards available for the request.

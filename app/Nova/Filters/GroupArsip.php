@@ -43,7 +43,7 @@ class GroupArsip extends Filter
      */
     public function options(NovaRequest $request)
     {
-        return 
-            KodeArsip::distinct()->get('group')->pluck('group','group');
+        return
+            KodeArsip::distinct()->get('group')->pluck('group', 'group');
     }
 }

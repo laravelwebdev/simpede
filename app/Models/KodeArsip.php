@@ -10,12 +10,13 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class KodeArsip extends Model
 {
     use HasFactory, LaraCache;
-    protected $guarded=[];
+    protected $guarded = [];
+
     public static function cacheEntities(): array
     {
         return [
             CacheEntity::make('all')
-                ->cache(function() {
+                ->cache(function () {
                     return KodeArsip::all();
                 }),
         ];

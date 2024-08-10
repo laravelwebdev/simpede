@@ -11,8 +11,8 @@ use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NaskahMasuk extends Resource
 {
@@ -61,17 +61,17 @@ class NaskahMasuk extends Resource
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
                 ->rules('required')
-                ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal))
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')
                 ->rules('required'),
             Text::make('Pengirim')->rules('required'),
-            Text::make('Perihal','perihal')->rules('required'),
+            Text::make('Perihal', 'perihal')->rules('required'),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             File::make('Arsip')
                 ->disk('naskah')
                 ->rules('mimes:pdf')
@@ -92,16 +92,16 @@ class NaskahMasuk extends Resource
             Stack::make('Nomor/Tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
                 Date::make('Tanggal Naskah', 'tanggal')
-                    ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal)),
-                ]),
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ]),
             Text::make('Pengirim')->rules('required'),
-            Text::make('Perihal','perihal')->rules('required'),
+            Text::make('Perihal', 'perihal')->rules('required'),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
-            URL::make('Arsip',fn () => Storage::disk('naskah')
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
+            URL::make('Arsip', fn () => Storage::disk('naskah')
                 ->url($this->arsip))
                 ->displayUsing(fn () => 'Unduh'),
         ];

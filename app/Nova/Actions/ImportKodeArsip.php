@@ -5,7 +5,6 @@ namespace App\Nova\Actions;
 use App\Imports\KodeArsipsImport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Actions\Action;
@@ -29,6 +28,7 @@ class ImportKodeArsip extends Action
     {
         DB::table('kode_arsips')->delete();
         Excel::import(new KodeArsipsImport, $fields->file);
+
         return Action::message('Kode Arsip sukses diimport!');
     }
 
@@ -42,8 +42,8 @@ class ImportKodeArsip extends Action
     {
         return [
             File::make('File')
-            ->rules('required','mimes:xlsx')
-            ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
+                ->rules('required', 'mimes:xlsx')
+                ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
         ];
     }
 }

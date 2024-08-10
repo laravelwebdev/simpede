@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('unit_kerjas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode',10)->nullable();
-            $table->string('unit',80)->nullable();
+            $table->string('kode', 10)->nullable();
+            $table->string('unit', 80)->nullable();
             $table->timestamps();
         });
     }

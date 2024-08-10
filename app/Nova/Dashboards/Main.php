@@ -23,7 +23,7 @@ class Main extends Dashboard
                 ->user(name: Auth::user()->nama, title: Auth::user()->email )
                 ->message(text: 'Welcome back,')
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
-                ->verified(text: (Pengelola::cache()->get('all')->where('role',session('role'))->first() !==null) ? Pengelola::cache()->get('all')->where('role',session('role'))->first()->jabatan :'Pegawai')
+                ->verified(text: (Pengelola::cache()->get('all')->where('role',session('role'))->first() !== null) ? Pengelola::cache()->get('all')->where('role',session('role'))->first()->jabatan :'Pegawai')
                 ->width('1/3'),     
             GreeterCard::make()
                 ->user(name: 'PERHATIAN', title: 'Jangan Lupa untuk merefresh browser saat Anda mengganti peran.')

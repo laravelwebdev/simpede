@@ -1,0 +1,40 @@
+= Illuminate\Database\Eloquent\Collection {#6876
+    all: [
+      App\Models\KodeNaskah {#6875
+        id: 3,
+        kategori: "Naskah Dinas Pengaturan",
+        format: "<no_urut> TAHUN <tahun>",
+        created_at: "2024-08-06 07:10:43",
+        updated_at: "2024-08-08 01:57:21",
+      },
+      App\Models\KodeNaskah {#6874
+        id: 4,
+        kategori: "Naskah Dinas Penetapan",
+        format: "<no_urut> TAHUN <tahun>",
+        created_at: "2024-08-08 01:58:06",
+        updated_at: "2024-08-08 01:58:06",
+      },
+      App\Models\KodeNaskah {#6770
+        id: 5,
+        kategori: "Surat Dinas",
+        format: "<derajat>-<no_urut>/<unit_kerja_id>/<kode_arsip_id>/<tahun>",
+        created_at: "2024-08-08 02:03:05",
+        updated_at: "2024-08-08 02:39:34",
+      },
+      App\Models\KodeNaskah {#6773
+        id: 6,
+        kategori: "Memo dan Nota Dinas",
+        format: "<no_urut>/<unit_kerja_id>/<kode_arsip_id>/<tahun>",
+        created_at: "2024-08-08 02:04:08",
+        updated_at: "2024-08-08 02:39:20",
+      },
+      App\Models\KodeNaskah {#6771
+        id: 7,
+        kategori: "Naskah Dinas Khusus",
+        format: "<no_urut>/<tahun>",
+        created_at: "2024-08-08 02:25:52",
+        updated_at: "2024-08-08 02:25:52",
+      },
+    ],
+  }
+

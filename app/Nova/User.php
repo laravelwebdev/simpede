@@ -69,7 +69,7 @@ class User extends Resource
                 ->rules('required'),
             Select::make('Golongan')
                 ->options(Helper::$golongan)
-                ->rules('required'),
+                ->rules('required')->searchable(),
             Text::make('Pangkat')
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),

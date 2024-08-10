@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -48,12 +49,11 @@ class KodeNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-        Text::make('kategori')
+        Text::make('Kategori')
             ->creationRules('unique:kode_naskahs,kategori')
             ->updateRules('unique:kode_naskahs,kategori,{{resourceId}}')
             ->rules('required'),
         Text::make('Format Penomoran','format')
-            ->help('ambil dari kolom database')
             ->rules('required'),
         ];
     }

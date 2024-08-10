@@ -6,14 +6,14 @@ use App\Models\KodeArsip;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Kode1Arsip extends Filter
+class GroupArsip extends Filter
 {
     /**
      * The displayable name of the filter.
      *
      * @var string
      */
-    public $name = 'Klasifikasi 1';
+    public $name = 'Klasifikasi';
 
     /**
      * The filter's component.
@@ -32,7 +32,7 @@ class Kode1Arsip extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where('k1', $value);
+        return $query->where('group', $value);
     }
 
     /**
@@ -44,6 +44,6 @@ class Kode1Arsip extends Filter
     public function options(NovaRequest $request)
     {
         return 
-            KodeArsip::distinct()->get('k1')->pluck('k1','k1');
+            KodeArsip::distinct()->get('group')->pluck('group','group');
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Helpers;
 
-use App\Models\Pengelola;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+use App\Models\KodeArsip;
+use App\Models\KodeNaskah;
+use App\Models\NaskahKeluar;
+use App\Models\UnitKerja;
 
 class Helper
 {
@@ -71,16 +70,154 @@ class Helper
         "IV/e" => "Pembina Utama",
     ];
 
-
     /**
-     * Membuat Nomor Surat.
+     * Mengubah Angka ke Suku Kata.
      *
-     * @param  int  $user_id
+     * @param  int|float  $x
      * @return string
      */
-    public function rolePengelola($user_id)
+    private static function kata($x)
     {
-        $pengelola = Pengelola::cache()->get('all');
+        $x = abs($x);
+        $angka = ['', 'satu', 'dua', 'tiga', 'empat', 'lima',
+            'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas', ];
+        $temp = '';
+        if ($x < 12) {
+            $temp = ' '.$angka[$x];
+        } elseif ($x < 20) {
+            $temp = self::kata($x - 10).' belas';
+        } elseif ($x < 100) {
+            $temp = self::kata($x / 10).' puluh'.self::kata($x % 10);
+        } elseif ($x < 200) {
+            $temp = ' seratus'.self::kata($x - 100);
+        } elseif ($x < 1000) {
+            $temp = self::kata($x / 100).' ratus'.self::kata($x % 100);
+        } elseif ($x < 2000) {
+            $temp = ' seribu'.self::kata($x - 1000);
+        } elseif ($x < 1000000) {
+            $temp = self::kata($x / 1000).' ribu'.self::kata($x % 1000);
+        } elseif ($x < 1000000000) {
+            $temp = self::kata($x / 1000000).' juta'.self::kata($x % 1000000);
+        } elseif ($x < 1000000000000) {
+            $temp = self::kata($x / 1000000000).' milyar'.self::kata(fmod($x, 1000000000));
+        } elseif ($x < 1000000000000000) {
+            $temp = self::kata($x / 1000000000000).' trilyun'.self::kata(fmod($x, 1000000000000));
+        }
+
+        return $temp;
+    }
+
+    /**
+     * Mengubah Angka ke  Kata.
+     *
+     * @param  int|float  $x  Angka
+     * @param  string  $style  up=Upper|uw=ucwordss|uf=ucfirst
+     * @param  string  $suffix  tambahan di akhir
+     * @return string
+     */
+    public static function terbilang($x, $style = 'uw', $suffix = '')
+    {
+        if ($x < 0) {
+            $hasil = 'minus '.trim(self::kata($x));
+        } else {
+            $hasil = trim(self::kata($x));
+        }
+        switch ($style) {
+            case 'up':
+                // mengubah semua karakter menjadi huruf besar
+                $hasil = strtoupper($hasil.' '.$suffix);
+                break;
+            case 'uw':
+                // mengubah karakter pertama dari setiap kata menjadi huruf besar
+                $hasil = ucwords($hasil.' '.$suffix);
+                break;
+            case 'uf':
+                // mengubah karakter pertama menjadi huruf besar
+                $hasil = ucfirst($hasil.' '.$suffix);
+                break;
+        }
+
+        return $hasil;
+    }
+
+
+    /**
+     * Mengubah Tanggal ke Kata.
+     *
+     * @param  Date  $tanggal
+     * @param  string  $format  s=short|l=long
+     * @return string
+     */
+    public static function terbilangTanggal($tanggal, $format = 's')
+    {
+        if ($tanggal) {
+            $bulan = ['Januari',	'Februari',	'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $tanggal = $tanggal->format('Y-m-d');
+            $split = explode('-', $tanggal);
+            if ($format == 's') {
+                $hasil = $split[2].' '.$bulan[(int) $split[1] - 1].' '.$split[0];
+            } else {
+                $hasil = self::terbilang((int) $split[2]).' bulan '.$bulan[(int) $split[1] - 1].' tahun '.self::terbilang((int) $split[0]);
+            }
+
+            return $hasil;
+        }
+    }
+
+    /**
+     * Membuat option value select filed.
+     *
+     * @param  Collection  $collection
+     * @param  string  $value
+     * @param  string  $tanggal
+     * @param  string  $group
+     * @return array
+     */
+    public static function setOptions($collection, $value, $label, $group='')
+    {
+        $collection = $collection->all();
+        $options=[];
+        if ($group!=='') {
+            foreach ($collection as $option) {
+                $options[$option->$value]= ['label' => $option->$label,'group'=> $option->$group];
+            }
+        } else {
+            foreach ($collection as $option) {
+                $options[$option->$value] = $option->$label;
+            }
+        }
+                
+        return  $options;
+    }
+
+    /**
+     * Membuat Nomor.
+     *
+     * @param  string  $tahun
+     * @param  string  $kode_naskah_id
+     * @param  string  $unit_kerja_id
+     * @param  string  $kode_arsip_id
+     * @param  string  $derajat
+     * @return array   nomor, nomor_urut
+     */
+    public static function nomor($tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat) 
+    {
+        $kode_naskah = KodeNaskah::cache()->get('all')->where('id',$kode_naskah_id)->first();
+        $unit_kerja= UnitKerja::cache()->get('all')->where('id',$unit_kerja_id)->first();
+        $kode_arsip= KodeArsip::cache()->get('all')->where('id',$kode_arsip_id)->first();
+        $max = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id',$kode_naskah->id)->max('no_urut');
+        $format = $kode_naskah->format;
+        ($max>0) ? $no_urut = $max +1 : $no_urut = 1;
+        $replaces ['<tahun>'] = $tahun;
+        $replaces['<no_urut>'] = $no_urut;
+        $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
+        $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
+        $replaces['<derajat>'] = $derajat;
+        $nomor = strtr($format,$replaces);
+        return [
+            'nomor' => $nomor,
+            'no_urut' => $no_urut,
+        ];
     }
 
 }

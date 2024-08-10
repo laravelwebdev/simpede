@@ -21,7 +21,6 @@
         "mostafaznv/laracache": "^2.4",
         "oriondevelops/nova-greeter": "^0.0.2",
         "phpoffice/phpword": "^1.2",
-        "upline/nova-link-field": "^1.0",
         "visanduma/nova-back-navigation": "^1.0"
     },
     "require-dev": {

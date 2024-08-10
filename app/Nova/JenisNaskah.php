@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class JenisNaskah extends Resource
@@ -54,6 +57,28 @@ class JenisNaskah extends Resource
             Text::make('Jenis')  
                 ->rules('required'),
             BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') ->rules('required')->filterable(),
+            File::make('Template')
+                ->disk('template_naskah')
+                ->rules('mimes:docx')
+                ->acceptedTypes('.docx'),
+        ];
+    }
+
+    /**
+     * Get the fields displayed by the resource on the index.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function fieldsForIndex(NovaRequest $request)
+    {
+        return [
+            Text::make('Jenis')  
+                ->rules('required'),
+            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') ->rules('required')->filterable(),
+            URL::make('Template',fn () => ($this->template == '')?'':Storage::disk('template_naskah')
+                ->url($this->template))
+                ->displayUsing(fn () => 'Unduh'),
         ];
     }
 

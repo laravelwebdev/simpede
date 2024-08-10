@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('kode_naskahs', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori',60);
-            $table->string('format');
+            $table->string('kategori',60)->nullable();
+            $table->string('format')->nullable();
             $table->timestamps();
         });
     }

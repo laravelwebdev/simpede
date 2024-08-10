@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "565494a80043aa4a904a19a7a6393c7a",
+    "content-hash": "b1865afcda85f725122d9bf389e8e2a5",
     "packages": [
         {
             "name": "abordage/nova-html-card",
@@ -7159,64 +7159,6 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "time": "2023-12-08T13:03:43+00:00"
-        },
-        {
-            "name": "upline/nova-link-field",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/upline-studio/nova-link-field.git",
-                "reference": "c6b9b4e0ef0c395c67bfd951d3612470b0978e18"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/upline-studio/nova-link-field/zipball/c6b9b4e0ef0c395c67bfd951d3612470b0978e18",
-                "reference": "c6b9b4e0ef0c395c67bfd951d3612470b0978e18",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "^4.0",
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.10"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Upline\\NovaLinkField\\FieldServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Upline\\NovaLinkField\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aleksei Orlov",
-                    "email": "ysywix@gmail.com",
-                    "homepage": "https://github.com/vaiil"
-                }
-            ],
-            "description": "A Laravel Nova field.",
-            "keywords": [
-                "field",
-                "laravel",
-                "link",
-                "nova"
-            ],
-            "support": {
-                "issues": "https://github.com/upline-studio/nova-link-field/issues",
-                "source": "https://github.com/upline-studio/nova-link-field/tree/1.0.0"
-            },
-            "time": "2023-05-19T23:43:12+00:00"
         },
         {
             "name": "visanduma/nova-back-navigation",

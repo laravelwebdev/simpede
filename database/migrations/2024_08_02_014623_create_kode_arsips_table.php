@@ -15,11 +15,9 @@ return new class extends Migration
     {
         Schema::create('kode_arsips', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
-            $table->string('k1');
-            $table->string('k2');
-            $table->string('k3');
-            $table->string('k4');
+            $table->string('kode')->nullable();
+            $table->string('group')->nullable();
+            $table->string('detail')->nullable();
             $table->timestamps();
         });
     }

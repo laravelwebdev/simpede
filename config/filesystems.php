@@ -60,6 +60,22 @@ return [
             'throw' => false,
         ],
 
+        'naskah' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/naskah'),
+            'url' => env('APP_URL').'storage/naskah',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'template_naskah' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/templates/naskah'),
+            'url' => env('APP_URL').'storage/templates/naskah',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

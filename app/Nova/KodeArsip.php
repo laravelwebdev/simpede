@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\ImportKodeArsip;
-use App\Nova\Filters\Kode1Arsip;
+use App\Nova\Filters\GroupArsip;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -31,7 +31,7 @@ class KodeArsip extends Resource
      *
      * @var string
      */
-    public static $title = 'kode';
+    public static $title = 'detail';
 
     /**
      * The columns that should be searched.
@@ -39,7 +39,7 @@ class KodeArsip extends Resource
      * @var array
      */
     public static $search = [
-        'kode','k1','k2', 'k3','k4',
+        'kode','group', 'detail'
     ];
 
     /**
@@ -51,11 +51,9 @@ class KodeArsip extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Kode Surat', 'kode')->sortable()->rules('required'),
-            Text::make('Klasifikasi 1', 'k1')->sortable()->rules('required'),
-            Text::make('Klasifikasi 2', 'k2')->sortable()->rules('required'),
-            Text::make('Klasifikasi 3', 'k3')->sortable()->rules('required'),
-            Text::make('Klasifikasi 4', 'k4')->sortable()->rules('required'),
+            Text::make('Kode Arsip', 'kode')->sortable()->rules('required'),
+            Text::make('Klasifikasi', 'group')->sortable()->rules('required'),
+            Text::make('Detail', 'detail')->sortable()->rules('required'),
         ];
     }
 
@@ -79,7 +77,7 @@ class KodeArsip extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            Kode1Arsip::make(),            
+            GroupArsip::make(),            
         ];
     }
 
@@ -102,7 +100,7 @@ class KodeArsip extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (Auth::user()->role == 'admin') {
+        if (session('role') === 'admin') {
             return [
                 ImportKodeArsip::make()->standalone(),
             ];

@@ -17,10 +17,8 @@ class KodeArsipsImport implements ToModel, WithHeadingRow
     {
         return new KodeArsip([
             'kode'  => $row['kode'],
-            'k1'    => $row['k1'],
-            'k2'    => $row['k2'],
-            'k3'    => $row['k3'],
-            'k4'    => $row['k4'],
+            'group'    => $row['group'],
+            'detail'    => $row['detail'],
         ]);
     }
 }

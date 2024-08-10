@@ -61,9 +61,9 @@ return [
     */
 
     'queue' => [
-        'status'     => false,
-        'name'       => 'default',
-        'connection' => null
+        'status' => false,
+        'name' => 'default',
+        'connection' => null,
     ],
 
     /*

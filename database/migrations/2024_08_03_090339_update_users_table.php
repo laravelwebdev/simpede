@@ -16,15 +16,14 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('name', 'nama');
             $table->after('password', function (Blueprint $table) {
-                $table->string('nip',30)->nullable();
-                $table->string('pangkat',30)->nullable();
-                $table->string('golongan',40)->nullable();
-                $table->string('jabatan',50)->nullable();
+                $table->string('nip', 30)->nullable();
+                $table->string('pangkat', 30)->nullable();
+                $table->string('golongan', 40)->nullable();
+                $table->string('jabatan', 50)->nullable();
                 $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
-                $table->string('role',30)->nullable();
+                $table->string('role', 30)->nullable();
                 $table->string('avatar')->nullable();
             });
-
         });
     }
 

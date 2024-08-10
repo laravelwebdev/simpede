@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Actions\ImportKodeArsip;
 use App\Nova\Filters\GroupArsip;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -39,7 +38,7 @@ class KodeArsip extends Resource
      * @var array
      */
     public static $search = [
-        'kode','group', 'detail'
+        'kode', 'group', 'detail',
     ];
 
     /**
@@ -83,7 +82,7 @@ class KodeArsip extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            GroupArsip::make(),            
+            GroupArsip::make(),
         ];
     }
 

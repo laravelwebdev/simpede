@@ -49,7 +49,7 @@ class User extends Authenticatable
     public function setGolonganAttribute($value)
     {
         $this->attributes['golongan'] = $value;
-        $this->attributes['pangkat'] = Helper::$pangkat[$value];        
+        $this->attributes['pangkat'] = Helper::$pangkat[$value];
     }
 
     /**
@@ -60,5 +60,3 @@ class User extends Authenticatable
         return $this->belongsTo(UnitKerja::class);
     }
 }
-    
-

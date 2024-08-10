@@ -3,20 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Pengelola;
-use App\Nova\Dashboards\Main;
-use App\Nova\KodeNaskah;
-use App\Nova\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use NormanHuth\NovaMenu\Services\MenuFilter;
 use Visanduma\NovaBackNavigation\NovaBackNavigation;
-
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -27,20 +20,19 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function boot()
     {
-        parent::boot();     
-        Nova::footer(fn () => 
-        '<p class="mt-8 text-center text-xs text-80">
+        parent::boot();
+        Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">
         <a href="https://hulusungaitengahkab.bps.go.id" class="text-primary dim no-underline">BPS Kabupaten Hulu Sungai Tengah</a>
         <span class="px-1">&middot;</span>
-        &copy;'. date("Y").' Simpede - By Muhlis Abdi.
+        &copy;'.date('Y').' Simpede - By Muhlis Abdi.
         <span class="px-1">&middot;</span>
         v '.Nova::version().'</p>'
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
-            $roles =[$request->user()->role =>'Pegawai'];
-            $roles = array_merge($roles,Pengelola::cache()->get('all')->where('user_id','2')->pluck('jabatan','role')->toArray());
-            foreach($roles as $key=>$value){
+            $roles = [$request->user()->role => 'Pegawai'];
+            $roles = array_merge($roles, Pengelola::cache()->get('all')->where('user_id', '2')->pluck('jabatan', 'role')->toArray());
+            foreach ($roles as $key => $value) {
                 $menu->prepend(
                     MenuItem::make(
                         $value,
@@ -48,9 +40,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     )
                 );
             }
+
             return $menu;
         });
-        Nova::withBreadcrumbs();   
+        Nova::withBreadcrumbs();
         // Nova::withoutGlobalSearch();
         // Nova::withoutNotificationCenter();
     }
@@ -63,9 +56,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes()
     {
         Nova::routes()
-                ->withAuthenticationRoutes(default: true)
+            ->withAuthenticationRoutes(default: true)
                 // ->withPasswordResetRoutes()
-                ->register();
+            ->register();
     }
 
     /**

@@ -39,7 +39,7 @@ class Pengelola extends Resource
      * @var array
      */
     public static $search = [
-        'jabatan','role',
+        'jabatan', 'role',
     ];
 
     /**
@@ -51,11 +51,11 @@ class Pengelola extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jabatan')  
+            Text::make('Jabatan')
                 ->rules('required'),
-            Text::make('role')  
+            Text::make('role')
                 ->rules('required'),
-            BelongsTo::make('User') 
+            BelongsTo::make('User')
                 ->rules('required'),
         ];
     }

@@ -10,11 +10,12 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class UnitKerja extends Model
 {
     use HasFactory, LaraCache;
+
     public static function cacheEntities(): array
     {
         return [
             CacheEntity::make('all')
-                ->cache(function() {
+                ->cache(function () {
                     return UnitKerja::all();
                 }),
         ];

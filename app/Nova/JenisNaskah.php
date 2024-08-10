@@ -54,9 +54,9 @@ class JenisNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis')  
+            Text::make('Jenis')
                 ->rules('required'),
-            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') 
+            BelongsTo::make('Kategori', 'kodeNaskah', 'App\Nova\KodeNaskah')
                 ->rules('required')
                 ->filterable(),
             File::make('Template')
@@ -75,12 +75,12 @@ class JenisNaskah extends Resource
     public function fieldsForIndex(NovaRequest $request)
     {
         return [
-            Text::make('Jenis')  
+            Text::make('Jenis')
                 ->rules('required'),
-            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah')
+            BelongsTo::make('Kategori', 'kodeNaskah', 'App\Nova\KodeNaskah')
                 ->rules('required')
                 ->filterable(),
-            URL::make('Template',fn () => ($this->template == '')?'':Storage::disk('template_naskah')
+            URL::make('Template', fn () => ($this->template == '') ? '' : Storage::disk('template_naskah')
                 ->url($this->template))
                 ->displayUsing(fn () => 'Unduh'),
         ];

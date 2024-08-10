@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class UnitKerja extends Resource
 {
@@ -37,7 +37,7 @@ class UnitKerja extends Resource
      * @var array
      */
     public static $search = [
-        'unit','kode',
+        'unit', 'kode',
     ];
 
     /**

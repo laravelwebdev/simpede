@@ -19,6 +19,15 @@ use Laravel\Nova\Panel;
 class NaskahKeluar extends Resource
 {
     /**
+     * Get the label for the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Naskah Keluar';
+    }
+    /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\NaskahKeluar>
@@ -50,17 +59,16 @@ class NaskahKeluar extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Tanggal Surat', 'tanggal')->sortable()
+            Date::make('Tanggal Naskah', 'tanggal')
+                ->sortable()
                 ->rules('required', 'before_or_equal:today')
                 ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')
                 ->onlyOnDetail(),
             Text::make('Tujuan', 'tujuan')
-                ->placeholder('Penerima surat')
                 ->rules('required'),
             Text::make('Perihal', 'perihal')
-                ->placeholder('Perihal surat')
                 ->rules('required'),
             Text::make('Dikirimkan melalui', 'pengiriman'),
             Date::make('Tanggal Kirim', 'tanggal_kirim')
@@ -79,7 +87,6 @@ class NaskahKeluar extends Resource
     public function fieldsForIndex(NovaRequest $request)
     {
         return [
-            // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
                 Date::make('Tanggal Naskah', 'tanggal')

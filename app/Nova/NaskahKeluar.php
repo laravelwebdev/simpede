@@ -88,7 +88,8 @@ class NaskahKeluar extends Resource
     {
         return [
             Stack::make('Nomor/Tanggal', [
-                Line::make('Nomor', 'nomor')->asHeading(),
+                Line::make('Nomor', 'nomor')
+                    ->asHeading(),
                 Date::make('Tanggal Naskah', 'tanggal')
                     ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal)),
             ]),
@@ -100,7 +101,8 @@ class NaskahKeluar extends Resource
                 ->displayUsingLabels()->filterable()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
             Stack::make('Pengiriman/Tanggal', [
-                Line::make('Pengiriman', 'pengiriman')->asHeading(),
+                Line::make('Pengiriman', 'pengiriman')
+                    ->asHeading(),
                 Date::make('Tanggal Kirim', 'tanggal_kirim')
                 ->displayUsing(fn($tanggal) =>  Helper::terbilangTanggal($tanggal)),
             ]),
@@ -130,7 +132,8 @@ class NaskahKeluar extends Resource
                 ->searchable()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'),'id','jenis')),
-            Hidden::make('kode_naskah_id')->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
+            Hidden::make('kode_naskah_id')
+                ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
                 $form->jenis_naskah_id == '' ?'':$field->setValue(JenisNaskah::cache()->get('all')->where('id',$form->jenis_naskah_id)->first()->kode_naskah_id);
                 }),
         ];

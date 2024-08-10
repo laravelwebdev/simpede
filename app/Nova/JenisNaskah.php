@@ -56,7 +56,9 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')  
                 ->rules('required'),
-            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') ->rules('required')->filterable(),
+            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') 
+                ->rules('required')
+                ->filterable(),
             File::make('Template')
                 ->disk('template_naskah')
                 ->rules('mimes:docx')
@@ -75,7 +77,9 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')  
                 ->rules('required'),
-            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah') ->rules('required')->filterable(),
+            BelongsTo::make('Kategori','kodeNaskah', 'App\Nova\KodeNaskah')
+                ->rules('required')
+                ->filterable(),
             URL::make('Template',fn () => ($this->template == '')?'':Storage::disk('template_naskah')
                 ->url($this->template))
                 ->displayUsing(fn () => 'Unduh'),

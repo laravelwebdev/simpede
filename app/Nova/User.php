@@ -61,7 +61,7 @@ class User extends Resource
                 ->updateRules('nullable', Rules\Password::defaults()),      
             ]),
             Panel::make('Biodata', [
-                Text::make('Nama')
+            Text::make('Nama')
                 ->sortable()
                 ->rules('required'),
             Text::make('NIP')
@@ -69,16 +69,20 @@ class User extends Resource
                 ->rules('required'),
             Select::make('Golongan')
                 ->options(Helper::$golongan)
-                ->rules('required')->searchable(),
+                ->rules('required')
+                ->searchable(),
             Text::make('Pangkat')
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
             Text::make('Jabatan')
                 ->rules('required'),
-            BelongsTo::make('Unit Kerja')->filterable()->rules('required'),
+            BelongsTo::make('Unit Kerja')
+                ->filterable()
+                ->rules('required'),
             Select::make('Role')
                 ->options(Helper::$role)
-                ->rules('required')->filterable(),   
+                ->rules('required')
+                ->filterable(),   
             ]),       
         ];
     }

@@ -55,7 +55,8 @@ class Pengelola extends Resource
                 ->rules('required'),
             Text::make('role')  
                 ->rules('required'),
-            BelongsTo::make('User') ->rules('required'),
+            BelongsTo::make('User') 
+                ->rules('required'),
         ];
     }
 

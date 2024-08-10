@@ -51,9 +51,15 @@ class KodeArsip extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Kode Arsip', 'kode')->sortable()->rules('required'),
-            Text::make('Klasifikasi', 'group')->sortable()->rules('required'),
-            Text::make('Detail', 'detail')->sortable()->rules('required'),
+            Text::make('Kode Arsip', 'kode')
+                ->sortable()
+                ->rules('required'),
+            Text::make('Klasifikasi', 'group')
+                ->sortable()
+                ->rules('required'),
+            Text::make('Detail', 'detail')
+                ->sortable()
+                ->rules('required'),
         ];
     }
 

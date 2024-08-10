@@ -4,5 +4,5 @@ preset: laravel
 enabled:
   - method_chaining_indentation
 finder:
-not-name:
-  - index.php
+  not-name:
+    - index.php

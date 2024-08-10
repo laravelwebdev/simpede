@@ -1,7 +1,8 @@
-php:
-  preset: laravel
-  enabled:
-    - method_chaining_indentation
-  finder:
-    not-name:
-      - index.php
+risky: false
+version: 8.2
+preset: laravel
+enabled:
+  - method_chaining_indentation
+finder:
+not-name:
+  - index.php

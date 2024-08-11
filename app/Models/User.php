@@ -71,5 +71,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UnitKerja::class);
     }
-
 }

@@ -67,15 +67,15 @@ class IzinKeluar extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Time::make('Jam Keluar', 'keluar')
-                ->rules('required'),                
+                ->rules('required'),
             Text::make('Kegiatan')
                 ->rules('required'),
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali'),
                 Image::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar'),
-                ]),
-                
+            ]),
+
         ];
     }
 

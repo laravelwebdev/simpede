@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Mostafaznv\LaraCache\CacheEntity;
@@ -73,11 +72,4 @@ class User extends Authenticatable
         return $this->belongsTo(UnitKerja::class);
     }
 
-    /**
-     * Get the izin keluar for the user.
-     */
-    public function izinKeluars(): HasMany
-    {
-        return $this->hasMany(IzinKeluar::class);
-    }
 }

@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -15,7 +14,7 @@ use Laravel\Nova\Panel;
 
 class User extends Resource
 {
-    public static $with = ['unitKerja','izinKeluars'];
+    public static $with = ['unitKerja'];
     /**
      * The model the resource corresponds to.
      *
@@ -82,8 +81,7 @@ class User extends Resource
                 Select::make('Role')
                     ->options(Helper::$role)
                     ->rules('required')
-                    ->filterable(),
-                HasMany::make('Izin Keluars'),
+                    ->filterable(), 
             ]),
         ];
     }

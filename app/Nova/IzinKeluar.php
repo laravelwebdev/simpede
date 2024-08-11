@@ -3,8 +3,10 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\User;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -53,6 +55,12 @@ class IzinKeluar extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Select::make('Pegawai', 'user_id')
+                ->onlyOnIndex()
+                ->filterable()
+                ->searchable()
+                ->displayUsingLabels()
+                ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama')),
             Date::make('Tanggal Keluar', 'tanggal')
                 ->sortable()
                 ->rules('required')

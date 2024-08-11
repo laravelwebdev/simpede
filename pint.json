@@ -1,0 +1,12 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "method_chaining_indentation": true
+    },
+    "notName": [
+        "index.php"
+    ],
+    "exclude": [
+        "modified"
+    ]
+}

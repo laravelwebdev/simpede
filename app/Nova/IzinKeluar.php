@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\User;
+use App\Models\NaskahKeluar;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;

@@ -12,7 +12,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, LaraCache;
+    use HasFactory, LaraCache, Notifiable;
 
     public static function cacheEntities(): array
     {

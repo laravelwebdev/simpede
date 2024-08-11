@@ -12,6 +12,7 @@ use Laravel\Nova\URL;
 class IzinKeluar extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'tanggal' => 'date',
     ];

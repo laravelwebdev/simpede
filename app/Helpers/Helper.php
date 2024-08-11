@@ -186,7 +186,7 @@ class Helper
             }
         }
 
-        return  $options;
+        return $options;
     }
 
     /**
@@ -207,7 +207,7 @@ class Helper
         $max = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->max('no_urut');
         $format = $kode_naskah->format;
         ($max > 0) ? $no_urut = $max + 1 : $no_urut = 1;
-        $replaces ['<tahun>'] = $tahun;
+        $replaces['<tahun>'] = $tahun;
         $replaces['<no_urut>'] = $no_urut;
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;

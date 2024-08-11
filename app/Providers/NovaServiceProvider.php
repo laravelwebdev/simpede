@@ -31,7 +31,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::userMenu(function (Request $request, Menu $menu) {
             $roles = [$request->user()->role => 'Pegawai'];
-            $roles = array_merge($roles, Pengelola::cache()->get('all')->where('user_id', '2')->pluck('jabatan', 'role')->toArray());
+            $roles = array_merge($roles, Pengelola::cache()->get('all')->where('user_id', $request->user()->id)->pluck('jabatan', 'role')->toArray());
             foreach ($roles as $key => $value) {
                 $menu->prepend(
                     MenuItem::make(
@@ -44,6 +44,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu;
         });
         Nova::withBreadcrumbs();
+        Nova::showUnreadCountInNotificationCenter();
         // Nova::withoutGlobalSearch();
         // Nova::withoutNotificationCenter();
     }

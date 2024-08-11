@@ -5,12 +5,25 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Mostafaznv\LaraCache\CacheEntity;
+use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LaraCache;
+
+    public static function cacheEntities(): array
+    {
+        return [
+            CacheEntity::make('all')
+                ->cache(function () {
+                    return User::all();
+                }),
+        ];
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -58,5 +71,13 @@ class User extends Authenticatable
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class);
+    }
+
+    /**
+     * Get the izin keluar for the user.
+     */
+    public function izinKeluars(): HasMany
+    {
+        return $this->hasMany(IzinKeluar::class);
     }
 }

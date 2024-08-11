@@ -21,7 +21,7 @@ class Main extends Dashboard
         return [
             GreeterCard::make()
                 ->user(name: Auth::user()->nama, title: Auth::user()->email)
-                ->message(text: 'Welcome back,')
+                ->message(text: __('Welcome Back!'))
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
                 ->verified(text: (Pengelola::cache()->get('all')->where('role', session('role'))->first() !== null) ? Pengelola::cache()->get('all')->where('role', session('role'))->first()->jabatan : 'Pegawai')
                 ->width('1/3'),

@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
         "mostafaznv/laracache": "^2.4",
+        "oneduo/nova-time-field": "^1.0",
         "oriondevelops/nova-greeter": "^0.0.2",
         "phpoffice/phpword": "^1.2",
         "visanduma/nova-back-navigation": "^1.0"

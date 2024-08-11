@@ -81,7 +81,7 @@ class User extends Resource
                 Select::make('Role')
                     ->options(Helper::$role)
                     ->rules('required')
-                    ->filterable(), 
+                    ->filterable(),
             ]),
         ];
     }

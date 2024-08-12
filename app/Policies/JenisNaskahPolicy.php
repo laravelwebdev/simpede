@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\JenisNaskah;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class JenisNaskahPolicy
 {
@@ -13,7 +12,7 @@ class JenisNaskahPolicy
      */
     public function viewAny(User $user): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -21,7 +20,7 @@ class JenisNaskahPolicy
      */
     public function view(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -29,7 +28,7 @@ class JenisNaskahPolicy
      */
     public function create(User $user): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -37,7 +36,7 @@ class JenisNaskahPolicy
      */
     public function update(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -45,7 +44,7 @@ class JenisNaskahPolicy
      */
     public function delete(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -53,7 +52,7 @@ class JenisNaskahPolicy
      */
     public function restore(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -61,7 +60,7 @@ class JenisNaskahPolicy
      */
     public function forceDelete(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -69,6 +68,6 @@ class JenisNaskahPolicy
      */
     public function replicate(User $user, JenisNaskah $jenisNaskah): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 }

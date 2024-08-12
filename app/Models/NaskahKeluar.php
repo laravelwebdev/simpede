@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class NaskahKeluar extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'tanggal' => 'date',
         'tanggal_kirim' => 'date',

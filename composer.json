@@ -21,12 +21,14 @@
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",
         "oriondevelops/nova-greeter": "^0.0.2",
+        "outl1ne/nova-simple-repeatable": "^2.2",
         "phpoffice/phpword": "^1.2",
         "visanduma/nova-back-navigation": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
+        "laravel-lang/lang": "^15.6",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
@@ -52,7 +54,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan nova:publish"
+            "@php artisan nova:publish",
+            "@php artisan lang:update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

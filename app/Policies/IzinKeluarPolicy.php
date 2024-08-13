@@ -20,7 +20,7 @@ class IzinKeluarPolicy
      */
     public function view(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
         if (session('role') === 'kepala') {
             return $allowedyear;
         }
@@ -47,7 +47,7 @@ class IzinKeluarPolicy
      */
     public function update(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
 
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
@@ -57,7 +57,7 @@ class IzinKeluarPolicy
      */
     public function delete(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
 
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
@@ -67,7 +67,7 @@ class IzinKeluarPolicy
      */
     public function restore(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
 
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
@@ -77,7 +77,7 @@ class IzinKeluarPolicy
      */
     public function forceDelete(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
 
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
@@ -87,7 +87,7 @@ class IzinKeluarPolicy
      */
     public function replicate(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = ((session('year') == $izinKeluar->tahun));
+        $allowedyear = (session('year') == $izinKeluar->tahun);
 
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }

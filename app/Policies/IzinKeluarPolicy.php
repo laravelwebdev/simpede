@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\IzinKeluar;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class IzinKeluarPolicy
 {
@@ -13,7 +12,7 @@ class IzinKeluarPolicy
      */
     public function viewAny(): bool
     {
-        return in_array(session('role'), ['kepala','anggota','koordinator']);
+        return in_array(session('role'), ['kepala', 'anggota', 'koordinator']);
     }
 
     /**
@@ -31,6 +30,7 @@ class IzinKeluarPolicy
         if (session('role') === 'anggota') {
             return $allowedyear && ($user->id === $izinKeluar->user_id);
         }
+
         return false;
     }
 
@@ -39,7 +39,7 @@ class IzinKeluarPolicy
      */
     public function create(User $user): bool
     {
-        return in_array(session('role'), ['kepala','anggota','koordinator']);
+        return in_array(session('role'), ['kepala', 'anggota', 'koordinator']);
     }
 
     /**
@@ -48,6 +48,7 @@ class IzinKeluarPolicy
     public function update(User $user, IzinKeluar $izinKeluar): bool
     {
         $allowedyear = ((session('year') == $izinKeluar->tahun));
+
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
 
@@ -57,6 +58,7 @@ class IzinKeluarPolicy
     public function delete(User $user, IzinKeluar $izinKeluar): bool
     {
         $allowedyear = ((session('year') == $izinKeluar->tahun));
+
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
 
@@ -66,6 +68,7 @@ class IzinKeluarPolicy
     public function restore(User $user, IzinKeluar $izinKeluar): bool
     {
         $allowedyear = ((session('year') == $izinKeluar->tahun));
+
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
 
@@ -75,6 +78,7 @@ class IzinKeluarPolicy
     public function forceDelete(User $user, IzinKeluar $izinKeluar): bool
     {
         $allowedyear = ((session('year') == $izinKeluar->tahun));
+
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
 
@@ -84,6 +88,7 @@ class IzinKeluarPolicy
     public function replicate(User $user, IzinKeluar $izinKeluar): bool
     {
         $allowedyear = ((session('year') == $izinKeluar->tahun));
+
         return $allowedyear && ($user->id === $izinKeluar->user_id);
     }
 }

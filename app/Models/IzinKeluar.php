@@ -16,6 +16,7 @@ class IzinKeluar extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
     /**
      * The "booted" method of the model.
      */

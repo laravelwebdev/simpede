@@ -9,7 +9,7 @@ class KodeNaskahPolicy
      */
     public function viewAny(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -17,7 +17,7 @@ class KodeNaskahPolicy
      */
     public function view(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -25,7 +25,7 @@ class KodeNaskahPolicy
      */
     public function create(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -33,7 +33,7 @@ class KodeNaskahPolicy
      */
     public function update(): bool
     {
-        return (session('role') === 'admin');              
+        return session('role') === 'admin';
     }
 
     /**
@@ -41,7 +41,7 @@ class KodeNaskahPolicy
      */
     public function delete(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -49,7 +49,7 @@ class KodeNaskahPolicy
      */
     public function restore(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -57,7 +57,7 @@ class KodeNaskahPolicy
      */
     public function forceDelete(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 
     /**
@@ -65,6 +65,6 @@ class KodeNaskahPolicy
      */
     public function replicate(): bool
     {
-        return (session('role') === 'admin');
+        return session('role') === 'admin';
     }
 }

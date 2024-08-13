@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mata_anggarans', function (Blueprint $table) {
             $table->id();
-            $table->string('mak',40)->nullable();
+            $table->string('mak', 40)->nullable();
             $table->timestamps();
         });
     }

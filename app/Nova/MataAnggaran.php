@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -46,10 +45,10 @@ class MataAnggaran extends Resource
     {
         return [
             Text::make('MAK', 'mak')
-            ->rules('required','min:35','max:35')->sortable()
-            ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
-            ->creationRules('unique:mata_anggarans,mak')
-            ->updateRules('unique:mata_anggarans,mak,{{resourceId}}'),
+                ->rules('required', 'min:35', 'max:35')->sortable()
+                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
+                ->creationRules('unique:mata_anggarans,mak')
+                ->updateRules('unique:mata_anggarans,mak,{{resourceId}}'),
         ];
     }
 

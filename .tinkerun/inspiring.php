@@ -59,7 +59,7 @@ use Laravel\Nova\Nova;
 
 // }
 // $b = nomor('2024','6',1,1,'B');
-User::cache()->get('all')->where('unit_kerja_id',1)->pluck('id')->toArray();
+User::cache()->get('all')->where('unit_kerja_id',null)->pluck('id')->toArray();
 
 
 

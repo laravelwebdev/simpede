@@ -14,7 +14,8 @@ use Oneduo\NovaTimeField\Time;
 
 class IzinKeluar extends Resource
 {
-    public static $with = ['user',];
+    public static $with = ['user'];
+
     /**
      * Get the label for the resource.
      *

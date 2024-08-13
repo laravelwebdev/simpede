@@ -14,7 +14,7 @@ use Laravel\Nova\Panel;
 
 class User extends Resource
 {
-    public static $with = ['unitKerja',];
+    public static $with = ['unitKerja'];
 
     /**
      * The model the resource corresponds to.

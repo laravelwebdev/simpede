@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-class JenisNaskahPolicy
+class KodeNaskahPolicy
 {
     /**
      * Determine whether the user can view any models.

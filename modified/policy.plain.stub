@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Policies;
+namespace {{ namespace }};
 
-class JenisNaskahPolicy
+class {{ class }}
 {
     /**
      * Determine whether the user can view any models.

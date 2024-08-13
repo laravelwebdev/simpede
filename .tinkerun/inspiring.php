@@ -9,8 +9,10 @@ use App\Models\Pengelola;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Nova;
+
 
 
 
@@ -57,7 +59,9 @@ use Laravel\Nova\Nova;
 
 // }
 // $b = nomor('2024','6',1,1,'B');
-User::cache()->get('all')->where('role','koordinator');
+User::cache()->get('all')->where('unit_kerja_id',1)->pluck('id')->toArray();
+
+
 
 
 

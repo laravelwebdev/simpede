@@ -231,6 +231,7 @@ class Helper
     public function getPengelola($role)
     {
         $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id;
+
         return User::cache()->get('all')->where('id', $pengelola_id)->first();
     }
 }

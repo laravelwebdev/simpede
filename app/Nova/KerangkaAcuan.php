@@ -158,7 +158,7 @@ class KerangkaAcuan extends Resource
                 ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
                     if ($formData->jenis === 'Penyedia') {
                         $field->show()->rules('required');
-                    }
+                    } 
                 }),
         ];
     }
@@ -208,7 +208,7 @@ class KerangkaAcuan extends Resource
                 ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 })->help('Untuk Honor Mitra, Tanggal akhir ini akan menjadi batas waktu penyelesaian pekerjaan di bulan kontrak berjalan. Misal Kontrak Kegiatan Sakernas di bulan Agustus dan pencacahan harus selesai tanggal 20 Agustus, maka isikan 20 Agustus sebagai tanggal akhir.'),
-            Text::make('Nama Survei/Kegiatan', 'survei')
+            Text::make('Nama Survei/Kegiatan', 'kegiatan')
                 ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
         ];
     }

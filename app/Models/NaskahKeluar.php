@@ -15,6 +15,7 @@ class NaskahKeluar extends Model
         'tanggal' => 'date',
         'tanggal_kirim' => 'date',
     ];
+    protected $guarded =[];
 
     /**
      * The "booted" method of the model.
@@ -23,7 +24,7 @@ class NaskahKeluar extends Model
     {
         static::saving(function (NaskahKeluar $naskah) {
             if ($naskah->isDirty('kode_naskah_id')) {
-                $nomor = (new Helper)::nomor(session('year'), $naskah->kode_naskah_id, Auth::user()->unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat);
+                $nomor = (new Helper)::nomor(session('year'), $naskah->kode_naskah_id, ($naskah->jenis_naskah_id == 23)?7:Auth::user()->unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat);
                 $naskah->nomor = $nomor['nomor'];
                 $naskah->no_urut = $nomor['no_urut'];
                 $naskah->tahun = session('year');

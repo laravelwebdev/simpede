@@ -59,7 +59,9 @@ use Laravel\Nova\Nova;
 
 // }
 // $b = nomor('2024','6',1,1,'B');
-User::cache()->get('all')->where('unit_kerja_id',null)->pluck('id')->toArray();
+// User::cache()->get('all')->where('unit_kerja_id',null)->pluck('id')->toArray();
+$pengelola_id = Pengelola::cache()->get('all')->where('role', 'ppk')->first()->user_id;
+$pegawai = User::cache()->get('all')->where('id', $pengelola_id)->first();
 
 
 

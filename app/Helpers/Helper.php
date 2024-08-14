@@ -5,7 +5,9 @@ namespace App\Helpers;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\NaskahKeluar;
+use App\Models\Pengelola;
 use App\Models\UnitKerja;
+use App\Models\User;
 
 class Helper
 {
@@ -218,5 +220,17 @@ class Helper
             'nomor' => $nomor,
             'no_urut' => $no_urut,
         ];
+    }
+
+    /**
+     * Generate Keterangan Pengelola.
+     *
+     * @param  string  $role  Role
+     * @return User $user
+     */
+    public function getPengelola($role)
+    {
+        $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id;
+        return User::cache()->get('all')->where('id', $pengelola_id)->first();
     }
 }

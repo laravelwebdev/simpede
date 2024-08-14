@@ -158,7 +158,7 @@ class KerangkaAcuan extends Resource
                 ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
                     if ($formData->jenis === 'Penyedia') {
                         $field->show()->rules('required');
-                    } 
+                    }
                 }),
         ];
     }
@@ -201,8 +201,8 @@ class KerangkaAcuan extends Resource
             ]),
             Date::make('Awal', 'awal')
                 ->rules('required', 'after_or_equal:tanggal')->displayUsing(function ($tanggal) {
-                return Helper::terbilangTanggal($tanggal);
-            }),
+                    return Helper::terbilangTanggal($tanggal);
+                }),
 
             Date::make('Akhir', 'akhir')
                 ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {

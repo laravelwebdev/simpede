@@ -35,24 +35,28 @@ class KerangkaAcuan extends Model
             $kak->ppk = (new Helper)->getPengelola('ppk')->nama;
             $kak->nipppk = (new Helper)->getPengelola('ppk')->nip;
             $kak->tahun = session('year');
-            NaskahKeluar::create([
-                'tanggal' => $kak->tanggal,
-                'jenis_naskah_id' => 23,
-                'kode_arsip_id' => 118,
-                'unit_kerja_id' => 7,
-                'kode_naskah_id' => 3,
-                'derajat' => 'B',
-                'tujuan' => 'Pejabat Pembuat Komitmen',
-                'perihal' => 'Form Permintaan '.$kak->rincian,
-            ]);
+            $naskahkeluar = New NaskahKeluar;          
+            $naskahkeluar->tanggal = $kak->tanggal;
+            $naskahkeluar->jenis_naskah_id = 23;
+            $naskahkeluar->kode_arsip_id = 118;
+            $naskahkeluar->unit_kerja_id = 7;
+            $naskahkeluar->kode_naskah_id = 3;
+            $naskahkeluar->derajat = 'B';
+            $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
+            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
+            $naskahkeluar->save();
         });
         static::deleted(function (KerangkaAcuan $kak) {
             NaskahKeluar::where('nomor', $kak->nomor)->delete();
         });
         static::saving(function (KerangkaAcuan $kak) {
+            $naskahkeluar = NaskahKeluar::where('nomor',$kak->nomor)->first();
+            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
+            $naskahkeluar->save();
             if ($kak->jenis !== 'Penyedia') {
                 $kak->metode = null;
             }
+            
         });
     }
 }

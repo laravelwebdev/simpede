@@ -15,7 +15,6 @@ class NaskahKeluar extends Model
         'tanggal' => 'date',
         'tanggal_kirim' => 'date',
     ];
-    protected $guarded = [];
 
     /**
      * The "booted" method of the model.

@@ -123,15 +123,19 @@ class KerangkaAcuan extends Resource
                 ->help('Contoh rincian permintaan: Pembayaran Honor......    Pembayaran Biaya Perjalanan Dinas dalam rangka...      Pengadaan Perlengkapan....'),
             Textarea::make('Latar Belakang', 'latar')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh latar Belakang: Kegiatan PLKUMKM merupakan salah satu kegiatan yang dilakukan oleh Badan Pusat Statistik dalam rangka mendukung penyediaan Data Statistik sesuai amanat Undang-Undang no 16 Tahun 1997. Agar kegiatan tersebut dapat berjalan dengan lancar dan tepat waktu diperlukan adanya penyediaan ATK Pelatihan Petugas PLKUMKM sebagai sarana penunjang kegiatan yang dilaksanakan.'),
             Textarea::make('Maksud', 'maksud')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh Maksud: menyediakan ATK Pelatihan Petugas PLKUMKM.'),
             Textarea::make('Tujuan', 'tujuan')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh Tujuan: tersedianya ATK Pelatihan Petugas PLKUMKM tepat waktu. Dengan ini diharapkan pelaksanaan PLKUMKM  dapat berjalan dengan lancar dan efektif.'),
             Textarea::make('Target/Sasaran', 'sasaran')
                 ->help('Contoh Target/Sasaran: Kegiatan PLKUMKM dapat berjalan dengan lancar.')
+                ->alwaysShow()
                 ->rules('required'),
             Boolean::make('TKDN', 'tkdn')
                 ->trueValue('Ya')

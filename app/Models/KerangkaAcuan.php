@@ -53,13 +53,14 @@ class KerangkaAcuan extends Model
             NaskahKeluar::where('nomor', $kak->nomor)->delete();
         });
         static::saving(function (KerangkaAcuan $kak) {
-            if ($kak->jenis !== 'Penyedia') {
-                $kak->metode = null;
-            }
             throw_if(
                 Helper::cekGanda($kak->anggaran, 'mak'),
                 'Pilihan MAK ada yang sama'
             );
+            if ($kak->jenis !== 'Penyedia') {
+                $kak->metode = null;
+            }
+
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();

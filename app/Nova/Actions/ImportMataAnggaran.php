@@ -2,7 +2,9 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Imports\KodeArsipsImport;
+use App\Imports\MataAnggaransImport;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,10 +15,11 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ImportKodeArsip extends Action
+class ImportMataAnggaran extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -27,10 +30,9 @@ class ImportKodeArsip extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('kode_arsips')->truncate();
-        Excel::import(new KodeArsipsImport, $fields->file);
-
-        return Action::message('Kode Arsip sukses diimport!');
+        DB::table('mata_anggarans')->where('tahun', $fields->tahun)->delete();
+        Excel::import(new MataAnggaransImport($fields->tahun), $fields->file);
+        return Action::message('Mata Anggaran sukses diimport!');
     }
 
     /**
@@ -44,8 +46,11 @@ class ImportKodeArsip extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "' . Storage::disk('templates')->url(Template::cache()->get('all')->where('slug','template_import_kode_arsip')->first()->file) . '">Unduh Template</a>')
-            ->asHtml(),
+            Heading::make('<a href = "' . Storage::disk('templates')->url(Template::cache()->get('all')->where('slug','template_import_mata_anggaran')->first()->file) . '">Unduh Template</a>')
+                ->asHtml(),
+            Select::make('Tahun')
+                ->options(fn () =>  Helper::setOptionTahun())
+                ->rules('required'),
         ];
     }
 }

@@ -2,30 +2,30 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\ImportMataAnggaran;
+use App\Nova\Actions\ImportMitra;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class MataAnggaran extends Resource
+class Mitra extends Resource
 {
     public static function label()
     {
-        return 'Mata Anggaran Kegiatan';
+        return 'Mitra';
     }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\MataAnggaran>
+     * @var class-string<\App\Models\Mitra>
      */
-    public static $model = \App\Models\MataAnggaran::class;
+    public static $model = \App\Models\Mitra::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'mak';
+    public static $title = 'nik';
 
     /**
      * The columns that should be searched.
@@ -33,7 +33,7 @@ class MataAnggaran extends Resource
      * @var array
      */
     public static $search = [
-        'mak',
+        'nik', 'nama',
     ];
 
     /**
@@ -45,10 +45,18 @@ class MataAnggaran extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('MAK', 'mak')
-                ->rules('required', 'min:35', 'max:35')->sortable()
-                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
-
+            Text::make('NIK', 'nik')
+                ->sortable()
+                ->rules('required'),
+            Text::make('Nama', 'nama')
+                ->sortable()
+                ->rules('required'),
+            Text::make('Alamat', 'alamat')
+                ->sortable()
+                ->rules('required'),
+            Text::make('Rekening', 'rekening')
+            ->sortable()
+            ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];
     }
 
@@ -95,7 +103,7 @@ class MataAnggaran extends Resource
     {
         if (session('role') === 'admin') {
             return [
-                ImportMataAnggaran::make()->standalone(),
+                ImportMitra::make()->standalone(),
             ];
         } else {
             return [];

@@ -10,6 +10,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class MataAnggaran extends Model
 {
     use HasFactory, LaraCache;
+    protected $fillable =['mak','tahun'];
 
     public static function cacheEntities(): array
     {
@@ -19,5 +20,16 @@ class MataAnggaran extends Model
                     return MataAnggaran::all();
                 }),
         ];
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (MataAnggaran $mak) {
+            if (session('role') === 'koordinator') 
+                $mak->tahun = session('year');
+        });
     }
 }

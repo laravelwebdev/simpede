@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Nova\Actions\Action;
 
 class KerangkaAcuan extends Model
 {
@@ -25,22 +26,25 @@ class KerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
-            $nomor = (new Helper)::nomor(session('year'), 3, 7, 118, 'B');
+            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis','Form Permintaan')->first();
+            $unit_kerja = UnitKerja::cache()->get('all')->where('unit','BPS Kabupaten')->first();
+            $kode_arsip = KodeArsip::cache()->get('all')->where('kode','KU.320')->first();
+            $nomor = (new Helper)::nomor(session('year'), $jenis_naskah->kode_naskah_id, $unit_kerja->id, $kode_arsip->id, 'B');
             $kak->nomor = $nomor['nomor'];
             $kak->no_urut = $nomor['no_urut'];
             $kak->nama = Auth::user()->nama;
             $kak->nip = Auth::user()->nip;
             $kak->jabatan = Auth::user()->jabatan;
             $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
-            $kak->ppk = (new Helper)->getPengelola('ppk')->nama;
-            $kak->nipppk = (new Helper)->getPengelola('ppk')->nip;
+            $kak->ppk = Helper::getPengelola('ppk')->nama;
+            $kak->nipppk = Helper::getPengelola('ppk')->nip;
             $kak->tahun = session('year');
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
-            $naskahkeluar->jenis_naskah_id = 23;
-            $naskahkeluar->kode_arsip_id = 118;
-            $naskahkeluar->unit_kerja_id = 7;
-            $naskahkeluar->kode_naskah_id = 3;
+            $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
+            $naskahkeluar->kode_arsip_id = $kode_arsip->id;
+            $naskahkeluar->unit_kerja_id = $unit_kerja->id;
+            $naskahkeluar->kode_naskah_id = $jenis_naskah->kode_naskah_id;
             $naskahkeluar->derajat = 'B';
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
@@ -50,12 +54,23 @@ class KerangkaAcuan extends Model
             NaskahKeluar::where('nomor', $kak->nomor)->delete();
         });
         static::saving(function (KerangkaAcuan $kak) {
-            $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();
-            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
-            $naskahkeluar->save();
             if ($kak->jenis !== 'Penyedia') {
                 $kak->metode = null;
             }
+             throw_if(
+                Helper::cekGanda($kak->anggaran,'mak'),
+                    'Pilihan MAK ada yang sama'
+                );
+
+            
+
         });
+        static::updating(function (KerangkaAcuan $kak) {
+            $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();
+            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
+            $naskahkeluar->save();
+        });
+
+
     }
 }

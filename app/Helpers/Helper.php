@@ -228,10 +228,36 @@ class Helper
      * @param  string  $role  Role
      * @return User $user
      */
-    public function getPengelola($role)
+    public static function getPengelola($role)
     {
         $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id;
 
         return User::cache()->get('all')->where('id', $pengelola_id)->first();
+    }
+
+    /**
+    * Pilihan Tahun.
+    *
+    * @return Array $tahun
+    */
+
+    public static function setOptionTahun()
+    {
+     return array_combine(range(date("Y"),2024),range(date("Y"),2024));
+    }
+
+    /**
+     * Cek Spek Ganda.
+     *
+     * @param Spesifikasi  $spesifikasi
+     * @param string $key
+     * @return boolean
+     */
+    public static function cekGanda($spesifikasi, $key)
+    {
+        $spek = collect($spesifikasi);
+        $cek= $spek->duplicates($key);
+        return $cek->isNotEmpty();
+        
     }
 }

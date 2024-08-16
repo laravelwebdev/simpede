@@ -177,7 +177,7 @@ class KerangkaAcuan extends Resource
                     ->rules('required')
                     ->searchable()
                     ->displayUsingLabels()->filterable()
-                    ->options(Helper::setOptions(MataAnggaran::cache()->get('all'), 'id', 'mak')),
+                    ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'id', 'mak')),
                 Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required'),
             ]),
         ];

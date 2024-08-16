@@ -145,11 +145,13 @@ class NaskahKeluar extends Resource
             File::make('Draft')
                 ->disk('naskah')
                 ->rules('mimes:docx')
-                ->acceptedTypes('.docx'),
+                ->acceptedTypes('.docx')
+                ->prunable(),
             File::make('Signed')
                 ->disk('naskah')
                 ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf'),
+                ->acceptedTypes('.pdf')
+                ->prunable(),
         ];
     }
 

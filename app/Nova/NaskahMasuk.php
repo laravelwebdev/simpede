@@ -75,7 +75,8 @@ class NaskahMasuk extends Resource
                 ->disk('naskah')
                 ->rules('mimes:pdf')
                 ->acceptedTypes('.pdf')
-                ->rules('required'),
+                ->rules('required')
+                ->prunable(),
         ];
     }
 

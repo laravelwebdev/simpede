@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
+use App\Models\MataAnggaran;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
+use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Nova;
+
 
 
 
@@ -63,7 +67,11 @@ use Laravel\Nova\Nova;
 // $pengelola_id = Pengelola::cache()->get('all')->where('role', 'ppk')->first()->user_id;
 // $pegawai = User::cache()->get('all')->where('id', $pengelola_id)->first();
 
-NaskahKeluar::where('id',19)->get()->first();
+// NaskahKeluar::where('id',19)->get()->first();
+// Template::cache()->get('all')->where('slug','template_import_kode_arsip')->first()->file;
+// $year =  array_combine(range(date("Y"),2024),range(date("Y"),2024));
+// JenisNaskah::cache()->get('all')->where('jenis','Form Permintaan')->first()
+MataAnggaran::cache()->get('all')->where('tahun', 2024)
 
 
 

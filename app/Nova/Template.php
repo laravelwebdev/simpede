@@ -10,6 +10,16 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Template extends Resource
 {
     /**
+     * Get the label for the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Template';
+    }
+
+    /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\Template>
@@ -50,7 +60,8 @@ class Template extends Resource
                 ->disk('templates')
                 ->rules('mimes:xlsx,pdf.docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
-                ->rules('required'),
+                ->rules('required')
+                ->prunable(),
         ];
     }
 

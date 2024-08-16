@@ -62,7 +62,8 @@ class JenisNaskah extends Resource
             File::make('Template')
                 ->disk('template_naskah')
                 ->rules('mimes:docx')
-                ->acceptedTypes('.docx'),
+                ->acceptedTypes('.docx')
+                ->prunable(),
         ];
     }
 

@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -43,15 +42,15 @@ class Template extends Resource
     {
         return [
             Text::make('Slug')
-                    ->sortable()
-                    ->rules('required')
-                    ->creationRules('unique:templates,slug')
-                    ->updateRules('unique:templates,slug,{{resourceId}}'),
+                ->sortable()
+                ->rules('required')
+                ->creationRules('unique:templates,slug')
+                ->updateRules('unique:templates,slug,{{resourceId}}'),
             File::make('File')
-                    ->disk('templates')
-                    ->rules('mimes:xlsx,pdf.docx')
-                    ->acceptedTypes('.pdf,.docx,.xlsx')
-                    ->rules('required'),
+                ->disk('templates')
+                ->rules('mimes:xlsx,pdf.docx')
+                ->acceptedTypes('.pdf,.docx,.xlsx')
+                ->rules('required'),
         ];
     }
 

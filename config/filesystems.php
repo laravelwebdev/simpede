@@ -76,6 +76,14 @@ return [
             'throw' => false,
         ],
 
+        'templates' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/templates'),
+            'url' => env('APP_URL').'storage/templates',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         'izin_keluar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/izinkeluar'),

@@ -10,9 +10,11 @@ class MitrasImport implements ToModel, WithHeadingRow
 {
     protected $tahun;
 
-    function __construct($tahun) {
+    public function __construct($tahun)
+    {
         $this->tahun = $tahun;
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
      */

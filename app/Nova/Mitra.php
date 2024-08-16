@@ -55,8 +55,8 @@ class Mitra extends Resource
                 ->sortable()
                 ->rules('required'),
             Text::make('Rekening', 'rekening')
-            ->sortable()
-            ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
+                ->sortable()
+                ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];
     }
 

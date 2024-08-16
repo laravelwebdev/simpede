@@ -44,8 +44,8 @@ class ImportKodeArsip extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "' . Storage::disk('templates')->url(Template::cache()->get('all')->where('slug','template_import_kode_arsip')->first()->file) . '">Unduh Template</a>')
-            ->asHtml(),
+            Heading::make('<a href = "'.Storage::disk('templates')->url(Template::cache()->get('all')->where('slug', 'template_import_kode_arsip')->first()->file).'">Unduh Template</a>')
+                ->asHtml(),
         ];
     }
 }

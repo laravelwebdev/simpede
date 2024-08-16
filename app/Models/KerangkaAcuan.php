@@ -60,7 +60,6 @@ class KerangkaAcuan extends Model
             if ($kak->jenis !== 'Penyedia') {
                 $kak->metode = null;
             }
-
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();

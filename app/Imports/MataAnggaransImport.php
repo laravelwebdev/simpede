@@ -25,5 +25,4 @@ class MataAnggaransImport implements ToModel, WithHeadingRow
             'tahun' => $this->tahun,
         ]);
     }
-    
 }

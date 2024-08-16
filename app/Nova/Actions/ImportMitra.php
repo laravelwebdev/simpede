@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
-use App\Imports\KodeArsipsImport;
 use App\Imports\MitrasImport;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
@@ -32,6 +31,7 @@ class ImportMitra extends Action
     {
         DB::table('mitras')->where('tahun', $fields->tahun)->delete();
         Excel::import(new MitrasImport($fields->tahun), $fields->file);
+
         return Action::message('Mitra sukses diimport!');
     }
 
@@ -46,10 +46,10 @@ class ImportMitra extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "' . Storage::disk('templates')->url(Template::cache()->get('all')->where('slug','template_import_mitra')->first()->file) . '">Unduh Template</a>')
+            Heading::make('<a href = "'.Storage::disk('templates')->url(Template::cache()->get('all')->where('slug', 'template_import_mitra')->first()->file).'">Unduh Template</a>')
                 ->asHtml(),
             Select::make('Tahun')
-                ->options(fn () =>  Helper::setOptionTahun())
+                ->options(fn () => Helper::setOptionTahun())
                 ->rules('required'),
         ];
     }

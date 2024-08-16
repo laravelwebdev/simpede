@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Nova\Actions\Action;
 
 class KerangkaAcuan extends Model
 {
@@ -26,9 +25,9 @@ class KerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
-            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis','Form Permintaan')->first();
-            $unit_kerja = UnitKerja::cache()->get('all')->where('unit','BPS Kabupaten')->first();
-            $kode_arsip = KodeArsip::cache()->get('all')->where('kode','KU.320')->first();
+            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->first();
+            $unit_kerja = UnitKerja::cache()->get('all')->where('unit', 'BPS Kabupaten')->first();
+            $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->first();
             $nomor = (new Helper)::nomor(session('year'), $jenis_naskah->kode_naskah_id, $unit_kerja->id, $kode_arsip->id, 'B');
             $kak->nomor = $nomor['nomor'];
             $kak->no_urut = $nomor['no_urut'];
@@ -57,20 +56,15 @@ class KerangkaAcuan extends Model
             if ($kak->jenis !== 'Penyedia') {
                 $kak->metode = null;
             }
-             throw_if(
-                Helper::cekGanda($kak->anggaran,'mak'),
-                    'Pilihan MAK ada yang sama'
-                );
-
-            
-
+            throw_if(
+                Helper::cekGanda($kak->anggaran, 'mak'),
+                'Pilihan MAK ada yang sama'
+            );
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
         });
-
-
     }
 }

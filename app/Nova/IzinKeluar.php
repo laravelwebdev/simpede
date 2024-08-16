@@ -92,7 +92,7 @@ class IzinKeluar extends Resource
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali'),
                 Image::make('Bukti Dukung', 'bukti')
-                    ->disk('izin_keluar'),
+                    ->disk('izin_keluar')->prunable(),
             ]),
 
         ];

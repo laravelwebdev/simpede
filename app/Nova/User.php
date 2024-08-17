@@ -7,6 +7,7 @@ use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\PasswordConfirmation;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -54,10 +55,11 @@ class User extends Resource
                     ->rules('required', 'email', 'max:254')
                     ->creationRules('unique:users,email')
                     ->updateRules('unique:users,email,{{resourceId}}'),
-                Password::make('Password')
-                    ->onlyOnForms()
-                    ->creationRules('required', Rules\Password::defaults())
-                    ->updateRules('nullable', Rules\Password::defaults()),
+                Password::make('Password')                    ->onlyOnForms()
+                    ->creationRules('required', Rules\Password::defaults(), 'confirmed')
+                    ->updateRules('nullable', Rules\Password::defaults(), 'confirmed'),
+                
+                PasswordConfirmation::make('Password Confirmation'),
             ]),
             Panel::make('Biodata', [
                 Text::make('Nama')

@@ -183,7 +183,15 @@ class KerangkaAcuan extends Resource
                     ->displayUsingLabels()->filterable()
                     ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'id', 'mak')),
                 Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required'),
-            ]),
+            ])->rules('required',function($attribute, $value, $fail) {
+                if (Helper::cekGanda(collect(json_decode($value)),'mak')) {
+                    return $fail($attribute.' ini harus memiliki mak yang berbeda.');
+                }
+            },function($attribute, $value, $fail) {
+                if ($value == '[]') {
+                    return $fail($attribute.' ini harus terisi.');
+                }
+            }),
         ];
     }
 
@@ -202,7 +210,11 @@ class KerangkaAcuan extends Resource
                 Text::make('Satuan', 'spek_satuan')->rules('required'),
                 Currency::make('Harga Satuan', 'spek_harga')->rules('required')->step(1),
                 Textarea::make('Spesifikasi', 'spek_spek')->rows(2)->rules('required')->placeholder('Mohon diisi secara detail dan spesifik')->alwaysShow(),
-            ]),
+            ])->rules('required',function($attribute, $value, $fail) {
+                if ($value == '[]') {
+                    return $fail($attribute.' ini harus terisi.');
+                }
+            }),
             Date::make('Awal', 'awal')
                 ->rules('required', 'after_or_equal:tanggal')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);

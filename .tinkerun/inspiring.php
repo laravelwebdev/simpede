@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Nova;
-
-
-
-
-
+use PHPUnit\TestRunner\TestResult\Collector;
 
 // $kodes = KodeArsip::cache()->get('all')->all();
 
@@ -71,7 +67,9 @@ use Laravel\Nova\Nova;
 // Template::cache()->get('all')->where('slug','template_import_kode_arsip')->first()->file;
 // $year =  array_combine(range(date("Y"),2024),range(date("Y"),2024));
 // JenisNaskah::cache()->get('all')->where('jenis','Form Permintaan')->first()
-MataAnggaran::cache()->get('all')->where('tahun', 2024)
+// MataAnggaran::cache()->get('all')->where('tahun', 2024)
+$aaa='[{"mak":1,"perkiraan":123},{"mak":1,"perkiraan":123}]';
+collect(json_decode($aaa))->duplicates('mak')
 
 
 

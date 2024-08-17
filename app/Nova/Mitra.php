@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Actions\ImportMitra;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -46,8 +47,9 @@ class Mitra extends Resource
     {
         return [
             Text::make('NIK', 'nik')
+                ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras','nik')->where('tahun',session('year'))->ignore($this->id))
                 ->sortable()
-                ->rules('required'),
+                ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras','nik')->where('tahun',session('year'))),
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->rules('required'),

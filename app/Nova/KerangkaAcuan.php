@@ -185,11 +185,11 @@ class KerangkaAcuan extends Resource
                 Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required'),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if (Helper::cekGanda(collect(json_decode($value)), 'mak')) {
-                    return $fail($attribute.' ini harus memiliki mak yang berbeda.');
+                    return $fail('validation.unique')->translate();
                 }
             }, function ($attribute, $value, $fail) {
                 if ($value == '[]') {
-                    return $fail($attribute.' ini harus terisi.');
+                    return $fail('validation.required')->translate();
                 }
             }),
         ];
@@ -212,7 +212,7 @@ class KerangkaAcuan extends Resource
                 Textarea::make('Spesifikasi', 'spek_spek')->rows(2)->rules('required')->placeholder('Mohon diisi secara detail dan spesifik')->alwaysShow(),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if ($value == '[]') {
-                    return $fail($attribute.' ini harus terisi.');
+                    return $fail('validation.required')->translate();
                 }
             }),
             Date::make('Awal', 'awal')

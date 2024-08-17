@@ -47,9 +47,9 @@ class MataAnggaran extends Resource
     {
         return [
             Text::make('MAK', 'mak')
-                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans','mak')->where('tahun',session('year'))->ignore($this->id))
+                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year'))->ignore($this->id))
                 ->sortable()
-                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans','mak')->where('tahun',session('year')))
+                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year')))
                 ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX'),
 
         ];

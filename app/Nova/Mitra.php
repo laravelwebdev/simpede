@@ -47,9 +47,9 @@ class Mitra extends Resource
     {
         return [
             Text::make('NIK', 'nik')
-                ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras','nik')->where('tahun',session('year'))->ignore($this->id))
+                ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('tahun', session('year'))->ignore($this->id))
                 ->sortable()
-                ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras','nik')->where('tahun',session('year'))),
+                ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('tahun', session('year'))),
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->rules('required'),

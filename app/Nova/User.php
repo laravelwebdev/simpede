@@ -55,10 +55,10 @@ class User extends Resource
                     ->rules('required', 'email', 'max:254')
                     ->creationRules('unique:users,email')
                     ->updateRules('unique:users,email,{{resourceId}}'),
-                Password::make('Password')                    ->onlyOnForms()
+                Password::make('Password')->onlyOnForms()
                     ->creationRules('required', Rules\Password::defaults(), 'confirmed')
                     ->updateRules('nullable', Rules\Password::defaults(), 'confirmed'),
-                
+
                 PasswordConfirmation::make('Password Confirmation'),
             ]),
             Panel::make('Biodata', [

@@ -48,7 +48,7 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Avatar::make('Avatar')->disableDownload()->disk('avatars'),
+            Avatar::make('Avatar')->disableDownload()->disk('avatars')->prunable(),
             Panel::make('Akun', [
                 Text::make('Email')
                     ->sortable()

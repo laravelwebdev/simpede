@@ -8,12 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class MataAnggaransImport implements ToModel, WithHeadingRow
 {
-    protected $tahun;
-
-    public function __construct($tahun)
-    {
-        $this->tahun = $tahun;
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
@@ -22,7 +16,6 @@ class MataAnggaransImport implements ToModel, WithHeadingRow
     {
         return new MataAnggaran([
             'mak' => $row['mak'],
-            'tahun' => $this->tahun,
         ]);
     }
 }

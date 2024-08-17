@@ -8,12 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class MitrasImport implements ToModel, WithHeadingRow
 {
-    protected $tahun;
-
-    public function __construct($tahun)
-    {
-        $this->tahun = $tahun;
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
@@ -25,7 +19,6 @@ class MitrasImport implements ToModel, WithHeadingRow
             'nama' => $row['nama'],
             'alamat' => $row['alamat'],
             'rekening' => $row['rekening'],
-            'tahun' => $this->tahun,
         ]);
     }
 }

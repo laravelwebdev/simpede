@@ -29,8 +29,8 @@ class ImportMataAnggaran extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('mata_anggarans')->where('tahun', $fields->tahun)->delete();
-        Excel::import(new MataAnggaransImport($fields->tahun), $fields->file);
+        DB::table('mata_anggarans')->where('tahun', session('year'))->delete();
+        Excel::import(new MataAnggaransImport, $fields->file);
 
         return Action::message('Mata Anggaran sukses diimport!');
     }
@@ -48,9 +48,6 @@ class ImportMataAnggaran extends Action
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
             Heading::make('<a href = "'.Storage::disk('templates')->url(Template::cache()->get('all')->where('slug', 'template_import_mata_anggaran')->first()->file).'">Unduh Template</a>')
                 ->asHtml(),
-            Select::make('Tahun')
-                ->options(fn () => Helper::setOptionTahun())
-                ->rules('required'),
         ];
     }
 }

@@ -24,18 +24,18 @@ class ImportMitra extends Action
 
     /**
      * Perform the action on the given models.
-     *
+     *'
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('mitras')->where('tahun', $fields->tahun)->delete();
-        Excel::import(new MitrasImport($fields->tahun), $fields->file);
+        DB::table('mitras')->where('tahun', session('year') ) ->delete();
+        Excel::import(new MitrasImport, $fields->file);
 
         return Action::message('Mitra sukses diimport!');
     }
 
-    /**
+    /*'
      * Get the fields available on the action.
      *
      * @return array
@@ -48,9 +48,6 @@ class ImportMitra extends Action
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
             Heading::make('<a href = "'.Storage::disk('templates')->url(Template::cache()->get('all')->where('slug', 'template_import_mitra')->first()->file).'">Unduh Template</a>')
                 ->asHtml(),
-            Select::make('Tahun')
-                ->options(fn () => Helper::setOptionTahun())
-                ->rules('required'),
         ];
     }
 }

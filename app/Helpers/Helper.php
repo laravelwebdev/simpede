@@ -236,16 +236,6 @@ class Helper
     }
 
     /**
-     * Pilihan Tahun.
-     *
-     * @return array $tahun
-     */
-    public static function setOptionTahun()
-    {
-        return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
-    }
-
-    /**
      * Cek Spek Ganda.
      *
      * @param  Spesifikasi  $spesifikasi

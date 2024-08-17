@@ -28,9 +28,7 @@ class MataAnggaran extends Model
     protected static function booted(): void
     {
         static::creating(function (MataAnggaran $mak) {
-            if (session('role') === 'koordinator') {
-                $mak->tahun = session('year');
-            }
+            $mak->tahun = session('year');
         });
     }
 }

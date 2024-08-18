@@ -28,7 +28,7 @@ class Mitra extends Model
     protected static function booted(): void
     {
         static::creating(function (Mitra $mitra) {
-                $mitra->tahun = session('year');
+            $mitra->tahun = session('year');
         });
     }
 }

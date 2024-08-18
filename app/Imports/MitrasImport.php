@@ -8,7 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class MitrasImport implements ToModel, WithHeadingRow
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
      */

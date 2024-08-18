@@ -8,7 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class MataAnggaransImport implements ToModel, WithHeadingRow
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
      */

@@ -2,7 +2,6 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Imports\MitrasImport;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
@@ -14,7 +13,6 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -24,12 +22,13 @@ class ImportMitra extends Action
 
     /**
      * Perform the action on the given models.
-     *'
+     *'.
+     *
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('mitras')->where('tahun', session('year') ) ->delete();
+        DB::table('mitras')->where('tahun', session('year'))->delete();
         Excel::import(new MitrasImport, $fields->file);
 
         return Action::message('Mitra sukses diimport!');

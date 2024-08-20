@@ -22,7 +22,7 @@ return new class extends Migration
             $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
             $table->string('derajat', 10)->nullable();
             $table->string('tujuan')->nullable();
-            $table->string('perihal')->nullable();
+            $table->text('perihal')->nullable();
             $table->string('pengiriman')->nullable();
             $table->date('tanggal_kirim')->nullable();
             $table->string('draft')->nullable();

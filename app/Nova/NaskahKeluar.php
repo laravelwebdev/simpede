@@ -98,7 +98,8 @@ class NaskahKeluar extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()->filterable()
+                ->displayUsingLabels()
+                ->filterable()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
@@ -123,9 +124,7 @@ class NaskahKeluar extends Resource
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(function ($kode) {
-                    return KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode;
-                })
+                ->displayUsing(fn ($kode) => KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode)
                 ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group')),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')

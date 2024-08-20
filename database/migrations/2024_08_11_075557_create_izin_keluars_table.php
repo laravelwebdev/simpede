@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal')->nullable();
             $table->time('keluar', precision: 0)->nullable();
             $table->time('kembali', precision: 0)->nullable();
-            $table->string('kegiatan')->nullable();
+            $table->text('kegiatan')->nullable();
             $table->string('bukti')->nullable();
             $table->string('tahun', 4)->nullable();
             $table->bigInteger('user_id')->nullable();

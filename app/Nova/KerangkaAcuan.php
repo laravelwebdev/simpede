@@ -4,16 +4,21 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\MataAnggaran;
+use App\Models\UnitKerja;
 use App\Nova\Repeater\Anggaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
@@ -47,6 +52,30 @@ class KerangkaAcuan extends Resource
     public static $search = [
         'nomor', 'tanggal', 'rincian',
     ];
+    
+    /**
+     * Get the fields displayed by the resource on index page.
+     *
+     * @return array
+     */
+    public function fieldsForIndex(NovaRequest $request)
+    {
+        return [
+            // ID::make(__('ID'), 'id')->sortable(),
+            Stack::make('Nomor/Tanggal', [
+                Line::make('Nomor', 'nomor')->asHeading(),
+                Date::make('Tanggal Permintaan', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ]),
+            Text::make('Rincian'),
+            Text::make('Kegiatan'),
+            Text::make('Unit Kerja', 'unit_kerja_id')
+                ->displayUsing(fn ($id) => UnitKerja::cache()->get('all')->where('id', $id)->first()->unit),
+            URL::make('Unduh', fn () => ($this->link == '') ? '' : Storage::disk('link_naskah')
+            ->url($this->template))
+            ->displayUsing(fn () => 'Unduh'),
+        ];
+    }
+    
 
     /**
      * Get the fields displayed by the resource.
@@ -58,7 +87,8 @@ class KerangkaAcuan extends Resource
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
             new Panel('Anggaran', $this->anggaranFields()),
-            new Panel('Detail', $this->keteranganFields()),
+            new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
+            new Panel('Spesifikasi', $this->spesifikasiFields()),
         ];
     }
 
@@ -118,7 +148,7 @@ class KerangkaAcuan extends Resource
                 ->filterable(),
             Text::make('Nomor')
                 ->onlyOnDetail(),
-            Text::make('Rincian Permintaan', 'rincian')
+            Text::make('Rincian', 'rincian')
                 ->rules('required')
                 ->help('Contoh rincian permintaan: Pembayaran Honor......    Pembayaran Biaya Perjalanan Dinas dalam rangka...      Pengadaan Perlengkapan....'),
             Textarea::make('Latar Belakang', 'latar')
@@ -137,34 +167,18 @@ class KerangkaAcuan extends Resource
                 ->help('Contoh Target/Sasaran: Kegiatan PLKUMKM dapat berjalan dengan lancar.')
                 ->alwaysShow()
                 ->rules('required'),
-            Boolean::make('TKDN', 'tkdn')
-                ->trueValue('Ya')
-                ->falseValue('Tidak')
-                ->rules('required'),
-            Select::make('Identifikasi Pemaketan', 'jenis')
-                ->help('Non Pengadaan Contohnya:Gaji, Honor Non Mitra, Biaya Perjalanan Dinas, Transport Lokal')
-                ->options([
-                    'Swakelola' => 'Swakelola',
-                    'Penyedia' => 'Penyedia',
-                    'Non Pengadaan' => 'Non Pengadaan
-                    ', ])
-                ->rules('required'),
-            Select::make('Metode Pengadaan', 'metode')
-                ->options([
-                    'Pengadaan Langsung' => 'Pengadaan Langsung',
-                    'Penunjukan Langsung' => 'Penunjukan Langsung',
-                    'Seleksi' => 'Seleksi',
-                    'Tender' => 'Tender',
-                    'Tender Cepat' => 'Tender Cepat',
-                    'E-Purchasing' => 'E-Purchasing',
-                ])
-                ->hide()
-                ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->jenis === 'Penyedia') {
-                        $field->show()->rules('required');
-                    }
-                }),
-        ];
+            Text::make('Nama Survei/Kegiatan', 'kegiatan')
+                ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
+            Date::make('Awal', 'awal')
+                ->rules('required', 'after_or_equal:tanggal')
+                ->displayUsing(fn ($tanggal) =>Helper::terbilangTanggal($tanggal)),
+
+            Date::make('Akhir', 'akhir')
+                ->rules('required', 'after_or_equal:awal')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->help('Untuk Honor Mitra, Tanggal akhir ini akan menjadi batas waktu penyelesaian pekerjaan di bulan kontrak berjalan. Misal Kontrak Kegiatan Sakernas di bulan Agustus dan pencacahan harus selesai tanggal 20 Agustus, maka isikan 20 Agustus sebagai tanggal akhir. Contoh lain misalkan pelaksanaan Susenas September adalah tanggal 15 September - 5 Oktober dan mitra dikontrak di bulan September, maka tanggal akhir yang dimaksud adalah tanggal akhir pada bulan kontrak yaitu 30 September'),
+            
+            ];
     }
 
     /**
@@ -180,9 +194,9 @@ class KerangkaAcuan extends Resource
                 Select::make('MAK', 'mak')
                     ->rules('required')
                     ->searchable()
-                    ->displayUsingLabels()->filterable()
-                    ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'id', 'mak')),
-                Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required'),
+                    ->filterable()
+                    ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'mak', 'mak')),
+                Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required')->step(1),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if (Helper::cekGanda(collect(json_decode($value)), 'mak')) {
                     return $fail('validation.unique')->translate();
@@ -196,12 +210,12 @@ class KerangkaAcuan extends Resource
     }
 
     /**
-     * Fields Detail Kerangka Acuan.
+     * Fields Spesifikasi Kerangka Acuan.
      *
      *
      * @return array
      */
-    public function keteranganFields()
+    public function spesifikasiFields()
     {
         return [
             SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
@@ -214,18 +228,65 @@ class KerangkaAcuan extends Resource
                 if ($value == '[]') {
                     return $fail('validation.required')->translate();
                 }
-            }),
-            Date::make('Awal', 'awal')
-                ->rules('required', 'after_or_equal:tanggal')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                }),
-
-            Date::make('Akhir', 'akhir')
-                ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                })->help('Untuk Honor Mitra, Tanggal akhir ini akan menjadi batas waktu penyelesaian pekerjaan di bulan kontrak berjalan. Misal Kontrak Kegiatan Sakernas di bulan Agustus dan pencacahan harus selesai tanggal 20 Agustus, maka isikan 20 Agustus sebagai tanggal akhir.'),
-            Text::make('Nama Survei/Kegiatan', 'kegiatan')
-                ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
+            })->stacked(),          
         ];
     }
+    /**
+     * Fields Pengadaan Kerangka Acuan.
+     *
+     *
+     * @return array
+     */
+    public function pengadaanFields()
+    {
+        return [
+        Select::make('Identifikasi Pemaketan', 'jenis')
+            ->help('Non Pengadaan Contohnya:Gaji, Honor Non Mitra, Biaya Perjalanan Dinas, Transport Lokal')
+            ->options([
+                'Swakelola' => 'Swakelola',
+                'Penyedia' => 'Penyedia',
+                'Non Pengadaan' => 'Non Pengadaan
+                ', ])
+            ->rules('required'),
+        Select::make('Metode Pengadaan', 'metode')
+            ->options([
+                'Pengadaan Langsung' => 'Pengadaan Langsung',
+                'Penunjukan Langsung' => 'Penunjukan Langsung',
+                'Seleksi' => 'Seleksi',
+                'Tender' => 'Tender',
+                'Tender Cepat' => 'Tender Cepat',
+                'E-Purchasing' => 'E-Purchasing',
+            ])
+            ->hide()
+            ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
+                if ($formData->jenis === 'Penyedia') {
+                    $field->show()->rules('required');
+                }
+            }),
+            Boolean::make('TKDN', 'tkdn')
+                ->trueValue('Ya')
+                ->falseValue('Tidak')
+                ->hide()
+                ->dependsOn('jenis', function (Boolean $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->jenis === 'Penyedia') {
+                        $field->show()->rules('required');
+                    }
+                }),
+            
+        ];
+    }
+    /**
+     * Handle any post-validation processing.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi,true));
+        if (Helper::sumJson($spesifikasi ,'spek_nilai') <> Helper::sumJson(json_decode($request->anggaran),'perkiraan')) {
+            $validator->errors()->add('spesifikasi', 'Perkiraan anggaran yang digunakan tidak sama dengan total nilai pada spesifikasi!');
+        }
+}
 }

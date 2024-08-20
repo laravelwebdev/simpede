@@ -236,17 +236,63 @@ class Helper
     }
 
     /**
-     * Cek Spek Ganda.
+     * Cek Duplicate from json.
      *
-     * @param  Spesifikasi  $spesifikasi
+     * @param  json  $json
      * @param  string  $key
      * @return bool
      */
-    public static function cekGanda($spesifikasi, $key)
+    public static function cekGanda($json, $key)
     {
-        $spek = collect($spesifikasi);
+        $spek = collect($json);
         $cek = $spek->duplicates($key);
-
         return $cek->isNotEmpty();
+    }
+
+    /**
+     * Menghitung jumlah nilai spesifikasi.
+     *
+     * @param  json  $json
+     * @param  string  $key
+     * @return float
+     */
+    public static function sumJson($json, $key)
+    {
+        // $speks= json_decode($spesifikasi,true);
+        $spek = collect($json);
+        return $spek->sum($key);
+    }
+
+    /**
+     * Menambahkan rincian total pada spesifikasi.
+     *
+     * @param  json  $spek
+     * @return json
+     */
+    public static function addTotalToSpek($spek)
+    {
+        $spek = collect($spek);
+        $spek->transform(function ($item, $index) {
+            $item['spek_nilai'] = $item['spek_volume'] * $item['spek_harga'];
+            return $item;
+        })->toArray();
+        return $spek;
+    }
+
+    /**
+     * Menambahkan rincian total pada spesifikasi.
+     *
+     * @param  json anggaran $spek
+     * @param  array  $akun
+     * @return json
+     */
+    public static function isMakContains($spek, $akun)
+    {
+        $spek = collect($spek);
+        $spek->transform(function ($item, $key) {
+            return substr($item['mak'],-6);
+        })->contains(function ($item) use ($akun) {
+            return in_array($item, $akun);
+        } );
     }
 }

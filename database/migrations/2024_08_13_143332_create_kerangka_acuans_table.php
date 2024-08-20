@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal')->nullable();
             $table->integer('no_urut')->nullable();
             $table->string('nomor')->unique()->nullable();
-            $table->string('rincian')->nullable();
+            $table->text('rincian')->nullable();
             $table->text('latar')->nullable();
             $table->text('maksud')->nullable();
             $table->text('tujuan')->nullable();

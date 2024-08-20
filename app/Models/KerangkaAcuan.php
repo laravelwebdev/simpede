@@ -55,7 +55,10 @@ class KerangkaAcuan extends Model
         static::saving(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {
                 $kak->metode = null;
+                $kak->tkdn = null;
             }
+            $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
+            
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();

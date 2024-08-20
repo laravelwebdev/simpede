@@ -11,8 +11,9 @@ class HonorSurvei extends Model
     use HasFactory;
     protected $casts = [
         'tanggal_spj' => 'date',
-        'akhir' => 'date',      
+        'akhir' => 'date',
     ];
+
     /**
      * The "booted" method of the model.
      */

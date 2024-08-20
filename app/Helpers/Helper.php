@@ -246,6 +246,7 @@ class Helper
     {
         $spek = collect($json);
         $cek = $spek->duplicates($key);
+
         return $cek->isNotEmpty();
     }
 
@@ -260,6 +261,7 @@ class Helper
     {
         // $speks= json_decode($spesifikasi,true);
         $spek = collect($json);
+
         return $spek->sum($key);
     }
 
@@ -274,8 +276,10 @@ class Helper
         $spek = collect($spek);
         $spek->transform(function ($item, $index) {
             $item['spek_nilai'] = $item['spek_volume'] * $item['spek_harga'];
+
             return $item;
         })->toArray();
+
         return $spek;
     }
 
@@ -290,9 +294,9 @@ class Helper
     {
         $spek = collect($spek);
         $spek->transform(function ($item, $key) {
-            return substr($item['mak'],-6);
+            return substr($item['mak'], -6);
         })->contains(function ($item) use ($akun) {
             return in_array($item, $akun);
-        } );
+        });
     }
 }

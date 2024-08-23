@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Imports\MitrasImport;
+use App\Models\Mitra;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,8 +29,11 @@ class ImportMitra extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('mitras')->where('tahun', session('year'))->delete();
+        Mitra::cache()->disable();
+        Mitra::where('tahun', session('year'))->delete();
         Excel::import(new MitrasImport, $fields->file);
+        Mitra::cache()->enable();
+        Mitra::cache()->update('all');
 
         return Action::message('Mitra sukses diimport!');
     }

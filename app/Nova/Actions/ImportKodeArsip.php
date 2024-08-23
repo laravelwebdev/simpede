@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Imports\KodeArsipsImport;
+use App\Models\KodeArsip;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,9 +28,11 @@ class ImportKodeArsip extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('kode_arsips')->truncate();
+        KodeArsip::cache()->disable();
+        KodeArsip::truncate();
         Excel::import(new KodeArsipsImport, $fields->file);
-
+        KodeArsip::cache()->enable();
+        KodeArsip::cache()->update('all');
         return Action::message('Kode Arsip sukses diimport!');
     }
 

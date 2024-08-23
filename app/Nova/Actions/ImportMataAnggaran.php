@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Imports\MataAnggaransImport;
+use App\Models\MataAnggaran;
 use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,9 +28,11 @@ class ImportMataAnggaran extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        DB::table('mata_anggarans')->where('tahun', session('year'))->delete();
+        MataAnggaran::cache()->disable();
+        MataAnggaran::where('tahun', session('year'))->delete();
         Excel::import(new MataAnggaransImport, $fields->file);
-
+        MataAnggaran::cache()->enable();
+        MataAnggaran::cache()->update('all');
         return Action::message('Mata Anggaran sukses diimport!');
     }
 

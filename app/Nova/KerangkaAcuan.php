@@ -53,7 +53,7 @@ class KerangkaAcuan extends Resource
     public static $search = [
         'nomor', 'tanggal', 'rincian',
     ];
-    
+
     /**
      * Get the fields displayed by the resource on index page.
      *
@@ -72,11 +72,10 @@ class KerangkaAcuan extends Resource
             Text::make('Unit Kerja', 'unit_kerja_id')
                 ->displayUsing(fn ($id) => UnitKerja::cache()->get('all')->where('id', $id)->first()->unit),
             URL::make('Unduh', fn () => ($this->link == '') ? '' : Storage::disk('link_naskah')
-            ->url($this->template))
-            ->displayUsing(fn () => 'Unduh'),
+                ->url($this->template))
+                ->displayUsing(fn () => 'Unduh'),
         ];
     }
-    
 
     /**
      * Get the fields displayed by the resource.
@@ -176,14 +175,14 @@ class KerangkaAcuan extends Resource
                 ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
             Date::make('Awal', 'awal')
                 ->rules('required', 'after_or_equal:tanggal')
-                ->displayUsing(fn ($tanggal) =>Helper::terbilangTanggal($tanggal)),
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
             Date::make('Akhir', 'akhir')
                 ->rules('required', 'after_or_equal:awal')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->help('Untuk Honor Mitra, Tanggal akhir ini akan menjadi batas waktu penyelesaian pekerjaan di bulan kontrak berjalan. Misal Kontrak Kegiatan Sakernas di bulan Agustus dan pencacahan harus selesai tanggal 20 Agustus, maka isikan 20 Agustus sebagai tanggal akhir. Contoh lain misalkan pelaksanaan Susenas September adalah tanggal 15 September - 5 Oktober dan mitra dikontrak di bulan September, maka tanggal akhir yang dimaksud adalah tanggal akhir pada bulan kontrak yaitu 30 September'),
-            
-            ];
+
+        ];
     }
 
     /**
@@ -233,9 +232,10 @@ class KerangkaAcuan extends Resource
                 if ($value == '[]') {
                     return $fail('validation.required')->translate();
                 }
-            })->stacked(),          
+            })->stacked(),
         ];
     }
+
     /**
      * Fields Pengadaan Kerangka Acuan.
      *
@@ -245,29 +245,29 @@ class KerangkaAcuan extends Resource
     public function pengadaanFields()
     {
         return [
-        Select::make('Identifikasi Pemaketan', 'jenis')
-            ->help('Non Pengadaan Contohnya:Gaji, Honor Non Mitra, Biaya Perjalanan Dinas, Transport Lokal')
-            ->options([
-                'Swakelola' => 'Swakelola',
-                'Penyedia' => 'Penyedia',
-                'Non Pengadaan' => 'Non Pengadaan
+            Select::make('Identifikasi Pemaketan', 'jenis')
+                ->help('Non Pengadaan Contohnya:Gaji, Honor Non Mitra, Biaya Perjalanan Dinas, Transport Lokal')
+                ->options([
+                    'Swakelola' => 'Swakelola',
+                    'Penyedia' => 'Penyedia',
+                    'Non Pengadaan' => 'Non Pengadaan
                 ', ])
-            ->rules('required'),
-        Select::make('Metode Pengadaan', 'metode')
-            ->options([
-                'Pengadaan Langsung' => 'Pengadaan Langsung',
-                'Penunjukan Langsung' => 'Penunjukan Langsung',
-                'Seleksi' => 'Seleksi',
-                'Tender' => 'Tender',
-                'Tender Cepat' => 'Tender Cepat',
-                'E-Purchasing' => 'E-Purchasing',
-            ])
-            ->hide()
-            ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
-                if ($formData->jenis === 'Penyedia') {
-                    $field->show()->rules('required');
-                }
-            }),
+                ->rules('required'),
+            Select::make('Metode Pengadaan', 'metode')
+                ->options([
+                    'Pengadaan Langsung' => 'Pengadaan Langsung',
+                    'Penunjukan Langsung' => 'Penunjukan Langsung',
+                    'Seleksi' => 'Seleksi',
+                    'Tender' => 'Tender',
+                    'Tender Cepat' => 'Tender Cepat',
+                    'E-Purchasing' => 'E-Purchasing',
+                ])
+                ->hide()
+                ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->jenis === 'Penyedia') {
+                        $field->show()->rules('required');
+                    }
+                }),
             Boolean::make('TKDN', 'tkdn')
                 ->trueValue('Ya')
                 ->falseValue('Tidak')
@@ -277,9 +277,10 @@ class KerangkaAcuan extends Resource
                         $field->show()->rules('required');
                     }
                 }),
-            
+
         ];
     }
+
     /**
      * Handle any post-validation processing.
      *
@@ -289,9 +290,9 @@ class KerangkaAcuan extends Resource
      */
     protected static function afterValidation(NovaRequest $request, $validator)
     {
-        $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi,true));
-        if (Helper::sumJson($spesifikasi ,'spek_nilai') <> Helper::sumJson(json_decode($request->anggaran),'perkiraan')) {
+        $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi, true));
+        if (Helper::sumJson($spesifikasi, 'spek_nilai') != Helper::sumJson(json_decode($request->anggaran), 'perkiraan')) {
             $validator->errors()->add('spesifikasi', 'Perkiraan anggaran yang digunakan tidak sama dengan total nilai pada spesifikasi!');
         }
-}
+    }
 }

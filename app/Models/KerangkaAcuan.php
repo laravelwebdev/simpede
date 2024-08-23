@@ -57,7 +57,6 @@ class KerangkaAcuan extends Model
                 $kak->tkdn = null;
             }
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
-            
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();

@@ -8,7 +8,6 @@ use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
@@ -33,6 +32,7 @@ class ImportMataAnggaran extends Action
         Excel::import(new MataAnggaransImport, $fields->file);
         MataAnggaran::cache()->enable();
         MataAnggaran::cache()->update('all');
+
         return Action::message('Mata Anggaran sukses diimport!');
     }
 

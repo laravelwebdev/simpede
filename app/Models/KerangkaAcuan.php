@@ -28,7 +28,7 @@ class KerangkaAcuan extends Model
             $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->first();
             $unit_kerja = UnitKerja::cache()->get('all')->where('unit', 'BPS Kabupaten')->first();
             $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->first();
-            $nomor = (new Helper)::nomor($kak->tanggal,session('year'), $jenis_naskah->kode_naskah_id, $unit_kerja->id, $kode_arsip->id, 'B');
+            $nomor = (new Helper)::nomor($kak->tanggal, session('year'), $jenis_naskah->kode_naskah_id, $unit_kerja->id, $kode_arsip->id, 'B');
             $kak->nomor = $nomor['nomor'];
             $kak->nama = Auth::user()->nama;
             $kak->nip = Auth::user()->nip;

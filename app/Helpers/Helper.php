@@ -194,7 +194,7 @@ class Helper
     /**
      * Membuat Nomor.
      *
-     * @param  date  $tanggal Tanggal
+     * @param  date  $tanggal  Tanggal
      * @param  string  $tahun
      * @param  string  $kode_naskah_id
      * @param  string  $unit_kerja_id
@@ -209,18 +209,18 @@ class Helper
         $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
         $naskah = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id);
         $max_no_urut = $naskah->max('no_urut');
-        $max_tanggal = $naskah->max('tanggal')?? '1970-01-01';
-        if ($tanggal >= $max_tanggal ) {
-            $no_urut = ($max_no_urut?? 0) + 1;
+        $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
+        if ($tanggal >= $max_tanggal) {
+            $no_urut = ($max_no_urut ?? 0) + 1;
             $segmen = 0;
             $replaces['<no_urut>'] = $no_urut;
         } else {
-            $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut')?? 1;
+            $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
             $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
         $format = $kode_naskah->format;
-        $replaces['<tahun>'] = $tahun;       
+        $replaces['<tahun>'] = $tahun;
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
         $replaces['<derajat>'] = $derajat;
@@ -314,18 +314,20 @@ class Helper
     /**
      * Menambahkan tambahan segmen nomor naskah.
      *
-     * @param  int $num
+     * @param  int  $num
      * @return string
      */
-    public static function setSegmen($num) :string
+    public static function setSegmen($num): string
     {
-        $b26='';
-        if ($num >0)
-        do {
-            $val = ($num % 26) ?: 26;
-            $num = ($num - $val) / 26;
-            $b26 = chr($val + 64).($b26 ?: '');
-        } while (0 < $num);
+        $b26 = '';
+        if ($num > 0) {
+            do {
+                $val = ($num % 26) ?: 26;
+                $num = ($num - $val) / 26;
+                $b26 = chr($val + 64).($b26 ?: '');
+            } while (0 < $num);
+        }
+
         return  $b26;
     }
 
@@ -337,7 +339,7 @@ class Helper
      */
     public static function isAnggaranPerjalanan($spek)
     {
-        return self::isMakContains($spek,[
+        return self::isMakContains($spek, [
             '524111',
             '524112',
             '524113',
@@ -345,7 +347,7 @@ class Helper
             '524119',
             '524211',
             '524212',
-            '524219'
+            '524219',
         ]);
     }
 
@@ -357,7 +359,7 @@ class Helper
      */
     public static function isAnggaranPersediaan($spek)
     {
-        return self::isMakContains($spek,[
+        return self::isMakContains($spek, [
             '521811',
             '521813',
             '523112',
@@ -376,7 +378,7 @@ class Helper
      */
     public static function isAnggaranHonor($spek)
     {
-        return self::isMakContains($spek,[
+        return self::isMakContains($spek, [
             '521213',
         ]);
     }

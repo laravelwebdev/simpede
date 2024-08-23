@@ -33,6 +33,5 @@ class NaskahKeluar extends Model
             $naskah->tahun = session('year');
             $naskah->unit_kerja_id = ($naskah->jenis_naskah_id == 23) ? 7 : Auth::user()->unit_kerja_id;
         });
-
     }
 }

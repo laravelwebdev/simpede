@@ -63,10 +63,10 @@ class KerangkaAcuan extends Resource
     {
         return [
             // ID::make(__('ID'), 'id')->sortable(),
-            Stack::make('Nomor/Tanggal', [
+            Stack::make('Nomor/Tanggal', 'tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
-                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ]),
+                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))->sortable(),
+            ])->sortable(),
             Text::make('Rincian'),
             Text::make('Kegiatan'),
             Text::make('Unit Kerja', 'unit_kerja_id')

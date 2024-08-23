@@ -59,9 +59,12 @@ class KerangkaAcuan extends Model
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
         });
         static::updating(function (KerangkaAcuan $kak) {
-            $naskahkeluar = NaskahKeluar::where('nomor', $kak->nomor)->first();
+            $naskahkeluar = NaskahKeluar::where('nomor', $kak->getOriginal('nomor'))->first();
+            $naskah_id = $naskahkeluar->id;
+            $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
+            $kak->nomor = NaskahKeluar::find($naskah_id)->nomor;
         });
     }
 }

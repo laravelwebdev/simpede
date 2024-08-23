@@ -93,11 +93,11 @@ class NaskahMasuk extends Resource
     public function fieldsForIndex(NovaRequest $request)
     {
         return [
-            Stack::make('Nomor/Tanggal', [
+            Stack::make('Nomor/Tanggal', 'tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
                 Date::make('Tanggal Naskah', 'tanggal')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ]),
+            ])->sortable(),
             Text::make('Pengirim')->rules('required'),
             Text::make('Perihal', 'perihal')->rules('required'),
             Select::make('Jenis Naskah', 'jenis_naskah_id')

@@ -13,17 +13,18 @@ class MataAnggaransImport implements ToCollection, WithStartRow
     protected $satker;
     protected $wilayah;
 
-    function __construct($satker, $wilayah) {
+    public function __construct($satker, $wilayah)
+    {
         $this->satker = $satker;
         $this->wilayah = $wilayah;
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function collection(Collection $rows)
     {
-        foreach ($rows as $row) 
-        {
+        foreach ($rows as $row) {
             $replaces[$this->satker.'.'] = '';
             $replaces['.'.$this->wilayah] = '';
             $anggaran = explode('||', $row[0])[0];
@@ -34,10 +35,9 @@ class MataAnggaransImport implements ToCollection, WithStartRow
             $kamus_anggaran->save();
             if (strlen($mak) == 37) {
                 $mata_anggaran = new MataAnggaran;
-                $mata_anggaran->mak = substr($mak,0,35);
+                $mata_anggaran->mak = substr($mak, 0, 35);
                 $mata_anggaran->save();
             }
-
         }
     }
 

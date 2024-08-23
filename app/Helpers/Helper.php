@@ -194,23 +194,33 @@ class Helper
     /**
      * Membuat Nomor.
      *
+     * @param  date  $tanggal Tanggal
      * @param  string  $tahun
      * @param  string  $kode_naskah_id
      * @param  string  $unit_kerja_id
      * @param  string  $kode_arsip_id
      * @param  string  $derajat
-     * @return array nomor, nomor_urut
+     * @return array nomor, nomor_urut, segmen
      */
-    public static function nomor($tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
+    public static function nomor($tanggal, $tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
     {
         $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $kode_naskah_id)->first();
         $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
         $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
-        $max = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->max('no_urut');
+        $naskah = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id);
+        $max_no_urut = $naskah->max('no_urut');
+        $max_tanggal = $naskah->max('tanggal')?? '1970-01-01';
+        if ($tanggal >= $max_tanggal ) {
+            $no_urut = ($max_no_urut?? 0) + 1;
+            $segmen = 0;
+            $replaces['<no_urut>'] = $no_urut;
+        } else {
+            $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut')?? 1;
+            $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
+            $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
+        }
         $format = $kode_naskah->format;
-        ($max > 0) ? $no_urut = $max + 1 : $no_urut = 1;
-        $replaces['<tahun>'] = $tahun;
-        $replaces['<no_urut>'] = $no_urut;
+        $replaces['<tahun>'] = $tahun;       
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
         $replaces['<derajat>'] = $derajat;
@@ -219,6 +229,7 @@ class Helper
         return [
             'nomor' => $nomor,
             'no_urut' => $no_urut,
+            'segmen' => $segmen,
         ];
     }
 
@@ -284,7 +295,7 @@ class Helper
      *
      * @param  json anggaran $spek
      * @param  array  $akun
-     * @return json
+     * @return bool
      */
     public static function isMakContains($spek, $akun)
     {
@@ -294,5 +305,75 @@ class Helper
         })->contains(function ($item) use ($akun) {
             return in_array($item, $akun);
         } );
+    }
+
+    /**
+     * Menambahkan tambahan segmen nomor naskah.
+     *
+     * @param  int $num
+     * @return string
+     */
+    public static function setSegmen($num) :string
+    {
+        $b26='';
+        if ($num >0)
+        do {
+            $val = ($num % 26) ?: 26;
+            $num = ($num - $val) / 26;
+            $b26 = chr($val + 64).($b26 ?: '');
+        } while (0 < $num);
+        return  $b26;
+    }
+
+    /**
+     * Memeriksa apakah anggaran memuat akun perjalanan dinas.
+     *
+     * @param  json anggaran $spek
+     * @return bool
+     */
+    public static function isAnggaranPerjalanan($spek)
+    {
+        return self::isMakContains($spek,[
+            '524111',
+            '524112',
+            '524113',
+            '524114',
+            '524119',
+            '524211',
+            '524212',
+            '524219'
+        ]);
+    }
+
+    /**
+     * Memeriksa apakah anggaran memuat akun belanja persediaan.
+     *
+     * @param  json anggaran $spek
+     * @return bool
+     */
+    public static function isAnggaranPersediaan($spek)
+    {
+        return self::isMakContains($spek,[
+            '521811',
+            '521813',
+            '523112',
+            '523123',
+            '523125',
+            '521832',
+            '521831',
+        ]);
+    }
+
+    /**
+     * Memeriksa apakah anggaran memuat akun honor output kegiatan.
+     *
+     * @param  json anggaran $spek
+     * @return bool
+     */
+    public static function isAnggaranHonor($spek)
+    {
+        return self::isMakContains($spek,[
+            '521213',
+        ]);
     }
 }

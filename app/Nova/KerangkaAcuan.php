@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\MataAnggaran;
 use App\Models\UnitKerja;
 use App\Nova\Repeater\Anggaran;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Boolean;
@@ -64,7 +65,7 @@ class KerangkaAcuan extends Resource
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
-                Date::make('Tanggal Permintaan', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Text::make('Rincian'),
             Text::make('Kegiatan'),
@@ -143,7 +144,11 @@ class KerangkaAcuan extends Resource
         return [
             Date::make('Tanggal KAK', 'tanggal')
                 ->sortable()
-                ->rules('required', 'before_or_equal:today')
+                ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
+                    if (Carbon::createFromFormat('Y-m-d', $value)->year <> session('year')) {
+                        return $fail('Tanggal harus di tahun berjalan');
+                    }
+                })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('kerangka_acuans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->integer('no_urut')->nullable();
             $table->string('nomor')->unique()->nullable();
             $table->text('rincian')->nullable();
             $table->text('latar')->nullable();

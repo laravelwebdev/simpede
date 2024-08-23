@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('naskah_keluars', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->integer('no_urut')->nullable();
+            $table->integer('no_urut')->nullable()->unsigned();
+            $table->integer('segmen')->nullable()->unsigned();
             $table->string('nomor')->unique()->nullable();
             $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
             $table->bigInteger('kode_arsip_id')->nullable()->unsigned();

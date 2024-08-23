@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
@@ -61,7 +62,11 @@ class NaskahKeluar extends Resource
         return [
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
-                ->rules('required', 'before_or_equal:today')
+                ->rules('required', 'before_or_equal:today',function ($attribute, $value, $fail) {
+                    if (Carbon::createFromFormat('Y-m-d', $value)->year <> session('year')) {
+                        return $fail('Tanggal harus di tahun berjalan');
+                    }
+                })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')
@@ -130,7 +135,9 @@ class NaskahKeluar extends Resource
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->reject(function ($value) {
+                    return $value->jenis == 'Form Permintaan';
+                }), 'id', 'jenis')),
             Hidden::make('kode_naskah_id')
                 ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
                     $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id);

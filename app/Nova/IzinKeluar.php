@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\User;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
@@ -82,7 +83,11 @@ class IzinKeluar extends Resource
                 ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama')),
             Date::make('Tanggal Keluar', 'tanggal')
                 ->sortable()
-                ->rules('required')
+                ->rules('required',function ($attribute, $value, $fail) {
+                    if (Carbon::createFromFormat('Y-m-d', $value)->year <> session('year')) {
+                        return $fail('Tanggal harus di tahun berjalan');
+                    }
+                })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Time::make('Jam Keluar', 'keluar')

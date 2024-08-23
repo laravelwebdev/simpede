@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -59,7 +60,11 @@ class NaskahMasuk extends Resource
         return [
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
-                ->rules('required')
+                ->rules('required',function ($attribute, $value, $fail) {
+                    if (Carbon::createFromFormat('Y-m-d', $value)->year <> session('year')) {
+                        return $fail('Tanggal harus di tahun berjalan');
+                    }
+                })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')

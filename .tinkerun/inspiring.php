@@ -1,17 +1,16 @@
 <?php
 
-use App\Helpers\Helper;
-use App\Models\KerangkaAcuan;
-$text = '[{"mak":"054.01.WA.2886.EBA.956.051.A.524111","perkiraan":123},{"mak":"054.01.WA.2886.EBA.962.051.A.521211","perkiraan":124}]';
-$collection = collect(json_decode($text, true));
-$needle ='521211';
-$collection->transform(function ($item, $key) {
-    return substr($item['mak'],-6);
-})->contains(function ($item) use ($needle) {
-    return in_array($item, $needle);
-} );
+use App\Models\NaskahKeluar;
 
-
+$naskah = NaskahKeluar::where('tahun', 2024)->where('kode_naskah_id', 3);
+$max_no_urut = $naskah->max('no_urut');
+$max_tanggal = $naskah->max('tanggal')?? '1970-01-01';
+$no_urut = ($max_no_urut?? 0) + 1;
+$no_urut = $naskah->where('tanggal', '<=', '2024-01-08')->max('no_urut')?? 1;
+$naskah->get();
+JenisNaskah::cache()->get('all')->reject(function ($value) {
+    return $value->jenis == 'Form Permintaan';
+})
 
 
 

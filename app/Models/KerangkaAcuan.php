@@ -66,8 +66,8 @@ class KerangkaAcuan extends Model
                 $kak->tkdn = null;
             }
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
-            if (Helper::sumJenisAkunHonor($kak->anggaran)==1) {
-                if ($honor = HonorSurvei::where('nomor_kak', $kak->isDirty('nomor')?$kak->getOriginal('nomor'):$kak->nomor)->first()) {
+            if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
+                if ($honor = HonorSurvei::where('nomor_kak', $kak->isDirty('nomor') ? $kak->getOriginal('nomor') : $kak->nomor)->first()) {
                     $honor->nomor_kak = $kak->nomor;
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
                     $honor->akhir = $kak->akhir;
@@ -87,9 +87,9 @@ class KerangkaAcuan extends Model
                     $honor->save();
                 }
             }
-            if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran))
-            HonorSurvei::where('nomor_kak', $kak->getOriginal('nomor'))->delete();
+            if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
+                HonorSurvei::where('nomor_kak', $kak->getOriginal('nomor'))->delete();
+            }
         });
-
     }
 }

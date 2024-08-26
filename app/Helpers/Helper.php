@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class Helper
 {
-    public static $akun_persediaan =[
+    public static $akun_persediaan = [
         '521811',
         '521813',
         '523112',
@@ -23,7 +23,7 @@ class Helper
         '521831',
     ];
 
-    public static $akun_perjalanan =[
+    public static $akun_perjalanan = [
         '524111',
         '524112',
         '524113',
@@ -33,7 +33,7 @@ class Helper
         '524212',
         '524219',
     ];
-    public static $akun_honor =[
+    public static $akun_honor = [
         '521213',
     ];
 
@@ -51,7 +51,7 @@ class Helper
         'November' => 'November',
         'Desember' => 'Desember',
     ];
-    
+
     public static $jenis_kontrak = [
         'Lapangan' => 'Lapangan',
         'Pengolahan' => 'Pengolahan',
@@ -340,7 +340,7 @@ class Helper
     }
 
     /**
-     * Mengecek mak memuat akun tertentu
+     * Mengecek mak memuat akun tertentu.
      *
      * @param  json anggaran $spek
      * @param  array  $akun
@@ -349,9 +349,10 @@ class Helper
     public static function sumJenisAkun($spek, $akun)
     {
         $spek = collect($spek);
+
         return $spek->transform(function ($item, $key) {
             return ['mak' => substr($item['mak'], -6)];
-        })->whereIn('mak',$akun)->count();
+        })->whereIn('mak', $akun)->count();
     }
 
     /**
@@ -416,26 +417,27 @@ class Helper
      */
     public static function isAkunHonorChanged($spek_old, $spek_new)
     {
-        return self::sumJenisAkunHonor($spek_old)-self::sumJenisAkunHonor($spek_new) == 1;
+        return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;
     }
 
     /**
-     * Mengambil satu akun mak dari kumpulan akun
+     * Mengambil satu akun mak dari kumpulan akun.
      *
      * @param  json anggaran $spek
      * @param  array  $akun
      * @return string
      */
-    public static function getSingleAkun($spek ,$akun)
+    public static function getSingleAkun($spek, $akun)
     {
         $spek = collect($spek);
+
         return $spek->filter(function ($item, $key) use ($akun) {
-            return in_array(substr($item['mak'], -6),$akun);
+            return in_array(substr($item['mak'], -6), $akun);
         });
     }
 
     /**
-     * Mengambil satu akun honor dari kumpulan akun
+     * Mengambil satu akun honor dari kumpulan akun.
      *
      * @param  json anggaran $spek
      * @return string
@@ -443,13 +445,14 @@ class Helper
     public static function getSingleAkunHonor($spek)
     {
         $spek = collect($spek);
-        return $spek->filter(function ($item, $key){
-            return in_array(substr($item['mak'], -6),self::$akun_honor);
+
+        return $spek->filter(function ($item, $key) {
+            return in_array(substr($item['mak'], -6), self::$akun_honor);
         })->first()['mak'];
     }
 
     /**
-     * Mengambil satu akun perjalanan dari kumpulan akun
+     * Mengambil satu akun perjalanan dari kumpulan akun.
      *
      * @param  json anggaran $spek
      * @return string
@@ -457,12 +460,14 @@ class Helper
     public static function getSingleAkunPerjalanan($spek)
     {
         $spek = collect($spek);
-        return $spek->filter(function ($item, $key){
-            return in_array(substr($item['mak'], -6),self::$akun_perjalanan);
+
+        return $spek->filter(function ($item, $key) {
+            return in_array(substr($item['mak'], -6), self::$akun_perjalanan);
         })->first()['mak'];
     }
+
     /**
-     * Mengambil satu akun persediaan dari kumpulan akun
+     * Mengambil satu akun persediaan dari kumpulan akun.
      *
      * @param  json anggaran $spek
      * @return string
@@ -470,21 +475,22 @@ class Helper
     public static function getSingleAkunPersediaan($spek)
     {
         $spek = collect($spek);
-        return $spek->filter(function ($item, $key){
-            return in_array(substr($item['mak'], -6),self::$akun_persediaan);
+
+        return $spek->filter(function ($item, $key) {
+            return in_array(substr($item['mak'], -6), self::$akun_persediaan);
         })->first()['mak'];
     }
 
     /**
-     * Mengambil detail akun
+     * Mengambil detail akun.
      *
-     * @param  string $mak
+     * @param  string  $mak
      * @return collection
      */
-    public static function getCollectionDetailAkun($mak){
-        return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak){
+    public static function getCollectionDetailAkun($mak)
+    {
+        return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak) {
             return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37;
         });
     }
-
 }

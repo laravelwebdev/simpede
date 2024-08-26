@@ -210,22 +210,22 @@ class KerangkaAcuan extends Resource
                     return $fail('validation.required')->translate();
                 }
             },
-            function ($attribute, $value, $fail) {
-                if (Helper::sumJenisAkunHonor(json_decode($value, true))>1) {
-                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
-                }
-            },
-            function ($attribute, $value, $fail) {
-                if (Helper::sumJenisAkunPerjalanan(json_decode($value, true))>1) {
-                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
-                }
-            },
-            function ($attribute, $value, $fail) {
-                if (Helper::sumJenisAkunPersediaan(json_decode($value, true))>1) {
-                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
-                }
-            },
-        ),
+                function ($attribute, $value, $fail) {
+                    if (Helper::sumJenisAkunHonor(json_decode($value, true)) > 1) {
+                        return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (Helper::sumJenisAkunPerjalanan(json_decode($value, true)) > 1) {
+                        return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (Helper::sumJenisAkunPersediaan(json_decode($value, true)) > 1) {
+                        return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
+                    }
+                },
+            ),
         ];
     }
 

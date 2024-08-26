@@ -3,17 +3,13 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Models\KamusAnggaran;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class HonorSurvei extends Resource
 {
@@ -42,7 +38,7 @@ class HonorSurvei extends Resource
      * @var array
      */
     public static $search = [
-        'judul_spj','bulan'
+        'judul_spj', 'bulan',
     ];
 
     /**
@@ -54,44 +50,40 @@ class HonorSurvei extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Panel::make('Keterangan SPJ',[
+            Panel::make('Keterangan SPJ', [
                 Text::make('No Permintaan', 'nomor_kak')
-                ->rules('required')->sortable()->readOnly()->hideWhenUpdating
-(),
-            Text::make('Nama Survei', 'kegiatan')
-                ->rules('required')->sortable()->readOnly()->hideWhenUpdating
-(),
-Date::make('Batas Akhir Penyelesaian', 'akhir')
-                ->rules('required')->hideFromIndex()->readOnly()->hideWhenUpdating
-() ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))->hideFromIndex(),
+                    ->rules('required')->sortable()->readOnly()->hideWhenUpdating(),
+                Text::make('Nama Survei', 'kegiatan')
+                    ->rules('required')->sortable()->readOnly()->hideWhenUpdating(),
+                Date::make('Batas Akhir Penyelesaian', 'akhir')
+                    ->rules('required')->hideFromIndex()->readOnly()->hideWhenUpdating()->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))->hideFromIndex(),
 
-Text::make('Judul SPJ', 'judul_spj')
-->rules('required')->sortable()->hideFromIndex(),
-Date::make('Tanggal SPJ', 'tanggal_spj')
-->rules('required')->hideFromIndex() ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                Text::make('Judul SPJ', 'judul_spj')
+                    ->rules('required')->sortable()->hideFromIndex(),
+                Date::make('Tanggal SPJ', 'tanggal_spj')
+                    ->rules('required')->hideFromIndex()->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
-Panel::make('Keterangan Kontrak', [
-    Select::make('Bulan Kontrak', 'bulan')
-    ->rules('required')->options(Helper::$bulan),
-    Select::make('Jenis Kontrak', 'jenis')
-    ->rules('required')->options(Helper::$jenis_kontrak),
+            Panel::make('Keterangan Kontrak', [
+                Select::make('Bulan Kontrak', 'bulan')
+                    ->rules('required')->options(Helper::$bulan),
+                Select::make('Jenis Kontrak', 'jenis')
+                    ->rules('required')->options(Helper::$jenis_kontrak),
                 Text::make('Satuan Pembayaran', 'satuan')
                     ->rules('required')->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS'),
-]),
-            
-Panel::make('Keterangan Anggaran',[
-    Text::make('MAK', 'mak')
-    ->readonly(),
-Select::make('Detail', 'detail')
-    ->rules('required')
-    ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
-        $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'detail', 'detail'));
-    }),                    
-Text::make('Tim Kerja','unit_kerja_id')->onlyOnIndex()->showOnIndex(fn (NovaRequest $request, $resource) => session('role') == 'ppk'
-)->readOnly(),
-]),
-           
+            ]),
+
+            Panel::make('Keterangan Anggaran', [
+                Text::make('MAK', 'mak')
+                    ->readonly(),
+                Select::make('Detail', 'detail')
+                    ->rules('required')
+                    ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
+                        $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'detail', 'detail'));
+                    }),
+                Text::make('Tim Kerja', 'unit_kerja_id')->onlyOnIndex()->showOnIndex(fn (NovaRequest $request, $resource) => session('role') == 'ppk'
+                )->readOnly(),
+            ]),
 
             // Link::make('Unduh', 'link')->text('Unduh')->onlyOnIndex(),
 

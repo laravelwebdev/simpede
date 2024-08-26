@@ -1,8 +1,13 @@
 <?php
 
-$str = '054.01.WA.2886.EBD.955.051.A.524111.A';
-substr($str,29,6)
+use App\Helpers\Helper;
+use App\Models\KamusAnggaran;
 
+
+$kamus = KamusAnggaran::cache()->get('all')->filter(function ($item, $key){
+    return Str::of($item->mak)->startsWith('054.01.GG.2898.BMA.007.005.A.521213') && Str::of($item->mak)->length > 37;
+});
+$kamus->get()
 
 
 

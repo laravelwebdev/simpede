@@ -202,14 +202,30 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'mak', 'mak')),
                 Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required')->step(1),
             ])->rules('required', function ($attribute, $value, $fail) {
-                if (Helper::cekGanda(collect(json_decode($value)), 'mak')) {
+                if (Helper::cekGanda(json_decode($value), 'mak')) {
                     return $fail('validation.unique')->translate();
                 }
             }, function ($attribute, $value, $fail) {
                 if ($value == '[]') {
                     return $fail('validation.required')->translate();
                 }
-            }),
+            },
+            function ($attribute, $value, $fail) {
+                if (Helper::sumJenisAkunHonor(json_decode($value, true))>1) {
+                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
+                }
+            },
+            function ($attribute, $value, $fail) {
+                if (Helper::sumJenisAkunPerjalanan(json_decode($value, true))>1) {
+                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
+                }
+            },
+            function ($attribute, $value, $fail) {
+                if (Helper::sumJenisAkunPersediaan(json_decode($value, true))>1) {
+                    return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
+                }
+            },
+        ),
         ];
     }
 

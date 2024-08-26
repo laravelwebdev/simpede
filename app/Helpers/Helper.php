@@ -2,15 +2,61 @@
 
 namespace App\Helpers;
 
+use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class Helper
 {
+    public static $akun_persediaan =[
+        '521811',
+        '521813',
+        '523112',
+        '523123',
+        '523125',
+        '521832',
+        '521831',
+    ];
+
+    public static $akun_perjalanan =[
+        '524111',
+        '524112',
+        '524113',
+        '524114',
+        '524119',
+        '524211',
+        '524212',
+        '524219',
+    ];
+    public static $akun_honor =[
+        '521213',
+    ];
+
+    public static $bulan = [
+        'Januari' => 'Januari',
+        'Februari' => 'Februari',
+        'Maret' => 'Maret',
+        'April' => 'April',
+        'Mei' => 'Mei',
+        'Juni' => 'Juni',
+        'Juli' => 'Juli',
+        'Agustus' => 'Agustus',
+        'September' => 'September',
+        'Oktober' => 'Oktober',
+        'November' => 'November',
+        'Desember' => 'Desember',
+    ];
+    
+    public static $jenis_kontrak = [
+        'Lapangan' => 'Lapangan',
+        'Pengolahan' => 'Pengolahan',
+
+    ];
     /**
      * Role admin|kpa|kepala|ppk|bendahara|ppspm|koordinator|anggota|pbj|bmn.
      *
@@ -270,7 +316,6 @@ class Helper
      */
     public static function sumJson($json, $key)
     {
-        // $speks= json_decode($spesifikasi,true);
         $spek = collect($json);
 
         return $spek->sum($key);
@@ -295,20 +340,18 @@ class Helper
     }
 
     /**
-     * Menambahkan rincian total pada spesifikasi.
+     * Mengecek mak memuat akun tertentu
      *
      * @param  json anggaran $spek
      * @param  array  $akun
-     * @return bool
+     * @return int
      */
-    public static function isMakContains($spek, $akun)
+    public static function sumJenisAkun($spek, $akun)
     {
         $spek = collect($spek);
-        $spek->transform(function ($item, $key) {
-            return substr($item['mak'], -6);
-        })->contains(function ($item) use ($akun) {
-            return in_array($item, $akun);
-        });
+        return $spek->transform(function ($item, $key) {
+            return ['mak' => substr($item['mak'], -6)];
+        })->whereIn('mak',$akun)->count();
     }
 
     /**
@@ -335,51 +378,113 @@ class Helper
      * Memeriksa apakah anggaran memuat akun perjalanan dinas.
      *
      * @param  json anggaran $spek
-     * @return bool
+     * @return int
      */
-    public static function isAnggaranPerjalanan($spek)
+    public static function sumJenisAkunPerjalanan($spek)
     {
-        return self::isMakContains($spek, [
-            '524111',
-            '524112',
-            '524113',
-            '524114',
-            '524119',
-            '524211',
-            '524212',
-            '524219',
-        ]);
+        return self::sumJenisAkun($spek, self::$akun_perjalanan);
     }
 
     /**
      * Memeriksa apakah anggaran memuat akun belanja persediaan.
      *
      * @param  json anggaran $spek
-     * @return bool
+     * @return int
      */
-    public static function isAnggaranPersediaan($spek)
+    public static function sumJenisAkunPersediaan($spek)
     {
-        return self::isMakContains($spek, [
-            '521811',
-            '521813',
-            '523112',
-            '523123',
-            '523125',
-            '521832',
-            '521831',
-        ]);
+        return self::sumJenisAkun($spek, self::$akun_persediaan);
     }
 
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
      *
      * @param  json anggaran $spek
+     * @return int
+     */
+    public static function sumJenisAkunHonor($spek)
+    {
+        return self::sumJenisAkun($spek, self::$akun_honor);
+    }
+
+    /**
+     * Memeriksa apakah anggaran memuat akun honor output kegiatan.
+     *
+     * @param  json anggaran $spek_old
+     * @param  json anggaran $spek_new
      * @return bool
      */
-    public static function isAnggaranHonor($spek)
+    public static function isAkunHonorChanged($spek_old, $spek_new)
     {
-        return self::isMakContains($spek, [
-            '521213',
-        ]);
+        return self::sumJenisAkunHonor($spek_old)-self::sumJenisAkunHonor($spek_new) == 1;
     }
+
+    /**
+     * Mengambil satu akun mak dari kumpulan akun
+     *
+     * @param  json anggaran $spek
+     * @param  array  $akun
+     * @return string
+     */
+    public static function getSingleAkun($spek ,$akun)
+    {
+        $spek = collect($spek);
+        return $spek->filter(function ($item, $key) use ($akun) {
+            return in_array(substr($item['mak'], -6),$akun);
+        });
+    }
+
+    /**
+     * Mengambil satu akun honor dari kumpulan akun
+     *
+     * @param  json anggaran $spek
+     * @return string
+     */
+    public static function getSingleAkunHonor($spek)
+    {
+        $spek = collect($spek);
+        return $spek->filter(function ($item, $key){
+            return in_array(substr($item['mak'], -6),self::$akun_honor);
+        })->first()['mak'];
+    }
+
+    /**
+     * Mengambil satu akun perjalanan dari kumpulan akun
+     *
+     * @param  json anggaran $spek
+     * @return string
+     */
+    public static function getSingleAkunPerjalanan($spek)
+    {
+        $spek = collect($spek);
+        return $spek->filter(function ($item, $key){
+            return in_array(substr($item['mak'], -6),self::$akun_perjalanan);
+        })->first()['mak'];
+    }
+    /**
+     * Mengambil satu akun persediaan dari kumpulan akun
+     *
+     * @param  json anggaran $spek
+     * @return string
+     */
+    public static function getSingleAkunPersediaan($spek)
+    {
+        $spek = collect($spek);
+        return $spek->filter(function ($item, $key){
+            return in_array(substr($item['mak'], -6),self::$akun_persediaan);
+        })->first()['mak'];
+    }
+
+    /**
+     * Mengambil detail akun
+     *
+     * @param  string $mak
+     * @return collection
+     */
+    public static function getCollectionDetailAkun($mak){
+        return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak){
+            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37;
+        });
+    }
+
 }

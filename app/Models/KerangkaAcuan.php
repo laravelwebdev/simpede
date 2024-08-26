@@ -48,16 +48,6 @@ class KerangkaAcuan extends Model
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
         });
-        static::deleted(function (KerangkaAcuan $kak) {
-            NaskahKeluar::where('nomor', $kak->nomor)->delete();
-        });
-        static::saving(function (KerangkaAcuan $kak) {
-            if ($kak->jenis !== 'Penyedia') {
-                $kak->metode = null;
-                $kak->tkdn = null;
-            }
-            $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
-        });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('nomor', $kak->getOriginal('nomor'))->first();
             $naskah_id = $naskahkeluar->id;
@@ -66,5 +56,40 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
             $kak->nomor = NaskahKeluar::find($naskah_id)->nomor;
         });
+        static::deleted(function (KerangkaAcuan $kak) {
+            NaskahKeluar::where('nomor', $kak->nomor)->delete();
+            HonorSurvei::where('nomor_kak', $kak->nomor)->delete();
+        });
+        static::saved(function (KerangkaAcuan $kak) {
+            if ($kak->jenis !== 'Penyedia') {
+                $kak->metode = null;
+                $kak->tkdn = null;
+            }
+            $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
+            if (Helper::sumJenisAkunHonor($kak->anggaran)==1) {
+                if ($honor = HonorSurvei::where('nomor_kak', $kak->isDirty('nomor')?$kak->getOriginal('nomor'):$kak->nomor)->first()) {
+                    $honor->nomor_kak = $kak->nomor;
+                    $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
+                    $honor->akhir = $kak->akhir;
+                    $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
+                    $honor->kegiatan = $kak->kegiatan;
+                    $honor->save();
+                } else {
+                    $honor = new HonorSurvei;
+                    $honor->nomor_kak = $kak->nomor;
+                    $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
+                    $honor->akhir = $kak->akhir;
+                    $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
+                    $honor->kegiatan = $kak->kegiatan;
+                    $honor->unit_kerja_id = $kak->unit_kerja_id;
+                    $honor->ketua = $kak->nama;
+                    $honor->nipketua = $kak->nip;
+                    $honor->save();
+                }
+            }
+            if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran))
+            HonorSurvei::where('nomor_kak', $kak->getOriginal('nomor'))->delete();
+        });
+
     }
 }

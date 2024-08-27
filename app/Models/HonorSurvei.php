@@ -16,7 +16,7 @@ class HonorSurvei extends Model
     ];
 
     /**
-     * Get the user that owns the pengelola.
+     * Get the kerangka acuan that owns the honor survei.
      */
     public function kerangkaAcuan(): BelongsTo
     {

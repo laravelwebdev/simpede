@@ -105,7 +105,10 @@ class NaskahKeluar extends Resource
                 ->searchable()
                 ->displayUsingLabels()
                 ->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->reject(function ($value) {
+                    return $value->jenis == 'Form Permintaan';
+                }), 'id', 'jenis')),
+               
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),
@@ -135,9 +138,7 @@ class NaskahKeluar extends Resource
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->reject(function ($value) {
-                    return $value->jenis == 'Form Permintaan';
-                }), 'id', 'jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             Hidden::make('kode_naskah_id')
                 ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
                     $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id);

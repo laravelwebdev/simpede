@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
 class KerangkaAcuan extends Model
@@ -18,6 +19,13 @@ class KerangkaAcuan extends Model
         'spesifikasi' => 'array',
         'anggaran' => 'array',
     ];
+    /**
+     * Get the naskah_keluar that owns thekerangka acuan.
+     */
+    public function naskahKeluar(): BelongsTo
+    {
+        return $this->belongsTo(NaskahKeluar::class);
+    }
 
     /**
      * The "booted" method of the model.
@@ -28,15 +36,6 @@ class KerangkaAcuan extends Model
             $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->first();
             $unit_kerja = UnitKerja::cache()->get('all')->where('unit', 'BPS Kabupaten')->first();
             $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->first();
-            $nomor = (new Helper)::nomor($kak->tanggal, session('year'), $jenis_naskah->kode_naskah_id, $unit_kerja->id, $kode_arsip->id, 'B');
-            $kak->nomor = $nomor['nomor'];
-            $kak->nama = Auth::user()->nama;
-            $kak->nip = Auth::user()->nip;
-            $kak->jabatan = Auth::user()->jabatan;
-            $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
-            $kak->ppk = Helper::getPengelola('ppk')->nama;
-            $kak->nipppk = Helper::getPengelola('ppk')->nip;
-            $kak->tahun = session('year');
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -47,18 +46,25 @@ class KerangkaAcuan extends Model
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
+            $kak->naskah_keluar_id = $naskahkeluar->id;
+            $kak->nama = Auth::user()->nama;
+            $kak->nip = Auth::user()->nip;
+            $kak->jabatan = Auth::user()->jabatan;
+            $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
+            $kak->ppk = Helper::getPengelola('ppk')->nama;
+            $kak->nipppk = Helper::getPengelola('ppk')->nip;
+            $kak->tahun = session('year');
+
         });
         static::updating(function (KerangkaAcuan $kak) {
-            $naskahkeluar = NaskahKeluar::where('nomor', $kak->getOriginal('nomor'))->first();
-            $naskah_id = $naskahkeluar->id;
+            $naskahkeluar = NaskahKeluar::where('id', $kak->naskah_keluar_id)->first();
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
-            $kak->nomor = NaskahKeluar::find($naskah_id)->nomor;
         });
         static::deleted(function (KerangkaAcuan $kak) {
-            NaskahKeluar::where('nomor', $kak->nomor)->delete();
-            HonorSurvei::where('nomor_kak', $kak->nomor)->delete();
+            NaskahKeluar::where('id', $kak->naskah_keluar_id)->delete();
+            HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
         });
         static::saved(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {
@@ -67,8 +73,7 @@ class KerangkaAcuan extends Model
             }
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
-                if ($honor = HonorSurvei::where('nomor_kak', $kak->isDirty('nomor') ? $kak->getOriginal('nomor') : $kak->nomor)->first()) {
-                    $honor->nomor_kak = $kak->nomor;
+                if ($honor = HonorSurvei::where('kerangka_acuan_id',$kak->id)->first()) {
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
                     $honor->akhir = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
@@ -76,7 +81,7 @@ class KerangkaAcuan extends Model
                     $honor->save();
                 } else {
                     $honor = new HonorSurvei;
-                    $honor->nomor_kak = $kak->nomor;
+                    $honor->kerangka_acuan_id = $kak->id;
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
                     $honor->akhir = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
@@ -88,7 +93,7 @@ class KerangkaAcuan extends Model
                 }
             }
             if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
-                HonorSurvei::where('nomor_kak', $kak->getOriginal('nomor'))->delete();
+                HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
             }
         });
     }

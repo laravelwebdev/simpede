@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\KerangkaAcuan;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
@@ -13,6 +15,7 @@ use Laravel\Nova\Panel;
 
 class HonorSurvei extends Resource
 {
+    public static $with = ['kerangkaAcuan'];
     /**
      * The model the resource corresponds to.
      *
@@ -51,7 +54,7 @@ class HonorSurvei extends Resource
     {
         return [
             Panel::make('Keterangan SPJ', [
-                Text::make('No Permintaan', 'nomor_kak')
+                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()

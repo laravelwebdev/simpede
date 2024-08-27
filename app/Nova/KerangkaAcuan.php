@@ -9,6 +9,7 @@ use App\Nova\Repeater\Anggaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
@@ -26,6 +27,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class KerangkaAcuan extends Resource
 {
+    public static $with = ['naskahKeluar'];
     public static function label()
     {
         return 'Kerangka Acuan Kerja';
@@ -43,7 +45,9 @@ class KerangkaAcuan extends Resource
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public function title(){
+        return $this->naskahKeluar->nomor;
+    }
 
     /**
      * The columns that should be searched.
@@ -64,7 +68,7 @@ class KerangkaAcuan extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', 'tanggal', [
-                Line::make('Nomor', 'nomor')->asHeading(),
+                BelongsTo::make('Nomor','naskahKeluar', 'App\Nova\naskahKeluar'),
                 Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
@@ -152,7 +156,7 @@ class KerangkaAcuan extends Resource
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
-            Text::make('Nomor')
+            BelongsTo::make('Nomor','naskahKeluar', 'App\Nova\naskahKeluar')
                 ->onlyOnDetail(),
             Text::make('Rincian', 'rincian')
                 ->rules('required')

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('honor_surveis', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_kak', 40)->nullable();
+            $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->string('judul_spj')->nullable();
             $table->string('mak', 40)->nullable();
             $table->string('detail')->nullable();

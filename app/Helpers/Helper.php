@@ -525,30 +525,30 @@ class Helper
      * @param  string  $level
      * @return string
      */
-    public static function getDetailAnggaran($mak, $level='akun', bool $kode_prefix = true)
+    public static function getDetailAnggaran($mak, $level = 'akun', bool $kode_prefix = true)
     {
         $length = [
             'program' => 9,
             'kegiatan' => 14,
             'kro' => 18,
             'ro' => 22,
-            'komponen' => 26 ,
+            'komponen' => 26,
             'sub' => 28,
             'akun' => 37,
 
         ];
         $kode = [
-            'program' => '('.Str::substr($mak, 0,9).') ',
-            'kegiatan' => '('.Str::substr($mak, 10,4).') ',
-            'kro' => '('.Str::substr($mak, 10,8).') ',
-            'ro' => '('.Str::substr($mak, 10,12).') ',
-            'komponen' => '('.Str::substr($mak, 23,3).') ' ,
-            'sub' => '('.Str::substr($mak, 27,1).') ',
-            'akun' => '('.Str::substr($mak, 29,6).') ',
+            'program' => '('.Str::substr($mak, 0, 9).') ',
+            'kegiatan' => '('.Str::substr($mak, 10, 4).') ',
+            'kro' => '('.Str::substr($mak, 10, 8).') ',
+            'ro' => '('.Str::substr($mak, 10, 12).') ',
+            'komponen' => '('.Str::substr($mak, 23, 3).') ',
+            'sub' => '('.Str::substr($mak, 27, 1).') ',
+            'akun' => '('.Str::substr($mak, 29, 6).') ',
 
         ];
         $detail = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
-            return Str::of($item->mak)->startsWith(Str::substr($mak,0,$length[$level])) && Str::of($item->mak)->length == $length[$level];
+            return Str::of($item->mak)->startsWith(Str::substr($mak, 0, $length[$level])) && Str::of($item->mak)->length == $length[$level];
         })->first()->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;

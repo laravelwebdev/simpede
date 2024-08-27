@@ -65,12 +65,14 @@ class KerangkaAcuan extends Resource
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', 'tanggal', [
                 Line::make('Nomor', 'nomor')->asHeading(),
-                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))->sortable(),
+                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
             Text::make('Kegiatan'),
-            Text::make('Unit Kerja', 'unit_kerja_id')
-                ->displayUsing(fn ($id) => UnitKerja::cache()->get('all')->where('id', $id)->first()->unit),
+            Select::make('Unit Kerja', 'unit_kerja_id')
+                ->options(Helper::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit'))
+                ->displayUsingLabels()
+                ->filterable(),
             URL::make('Unduh', fn () => ($this->link == '') ? '' : Storage::disk('link_naskah')
                 ->url($this->template))
                 ->displayUsing(fn () => 'Unduh'),

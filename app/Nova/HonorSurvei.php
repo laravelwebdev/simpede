@@ -52,37 +52,59 @@ class HonorSurvei extends Resource
         return [
             Panel::make('Keterangan SPJ', [
                 Text::make('No Permintaan', 'nomor_kak')
-                    ->rules('required')->sortable()->readOnly()->hideWhenUpdating(),
+                    ->rules('required')
+                    ->sortable()
+                    ->readOnly()
+                    ->hideWhenUpdating(),
                 Text::make('Nama Survei', 'kegiatan')
-                    ->rules('required')->sortable()->readOnly()->hideWhenUpdating(),
+                    ->rules('required')
+                    ->sortable()
+                    ->readOnly()
+                    ->hideWhenUpdating(),
                 Date::make('Batas Akhir Penyelesaian', 'akhir')
-                    ->rules('required')->hideFromIndex()->readOnly()->hideWhenUpdating()->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))->hideFromIndex(),
-
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->readOnly()
+                    ->hideWhenUpdating()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Text::make('Judul SPJ', 'judul_spj')
-                    ->rules('required')->sortable()->hideFromIndex(),
+                    ->rules('required')
+                    ->sortable()
+                    ->hideFromIndex(),
                 Date::make('Tanggal SPJ', 'tanggal_spj')
-                    ->rules('required')->hideFromIndex()->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Panel::make('Keterangan Kontrak', [
                 Select::make('Bulan Kontrak', 'bulan')
-                    ->rules('required')->options(Helper::$bulan),
+                    ->rules('required')
+                    ->options(Helper::$bulan)
+                    ->filterable(),
                 Select::make('Jenis Kontrak', 'jenis')
-                    ->rules('required')->options(Helper::$jenis_kontrak),
+                    ->rules('required')
+                    ->filterable()
+                    ->options(Helper::$jenis_kontrak),
                 Text::make('Satuan Pembayaran', 'satuan')
-                    ->rules('required')->hideFromIndex()
+                    ->rules('required')
+                    ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS'),
             ]),
 
             Panel::make('Keterangan Anggaran', [
                 Text::make('MAK', 'mak')
-                    ->readonly(),
+                    ->readonly()
+                    ->hideFromIndex(),
                 Select::make('Detail', 'detail')
                     ->rules('required')
                     ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
                         $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'detail', 'detail'));
-                    }),
-                Text::make('Tim Kerja', 'unit_kerja_id')->onlyOnIndex()->showOnIndex(fn (NovaRequest $request, $resource) => session('role') == 'ppk'
-                )->readOnly(),
+                    })
+                    ->hideFromIndex(),
+                Text::make('Tim Kerja', 'unit_kerja_id')
+                    ->onlyOnIndex()
+                    ->showOnIndex(fn (NovaRequest $request, $resource) => session('role') == 'ppk')
+                    ->readOnly(),
             ]),
 
             // Link::make('Unduh', 'link')->text('Unduh')->onlyOnIndex(),

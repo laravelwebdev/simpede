@@ -409,7 +409,7 @@ class Helper
     }
 
     /**
-     * Memeriksa apakah anggaran memuat akun honor output kegiatan.
+     * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
      *
      * @param  json anggaran $spek_old
      * @param  json anggaran $spek_new
@@ -418,6 +418,30 @@ class Helper
     public static function isAkunHonorChanged($spek_old, $spek_new)
     {
         return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;
+    }
+
+    /**
+     * Memeriksa apakah terjadi perubahan dari anggaran perjalanan menjadi tidak ada.
+     *
+     * @param  json anggaran $spek_old
+     * @param  json anggaran $spek_new
+     * @return bool
+     */
+    public static function isAkunPerjalananChanged($spek_old, $spek_new)
+    {
+        return self::sumJenisAkunPerjalanan($spek_old) - self::sumJenisAkunPerjalanan($spek_new) == 1;
+    }
+
+    /**
+     * Memeriksa apakah terjadi perubahan dari anggaran persediaan menjadi tidak ada.
+     *
+     * @param  json anggaran $spek_old
+     * @param  json anggaran $spek_new
+     * @return bool
+     */
+    public static function isAkunPersediaanChanged($spek_old, $spek_new)
+    {
+        return self::sumJenisAkunPersediaan($spek_old) - self::sumJenisAkunPersediaan($spek_new) == 1;
     }
 
     /**
@@ -492,5 +516,41 @@ class Helper
         return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak) {
             return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37;
         });
+    }
+
+    /**
+     * Mengambil detail Anggaran.
+     *
+     * @param  string  $mak
+     * @param  string  $level
+     * @return string
+     */
+    public static function getDetailAnggaran($mak, $level='akun', bool $kode_prefix = true)
+    {
+        $length = [
+            'program' => 9,
+            'kegiatan' => 14,
+            'kro' => 18,
+            'ro' => 22,
+            'komponen' => 26 ,
+            'sub' => 28,
+            'akun' => 37,
+
+        ];
+        $kode = [
+            'program' => '('.Str::substr($mak, 0,9).') ',
+            'kegiatan' => '('.Str::substr($mak, 10,4).') ',
+            'kro' => '('.Str::substr($mak, 10,8).') ',
+            'ro' => '('.Str::substr($mak, 10,12).') ',
+            'komponen' => '('.Str::substr($mak, 23,3).') ' ,
+            'sub' => '('.Str::substr($mak, 27,1).') ',
+            'akun' => '('.Str::substr($mak, 29,6).') ',
+
+        ];
+        $detail = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
+            return Str::of($item->mak)->startsWith(Str::substr($mak,0,$length[$level])) && Str::of($item->mak)->length == $length[$level];
+        })->first()->detail;
+
+        return $kode_prefix ? $kode[$level].$detail : $detail;
     }
 }

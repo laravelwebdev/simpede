@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HonorSurvei extends Model
 {
@@ -13,6 +14,14 @@ class HonorSurvei extends Model
         'tanggal_spj' => 'date',
         'akhir' => 'date',
     ];
+
+    /**
+     * Get the user that owns the pengelola.
+     */
+    public function kerangkaAcuan(): BelongsTo
+    {
+        return $this->belongsTo(KerangkaAcuan::class);
+    }
 
     /**
      * The "booted" method of the model.

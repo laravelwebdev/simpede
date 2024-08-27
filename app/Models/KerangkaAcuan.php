@@ -19,6 +19,7 @@ class KerangkaAcuan extends Model
         'spesifikasi' => 'array',
         'anggaran' => 'array',
     ];
+
     /**
      * Get the naskah_keluar that owns thekerangka acuan.
      */
@@ -54,7 +55,6 @@ class KerangkaAcuan extends Model
             $kak->ppk = Helper::getPengelola('ppk')->nama;
             $kak->nipppk = Helper::getPengelola('ppk')->nip;
             $kak->tahun = session('year');
-
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('id', $kak->naskah_keluar_id)->first();
@@ -73,7 +73,7 @@ class KerangkaAcuan extends Model
             }
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
-                if ($honor = HonorSurvei::where('kerangka_acuan_id',$kak->id)->first()) {
+                if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
                     $honor->akhir = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);

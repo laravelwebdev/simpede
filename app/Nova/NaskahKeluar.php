@@ -108,7 +108,7 @@ class NaskahKeluar extends Resource
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->reject(function ($value) {
                     return $value->jenis == 'Form Permintaan';
                 }), 'id', 'jenis')),
-               
+
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),

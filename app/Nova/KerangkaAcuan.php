@@ -14,7 +14,6 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
@@ -28,6 +27,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 class KerangkaAcuan extends Resource
 {
     public static $with = ['naskahKeluar'];
+
     public static function label()
     {
         return 'Kerangka Acuan Kerja';
@@ -45,7 +45,8 @@ class KerangkaAcuan extends Resource
      *
      * @var string
      */
-    public function title(){
+    public function title()
+    {
         return $this->naskahKeluar->nomor;
     }
 
@@ -68,7 +69,7 @@ class KerangkaAcuan extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', 'tanggal', [
-                BelongsTo::make('Nomor','naskahKeluar', 'App\Nova\naskahKeluar'),
+                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar'),
                 Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
@@ -156,7 +157,7 @@ class KerangkaAcuan extends Resource
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
-            BelongsTo::make('Nomor','naskahKeluar', 'App\Nova\naskahKeluar')
+            BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
                 ->onlyOnDetail(),
             Text::make('Rincian', 'rincian')
                 ->rules('required')

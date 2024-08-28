@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "758f159ae939708d3874fd09e0cadd16",
+    "content-hash": "2518c875cf1ea73e082f7908c5dbce45",
     "packages": [
         {
             "name": "abordage/nova-html-card",
@@ -2498,6 +2498,54 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "lednerb/nova-action-button-selectors",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://codeberg.org/Lednerb/nova-action-button-selectors",
+                "reference": "0f161cb4d6bcba1ed538ab71d8a28f56ba461444"
+            },
+            "require": {
+                "laravel/nova": "~4.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lednerb\\ActionButtonSelector\\AssetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lednerb\\ActionButtonSelector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sascha Brendel",
+                    "email": "mail@lednerb.de"
+                },
+                {
+                    "name": "Pitchayakit Pahamak",
+                    "email": "pitchayakit.p@gmail.com",
+                    "role": "Software Engineer"
+                }
+            ],
+            "description": "A Laravel Nova asset.",
+            "homepage": "https://lednerb.de",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2024-02-19T12:14:50+00:00"
         },
         {
             "name": "maatwebsite/excel",
@@ -8170,16 +8218,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.7.1",
+            "version": "15.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "8988498af2e3fcf797ae4e2770ae2e9127abb83f"
+                "reference": "08ece3a56435169529b426b67f694f10f56ea196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/8988498af2e3fcf797ae4e2770ae2e9127abb83f",
-                "reference": "8988498af2e3fcf797ae4e2770ae2e9127abb83f",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/08ece3a56435169529b426b67f694f10f56ea196",
+                "reference": "08ece3a56435169529b426b67f694f10f56ea196",
                 "shasum": ""
             },
             "require": {
@@ -8229,7 +8277,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2024-08-23T11:13:58+00:00"
+            "time": "2024-08-26T11:37:34+00:00"
         },
         {
             "name": "laravel-lang/locale-list",
@@ -9301,16 +9349,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "5.0.1",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "6ed896bf50bbbfe4d504a33ed5886278c78e4a26"
+                "reference": "118cfaaa8bc5aef3287bf315b6060b1174754af6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/6ed896bf50bbbfe4d504a33ed5886278c78e4a26",
-                "reference": "6ed896bf50bbbfe4d504a33ed5886278c78e4a26",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/118cfaaa8bc5aef3287bf315b6060b1174754af6",
+                "reference": "118cfaaa8bc5aef3287bf315b6060b1174754af6",
                 "shasum": ""
             },
             "require": {
@@ -9350,7 +9398,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
                 "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/5.0.1"
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/5.1.0"
             },
             "funding": [
                 {
@@ -9358,7 +9406,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-03T05:06:37+00:00"
+            "time": "2024-08-27T05:02:59+00:00"
         },
         {
             "name": "phpunit/php-invoker",

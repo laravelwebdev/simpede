@@ -14,11 +14,13 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Lednerb\ActionButtonSelector\ShowAsButton;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportMitra extends Action
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue, Queueable, ShowAsButton;
+    public $name = 'Import';
 
     /**
      * Perform the action on the given models.

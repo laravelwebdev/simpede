@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('daftar_honors', function (Blueprint $table) {
             $table->id();
-            $table->string('nik',30)->nullable();
-            $table->string('nama',80)->nullable();
+            $table->string('nik', 30)->nullable();
+            $table->string('nama', 80)->nullable();
             $table->bigInteger('jumlah')->nullable()->unsigned();
             $table->bigInteger('satuan')->nullable()->unsigned();
             $table->bigInteger('bruto')->nullable()->unsigned();
             $table->bigInteger('pajak')->nullable()->unsigned();
             $table->bigInteger('netto')->nullable()->unsigned();
-            $table->string('rekening',40)->nullable();
-            $table->string('bulan',20)->nullable();
-            $table->string('jenis',20)->nullable();
+            $table->string('rekening', 40)->nullable();
+            $table->string('bulan', 20)->nullable();
+            $table->string('jenis', 20)->nullable();
             $table->bigInteger('honor_survei_id')->nullable()->unsigned();
             $table->timestamps();
         });

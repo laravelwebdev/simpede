@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\DaftarHonor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,7 +31,7 @@ class HonorSurvei extends Model
     {
         return $this->hasMany(DaftarHonor::class)->orderBy('nama', 'asc');
     }
-    
+
     /**
      * The "booted" method of the model.
      */
@@ -45,7 +44,7 @@ class HonorSurvei extends Model
             $honor->bendahara = Helper::getPengelola('bendahara')->nama;
             $honor->nipbendahara = Helper::getPengelola('bendahara')->nip;
         });
-    //     static::deleting(function(Survei $survei) { 
+    //     static::deleting(function(Survei $survei) {
     //         $survei->spjs()->delete();
     //        File::delete(Storage::path('public/spj/SPJ'.explode('/', $survei->no_permintaan)[0].'.docx'));
     //        DownloadLink::where('file_path', '=', 'spj/SPJ'.explode('/', $survei->no_permintaan)[0].'.docx')->delete();

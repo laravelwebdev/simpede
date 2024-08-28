@@ -112,7 +112,7 @@ class HonorSurvei extends Resource
 
             // Link::make('Unduh', 'link')->text('Unduh')->onlyOnIndex(),
 
-            HasMany::make('Daftar Honor','daftarHonor', 'App\Nova\DaftarHonor'),
+            HasMany::make('Daftar Honor', 'daftarHonor', 'App\Nova\DaftarHonor'),
         ];
     }
 

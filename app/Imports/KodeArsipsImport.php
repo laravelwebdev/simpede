@@ -11,8 +11,8 @@ class KodeArsipsImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
     {
-        foreach ($rows as $row){
-            $kode = New KodeArsip;
+        foreach ($rows as $row) {
+            $kode = new KodeArsip;
             $kode->kode = $row['kode'];
             $kode->group = $row['group'];
             $kode->detail = $row['detail'];

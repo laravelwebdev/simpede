@@ -11,8 +11,8 @@ class MitrasImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
     {
-        foreach ($rows as $row){
-            $mitra = New Mitra;
+        foreach ($rows as $row) {
+            $mitra = new Mitra;
             $mitra->nik = $row['nik'];
             $mitra->nama = $row['nama'];
             $mitra->alamat = $row['alamat'];

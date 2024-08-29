@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -33,7 +32,7 @@ class DaftarHonor extends Resource
      * @var array
      */
     public static $search = [
-        'nik','nama'
+        'nik', 'nama',
     ];
 
     /**
@@ -45,29 +44,29 @@ class DaftarHonor extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-        Text::make('NIK', 'nik')
-            ->rules('required')->readOnly(),
-        Text::make('Nama', 'nama')
-            ->rules('required')->readOnly(),
-        Number::make('Jumlah', 'jumlah')->rules('required')->readOnly(),
-        Currency::make('Harga Satuan', 'satuan')
-            ->currency('IDR')
-            ->locale('id')
-            ->rules('required')->readOnly(),
-        Currency::make('Bruto', 'bruto')
-            ->currency('IDR')
-            ->locale('id')
-            ->rules('required')->readOnly(),
-        Currency::make('Pajak', 'pajak')
-            ->currency('IDR')
-            ->locale('id')
-            ->rules('required')->readOnly(),
-        Currency::make('Netto', 'netto')
-            ->currency('IDR')
-            ->locale('id')
-            ->rules('required')->readOnly(),
-        Text::make('Rekening', 'rekening')
-            ->rules('required')->readOnly(),
+            Text::make('NIK', 'nik')
+                ->rules('required')->readOnly(),
+            Text::make('Nama', 'nama')
+                ->rules('required')->readOnly(),
+            Number::make('Jumlah', 'jumlah')->rules('required')->readOnly(),
+            Currency::make('Harga Satuan', 'satuan')
+                ->currency('IDR')
+                ->locale('id')
+                ->rules('required')->readOnly(),
+            Currency::make('Bruto', 'bruto')
+                ->currency('IDR')
+                ->locale('id')
+                ->rules('required')->readOnly(),
+            Currency::make('Pajak', 'pajak')
+                ->currency('IDR')
+                ->locale('id')
+                ->rules('required')->readOnly(),
+            Currency::make('Netto', 'netto')
+                ->currency('IDR')
+                ->locale('id')
+                ->rules('required')->readOnly(),
+            Text::make('Rekening', 'rekening')
+                ->rules('required')->readOnly(),
         ];
     }
 

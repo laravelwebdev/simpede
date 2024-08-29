@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -15,7 +16,7 @@ use Laravel\Nova\Panel;
 
 class HonorSurvei extends Resource
 {
-    public static $with = ['kerangkaAcuan'];
+    public static $with = ['kerangkaAcuan', 'daftarHonor'];
     /**
      * The model the resource corresponds to.
      *
@@ -25,7 +26,7 @@ class HonorSurvei extends Resource
 
     public static function label()
     {
-        return 'SPJ Honor Survei';
+        return 'Honor Survei';
     }
 
     /**
@@ -157,6 +158,12 @@ class HonorSurvei extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        if (session('role') == 'koordinator') {
+            return [
+                ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import'),
+            ];
+        } else {
+            return [];
+        }
     }
 }

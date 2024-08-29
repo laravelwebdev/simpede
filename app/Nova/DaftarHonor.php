@@ -11,6 +11,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonor extends Resource
 {
+    public static $perPageViaRelationship = 10;
+    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *

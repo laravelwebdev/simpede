@@ -3,21 +3,21 @@
 namespace App\Imports;
 
 use App\Models\Mitra;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MitrasImport implements ToModel, WithHeadingRow
+class MitrasImport implements ToCollection, WithHeadingRow
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new Mitra([
-            'nik' => $row['nik'],
-            'nama' => $row['nama'],
-            'alamat' => $row['alamat'],
-            'rekening' => $row['rekening'],
-        ]);
+        foreach ($rows as $row){
+            $mitra = New Mitra;
+            $mitra->nik = $row['nik'];
+            $mitra->nama = $row['nama'];
+            $mitra->alamat = $row['alamat'];
+            $mitra->rekening = $row['rekening'];
+            $mitra->save();
+        }
     }
 }

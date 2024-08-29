@@ -3,20 +3,20 @@
 namespace App\Imports;
 
 use App\Models\KodeArsip;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class KodeArsipsImport implements ToModel, WithHeadingRow
+class KodeArsipsImport implements ToCollection, WithHeadingRow
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new KodeArsip([
-            'kode' => $row['kode'],
-            'group' => $row['group'],
-            'detail' => $row['detail'],
-        ]);
+        foreach ($rows as $row){
+            $kode = New KodeArsip;
+            $kode->kode = $row['kode'];
+            $kode->group = $row['group'];
+            $kode->detail = $row['detail'];
+            $kode->save();
+        }
     }
 }

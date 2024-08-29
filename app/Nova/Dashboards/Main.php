@@ -31,7 +31,7 @@ class Main extends Dashboard
                 ->avatar(url: Storage::disk('images')->url('warning.jpg'))
                 ->width('1/3'),
             GreeterCard::make()
-                ->user(name: 'Quotes of the day', title: Inspiring::quote())
+                ->user(name: 'Quotes of the day', title: Inspiring::quotes()->map(fn ($quote) => $quote)->random())
                 ->message(text: '')
                 ->avatar(url: Storage::disk('images')->url('quotes.jpg'))
                 ->width('1/3'),

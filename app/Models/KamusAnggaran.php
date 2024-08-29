@@ -10,7 +10,6 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class KamusAnggaran extends Model
 {
     use HasFactory, LaraCache;
-    protected $fillable = ['mak', 'detail', 'tahun'];
 
     public static function cacheEntities(): array
     {

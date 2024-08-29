@@ -10,7 +10,6 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class MataAnggaran extends Model
 {
     use HasFactory, LaraCache;
-    protected $fillable = ['mak', 'tahun'];
 
     public static function cacheEntities(): array
     {

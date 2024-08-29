@@ -10,7 +10,6 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class Mitra extends Model
 {
     use HasFactory, LaraCache;
-    protected $fillable = ['nik', 'nama', 'alamat', 'rekening', 'tahun'];
 
     public static function cacheEntities(): array
     {

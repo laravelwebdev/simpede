@@ -3,9 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Models\Mitra;
-use App\Policies\DaftarHonorPolicy;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -30,11 +28,12 @@ class EditRekening extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        $mitra = Mitra::where('nik',$model->nik)->first();
+        $mitra = Mitra::where('nik', $model->nik)->first();
         $mitra->rekening = $fields->rekening;
         $mitra->save();
         $model->rekening = $fields->rekening;
         $model->save();
+
         return Action::message('Edit Rekening Berhasil!');
     }
 
@@ -48,7 +47,7 @@ class EditRekening extends Action
     {
         return [
             Text::make('Rekening', 'rekening')
-                ->rules('required') ->help('Contoh Penulisan Rekening: BRI 123456788089'),
+                ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];
     }
 }

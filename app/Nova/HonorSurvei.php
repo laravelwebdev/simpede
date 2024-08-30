@@ -163,12 +163,13 @@ class HonorSurvei extends Resource
         if (session('role') == 'koordinator') {
             return [
                 ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
-                ->canSee(function ($request) {
-                    if ($request instanceof ActionRequest) {
-                        return true;  
-                    }
-                      return $this->resource instanceof Model && $this->resource->bulan !== null;
-                }),
+                    ->canSee(function ($request) {
+                        if ($request instanceof ActionRequest) {
+                            return true;
+                        }
+
+                        return $this->resource instanceof Model && $this->resource->bulan !== null;
+                    }),
             ];
         } else {
             return [];

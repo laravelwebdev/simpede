@@ -2,8 +2,8 @@
 
 namespace App\Nova\Dashboards;
 
-use App\Models\Pengelola;
 use App\Helpers\Inspiring;
+use App\Models\Pengelola;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -20,6 +20,7 @@ class Main extends Dashboard
     {
         return 'Dashboard';
     }
+
     /**
      * Get the cards for the dashboard.
      *

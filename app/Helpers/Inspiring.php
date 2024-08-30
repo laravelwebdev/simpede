@@ -1403,6 +1403,7 @@ class Inspiring
     {
         $data['topic'] = Arr::random(array_keys(static::$quotes));
         $data = array_merge($data, Arr::random(static::$quotes[$data['topic']]['quotes']));
-        return $data['quote'].' ('. $data['author'].')';
+
+        return $data['quote'].' ('.$data['author'].')';
     }
 }

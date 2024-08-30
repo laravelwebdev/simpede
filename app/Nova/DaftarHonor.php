@@ -112,13 +112,13 @@ class DaftarHonor extends Resource
      */
     public function actions(NovaRequest $request)
     {
-            if (session('role') == 'koordinator') {
-                return [
-                    EditRekening::make()->onlyOnTableRow(),
-                ];
-            } else {
-                return [];
-            }
+        if (session('role') == 'koordinator') {
+            return [
+                EditRekening::make()->onlyOnTableRow(),
+            ];
+        } else {
+            return [];
+        }
     }
 
     // public static function redirectAfterUpdate(NovaRequest $request, $resource)

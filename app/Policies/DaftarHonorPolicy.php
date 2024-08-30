@@ -73,9 +73,8 @@ class DaftarHonorPolicy
         return false;
     }
 
-
     public function runAction(): bool
     {
-        return ( session('role') == 'koordinator');
+        return  session('role') == 'koordinator';
     }
 }

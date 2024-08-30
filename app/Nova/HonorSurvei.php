@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Actions\ImportDaftarHonor;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -11,6 +12,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -107,7 +109,7 @@ class HonorSurvei extends Resource
                     ->hideFromIndex(),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
-                    ->showOnIndex(fn (NovaRequest $request, $resource) => session('role') == 'ppk')
+                    ->showOnIndex(fn () => session('role') == 'ppk')
                     ->readOnly(),
             ]),
 
@@ -160,7 +162,13 @@ class HonorSurvei extends Resource
     {
         if (session('role') == 'koordinator') {
             return [
-                ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import'),
+                ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;  
+                    }
+                      return $this->resource instanceof Model && $this->resource->bulan !== null;
+                }),
             ];
         } else {
             return [];

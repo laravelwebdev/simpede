@@ -27,6 +27,7 @@ class ImportDaftarHonor extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
+        if ($model->bulan == '') return Action::danger('Lengkapi Keterangan Honor Survei sebelum import file BOS');
         DaftarHonor::where('honor_survei_id', $model->id)->delete();
         Excel::import(new DaftarHonorImport([$model->id, $model->bulan, $model->jenis]), $fields->file);
 

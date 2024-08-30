@@ -12,7 +12,6 @@
     ],
     "require": {
         "php": "^8.2",
-        "abordage/nova-html-card": "^0.3.1",
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",

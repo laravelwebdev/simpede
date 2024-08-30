@@ -34,7 +34,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             $roles = array_merge($roles, Pengelola::cache()->get('all')->where('user_id', $request->user()->id)->pluck('jabatan', 'role')->toArray());
             foreach ($roles as $key => $value) {
                 $menu->prepend(
-                    MenuItem::make(
+                    MenuItem::externalLink(
                         $value,
                         "/changerole/$key"
                     )

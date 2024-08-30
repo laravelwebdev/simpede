@@ -16,6 +16,7 @@ class RoleController extends Controller
         if ((Pengelola::cache()->get('all')->where('user_id', Auth::user()->id)->where('role', $role)->first() !== null) || ($role === Auth::user()->role)) {
             session(['role' => $role]);
         }
+
         return redirect(Nova::path());
     }
 }

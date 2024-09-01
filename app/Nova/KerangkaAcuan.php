@@ -207,7 +207,10 @@ class KerangkaAcuan extends Resource
                     ->searchable()
                     ->filterable()
                     ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'mak', 'mak')),
-                Currency::make('Perkiraan Digunakan ', 'perkiraan')->rules('required')->step(1),
+                Currency::make('Perkiraan Digunakan ', 'perkiraan')
+                    ->rules('required')
+                    ->step(1)
+                    ->default(0),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if (Helper::cekGanda(json_decode($value), 'mak')) {
                     return $fail('validation.unique')->translate();
@@ -246,11 +249,22 @@ class KerangkaAcuan extends Resource
     {
         return [
             SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
-                Text::make('Rincian', 'spek_rincian')->rules('required'),
-                Number::make('Jumlah', 'spek_volume')->rules('required'),
-                Text::make('Satuan', 'spek_satuan')->rules('required'),
-                Currency::make('Harga Satuan', 'spek_harga')->rules('required')->step(1),
-                Textarea::make('Spesifikasi', 'spek_spek')->rows(2)->rules('required')->placeholder('Mohon diisi secara detail dan spesifik')->alwaysShow(),
+                Text::make('Rincian', 'spek_rincian')
+                    ->rules('required'),
+                Number::make('Jumlah', 'spek_volume')
+                    ->rules('required')
+                    ->default(0),
+                Text::make('Satuan', 'spek_satuan')
+                    ->rules('required'),
+                Currency::make('Harga Satuan', 'spek_harga')
+                    ->rules('required')
+                    ->step(1)
+                    ->default(0),
+                Textarea::make('Spesifikasi', 'spek_spek')
+                    ->rows(2)   
+                    ->rules('required')
+                        ->placeholder('Mohon diisi secara detail dan spesifik')
+                        ->alwaysShow(),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if ($value == '[]') {
                     return $fail('validation.required')->translate();

@@ -86,7 +86,8 @@ class HonorSurvei extends Resource
                 Select::make('Bulan Kontrak', 'bulan')
                     ->rules('required')
                     ->options(Helper::$bulan)
-                    ->filterable(),
+                    ->filterable()
+                    ->displayUsingLabels(),
                 Select::make('Jenis Kontrak', 'jenis')
                     ->rules('required')
                     ->filterable()

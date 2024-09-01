@@ -6,8 +6,12 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
+            "url": "https://github.com/laravelwebdev/Laravel-Excel.git",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/laravelwebdev/admin-simpede.git",
+            "type": "git"
         }
     ],
     "require": {

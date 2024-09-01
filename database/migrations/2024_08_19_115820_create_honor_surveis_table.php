@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('satuan', 20)->nullable();
             $table->date('tanggal_spj')->nullable();
             $table->bigInteger('unit_kerja_id')->nullable();
-            $table->string('bulan', 20)->nullable();
+            $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
             $table->string('jenis', 20)->nullable();
             $table->string('kegiatan')->nullable();

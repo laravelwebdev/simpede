@@ -187,7 +187,7 @@ class KerangkaAcuan extends Resource
             Date::make('Akhir', 'akhir')
                 ->rules('required', 'after_or_equal:awal')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->help('Untuk Honor Mitra, Tanggal akhir ini akan menjadi batas waktu penyelesaian pekerjaan di bulan kontrak berjalan. Misal Kontrak Kegiatan Sakernas di bulan Agustus dan pencacahan harus selesai tanggal 20 Agustus, maka isikan 20 Agustus sebagai tanggal akhir. Contoh lain misalkan pelaksanaan Susenas September adalah tanggal 15 September - 5 Oktober dan mitra dikontrak di bulan September, maka tanggal akhir yang dimaksud adalah tanggal akhir pada bulan kontrak yaitu 30 September'),
+                ->help('Batas akhir pelaksanaan kegiatan'),
 
         ];
     }

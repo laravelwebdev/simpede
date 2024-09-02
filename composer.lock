@@ -1628,11 +1628,11 @@
         },
         {
             "name": "laravel/nova",
-            "version": "4.35.0",
+            "version": "4.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravelwebdev/admin-simpede.git",
-                "reference": "e176f0cefc150a41409407b3ab82c662db59b52d"
+                "reference": "00f3972f3a3322cb85ee629795b497db077c6523"
             },
             "require": {
                 "brick/money": "^0.5|^0.6|^0.7|^0.8|^0.9",
@@ -1741,7 +1741,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2024-09-01T04:13:16+00:00"
+            "time": "2024-09-02T22:30:30+00:00"
         },
         {
             "name": "laravel/prompts",

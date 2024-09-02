@@ -56,7 +56,7 @@ class KerangkaAcuan extends Resource
      * @var array
      */
     public static $search = [
-         'tanggal', 'rincian',
+        'tanggal', 'rincian',
     ];
 
     /**

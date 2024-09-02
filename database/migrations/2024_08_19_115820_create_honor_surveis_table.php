@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('nipbendahara', 40)->nullable();
             $table->string('link_spj')->nullable();
             $table->string('link_st')->nullable();
-            $table->string('link_sk')->nullable();            
+            $table->string('link_sk')->nullable();
             $table->timestamps();
         });
     }

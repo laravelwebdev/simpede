@@ -35,7 +35,7 @@ class Dipa extends Resource
      * @var array
      */
     public static $search = [
-        'nomor','tahun'
+        'nomor', 'tahun',
     ];
 
     /**

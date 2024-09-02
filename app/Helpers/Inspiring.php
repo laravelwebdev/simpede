@@ -1405,7 +1405,8 @@ class Inspiring
     {
         $data['topic'] = Arr::random(array_keys(static::$quotes));
         $data = array_merge($data, Arr::random(static::$quotes[$data['topic']]['quotes']));
-        return 
+
+        return
         Cache::remember('quotes', Carbon::now()->endOfDay(), function () use ($data) {
             return  $data['quote'].' ('.$data['author'].')';
         });

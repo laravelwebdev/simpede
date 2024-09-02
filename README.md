@@ -11,7 +11,7 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Manajemen Izin Keluar Kantor Pegawai
 - Manajemen Kontrak Bulanan Mitra (Monitoring, SK, Kontrak, BAST, Surat Tugas, SPJ)
 - Manajemen Barang Persediaan (Transfer masuk, Transfer Keluar, Persediaan masuk, persediaan keluar)
-- Manajemen Dokumen Pengadaan Barang Jasa (to do)
+- Manajemen Dokumen Pengadaan Barang Jasa (to do list)
 
 
 ## Requirement

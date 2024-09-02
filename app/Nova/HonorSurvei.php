@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class HonorSurvei extends Resource
 {
@@ -67,7 +69,13 @@ class HonorSurvei extends Resource
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
-                Date::make('Batas Akhir Penyelesaian', 'akhir')
+                Date::make('Awal Pelaksanaan', 'awal')
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->readOnly()
+                    ->hideWhenUpdating()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                Date::make('Akhir Penyelesaian', 'akhir')
                     ->rules('required')
                     ->hideFromIndex()
                     ->readOnly()
@@ -112,6 +120,21 @@ class HonorSurvei extends Resource
                     ->onlyOnIndex()
                     ->showOnIndex(fn () => session('role') == 'ppk')
                     ->readOnly(),
+            ]),
+
+            Panel::make('Keterangan Petugas Organik', [
+                SimpleRepeatable::make('Pegawai', 'pegawai', [
+                    Select::make('Nama Pegawai', 'user_id')
+                        ->rules('required',)
+                        ->searchable()
+                        ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama'))
+                        ->displayUsingLabels(),
+                ])->rules('required',
+                function ($attribute, $value, $fail) {
+                    if (Helper::cekGanda(json_decode($value), 'user_id')) {
+                        return $fail('validation.unique')->translate();
+                    }
+                })
             ]),
 
             // Link::make('Unduh', 'link')->text('Unduh')->onlyOnIndex(),

@@ -13,7 +13,9 @@ class HonorSurvei extends Model
     use HasFactory;
     protected $casts = [
         'tanggal_spj' => 'date',
+        'awal' => 'date',
         'akhir' => 'date',
+        'pegawai' => 'array',
     ];
 
     /**

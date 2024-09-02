@@ -1,11 +1,11 @@
 <?php
 
 use App\Helpers\Inspiring;
+use App\Models\KerangkaAcuan;
 use Illuminate\Support\Carbon;
 
-Carbon::createFromFormat('Y-m-d','2024-01-01');
-$b='[""]';
-collect(json_decode($b))->count()
+
+collect(KerangkaAcuan::find(3)->spesifikasi);
 
 
 

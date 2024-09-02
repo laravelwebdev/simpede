@@ -56,7 +56,7 @@ class KerangkaAcuan extends Resource
      * @var array
      */
     public static $search = [
-        'nomor', 'tanggal', 'rincian',
+         'tanggal', 'rincian',
     ];
 
     /**
@@ -182,7 +182,8 @@ class KerangkaAcuan extends Resource
                 ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
             Date::make('Awal', 'awal')
                 ->rules('required', 'after_or_equal:tanggal')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->help('Tanggal pelaksanaan kegiatan dimulai'),
 
             Date::make('Akhir', 'akhir')
                 ->rules('required', 'after_or_equal:awal')

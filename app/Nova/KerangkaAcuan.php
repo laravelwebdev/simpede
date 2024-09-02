@@ -262,10 +262,10 @@ class KerangkaAcuan extends Resource
                     ->step(1)
                     ->default(0),
                 Textarea::make('Spesifikasi', 'spek_spek')
-                    ->rows(2)   
+                    ->rows(2)
                     ->rules('required')
-                        ->placeholder('Mohon diisi secara detail dan spesifik')
-                        ->alwaysShow(),
+                    ->placeholder('Mohon diisi secara detail dan spesifik')
+                    ->alwaysShow(),
             ])->rules('required', function ($attribute, $value, $fail) {
                 if ($value == '[]') {
                     return $fail('validation.required')->translate();

@@ -331,7 +331,7 @@ class Helper
     {
         $spek = collect($spek);
         $spek->transform(function ($item, $index) {
-            $item['spek_nilai'] = (float)$item['spek_volume'] * (float)$item['spek_harga'];
+            $item['spek_nilai'] = (float) $item['spek_volume'] * (float) $item['spek_harga'];
 
             return $item;
         })->toArray();

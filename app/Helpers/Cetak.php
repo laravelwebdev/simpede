@@ -6,7 +6,6 @@ use App\Models\KerangkaAcuan;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 
-
 class Cetak
 {
     /**
@@ -20,9 +19,10 @@ class Cetak
     {
         $templateProcessor = new TemplateProcessor(Storage::path('template/Template_permintaan.docx'));
         $templateProcessor->setValues(call_user_func('App\Helpers\Cetak::'.$jenis, $id));
-        if ($jenis === 'kak') $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data->spesifikasi));
+        if ($jenis === 'kak') {
+            $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data->spesifikasi));
+        }
         $templateProcessor->saveAs(Storage::path('public/permintaan/KAK'.explode('/', $no)[0].'.docx'));
-
     }
 
     /**
@@ -34,8 +34,8 @@ class Cetak
     public static function kak($id)
     {
         $data = KerangkaAcuan::find($id);
-        
-      return [
+
+        return [
             'nomor' => $data->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'rincian' => $data->rincian,
@@ -61,7 +61,6 @@ class Cetak
             'nipppk' => $data->nipppk,
             'terbilang_pagu' => Helper::terbilang((int) $data->jumlah, 'uw', ' rupiah'),
             'terbilang_perkiraan' => Helper::terbilang((int) $data->perkiraan, 'uw', ' rupiah'),
-      ];
+        ];
     }
-    
 }

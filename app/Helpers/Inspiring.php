@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class Inspiring
 {
@@ -1403,7 +1405,9 @@ class Inspiring
     {
         $data['topic'] = Arr::random(array_keys(static::$quotes));
         $data = array_merge($data, Arr::random(static::$quotes[$data['topic']]['quotes']));
-
-        return $data['quote'].' ('.$data['author'].')';
+        return 
+        Cache::remember('quotes', Carbon::now()->endOfDay(), function () use ($data) {
+            return  $data['quote'].' ('.$data['author'].')';
+        });
     }
 }

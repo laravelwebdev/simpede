@@ -38,7 +38,7 @@ class Main extends Dashboard
             GreeterCard::make()
                 ->user(name: 'Quotes of the day', title: Inspiring::show())
                 ->message(text: '')
-                ->avatar(url: Storage::disk('images')->url('quotes.jpg'))
+                ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
         ];
     }

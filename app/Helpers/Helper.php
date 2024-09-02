@@ -119,6 +119,16 @@ class Helper
     ];
 
     /**
+     * Pilihan Tahun.
+     *
+     * @return array $tahun
+     */
+    public static function setOptionTahun()
+    {
+        return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+    }
+
+    /**
      * Mengubah Angka ke Suku Kata.
      *
      * @param  int|float  $x

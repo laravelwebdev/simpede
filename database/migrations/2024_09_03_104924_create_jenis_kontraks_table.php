@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_naskahs', function (Blueprint $table) {
+        Schema::create('jenis_kontraks', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis', 100)->nullable();
-            $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
-            $table->string('format')->nullable();
-            $table->string('template')->nullable();
+            $table->string('nomor', 80)->nullable();
+            $table->date('tanggal')->nullable();
+            $table->text('jenis')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jenis_naskahs');
+        Schema::dropIfExists('jenis_kontraks');
     }
 };

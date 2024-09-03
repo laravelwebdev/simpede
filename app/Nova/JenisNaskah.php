@@ -59,6 +59,8 @@ class JenisNaskah extends Resource
             BelongsTo::make('Kategori', 'kodeNaskah', 'App\Nova\KodeNaskah')
                 ->rules('required')
                 ->filterable(),
+            Text::make('Format Penomoran', 'format')
+                ->help('Kosongkan Jika format penomoran mengikuti format berdasarkan kategori naskah'),
             File::make('Template')
                 ->disk('template_naskah')
                 ->rules('mimes:docx')

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38b98534fd1998bc59ad08084cead49",
+    "content-hash": "7cc14189c1afc59eea56f01b0a4520d9",
     "packages": [
         {
             "name": "brick/math",
@@ -348,6 +348,58 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.3"
             },
             "time": "2024-07-08T12:26:09+00:00"
+        },
+        {
+            "name": "digital-creative/nova-welcome-card",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dcasia/nova-welcome-card.git",
+                "reference": "a0fd94f9bc86bb8f5e9b8a0e65fde848f2473327"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dcasia/nova-welcome-card/zipball/a0fd94f9bc86bb8f5e9b8a0e65fde848f2473327",
+                "reference": "a0fd94f9bc86bb8f5e9b8a0e65fde848f2473327",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DigitalCreative\\NovaWelcomeCard\\WelcomeCardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DigitalCreative\\NovaWelcomeCard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Milewski"
+                }
+            ],
+            "description": "A configurable version of the `Help card` that comes with Nova.",
+            "keywords": [
+                "card",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/dcasia/nova-welcome-card/issues",
+                "source": "https://github.com/dcasia/nova-welcome-card/tree/v0.0.2"
+            },
+            "time": "2023-10-12T13:48:56+00:00"
         },
         {
             "name": "doctrine/dbal",

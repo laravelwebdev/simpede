@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\JenisKontrak;
+use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
@@ -9,6 +11,7 @@ use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class Helper
@@ -51,12 +54,7 @@ class Helper
         '11' => 'November',
         '12' => 'Desember',
     ];
-
-    public static $jenis_kontrak = [
-        'Lapangan' => 'Lapangan',
-        'Pengolahan' => 'Pengolahan',
-
-    ];
+    
     /**
      * Role admin|kpa|kepala|ppk|bendahara|ppspm|koordinator|anggota|pbj|bmn.
      *
@@ -252,15 +250,16 @@ class Helper
      *
      * @param  date  $tanggal  Tanggal
      * @param  string  $tahun
-     * @param  string  $kode_naskah_id
+     * @param  string  $jenis_naskah_id
      * @param  string  $unit_kerja_id
      * @param  string  $kode_arsip_id
      * @param  string  $derajat
      * @return array nomor, nomor_urut, segmen
      */
-    public static function nomor($tanggal, $tahun, $kode_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
+    public static function nomor($tanggal, $tahun, $jenis_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
     {
-        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $kode_naskah_id)->first();
+        $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
+        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $jenis_naskah->kode_naskah_id)->first();
         $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
         $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
         $naskah = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id);
@@ -275,7 +274,7 @@ class Helper
             $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
-        $format = $kode_naskah->format;
+        $format =  $jenis_naskah->format ?? $kode_naskah->format;
         $replaces['<tahun>'] = $tahun;
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
@@ -563,4 +562,55 @@ class Helper
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
     }
+
+    /**
+     * Mengambil array Jenis Kontrak.
+     *
+     * @param  string  $tahun
+     * @param  string  $bulan
+     * @return array
+     */
+    public static function getJenisKontrak($tahun, $bulan) : array
+    {
+        $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
+
+        return JenisKontrak::cache()->get('all')->where('tanggal','<=', $tanggal)->sortByDesc('tanggal')->first()->jenis;
+    }
+
+    /**
+     * Pilihan Jenis kontrak.
+     * 
+     * @param  string  $tahun
+     * @param  string  $bulan
+     * @return array
+     */
+    public static function setOptionJenisKontrak($tahun, $bulan)
+    {
+        $options = [];
+        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
+        foreach ($jeniskontrak as $option) {
+            $options[$option['jenis']] = $option['jenis'];
+        }
+        return $options;
+
+    }
+
+    /**
+     * Mengambil batas SBML.
+     * 
+     * @param  string  $tahun
+     * @param  string  $bulan
+     * @param  string  $jenis
+     * @return array
+     */
+    public static function getSbml($tahun, $bulan, $jenis)
+    {
+        $nilai = 0;
+        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
+        foreach ($jeniskontrak as $option) {
+           $nilai = $option['jenis'] === $jenis ? $option['sbml'] : 0;
+        }
+        return $nilai;
+    }
+
 }

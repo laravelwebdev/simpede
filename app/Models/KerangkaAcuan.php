@@ -35,13 +35,11 @@ class KerangkaAcuan extends Model
     {
         static::creating(function (KerangkaAcuan $kak) {
             $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->first();
-            $unit_kerja = UnitKerja::cache()->get('all')->where('unit', 'BPS Kabupaten')->first();
             $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
             $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-            $naskahkeluar->unit_kerja_id = $unit_kerja->id;
             $naskahkeluar->kode_naskah_id = $jenis_naskah->kode_naskah_id;
             $naskahkeluar->derajat = 'B';
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
@@ -71,6 +69,8 @@ class KerangkaAcuan extends Model
                 $kak->metode = null;
                 $kak->tkdn = null;
             }
+        });
+        static::saved(function (KerangkaAcuan $kak) {
             $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
                 if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {

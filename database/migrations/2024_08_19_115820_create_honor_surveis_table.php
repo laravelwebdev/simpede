@@ -26,7 +26,7 @@ return new class extends Migration
             $table->bigInteger('unit_kerja_id')->nullable();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->string('jenis', 20)->nullable();
+            $table->bigInteger('jenis_kontrak_id')->unsigned()->nullable();
             $table->string('kegiatan')->nullable();
             $table->text('pegawai')->nullable();
             $table->string('ketua', 80)->nullable();
@@ -35,9 +35,6 @@ return new class extends Migration
             $table->string('nipppk', 40)->nullable();
             $table->string('bendahara', 80)->nullable();
             $table->string('nipbendahara', 40)->nullable();
-            $table->string('link_spj')->nullable();
-            $table->string('link_st')->nullable();
-            $table->string('link_sk')->nullable();
             $table->timestamps();
         });
     }

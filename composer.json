@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "digital-creative/nova-welcome-card": "^0.0.2",
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",

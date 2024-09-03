@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\JenisKontrak;
 use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
@@ -96,10 +97,13 @@ class HonorSurvei extends Resource
                     ->options(Helper::$bulan)
                     ->filterable()
                     ->displayUsingLabels(),
-                Select::make('Jenis Kontrak', 'jenis')
+                Select::make('Jenis Kontrak', 'jenis_kontrak_id')
                     ->rules('required')
                     ->filterable()
-                    ->options(Helper::$jenis_kontrak),
+                    ->displayUsingLabels()
+                    ->dependsOn('bulan', function (Select $field, NovaRequest $request, FormData $form) {
+                        $field->options(Helper::setOptionJenisKontrak(session('year'),$form->bulan));
+                    }),
                 Text::make('Satuan Pembayaran', 'satuan')
                     ->rules('required')
                     ->hideFromIndex()
@@ -136,8 +140,6 @@ class HonorSurvei extends Resource
                         }
                     }),
             ]),
-
-            // Link::make('Unduh', 'link')->text('Unduh')->onlyOnIndex(),
 
             HasMany::make('Daftar Honor', 'daftarHonor', 'App\Nova\DaftarHonor'),
         ];

@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
@@ -57,12 +56,12 @@ class JenisKontrak extends Resource
                 ->rules('required'),
             SimpleRepeatable::make('Jenis Kontrak dan SBML', 'jenis', [
                 Text::make('Jenis Kontrak', 'jenis')
-                        ->rules('required'),
+                    ->rules('required'),
                 Currency::make('Batas maksimal (SBML)', 'sbml')
-                        ->rules('required')
-                        ->step(1)
-                        ->default(0),
-                ])->rules('required',
+                    ->rules('required')
+                    ->step(1)
+                    ->default(0),
+            ])->rules('required',
                     function ($attribute, $value, $fail) {
                         if (Helper::cekGanda(json_decode($value), 'jenis')) {
                             return $fail('validation.unique')->translate();

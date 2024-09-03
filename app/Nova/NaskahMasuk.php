@@ -60,11 +60,7 @@ class NaskahMasuk extends Resource
         return [
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
-                ->rules('required', function ($attribute, $value, $fail) {
-                    if (Carbon::createFromFormat('Y-m-d', $value)->year != session('year')) {
-                        return $fail('Tanggal harus di tahun berjalan');
-                    }
-                })
+                ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable(),
             Text::make('Nomor')

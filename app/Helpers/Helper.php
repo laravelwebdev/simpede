@@ -256,8 +256,9 @@ class Helper
      * @param  string  $derajat
      * @return array nomor, nomor_urut, segmen
      */
-    public static function nomor($tanggal, $tahun, $jenis_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
+    public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
     {
+        $tahun = Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
         $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $jenis_naskah->kode_naskah_id)->first();
         $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
@@ -276,8 +277,8 @@ class Helper
         }
         $format = $jenis_naskah->format ?? $kode_naskah->format;
         $replaces['<tahun>'] = $tahun;
-        $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
-        $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
+        $replaces['<kode_unit_kerja>'] = $unit_kerja->kode;
+        $replaces['<kode_arsip>'] = $kode_arsip->kode;
         $replaces['<derajat>'] = $derajat;
         $nomor = strtr($format, $replaces);
 
@@ -613,4 +614,105 @@ class Helper
 
         return $nilai;
     }
+
+    /**
+     * Mengubah tanggal ke nama hari.
+     *
+     * @param  Date  $tanggal
+     * @return string
+     */
+    public static function terbilangHari($tanggal)
+    {
+        $tanggal = $tanggal->format('Y-m-d');
+        $hari = ['Senin',	'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        $num = date('N', strtotime($tanggal));
+
+        return $hari[$num - 1];
+    }
+
+    /**
+     * Mengubah bulan ke nama bulan.
+     *
+     * @param  Int  $bulan
+     * @return string
+     */
+    public static function terbilangBulan($bulan)
+    {
+        return self::$bulan[$bulan];
+    }
+
+    /**
+     * Mengubah angka ke rupiah.
+     *
+     * @param  int|float  $angka
+     * @return string
+     */
+    public static function formatRupiah($angka)
+    {
+        $hasil = 'Rp.'.self::formatUang($angka);
+
+        return $hasil;
+    }
+
+    /**
+     * Upper case nama tanpa gelar
+     *
+     * @param  string  $nama
+     * @return string
+     */
+    public static function upperNamaTanpaGelar($nama)
+    {
+        $hasil = explode(',', $nama)[0];
+
+        return strtoupper($hasil);
+    }
+
+
+    /**
+     * Mengubah angka ke format uang.
+     *
+     * @param  int|float  $angka
+     * @return string
+     */
+    public static function formatUang($angka)
+    {
+        $hasil = number_format($angka, 0, ',', '.');
+
+        return $hasil;
+    }
+
+    /**
+     * Generate jangka waktu.
+     *
+     * @param  DateTime  $awal
+     * @param  DateTime  $akhir
+     * @return string
+     */
+    public static function jangkaWaktuHariKalender($awal, $akhir)
+    {
+        $selisih = ($awal->diff($akhir))->format('%a') + 1;
+
+        return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
+    }
+
+    /**
+     * Format tampilan spesifikasi.
+     *
+     * @param  array  $spesifikasi
+     * @return array
+     */
+    public static function formatSpek($spesifikasi)
+    {
+        // $speks= json_decode($spesifikasi,true);
+        $spek = collect($spesifikasi);
+        $spek->transform(function ($item, $index) {
+            $item['spek_no'] = $index + 1;
+            if (isset($item['spek_harga'])) $item['spek_harga'] = self::formatRupiah($item['spek_harga']);
+            if (isset($item['spek_nilai'])) $item['spek_nilai'] = self::formatRupiah($item['spek_nilai']);
+            return $item;
+        })->toArray();
+        return $spek;
+    }
+
+
 }

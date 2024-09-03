@@ -633,7 +633,7 @@ class Helper
     /**
      * Mengubah bulan ke nama bulan.
      *
-     * @param  Int  $bulan
+     * @param  int  $bulan
      * @return string
      */
     public static function terbilangBulan($bulan)
@@ -655,7 +655,7 @@ class Helper
     }
 
     /**
-     * Upper case nama tanpa gelar
+     * Upper case nama tanpa gelar.
      *
      * @param  string  $nama
      * @return string
@@ -666,7 +666,6 @@ class Helper
 
         return strtoupper($hasil);
     }
-
 
     /**
      * Mengubah angka ke format uang.
@@ -690,7 +689,7 @@ class Helper
      */
     public static function jangkaWaktuHariKalender($awal, $akhir)
     {
-        $selisih = ($awal->diff($akhir))->format('%a') + 1;
+        $selisih = $awal->diff($akhir)->format('%a') + 1;
 
         return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
     }
@@ -707,12 +706,16 @@ class Helper
         $spek = collect($spesifikasi);
         $spek->transform(function ($item, $index) {
             $item['spek_no'] = $index + 1;
-            if (isset($item['spek_harga'])) $item['spek_harga'] = self::formatRupiah($item['spek_harga']);
-            if (isset($item['spek_nilai'])) $item['spek_nilai'] = self::formatRupiah($item['spek_nilai']);
+            if (isset($item['spek_harga'])) {
+                $item['spek_harga'] = self::formatRupiah($item['spek_harga']);
+            }
+            if (isset($item['spek_nilai'])) {
+                $item['spek_nilai'] = self::formatRupiah($item['spek_nilai']);
+            }
+
             return $item;
         })->toArray();
+
         return $spek;
     }
-
-
 }

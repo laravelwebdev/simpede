@@ -31,7 +31,7 @@ class NaskahKeluar extends Model
                 $naskah->tahun = Carbon::createFromFormat('Y-m-d', $naskah->tanggal->format('Y-m-d'))->year;
             }
         });
-        static::creating(function (NaskahKeluar $naskah) {           
+        static::creating(function (NaskahKeluar $naskah) {
             $naskah->unit_kerja_id = Auth::user()->unit_kerja_id;
         });
     }

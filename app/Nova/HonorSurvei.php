@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Models\JenisKontrak;
 use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
@@ -102,7 +101,7 @@ class HonorSurvei extends Resource
                     ->filterable()
                     ->displayUsingLabels()
                     ->dependsOn('bulan', function (Select $field, NovaRequest $request, FormData $form) {
-                        $field->options(Helper::setOptionJenisKontrak(session('year'),$form->bulan));
+                        $field->options(Helper::setOptionJenisKontrak(session('year'), $form->bulan));
                     }),
                 Text::make('Satuan Pembayaran', 'satuan')
                     ->rules('required')

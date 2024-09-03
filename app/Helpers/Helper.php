@@ -54,7 +54,7 @@ class Helper
         '11' => 'November',
         '12' => 'Desember',
     ];
-    
+
     /**
      * Role admin|kpa|kepala|ppk|bendahara|ppspm|koordinator|anggota|pbj|bmn.
      *
@@ -274,7 +274,7 @@ class Helper
             $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
-        $format =  $jenis_naskah->format ?? $kode_naskah->format;
+        $format = $jenis_naskah->format ?? $kode_naskah->format;
         $replaces['<tahun>'] = $tahun;
         $replaces['<unit_kerja_id>'] = $unit_kerja->kode;
         $replaces['<kode_arsip_id>'] = $kode_arsip->kode;
@@ -570,16 +570,16 @@ class Helper
      * @param  string  $bulan
      * @return array
      */
-    public static function getJenisKontrak($tahun, $bulan) : array
+    public static function getJenisKontrak($tahun, $bulan): array
     {
         $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
 
-        return JenisKontrak::cache()->get('all')->where('tanggal','<=', $tanggal)->sortByDesc('tanggal')->first()->jenis;
+        return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis;
     }
 
     /**
      * Pilihan Jenis kontrak.
-     * 
+     *
      * @param  string  $tahun
      * @param  string  $bulan
      * @return array
@@ -591,13 +591,13 @@ class Helper
         foreach ($jeniskontrak as $option) {
             $options[$option['jenis']] = $option['jenis'];
         }
-        return $options;
 
+        return $options;
     }
 
     /**
      * Mengambil batas SBML.
-     * 
+     *
      * @param  string  $tahun
      * @param  string  $bulan
      * @param  string  $jenis
@@ -608,9 +608,9 @@ class Helper
         $nilai = 0;
         $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
         foreach ($jeniskontrak as $option) {
-           $nilai = $option['jenis'] === $jenis ? $option['sbml'] : 0;
+            $nilai = $option['jenis'] === $jenis ? $option['sbml'] : 0;
         }
+
         return $nilai;
     }
-
 }

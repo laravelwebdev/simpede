@@ -4,7 +4,6 @@ namespace App\Nova\Actions;
 
 use App\Helpers\Cetak;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -20,13 +19,13 @@ class Download extends Action
     protected $jenis;
     protected $title;
 
-    public function __construct($jenis , $title = 'Unduh')
+    public function __construct($jenis, $title = 'Unduh')
     {
         $this->jenis = $jenis;
         $this->title = $title;
     }
 
-    public function name ()
+    public function name()
     {
         return $this->title;
     }
@@ -42,6 +41,7 @@ class Download extends Action
     {
         $model = $models->first();
         $filename = Cetak::cetak($this->jenis, $model->id);
+
         return ActionResponse::download($filename, Storage::disk($this->jenis)->url($filename));
     }
 

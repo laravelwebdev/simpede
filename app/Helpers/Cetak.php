@@ -29,6 +29,7 @@ class Cetak
         $templateProcessor->setValues($data);
         $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx';
         $templateProcessor->saveAs(Storage::path('public/'.$jenis.'/'.$filename));
+
         return $filename;
     }
 
@@ -62,7 +63,7 @@ class Cetak
             'tanggal_dipa' => Helper::terbilangTanggal(Helper::getDipa($data->tahun)->tanggal),
             'tahun' => $data->tahun,
             'jabatan' => $data->jabatan,
-            'waktu' => Helper::jangkaWaktuHariKalender($data->awal,$data->akhir),
+            'waktu' => Helper::jangkaWaktuHariKalender($data->awal, $data->akhir),
             'awal' => Helper::terbilangTanggal($data->awal),
             'akhir' => Helper::terbilangTanggal($data->akhir),
             'ppk' => $data->ppk,

@@ -748,19 +748,20 @@ class Helper
     }
 
     /**
-     * Mengambil Path Template
+     * Mengambil Path Template.
      *
      * @param  string  $jenis
      * @return string
      */
     public static function getTemplatePath($jenis)
     {
-        $file = Template::cache()->get('all')->where('slug','template_'.$jenis)->first()->file;
+        $file = Template::cache()->get('all')->where('slug', 'template_'.$jenis)->first()->file;
+
         return Storage::disk('templates')->path($file);
     }
 
     /**
-     * Mengambil Keterangan DIPA
+     * Mengambil Keterangan DIPA.
      *
      * @param  string  $tahun
      * @return collection
@@ -771,7 +772,7 @@ class Helper
     }
 
     /**
-     * Menghapus titik di akhir kalimat
+     * Menghapus titik di akhir kalimat.
      *
      * @param  string  $kalimat
      * @return string
@@ -782,7 +783,7 @@ class Helper
     }
 
     /**
-     * Menghapus File dokumen
+     * Menghapus File dokumen.
      *
      * @param  string  $id
      * @return void
@@ -792,14 +793,8 @@ class Helper
         if ($jenis == 'kak') {
             $naskah_id = KerangkaAcuan::find($id)->naskah_keluar_id;
             $nomor = NaskahKeluar::find($naskah_id)->nomor;
-        } 
+        }
         $filename = $jenis.'_'.session('year').'_'.explode('/', $nomor)[0].'.docx';
         File::delete(Storage::path('public/'.$jenis.'/'.$filename));
-
     }
-
-
-
-
-
 }

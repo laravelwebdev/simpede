@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,10 +47,10 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
             $kak->naskah_keluar_id = $naskahkeluar->id;
 
-            $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id' , Auth::user()->unit_kerja_id)->first();
+            $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id', Auth::user()->unit_kerja_id)->first();
             $kak->nama = $user->nama;
             $kak->nip = $user->nip;
-            $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum': 'Penanggung Jawab Kegiatan';
+            $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan';
             $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
             $kak->ppk = Helper::getPengelola('ppk')->nama;
             $kak->nipppk = Helper::getPengelola('ppk')->nip;
@@ -64,10 +63,9 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
         });
         static::deleting(function (KerangkaAcuan $kak) {
-            Helper::hapusFile('kak',$kak->id);
+            Helper::hapusFile('kak', $kak->id);
             NaskahKeluar::where('id', $kak->naskah_keluar_id)->delete();
             HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
-
         });
         static::saving(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {

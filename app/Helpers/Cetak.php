@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use App\Models\KerangkaAcuan;
+use App\Models\NaskahKeluar;
+use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -13,16 +15,21 @@ class Cetak
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
      * @param  string  $id
-     * @return void
+     * @return string
      */
     public static function cetak($jenis, $id)
     {
-        $templateProcessor = new TemplateProcessor(Storage::path('template/Template_permintaan.docx'));
-        $templateProcessor->setValues(call_user_func('App\Helpers\Cetak::'.$jenis, $id));
+        $templateProcessor = new TemplateProcessor(Helper::getTemplatePath($jenis));
+        $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
         if ($jenis === 'kak') {
-            $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data->spesifikasi));
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatAnggaran($data['anggaran']));
+            $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
+            unset($data['anggaran'], $data['spesifikasi']);
         }
-        $templateProcessor->saveAs(Storage::path('public/permintaan/KAK'.explode('/', $no)[0].'.docx'));
+        $templateProcessor->setValues($data);
+        $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx';
+        $templateProcessor->saveAs(Storage::path('public/'.$jenis.'/'.$filename));
+        return $filename;
     }
 
     /**
@@ -36,31 +43,30 @@ class Cetak
         $data = KerangkaAcuan::find($id);
 
         return [
-            'nomor' => $data->nomor,
+            'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
-            'rincian' => $data->rincian,
-            'unit' => $data->unit,
-            'mak' => $data->mak,
-            'latar_belakang' => $data->latar_belakang,
-            'maksud' => $data->maksud,
-            'tujuan' => $data->tujuan,
-            'target' => $data->target,
+            'rincian' => Helper::hapusTitikAkhirKalimat($data->rincian),
+            'unit' => UnitKerja::cache()->get('all')->where('id', $data->unit_kerja_id)->first()->unit,
+            'latar_belakang' => Helper::hapusTitikAkhirKalimat($data->latar),
+            'maksud' => Helper::hapusTitikAkhirKalimat($data->maksud),
+            'tujuan' => Helper::hapusTitikAkhirKalimat($data->tujuan),
+            'target' => Helper::hapusTitikAkhirKalimat($data->sasaran),
             'tkdn' => $data->tkdn,
+            'pemaketan' => $data->jenis,
+            'anggaran' => $data->anggaran,
+            'spesifikasi' => $data->spesifikasi,
             'metode' => $data->metode,
-            'volume' => $data->volume,
-            'jumlah' => Helper::formatRupiah((float) $data->jumlah),
-            'perkiraan' => Helper::formatRupiah((float) $data->perkiraan),
             'nama' => $data->nama,
             'nip' => $data->nip,
+            'no_dipa' => Helper::getDipa($data->tahun)->nomor,
+            'tanggal_dipa' => Helper::terbilangTanggal(Helper::getDipa($data->tahun)->tanggal),
+            'tahun' => $data->tahun,
             'jabatan' => $data->jabatan,
-            'survei' => $data->survei,
-            'waktu' => $data->waktu,
+            'waktu' => Helper::jangkaWaktuHariKalender($data->awal,$data->akhir),
             'awal' => Helper::terbilangTanggal($data->awal),
             'akhir' => Helper::terbilangTanggal($data->akhir),
             'ppk' => $data->ppk,
             'nipppk' => $data->nipppk,
-            'terbilang_pagu' => Helper::terbilang((int) $data->jumlah, 'uw', ' rupiah'),
-            'terbilang_perkiraan' => Helper::terbilang((int) $data->perkiraan, 'uw', ' rupiah'),
         ];
     }
 }

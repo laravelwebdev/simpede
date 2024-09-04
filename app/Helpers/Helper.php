@@ -2,16 +2,21 @@
 
 namespace App\Helpers;
 
+use App\Models\Dipa;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
+use App\Models\KerangkaAcuan;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
+use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Helper
@@ -706,6 +711,7 @@ class Helper
         $spek = collect($spesifikasi);
         $spek->transform(function ($item, $index) {
             $item['spek_no'] = $index + 1;
+            $item['spek_nilai'] = (float) $item['spek_volume'] * (float) $item['spek_harga'];
             if (isset($item['spek_harga'])) {
                 $item['spek_harga'] = self::formatRupiah($item['spek_harga']);
             }
@@ -718,4 +724,82 @@ class Helper
 
         return $spek;
     }
+
+    /**
+     * Format tampilan anggaran.
+     *
+     * @param  array  $spesifikasi
+     * @return array
+     */
+    public static function formatAnggaran($anggaran)
+    {
+        // $speks= json_decode($spesifikasi,true);
+        $spek = collect($anggaran);
+        $spek->transform(function ($item, $index) {
+            $item['no'] = $index + 1;
+            if (isset($item['perkiraan'])) {
+                $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
+            }
+
+            return $item;
+        })->toArray();
+
+        return $spek;
+    }
+
+    /**
+     * Mengambil Path Template
+     *
+     * @param  string  $jenis
+     * @return string
+     */
+    public static function getTemplatePath($jenis)
+    {
+        $file = Template::cache()->get('all')->where('slug','template_'.$jenis)->first()->file;
+        return Storage::disk('templates')->path($file);
+    }
+
+    /**
+     * Mengambil Keterangan DIPA
+     *
+     * @param  string  $tahun
+     * @return collection
+     */
+    public static function getDipa($tahun)
+    {
+        return Dipa::cache()->get('all')->where('tahun', $tahun)->first();
+    }
+
+    /**
+     * Menghapus titik di akhir kalimat
+     *
+     * @param  string  $kalimat
+     * @return string
+     */
+    public static function hapusTitikAkhirKalimat($kalimat)
+    {
+        return rtrim($kalimat, '.');
+    }
+
+    /**
+     * Menghapus File dokumen
+     *
+     * @param  string  $id
+     * @return void
+     */
+    public static function hapusFile($jenis, $id)
+    {
+        if ($jenis == 'kak') {
+            $naskah_id = KerangkaAcuan::find($id)->naskah_keluar_id;
+            $nomor = NaskahKeluar::find($naskah_id)->nomor;
+        } 
+        $filename = $jenis.'_'.session('year').'_'.explode('/', $nomor)[0].'.docx';
+        File::delete(Storage::path('public/'.$jenis.'/'.$filename));
+
+    }
+
+
+
+
+
 }

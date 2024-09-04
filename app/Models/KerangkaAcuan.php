@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,9 +47,11 @@ class KerangkaAcuan extends Model
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
             $kak->naskah_keluar_id = $naskahkeluar->id;
-            $kak->nama = Auth::user()->nama;
-            $kak->nip = Auth::user()->nip;
-            $kak->jabatan = Auth::user()->jabatan;
+
+            $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id' , Auth::user()->unit_kerja_id)->first();
+            $kak->nama = $user->nama;
+            $kak->nip = $user->nip;
+            $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum': 'Penanggung Jawab Kegiatan';
             $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
             $kak->ppk = Helper::getPengelola('ppk')->nama;
             $kak->nipppk = Helper::getPengelola('ppk')->nip;
@@ -60,18 +63,19 @@ class KerangkaAcuan extends Model
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
         });
-        static::deleted(function (KerangkaAcuan $kak) {
+        static::deleting(function (KerangkaAcuan $kak) {
+            Helper::hapusFile('kak',$kak->id);
             NaskahKeluar::where('id', $kak->naskah_keluar_id)->delete();
             HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
+
         });
         static::saving(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {
-                $kak->metode = null;
-                $kak->tkdn = null;
+                $kak->metode = '-';
+                $kak->tkdn = '-';
             }
         });
         static::saved(function (KerangkaAcuan $kak) {
-            $kak->spesifikasi = Helper::addTotalToSpek($kak->spesifikasi);
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
                 if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);

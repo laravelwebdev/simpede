@@ -2,20 +2,19 @@
 
 use App\Helpers\Cetak;
 use App\Helpers\Inspiring;
+use App\Models\Dipa;
 use App\Models\JenisKontrak;
 use App\Models\KerangkaAcuan;
+use App\Models\NaskahKeluar;
+use App\Models\Template;
+use App\Models\UnitKerja;
+use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
-$format_nomor =':derajat-:no_urut/:kode_unit_kerja/:kode_arsip/:tahun';
-$replaces=[];
-preg_match_all("/:[a-zA-Z0-9_]+/", $format_nomor, $hasil);
-foreach ($hasil[0] as $key)
-if (($key != ':tahun') && ($key != ':no_urut')) $replaces[$key] = $key;
-
-$format_nomor;
-
-Carbon::createFromFormat('Y-m-d', '2024-01-01')->year;
+$naskah_id = KerangkaAcuan::find(11)->naskah_keluar_id;
+NaskahKeluar::find($naskah_id)->nomor;
 
 
 

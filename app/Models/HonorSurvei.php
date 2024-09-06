@@ -15,6 +15,7 @@ class HonorSurvei extends Model
         'tanggal_spj' => 'date',
         'tanggal_sk' => 'date',
         'tanggal_st' => 'date',
+        'tanggal_kak' => 'date',
         'awal' => 'date',
         'akhir' => 'date',
         'pegawai' => 'array',

@@ -8,11 +8,13 @@ use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
@@ -32,7 +34,7 @@ class HonorSurvei extends Resource
 
     public static function label()
     {
-        return 'Honor Survei';
+        return 'Honor Kegiatan';
     }
 
     /**
@@ -40,7 +42,7 @@ class HonorSurvei extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'kegiatan';
 
     /**
      * The columns that should be searched.
@@ -60,6 +62,7 @@ class HonorSurvei extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('Tanggal KAK', 'tanggal_kak'),
             Panel::make('Keterangan SPJ', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
@@ -88,13 +91,17 @@ class HonorSurvei extends Resource
                     ->sortable()
                     ->hideFromIndex(),
                 Date::make('Tanggal SPJ', 'tanggal_spj')
-                    ->rules('required')
+                    ->rules('required', 'after_or_equal:akhir')
                     ->hideFromIndex()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Panel::make('Keterangan Kontrak', [
                 Select::make('Bulan Kontrak', 'bulan')
-                    ->rules('required')
+                    ->rules('required',function ($attribute, $value, $fail) {
+                        if (Carbon::createFromDate(session('year'), $value)->startOfMonth() < $this->tanggal_kak) {
+                            return $fail('Bulan Kontrak harus berisi tanggal setelah atau sama dengan awal bulan tanggal KAK.');
+                        }
+                    })
                     ->options(Helper::$bulan)
                     ->filterable()
                     ->displayUsingLabels(),
@@ -138,7 +145,7 @@ class HonorSurvei extends Resource
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_sk) {
                             $field->show()
-                                ->rules('required');
+                                ->rules('required','before_or_equal:today','after_or_equal:tanggal_kak');
                         }
                     })->hideFromIndex(),
                 Text::make('Objek SK', 'objek_sk')
@@ -165,7 +172,7 @@ class HonorSurvei extends Resource
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                                ->rules('required');
+                                ->rules('required','before_or_equal:today','after_or_equal:tanggal_sk');
                         }
                     })->hideFromIndex(),
                 Text::make('Uraian Tugas', 'uraian_tugas')

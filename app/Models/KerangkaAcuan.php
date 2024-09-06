@@ -93,6 +93,8 @@ class KerangkaAcuan extends Model
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->generate_sk = 'Ya';
                     $honor->generate_st = 'Ya';
+                    $honor->tanggal_kak = $kak->tanggal;
+                    $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;
                     $honor->tanggal_sk = $kak->tanggal;
                     $honor->unit_kerja_id = $kak->unit_kerja_id;

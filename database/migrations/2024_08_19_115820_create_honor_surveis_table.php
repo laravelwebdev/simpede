@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('honor_surveis', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
+            $table->date('tanggal_kak')->nullable();
             $table->bigInteger('nomor_sk')->unsigned()->nullable();
             $table->bigInteger('nomor_st')->unsigned()->nullable();
             $table->string('judul_spj')->nullable();

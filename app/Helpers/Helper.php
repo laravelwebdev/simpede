@@ -6,7 +6,6 @@ use App\Models\Dipa;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
-use App\Models\KerangkaAcuan;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\NaskahKeluar;
@@ -15,7 +14,6 @@ use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -781,5 +779,4 @@ class Helper
     {
         return rtrim($kalimat, '.');
     }
-
 }

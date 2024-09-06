@@ -20,18 +20,18 @@ class Cetak
     public static function cetak($jenis, $models)
     {
         $index = 0;
-        $mainXml ='';
+        $mainXml = '';
         foreach ($models as $model) {
-        if ($index === 0) {
-           $mainTemplate = self::getTemplate($jenis, $model->id);
-           $mainXml = self::getMainXml($mainTemplate);
-           $data = call_user_func('App\Helpers\Cetak::'.$jenis, $model->id);
-        } else {
-            $innerTemplate = self::getTemplate($jenis, $model->id);
-            $innerXml = self::getModifiedInnerXml($innerTemplate);
-            $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>' . $innerXml . '</w:body>', $mainXml);
-        }
-        $index++;
+            if ($index === 0) {
+                $mainTemplate = self::getTemplate($jenis, $model->id);
+                $mainXml = self::getMainXml($mainTemplate);
+                $data = call_user_func('App\Helpers\Cetak::'.$jenis, $model->id);
+            } else {
+                $innerTemplate = self::getTemplate($jenis, $model->id);
+                $innerXml = self::getModifiedInnerXml($innerTemplate);
+                $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
+            }
+            $index++;
         }
         $mainTemplate->settempDocumentMainPart($mainXml);
         ($index === 1) ? $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx' : $filename = uniqid().'.docx';
@@ -57,6 +57,7 @@ class Cetak
             unset($data['anggaran'], $data['spesifikasi']);
         }
         $templateProcessor->setValues($data);
+
         return  $templateProcessor;
     }
 
@@ -67,7 +68,7 @@ class Cetak
      * @return string
      */
     public static function getMainXml($templateProcessor)
-    {        
+    {
         return  $templateProcessor->gettempDocumentMainPart();
     }
 
@@ -78,10 +79,11 @@ class Cetak
      * @return string
      */
     public static function getModifiedInnerXml($templateProcessor)
-    {        
+    {
         $innerXml = $templateProcessor->gettempDocumentMainPart();
         $innerXml = preg_replace('/^[\s\S]*<w:body>(.*)<\/w:body>.*/', '$1', $innerXml);
         $innerXml = preg_replace('/<w:sectPr>.*<\/w:sectPr>/', '', $innerXml);
+
         return $innerXml;
     }
 

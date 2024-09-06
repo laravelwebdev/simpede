@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6666aa1cc8a8b94c76fa471c5ec6378",
+    "content-hash": "dc1068963d1b62e3871bf43a0d107748",
     "packages": [
         {
             "name": "brick/math",
@@ -3525,17 +3525,11 @@
         },
         {
             "name": "oriondevelops/nova-greeter",
-            "version": "v0.0.2",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/oriondevelops/nova-greeter.git",
-                "reference": "97b23333722a439220b297af56e1048aba4c6b3b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oriondevelops/nova-greeter/zipball/97b23333722a439220b297af56e1048aba4c6b3b",
-                "reference": "97b23333722a439220b297af56e1048aba4c6b3b",
-                "shasum": ""
+                "url": "https://github.com/laravelwebdev/nova-greeter.git",
+                "reference": "de522dd42c1edd0da9848ef6d0b58b14b8409656"
             },
             "require": {
                 "laravel/nova": "^4.0",
@@ -3554,7 +3548,6 @@
                     "Orion\\NovaGreeter\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3566,11 +3559,7 @@
                 "laravel",
                 "nova"
             ],
-            "support": {
-                "issues": "https://github.com/oriondevelops/nova-greeter/issues",
-                "source": "https://github.com/oriondevelops/nova-greeter/tree/v0.0.2"
-            },
-            "time": "2024-08-02T09:32:03+00:00"
+            "time": "2024-08-29T13:47:46+00:00"
         },
         {
             "name": "outl1ne/nova-simple-repeatable",
@@ -3834,8 +3823,14 @@
             "version": "1.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravelwebdev/PHPWord.git",
-                "reference": "2e4f3cf3b7ebf50131f5f661da2c9a9788a8dc2c"
+                "url": "https://github.com/PHPOffice/PHPWord.git",
+                "reference": "8392134ce4b5dba65130ba956231a1602b848b7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/8392134ce4b5dba65130ba956231a1602b848b7f",
+                "reference": "8392134ce4b5dba65130ba956231a1602b848b7f",
+                "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
@@ -3845,7 +3840,7 @@
                 "phpoffice/math": "^0.2"
             },
             "require-dev": {
-                "dompdf/dompdf": "^2.0 || ^3.0",
+                "dompdf/dompdf": "^2.0",
                 "ext-gd": "*",
                 "ext-libxml": "*",
                 "ext-zip": "*",
@@ -3870,29 +3865,7 @@
                     "PhpOffice\\PhpWord\\": "src/PhpWord"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "phpunit --color=always"
-                ],
-                "test-no-coverage": [
-                    "phpunit --color=always --no-coverage"
-                ],
-                "check": [
-                    "php-cs-fixer fix --ansi --dry-run --diff",
-                    "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
-                    "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-                    "@test-no-coverage",
-                    "phpstan analyse --ansi"
-                ],
-                "fix": [
-                    "php-cs-fixer fix --ansi"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-3.0"
             ],
@@ -3924,31 +3897,35 @@
             "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
             "homepage": "https://phpoffice.github.io/PHPWord/",
             "keywords": [
-                "HTML",
                 "ISO IEC 29500",
-                "ODF",
                 "OOXML",
                 "Office Open XML",
                 "OpenDocument",
                 "OpenXML",
-                "PDF",
-                "PHP",
-                "PHPOffice",
-                "PHPWord",
-                "RTF",
+                "PhpOffice",
+                "PhpWord",
                 "Rich Text Format",
                 "WordprocessingML",
                 "doc",
                 "docx",
+                "html",
+                "odf",
                 "odt",
                 "office",
+                "pdf",
+                "php",
                 "reader",
+                "rtf",
                 "template",
                 "template processor",
                 "word",
                 "writer"
             ],
-            "time": "2024-09-05T07:08:06+00:00"
+            "support": {
+                "issues": "https://github.com/PHPOffice/PHPWord/issues",
+                "source": "https://github.com/PHPOffice/PHPWord/tree/1.3.0"
+            },
+            "time": "2024-08-30T18:03:42+00:00"
         },
         {
             "name": "phpoption/phpoption",

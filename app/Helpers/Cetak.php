@@ -6,7 +6,7 @@ use App\Models\KerangkaAcuan;
 use App\Models\NaskahKeluar;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpWord\TemplateProcessor;
+use App\Helpers\TemplateProcessor;
 
 class Cetak
 {

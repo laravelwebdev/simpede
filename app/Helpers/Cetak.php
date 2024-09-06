@@ -14,10 +14,40 @@ class Cetak
      * Cetak Dokumen.
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
-     * @param  string  $id
+     * @param  collection  $model
      * @return string
      */
-    public static function cetak($jenis, $id)
+    public static function cetak($jenis, $models)
+    {
+        $index = 0;
+        $mainXml ='';
+        foreach ($models as $model) {
+        if ($index === 0) {
+           $mainTemplate = self::getTemplate($jenis, $model->id);
+           $mainXml = self::getMainXml($mainTemplate);
+           $data = call_user_func('App\Helpers\Cetak::'.$jenis, $model->id);
+        } else {
+            $innerTemplate = self::getTemplate($jenis, $model->id);
+            $innerXml = self::getModifiedInnerXml($innerTemplate);
+            $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>' . $innerXml . '</w:body>', $mainXml);
+        }
+        $index++;
+        }
+        $mainTemplate->settempDocumentMainPart($mainXml);
+        ($index === 1) ? $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx' : $filename = uniqid().'.docx';
+        $mainTemplate->saveAs(Storage::path('public/'.$filename));
+
+        return $filename;
+    }
+
+    /**
+     * Ambil TemplateProsessor.
+     *
+     * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
+     * @param  string  $id
+     * @return TemplateProcessor
+     */
+    public static function getTemplate($jenis, $id)
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePath($jenis));
         $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
@@ -27,10 +57,32 @@ class Cetak
             unset($data['anggaran'], $data['spesifikasi']);
         }
         $templateProcessor->setValues($data);
-        $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx';
-        $templateProcessor->saveAs(Storage::path('public/'.$jenis.'/'.$filename));
+        return  $templateProcessor;
+    }
 
-        return $filename;
+    /**
+     * Ambil XML dari dokumen utama.
+     *
+     * @param  TemplateProcessor  $templateProcessor
+     * @return string
+     */
+    public static function getMainXml($templateProcessor)
+    {        
+        return  $templateProcessor->gettempDocumentMainPart();
+    }
+
+    /**
+     * Ambil XML dari dokumen yangakan digabung.
+     *
+     * @param  TemplateProcessor  $templateProcessor
+     * @return string
+     */
+    public static function getModifiedInnerXml($templateProcessor)
+    {        
+        $innerXml = $templateProcessor->gettempDocumentMainPart();
+        $innerXml = preg_replace('/^[\s\S]*<w:body>(.*)<\/w:body>.*/', '$1', $innerXml);
+        $innerXml = preg_replace('/<w:sectPr>.*<\/w:sectPr>/', '', $innerXml);
+        return $innerXml;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Cetak;
+use App\Helpers\TemplateProcessor;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -39,10 +40,12 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $model = $models->first();
-        $filename = Cetak::cetak($this->jenis, $model->id);
+        $filename = Cetak::cetak($this->jenis, $models);
 
-        return ActionResponse::download($filename, Storage::disk($this->jenis)->url($filename));
+        return Action::redirect( route('dump-download', [
+            'filename' => $filename, 'jenis'=>$this->jenis
+        ] ) );
+        
     }
 
     /**

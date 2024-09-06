@@ -63,7 +63,6 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
         });
         static::deleting(function (KerangkaAcuan $kak) {
-            Helper::hapusFile('kak', $kak->id);
             NaskahKeluar::where('id', $kak->naskah_keluar_id)->delete();
             HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
         });

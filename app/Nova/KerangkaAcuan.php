@@ -134,7 +134,7 @@ class KerangkaAcuan extends Resource
     {
         return [
             Download::make('kak', 'Unduh KAK')
-                ->onlyInline()
+                ->showInline()
                 ->showOnDetail()
                 ->withoutConfirmation(),
         ];

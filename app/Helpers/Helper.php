@@ -782,19 +782,4 @@ class Helper
         return rtrim($kalimat, '.');
     }
 
-    /**
-     * Menghapus File dokumen.
-     *
-     * @param  string  $id
-     * @return void
-     */
-    public static function hapusFile($jenis, $id)
-    {
-        if ($jenis == 'kak') {
-            $naskah_id = KerangkaAcuan::find($id)->naskah_keluar_id;
-            $nomor = NaskahKeluar::find($naskah_id)->nomor;
-        }
-        $filename = $jenis.'_'.session('year').'_'.explode('/', $nomor)[0].'.docx';
-        File::delete(Storage::path('public/'.$jenis.'/'.$filename));
-    }
 }

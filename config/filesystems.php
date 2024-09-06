@@ -60,14 +60,6 @@ return [
             'throw' => false,
         ],
 
-        'kak' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/kak'),
-            'url' => env('APP_URL').'storage/kak',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
         'naskah' => [
             'driver' => 'local',
             'root' => storage_path('app/public/naskah'),

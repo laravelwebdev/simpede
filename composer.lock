@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cc14189c1afc59eea56f01b0a4520d9",
+    "content-hash": "c6666aa1cc8a8b94c76fa471c5ec6378",
     "packages": [
         {
             "name": "brick/math",
@@ -851,6 +851,67 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "bbc513d79acf6691fa9cf10f192c90dd2957f18c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/bbc513d79acf6691fa9cf10f192c90dd2957f18c",
+                "reference": "bbc513d79acf6691fa9cf10f192c90dd2957f18c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
+            },
+            "require-dev": {
+                "cerdic/css-tidy": "^1.7 || ^2.0",
+                "simpletest/simpletest": "dev-master"
+            },
+            "suggest": {
+                "cerdic/css-tidy": "If you want to use the filter 'Filter.ExtractStyleBlocks'.",
+                "ext-bcmath": "Used for unit conversion and imagecrash protection",
+                "ext-iconv": "Converts text to and from non-UTF-8 encodings",
+                "ext-tidy": "Used for pretty-printing HTML"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.17.0"
+            },
+            "time": "2023-11-17T15:01:25+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -2469,22 +2530,27 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.56.1",
+            "version": "3.1.57",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravelwebdev/Laravel-Excel.git",
-                "reference": "349afde324bb294d2d8507ce3d4a0f2b073bed25"
+                "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
+                "reference": "3571496c00ca1812c25ee19cda50faad216b7909"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/3571496c00ca1812c25ee19cda50faad216b7909",
+                "reference": "3571496c00ca1812c25ee19cda50faad216b7909",
+                "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.3",
                 "ext-json": "*",
                 "illuminate/support": "5.8.*||^6.0||^7.0||^8.0||^9.0||^10.0||^11.0",
                 "php": "^7.0||^8.0",
-                "phpoffice/phpspreadsheet": "^1.18||^2.0",
+                "phpoffice/phpspreadsheet": "^1.29.1",
                 "psr/simple-cache": "^1.0||^2.0||^3.0"
             },
             "require-dev": {
-                "laravel/legacy-factories": "^1.0",
                 "laravel/scout": "^7.0||^8.0||^9.0||^10.0",
                 "orchestra/testbench": "^6.0||^7.0||^8.0||^9.0",
                 "predis/predis": "^1.1"
@@ -2505,11 +2571,7 @@
                     "Maatwebsite\\Excel\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Maatwebsite\\Excel\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2521,6 +2583,7 @@
             ],
             "description": "Supercharged Excel exports and imports in Laravel",
             "keywords": [
+                "PHPExcel",
                 "batch",
                 "csv",
                 "excel",
@@ -2528,10 +2591,23 @@
                 "import",
                 "laravel",
                 "php",
-                "phpexcel",
                 "phpspreadsheet"
             ],
-            "time": "2024-07-10T07:10:41+00:00"
+            "support": {
+                "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.57"
+            },
+            "funding": [
+                {
+                    "url": "https://laravel-excel.com/commercial-support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/patrickbrouwers",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-09-04T07:37:43+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3206,16 +3282,16 @@
         },
         {
             "name": "nunomaduro/termwind",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/termwind.git",
-                "reference": "58c4c58cf23df7f498daeb97092e34f5259feb6a"
+                "reference": "e5f21eade88689536c0cdad4c3cd75f3ed26e01a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/58c4c58cf23df7f498daeb97092e34f5259feb6a",
-                "reference": "58c4c58cf23df7f498daeb97092e34f5259feb6a",
+                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/e5f21eade88689536c0cdad4c3cd75f3ed26e01a",
+                "reference": "e5f21eade88689536c0cdad4c3cd75f3ed26e01a",
                 "shasum": ""
             },
             "require": {
@@ -3225,11 +3301,11 @@
             },
             "require-dev": {
                 "ergebnis/phpstan-rules": "^2.2.0",
-                "illuminate/console": "^11.0.0",
-                "laravel/pint": "^1.14.0",
-                "mockery/mockery": "^1.6.7",
-                "pestphp/pest": "^2.34.1",
-                "phpstan/phpstan": "^1.10.59",
+                "illuminate/console": "^11.1.1",
+                "laravel/pint": "^1.15.0",
+                "mockery/mockery": "^1.6.11",
+                "pestphp/pest": "^2.34.6",
+                "phpstan/phpstan": "^1.10.66",
                 "phpstan/phpstan-strict-rules": "^1.5.2",
                 "symfony/var-dumper": "^7.0.4",
                 "thecodingmachine/phpstan-strict-rules": "^1.0.0"
@@ -3274,7 +3350,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/termwind/issues",
-                "source": "https://github.com/nunomaduro/termwind/tree/v2.0.1"
+                "source": "https://github.com/nunomaduro/termwind/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -3290,7 +3366,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-06T16:17:14+00:00"
+            "time": "2024-09-05T15:25:50+00:00"
         },
         {
             "name": "oneduo/nova-time-field",
@@ -3650,16 +3726,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "2.2.2",
+            "version": "1.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "ffbcee68069b073bff07a71eb321dcd9f2763513"
+                "reference": "59ee38f7480904cd6487e5cbdea4d80ff2758719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/ffbcee68069b073bff07a71eb321dcd9f2763513",
-                "reference": "ffbcee68069b073bff07a71eb321dcd9f2763513",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/59ee38f7480904cd6487e5cbdea4d80ff2758719",
+                "reference": "59ee38f7480904cd6487e5cbdea4d80ff2758719",
                 "shasum": ""
             },
             "require": {
@@ -3676,24 +3752,25 @@
                 "ext-xmlwriter": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
+                "ezyang/htmlpurifier": "^4.15",
                 "maennchen/zipstream-php": "^2.1 || ^3.0",
                 "markbaker/complex": "^3.0",
                 "markbaker/matrix": "^3.0",
-                "php": "^8.1",
+                "php": "^7.4 || ^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-main",
-                "dompdf/dompdf": "^2.0 || ^3.0",
+                "dompdf/dompdf": "^1.0 || ^2.0",
                 "friendsofphp/php-cs-fixer": "^3.2",
                 "mitoteam/jpgraph": "^10.3",
                 "mpdf/mpdf": "^8.1.1",
                 "phpcompatibility/php-compatibility": "^9.3",
                 "phpstan/phpstan": "^1.1",
                 "phpstan/phpstan-phpunit": "^1.0",
-                "phpunit/phpunit": "^9.6 || ^10.5",
+                "phpunit/phpunit": "^8.5 || ^9.0",
                 "squizlabs/php_codesniffer": "^3.7",
                 "tecnickcom/tcpdf": "^6.5"
             },
@@ -3748,23 +3825,17 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.2"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.1"
             },
-            "time": "2024-08-08T02:31:26+00:00"
+            "time": "2024-09-03T00:55:32+00:00"
         },
         {
             "name": "phpoffice/phpword",
             "version": "1.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPOffice/PHPWord.git",
-                "reference": "8392134ce4b5dba65130ba956231a1602b848b7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/8392134ce4b5dba65130ba956231a1602b848b7f",
-                "reference": "8392134ce4b5dba65130ba956231a1602b848b7f",
-                "shasum": ""
+                "url": "https://github.com/laravelwebdev/PHPWord.git",
+                "reference": "2e4f3cf3b7ebf50131f5f661da2c9a9788a8dc2c"
             },
             "require": {
                 "ext-dom": "*",
@@ -3774,7 +3845,7 @@
                 "phpoffice/math": "^0.2"
             },
             "require-dev": {
-                "dompdf/dompdf": "^2.0",
+                "dompdf/dompdf": "^2.0 || ^3.0",
                 "ext-gd": "*",
                 "ext-libxml": "*",
                 "ext-zip": "*",
@@ -3799,7 +3870,29 @@
                     "PhpOffice\\PhpWord\\": "src/PhpWord"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit --color=always"
+                ],
+                "test-no-coverage": [
+                    "phpunit --color=always --no-coverage"
+                ],
+                "check": [
+                    "php-cs-fixer fix --ansi --dry-run --diff",
+                    "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+                    "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
+                    "@test-no-coverage",
+                    "phpstan analyse --ansi"
+                ],
+                "fix": [
+                    "php-cs-fixer fix --ansi"
+                ]
+            },
             "license": [
                 "LGPL-3.0"
             ],
@@ -3831,35 +3924,31 @@
             "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
             "homepage": "https://phpoffice.github.io/PHPWord/",
             "keywords": [
+                "HTML",
                 "ISO IEC 29500",
+                "ODF",
                 "OOXML",
                 "Office Open XML",
                 "OpenDocument",
                 "OpenXML",
-                "PhpOffice",
-                "PhpWord",
+                "PDF",
+                "PHP",
+                "PHPOffice",
+                "PHPWord",
+                "RTF",
                 "Rich Text Format",
                 "WordprocessingML",
                 "doc",
                 "docx",
-                "html",
-                "odf",
                 "odt",
                 "office",
-                "pdf",
-                "php",
                 "reader",
-                "rtf",
                 "template",
                 "template processor",
                 "word",
                 "writer"
             ],
-            "support": {
-                "issues": "https://github.com/PHPOffice/PHPWord/issues",
-                "source": "https://github.com/PHPOffice/PHPWord/tree/1.3.0"
-            },
-            "time": "2024-08-30T18:03:42+00:00"
+            "time": "2024-09-05T07:08:06+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8047,16 +8136,16 @@
         },
         {
             "name": "laravel-lang/config",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/config.git",
-                "reference": "ee2ab720bb68f90f1f6156301d0b120fa171eb93"
+                "reference": "68360604cf8d7abd0db225669d21c36a78f4c716"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/ee2ab720bb68f90f1f6156301d0b120fa171eb93",
-                "reference": "ee2ab720bb68f90f1f6156301d0b120fa171eb93",
+                "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/68360604cf8d7abd0db225669d21c36a78f4c716",
+                "reference": "68360604cf8d7abd0db225669d21c36a78f4c716",
                 "shasum": ""
             },
             "require": {
@@ -8115,9 +8204,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/config/issues",
-                "source": "https://github.com/Laravel-Lang/config/tree/1.9.0"
+                "source": "https://github.com/Laravel-Lang/config/tree/1.9.1"
             },
-            "time": "2024-08-31T15:31:39+00:00"
+            "time": "2024-09-04T14:12:54+00:00"
         },
         {
             "name": "laravel-lang/lang",
@@ -8685,16 +8774,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.31.2",
+            "version": "v1.31.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "b4af38e1ab16fe7aa729eddf5b810229f42d2ad3"
+                "reference": "0a7e2891a85eba2d448a9ffc6fc5ce367e924bc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/b4af38e1ab16fe7aa729eddf5b810229f42d2ad3",
-                "reference": "b4af38e1ab16fe7aa729eddf5b810229f42d2ad3",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/0a7e2891a85eba2d448a9ffc6fc5ce367e924bc1",
+                "reference": "0a7e2891a85eba2d448a9ffc6fc5ce367e924bc1",
                 "shasum": ""
             },
             "require": {
@@ -8744,7 +8833,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2024-09-03T13:44:23+00:00"
+            "time": "2024-09-03T20:05:33+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -9497,16 +9586,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.3.2",
+            "version": "11.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8a4de85cc4a78c59dd31cc4ef454b0029f8440dc"
+                "reference": "8ed08766d9a2ed979a2f5fdbb95a0671523419c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8a4de85cc4a78c59dd31cc4ef454b0029f8440dc",
-                "reference": "8a4de85cc4a78c59dd31cc4ef454b0029f8440dc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8ed08766d9a2ed979a2f5fdbb95a0671523419c1",
+                "reference": "8ed08766d9a2ed979a2f5fdbb95a0671523419c1",
                 "shasum": ""
             },
             "require": {
@@ -9577,7 +9666,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.3.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.3.3"
             },
             "funding": [
                 {
@@ -9593,7 +9682,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-03T12:00:26+00:00"
+            "time": "2024-09-04T13:34:52+00:00"
         },
         {
             "name": "sebastian/cli-parser",

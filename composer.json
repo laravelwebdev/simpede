@@ -6,11 +6,11 @@
     "license": "MIT",
     "repositories": [
         {
-            "url": "https://github.com/laravelwebdev/Laravel-Excel.git",
+            "url": "https://github.com/laravelwebdev/admin-simpede.git",
             "type": "git"
         },
         {
-            "url": "https://github.com/laravelwebdev/admin-simpede.git",
+            "url": "https://github.com/laravelwebdev/PHPWord.git",
             "type": "git"
         }
     ],

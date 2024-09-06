@@ -132,22 +132,22 @@ class HonorSurvei extends Resource
                     ->trueValue('Ya')
                     ->falseValue('Tidak')
                     ->hideFromIndex(),
-                Date::make('Tanggal SK', 'tanggal_sk')                    
+                Date::make('Tanggal SK', 'tanggal_sk')
                     ->hide()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_sk) {
                             $field->show()
-                            ->rules('required');
+                                ->rules('required');
                         }
                     })->hideFromIndex(),
-                Text::make('Objek SK', 'objek_sk')                    
+                Text::make('Objek SK', 'objek_sk')
                     ->hide()
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
                     ->dependsOn('generate_sk', function (Text $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_sk) {
                             $field->show()
-                            ->rules('required');
+                                ->rules('required');
                         }
                     })
                     ->hideFromIndex(),
@@ -159,22 +159,22 @@ class HonorSurvei extends Resource
                     ->trueValue('Ya')
                     ->falseValue('Tidak')
                     ->hideFromIndex(),
-                Date::make('Tanggal Surat Tugas', 'tanggal_st')                    
+                Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->hide()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                            ->rules('required');
+                                ->rules('required');
                         }
                     })->hideFromIndex(),
-                Text::make('Uraian Tugas', 'uraian_tugas')                    
+                Text::make('Uraian Tugas', 'uraian_tugas')
                     ->hide()
                     ->help('Contoh: Melakukan Pencacahan Lapangan Sensus Penduduk 2020')
                     ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                            ->rules('required');
+                                ->rules('required');
                         }
                     })
                     ->hideFromIndex(),
@@ -187,13 +187,12 @@ class HonorSurvei extends Resource
                     ->dependsOn('generate_st', function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                            ->rules('required')
-                            ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'));
+                                ->rules('required')
+                                ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'));
                         }
                     }),
 
             ]),
-
 
             Panel::make('Keterangan Petugas Organik', [
                 SimpleRepeatable::make('Pegawai', 'pegawai', [

@@ -3,11 +3,13 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\KodeArsip;
 use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
@@ -96,7 +98,7 @@ class HonorSurvei extends Resource
                     ->options(Helper::$bulan)
                     ->filterable()
                     ->displayUsingLabels(),
-                Select::make('Jenis Kontrak', 'jenis_kontrak_id')
+                Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->rules('required')
                     ->filterable()
                     ->displayUsingLabels()
@@ -124,6 +126,74 @@ class HonorSurvei extends Resource
                     ->showOnIndex(fn () => session('role') == 'ppk')
                     ->readOnly(),
             ]),
+
+            Panel::make('Keterangan Surat Keputusan', [
+                Boolean::make('Buat Surat Keputusan (SK)', 'generate_sk')
+                    ->trueValue('Ya')
+                    ->falseValue('Tidak')
+                    ->hideFromIndex(),
+                Date::make('Tanggal SK', 'tanggal_sk')                    
+                    ->hide()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_sk) {
+                            $field->show()
+                            ->rules('required');
+                        }
+                    })->hideFromIndex(),
+                Text::make('Objek SK', 'objek_sk')                    
+                    ->hide()
+                    ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
+                    ->dependsOn('generate_sk', function (Text $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_sk) {
+                            $field->show()
+                            ->rules('required');
+                        }
+                    })
+                    ->hideFromIndex(),
+
+            ]),
+
+            Panel::make('Keterangan Surat Tugas', [
+                Boolean::make('Buat Surat Tugas', 'generate_st')
+                    ->trueValue('Ya')
+                    ->falseValue('Tidak')
+                    ->hideFromIndex(),
+                Date::make('Tanggal Surat Tugas', 'tanggal_st')                    
+                    ->hide()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_st) {
+                            $field->show()
+                            ->rules('required');
+                        }
+                    })->hideFromIndex(),
+                Text::make('Uraian Tugas', 'uraian_tugas')                    
+                    ->hide()
+                    ->help('Contoh: Melakukan Pencacahan Lapangan Sensus Penduduk 2020')
+                    ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_st) {
+                            $field->show()
+                            ->rules('required');
+                        }
+                    })
+                    ->hideFromIndex(),
+                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hide()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode)
+                    ->dependsOn('generate_st', function (Select $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_st) {
+                            $field->show()
+                            ->rules('required')
+                            ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'));
+                        }
+                    }),
+
+            ]),
+
 
             Panel::make('Keterangan Petugas Organik', [
                 SimpleRepeatable::make('Pegawai', 'pegawai', [

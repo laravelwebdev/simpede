@@ -12,10 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-
-$naskah_id = KerangkaAcuan::find(11)->naskah_keluar_id;
-NaskahKeluar::find($naskah_id)->nomor;
-
+JenisKontrak::cache()->get('all')->where('tanggal', '<=', '2024-08-01')->sortByDesc('tanggal')->first()
 
 
 

@@ -13,6 +13,8 @@ class HonorSurvei extends Model
     use HasFactory;
     protected $casts = [
         'tanggal_spj' => 'date',
+        'tanggal_sk' => 'date',
+        'tanggal_st' => 'date',
         'awal' => 'date',
         'akhir' => 'date',
         'pegawai' => 'array',
@@ -45,6 +47,17 @@ class HonorSurvei extends Model
             $honor->nipppk = Helper::getPengelola('ppk')->nip;
             $honor->bendahara = Helper::getPengelola('bendahara')->nama;
             $honor->nipbendahara = Helper::getPengelola('bendahara')->nip;
+        });
+        static::saving(function (HonorSurvei $honor) {
+            if ($honor->generate_sk === 'Tidak') {
+                $honor->tanggal_sk = null;
+                $honor->objek_sk = null;
+            }
+            if ($honor->generate_st === 'Tidak') {
+                $honor->tanggal_st = null;
+                $honor->uraian_tugas = null;
+                $honor->kode_arsip_id = null;
+            }
         });
     //     static::deleting(function(Survei $survei) {
     //         $survei->spjs()->delete();

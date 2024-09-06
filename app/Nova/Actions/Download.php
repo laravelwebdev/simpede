@@ -40,7 +40,7 @@ class Download extends Action
         $filename = Cetak::cetak($this->jenis, $models);
 
         return Action::redirect(route('dump-download', [
-            'filename' => $filename, 'jenis' => $this->jenis,
+            'filename' => $filename,
         ]));
     }
 

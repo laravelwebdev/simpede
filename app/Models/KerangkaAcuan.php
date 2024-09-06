@@ -63,8 +63,8 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
         });
         static::deleting(function (KerangkaAcuan $kak) {
-            NaskahKeluar::where('id', $kak->naskah_keluar_id)->delete();
-            HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
+            NaskahKeluar::destroy($kak->naskah_keluar_id);
+            HonorSurvei::destroy($kak->id);
         });
         static::saving(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {
@@ -89,6 +89,12 @@ class KerangkaAcuan extends Model
                     $honor->akhir = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
                     $honor->kegiatan = $kak->kegiatan;
+                    $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
+                    $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan,['Pemeriksaan' =>'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' =>'Pengawas']);
+                    $honor->generate_sk = 'Ya';
+                    $honor->generate_st = 'Ya';
+                    $honor->tanggal_st = $kak->tanggal;
+                    $honor->tanggal_sk = $kak->tanggal;
                     $honor->unit_kerja_id = $kak->unit_kerja_id;
                     $honor->ketua = $kak->nama;
                     $honor->nipketua = $kak->nip;
@@ -96,7 +102,7 @@ class KerangkaAcuan extends Model
                 }
             }
             if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
-                HonorSurvei::where('kerangka_acuan_id', $kak->id)->delete();
+                HonorSurvei::destroy($kak->id);
             }
         });
     }

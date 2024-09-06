@@ -3,13 +3,10 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Cetak;
-use App\Helpers\TemplateProcessor;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -42,10 +39,9 @@ class Download extends Action
     {
         $filename = Cetak::cetak($this->jenis, $models);
 
-        return Action::redirect( route('dump-download', [
-            'filename' => $filename, 'jenis'=>$this->jenis
-        ] ) );
-        
+        return Action::redirect(route('dump-download', [
+            'filename' => $filename, 'jenis' => $this->jenis,
+        ]));
     }
 
     /**

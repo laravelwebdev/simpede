@@ -97,7 +97,7 @@ class HonorSurvei extends Resource
             ]),
             Panel::make('Keterangan Kontrak', [
                 Select::make('Bulan Kontrak', 'bulan')
-                    ->rules('required',function ($attribute, $value, $fail) {
+                    ->rules('required', function ($attribute, $value, $fail) {
                         if (Carbon::createFromDate(session('year'), $value)->startOfMonth() < $this->tanggal_kak) {
                             return $fail('Bulan Kontrak harus berisi tanggal setelah atau sama dengan awal bulan tanggal KAK.');
                         }
@@ -145,7 +145,7 @@ class HonorSurvei extends Resource
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_sk) {
                             $field->show()
-                                ->rules('required','before_or_equal:today','after_or_equal:tanggal_kak');
+                                ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
                     })->hideFromIndex(),
                 Text::make('Objek SK', 'objek_sk')
@@ -172,7 +172,7 @@ class HonorSurvei extends Resource
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                                ->rules('required','before_or_equal:today','after_or_equal:tanggal_sk');
+                                ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_sk');
                         }
                     })->hideFromIndex(),
                 Text::make('Uraian Tugas', 'uraian_tugas')

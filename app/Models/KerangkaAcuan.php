@@ -90,7 +90,7 @@ class KerangkaAcuan extends Model
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
                     $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
-                    $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan,['Pemeriksaan' =>'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' =>'Pengawas']);
+                    $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->generate_sk = 'Ya';
                     $honor->generate_st = 'Ya';
                     $honor->tanggal_st = $kak->tanggal;

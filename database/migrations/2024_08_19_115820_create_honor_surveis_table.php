@@ -33,7 +33,7 @@ return new class extends Migration
             $table->bigInteger('kode_arsip_id')->nullable()->unsigned();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->string('jenis_kontrak',40)->nullable();
+            $table->string('jenis_kontrak', 40)->nullable();
             $table->string('kegiatan')->nullable();
             $table->text('pegawai')->nullable();
             $table->string('ketua', 80)->nullable();

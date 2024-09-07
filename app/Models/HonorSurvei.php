@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\JenisNaskah;
-use App\Models\KodeArsip;
-use App\Models\NaskahKeluar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -76,8 +73,8 @@ class HonorSurvei extends Model
                 $honor->st_naskah_keluar_id = null;
             }
             if ($honor->bulan != null) {
-                if ($honor->generate_sk =='Ya') {
-                    if ($honor->sk_naskah_keluar_id === null ) {
+                if ($honor->generate_sk == 'Ya') {
+                    if ($honor->sk_naskah_keluar_id === null) {
                         $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Keputusan')->first();
                         $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'VS.220')->first();
                         $naskahkeluar = new NaskahKeluar;
@@ -99,8 +96,8 @@ class HonorSurvei extends Model
                     }
                 }
 
-                if ($honor->generate_st =='Ya') {
-                    if ($honor->st_naskah_keluar_id === null ) {
+                if ($honor->generate_st == 'Ya') {
+                    if ($honor->st_naskah_keluar_id === null) {
                         $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Surat Tugas')->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
@@ -120,7 +117,6 @@ class HonorSurvei extends Model
                         }
                     }
                 }
-                
             }
         });
     //     static::deleting(function(Survei $survei) {

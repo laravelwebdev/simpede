@@ -82,9 +82,9 @@ class KerangkaAcuan extends Model
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
                     $honor->kegiatan = $kak->kegiatan;
-                    if ($kak->wasChanged('tanggal')){
-                        $honor->generate_sk =='Ya' ? $honor->tanggal_sk = $kak->tanggal: null;
-                        $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal: null;
+                    if ($kak->wasChanged('tanggal')) {
+                        $honor->generate_sk == 'Ya' ? $honor->tanggal_sk = $kak->tanggal : null;
+                        $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal : null;
                     }
                     $honor->save();
                 } else {

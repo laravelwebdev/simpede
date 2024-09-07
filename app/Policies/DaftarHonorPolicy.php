@@ -81,6 +81,6 @@ class DaftarHonorPolicy
     {
         return Policy::make()
             ->allowedFor('koordinator,ppk')
-                ->get();
+            ->get();
     }
 }

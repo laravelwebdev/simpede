@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\KodeArsip;
-use App\Models\NaskahKeluar;
 use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +24,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class HonorSurvei extends Resource
 {
-    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonor', 'skNaskahKeluar','stNaskahKeluar'];
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonor', 'skNaskahKeluar', 'stNaskahKeluar'];
     /**
      * The model the resource corresponds to.
      *
@@ -147,7 +146,7 @@ class HonorSurvei extends Resource
                     ->hide()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_sk=="Ya") {
+                        if ($formData->generate_sk == 'Ya') {
                             $field->show()
                                 ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
@@ -173,7 +172,7 @@ class HonorSurvei extends Resource
                     })->hideFromIndex(),
                 BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
- 
+
                 Text::make('Uraian Tugas', 'uraian_tugas')
                     ->hide()
                     ->help('Contoh: Melakukan Pencacahan Lapangan Sensus Penduduk 2020')
@@ -274,5 +273,4 @@ class HonorSurvei extends Resource
             return [];
         }
     }
-    
 }

@@ -85,6 +85,7 @@ class HonorSurvei extends Model
                         $naskahkeluar->derajat = 'B';
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'SK '.$honor->objek_sk;
+                        $naskahkeluar->generate = 'A';
                         $naskahkeluar->save();
                         $honor->sk_naskah_keluar_id = $naskahkeluar->id;
                     } else {
@@ -107,6 +108,7 @@ class HonorSurvei extends Model
                         $naskahkeluar->derajat = 'B';
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;
+                        $naskahkeluar->generate = 'A';
                         $naskahkeluar->save();
                         $honor->st_naskah_keluar_id = $naskahkeluar->id;
                     } else {
@@ -119,10 +121,8 @@ class HonorSurvei extends Model
                 }
             }
         });
-    //     static::deleting(function(Survei $survei) {
-    //         $survei->spjs()->delete();
-    //        File::delete(Storage::path('public/spj/SPJ'.explode('/', $survei->no_permintaan)[0].'.docx'));
-    //        DownloadLink::where('file_path', '=', 'spj/SPJ'.explode('/', $survei->no_permintaan)[0].'.docx')->delete();
-    //    });
+        static::deleting(function(HonorSurvei $honor) {
+            NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
+       });
     }
 }

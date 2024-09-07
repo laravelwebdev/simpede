@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
@@ -100,15 +101,17 @@ class NaskahKeluar extends Resource
                 ->searchable()
                 ->displayUsingLabels()
                 ->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->reject(function ($value) {
-                    return $value->jenis == 'Form Permintaan';
-                }), 'id', 'jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
 
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),
                 Date::make('Tanggal Kirim', 'tanggal_kirim')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ]),
+            Badge::make('Pembuatan', 'generate')->map([
+                'M' => 'info',
+                'A' => 'success',
             ]),
         ];
     }

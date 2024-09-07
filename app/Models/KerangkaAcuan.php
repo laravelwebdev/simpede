@@ -44,6 +44,7 @@ class KerangkaAcuan extends Model
             $naskahkeluar->derajat = 'B';
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
+            $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $kak->naskah_keluar_id = $naskahkeluar->id;
 

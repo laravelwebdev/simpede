@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('draft')->nullable();
             $table->string('signed')->nullable();
             $table->string('tahun', 4)->nullable();
+            $table->char('generate', 1)->default('M');
             $table->timestamps();
         });
     }

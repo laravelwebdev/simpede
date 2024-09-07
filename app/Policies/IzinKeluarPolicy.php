@@ -23,7 +23,6 @@ class IzinKeluarPolicy
      */
     public function view(User $user, IzinKeluar $izinKeluar): bool
     {
-
         if (Policy::make()->allowedFor('kepala')->get()) {
             return Policy::make()
                 ->withYear($izinKeluar->tahun)
@@ -32,7 +31,7 @@ class IzinKeluarPolicy
         if (Policy::make()->allowedFor('koordinator')->get()) {
             return Policy::make()
                 ->withYear($izinKeluar->tahun)
-                ->andEqual($user->unit_kerja_id,$izinKeluar->user->unit_kerja_id)
+                ->andEqual($user->unit_kerja_id, $izinKeluar->user->unit_kerja_id)
                 ->get();
         }
         if (Policy::make()->allowedFor('anggota')->get()) {
@@ -59,7 +58,7 @@ class IzinKeluarPolicy
      * Determine whether the user can update the model.
      */
     public function update(User $user, IzinKeluar $izinKeluar): bool
-    {        
+    {
         return Policy::make()
             ->withYear($izinKeluar->tahun)
             ->andEqual($user->id, $izinKeluar->user_id)

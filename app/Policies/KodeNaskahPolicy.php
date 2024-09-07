@@ -11,7 +11,7 @@ class KodeNaskahPolicy
      */
     public function viewAny(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -21,7 +21,7 @@ class KodeNaskahPolicy
      */
     public function view(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -31,7 +31,7 @@ class KodeNaskahPolicy
      */
     public function create(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -41,7 +41,7 @@ class KodeNaskahPolicy
      */
     public function update(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -51,7 +51,7 @@ class KodeNaskahPolicy
      */
     public function delete(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -61,7 +61,7 @@ class KodeNaskahPolicy
      */
     public function restore(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -71,7 +71,7 @@ class KodeNaskahPolicy
      */
     public function forceDelete(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -81,7 +81,7 @@ class KodeNaskahPolicy
      */
     public function replicate(): bool
     {
-          return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }

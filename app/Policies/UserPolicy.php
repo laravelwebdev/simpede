@@ -11,7 +11,7 @@ class UserPolicy
      */
     public function viewAny(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -21,7 +21,7 @@ class UserPolicy
      */
     public function view(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -31,7 +31,7 @@ class UserPolicy
      */
     public function create(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -41,7 +41,7 @@ class UserPolicy
      */
     public function update(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -51,7 +51,7 @@ class UserPolicy
      */
     public function delete(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -61,7 +61,7 @@ class UserPolicy
      */
     public function restore(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -71,7 +71,7 @@ class UserPolicy
      */
     public function forceDelete(): bool
     {
-     return Policy::make()
+        return Policy::make()
             ->allowedFor('admin')
             ->get();
     }

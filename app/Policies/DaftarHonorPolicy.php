@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Helpers\Policy;
+
 class DaftarHonorPolicy
 {
     /**
@@ -9,7 +11,9 @@ class DaftarHonorPolicy
      */
     public function viewAny(): bool
     {
-        return (session('role') == 'koordinator') || (session('role') == 'ppk');
+        return Policy::make()
+            ->allowedFor('koordinator,ppk')
+            ->get();
     }
 
     /**
@@ -75,6 +79,8 @@ class DaftarHonorPolicy
 
     public function runAction(): bool
     {
-        return  session('role') == 'koordinator';
+        return Policy::make()
+            ->allowedFor('koordinator,ppk')
+                ->get();
     }
 }

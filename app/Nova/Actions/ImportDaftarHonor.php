@@ -11,12 +11,11 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Lednerb\ActionButtonSelector\ShowAsButton;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportDaftarHonor extends Action
 {
-    use InteractsWithQueue, Queueable, ShowAsButton;
+    use InteractsWithQueue, Queueable;
     public $name = 'Import dari BOS';
 
     /**

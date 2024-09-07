@@ -10,11 +10,10 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Lednerb\ActionButtonSelector\ShowAsButton;
 
 class EditRekening extends Action
 {
-    use InteractsWithQueue, Queueable, ShowAsButton;
+    use InteractsWithQueue, Queueable;
     public $confirmButtonText = 'Edit Rekening';
     public $name = 'Edit';
 

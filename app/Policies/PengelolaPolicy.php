@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Helpers\Policy;
+
 class PengelolaPolicy
 {
     /**
@@ -9,7 +11,9 @@ class PengelolaPolicy
      */
     public function viewAny(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -17,7 +21,9 @@ class PengelolaPolicy
      */
     public function view(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -25,7 +31,9 @@ class PengelolaPolicy
      */
     public function create(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -33,7 +41,9 @@ class PengelolaPolicy
      */
     public function update(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -41,7 +51,9 @@ class PengelolaPolicy
      */
     public function delete(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -49,7 +61,9 @@ class PengelolaPolicy
      */
     public function restore(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -57,7 +71,9 @@ class PengelolaPolicy
      */
     public function forceDelete(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -65,6 +81,8 @@ class PengelolaPolicy
      */
     public function replicate(): bool
     {
-        return session('role') === 'admin';
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 }

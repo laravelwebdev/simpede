@@ -20,7 +20,6 @@
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",
-        "lednerb/nova-action-button-selectors": "^2.0",
         "maatwebsite/excel": "^3.1",
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",

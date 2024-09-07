@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use Illuminate\Auth\Access\Response;
+use App\Helpers\Policy;
 use {{ namespacedModel }};
 use {{ namespacedUserModel }};
 
@@ -13,7 +13,9 @@ class {{ class }}
      */
     public function viewAny({{ user }} $user): bool
     {
-        return (session('role') === 'admin');
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -21,8 +23,10 @@ class {{ class }}
      */
     public function view({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 
     /**
@@ -30,7 +34,9 @@ class {{ class }}
      */
     public function create({{ user }} $user): bool
     {
-        return (session('role') === 'admin');
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -38,8 +44,10 @@ class {{ class }}
      */
     public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 
     /**
@@ -47,8 +55,10 @@ class {{ class }}
      */
     public function delete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 
     /**
@@ -56,8 +66,10 @@ class {{ class }}
      */
     public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 
     /**
@@ -65,8 +77,10 @@ class {{ class }}
      */
     public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 
     /**
@@ -74,7 +88,9 @@ class {{ class }}
      */
     public function replicate({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-        return (session('role') === 'admin') && 
-                (session('year') == ${{ modelVariable }}->tahun);
+        return Policy::make()
+            ->allowedFor('admin')
+            ->withYear(${{ modelVariable }}->tahun)
+            ->get();
     }
 }

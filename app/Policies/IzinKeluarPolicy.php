@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Helpers\Policy;
 use App\Models\IzinKeluar;
 use App\Models\User;
 
@@ -12,7 +13,9 @@ class IzinKeluarPolicy
      */
     public function viewAny(): bool
     {
-        return in_array(session('role'), ['kepala', 'anggota', 'koordinator']);
+        return Policy::make()
+            ->allowedFor('kepala,anggota,koordinator')
+            ->get();
     }
 
     /**
@@ -20,15 +23,23 @@ class IzinKeluarPolicy
      */
     public function view(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-        if (session('role') === 'kepala') {
-            return $allowedyear;
+
+        if (Policy::make()->allowedFor('kepala')->get()) {
+            return Policy::make()
+                ->withYear($izinKeluar->tahun)
+                ->get();
         }
-        if (session('role') === 'koordinator') {
-            return $allowedyear && ($user->unit_kerja_id === $izinKeluar->user->unit_kerja_id);
+        if (Policy::make()->allowedFor('koordinator')->get()) {
+            return Policy::make()
+                ->withYear($izinKeluar->tahun)
+                ->andEqual($user->unit_kerja_id,$izinKeluar->user->unit_kerja_id)
+                ->get();
         }
-        if (session('role') === 'anggota') {
-            return $allowedyear && ($user->id === $izinKeluar->user_id);
+        if (Policy::make()->allowedFor('anggota')->get()) {
+            return Policy::make()
+                ->withYear($izinKeluar->tahun)
+                ->andEqual($user->id, $izinKeluar->user_id)
+                ->get();
         }
 
         return false;
@@ -37,19 +48,22 @@ class IzinKeluarPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return in_array(session('role'), ['kepala', 'anggota', 'koordinator']);
+        return Policy::make()
+            ->allowedFor('kepala,anggota,koordinator')
+            ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, IzinKeluar $izinKeluar): bool
-    {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-
-        return $allowedyear && ($user->id === $izinKeluar->user_id);
+    {        
+        return Policy::make()
+            ->withYear($izinKeluar->tahun)
+            ->andEqual($user->id, $izinKeluar->user_id)
+            ->get();
     }
 
     /**
@@ -57,9 +71,10 @@ class IzinKeluarPolicy
      */
     public function delete(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-
-        return $allowedyear && ($user->id === $izinKeluar->user_id);
+        return Policy::make()
+            ->withYear($izinKeluar->tahun)
+            ->andEqual($user->id, $izinKeluar->user_id)
+            ->get();
     }
 
     /**
@@ -67,9 +82,10 @@ class IzinKeluarPolicy
      */
     public function restore(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-
-        return $allowedyear && ($user->id === $izinKeluar->user_id);
+        return Policy::make()
+            ->withYear($izinKeluar->tahun)
+            ->andEqual($user->id, $izinKeluar->user_id)
+            ->get();
     }
 
     /**
@@ -77,9 +93,10 @@ class IzinKeluarPolicy
      */
     public function forceDelete(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-
-        return $allowedyear && ($user->id === $izinKeluar->user_id);
+        return Policy::make()
+            ->withYear($izinKeluar->tahun)
+            ->andEqual($user->id, $izinKeluar->user_id)
+            ->get();
     }
 
     /**
@@ -87,8 +104,9 @@ class IzinKeluarPolicy
      */
     public function replicate(User $user, IzinKeluar $izinKeluar): bool
     {
-        $allowedyear = (session('year') == $izinKeluar->tahun);
-
-        return $allowedyear && ($user->id === $izinKeluar->user_id);
+        return Policy::make()
+            ->withYear($izinKeluar->tahun)
+            ->andEqual($user->id, $izinKeluar->user_id)
+            ->get();
     }
 }

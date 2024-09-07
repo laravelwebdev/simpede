@@ -2,6 +2,7 @@
 
 use App\Helpers\Cetak;
 use App\Helpers\Inspiring;
+use App\Helpers\Policy;
 use App\Models\Dipa;
 use App\Models\JenisKontrak;
 use App\Models\KerangkaAcuan;
@@ -12,7 +13,10 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-NaskahKeluar::destroy(null)
+
+$roles ='ppk,admin,ppspm';
+$session = 'admin';
+Policy::allowedExcept($roles);
 
 
 

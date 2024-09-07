@@ -127,7 +127,7 @@ class NaskahKeluar extends Resource
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode)
+                ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
                 ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group')),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')

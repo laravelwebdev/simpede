@@ -12,7 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-JenisKontrak::cache()->get('all')->where('tanggal', '<=', '2024-08-01')->sortByDesc('tanggal')->first()
+NaskahKeluar::destroy(null)
 
 
 

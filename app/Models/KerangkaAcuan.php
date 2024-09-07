@@ -78,8 +78,14 @@ class KerangkaAcuan extends Model
                     $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
+                    $honor->tanggal_kak = $kak->tanggal;
+                    $honor->tanggal_spj = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
                     $honor->kegiatan = $kak->kegiatan;
+                    if ($kak->wasChanged('tanggal')){
+                        $honor->generate_sk =='Ya' ? $honor->tanggal_sk = $kak->tanggal: null;
+                        $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal: null;
+                    }
                     $honor->save();
                 } else {
                     $honor = new HonorSurvei;

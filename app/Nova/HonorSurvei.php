@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\KodeArsip;
+use App\Models\NaskahKeluar;
 use App\Models\User;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class HonorSurvei extends Resource
 {
-    public static $with = ['kerangkaAcuan', 'daftarHonor'];
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonor', 'skNaskahKeluar','stNaskahKeluar'];
     /**
      * The model the resource corresponds to.
      *
@@ -116,6 +117,9 @@ class HonorSurvei extends Resource
                     ->rules('required')
                     ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS'),
+                Text::make('Jabatan Petugas', 'objek_sk')
+                    ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
+                    ->hideFromIndex(),
             ]),
 
             Panel::make('Keterangan Anggaran', [
@@ -143,22 +147,14 @@ class HonorSurvei extends Resource
                     ->hide()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_sk) {
+                        if ($formData->generate_sk=="Ya") {
                             $field->show()
                                 ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
-                    })->hideFromIndex(),
-                Text::make('Objek SK', 'objek_sk')
-                    ->hide()
-                    ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
-                    ->dependsOn('generate_sk', function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_sk) {
-                            $field->show()
-                                ->rules('required');
-                        }
                     })
                     ->hideFromIndex(),
-
+                BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->onlyOnDetail(),
             ]),
 
             Panel::make('Keterangan Surat Tugas', [
@@ -170,32 +166,34 @@ class HonorSurvei extends Resource
                     ->hide()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st) {
+                        if ($formData->generate_st == 'Ya') {
                             $field->show()
-                                ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_sk');
+                                ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
                     })->hideFromIndex(),
+                BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->onlyOnDetail(),
+ 
                 Text::make('Uraian Tugas', 'uraian_tugas')
                     ->hide()
                     ->help('Contoh: Melakukan Pencacahan Lapangan Sensus Penduduk 2020')
                     ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st) {
+                        if ($formData->generate_st == 'Ya') {
                             $field->show()
                                 ->rules('required');
                         }
                     })
                     ->hideFromIndex(),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                    ->rules('required')
                     ->searchable()
                     ->hide()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode)
+                    ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'))
+                    ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
                     ->dependsOn('generate_st', function (Select $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st) {
+                        if ($formData->generate_st == 'Ya') {
                             $field->show()
-                                ->rules('required')
-                                ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'));
+                                ->rules('required');
                         }
                     }),
 
@@ -276,4 +274,5 @@ class HonorSurvei extends Resource
             return [];
         }
     }
+    
 }

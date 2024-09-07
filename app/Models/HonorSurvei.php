@@ -121,8 +121,8 @@ class HonorSurvei extends Model
                 }
             }
         });
-        static::deleting(function(HonorSurvei $honor) {
+        static::deleting(function (HonorSurvei $honor) {
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
-       });
+        });
     }
 }

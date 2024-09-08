@@ -106,9 +106,10 @@ class Mitra extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions []=
+            $actions [] =
                 ImportMitra::make()->standalone();
         }
+
         return $actions;
     }
 }

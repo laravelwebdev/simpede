@@ -99,9 +99,10 @@ class MataAnggaran extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions []=
+            $actions [] =
                 ImportMataAnggaran::make()->standalone();
         }
+
         return $actions;
     }
 }

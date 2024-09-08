@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use PhpOffice\PhpWord\TemplateProcessor as PhpWordTemplateProcessor;
 use PhpOffice\PhpWord\Shared\Text;
+use PhpOffice\PhpWord\TemplateProcessor as PhpWordTemplateProcessor;
 
 class TemplateProcessor extends PhpWordTemplateProcessor
 {

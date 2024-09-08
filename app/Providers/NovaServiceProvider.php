@@ -36,7 +36,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 $menu->prepend(
                     MenuItem::externalLink(
                         $value,
-                        "/changerole/$key"
+                        route('changerole', [
+                            'role' => $key,
+                        ])
                     )
                 );
             }

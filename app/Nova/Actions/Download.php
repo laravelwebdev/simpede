@@ -55,7 +55,7 @@ class Download extends Action
     {
         return [
             Text::make('Nama File', 'filename')
-                ->rules('required')
+                ->rules('required','alpha_dash:ascii')
                 ->help('tanpa extensi file')
                 ->default(fn () => uniqid()),
         ];

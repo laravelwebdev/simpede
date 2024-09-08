@@ -14,10 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 
-$roles ='ppk,admin,ppspm';
-$session = 'admin';
-Policy::allowedExcept($roles);
-
+Helper::formatSpj(DaftarHonor::where('honor_survei_id', 3)->get(['nama As spj_nama', 'satuan AS spj_satuan', 'jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak', 'netto AS spj_netto', 'rekening AS spj_rekening']))
 
 
 

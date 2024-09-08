@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\DaftarHonor;
+use App\Models\HonorSurvei;
 use App\Models\KerangkaAcuan;
 use App\Models\NaskahKeluar;
 use App\Models\UnitKerja;
@@ -24,7 +26,6 @@ class Cetak
             if ($index === 0) {
                 $mainTemplate = self::getTemplate($jenis, $model->id);
                 $mainXml = self::getMainXml($mainTemplate);
-                $data = call_user_func('App\Helpers\Cetak::'.$jenis, $model->id);
             } else {
                 $innerTemplate = self::getTemplate($jenis, $model->id);
                 $innerXml = self::getModifiedInnerXml($innerTemplate);
@@ -33,7 +34,7 @@ class Cetak
             $index++;
         }
         $mainTemplate->settempDocumentMainPart($mainXml);
-        ($index === 1) ? $filename = $jenis.'_'.session('year').'_'.explode('/', $data['nomor'])[0].'.docx' : $filename = uniqid().'.docx';
+        $filename = uniqid().'.docx';
         $mainTemplate->saveAs(Storage::path('public/'.$filename));
 
         return $filename;
@@ -54,6 +55,9 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
+        }
+        if ($jenis === 'spj') {
+            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj(DaftarHonor::where('honor_survei_id', $id)->get(['nama As spj_nama', 'satuan AS spj_satuan','jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak','netto AS spj_netto','rekening AS spj_rekening'])));
         }
         $templateProcessor->setValues($data);
 
@@ -87,10 +91,10 @@ class Cetak
     }
 
     /**
-     * Cetak Surat Permintaan.
+     * Format nilai KAK
      *
-     * @param  string  $no  Nomor Permintaan
-     * @return void
+     * @param  string  $id
+     * @return array
      */
     public static function kak($id)
     {
@@ -121,6 +125,42 @@ class Cetak
             'akhir' => Helper::terbilangTanggal($data->akhir),
             'ppk' => $data->ppk,
             'nipppk' => $data->nipppk,
+        ];
+    }
+
+    /**
+     * Format nilai SPJ
+     *
+     * @param  string  $id
+     * @return array
+     */
+    public static function spj($id)
+    {
+        $data = HonorSurvei::find($id);
+
+        return [
+            'nama' => $data->judul_spj,
+            'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
+            'detail' => $data->detail,
+            'bulan' => Helper::terbilangBulan($data->bulan),
+            'mak' => $data->mak,
+            'kegiatan' => Helper::getDetailAnggaran($data->mak ,'kegiatan'),
+            'kro' => Helper::getDetailAnggaran($data->mak ,'kro'),
+            'ro' => Helper::getDetailAnggaran($data->mak ,'ro'),
+            'komponen' => Helper::getDetailAnggaran($data->mak ,'komponen'),
+            'sub' => Helper::getDetailAnggaran($data->mak ,'sub'),
+            'akun' => Helper::getDetailAnggaran($data->mak ,'akun'),
+            'satuan' => $data->satuan,
+            'total_bruto' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto')),
+            'total_pajak' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('pajak')),
+            'total_netto' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('netto')),
+            'ketua' => $data->ketua,
+            'nipketua' => $data->nipketua,
+            'ppk' => $data->ppk,
+            'nipppk' => $data->nipppk,
+            'bendahara' => $data->bendahara,
+            'nipbendahara' => $data->nipbendahara,
+            'terbilang_total' => Helper::terbilang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto'), 'uw', ' rupiah'),
         ];
     }
 }

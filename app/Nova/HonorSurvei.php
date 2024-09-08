@@ -3,8 +3,10 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\KodeArsip;
 use App\Models\User;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportDaftarHonor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -258,19 +260,33 @@ class HonorSurvei extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (session('role') == 'koordinator') {
-            return [
+        $actions = [];
+        if (Policy::make()->allowedFor('koordinator')->get()) {
+            $actions[]=
                 ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
                     ->canSee(function ($request) {
                         if ($request instanceof ActionRequest) {
                             return true;
                         }
-
                         return $this->resource instanceof Model && $this->resource->bulan !== null;
-                    }),
-            ];
-        } else {
-            return [];
-        }
+                    });
+        } 
+        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm')->get()) {
+            $actions[]=
+                Download::make('spj', 'Unduh SPJ')
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex()
+                    ->withoutConfirmation()
+                    ->canSee(function ($request) {
+                        if ($request instanceof ActionRequest) {
+                            return true;
+                        }
+                        return $this->resource instanceof Model && $this->resource->bulan !== null;
+                    });
+        }          
+
+        return $actions;
+
     }
 }

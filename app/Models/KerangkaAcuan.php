@@ -76,7 +76,7 @@ class KerangkaAcuan extends Model
         static::saved(function (KerangkaAcuan $kak) {
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
                 if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
-                    $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
+                    $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->tanggal_kak = $kak->tanggal;
@@ -91,7 +91,7 @@ class KerangkaAcuan extends Model
                 } else {
                     $honor = new HonorSurvei;
                     $honor->kerangka_acuan_id = $kak->id;
-                    $honor->judul_spj = str_ireplace('Pembayaran Biaya', '', $kak->rincian);
+                    $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);

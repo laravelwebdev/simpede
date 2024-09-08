@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\MataAnggaran;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
@@ -132,13 +133,16 @@ class KerangkaAcuan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('all')->get()) {
+            $actions[]=
             Download::make('kak', 'Unduh KAK')
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()
-                ->withoutConfirmation(),
-        ];
+                ->withoutConfirmation();
+        }
+        return $actions;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\User;
 use Carbon\Carbon;
 use Laravel\Nova\Fields\Date;
@@ -59,10 +60,10 @@ class IzinKeluar extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $users = User::cache()->get('all')->where('unit_kerja_id', $request->user()->unit_kerja_id)->pluck('id')->toArray();
-        if (session('role') === 'anggota') {
+        if (Policy::make()->allowedFor('anggota')->get()) {
             return $query->where('user_id', $request->user()->id);
         }
-        if (session('role') === 'koordinator') {
+        if (Policy::make()->allowedFor('koordinator')->get()) {
             return $query->whereIn('user_id', $users);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\ImportMataAnggaran;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -96,12 +97,11 @@ class MataAnggaran extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (session('role') === 'admin') {
-            return [
-                ImportMataAnggaran::make()->standalone(),
-            ];
-        } else {
-            return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions []=
+                ImportMataAnggaran::make()->standalone();
         }
+        return $actions;
     }
 }

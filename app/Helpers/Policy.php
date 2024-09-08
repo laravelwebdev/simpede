@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class Policy
 {
-    private bool $allowed = true;
+    private bool $allowed;
 
     /**
      * Create a new element.
@@ -42,35 +42,35 @@ class Policy
 
     public function withYear($year)
     {
-        $this->allowed = $this->allowed && (session('year') == $year);
+        $this->allowed = $this->allowed ?? true && (session('year') == $year);
 
         return $this;
     }
 
     public function andEqual($expr1, $expr2, $strict = true)
     {
-        $this->allowed = $this->allowed && $strict ? $expr1 === $expr2 : $expr1 == $expr2;
+        $this->allowed = $this->allowed ?? true && $strict ? $expr1 === $expr2 : $expr1 == $expr2;
 
         return $this;
     }
 
     public function andNotEqual($expr1, $expr2, $strict = true)
     {
-        $this->allowed = $this->allowed && $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
+        $this->allowed = $this->allowed ?? true && $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
 
         return $this;
     }
 
     public function orEqual($expr1, $expr2, $strict = true)
     {
-        $this->allowed = $this->allowed || $strict ? $expr1 === $expr2 : $expr1 == $expr2;
+        $this->allowed = $this->allowed ?? false || $strict ? $expr1 === $expr2 : $expr1 == $expr2;
 
         return $this;
     }
 
     public function orNotEqual($expr1, $expr2, $strict = true)
     {
-        $this->allowed = $this->allowed || $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
+        $this->allowed = $this->allowed ?? false  || $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
 
         return $this;
     }

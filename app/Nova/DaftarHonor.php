@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\EditRekening;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
@@ -112,13 +113,12 @@ class DaftarHonor extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (session('role') == 'koordinator') {
-            return [
-                EditRekening::make()->onlyOnTableRow(),
-            ];
-        } else {
-            return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('koordinator')->get()) {
+            $actions []=
+                EditRekening::make()->standalone();
         }
+        return $actions;
     }
 
     // public static function redirectAfterUpdate(NovaRequest $request, $resource)

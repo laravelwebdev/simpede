@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\ImportKodeArsip;
 use App\Nova\Filters\GroupArsip;
 use Laravel\Nova\Fields\Text;
@@ -101,12 +102,11 @@ class KodeArsip extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (session('role') === 'admin') {
-            return [
-                ImportKodeArsip::make()->standalone(),
-            ];
-        } else {
-            return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions []=
+                ImportKodeArsip::make()->standalone();
         }
+        return $actions;
     }
 }

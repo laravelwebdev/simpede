@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\ImportMitra;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -103,12 +104,11 @@ class Mitra extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        if (session('role') === 'admin') {
-            return [
-                ImportMitra::make()->standalone(),
-            ];
-        } else {
-            return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions []=
+                ImportMitra::make()->standalone();
         }
+        return $actions;
     }
 }

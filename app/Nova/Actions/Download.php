@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Text;
 
 class Download extends Action
 {
@@ -37,7 +38,7 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $filename = Cetak::cetak($this->jenis, $models);
+        $filename = Cetak::cetak($this->jenis, $models, $fields->filename);
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
@@ -52,6 +53,11 @@ class Download extends Action
      */
     public function fields(NovaRequest $request)
     {
-        return [];
+        return [
+            Text::make('Nama File', 'filename')
+                ->rules('required')
+                ->help('tanpa extensi file')
+                ->default(fn () => uniqid()),
+        ];
     }
 }

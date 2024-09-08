@@ -277,7 +277,7 @@ class HonorSurvei extends Resource
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex()
-                    ->withoutConfirmation()
+                    ->confirmButtonText('Unduh')
                     ->canSee(function ($request) {
                         if ($request instanceof ActionRequest) {
                             return true;

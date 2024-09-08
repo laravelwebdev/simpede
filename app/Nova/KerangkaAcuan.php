@@ -139,8 +139,8 @@ class KerangkaAcuan extends Resource
             Download::make('kak', 'Unduh KAK')
                 ->showInline()
                 ->showOnDetail()
-                ->exceptOnIndex()
-                ->withoutConfirmation();
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex();
         }
         return $actions;
     }

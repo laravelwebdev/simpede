@@ -16,9 +16,10 @@ class Cetak
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
      * @param  collection  $model
+     * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models)
+    public static function cetak($jenis, $models, $filename)
     {
         $index = 0;
         $mainXml = '';
@@ -34,7 +35,7 @@ class Cetak
             $index++;
         }
         $mainTemplate->settempDocumentMainPart($mainXml);
-        $filename = uniqid().'.docx';
+        $filename = $filename.'.docx';
         $mainTemplate->saveAs(Storage::path('public/'.$filename));
 
         return $filename;

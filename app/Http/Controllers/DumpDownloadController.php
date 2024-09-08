@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DumpDownloadController extends Controller
 {
-    public function download($filename, Request $request)
+    public function show($filename, Request $request)
     {
         $path = Storage::path('public/'.$filename);
 

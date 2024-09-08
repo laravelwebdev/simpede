@@ -135,13 +135,14 @@ class KerangkaAcuan extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('all')->get()) {
-            $actions[]=
+            $actions[] =
             Download::make('kak', 'Unduh KAK')
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()
                 ->withoutConfirmation();
         }
+
         return $actions;
     }
 

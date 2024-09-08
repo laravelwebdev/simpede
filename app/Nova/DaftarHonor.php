@@ -115,9 +115,10 @@ class DaftarHonor extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('koordinator')->get()) {
-            $actions []=
+            $actions [] =
                 EditRekening::make()->standalone();
         }
+
         return $actions;
     }
 

@@ -262,17 +262,18 @@ class HonorSurvei extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('koordinator')->get()) {
-            $actions[]=
+            $actions[] =
                 ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
                     ->canSee(function ($request) {
                         if ($request instanceof ActionRequest) {
                             return true;
                         }
+
                         return $this->resource instanceof Model && $this->resource->bulan !== null;
                     });
-        } 
+        }
         if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm')->get()) {
-            $actions[]=
+            $actions[] =
                 Download::make('spj', 'Unduh SPJ')
                     ->showInline()
                     ->showOnDetail()
@@ -282,11 +283,11 @@ class HonorSurvei extends Resource
                         if ($request instanceof ActionRequest) {
                             return true;
                         }
+
                         return $this->resource instanceof Model && $this->resource->bulan !== null;
                     });
-        }          
+        }
 
         return $actions;
-
     }
 }

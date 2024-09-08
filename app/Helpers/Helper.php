@@ -753,17 +753,26 @@ class Helper
      */
     public static function formatSpj($spesifikasi)
     {
-        $spek= json_decode($spesifikasi,true);
+        $spek = json_decode($spesifikasi, true);
         $speks = collect($spek);
         $speks->transform(function ($item, $index) {
             $item['spj_no'] = $index + 1;
-            if (isset($item['spj_satuan'])) $item['spj_satuan'] = self::formatUang($item['spj_satuan']);
-            if (isset($item['spj_bruto'])) $item['spj_bruto'] = self::formatUang($item['spj_bruto']);
-            if (isset($item['spj_pajak'])) $item['spj_pajak'] = self::formatUang($item['spj_pajak']);
-            if (isset($item['spj_netto'])) $item['spj_netto'] = self::formatUang($item['spj_netto']);         
+            if (isset($item['spj_satuan'])) {
+                $item['spj_satuan'] = self::formatUang($item['spj_satuan']);
+            }
+            if (isset($item['spj_bruto'])) {
+                $item['spj_bruto'] = self::formatUang($item['spj_bruto']);
+            }
+            if (isset($item['spj_pajak'])) {
+                $item['spj_pajak'] = self::formatUang($item['spj_pajak']);
+            }
+            if (isset($item['spj_netto'])) {
+                $item['spj_netto'] = self::formatUang($item['spj_netto']);
+            }
 
             return $item;
         })->toArray();
+
         return $speks;
     }
 

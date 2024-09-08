@@ -70,7 +70,7 @@ class Policy
 
     public function orNotEqual($expr1, $expr2, $strict = true)
     {
-        $this->allowed = $this->allowed ?? false  || $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
+        $this->allowed = $this->allowed ?? false || $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
 
         return $this;
     }

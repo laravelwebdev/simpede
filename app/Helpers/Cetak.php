@@ -58,7 +58,7 @@ class Cetak
             unset($data['anggaran'], $data['spesifikasi']);
         }
         if ($jenis === 'spj') {
-            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj(DaftarHonor::where('honor_survei_id', $id)->get(['nama As spj_nama', 'satuan AS spj_satuan','jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak','netto AS spj_netto','rekening AS spj_rekening'])));
+            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj(DaftarHonor::where('honor_survei_id', $id)->get(['nama As spj_nama', 'satuan AS spj_satuan', 'jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak', 'netto AS spj_netto', 'rekening AS spj_rekening'])));
         }
         $templateProcessor->setValues($data);
 
@@ -92,7 +92,7 @@ class Cetak
     }
 
     /**
-     * Format nilai KAK
+     * Format nilai KAK.
      *
      * @param  string  $id
      * @return array
@@ -130,7 +130,7 @@ class Cetak
     }
 
     /**
-     * Format nilai SPJ
+     * Format nilai SPJ.
      *
      * @param  string  $id
      * @return array
@@ -145,12 +145,12 @@ class Cetak
             'detail' => $data->detail,
             'bulan' => Helper::terbilangBulan($data->bulan),
             'mak' => $data->mak,
-            'kegiatan' => Helper::getDetailAnggaran($data->mak ,'kegiatan'),
-            'kro' => Helper::getDetailAnggaran($data->mak ,'kro'),
-            'ro' => Helper::getDetailAnggaran($data->mak ,'ro'),
-            'komponen' => Helper::getDetailAnggaran($data->mak ,'komponen'),
-            'sub' => Helper::getDetailAnggaran($data->mak ,'sub'),
-            'akun' => Helper::getDetailAnggaran($data->mak ,'akun'),
+            'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
+            'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),
+            'ro' => Helper::getDetailAnggaran($data->mak, 'ro'),
+            'komponen' => Helper::getDetailAnggaran($data->mak, 'komponen'),
+            'sub' => Helper::getDetailAnggaran($data->mak, 'sub'),
+            'akun' => Helper::getDetailAnggaran($data->mak, 'akun'),
             'satuan' => $data->satuan,
             'total_bruto' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto')),
             'total_pajak' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('pajak')),

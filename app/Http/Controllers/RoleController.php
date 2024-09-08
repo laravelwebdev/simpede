@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengelola;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Nova;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {

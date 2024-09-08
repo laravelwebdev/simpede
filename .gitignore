@@ -16,6 +16,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/.idx/.data/
+/.idx/
+/.tinkerun
 /composer-home
 .DS_Store

@@ -10,8 +10,8 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class MataAnggaran extends Model
 {
     use HasFactory, LaraCache;
-    
-    protected $guarded =[];
+
+    protected $guarded = [];
 
     public static function cacheEntities(): array
     {
@@ -32,5 +32,4 @@ class MataAnggaran extends Model
             $mak->tahun = session('year');
         });
     }
-    
 }

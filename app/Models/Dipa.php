@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\KamusAnggaran;
+use App\Models\MataAnggaran;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
@@ -14,6 +17,23 @@ class Dipa extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
+    /**
+     * Get the daftar mata anggaran.
+     */
+    public function mataAnggaran(): HasMany
+    {
+        return $this->hasMany(MataAnggaran::class);
+    }
+
+    /**
+     * Get the daftar kamus anggaran.
+     */
+    public function kamusAnggaran(): HasMany
+    {
+        return $this->hasMany(KamusAnggaran::class);
+    }
+
 
     public static function cacheEntities(): array
     {

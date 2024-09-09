@@ -40,7 +40,7 @@ class HonorSurvei extends Model
     }
 
     /**
-     * Get the keluars for user.
+     * Get the daftar honor.
      */
     public function daftarHonor(): HasMany
     {

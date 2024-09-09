@@ -12,11 +12,13 @@ class MataAnggaransImport implements ToCollection, WithStartRow
 {
     protected $satker;
     protected $wilayah;
+    protected $dipa_id;
 
-    public function __construct($satker, $wilayah)
+    public function __construct($satker, $wilayah, $dipa_id)
     {
         $this->satker = $satker;
         $this->wilayah = $wilayah;
+        $this->dipa_id = $dipa_id;
     }
 
     /**
@@ -29,14 +31,22 @@ class MataAnggaransImport implements ToCollection, WithStartRow
             $replaces['.'.$this->wilayah] = '';
             $anggaran = explode('||', $row[0])[0];
             $mak = strtr($anggaran, $replaces);
-            $kamus_anggaran = new KamusAnggaran;
-            $kamus_anggaran->mak = $mak;
-            $kamus_anggaran->detail = $row[1];
-            $kamus_anggaran->save();
+            KamusAnggaran::updateOrCreate(
+                ['mak' => $mak],
+                [
+                'detail' => $row[1], 
+                'dipa_id' => $this->dipa_id,
+                'updated_at' => now(),
+                ]
+            );
             if (strlen($mak) == 37) {
-                $mata_anggaran = new MataAnggaran;
-                $mata_anggaran->mak = substr($mak, 0, 35);
-                $mata_anggaran->save();
+                MataAnggaran::updateOrCreate(
+                    ['mak' => substr($mak, 0, 35)],
+                    [
+                        'dipa_id' => $this->dipa_id,
+                        'updated_at' => now(),
+                    ]
+                );
             }
         }
     }

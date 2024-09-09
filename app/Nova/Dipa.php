@@ -3,8 +3,11 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportMataAnggaran;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -15,6 +18,8 @@ class Dipa extends Resource
     {
         return 'DIPA';
     }
+
+    public static $with = ['mataAnggaran'];
     /**
      * The model the resource corresponds to.
      *
@@ -60,6 +65,7 @@ class Dipa extends Resource
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
+            HasMany::make('Mata Anggaran'),
         ];
     }
 
@@ -104,6 +110,15 @@ class Dipa extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions [] =
+                ImportMataAnggaran::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 }

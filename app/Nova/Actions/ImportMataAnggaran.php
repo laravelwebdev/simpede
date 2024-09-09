@@ -20,7 +20,7 @@ class ImportMataAnggaran extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Import';
+    public $name = 'Import POK';
 
     /**
      * Perform the action on the given models.
@@ -29,11 +29,14 @@ class ImportMataAnggaran extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $model = $models->first();
         MataAnggaran::cache()->disable();
         KamusAnggaran::cache()->disable();
-        MataAnggaran::where('tahun', session('year'))->delete();
-        KamusAnggaran::where('tahun', session('year'))->delete();
-        Excel::import(new MataAnggaransImport($fields->satker, $fields->wilayah), $fields->file);
+        MataAnggaran::where('tahun', session('year'))->where('dipa_id', $model->id)->update(['updated_at' => null]);        
+        KamusAnggaran::where('tahun', session('year'))->where('dipa_id', $model->id)->update(['updated_at' => null]);
+        Excel::import(new MataAnggaransImport($fields->satker, $fields->wilayah, $model->id), $fields->file);
+        MataAnggaran::where('updated_at', null)->delete();        
+        KamusAnggaran::where('updated_at', null)->delete();
         MataAnggaran::cache()->enable();
         MataAnggaran::cache()->update('all');
         KamusAnggaran::cache()->enable();

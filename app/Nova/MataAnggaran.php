@@ -15,6 +15,7 @@ class MataAnggaran extends Resource
     {
         return 'Mata Anggaran Kegiatan';
     }
+    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
@@ -97,12 +98,6 @@ class MataAnggaran extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportMataAnggaran::make()->standalone();
-        }
-
-        return $actions;
+        return [];
     }
 }

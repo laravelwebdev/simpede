@@ -11,7 +11,7 @@ class KamusAnggaran extends Model
 {
     use HasFactory, LaraCache;
 
-    protected $guarded =[];
+    protected $guarded = [];
 
     public static function cacheEntities(): array
     {

@@ -34,9 +34,9 @@ class MataAnggaransImport implements ToCollection, WithStartRow
             KamusAnggaran::updateOrCreate(
                 ['mak' => $mak],
                 [
-                'detail' => $row[1], 
-                'dipa_id' => $this->dipa_id,
-                'updated_at' => now(),
+                    'detail' => $row[1],
+                    'dipa_id' => $this->dipa_id,
+                    'updated_at' => now(),
                 ]
             );
             if (strlen($mak) == 37) {

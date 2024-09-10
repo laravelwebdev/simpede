@@ -2,13 +2,10 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class JenisKontrak extends Resource
 {
@@ -51,12 +48,12 @@ class JenisKontrak extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-                Text::make('Jenis Kontrak', 'jenis')
-                    ->rules('required'),
-                Currency::make('Batas maksimal (SBML)', 'sbml')
-                    ->rules('required')
-                    ->step(1)
-                    ->default(0),
+            Text::make('Jenis Kontrak', 'jenis')
+                ->rules('required'),
+            Currency::make('Batas maksimal (SBML)', 'sbml')
+                ->rules('required')
+                ->step(1)
+                ->default(0),
         ];
     }
 

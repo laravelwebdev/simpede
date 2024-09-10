@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -13,6 +14,8 @@ class JenisKontrak extends Resource
     {
         return 'Jenis Kontrak';
     }
+
+    public static $with = ['hargaSatuan'];
 
     public static $displayInNavigation = false;
 
@@ -54,6 +57,8 @@ class JenisKontrak extends Resource
                 ->rules('required')
                 ->step(1)
                 ->default(0),
+            BelongsTo::make('Harga Satuan')
+                ->rules('required'),
         ];
     }
 

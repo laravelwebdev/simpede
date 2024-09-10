@@ -20,3 +20,4 @@ yarn-error.log
 /.tinkerun
 /composer-home
 .DS_Store
+.env

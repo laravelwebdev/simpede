@@ -34,7 +34,6 @@ class JenisKontrakPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->andEqual(request()->is('resources/jenis-kontraks/new'), false)
             ->get();
     }
 

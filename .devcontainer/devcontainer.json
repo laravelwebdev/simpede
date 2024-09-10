@@ -14,7 +14,8 @@
         "porifa.laravel-intelephense",
         "zhuangtongfa.material-theme",
         "tinkerun.tinkerun-vscode",
-        "CoenraadS.bracket-pair-colorizer"
+        "CoenraadS.bracket-pair-colorizer",
+        "bmewburn.vscode-intelephense-client"
 	],
     "settings": {
         "#terminal.integrated.shell.linux": "/bin/bash"

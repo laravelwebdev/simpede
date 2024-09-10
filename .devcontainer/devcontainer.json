@@ -6,15 +6,15 @@
     "service": "app",
     "shutdownAction": "stopCompose",
     "extensions": [
-		"editorconfig.editorconfig",
-        "ryannaddy.laravel-artisan",
-        "amiralizadeh9480.laravel-extra-intellisense",
-        "stef-k.laravel-goto-controller",
-        "codingyu.laravel-goto-view",
+	"editorconfig.editorconfig",
+	"cweijan.dbclient-jdbc",
+	"oderwat.indent-rainbow",
         "mikestead.dotenv",
-        "eg2.tslint",
-        "christian-kohler.path-intellisense",
-        "esbenp.prettier-vscode",
+	"porifa.laravel-intelephense",
+	"cweijan.vscode-mysql-client2",
+	"zhuangtongfa.material-theme",
+	"bmewburn.vscode-intelephense-client",
+	"tinkerun.tinkerun-vscode",
         "CoenraadS.bracket-pair-colorizer"
 	],
     "settings": {

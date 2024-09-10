@@ -2,14 +2,15 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeNaskah extends Resource
 {
     public static $with = ['tataNaskah'];
+
     /**
      * Get the label for the resource.
      *

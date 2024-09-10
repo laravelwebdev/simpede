@@ -6,7 +6,7 @@ use App\Helpers\Policy;
 
 class KodeArsipPolicy
 {
-     /**
+    /**
      * Determine whether the user can view any models.
      */
     public function viewAny(): bool

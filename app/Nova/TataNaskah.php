@@ -2,33 +2,35 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportKodeArsip;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class MataAnggaran extends Resource
+class TataNaskah extends Resource
 {
-    public static $with = ['dipa'];
+    public static $with = ['kodeNaskah', 'kodeArsip'];
     public static function label()
     {
-        return 'Mata Anggaran Kegiatan';
+        return 'Tata Naskah';
     }
-    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\MataAnggaran>
+     * @var class-string<\App\Models\TataNaskah>
      */
-    public static $model = \App\Models\MataAnggaran::class;
+    public static $model = \App\Models\TataNaskah::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'mak';
+    public static $title = 'nomor';
 
     /**
      * The columns that should be searched.
@@ -36,7 +38,7 @@ class MataAnggaran extends Resource
      * @var array
      */
     public static $search = [
-        'mak',
+        'nomor',
     ];
 
     /**
@@ -48,13 +50,15 @@ class MataAnggaran extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('MAK', 'mak')
-                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year'))->ignore($this->id))
-                ->sortable()
-                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year')))
-                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX'),
-            BelongsTo::make('Dipa')->rules('required'),
-
+        Text::make('Nomor', 'nomor')
+            ->sortable()
+            ->rules('required'),
+        Date::make('Tanggal', 'tanggal')
+            ->sortable()
+            ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+            ->rules('required'),
+        HasMany::make('Kode Naskah'),
+        HasMany::make('Kode Arsip'),
         ];
     }
 
@@ -99,6 +103,15 @@ class MataAnggaran extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions [] =
+                ImportKodeArsip::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 }

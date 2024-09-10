@@ -2,14 +2,15 @@
 
 namespace App\Nova;
 
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportKodeArsip;
+use Illuminate\Http\Request;
 use App\Nova\Filters\GroupArsip;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeArsip extends Resource
 {
+    public static $with = ['tataNaskah'];
     /**
      * Get the label for the resource.
      *
@@ -19,6 +20,8 @@ class KodeArsip extends Resource
     {
         return 'Kode Arsip Naskah';
     }
+
+    public static $displayInNavigation = false;
 
     /**
      * The model the resource corresponds to.
@@ -60,6 +63,8 @@ class KodeArsip extends Resource
             Text::make('Detail', 'detail')
                 ->sortable()
                 ->rules('required'),
+            BelongsTo::make('Tata Naskah')
+            ->rules('required'),
         ];
     }
 
@@ -102,12 +107,6 @@ class KodeArsip extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportKodeArsip::make()->standalone();
-        }
-
-        return $actions;
+        return [];
     }
 }

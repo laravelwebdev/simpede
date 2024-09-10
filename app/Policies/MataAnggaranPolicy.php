@@ -34,7 +34,6 @@ class MataAnggaranPolicy
     {
         return Policy::make()
             ->allowedFor('admin,koordinator,ppk')
-            ->andEqual(request()->is('resources/mata-anggarans/new'), false)
             ->get();
     }
 

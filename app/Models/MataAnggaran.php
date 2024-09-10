@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
@@ -21,6 +22,11 @@ class MataAnggaran extends Model
                     return MataAnggaran::all();
                 }),
         ];
+    }
+
+    public function dipa(): BelongsTo
+    {
+        return $this->belongsTo(Dipa::class);
     }
 
     /**

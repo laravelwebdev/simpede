@@ -9,14 +9,25 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class KodeArsipsImport implements ToCollection, WithHeadingRow
 {
+    protected $tata_naskah_id;
+
+    public function __construct($tata_naskah_id)
+    {
+        $this->tata_naskah_id = $tata_naskah_id;
+    }
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $kode = new KodeArsip;
-            $kode->kode = $row['kode'];
-            $kode->group = $row['group'];
-            $kode->detail = $row['detail'];
-            $kode->save();
+            KodeArsip::updateOrCreate(
+                ['detail' => $row['detail']],
+                [
+                    'detail' =>$row['detail'],
+                    'tata_naskah_id' => $this->tata_naskah_id,
+                    'kode' => $row['kode'],
+                    'group' => $row['group'],
+                    'updated_at' => now(),
+                ]
+            );
         }
     }
 }

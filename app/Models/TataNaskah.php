@@ -4,17 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
-class KodeNaskah extends Model
+class TataNaskah extends Model
 {
     use HasFactory, LaraCache;
 
-    public function tataNaskah(): BelongsTo
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+
+    /**
+     * Get the daftar mata anggaran.
+     */
+    public function kodeArsip(): HasMany
     {
-        return $this->belongsTo(TataNaskah::class);
+        return $this->hasMany(KodeArsip::class);
+    }
+
+    public function kodeNaskah(): HasMany
+    {
+        return $this->hasMany(KodeNaskah::class);
     }
 
     public static function cacheEntities(): array
@@ -22,7 +34,7 @@ class KodeNaskah extends Model
         return [
             CacheEntity::make('all')
                 ->cache(function () {
-                    return KodeNaskah::all();
+                    return TataNaskah::all();
                 }),
         ];
     }

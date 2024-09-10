@@ -6,13 +6,14 @@ use App\Helpers\Policy;
 
 class KodeArsipPolicy
 {
-    /**
+     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual(request()->is('resources/kode_arsips'), false)
             ->get();
     }
 
@@ -61,9 +62,7 @@ class KodeArsipPolicy
      */
     public function restore(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -71,9 +70,7 @@ class KodeArsipPolicy
      */
     public function forceDelete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -81,8 +78,6 @@ class KodeArsipPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

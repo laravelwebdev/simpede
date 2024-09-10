@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kode_naskahs', function (Blueprint $table) {
+        Schema::create('tata_naskahs', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori', 60)->nullable();
-            $table->string('format')->nullable();
-            $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
+            $table->string('nomor', 40)->nullable();
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kode_naskahs');
+        Schema::dropIfExists('tata_naskahs');
     }
 };

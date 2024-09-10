@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ImportKodeArsip extends Action
 {
     use InteractsWithQueue, Queueable;
-    public $name = 'Import';
+    public $name = 'Import Kode Arsip';
 
     /**
      * Perform the action on the given models.
@@ -28,9 +28,11 @@ class ImportKodeArsip extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $model = $models->first();
         KodeArsip::cache()->disable();
-        KodeArsip::truncate();
-        Excel::import(new KodeArsipsImport, $fields->file);
+        KodeArsip::where('tata_naskah_id', $model->id)->update(['updated_at' => null]);
+        Excel::import(new KodeArsipsImport($model->id), $fields->file);
+        KodeArsip::where('updated_at', null)->delete();
         KodeArsip::cache()->enable();
         KodeArsip::cache()->update('all');
 

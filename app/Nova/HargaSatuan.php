@@ -12,7 +12,7 @@ class HargaSatuan extends Resource
 {
     public static function label()
     {
-        return 'Peraturan HSKS';
+        return 'Harga Satuan Kegiatan';
     }
     public static $with = ['jenisKontrak'];
     /**

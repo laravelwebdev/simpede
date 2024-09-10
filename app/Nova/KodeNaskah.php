@@ -2,11 +2,14 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeNaskah extends Resource
 {
+    public static $with = ['tataNaskah'];
     /**
      * Get the label for the resource.
      *
@@ -16,6 +19,8 @@ class KodeNaskah extends Resource
     {
         return 'Format Penomoran Naskah';
     }
+
+    public static $displayInNavigation = false;
 
     /**
      * The model the resource corresponds to.
@@ -53,6 +58,8 @@ class KodeNaskah extends Resource
                 ->updateRules('unique:kode_naskahs,kategori,{{resourceId}}')
                 ->rules('required'),
             Text::make('Format Penomoran', 'format')
+                ->rules('required'),
+            BelongsTo::make('Tata Naskah')
                 ->rules('required'),
         ];
     }

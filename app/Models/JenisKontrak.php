@@ -26,6 +26,4 @@ class JenisKontrak extends Model
                 }),
         ];
     }
-    
-
 }

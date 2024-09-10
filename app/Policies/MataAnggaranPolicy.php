@@ -12,8 +12,8 @@ class MataAnggaranPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
-        ->andEqual(request()->is('resources/mata-anggarans'), false)
+            ->allowedFor('admin,koordinator,ppk')
+            ->andEqual(request()->is('resources/mata-anggarans'), false)
             ->get();
     }
 
@@ -23,7 +23,7 @@ class MataAnggaranPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk')
             ->get();
     }
 
@@ -33,8 +33,8 @@ class MataAnggaranPolicy
     public function create(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
-        ->andEqual(request()->is('resources/mata-anggarans/new'), false)
+            ->allowedFor('admin,koordinator,ppk')
+            ->andEqual(request()->is('resources/mata-anggarans/new'), false)
             ->get();
     }
 
@@ -44,7 +44,7 @@ class MataAnggaranPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk')
             ->get();
     }
 
@@ -54,7 +54,7 @@ class MataAnggaranPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk')
             ->get();
     }
 
@@ -81,5 +81,4 @@ class MataAnggaranPolicy
     {
         return false;
     }
-    
 }

@@ -12,8 +12,8 @@ class JenisKontrakPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->andEqual(request()->is('resources/jenis-kontraks'), false)
+            ->allowedFor('admin')
+            ->andEqual(request()->is('resources/jenis-kontraks'), false)
             ->get();
     }
 
@@ -23,7 +23,7 @@ class JenisKontrakPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -33,8 +33,8 @@ class JenisKontrakPolicy
     public function create(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->andEqual(request()->is('resources/jenis-kontraks/new'), false)
+            ->allowedFor('admin')
+            ->andEqual(request()->is('resources/jenis-kontraks/new'), false)
             ->get();
     }
 
@@ -44,7 +44,7 @@ class JenisKontrakPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -54,7 +54,7 @@ class JenisKontrakPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -81,7 +81,4 @@ class JenisKontrakPolicy
     {
         return false;
     }
-
-    
-    
 }

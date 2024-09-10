@@ -3,35 +3,32 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
-class JenisKontrak extends Resource
+class HargaSatuan extends Resource
 {
     public static function label()
     {
-        return 'Jenis Kontrak';
+        return 'Peraturan HSKS';
     }
-
-    public static $displayInNavigation = false;
-
+    public static $with = ['jenisKontrak'];
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\JenisKontrak>
+     * @var class-string<\App\Models\HargaSatuan>
      */
-    public static $model = \App\Models\JenisKontrak::class;
+    public static $model = \App\Models\HargaSatuan::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'jenis';
+    public static $title = 'nomor';
 
     /**
      * The columns that should be searched.
@@ -39,7 +36,7 @@ class JenisKontrak extends Resource
      * @var array
      */
     public static $search = [
-        'jenis',
+        'nomor',
     ];
 
     /**
@@ -51,12 +48,14 @@ class JenisKontrak extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-                Text::make('Jenis Kontrak', 'jenis')
-                    ->rules('required'),
-                Currency::make('Batas maksimal (SBML)', 'sbml')
-                    ->rules('required')
-                    ->step(1)
-                    ->default(0),
+            Text::make('Nomor', 'nomor')
+                ->sortable()
+                ->rules('required'),
+            Date::make('Tanggal', 'tanggal')
+                ->sortable()
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->rules('required'),
+            HasMany::make('Jenis Kontrak'),
         ];
     }
 

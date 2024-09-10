@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_kontraks', function (Blueprint $table) {
+        Schema::create('harga_satuans', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis', 80)->nullable();
-            $table->integer('sbml')->nullable()->unsigned();
-            $table->bigInteger('harga_satuan_id')->nullable()->unsigned();
+            $table->string('nomor', 40)->nullable();
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jenis_kontraks');
+        Schema::dropIfExists('harga_satuans');
     }
 };

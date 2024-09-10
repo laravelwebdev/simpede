@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\KamusAnggaran;
-use App\Models\MataAnggaran;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -33,7 +31,6 @@ class Dipa extends Model
     {
         return $this->hasMany(KamusAnggaran::class);
     }
-
 
     public static function cacheEntities(): array
     {

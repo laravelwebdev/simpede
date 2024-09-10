@@ -10,6 +10,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class JenisKontrak extends Model
 {
     use HasFactory, LaraCache;
+
     public static function cacheEntities(): array
     {
         return [

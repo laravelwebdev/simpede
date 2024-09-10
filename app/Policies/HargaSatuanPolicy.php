@@ -12,7 +12,7 @@ class HargaSatuanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -85,10 +85,11 @@ class HargaSatuanPolicy
             ->allowedFor('admin')
             ->get();
     }
+
     public function addJenisKontrak(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->get();
+            ->allowedFor('admin')
+            ->get();
     }
 }

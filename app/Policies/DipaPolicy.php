@@ -12,7 +12,7 @@ class DipaPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk')
             ->get();
     }
 
@@ -85,10 +85,11 @@ class DipaPolicy
             ->allowedFor('admin')
             ->get();
     }
+
     public function addMataAnggaran(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,koordinator,ppk')
-        ->get();
+            ->allowedFor('admin,koordinator,ppk')
+            ->get();
     }
 }

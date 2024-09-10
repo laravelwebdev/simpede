@@ -3,31 +3,34 @@
     "name": "codespaces-laravel",
     "dockerComposeFile": ["docker-compose.yml"],
     "workspaceFolder": "/workspace",
+
     "service": "app",
     "shutdownAction": "stopCompose",
     "extensions": [
-	"editorconfig.editorconfig",
-	"cweijan.dbclient-jdbc",
-	"oderwat.indent-rainbow",
+        "editorconfig.editorconfig",
+        "cweijan.dbclient-jdbc",
+        "oderwat.indent-rainbow",
         "mikestead.dotenv",
-	"porifa.laravel-intelephense",
-	"cweijan.vscode-mysql-client2",
-	"zhuangtongfa.material-theme",
-	"bmewburn.vscode-intelephense-client",
-	"tinkerun.tinkerun-vscode",
+        "porifa.laravel-intelephense",
+        "zhuangtongfa.material-theme",
+        "tinkerun.tinkerun-vscode",
         "CoenraadS.bracket-pair-colorizer"
 	],
     "settings": {
         "#terminal.integrated.shell.linux": "/bin/bash"
     },
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    "forwardPorts": [80],
+    "forwardPorts": [80,3306,8081],
+    "portsAttributes": {
+        "80": {
+            "label": "HTTP"
+        },
+        "3306": {
+            "label": "MariaDB"
+        },
+        "8081": {
+            "label": "PHPMYadmin"
+        }
+    },
 
-    // Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "cp .env.example .env && composer install && php artisan key:generate && yarn install && yarn run development",
-	"portsAttributes": {
-		"80": {
-			"label": "HTTP"
-		}
-	},
 }

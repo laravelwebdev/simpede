@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class MataAnggaran extends Resource
 {
     public static $with = ['dipa'];
+
     public static function label()
     {
         return 'Mata Anggaran Kegiatan';

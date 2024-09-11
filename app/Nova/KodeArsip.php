@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use App\Nova\Filters\GroupArsip;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class KodeArsip extends Resource
 {
     public static $with = ['tataNaskah'];
+
     /**
      * Get the label for the resource.
      *
@@ -64,7 +65,7 @@ class KodeArsip extends Resource
                 ->sortable()
                 ->rules('required'),
             BelongsTo::make('Tata Naskah')
-            ->rules('required'),
+                ->rules('required'),
         ];
     }
 

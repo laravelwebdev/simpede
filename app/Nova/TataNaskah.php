@@ -14,6 +14,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class TataNaskah extends Resource
 {
     public static $with = ['kodeNaskah', 'kodeArsip'];
+
     public static function label()
     {
         return 'Tata Naskah';
@@ -50,15 +51,15 @@ class TataNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-        Text::make('Nomor', 'nomor')
-            ->sortable()
-            ->rules('required'),
-        Date::make('Tanggal', 'tanggal')
-            ->sortable()
-            ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-            ->rules('required'),
-        HasMany::make('Kode Naskah'),
-        HasMany::make('Kode Arsip'),
+            Text::make('Nomor', 'nomor')
+                ->sortable()
+                ->rules('required'),
+            Date::make('Tanggal', 'tanggal')
+                ->sortable()
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->rules('required'),
+            HasMany::make('Kode Naskah'),
+            HasMany::make('Kode Arsip'),
         ];
     }
 

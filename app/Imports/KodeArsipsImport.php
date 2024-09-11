@@ -15,13 +15,14 @@ class KodeArsipsImport implements ToCollection, WithHeadingRow
     {
         $this->tata_naskah_id = $tata_naskah_id;
     }
+
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
             KodeArsip::updateOrCreate(
                 ['detail' => $row['detail']],
                 [
-                    'detail' =>$row['detail'],
+                    'detail' => $row['detail'],
                     'tata_naskah_id' => $this->tata_naskah_id,
                     'kode' => $row['kode'],
                     'group' => $row['group'],

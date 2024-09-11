@@ -34,7 +34,6 @@ class TataNaskah extends Model
         return $this->hasMany(Template::class);
     }
 
-
     public static function cacheEntities(): array
     {
         return [

@@ -17,6 +17,7 @@ class KodeNaskah extends Model
     {
         return $this->belongsTo(TataNaskah::class);
     }
+
     public function jenisNaskah(): HasMany
     {
         return $this->hasMany(JenisNaskah::class);

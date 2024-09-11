@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class KodeNaskah extends Resource
 {
     public static $with = ['tataNaskah', 'jenisNaskah'];
+
     /**
      * Get the label for the resource.
      *

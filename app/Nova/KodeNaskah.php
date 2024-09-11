@@ -4,12 +4,13 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeNaskah extends Resource
 {
-    public static $with = ['tataNaskah'];
+    public static $with = ['tataNaskah', 'jenisNaskah'];
     /**
      * Get the label for the resource.
      *
@@ -61,6 +62,7 @@ class KodeNaskah extends Resource
                 ->rules('required'),
             BelongsTo::make('Tata Naskah')
                 ->rules('required'),
+            HasMany::make('Jenis Naskah'),
         ];
     }
 

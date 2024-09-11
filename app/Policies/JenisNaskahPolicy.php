@@ -13,6 +13,7 @@ class JenisNaskahPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual(request()->is('resources/jeni-naskahs'), false)
             ->get();
     }
 
@@ -61,9 +62,7 @@ class JenisNaskahPolicy
      */
     public function restore(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -71,9 +70,7 @@ class JenisNaskahPolicy
      */
     public function forceDelete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -81,8 +78,6 @@ class JenisNaskahPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

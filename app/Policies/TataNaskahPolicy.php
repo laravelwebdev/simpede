@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class KodeNaskahPolicy
+class TataNaskahPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -13,7 +13,6 @@ class KodeNaskahPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->andEqual(request()->is('resources/kode-naskahs'), false)
             ->get();
     }
 
@@ -62,7 +61,9 @@ class KodeNaskahPolicy
      */
     public function restore(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -70,7 +71,9 @@ class KodeNaskahPolicy
      */
     public function forceDelete(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -78,10 +81,19 @@ class KodeNaskahPolicy
      */
     public function replicate(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
-    public function addJenisNaskah(): bool
+    public function addKodeArsip(): bool
+    {
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
+    }
+
+    public function addKodeNaskah(): bool
     {
         return Policy::make()
             ->allowedFor('admin')

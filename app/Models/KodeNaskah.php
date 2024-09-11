@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
@@ -15,6 +16,10 @@ class KodeNaskah extends Model
     public function tataNaskah(): BelongsTo
     {
         return $this->belongsTo(TataNaskah::class);
+    }
+    public function jenisNaskah(): HasMany
+    {
+        return $this->hasMany(JenisNaskah::class);
     }
 
     public static function cacheEntities(): array

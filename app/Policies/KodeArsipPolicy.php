@@ -13,7 +13,7 @@ class KodeArsipPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->andEqual(request()->is('resources/kode_arsips'), false)
+            ->andEqual(request()->is('resources/kode-arsips'), false)
             ->get();
     }
 

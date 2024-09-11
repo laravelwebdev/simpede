@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('arsip_dokumens', function (Blueprint $table) {
             $table->id();
             $table->string('slug', 50)->nullable();
-            $table->string('file', 255)->nullable();
-            $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
+            $table->string('file')->nullable();
+            $table->bigInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('arsip_dokumens');
     }
 };

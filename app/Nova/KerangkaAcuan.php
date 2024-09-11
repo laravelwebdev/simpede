@@ -7,7 +7,6 @@ use App\Helpers\Policy;
 use App\Models\MataAnggaran;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
-use App\Nova\Repeater\Anggaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -15,6 +14,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
@@ -26,7 +26,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class KerangkaAcuan extends Resource
 {
-    public static $with = ['naskahKeluar'];
+    public static $with = ['naskahKeluar', 'arsipDokumen'];
 
     public static function label()
     {
@@ -90,9 +90,10 @@ class KerangkaAcuan extends Resource
     {
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
-            new Panel('Anggaran', $this->anggaranFields()),
+            // new Panel('Anggaran', $this->anggaranFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
-            new Panel('Spesifikasi', $this->spesifikasiFields()),
+            // new Panel('Spesifikasi', $this->spesifikasiFields()),
+            HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
         ];
     }
 

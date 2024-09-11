@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\ArsipDokumen;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class KerangkaAcuan extends Model
@@ -26,6 +28,11 @@ class KerangkaAcuan extends Model
     public function naskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class);
+    }
+
+    public function arsipDokumen(): HasMany
+    {
+        return $this->hasMany(ArsipDokumen::class);
     }
 
     /**
@@ -66,6 +73,15 @@ class KerangkaAcuan extends Model
         static::deleting(function (KerangkaAcuan $kak) {
             NaskahKeluar::destroy($kak->naskah_keluar_id);
             HonorSurvei::destroy($kak->id);
+        });
+        static::created(function (KerangkaAcuan $kak) {
+            ArsipDokumen::create(['slug' => 'Kerangka Acuan Kerja', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'Form Permintaan', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'SPM', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'SP2D', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'Surat Setoran Pajak', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'SPJ', 'kerangka_acuan_id' => $kak->id]);
+            ArsipDokumen::create(['slug' => 'Mutasi Rekening', 'kerangka_acuan_id' => $kak->id]);
         });
         static::saving(function (KerangkaAcuan $kak) {
             if ($kak->jenis !== 'Penyedia') {

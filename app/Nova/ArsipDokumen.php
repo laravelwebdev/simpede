@@ -2,36 +2,39 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportKodeArsip;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class TataNaskah extends Resource
+class ArsipDokumen extends Resource
 {
-    public static $with = ['kodeNaskah', 'kodeArsip', 'template'];
-
+    public static $with = ['kerangkaAcuan'];
+    /**
+     * Get the label for the resource.
+     *
+     * @return string
+     */
     public static function label()
     {
-        return 'Tata Naskah';
+        return 'Arsip Dokumen';
     }
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TataNaskah>
+     * @var class-string<\App\Models\ArsipDokumen>
      */
-    public static $model = \App\Models\TataNaskah::class;
+    public static $model = \App\Models\ArsipDokumen::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public static $title = 'slug';
 
     /**
      * The columns that should be searched.
@@ -39,7 +42,7 @@ class TataNaskah extends Resource
      * @var array
      */
     public static $search = [
-        'nomor',
+        'slug',
     ];
 
     /**
@@ -51,16 +54,17 @@ class TataNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nomor', 'nomor')
+            Text::make('Jenis Dokumen', 'slug')
                 ->sortable()
                 ->rules('required'),
-            Date::make('Tanggal', 'tanggal')
-                ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required'),
-            HasMany::make('Kode Naskah'),
-            HasMany::make('Kode Arsip'),
-            HasMany::make('Template'),
+            File::make('File')
+                ->disk('templates')
+                ->rules('mimes:xlsx,pdf.docx')
+                ->acceptedTypes('.pdf,.docx,.xlsx')
+                ->rules('required')
+                ->prunable(),
+            BelongsTo::make('Kerangka Acuan')
+                ->rules('required')->onlyOnForms(),
         ];
     }
 
@@ -105,15 +109,6 @@ class TataNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportKodeArsip::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-
-        return $actions;
+        return [];
     }
 }

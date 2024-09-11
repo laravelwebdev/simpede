@@ -22,6 +22,7 @@ class JenisNaskah extends Resource
     {
         return 'Jenis Naskah';
     }
+    public static $displayInNavigation = false;
 
     /**
      * The model the resource corresponds to.

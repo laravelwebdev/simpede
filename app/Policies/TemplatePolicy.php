@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class TataNaskahPolicy
+class TemplatePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -13,6 +13,7 @@ class TataNaskahPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual(request()->is('resources/templates'), false)
             ->get();
     }
 
@@ -61,9 +62,7 @@ class TataNaskahPolicy
      */
     public function restore(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -71,9 +70,7 @@ class TataNaskahPolicy
      */
     public function forceDelete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -81,30 +78,6 @@ class TataNaskahPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addKodeArsip(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addKodeNaskah(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-
-    public function addTemplate(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

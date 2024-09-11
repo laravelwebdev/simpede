@@ -29,6 +29,12 @@ class TataNaskah extends Model
         return $this->hasMany(KodeNaskah::class);
     }
 
+    public function template(): HasMany
+    {
+        return $this->hasMany(Template::class);
+    }
+
+
     public static function cacheEntities(): array
     {
         return [

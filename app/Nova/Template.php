@@ -3,12 +3,14 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Template extends Resource
 {
+    public static $with = ['tataNaskah'];
     /**
      * Get the label for the resource.
      *
@@ -18,6 +20,7 @@ class Template extends Resource
     {
         return 'Template';
     }
+    public static $displayInNavigation = false;
 
     /**
      * The model the resource corresponds to.
@@ -53,15 +56,15 @@ class Template extends Resource
         return [
             Text::make('Slug')
                 ->sortable()
-                ->rules('required')
-                ->creationRules('unique:templates,slug')
-                ->updateRules('unique:templates,slug,{{resourceId}}'),
+                ->rules('required'),
             File::make('File')
                 ->disk('templates')
                 ->rules('mimes:xlsx,pdf.docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->rules('required')
                 ->prunable(),
+            BelongsTo::make('Tata Naskah')
+                ->rules('required'),
         ];
     }
 

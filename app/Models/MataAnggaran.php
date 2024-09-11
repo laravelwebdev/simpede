@@ -28,14 +28,4 @@ class MataAnggaran extends Model
     {
         return $this->belongsTo(Dipa::class);
     }
-
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::creating(function (MataAnggaran $mak) {
-            $mak->tahun = session('year');
-        });
-    }
 }

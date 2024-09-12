@@ -21,6 +21,7 @@ class DataPegawai extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     /**
      * Get the unit kerja that owns the user.
      */
@@ -44,5 +45,4 @@ class DataPegawai extends Model
                 }),
         ];
     }
-
 }

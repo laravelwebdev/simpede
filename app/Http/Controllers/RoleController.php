@@ -14,7 +14,7 @@ class RoleController extends Controller
      */
     public function changeRole($role, Request $request)
     {
-        if ((Pengelola::cache()->get('all')->where('user_id', Auth::user()->id)->where('role', $role)->whereNull('inactive')->first() !== null)) {
+        if (Pengelola::cache()->get('all')->where('user_id', Auth::user()->id)->where('role', $role)->whereNull('inactive')->first() !== null) {
             session(['role' => $role]);
         }
 

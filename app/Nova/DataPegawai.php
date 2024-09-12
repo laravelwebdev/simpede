@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -52,21 +51,21 @@ class DataPegawai extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-                Date::make('Tanggal Perubahan', 'tanggal')
-                    ->rules('required')
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-                Select::make('Golongan')
-                    ->options(Helper::$golongan)
-                    ->rules('required')
-                    ->searchable(),
-                Text::make('Pangkat')
-                    ->hideWhenCreating()
-                    ->hideWhenUpdating(),
-                Text::make('Jabatan')
-                    ->rules('required'),
-                BelongsTo::make('Unit Kerja')
-                    ->filterable()
-                    ->rules('required'),
+            Date::make('Tanggal Perubahan', 'tanggal')
+                ->rules('required')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            Select::make('Golongan')
+                ->options(Helper::$golongan)
+                ->rules('required')
+                ->searchable(),
+            Text::make('Pangkat')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            Text::make('Jabatan')
+                ->rules('required'),
+            BelongsTo::make('Unit Kerja')
+                ->filterable()
+                ->rules('required'),
         ];
     }
 

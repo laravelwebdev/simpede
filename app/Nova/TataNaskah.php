@@ -10,7 +10,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ShuvroRoy\NovaTabs\Tab;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 

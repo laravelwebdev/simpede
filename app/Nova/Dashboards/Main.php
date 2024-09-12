@@ -4,7 +4,6 @@ namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
 use App\Helpers\Inspiring;
-use App\Models\Pengelola;
 use DigitalCreative\NovaWelcomeCard\WelcomeCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;

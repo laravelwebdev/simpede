@@ -10,7 +10,6 @@ use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Visanduma\NovaBackNavigation\NovaBackNavigation;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {

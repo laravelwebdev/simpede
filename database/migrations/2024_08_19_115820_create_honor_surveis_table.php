@@ -38,7 +38,6 @@ return new class extends Migration
             $table->string('tahun', 4)->nullable();
             $table->string('jenis_kontrak', 40)->nullable();
             $table->string('kegiatan')->nullable();
-            $table->text('pegawai')->nullable();
             $table->string('ketua', 80)->nullable();
             $table->string('nipketua', 40)->nullable();
             $table->string('ppk', 80)->nullable();

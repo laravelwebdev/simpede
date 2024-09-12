@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('tkdn', 5)->nullable();
             $table->string('jenis', 30)->nullable();
             $table->string('metode', 30)->nullable();
-            $table->text('anggaran')->nullable();
-            $table->text('spesifikasi')->nullable();
             $table->text('kegiatan')->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();

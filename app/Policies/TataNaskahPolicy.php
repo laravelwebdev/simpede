@@ -100,7 +100,6 @@ class TataNaskahPolicy
             ->get();
     }
 
-
     public function addTemplate(): bool
     {
         return Policy::make()

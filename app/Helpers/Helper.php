@@ -258,7 +258,7 @@ class Helper
         return $options;
     }
 
-    public static function getYearFromDate ($tanggal, $typeDate = true)
+    public static function getYearFromDate($tanggal, $typeDate = true)
     {
         return $typeDate ? Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year : Carbon::createFromFormat('Y-m-d', $tanggal)->year;
     }
@@ -829,6 +829,7 @@ class Helper
     public static function setOptionsMataAnggaran($tahun)
     {
         $dipa_id = Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id;
+
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }
 }

@@ -6,16 +6,21 @@ use App\Helpers\Helper;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\PasswordConfirmation;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use ShuvroRoy\NovaTabs\Tabs;
+use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class User extends Resource
 {
-    public static $with = ['unitKerja'];
+    use HasTabs;
+    public static $with = ['unitKerja', 'pengelola'];
 
     /**
      * The model the resource corresponds to.
@@ -29,7 +34,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $title = 'nama';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -37,7 +42,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'nama', 'email',
+        'name', 'email',
     ];
 
     /**
@@ -62,29 +67,18 @@ class User extends Resource
                 PasswordConfirmation::make('Password Confirmation'),
             ]),
             Panel::make('Biodata', [
-                Text::make('Nama')
+                Text::make('Nama', 'name')
                     ->sortable()
                     ->rules('required'),
                 Text::make('NIP')
                     ->placeholder('xxxxxxxx xxxxxx x xxxx')
                     ->rules('required'),
-                Select::make('Golongan')
-                    ->options(Helper::$golongan)
-                    ->rules('required')
-                    ->searchable(),
-                Text::make('Pangkat')
-                    ->hideWhenCreating()
-                    ->hideWhenUpdating(),
-                Text::make('Jabatan')
-                    ->rules('required'),
-                BelongsTo::make('Unit Kerja')
-                    ->filterable()
-                    ->rules('required'),
-                Select::make('Role')
-                    ->options(Helper::$role)
-                    ->rules('required')
-                    ->filterable(),
             ]),
+            Tabs::make('Detail', [
+                HasMany::make('Data Pegawai'),
+                HasMany::make('Pengelola'),
+            ])
+
         ];
     }
 
@@ -125,6 +119,8 @@ class User extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            // new DownloadExcel,
+        ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Mostafaznv\LaraCache\CacheEntity;
@@ -58,17 +59,27 @@ class User extends Authenticatable
         ];
     }
 
-    public function setGolonganAttribute($value)
-    {
-        $this->attributes['golongan'] = $value;
-        $this->attributes['pangkat'] = Helper::$pangkat[$value];
-    }
-
     /**
      * Get the unit kerja that owns the user.
      */
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class);
+    }
+
+    /**
+     * Get the unit kerja that owns the user.
+     */
+    public function pengelola(): HasMany
+    {
+        return $this->hasMany(Pengelola::class);
+    }
+
+    /**
+     * Get the unit kerja that owns the user.
+     */
+    public function dataPegawai(): HasMany
+    {
+        return $this->hasMany(DataPegawai::class);
     }
 }

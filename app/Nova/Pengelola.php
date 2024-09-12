@@ -2,7 +2,10 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -19,6 +22,7 @@ class Pengelola extends Resource
     }
 
     public static $with = ['user'];
+    public static $displayInNavigation = false;
 
     /**
      * The model the resource corresponds to.
@@ -40,7 +44,7 @@ class Pengelola extends Resource
      * @var array
      */
     public static $search = [
-        'jabatan', 'role',
+        'role',
     ];
 
     /**
@@ -51,12 +55,18 @@ class Pengelola extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jabatan')
+            Select::make('role')
+                ->options(Helper::$role)
+                ->displayUsingLabels()
                 ->rules('required'),
-            Text::make('role')
-                ->rules('required'),
+            Date::make('Tanggal Aktivasi', 'active')
+                ->rules('required')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            Date::make('Tanggal Deaktivasi', 'inactive')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             BelongsTo::make('User')
-                ->rules('required'),
+                ->rules('required')
+                ->onlyOnForms(),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Helper;
 use App\Models\Pengelola;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -30,12 +31,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
-            $roles = [$request->user()->role => 'Pegawai'];
-            $roles = array_merge($roles, Pengelola::cache()->get('all')->where('user_id', $request->user()->id)->pluck('jabatan', 'role')->toArray());
+            $roles = Pengelola::cache()->get('all')->where('user_id', $request->user()->id)->whereNull('inactive')->pluck('role', 'role')->toArray();
             foreach ($roles as $key => $value) {
                 $menu->prepend(
                     MenuItem::externalLink(
-                        $value,
+                        Helper::$role[$key],
                         route('changerole', [
                             'role' => $key,
                         ])
@@ -100,7 +100,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new NovaBackNavigation,
+
         ];
     }
 

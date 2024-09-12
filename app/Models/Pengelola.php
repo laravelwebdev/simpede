@@ -12,6 +12,11 @@ class Pengelola extends Model
 {
     use HasFactory, LaraCache;
 
+    protected $casts = [
+        'active' => 'date',
+        'inactive' => 'date',
+    ];
+
     /**
      * Get the user that owns the pengelola.
      */

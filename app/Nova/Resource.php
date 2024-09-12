@@ -61,4 +61,6 @@ abstract class Resource extends NovaResource
      * @var string
      */
     public static $clickAction = 'ignore';
+
+    public static $perPageViaRelationship = 10;
 }

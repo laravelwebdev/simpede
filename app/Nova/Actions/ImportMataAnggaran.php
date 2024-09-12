@@ -32,8 +32,8 @@ class ImportMataAnggaran extends Action
         $model = $models->first();
         MataAnggaran::cache()->disable();
         KamusAnggaran::cache()->disable();
-        MataAnggaran::where('tahun', session('year'))->where('dipa_id', $model->id)->update(['updated_at' => null]);
-        KamusAnggaran::where('tahun', session('year'))->where('dipa_id', $model->id)->update(['updated_at' => null]);
+        MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        KamusAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         Excel::import(new MataAnggaransImport($fields->satker, $fields->wilayah, $model->id), $fields->file);
         MataAnggaran::where('updated_at', null)->delete();
         KamusAnggaran::where('updated_at', null)->delete();

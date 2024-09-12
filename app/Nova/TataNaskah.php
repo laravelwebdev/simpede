@@ -10,9 +10,13 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use ShuvroRoy\NovaTabs\Tab;
+use ShuvroRoy\NovaTabs\Tabs;
+use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class TataNaskah extends Resource
 {
+    use HasTabs;
     public static $with = ['kodeNaskah', 'kodeArsip', 'template'];
 
     public static function label()
@@ -58,9 +62,11 @@ class TataNaskah extends Resource
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
-            HasMany::make('Kode Naskah'),
-            HasMany::make('Kode Arsip'),
-            HasMany::make('Template'),
+            Tabs::make('Detail Naskah', [
+                HasMany::make('Kode Naskah'),
+                HasMany::make('Kode Arsip'),
+                HasMany::make('Template'),
+            ]),
         ];
     }
 

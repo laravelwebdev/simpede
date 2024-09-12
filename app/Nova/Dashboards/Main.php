@@ -2,6 +2,7 @@
 
 namespace App\Nova\Dashboards;
 
+use App\Helpers\Helper;
 use App\Helpers\Inspiring;
 use App\Models\Pengelola;
 use DigitalCreative\NovaWelcomeCard\WelcomeCard;
@@ -31,10 +32,10 @@ class Main extends Dashboard
     {
         return [
             GreeterCard::make()
-                ->user(name: Auth::user()->nama, title: Auth::user()->email)
+                ->user(name: Auth::user()->name, title: Auth::user()->email)
                 ->message(text: __('Welcome Back!'))
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
-                ->verified(text: (Pengelola::cache()->get('all')->where('role', session('role'))->first() !== null) ? Pengelola::cache()->get('all')->where('role', session('role'))->first()->jabatan : 'Pegawai')
+                ->verified(text: Helper::$role[session('role')])
                 ->width('1/2'),
             GreeterCard::make()
                 ->user(name: 'Quotes of the day', title: Inspiring::show())

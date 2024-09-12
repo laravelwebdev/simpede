@@ -21,12 +21,13 @@
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "maatwebsite/laravel-nova-excel": "^1.3",
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",
         "oriondevelops/nova-greeter": "^0.0.2",
         "outl1ne/nova-simple-repeatable": "^2.2",
         "phpoffice/phpword": "^1.2",
-        "visanduma/nova-back-navigation": "^1.0"
+        "shuvroroy/nova-tabs": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

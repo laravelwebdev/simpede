@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('mata_anggarans', function (Blueprint $table) {
             $table->id();
             $table->string('mak', 40)->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->bigInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

@@ -58,7 +58,7 @@ class ArsipDokumen extends Resource
                 ->sortable()
                 ->rules('required'),
             File::make('File')
-                ->disk('templates')
+                ->disk('arsip')
                 ->rules('mimes:xlsx,pdf.docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->rules('required')

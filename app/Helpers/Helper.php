@@ -64,9 +64,18 @@ class Helper
      * @var array
      */
     public static $role = [
-        'kepala' => 'kepala',
-        'koordinator' => 'koordinator',
-        'anggota' => 'anggota',
+        'kepala' => 'Kepala',
+        'ppk' => 'Pejabat Pembuat Komitmen',
+        'bendahara' => 'Bendahara',
+        'ppspm' => 'Pejabat PSPM',
+        'pbj' => 'Pejabat PBJ',
+        'bmn' => 'Pengelola BMN',
+        'admin' => 'Administrator',
+        'kpa' => 'Kuasa Pengguna Anggaran',
+        'koordinator' => 'Ketua Tim',
+        'anggota' => 'Pegawai',
+        'kasubbag' => 'Kasubbag Umum',
+        'arsiparis' => 'Arsiparis',
     ];
 
     /**

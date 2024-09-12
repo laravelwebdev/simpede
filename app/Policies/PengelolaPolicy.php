@@ -13,6 +13,7 @@ class PengelolaPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual(request()->is('resources/pengelolas'), false)
             ->get();
     }
 

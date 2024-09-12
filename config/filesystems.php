@@ -52,6 +52,15 @@ return [
             'throw' => false,
         ],
 
+        'arsip' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/arsip'),
+            'url' => env('APP_URL').'storage/arsip',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+
         'images' => [
             'driver' => 'local',
             'root' => storage_path('app/public/images'),

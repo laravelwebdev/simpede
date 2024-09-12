@@ -2,14 +2,11 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\PasswordConfirmation;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -77,7 +74,7 @@ class User extends Resource
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),
                 HasMany::make('Pengelola'),
-            ])
+            ]),
 
         ];
     }

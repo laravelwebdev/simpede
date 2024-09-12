@@ -200,20 +200,20 @@ class HonorSurvei extends Resource
 
             ]),
 
-            Panel::make('Keterangan Petugas Organik', [
-                SimpleRepeatable::make('Pegawai', 'pegawai', [
-                    Select::make('Nama Pegawai', 'user_id')
-                        ->rules('required')
-                        ->searchable()
-                        ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama'))
-                        ->displayUsingLabels(),
-                ])->rules('required',
-                    function ($attribute, $value, $fail) {
-                        if (Helper::cekGanda(json_decode($value), 'user_id')) {
-                            return $fail('validation.unique')->translate();
-                        }
-                    }),
-            ]),
+            // Panel::make('Keterangan Petugas Organik', [
+            //     SimpleRepeatable::make('Pegawai', 'pegawai', [
+            //         Select::make('Nama Pegawai', 'user_id')
+            //             ->rules('required')
+            //             ->searchable()
+            //             ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama'))
+            //             ->displayUsingLabels(),
+            //     ])->rules('required',
+            //         function ($attribute, $value, $fail) {
+            //             if (Helper::cekGanda(json_decode($value), 'user_id')) {
+            //                 return $fail('validation.unique')->translate();
+            //             }
+            //         }),
+            // ]),
 
             HasMany::make('Daftar Honor', 'daftarHonor', 'App\Nova\DaftarHonor'),
         ];

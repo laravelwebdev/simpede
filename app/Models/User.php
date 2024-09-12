@@ -82,12 +82,10 @@ class User extends Authenticatable
         return $this->hasMany(DataPegawai::class);
     }
 
-
-protected static function booted(): void
+    protected static function booted(): void
     {
         static::creating(function (User $user) {
             $user->avatar = $user->avatar ?? 'G99ElrTEgEDRG4blE3m1xxMmFcfB0VVeLio0L3H6.jpg';
         });
     }
 }
-

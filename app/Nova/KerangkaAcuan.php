@@ -90,9 +90,9 @@ class KerangkaAcuan extends Resource
     {
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
-            // new Panel('Anggaran', $this->anggaranFields()),
+            new Panel('Anggaran', $this->anggaranFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
-            // new Panel('Spesifikasi', $this->spesifikasiFields()),
+            new Panel('Spesifikasi', $this->spesifikasiFields()),
             HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
         ];
     }
@@ -159,7 +159,7 @@ class KerangkaAcuan extends Resource
             Date::make('Tanggal KAK', 'tanggal')
                 ->sortable()
                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
-                    if (Carbon::createFromFormat('Y-m-d', $value)->year != session('year')) {
+                    if (Helper::getYearFromDate($value, false) != session('year')) {
                         return $fail('Tanggal harus di tahun berjalan');
                     }
                 })
@@ -214,7 +214,10 @@ class KerangkaAcuan extends Resource
                     ->rules('required')
                     ->searchable()
                     ->filterable()
-                    ->options(Helper::setOptions(MataAnggaran::cache()->get('all')->where('tahun', session('year')), 'mak', 'mak')),
+                    ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate($formData->tanggal)));
+                    }),
+
                 Currency::make('Perkiraan Digunakan ', 'perkiraan')
                     ->rules('required')
                     ->step(1)

@@ -8,6 +8,7 @@ use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
+use App\Models\MataAnggaran;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
 use App\Models\Template;
@@ -257,6 +258,11 @@ class Helper
         return $options;
     }
 
+    public static function getYearFromDate ($tanggal, $typeDate = true)
+    {
+        return $typeDate ? Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year : Carbon::createFromFormat('Y-m-d', $tanggal)->year;
+    }
+
     /**
      * Membuat Nomor.
      *
@@ -270,7 +276,7 @@ class Helper
      */
     public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id, $kode_arsip_id, $derajat)
     {
-        $tahun = Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
+        $tahun = self::getYearFromDate($tanggal);
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
         $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $jenis_naskah->kode_naskah_id)->first();
         $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
@@ -818,5 +824,11 @@ class Helper
     public static function hapusTitikAkhirKalimat($kalimat)
     {
         return rtrim($kalimat, '.');
+    }
+
+    public static function setOptionsMataAnggaran($tahun)
+    {
+        $dipa_id = Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id;
+        return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }
 }

@@ -25,7 +25,6 @@
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",
         "oriondevelops/nova-greeter": "^0.0.2",
-        "outl1ne/nova-simple-repeatable": "^2.2",
         "phpoffice/phpword": "^1.2",
         "shuvroroy/nova-tabs": "^1.1"
     },

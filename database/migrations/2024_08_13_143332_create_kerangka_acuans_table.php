@@ -29,10 +29,10 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->string('nip', 30)->nullable();
             $table->string('jabatan', 50)->nullable();
-            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->string('ppk')->nullable();
             $table->string('nipppk', 30)->nullable();
             $table->string('tahun', 4)->nullable();
+            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pengelolas', function (Blueprint $table) {
             $table->id();
+            $table->string('role', 20)->nullable();
             $table->date('active')->nullable();
             $table->date('inactive')->nullable();
-            $table->string('role', 20)->nullable();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->timestamps();
         });

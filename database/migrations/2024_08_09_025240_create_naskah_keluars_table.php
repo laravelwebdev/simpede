@@ -17,10 +17,6 @@ return new class extends Migration
             $table->integer('no_urut')->nullable()->unsigned();
             $table->integer('segmen')->nullable()->unsigned();
             $table->string('nomor')->unique()->nullable();
-            $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
-            $table->bigInteger('kode_arsip_id')->nullable()->unsigned();
-            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
             $table->string('derajat', 10)->nullable();
             $table->string('tujuan')->nullable();
             $table->text('perihal')->nullable();
@@ -30,6 +26,10 @@ return new class extends Migration
             $table->string('signed')->nullable();
             $table->string('tahun', 4)->nullable();
             $table->char('generate', 1)->default('M');
+            $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
+            $table->bigInteger('kode_arsip_id')->nullable()->unsigned();
+            $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
+            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

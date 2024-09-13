@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Laravie\SerializesQuery\Eloquent;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +13,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Eloquent::unguard();
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/users.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/data_pegawais.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/pengelolas.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/tata_naskahs.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/kode_naskahs.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/jenis_naskahs.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path() . '/dump_sql/kode_arsips.sql')
+        );
     }
 }

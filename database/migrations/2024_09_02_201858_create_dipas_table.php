@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('dipas', function (Blueprint $table) {
             $table->id();
-            $table->string('tahun', 4)->unique()->nullable();
             $table->string('nomor', 40)->nullable();
             $table->date('tanggal')->nullable();
+            $table->string('tahun', 4)->unique()->nullable();
             $table->timestamps();
         });
     }

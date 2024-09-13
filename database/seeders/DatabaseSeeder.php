@@ -15,25 +15,25 @@ class DatabaseSeeder extends Seeder
     {
         // Eloquent::unguard();
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/users.sql')
+            file_get_contents(database_path().'/dump_sql/users.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/data_pegawais.sql')
+            file_get_contents(database_path().'/dump_sql/data_pegawais.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/pengelolas.sql')
+            file_get_contents(database_path().'/dump_sql/pengelolas.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/tata_naskahs.sql')
+            file_get_contents(database_path().'/dump_sql/tata_naskahs.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/kode_naskahs.sql')
+            file_get_contents(database_path().'/dump_sql/kode_naskahs.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/jenis_naskahs.sql')
+            file_get_contents(database_path().'/dump_sql/jenis_naskahs.sql')
         );
         DB::unprepared(
-            file_get_contents(database_path() . '/dump_sql/kode_arsips.sql')
+            file_get_contents(database_path().'/dump_sql/kode_arsips.sql')
         );
     }
 }

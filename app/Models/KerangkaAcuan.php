@@ -37,7 +37,6 @@ class KerangkaAcuan extends Model
         return $this->hasMany(AnggaranKerangkaAcuan::class);
     }
 
-
     /**
      * The "booted" method of the model.
      */

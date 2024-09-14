@@ -6,18 +6,18 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class DerajatSurat extends Resource
+class DerajatNaskah extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\DerajatSurat>
+     * @var class-string<\App\Models\DerajatNaskah>
      */
-    public static $model = \App\Models\DerajatSurat::class;
+    public static $model = \App\Models\DerajatNaskah::class;
 
     public static function label()
     {
-        return 'Derajat Surat';
+        return 'Derajat Naskah';
     }
 
     public static $with = ['tataNaskah'];
@@ -51,9 +51,9 @@ class DerajatSurat extends Resource
         return [
             Text::make('Kode')
                 ->rules('required'),
-            Text::make('Derajat Surat', 'derajat')
+            Text::make('Derajat Naskah', 'derajat')
                 ->rules('required'),
-            BelongsTo::make('Harga Satuan')
+            BelongsTo::make('Tata Naskah')
                 ->rules('required'),
         ];
     }

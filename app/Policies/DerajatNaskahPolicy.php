@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class DerajatSuratPolicy
+class DerajatNaskahPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -13,7 +13,7 @@ class DerajatSuratPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->andEqual(request()->is('resources/derajat-surats'), false)
+            ->andEqual(request()->is('resources/derajat-naskahs'), false)
             ->get();
     }
 

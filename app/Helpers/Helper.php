@@ -288,7 +288,7 @@ class Helper
             $replaces['<kode_derajat>'] = $derajat;
         }
 
-        $naskah = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id);
+        $naskah = NaskahKeluar::whereYear($tanggal, $tahun)->where('kode_naskah_id', $kode_naskah->id);
         $max_no_urut = $naskah->max('no_urut');
         $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
         if ($tanggal >= $max_tanggal) {
@@ -297,7 +297,7 @@ class Helper
             $replaces['<no_urut>'] = $no_urut;
         } else {
             $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
-            $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
+            $segmen = NaskahKeluar::whereYear($tanggal, $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
         $format = $jenis_naskah->format ?? $kode_naskah->format;   

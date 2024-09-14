@@ -29,9 +29,9 @@ class TataNaskah extends Model
         return $this->hasMany(KodeNaskah::class);
     }
 
-    public function derajatSurat(): HasMany
+    public function derajatNaskah(): HasMany
     {
-        return $this->hasMany(DerajatSurat::class);
+        return $this->hasMany(DerajatNaskah::class);
     }
 
     public static function cacheEntities(): array

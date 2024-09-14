@@ -16,7 +16,7 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class TataNaskah extends Resource
 {
     use HasTabs;
-    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatSurat'];
+    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah'];
 
     public static function label()
     {
@@ -64,7 +64,7 @@ class TataNaskah extends Resource
             Tabs::make('Detail Naskah', [
                 HasMany::make('Kode Naskah'),
                 HasMany::make('Kode Arsip'),
-                HasMany::make('Derajat Surat'),
+                HasMany::make('Derajat Naskah'),
             ]),
         ];
     }

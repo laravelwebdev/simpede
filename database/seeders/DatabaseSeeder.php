@@ -41,5 +41,8 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(
             file_get_contents(database_path().'/dump_sql/unit_kerjas.sql')
         );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/derajat_naskahs.sql')
+        );
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
-class DerajatSurat extends Model
+class DerajatNaskah extends Model
 {
     use HasFactory, LaraCache;
 
@@ -22,7 +22,7 @@ class DerajatSurat extends Model
         return [
             CacheEntity::make('all')
                 ->cache(function () {
-                    return JenisKontrak::all();
+                    return DerajatNaskah::all();
                 }),
         ];
     }

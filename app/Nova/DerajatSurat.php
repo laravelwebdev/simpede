@@ -2,39 +2,34 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportKodeArsip;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ShuvroRoy\NovaTabs\Tabs;
-use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
-class TataNaskah extends Resource
+class DerajatSurat extends Resource
 {
-    use HasTabs;
-    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatSurat'];
-
-    public static function label()
-    {
-        return 'Tata Naskah';
-    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TataNaskah>
+     * @var class-string<\App\Models\DerajatSurat>
      */
-    public static $model = \App\Models\TataNaskah::class;
+    public static $model = \App\Models\DerajatSurat::class;
+
+    public static function label()
+    {
+        return 'Derajat Surat';
+    }
+
+    public static $with = ['tataNaskah'];
+
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public static $title = 'derajat';
 
     /**
      * The columns that should be searched.
@@ -42,7 +37,7 @@ class TataNaskah extends Resource
      * @var array
      */
     public static $search = [
-        'nomor',
+        'derajat',
     ];
 
     /**
@@ -54,18 +49,12 @@ class TataNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nomor', 'nomor')
-                ->sortable()
+            Text::make('Kode')
                 ->rules('required'),
-            Date::make('Tanggal', 'tanggal')
-                ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+            Text::make('Derajat Surat', 'derajat')
                 ->rules('required'),
-            Tabs::make('Detail Naskah', [
-                HasMany::make('Kode Naskah'),
-                HasMany::make('Kode Arsip'),
-                HasMany::make('Derajat Surat'),
-            ]),
+            BelongsTo::make('Harga Satuan')
+                ->rules('required'),
         ];
     }
 
@@ -110,15 +99,6 @@ class TataNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportKodeArsip::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-
-        return $actions;
+        return [];
     }
 }

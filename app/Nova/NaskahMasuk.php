@@ -61,7 +61,12 @@ class NaskahMasuk extends Resource
                 ->sortable()
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable(),
+                ->filterable()
+                ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
+                    if (Helper::getYearFromDate($value, false) != session('year')) {
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
+                    }
+                }),
             Text::make('Nomor')
                 ->rules('required'),
             Text::make('Pengirim')->rules('required'),

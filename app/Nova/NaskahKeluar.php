@@ -64,7 +64,12 @@ class NaskahKeluar extends Resource
                 ->sortable()
                 ->rules('required', 'before_or_equal:today')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable(),
+                ->filterable()
+                ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
+                    if (Helper::getYearFromDate($value, false) != session('year')) {
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
+                    }
+                }),
             Text::make('Nomor')
                 ->onlyOnDetail(),
             Text::make('Tujuan', 'tujuan')

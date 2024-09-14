@@ -24,7 +24,6 @@ return new class extends Migration
             $table->date('tanggal_kirim')->nullable();
             $table->string('draft')->nullable();
             $table->string('signed')->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->char('generate', 1)->default('M');
             $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
             $table->bigInteger('kode_arsip_id')->nullable()->unsigned();

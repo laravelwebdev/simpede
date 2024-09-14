@@ -86,7 +86,7 @@ class IzinKeluar extends Resource
                 ->sortable()
                 ->rules('required', function ($attribute, $value, $fail) {
                     if (Carbon::createFromFormat('Y-m-d', $value)->year != session('year')) {
-                        return $fail('Tanggal harus di tahun berjalan');
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
                     }
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

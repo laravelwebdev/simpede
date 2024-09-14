@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('pengirim', 10)->nullable();
             $table->text('perihal')->nullable();
             $table->string('arsip')->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });

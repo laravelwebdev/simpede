@@ -31,7 +31,6 @@ return new class extends Migration
             $table->string('jabatan', 50)->nullable();
             $table->string('ppk')->nullable();
             $table->string('nipppk', 30)->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->timestamps();
         });

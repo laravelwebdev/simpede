@@ -158,7 +158,7 @@ class KerangkaAcuan extends Resource
                 ->sortable()
                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDate($value, false) != session('year')) {
-                        return $fail('Tanggal harus di tahun berjalan');
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
                     }
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

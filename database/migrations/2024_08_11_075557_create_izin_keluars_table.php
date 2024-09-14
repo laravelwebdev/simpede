@@ -18,7 +18,6 @@ return new class extends Migration
             $table->time('kembali', precision: 0)->nullable();
             $table->text('kegiatan')->nullable();
             $table->string('bukti')->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->bigInteger('user_id')->nullable();
             $table->timestamps();
         });

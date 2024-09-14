@@ -23,7 +23,7 @@ class DataPegawai extends Resource
     {
         return 'Data Pegawai';
     }
-
+    
     public static $with = ['user', 'unitKerja'];
     public static $displayInNavigation = false;
     /**

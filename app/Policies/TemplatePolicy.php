@@ -13,7 +13,6 @@ class TemplatePolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->andEqual(request()->is('resources/templates'), false)
             ->get();
     }
 
@@ -78,6 +77,8 @@ class TemplatePolicy
      */
     public function replicate(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 }

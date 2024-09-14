@@ -17,8 +17,6 @@ class KerangkaAcuan extends Model
         'tanggal' => 'date',
         'awal' => 'date',
         'akhir' => 'date',
-        'spesifikasi' => 'array',
-        'anggaran' => 'array',
     ];
 
     /**
@@ -33,6 +31,12 @@ class KerangkaAcuan extends Model
     {
         return $this->hasMany(ArsipDokumen::class);
     }
+
+    public function anggaranKerangkaAcuan(): HasMany
+    {
+        return $this->hasMany(AnggaranKerangkaAcuan::class);
+    }
+
 
     /**
      * The "booted" method of the model.

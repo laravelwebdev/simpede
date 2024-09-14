@@ -59,11 +59,6 @@ class Helper
         '12' => 'Desember',
     ];
 
-    /**
-     * Role admin|kpa|kepala|ppk|bendahara|ppspm|koordinator|anggota|pbj|bmn.
-     *
-     * @var array
-     */
     public static $role = [
         'kepala' => 'Kepala',
         'ppk' => 'Pejabat Pembuat Komitmen',
@@ -315,7 +310,7 @@ class Helper
      */
     public static function getPengelola($role)
     {
-        $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id;
+        $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id ?? '';
 
         return User::cache()->get('all')->where('id', $pengelola_id)->first();
     }
@@ -577,7 +572,7 @@ class Helper
         ];
         $detail = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
             return Str::of($item->mak)->startsWith(Str::substr($mak, 0, $length[$level])) && Str::of($item->mak)->length == $length[$level];
-        })->first()->detail;
+        })->first()->detail ?? '';
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
     }
@@ -593,7 +588,7 @@ class Helper
     {
         $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
 
-        return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis;
+        return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
     }
 
     /**
@@ -799,7 +794,7 @@ class Helper
      */
     public static function getTemplatePath($jenis)
     {
-        $file = Template::cache()->get('all')->where('slug', 'template_'.$jenis)->first()->file;
+        $file = Template::cache()->get('all')->where('slug', 'template_'.$jenis)->first()->file ?? '';
 
         return Storage::disk('templates')->path($file);
     }
@@ -828,7 +823,7 @@ class Helper
 
     public static function setOptionsMataAnggaran($tahun)
     {
-        $dipa_id = Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id;
+        $dipa_id = Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id ?? '';
 
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }

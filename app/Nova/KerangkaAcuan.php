@@ -207,6 +207,7 @@ class KerangkaAcuan extends Resource
     public function anggaranFields()
     {
         return [
+            HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
             // SimpleRepeatable::make('Anggaran', 'anggaran', [
             //     Select::make('MAK', 'mak')
             //         ->rules('required')

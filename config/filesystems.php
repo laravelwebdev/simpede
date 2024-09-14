@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -47,7 +47,7 @@ return [
         'avatars' => [
             'driver' => 'local',
             'root' => storage_path('app/public/avatars'),
-            'url' => env('APP_URL').'storage/avatars',
+            'url' => env('APP_URL').'/storage/avatars',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -55,7 +55,7 @@ return [
         'arsip' => [
             'driver' => 'local',
             'root' => storage_path('app/public/arsip'),
-            'url' => env('APP_URL').'storage/arsip',
+            'url' => env('APP_URL').'/storage/arsip',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -63,7 +63,7 @@ return [
         'images' => [
             'driver' => 'local',
             'root' => storage_path('app/public/images'),
-            'url' => env('APP_URL').'storage/images',
+            'url' => env('APP_URL').'/storage/images',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -79,7 +79,7 @@ return [
         'template_naskah' => [
             'driver' => 'local',
             'root' => storage_path('app/public/templates/naskah'),
-            'url' => env('APP_URL').'storage/templates/naskah',
+            'url' => env('APP_URL').'/storage/templates/naskah',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -87,7 +87,7 @@ return [
         'templates' => [
             'driver' => 'local',
             'root' => storage_path('app/public/templates'),
-            'url' => env('APP_URL').'storage/templates',
+            'url' => env('APP_URL').'/storage/templates',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -95,7 +95,7 @@ return [
         'izin_keluar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/izinkeluar'),
-            'url' => env('APP_URL').'storage/izinkeluar',
+            'url' => env('APP_URL').'/storage/izinkeluar',
             'visibility' => 'public',
             'throw' => false,
         ],

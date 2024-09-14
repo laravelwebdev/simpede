@@ -3,38 +3,35 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportKodeArsip;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Text;
+use App\Models\KerangkaAcuan;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ShuvroRoy\NovaTabs\Tabs;
-use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
-class TataNaskah extends Resource
+class AnggaranKerangkaAcuan extends Resource
 {
-    use HasTabs;
-    public static $with = ['kodeNaskah', 'kodeArsip'];
-
-    public static function label()
-    {
-        return 'Tata Naskah';
-    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TataNaskah>
+     * @var class-string<\App\Models\AnggaranKerangkaAcuan>
      */
-    public static $model = \App\Models\TataNaskah::class;
+    public static $model = \App\Models\AnggaranKerangkaAcuan::class;
+    public static $with = ['kerangkaAcuan'];
+    public static $displayInNavigation = false;
+
+    public static function label()
+    {
+        return 'Anggaran';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public static $title = 'mak';
 
     /**
      * The columns that should be searched.
@@ -42,7 +39,7 @@ class TataNaskah extends Resource
      * @var array
      */
     public static $search = [
-        'nomor',
+        'mak',
     ];
 
     /**
@@ -53,18 +50,24 @@ class TataNaskah extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        return [
-            Text::make('Nomor', 'nomor')
-                ->sortable()
-                ->rules('required'),
-            Date::make('Tanggal', 'tanggal')
-                ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required'),
-            Tabs::make('Detail Naskah', [
-                HasMany::make('Kode Naskah'),
-                HasMany::make('Kode Arsip'),
-            ]),
+        return [    
+            Select::make('MAK', 'mak')
+                ->rules('required')
+                ->searchable()
+                    ->filterable()
+                ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangkaAcuan)->tanggal)));
+                }),
+
+            Currency::make('Perkiraan Digunakan ', 'perkiraan')
+                ->rules('required')
+                ->step(1)
+                ->default(0),
+            
+            BelongsTo::make('Kerangka Acuan Kerja', 'kerangkaAcuan', KerangkaAcuan::class)
+                ->rules('required')
+                ->searchable()
+                ->onlyOnForms(),
         ];
     }
 
@@ -109,15 +112,6 @@ class TataNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportKodeArsip::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-
-        return $actions;
+        return [];
     }
 }

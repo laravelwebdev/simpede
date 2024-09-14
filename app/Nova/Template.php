@@ -10,8 +10,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Template extends Resource
 {
-    public static $with = ['tataNaskah'];
-
     /**
      * Get the label for the resource.
      *
@@ -21,8 +19,6 @@ class Template extends Resource
     {
         return 'Template';
     }
-    public static $displayInNavigation = false;
-
     /**
      * The model the resource corresponds to.
      *
@@ -64,8 +60,6 @@ class Template extends Resource
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->rules('required')
                 ->prunable(),
-            BelongsTo::make('Tata Naskah')
-                ->rules('required'),
         ];
     }
 

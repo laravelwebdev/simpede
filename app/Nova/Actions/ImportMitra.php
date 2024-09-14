@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Imports\MitrasImport;
 use App\Models\Mitra;
 use App\Models\Template;
@@ -49,7 +50,7 @@ class ImportMitra extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Template::cache()->get('all')->where('slug', 'template_import_mitra')->first()->file).'">Unduh Template</a>')
+            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePath('import_mitra')).'">Unduh Template</a>')
                 ->asHtml(),
         ];
     }

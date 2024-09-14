@@ -1,40 +1,29 @@
 <?php
 
-namespace App\Nova;
+namespace {{ namespace }};
 
-use App\Helpers\Helper;
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportKodeArsip;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ShuvroRoy\NovaTabs\Tabs;
-use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
-class TataNaskah extends Resource
+class {{ class }} extends Resource
 {
-    use HasTabs;
-    public static $with = ['kodeNaskah', 'kodeArsip'];
-
-    public static function label()
-    {
-        return 'Tata Naskah';
-    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TataNaskah>
+     * @var class-string<\{{ namespacedModel }}>
      */
-    public static $model = \App\Models\TataNaskah::class;
+    public static $model = \{{ namespacedModel }}::class;
+
+    public static function label()
+    {
+        return '{{ class }}';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -42,7 +31,7 @@ class TataNaskah extends Resource
      * @var array
      */
     public static $search = [
-        'nomor',
+        'id',
     ];
 
     /**
@@ -54,17 +43,7 @@ class TataNaskah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nomor', 'nomor')
-                ->sortable()
-                ->rules('required'),
-            Date::make('Tanggal', 'tanggal')
-                ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required'),
-            Tabs::make('Detail Naskah', [
-                HasMany::make('Kode Naskah'),
-                HasMany::make('Kode Arsip'),
-            ]),
+            
         ];
     }
 
@@ -109,15 +88,6 @@ class TataNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportKodeArsip::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-
-        return $actions;
+        return [];
     }
 }

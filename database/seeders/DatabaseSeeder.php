@@ -35,5 +35,14 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(
             file_get_contents(database_path().'/dump_sql/kode_arsips.sql')
         );
-    }
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/templates.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/templates.sql')
+        );    
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/unit_kerjas.sql')
+        );      
+    }   
 }

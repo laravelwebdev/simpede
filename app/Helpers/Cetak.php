@@ -105,7 +105,7 @@ class Cetak
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'rincian' => Helper::hapusTitikAkhirKalimat($data->rincian),
-            'unit' => UnitKerja::cache()->get('all')->where('id', $data->unit_kerja_id)->first()->unit,
+            'unit' => UnitKerja::cache()->get('all')->where('id', $data->unit_kerja_id)->first()->unit ?? '',
             'latar_belakang' => Helper::hapusTitikAkhirKalimat($data->latar),
             'maksud' => Helper::hapusTitikAkhirKalimat($data->maksud),
             'tujuan' => Helper::hapusTitikAkhirKalimat($data->tujuan),

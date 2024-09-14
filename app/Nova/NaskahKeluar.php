@@ -139,7 +139,7 @@ class NaskahKeluar extends Resource
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             Hidden::make('kode_naskah_id')
                 ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
-                    $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id);
+                    $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id ?? '');
                 }),
         ];
     }

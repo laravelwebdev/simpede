@@ -30,7 +30,7 @@ class DaftarHonorImport implements ToCollection, WithStartRow, WithMultipleSheet
                 $daftar->bruto = $row[5] * $row[6];
                 $daftar->pajak = round(($row[5] * $row[6] * $row[7]) / 100, 0, PHP_ROUND_HALF_UP);
                 $daftar->netto = ($row[5] * $row[6]) - round(($row[5] * $row[6] * $row[7]) / 100, 0, PHP_ROUND_HALF_UP);
-                $daftar->rekening = Mitra::cache()->get('all')->where('nik', $row[0])->first()->rekening;
+                $daftar->rekening = Mitra::cache()->get('all')->where('nik', $row[0])->first()->rekening ?? '';
                 $daftar->honor_survei_id = $this->id[0];
                 $daftar->bulan = $this->id[1];
                 $daftar->jenis = $this->id[2];

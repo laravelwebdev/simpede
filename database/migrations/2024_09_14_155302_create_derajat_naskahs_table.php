@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('derajat_naskahs', function (Blueprint $table) {
             $table->id();
-            $table->string('kode',10)->nullable();
-            $table->string('derajat',20)->nullable();
+            $table->string('kode', 10)->nullable();
+            $table->string('derajat', 20)->nullable();
             $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });

@@ -273,10 +273,10 @@ class Helper
     {
         $replaces = [];
         $tahun = self::getYearFromDate($tanggal);
-        $replaces['<tahun>'] = $tahun;     
+        $replaces['<tahun>'] = $tahun;
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
         $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $jenis_naskah->kode_naskah_id)->first();
-        if ($unit_kerja_id  !== null)  {
+        if ($unit_kerja_id !== null) {
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
             $replaces['<kode_unit_kerja>'] = $unit_kerja->kode;
         }
@@ -300,14 +300,14 @@ class Helper
             $segmen = NaskahKeluar::where('tahun', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
-        $format = $jenis_naskah->format ?? $kode_naskah->format;   
+        $format = $jenis_naskah->format ?? $kode_naskah->format;
         $nomor = strtr($format, $replaces);
 
         return [
             'nomor' => $nomor,
             'no_urut' => $no_urut,
             'segmen' => $segmen,
-            'kode_naskah_id' => $kode_naskah->id
+            'kode_naskah_id' => $kode_naskah->id,
         ];
     }
 

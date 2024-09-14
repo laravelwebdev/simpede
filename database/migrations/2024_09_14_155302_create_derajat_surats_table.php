@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('derajat_surats', function (Blueprint $table) {
             $table->id();
-            $table->string('kode',10)->nullable();
-            $table->string('derajat',20)->nullable();
+            $table->string('kode', 10)->nullable();
+            $table->string('derajat', 20)->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('slug', 50)->nullable();
             $table->string('file', 255)->nullable();
-            $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -5,7 +5,6 @@ namespace App\Nova\Actions;
 use App\Helpers\Helper;
 use App\Imports\MitrasImport;
 use App\Models\Mitra;
-use App\Models\Template;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;

@@ -50,11 +50,11 @@ class AnggaranKerangkaAcuan extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        return [    
+        return [
             Select::make('MAK', 'mak')
                 ->rules('required')
                 ->searchable()
-                    ->filterable()
+                ->filterable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangkaAcuan)->tanggal)));
                 }),
@@ -63,7 +63,7 @@ class AnggaranKerangkaAcuan extends Resource
                 ->rules('required')
                 ->step(1)
                 ->default(0),
-            
+
             BelongsTo::make('Kerangka Acuan Kerja', 'kerangkaAcuan', KerangkaAcuan::class)
                 ->rules('required')
                 ->searchable()

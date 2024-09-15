@@ -24,15 +24,15 @@ class NaskahKeluar extends Model
     {
         static::saving(function (NaskahKeluar $naskah) {
             if ($naskah->isDirty(['kode_naskah_id', 'tanggal'])) {
-                $nomor = Helper::nomor($naskah->tanggal, $naskah->jenis_naskah_id, Auth::user()->unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat);
+                $nomor = Helper::nomor($naskah->tanggal, $naskah->jenis_naskah_id, Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal)->unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat);
                 $naskah->nomor = $nomor['nomor'];
                 $naskah->no_urut = $nomor['no_urut'];
                 $naskah->segmen = $nomor['segmen'];
-                $naskah->tahun = Carbon::createFromFormat('Y-m-d', $naskah->tanggal->format('Y-m-d'))->year;
+                $naskah->kode_naskah_id = $nomor['kode_naskah_id'];
             }
         });
         static::creating(function (NaskahKeluar $naskah) {
-            $naskah->unit_kerja_id = Auth::user()->unit_kerja_id;
+            $naskah->unit_kerja_id = Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal)->unit_kerja_id;
         });
     }
 }

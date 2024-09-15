@@ -2,28 +2,27 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
-use App\Models\KerangkaAcuan;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AnggaranKerangkaAcuan extends Resource
+class SpesifikasiKerangkaAcuan extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\AnggaranKerangkaAcuan>
+     * @var class-string<\App\Models\SpesifikasiKerangkaAcuan>
      */
-    public static $model = \App\Models\AnggaranKerangkaAcuan::class;
+    public static $model = \App\Models\SpesifikasiKerangkaAcuan::class;
     public static $with = ['kerangkaAcuan'];
     public static $displayInNavigation = false;
 
     public static function label()
     {
-        return 'Anggaran';
+        return 'Spesifikasi';
     }
 
     /**
@@ -39,7 +38,7 @@ class AnggaranKerangkaAcuan extends Resource
      * @var array
      */
     public static $search = [
-        'mak',
+        'rincian',
     ];
 
     /**
@@ -51,19 +50,22 @@ class AnggaranKerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('MAK', 'mak')
+            Text::make('Rincian')
+                ->rules('required'),
+            Number::make('Volume')
                 ->rules('required')
-                ->searchable()
-                ->filterable()
-                ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangkaAcuan)->tanggal)));
-                }),
-
-            Currency::make('Perkiraan Digunakan ', 'perkiraan')
+                ->default(0),
+            Text::make('Satuan')
+                ->rules('required'),
+            Currency::make('Harga Satuan')
                 ->rules('required')
                 ->step(1)
                 ->default(0),
-
+            Textarea::make('Spesifikasi')
+                ->rows(2)
+                ->rules('required')
+                ->placeholder('Mohon diisi secara detail dan spesifik')
+                ->alwaysShow(),
             BelongsTo::make('Kerangka Acuan Kerja', 'kerangkaAcuan', KerangkaAcuan::class)
                 ->rules('required')
                 ->searchable()

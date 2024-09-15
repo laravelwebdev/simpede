@@ -79,7 +79,7 @@ class NaskahKeluar extends Resource
             Text::make('Dikirimkan melalui', 'pengiriman'),
             Date::make('Tanggal Kirim', 'tanggal_kirim')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('after_or_equal:tanggal'),
+                ->rules('nullable', 'bail', 'after_or_equal:tanggal'),
             new Panel('Klasifikasi Surat', $this->klasifikasiFields()),
             new Panel('Arsip', $this->arsipFields()),
         ];
@@ -127,24 +127,22 @@ class NaskahKeluar extends Resource
             Select::make('Derajat Kerahasiaan', 'derajat')
                 ->rules('required')
                 ->displayUsingLabels()
-                ->options([
-                    'B' => 'Biasa',
-                    'T' => 'Terbatas',
-                    'R' => 'Rahasia',
-                ]),
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionsDerajatNaskah($form->tanggal));
+                }),
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
-                ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group')),
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionsKodeArsip($form->tanggal));
+                }),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
-            Hidden::make('kode_naskah_id')
-                ->dependsOn(['jenis_naskah_id'], function (Hidden $field, NovaRequest $request, FormData $form) {
-                    $form->jenis_naskah_id == '' ? '' : $field->setValue(JenisNaskah::cache()->get('all')->where('id', $form->jenis_naskah_id)->first()->kode_naskah_id ?? '');
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),
         ];
     }

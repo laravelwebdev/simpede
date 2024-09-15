@@ -45,10 +45,10 @@ class Cetak
      * Ambil TemplateProsessor.
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
-     * @param  string  $id
+     * @param  void  $id
      * @return TemplateProcessor
      */
-    public static function getTemplate($jenis, $id)
+    public static function getTemplate(string $jenis, $id)
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePath($jenis));
         $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);

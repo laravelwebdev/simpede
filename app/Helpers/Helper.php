@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\DataPegawai;
+use App\Models\DerajatNaskah;
 use App\Models\Dipa;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
@@ -11,6 +13,7 @@ use App\Models\KodeNaskah;
 use App\Models\MataAnggaran;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
+use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
@@ -20,6 +23,11 @@ use Illuminate\Support\Str;
 
 class Helper
 {
+    /**
+     * @var array $akun_persediaan
+     * 
+     * This static property holds an array of account inventory data.
+     */
     public static $akun_persediaan = [
         '521811',
         '521813',
@@ -30,6 +38,9 @@ class Helper
         '521831',
     ];
 
+    /**
+     * @var array $akun_perjalanan An array containing account information for travel.
+     */
     public static $akun_perjalanan = [
         '524111',
         '524112',
@@ -124,15 +135,85 @@ class Helper
         'IV/e' => 'Pembina Utama',
     ];
 
-    /**
-     * Pilihan Tahun.
+        /**
+     * Mengubah tanggal ke nama hari.
      *
-     * @return array $tahun
+     * @param  Date  $tanggal
+     * @return string
      */
-    public static function setOptionTahun()
+    public static function terbilangHari($tanggal)
     {
-        return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+        $tanggal = $tanggal->format('Y-m-d');
+        $hari = ['Senin',	'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        $num = date('N', strtotime($tanggal));
+
+        return $hari[$num - 1];
     }
+
+    /**
+     * Mengubah bulan ke nama bulan.
+     *
+     * @param  int  $bulan
+     * @return string
+     */
+    public static function terbilangBulan($bulan)
+    {
+        return self::$bulan[$bulan];
+    }
+
+    /**
+     * Mengubah angka ke rupiah.
+     *
+     * @param  int|float  $angka
+     * @return string
+     */
+    public static function formatRupiah($angka)
+    {
+        $hasil = 'Rp.'.self::formatUang($angka);
+
+        return $hasil;
+    }
+
+    /**
+     * Upper case nama tanpa gelar.
+     *
+     * @param  string  $nama
+     * @return string
+     */
+    public static function upperNamaTanpaGelar($nama)
+    {
+        $hasil = explode(',', $nama)[0];
+
+        return strtoupper($hasil);
+    }
+
+    /**
+     * Mengubah angka ke format uang.
+     *
+     * @param  int|float  $angka
+     * @return string
+     */
+    public static function formatUang($angka)
+    {
+        $hasil = number_format($angka, 0, ',', '.');
+
+        return $hasil;
+    }
+
+    /**
+     * Generate jangka waktu.
+     *
+     * @param  DateTime  $awal
+     * @param  DateTime  $akhir
+     * @return string
+     */
+    public static function jangkaWaktuHariKalender($awal, $akhir)
+    {
+        $selisih = $awal->diff($akhir)->format('%a') + 1;
+
+        return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
+    }
+
 
     /**
      * Mengubah Angka ke Suku Kata.
@@ -170,6 +251,18 @@ class Helper
 
         return $temp;
     }
+
+    /**
+     * Menghapus titik di akhir kalimat.
+     *
+     * @param  string  $kalimat
+     * @return string
+     */
+    public static function hapusTitikAkhirKalimat($kalimat)
+    {
+        return rtrim($kalimat, '.');
+    }
+
 
     /**
      * Mengubah Angka ke  Kata.
@@ -227,35 +320,10 @@ class Helper
         }
     }
 
-    /**
-     * Membuat option value select filed.
-     *
-     * @param  Collection  $collection
-     * @param  string  $value
-     * @param  string  $tanggal
-     * @param  string  $group
-     * @return array
-     */
-    public static function setOptions($collection, $value, $label, $group = '')
-    {
-        $collection = $collection->all();
-        $options = [];
-        if ($group !== '') {
-            foreach ($collection as $option) {
-                $options[$option->$value] = ['label' => $option->$label, 'group' => $option->$group];
-            }
-        } else {
-            foreach ($collection as $option) {
-                $options[$option->$value] = $option->$label;
-            }
-        }
 
-        return $options;
-    }
-
-    public static function getYearFromDate($tanggal, $typeDate = true)
+    public static function getYearFromDate($tanggal, $typeIsDate = true)
     {
-        return $typeDate ? Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year : Carbon::createFromFormat('Y-m-d', $tanggal)->year;
+        return $typeIsDate ? Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year : Carbon::createFromFormat('Y-m-d', $tanggal)->year;
     }
 
     /**
@@ -285,10 +353,10 @@ class Helper
             $replaces['<kode_arsip>'] = $kode_arsip->kode;
         }
         if ($derajat !== null) {
-            $replaces['<kode_derajat>'] = $derajat;
+            $replaces['<derajat>'] = $derajat;
         }
 
-        $naskah = NaskahKeluar::whereYear($tanggal, $tahun)->where('kode_naskah_id', $kode_naskah->id);
+        $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', $kode_naskah->id);
         $max_no_urut = $naskah->max('no_urut');
         $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
         if ($tanggal >= $max_tanggal) {
@@ -297,7 +365,7 @@ class Helper
             $replaces['<no_urut>'] = $no_urut;
         } else {
             $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
-            $segmen = NaskahKeluar::whereYear($tanggal, $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
+            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
         $format = $jenis_naskah->format ?? $kode_naskah->format;
@@ -322,6 +390,21 @@ class Helper
         $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id ?? '';
 
         return User::cache()->get('all')->where('id', $pengelola_id)->first();
+    }
+
+    /**
+     * Retrieve the most recent DataPegawai record for a given user ID up to a specified date.
+     *
+     * This method fetches all cached DataPegawai records, filters them by the provided user ID
+     * and date, sorts them in descending order by date, and returns the first record.
+     *
+     * @param int $user_id The ID of the user whose DataPegawai record is to be retrieved.
+     * @param string $tanggal The date up to which the DataPegawai records should be considered.
+     * @return DataPegawai|null The most recent DataPegawai record for the given user ID up to the specified date, or null if no record is found.
+     */
+    public static function getDataPegawaiByUserId($user_id, $tanggal)
+    {
+        return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -600,23 +683,6 @@ class Helper
         return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
     }
 
-    /**
-     * Pilihan Jenis kontrak.
-     *
-     * @param  string  $tahun
-     * @param  string  $bulan
-     * @return array
-     */
-    public static function setOptionJenisKontrak($tahun, $bulan)
-    {
-        $options = [];
-        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
-        foreach ($jeniskontrak as $option) {
-            $options[$option['jenis']] = $option['jenis'];
-        }
-
-        return $options;
-    }
 
     /**
      * Mengambil batas SBML.
@@ -635,85 +701,6 @@ class Helper
         }
 
         return $nilai;
-    }
-
-    /**
-     * Mengubah tanggal ke nama hari.
-     *
-     * @param  Date  $tanggal
-     * @return string
-     */
-    public static function terbilangHari($tanggal)
-    {
-        $tanggal = $tanggal->format('Y-m-d');
-        $hari = ['Senin',	'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-        $num = date('N', strtotime($tanggal));
-
-        return $hari[$num - 1];
-    }
-
-    /**
-     * Mengubah bulan ke nama bulan.
-     *
-     * @param  int  $bulan
-     * @return string
-     */
-    public static function terbilangBulan($bulan)
-    {
-        return self::$bulan[$bulan];
-    }
-
-    /**
-     * Mengubah angka ke rupiah.
-     *
-     * @param  int|float  $angka
-     * @return string
-     */
-    public static function formatRupiah($angka)
-    {
-        $hasil = 'Rp.'.self::formatUang($angka);
-
-        return $hasil;
-    }
-
-    /**
-     * Upper case nama tanpa gelar.
-     *
-     * @param  string  $nama
-     * @return string
-     */
-    public static function upperNamaTanpaGelar($nama)
-    {
-        $hasil = explode(',', $nama)[0];
-
-        return strtoupper($hasil);
-    }
-
-    /**
-     * Mengubah angka ke format uang.
-     *
-     * @param  int|float  $angka
-     * @return string
-     */
-    public static function formatUang($angka)
-    {
-        $hasil = number_format($angka, 0, ',', '.');
-
-        return $hasil;
-    }
-
-    /**
-     * Generate jangka waktu.
-     *
-     * @param  DateTime  $awal
-     * @param  DateTime  $akhir
-     * @return string
-     */
-    public static function jangkaWaktuHariKalender($awal, $akhir)
-    {
-        $selisih = $awal->diff($akhir)->format('%a') + 1;
-
-        return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
     }
 
     /**
@@ -820,20 +807,136 @@ class Helper
     }
 
     /**
-     * Menghapus titik di akhir kalimat.
+     * Mengambil ID Tata Naskah Terbaru.
      *
-     * @param  string  $kalimat
+     * @param  string  $tanggal
      * @return string
      */
-    public static function hapusTitikAkhirKalimat($kalimat)
+    public static function getTataNaskahId($tanggal)
     {
-        return rtrim($kalimat, '.');
+        return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id ?? '';
     }
 
+
+    /**
+     * Sets options for Derajat Naskah based on the given date.
+     *
+     * This method retrieves all Derajat Naskah records from the cache, filters them
+     * by the 'tata_naskah_id' corresponding to the provided date, and then sets the
+     * options using the 'kode' and 'derajat' fields.
+     *
+     * @param string $tanggal The date used to determine the 'tata_naskah_id'.
+     * @return mixed The result of setting the options.
+     */
+    public static function setOptionsDerajatNaskah($tanggal)
+    {
+
+        return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'kode', 'derajat');
+    }
+
+    /**
+     * Sets options for Jenis Naskah based on the provided date.
+     *
+     * This method retrieves the `kode_naskah_id` by filtering the cached KodeNaskah
+     * records using the `tata_naskah_id` obtained from the provided date. It then
+     * sets the options for Jenis Naskah by filtering the cached JenisNaskah records
+     * using the retrieved `kode_naskah_id`.
+     *
+     * @param string $tanggal The date used to determine the `tata_naskah_id`.
+     * @return array The options for Jenis Naskah with keys as 'id' and values as 'jenis'.
+     */
+    public static function setOptionsJenisNaskah($tanggal)
+    {
+        $kode_naskah_id = KodeNaskah::cache()->get("all")->where("tata_naskah_id", self::getTataNaskahId($tanggal))->pluck("id");
+
+        return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
+    }
+
+    /**
+     * Sets options for Kode Arsip based on the provided date.
+     *
+     * This method retrieves all cached Kode Arsip records and filters them
+     * by the 'tata_naskah_id' that corresponds to the given date. It then
+     * sets options using the filtered records.
+     *
+     * @param string $tanggal The date used to determine the 'tata_naskah_id'.
+     * @return mixed The result of the setOptions method.
+     */
+    public static function setOptionsKodeArsip($tanggal)
+    {
+
+        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'id', 'detail', 'group');
+    }
+
+
+    /**
+     * Sets options for Mata Anggaran based on the given year.
+     *
+     * This method retrieves the DIPA ID for the specified year and uses it to filter
+     * the Mata Anggaran options. It then sets these options using the 'mak' field.
+     *
+     * @param int $tahun The year for which to set the Mata Anggaran options.
+     * @return array The filtered and set options for Mata Anggaran.
+     */
     public static function setOptionsMataAnggaran($tahun)
     {
-        $dipa_id = Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id ?? '';
-
+        $dipa_id = self::getDipa($tahun)->id ?? '';
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }
+
+    /**
+     * Membuat option value select filed.
+     *
+     * @param  Collection  $collection
+     * @param  string  $value
+     * @param  string  $tanggal
+     * @param  string  $group
+     * @return array
+     */
+    public static function setOptions($collection, $value, $label, $group = '')
+    {
+        $collection = $collection->all();
+        $options = [];
+        if ($group !== '') {
+            foreach ($collection as $option) {
+                $options[$option->$value] = ['label' => $option->$label, 'group' => $option->$group];
+            }
+        } else {
+            foreach ($collection as $option) {
+                $options[$option->$value] = $option->$label;
+            }
+        }
+
+        return $options;
+    }
+
+    /**
+     * Pilihan Jenis kontrak.
+     *
+     * @param  string  $tahun
+     * @param  string  $bulan
+     * @return array
+     */
+    public static function setOptionJenisKontrak($tahun, $bulan)
+    {
+        $options = [];
+        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
+        foreach ($jeniskontrak as $option) {
+            $options[$option['jenis']] = $option['jenis'];
+        }
+
+        return $options;
+    }
+
+    /**
+     * Pilihan Tahun.
+     *
+     * @return array $tahun
+     */
+    public static function setOptionTahun()
+    {
+        return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+    }
+
+
 }

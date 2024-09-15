@@ -32,9 +32,7 @@ class KodeArsipPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -79,5 +77,17 @@ class KodeArsipPolicy
     public function replicate(): bool
     {
         return false;
+    }
+
+    /**
+     * Determines if the action can be run.
+     *
+     * @return bool True if the action can be run, false otherwise.
+     */
+    public function runAction(): bool
+    {
+        return Policy::make()
+        ->allowedFor('admin')
+        ->get();
     }
 }

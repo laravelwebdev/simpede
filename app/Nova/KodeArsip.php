@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddKodeArsip;
 use App\Nova\Filters\GroupArsip;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,7 +11,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeArsip extends Resource
 {
-    public static $with = ['tataNaskah'];
 
     /**
      * Get the label for the resource.
@@ -64,8 +64,6 @@ class KodeArsip extends Resource
             Text::make('Detail', 'detail')
                 ->sortable()
                 ->rules('required'),
-            BelongsTo::make('Tata Naskah')
-                ->rules('required'),
         ];
     }
 
@@ -108,6 +106,23 @@ class KodeArsip extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddKodeArsip::make($request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone(),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=kode-arsip';
     }
 }

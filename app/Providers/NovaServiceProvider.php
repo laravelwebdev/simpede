@@ -46,6 +46,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
         Nova::withBreadcrumbs();
         Nova::showUnreadCountInNotificationCenter();
+        Nova::style('custom-fields-css', resource_path('css/app.css'));
         // Nova::withoutGlobalSearch();
         // Nova::withoutNotificationCenter();
     }

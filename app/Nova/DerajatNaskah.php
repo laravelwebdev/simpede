@@ -20,8 +20,6 @@ class DerajatNaskah extends Resource
         return 'Derajat Naskah';
     }
 
-    public static $with = ['tataNaskah'];
-
     public static $displayInNavigation = false;
 
     /**
@@ -100,6 +98,7 @@ class DerajatNaskah extends Resource
         return [
             AddDerajatNaskah::make($request->viaResourceId)
                 ->confirmButtonText('Tambah')
+                // ->size('7xl')
                 ->standalone(),
         ];
     }

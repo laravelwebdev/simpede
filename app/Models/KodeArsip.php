@@ -14,11 +14,6 @@ class KodeArsip extends Model
 
     protected $guarded = [];
 
-    public function tataNaskah(): BelongsTo
-    {
-        return $this->belongsTo(TataNaskah::class);
-    }
-
     public static function cacheEntities(): array
     {
         return [

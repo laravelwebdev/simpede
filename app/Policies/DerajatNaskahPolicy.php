@@ -22,7 +22,10 @@ class DerajatNaskahPolicy
      */
     public function view(): bool
     {
-        return false;
+        return Policy::make()
+        ->allowedFor('admin')
+        ->get();
+
     }
 
     /**

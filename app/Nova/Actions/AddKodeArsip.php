@@ -2,7 +2,7 @@
 
 namespace App\Nova\Actions;
 
-use App\Models\DerajatNaskah;
+use App\Models\KodeArsip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AddDerajatNaskah extends Action
+class AddKodeArsip extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -25,6 +25,7 @@ class AddDerajatNaskah extends Action
 
     public $name = 'Tambah';
 
+
     /**
      * Perform the action on the given models.
      *
@@ -34,14 +35,15 @@ class AddDerajatNaskah extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $derajatNaskah = new DerajatNaskah;
-        $derajatNaskah->kode = $fields->kode;
-        $derajatNaskah->derajat = $fields->derajat;
-        $derajatNaskah->tata_naskah_id = $this->resourceId;
-        $derajatNaskah->save();
-        return Action::message('Derajat Naskah berhasil ditambahkan');
-        
+        $kodeArsip = new KodeArsip;
+        $kodeArsip->kode = $fields->kode;
+        $kodeArsip->group = $fields->group;
+        $kodeArsip->detail = $fields->detail;
+        $kodeArsip->tata_naskah_id = $this->resourceId;
+        $kodeArsip->save();
+        return Action::message('Kode Arsip berhasil ditambahkan');
     }
+
     /**
      * Get the fields available on the action.
      *
@@ -51,9 +53,11 @@ class AddDerajatNaskah extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Kode')
+            Text::make('Kode Arsip', 'kode')
                 ->rules('required'),
-            Text::make('Derajat Naskah', 'derajat')
+            Text::make('Klasifikasi', 'group')
+                ->rules('required'),
+            Text::make('Detail', 'detail')
                 ->rules('required'),
         ];
     }

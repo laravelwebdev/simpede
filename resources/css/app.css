@@ -1,0 +1,3 @@
+button[dusk='update-and-continue-editing-button'], button[dusk='create-and-add-another-button'] {
+    display: none;
+}

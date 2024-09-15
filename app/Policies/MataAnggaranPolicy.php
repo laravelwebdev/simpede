@@ -32,9 +32,7 @@ class MataAnggaranPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
-            ->get();
+        return false;
     }
 
     /**

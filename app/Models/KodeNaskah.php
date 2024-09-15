@@ -13,11 +13,6 @@ class KodeNaskah extends Model
 {
     use HasFactory, LaraCache;
 
-    public function tataNaskah(): BelongsTo
-    {
-        return $this->belongsTo(TataNaskah::class);
-    }
-
     public function jenisNaskah(): HasMany
     {
         return $this->hasMany(JenisNaskah::class);

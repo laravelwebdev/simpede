@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
@@ -11,8 +12,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class JenisNaskah extends Resource
 {
-    public static $with = ['kodeNaskah'];
-
     /**
      * Get the label for the resource.
      *
@@ -57,9 +56,6 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')
                 ->rules('required'),
-            BelongsTo::make('Kategori', 'kodeNaskah', 'App\Nova\KodeNaskah')
-                ->rules('required')
-                ->filterable(),
             Text::make('Format Penomoran', 'format')
                 ->help('Kosongkan Jika format penomoran mengikuti format berdasarkan kategori naskah'),
             File::make('Template')
@@ -80,9 +76,6 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')
                 ->rules('required'),
-            BelongsTo::make('Kategori', 'kodeNaskah', 'App\Nova\KodeNaskah')
-                ->rules('required')
-                ->filterable(),
             URL::make('Template', fn () => ($this->template == '') ? '' : Storage::disk('template_naskah')
                 ->url($this->template))
                 ->displayUsing(fn () => 'Unduh'),
@@ -126,6 +119,24 @@ class JenisNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('JenisNaskah','KodeNaskah', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/kode-naskahs/'.$request->viaResourceId;
     }
 }

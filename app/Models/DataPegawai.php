@@ -17,11 +17,6 @@ class DataPegawai extends Model
         'tanggal' => 'date',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     /**
      * Get the unit kerja that owns the user.
      */

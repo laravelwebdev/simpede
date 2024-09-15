@@ -2,15 +2,15 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KodeNaskah extends Resource
 {
-    public static $with = ['tataNaskah', 'jenisNaskah'];
+    public static $with = ['jenisNaskah'];
 
     /**
      * Get the label for the resource.
@@ -61,8 +61,6 @@ class KodeNaskah extends Resource
                 ->rules('required'),
             Text::make('Format Penomoran', 'format')
                 ->rules('required'),
-            BelongsTo::make('Tata Naskah')
-                ->rules('required'),
             HasMany::make('Jenis Naskah'),
         ];
     }
@@ -104,6 +102,24 @@ class KodeNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('KodeNaskah','TataNaskah', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=kode-naskah';
     }
 }

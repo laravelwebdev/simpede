@@ -12,11 +12,6 @@ class JenisKontrak extends Model
 {
     use HasFactory, LaraCache;
 
-    public function hargaSatuan(): BelongsTo
-    {
-        return $this->belongsTo(HargaSatuan::class);
-    }
-
     public static function cacheEntities(): array
     {
         return [

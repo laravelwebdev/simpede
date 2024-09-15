@@ -32,9 +32,7 @@ class KodeNaskahPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**

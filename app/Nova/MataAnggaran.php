@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,8 +11,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class MataAnggaran extends Resource
 {
-    public static $with = ['dipa'];
-
     public static function label()
     {
         return 'Mata Anggaran Kegiatan';
@@ -50,11 +49,10 @@ class MataAnggaran extends Resource
     {
         return [
             Text::make('MAK', 'mak')
-                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year'))->ignore($this->id))
+                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId)->ignore($this->id))
                 ->sortable()
-                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('tahun', session('year')))
+                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId))
                 ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX'),
-            BelongsTo::make('Dipa')->rules('required'),
 
         ];
     }
@@ -100,6 +98,24 @@ class MataAnggaran extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('MataAnggaran','Dipa', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/dipas/'.$request->viaResourceId;
     }
 }

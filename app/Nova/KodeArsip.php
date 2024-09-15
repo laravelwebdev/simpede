@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use App\Nova\Actions\AddKodeArsip;
 use App\Nova\Filters\GroupArsip;
 use Illuminate\Http\Request;
@@ -107,10 +108,12 @@ class KodeArsip extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddKodeArsip::make($request->viaResourceId)
+            AddHasManyModel::make('KodeArsip','TataNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
-                ->standalone(),
+                ->standalone()
+                ->addFields($this->fields($request)),
+
         ];
     }
 

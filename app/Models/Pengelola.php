@@ -17,14 +17,6 @@ class Pengelola extends Model
         'inactive' => 'date',
     ];
 
-    /**
-     * Get the user that owns the pengelola.
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public static function cacheEntities(): array
     {
         return [

@@ -32,9 +32,7 @@ class PengelolaPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -82,8 +80,6 @@ class PengelolaPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

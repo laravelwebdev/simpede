@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
@@ -20,7 +21,6 @@ class Pengelola extends Resource
         return 'Pengelola';
     }
 
-    public static $with = ['user'];
     public static $displayInNavigation = false;
 
     /**
@@ -63,9 +63,6 @@ class Pengelola extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Deaktivasi', 'inactive')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            BelongsTo::make('User')
-                ->rules('required')
-                ->onlyOnForms(),
         ];
     }
 
@@ -106,6 +103,24 @@ class Pengelola extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('Pengelola','User', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/users/'.$request->viaResourceId.'#Detail=pengelola';
     }
 }

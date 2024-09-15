@@ -12,14 +12,6 @@ class JenisNaskah extends Model
 {
     use HasFactory, LaraCache;
 
-    /**
-     * Get the user that owns the pengelola.
-     */
-    public function kodeNaskah(): BelongsTo
-    {
-        return $this->belongsTo(KodeNaskah::class);
-    }
-
     public static function cacheEntities(): array
     {
         return [

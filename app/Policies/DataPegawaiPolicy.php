@@ -32,9 +32,7 @@ class DataPegawaiPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -82,8 +80,6 @@ class DataPegawaiPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

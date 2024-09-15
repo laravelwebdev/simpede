@@ -2,28 +2,38 @@
 
 namespace App\Nova\Actions;
 
-use App\Models\DerajatNaskah;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AddDerajatNaskah extends Action
+class AddHasManyModel extends Action
 {
     use InteractsWithQueue, Queueable;
 
     protected $resourceId;
+    protected $fields;
+    protected $modelName;
+    protected $parentModel;
 
-    public function __construct($resourceId)
+    public function __construct($modelName, $parentModel, $resourceId)
     {
         $this->resourceId = $resourceId;
+        $this->modelName = $modelName;
+        $this->parentModel = $parentModel;
     }
 
     public $name = 'Tambah';
+
+    public function addFields($fields)
+    {
+        $this->fields = $fields;
+        return $this;
+    }
 
     /**
      * Perform the action on the given models.
@@ -34,13 +44,13 @@ class AddDerajatNaskah extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $derajatNaskah = new DerajatNaskah;
-        $derajatNaskah->kode = $fields->kode;
-        $derajatNaskah->derajat = $fields->derajat;
-        $derajatNaskah->tata_naskah_id = $this->resourceId;
-        $derajatNaskah->save();
-        return Action::message('Derajat Naskah berhasil ditambahkan');
-        
+            $model = app('App\Models\\'.Str::studly($this->modelName));
+            foreach ($this->fields as $field) {
+                if (($field->resourceClass ?? null) == null)
+                    $model->{$field->attribute} = $fields->{$field->attribute};
+            }
+            $model->{Str::snake($this->parentModel. " id")} = $this->resourceId;
+            $model->save();        
     }
     /**
      * Get the fields available on the action.
@@ -50,11 +60,8 @@ class AddDerajatNaskah extends Action
      */
     public function fields(NovaRequest $request)
     {
-        return [
-            Text::make('Kode')
-                ->rules('required'),
-            Text::make('Derajat Naskah', 'derajat')
-                ->rules('required'),
-        ];
+        return $this->fields;
     }
+
+    
 }

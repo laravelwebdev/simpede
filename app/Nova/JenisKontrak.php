@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
@@ -14,8 +15,6 @@ class JenisKontrak extends Resource
     {
         return 'Jenis Kontrak';
     }
-
-    public static $with = ['hargaSatuan'];
 
     public static $displayInNavigation = false;
 
@@ -57,8 +56,6 @@ class JenisKontrak extends Resource
                 ->rules('required')
                 ->step(1)
                 ->default(0),
-            BelongsTo::make('Harga Satuan')
-                ->rules('required'),
         ];
     }
 
@@ -103,6 +100,24 @@ class JenisKontrak extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('JenisKontrak','HargaSatuan', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/harga-satuans/'.$request->viaResourceId;
     }
 }

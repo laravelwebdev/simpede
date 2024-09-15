@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -101,7 +100,7 @@ class JenisKontrak extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('JenisKontrak','HargaSatuan', $request->viaResourceId)
+            AddHasManyModel::make('JenisKontrak', 'HargaSatuan', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()

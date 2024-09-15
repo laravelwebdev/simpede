@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -32,6 +31,7 @@ class AddHasManyModel extends Action
     public function addFields($fields)
     {
         $this->fields = $fields;
+
         return $this;
     }
 
@@ -44,14 +44,16 @@ class AddHasManyModel extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-            $model = app('App\Models\\'.Str::studly($this->modelName));
-            foreach ($this->fields as $field) {
-                if (($field->resourceClass ?? null) == null)
-                    $model->{$field->attribute} = $fields->{$field->attribute};
+        $model = app('App\Models\\'.Str::studly($this->modelName));
+        foreach ($this->fields as $field) {
+            if (($field->resourceClass ?? null) == null) {
+                $model->{$field->attribute} = $fields->{$field->attribute};
             }
-            $model->{Str::snake($this->parentModel. " id")} = $this->resourceId;
-            $model->save();        
+        }
+        $model->{Str::snake($this->parentModel.' id')} = $this->resourceId;
+        $model->save();
     }
+
     /**
      * Get the fields available on the action.
      *
@@ -62,6 +64,4 @@ class AddHasManyModel extends Action
     {
         return $this->fields;
     }
-
-    
 }

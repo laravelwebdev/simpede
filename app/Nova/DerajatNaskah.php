@@ -96,7 +96,7 @@ class DerajatNaskah extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('DerajatNaskah','TataNaskah', $request->viaResourceId)
+            AddHasManyModel::make('DerajatNaskah', 'TataNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()

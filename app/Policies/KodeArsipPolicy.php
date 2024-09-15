@@ -87,7 +87,7 @@ class KodeArsipPolicy
     public function runAction(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->get();
+            ->allowedFor('admin')
+            ->get();
     }
 }

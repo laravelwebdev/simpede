@@ -43,7 +43,7 @@ class AnggaranKerangkaAcuanPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 

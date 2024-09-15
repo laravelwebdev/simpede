@@ -24,8 +24,8 @@ use Illuminate\Support\Str;
 class Helper
 {
     /**
-     * @var array $akun_persediaan
-     * 
+     * @var array
+     *
      * This static property holds an array of account inventory data.
      */
     public static $akun_persediaan = [
@@ -39,7 +39,7 @@ class Helper
     ];
 
     /**
-     * @var array $akun_perjalanan An array containing account information for travel.
+     * @var array An array containing account information for travel.
      */
     public static $akun_perjalanan = [
         '524111',
@@ -135,7 +135,7 @@ class Helper
         'IV/e' => 'Pembina Utama',
     ];
 
-        /**
+    /**
      * Mengubah tanggal ke nama hari.
      *
      * @param  Date  $tanggal
@@ -214,7 +214,6 @@ class Helper
         return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
     }
 
-
     /**
      * Mengubah Angka ke Suku Kata.
      *
@@ -262,7 +261,6 @@ class Helper
     {
         return rtrim($kalimat, '.');
     }
-
 
     /**
      * Mengubah Angka ke  Kata.
@@ -319,7 +317,6 @@ class Helper
             return $hasil;
         }
     }
-
 
     public static function getYearFromDate($tanggal, $typeIsDate = true)
     {
@@ -398,8 +395,8 @@ class Helper
      * This method fetches all cached DataPegawai records, filters them by the provided user ID
      * and date, sorts them in descending order by date, and returns the first record.
      *
-     * @param int $user_id The ID of the user whose DataPegawai record is to be retrieved.
-     * @param string $tanggal The date up to which the DataPegawai records should be considered.
+     * @param  int  $user_id  The ID of the user whose DataPegawai record is to be retrieved.
+     * @param  string  $tanggal  The date up to which the DataPegawai records should be considered.
      * @return DataPegawai|null The most recent DataPegawai record for the given user ID up to the specified date, or null if no record is found.
      */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
@@ -683,7 +680,6 @@ class Helper
         return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
     }
 
-
     /**
      * Mengambil batas SBML.
      *
@@ -817,7 +813,6 @@ class Helper
         return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id ?? '';
     }
 
-
     /**
      * Sets options for Derajat Naskah based on the given date.
      *
@@ -825,12 +820,11 @@ class Helper
      * by the 'tata_naskah_id' corresponding to the provided date, and then sets the
      * options using the 'kode' and 'derajat' fields.
      *
-     * @param string $tanggal The date used to determine the 'tata_naskah_id'.
+     * @param  string  $tanggal  The date used to determine the 'tata_naskah_id'.
      * @return mixed The result of setting the options.
      */
     public static function setOptionsDerajatNaskah($tanggal)
     {
-
         return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'kode', 'derajat');
     }
 
@@ -842,12 +836,12 @@ class Helper
      * sets the options for Jenis Naskah by filtering the cached JenisNaskah records
      * using the retrieved `kode_naskah_id`.
      *
-     * @param string $tanggal The date used to determine the `tata_naskah_id`.
+     * @param  string  $tanggal  The date used to determine the `tata_naskah_id`.
      * @return array The options for Jenis Naskah with keys as 'id' and values as 'jenis'.
      */
     public static function setOptionsJenisNaskah($tanggal)
     {
-        $kode_naskah_id = KodeNaskah::cache()->get("all")->where("tata_naskah_id", self::getTataNaskahId($tanggal))->pluck("id");
+        $kode_naskah_id = KodeNaskah::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal))->pluck('id');
 
         return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
     }
@@ -859,15 +853,13 @@ class Helper
      * by the 'tata_naskah_id' that corresponds to the given date. It then
      * sets options using the filtered records.
      *
-     * @param string $tanggal The date used to determine the 'tata_naskah_id'.
+     * @param  string  $tanggal  The date used to determine the 'tata_naskah_id'.
      * @return mixed The result of the setOptions method.
      */
     public static function setOptionsKodeArsip($tanggal)
     {
-
         return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'id', 'detail', 'group');
     }
-
 
     /**
      * Sets options for Mata Anggaran based on the given year.
@@ -875,12 +867,13 @@ class Helper
      * This method retrieves the DIPA ID for the specified year and uses it to filter
      * the Mata Anggaran options. It then sets these options using the 'mak' field.
      *
-     * @param int $tahun The year for which to set the Mata Anggaran options.
+     * @param  int  $tahun  The year for which to set the Mata Anggaran options.
      * @return array The filtered and set options for Mata Anggaran.
      */
     public static function setOptionsMataAnggaran($tahun)
     {
         $dipa_id = self::getDipa($tahun)->id ?? '';
+
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }
 
@@ -937,6 +930,4 @@ class Helper
     {
         return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
     }
-
-
 }

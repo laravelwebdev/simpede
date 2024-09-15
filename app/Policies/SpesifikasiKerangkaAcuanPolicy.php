@@ -33,7 +33,7 @@ class SpesifikasiKerangkaAcuanPolicy
     public function create(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 
@@ -43,7 +43,7 @@ class SpesifikasiKerangkaAcuanPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 

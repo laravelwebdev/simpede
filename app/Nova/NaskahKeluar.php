@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;

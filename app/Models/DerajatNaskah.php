@@ -12,11 +12,6 @@ class DerajatNaskah extends Model
 {
     use HasFactory, LaraCache;
 
-    public function tataNaskah(): BelongsTo
-    {
-        return $this->belongsTo(TataNaskah::class);
-    }
-
     public static function cacheEntities(): array
     {
         return [

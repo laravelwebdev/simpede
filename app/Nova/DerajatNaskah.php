@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Actions\AddDerajatNaskah;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -53,8 +53,6 @@ class DerajatNaskah extends Resource
                 ->rules('required'),
             Text::make('Derajat Naskah', 'derajat')
                 ->rules('required'),
-            BelongsTo::make('Tata Naskah')
-                ->rules('required'),
         ];
     }
 
@@ -99,6 +97,22 @@ class DerajatNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddDerajatNaskah::make($request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                ->standalone(),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=derajat-naskah';
     }
 }

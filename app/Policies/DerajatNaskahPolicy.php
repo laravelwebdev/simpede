@@ -22,9 +22,7 @@ class DerajatNaskahPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -32,9 +30,7 @@ class DerajatNaskahPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -62,9 +58,7 @@ class DerajatNaskahPolicy
      */
     public function restore(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return  false;
     }
 
     /**
@@ -72,9 +66,7 @@ class DerajatNaskahPolicy
      */
     public function forceDelete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -82,8 +74,18 @@ class DerajatNaskahPolicy
      */
     public function replicate(): bool
     {
+        return false;
+    }
+
+    /**
+     * Determines if the action can be run.
+     *
+     * @return bool True if the action can be run, false otherwise.
+     */
+    public function runAction(): bool
+    {
         return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        ->allowedFor('admin')
+        ->get();
     }
 }

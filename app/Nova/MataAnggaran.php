@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -99,7 +98,7 @@ class MataAnggaran extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('MataAnggaran','Dipa', $request->viaResourceId)
+            AddHasManyModel::make('MataAnggaran', 'Dipa', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()

@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
@@ -120,7 +119,7 @@ class JenisNaskah extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('JenisNaskah','KodeNaskah', $request->viaResourceId)
+            AddHasManyModel::make('JenisNaskah', 'KodeNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()

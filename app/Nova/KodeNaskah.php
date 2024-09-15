@@ -103,7 +103,7 @@ class KodeNaskah extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('KodeNaskah','TataNaskah', $request->viaResourceId)
+            AddHasManyModel::make('KodeNaskah', 'TataNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()

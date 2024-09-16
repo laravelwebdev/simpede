@@ -62,36 +62,9 @@ class DataPegawai extends Resource
                 ->searchable(),
             Text::make('Jabatan')
                 ->rules('required'),
-            Select::make('Unit Kerja', 'unit_kerja_id')
-                ->options(Helper::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit'))
-                ->rules('required'),
-        ];
-    }
-
-    public function fieldsForIndex(NovaRequest $request)
-    {
-        return [
-            Date::make('Tanggal Perubahan', 'tanggal')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            Select::make('Golongan')
-                ->options(Helper::$golongan),
-            Text::make('Pangkat'),
-            Text::make('Jabatan'),
             BelongsTo::make('Unit Kerja')
+                ->rules('required')
                 ->filterable(),
-        ];
-    }
-
-    public function fieldsForDetail(NovaRequest $request)
-    {
-        return [
-            Date::make('Tanggal Perubahan', 'tanggal')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            Select::make('Golongan')
-                ->options(Helper::$golongan),
-            Text::make('Pangkat'),
-            Text::make('Jabatan'),
-            BelongsTo::make('Unit Kerja'),
         ];
     }
 

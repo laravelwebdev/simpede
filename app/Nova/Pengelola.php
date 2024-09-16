@@ -54,7 +54,7 @@ class Pengelola extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('role')
+            Select::make('Role')
                 ->options(Helper::$role)
                 ->displayUsingLabels()
                 ->rules('required'),

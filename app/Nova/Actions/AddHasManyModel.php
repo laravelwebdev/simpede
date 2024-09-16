@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AddHasManyModel extends Action
@@ -20,11 +21,12 @@ class AddHasManyModel extends Action
     protected $modelName;
     protected $parentModel;
 
-    public function __construct($modelName, $parentModel, $resourceId)
+    public function __construct($modelName, $parentModel, $resourceId, $parentIdColumn = null)
     {
         $this->resourceId = $resourceId;
         $this->modelName = $modelName;
         $this->parentModel = $parentModel;
+        $this->parentIdColumn = $parentIdColumn;
     }
 
     public $name = 'Tambah';
@@ -48,8 +50,10 @@ class AddHasManyModel extends Action
             foreach ($this->fields as $field) {
                 if (($field->resourceClass ?? null) == null)
                     $model->{$field->attribute} = $fields->{$field->attribute};
+                if ($field instanceof BelongsTo)
+                    $model->{Str::snake($field->attribute.' id')} = $fields->{$field->attribute}->id;
             }
-            $model->{Str::snake($this->parentModel. " id")} = $this->resourceId;
+            $model->{Str::snake($this->parentIdColumn ?? $this->parentModel. " id")} = $this->resourceId;
             $model->save();        
     }
     /**

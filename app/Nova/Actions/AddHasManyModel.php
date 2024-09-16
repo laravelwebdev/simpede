@@ -46,15 +46,17 @@ class AddHasManyModel extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-            $model = app('App\Models\\'.Str::studly($this->modelName));
-            foreach ($this->fields as $field) {
-                if (($field->resourceClass ?? null) == null)
-                    $model->{$field->attribute} = $fields->{$field->attribute};
-                if ($field instanceof BelongsTo)
-                    $model->{Str::snake($field->attribute.' id')} = $fields->{$field->attribute}->id;
+        $model = app('App\Models\\'.Str::studly($this->modelName));
+        foreach ($this->fields as $field) {
+            if (($field->resourceClass ?? null) == null) {
+                $model->{$field->attribute} = $fields->{$field->attribute};
             }
-            $model->{Str::snake($this->parentIdColumn ?? $this->parentModel. " id")} = $this->resourceId;
-            $model->save();        
+            if ($field instanceof BelongsTo) {
+                $model->{Str::snake($field->attribute.' id')} = $fields->{$field->attribute}->id;
+            }
+        }
+        $model->{Str::snake($this->parentIdColumn ?? $this->parentModel.' id')} = $this->resourceId;
+        $model->save();
     }
 
     /**

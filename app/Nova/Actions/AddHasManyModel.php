@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -34,6 +33,7 @@ class AddHasManyModel extends Action
     public function addFields($fields)
     {
         $this->fields = $fields;
+
         return $this;
     }
 
@@ -56,6 +56,7 @@ class AddHasManyModel extends Action
             $model->{Str::snake($this->parentIdColumn ?? $this->parentModel. " id")} = $this->resourceId;
             $model->save();        
     }
+
     /**
      * Get the fields available on the action.
      *
@@ -66,6 +67,4 @@ class AddHasManyModel extends Action
     {
         return $this->fields;
     }
-
-    
 }

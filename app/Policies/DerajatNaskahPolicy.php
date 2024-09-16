@@ -23,9 +23,8 @@ class DerajatNaskahPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->get();
-
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -88,7 +87,7 @@ class DerajatNaskahPolicy
     public function runAction(): bool
     {
         return Policy::make()
-        ->allowedFor('admin')
-        ->get();
+            ->allowedFor('admin')
+            ->get();
     }
 }

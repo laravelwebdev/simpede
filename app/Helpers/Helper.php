@@ -409,7 +409,6 @@ class Helper
         return Pengelola::cache()->get('all')->where('user_id', $user_id)->where('active', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
-
     /**
      * Cek Duplicate from json.
      *

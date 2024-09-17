@@ -61,7 +61,6 @@ class KerangkaAcuan extends Model
             $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $kak->naskah_keluar_id = $naskahkeluar->id;
-
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('id', $kak->naskah_keluar_id)->first();

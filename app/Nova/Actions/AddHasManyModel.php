@@ -48,9 +48,9 @@ class AddHasManyModel extends Action
     {
             $model = app('App\Models\\'.Str::studly($this->modelName));
             foreach ($this->fields as $field) {
-                if (($field->resourceClass ?? null) == null)
+                if (($field->resourceClass ?? null) == null && $field->saveOnActionRelation)
                     $model->{$field->attribute} = $fields->{$field->attribute};
-                if ($field instanceof BelongsTo)
+                if ($field instanceof BelongsTo && $field->saveOnActionRelation)
                     $model->{Str::snake($field->attribute.' id')} = $fields->{$field->attribute}->id;
             }
             $model->{Str::snake($this->parentIdColumn ?? $this->parentModel. " id")} = $this->resourceId;

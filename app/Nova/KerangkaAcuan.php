@@ -88,8 +88,8 @@ class KerangkaAcuan extends Resource
     {
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
-            new Panel('Anggaran', $this->anggaranFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
+            new Panel('Anggaran', $this->anggaranFields()),
             new Panel('Spesifikasi', $this->spesifikasiFields()),
             HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
         ];
@@ -258,6 +258,7 @@ class KerangkaAcuan extends Resource
     public function spesifikasiFields()
     {
         return [
+            HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
             // SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
             //     Text::make('Rincian', 'spek_rincian')
             //         ->rules('required'),

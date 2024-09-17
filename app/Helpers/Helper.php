@@ -404,6 +404,12 @@ class Helper
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
+    public static function getPengelolaByUserId($user_id, $tanggal)
+    {
+        return Pengelola::cache()->get('all')->where('user_id', $user_id)->where('active', '<=', $tanggal)->sortByDesc('tanggal')->first();
+    }
+
+
     /**
      * Cek Duplicate from json.
      *
@@ -808,7 +814,7 @@ class Helper
      * @param  string  $tanggal
      * @return string
      */
-    public static function getTataNaskahId($tanggal)
+    public static function getLatestTataNaskahId($tanggal)
     {
         return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id ?? '';
     }
@@ -825,7 +831,7 @@ class Helper
      */
     public static function setOptionsDerajatNaskah($tanggal)
     {
-        return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'kode', 'derajat');
+        return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'kode', 'derajat');
     }
 
     /**
@@ -841,7 +847,7 @@ class Helper
      */
     public static function setOptionsJenisNaskah($tanggal)
     {
-        $kode_naskah_id = KodeNaskah::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal))->pluck('id');
+        $kode_naskah_id = KodeNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal))->pluck('id');
 
         return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
     }
@@ -858,7 +864,7 @@ class Helper
      */
     public static function setOptionsKodeArsip($tanggal)
     {
-        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getTataNaskahId($tanggal)), 'id', 'detail', 'group');
+        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group');
     }
 
     /**

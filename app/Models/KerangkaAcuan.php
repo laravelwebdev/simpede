@@ -37,14 +37,19 @@ class KerangkaAcuan extends Model
         return $this->hasMany(AnggaranKerangkaAcuan::class);
     }
 
+    public function spesifikasiKerangkaAcuan(): HasMany
+    {
+        return $this->hasMany(SpesifikasiKerangkaAcuan::class);
+    }
+
     /**
      * The "booted" method of the model.
      */
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
-            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->first();
-            $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->first();
+            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->where('tata_naskah_id', self::getLatestTataNaskahId($kak->tanggal))->first();
+            $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->where('tata_naskah_id', self::getLatestTataNaskahId($kak->tanggal))->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -57,14 +62,6 @@ class KerangkaAcuan extends Model
             $naskahkeluar->save();
             $kak->naskah_keluar_id = $naskahkeluar->id;
 
-            $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id', Auth::user()->unit_kerja_id)->first();
-            $kak->nama = $user->nama;
-            $kak->nip = $user->nip;
-            $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan';
-            $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
-            $kak->ppk = Helper::getPengelola('ppk')->nama;
-            $kak->nipppk = Helper::getPengelola('ppk')->nip;
-            $kak->tahun = session('year');
         });
         static::updating(function (KerangkaAcuan $kak) {
             $naskahkeluar = NaskahKeluar::where('id', $kak->naskah_keluar_id)->first();
@@ -90,6 +87,13 @@ class KerangkaAcuan extends Model
                 $kak->metode = '-';
                 $kak->tkdn = '-';
             }
+            // $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id', Auth::user()->unit_kerja_id)->first();
+            // $kak->nama = $user->nama;
+            // $kak->nip = $user->nip;
+            // $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan';
+            // $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
+            // $kak->ppk = Helper::getPengelola('ppk')->nama;
+            // $kak->nipppk = Helper::getPengelola('ppk')->nip;
         });
         static::saved(function (KerangkaAcuan $kak) {
             if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {

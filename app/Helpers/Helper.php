@@ -18,6 +18,7 @@ use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -382,9 +383,10 @@ class Helper
      * @param  string  $role  Role
      * @return User $user
      */
-    public static function getUsersByPengelola($role, $tanggal, $unit_kerja_id = null)
+    public static function getUsersByPengelola($role, $tanggal)
     {
-        $usersIdByPengelola = Pengelola::cache()->get('all')
+        $usersIdByPengelola = Pengelola::cache()
+            ->get('all')
             ->where('role', $role)
             ->where('active', '<=', $tanggal)
             ->where(function ($query) use ($tanggal) {
@@ -393,14 +395,22 @@ class Helper
             })
             ->pluck('user_id')
             ->toArray();
-        if ($unit_kerja_id == null) {
-            $usersId = $usersIdByPengelola;
-        } else {
-            $usersIdByUnitKerja = DataPegawai::cache()->get('all')->where('unit_kerja_id', $unit_kerja_id)->where('tanggal', '<=', $tanggal)->pluck('user_id')->toArray();
-            $usersId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
+        $usersId = $usersIdByPengelola;
+        if ($role == 'koordinator') {
+            $usersIdByUnitKerja = DataPegawai::cache()
+                ->get('all')
+                ->where('unit_kerja_id', Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal) ? Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal)->unit_kerja_id:null)
+                ->where('tanggal', '<=', $tanggal)
+                ->pluck('user_id')
+                ->toArray();
+            $koordinatorsId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
+            if (count($koordinatorsId) > 0) {
+                $usersId = $koordinatorsId ;
+            }
         }
-
+          
         return User::cache()->get('all')->whereIn('id', $usersId);
+
     }
 
     /**

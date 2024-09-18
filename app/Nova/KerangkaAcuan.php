@@ -334,13 +334,13 @@ class KerangkaAcuan extends Resource
     public function pengelolaFields()
     {
         return [
-            Select::make('Pembuat KAK', 'nama')
+            Select::make('Pembuat KAK', 'koordinator_user_id')
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal, $formData->tanggal == null ? null : Helper::getDataPegawaiByUserId(Auth::user()->id, $formData->tanggal)->unit_kerja_id));
+                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal));
                 }),
-            Select::make('Pejabat Pembuat Komitmen', 'ppk')
+            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {

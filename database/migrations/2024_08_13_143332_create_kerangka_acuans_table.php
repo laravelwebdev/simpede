@@ -26,12 +26,9 @@ return new class extends Migration
             $table->text('kegiatan')->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
-            $table->string('nama')->nullable();
-            $table->string('nip', 30)->nullable();
-            $table->string('jabatan', 50)->nullable();
-            $table->string('ppk')->nullable();
-            $table->string('nipppk', 30)->nullable();
             $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->bigInteger('ppk_user_id')->nullable()->unsigned();
+            $table->bigInteger('koordinator_user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

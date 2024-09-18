@@ -399,18 +399,17 @@ class Helper
         if ($role == 'koordinator') {
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
-                ->where('unit_kerja_id', Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal) ? Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal)->unit_kerja_id:null)
+                ->where('unit_kerja_id', Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal) ? Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal)->unit_kerja_id : null)
                 ->where('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
             $koordinatorsId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
             if (count($koordinatorsId) > 0) {
-                $usersId = $koordinatorsId ;
+                $usersId = $koordinatorsId;
             }
         }
-          
-        return User::cache()->get('all')->whereIn('id', $usersId);
 
+        return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
     /**

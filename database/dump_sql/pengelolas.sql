@@ -48,7 +48,8 @@ INSERT INTO `pengelolas` (`id`, `role`, `user_id`, `created_at`, `updated_at`, `
 (38, 'anggota', 10, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL),
 (39, 'anggota', 11, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL),
 (40, 'anggota', 21, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL),
-(41, 'anggota', 22, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL);
+(41, 'anggota', 22, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL),
+(42, 'koordinator', 1, '2024-01-01 00:00:00', '2024-01-01 00:00:00', '2024-01-01', NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

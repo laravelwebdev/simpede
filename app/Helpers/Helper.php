@@ -17,6 +17,7 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -382,11 +383,24 @@ class Helper
      * @param  string  $role  Role
      * @return User $user
      */
-    public static function getPengelola($role)
+    public static function getUsersByPengelola($role, $tanggal, $unit_kerja_id = null)
     {
-        $pengelola_id = Pengelola::cache()->get('all')->where('role', $role)->first()->user_id ?? '';
-
-        return User::cache()->get('all')->where('id', $pengelola_id)->first();
+        $usersIdByPengelola = Pengelola::cache()->get('all')
+            ->where('role', $role)
+            ->where('active', '<=', $tanggal)
+            ->where(function ($query) use ($tanggal) {
+                return $query->where('inactive', '>', $tanggal)
+                      ->orWhere('inactive', '=', null);
+            })
+            ->pluck('user_id')
+            ->toArray();
+        if ( $unit_kerja_id == null) {
+            $usersId = $usersIdByPengelola;
+        } else {
+            $usersIdByUnitKerja = DataPegawai::cache()->get('all')->where('unit_kerja_id', $unit_kerja_id)->where('tanggal', '<=', $tanggal)->pluck('user_id')->toArray();
+            $usersId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
+        }
+        return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
     /**
@@ -402,11 +416,6 @@ class Helper
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
-    }
-
-    public static function getPengelolaByUserId($user_id, $tanggal)
-    {
-        return Pengelola::cache()->get('all')->where('user_id', $user_id)->where('active', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -934,5 +943,10 @@ class Helper
     public static function setOptionTahun()
     {
         return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+    }
+
+    public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
+    {
+        return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId),'id','name');
     }
 }

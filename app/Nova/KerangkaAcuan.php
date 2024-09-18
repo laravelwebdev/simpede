@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
@@ -89,6 +90,7 @@ class KerangkaAcuan extends Resource
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
+            new Panel('Keterangan Pejabat', $this->pengelolaFields()),
             new Panel('Anggaran', $this->anggaranFields()),
             new Panel('Spesifikasi', $this->spesifikasiFields()),
             HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
@@ -324,6 +326,25 @@ class KerangkaAcuan extends Resource
                     if ($formData->jenis === 'Penyedia') {
                         $field->show()->rules('required');
                     }
+                }),
+
+        ];
+    }
+
+    public function pengelolaFields()
+    {
+        return [
+            Select::make('Pembuat KAK', 'nama')
+                ->rules('required')
+                ->searchable()
+                ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal, $formData->tanggal == null ? null : Helper::getDataPegawaiByUserId(Auth::user()->id, $formData->tanggal)->unit_kerja_id));
+                }),
+            Select::make('Pejabat Pembuat Komitmen', 'ppk')
+                ->rules('required')
+                ->searchable()
+                ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionPengelola('ppk', $formData->tanggal));
                 }),
 
         ];

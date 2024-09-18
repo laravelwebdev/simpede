@@ -17,7 +17,6 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -390,16 +389,17 @@ class Helper
             ->where('active', '<=', $tanggal)
             ->where(function ($query) use ($tanggal) {
                 return $query->where('inactive', '>', $tanggal)
-                      ->orWhere('inactive', '=', null);
+                    ->orWhere('inactive', '=', null);
             })
             ->pluck('user_id')
             ->toArray();
-        if ( $unit_kerja_id == null) {
+        if ($unit_kerja_id == null) {
             $usersId = $usersIdByPengelola;
         } else {
             $usersIdByUnitKerja = DataPegawai::cache()->get('all')->where('unit_kerja_id', $unit_kerja_id)->where('tanggal', '<=', $tanggal)->pluck('user_id')->toArray();
             $usersId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
         }
+
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
@@ -947,6 +947,6 @@ class Helper
 
     public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
     {
-        return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId),'id','name');
+        return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId), 'id', 'name');
     }
 }

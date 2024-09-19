@@ -21,7 +21,7 @@ use Laravel\Nova\Panel;
 
 class KerangkaAcuan extends Resource
 {
-    public static $with = ['naskahKeluar', 'arsipDokumen'];
+    public static $with = ['naskahKeluar', 'arsipDokumen','anggaranKerangkaAcuan'];
 
     public static function label()
     {
@@ -88,7 +88,7 @@ class KerangkaAcuan extends Resource
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
             new Panel('Keterangan Pejabat', $this->pengelolaFields()),
             new Panel('Anggaran', $this->anggaranFields()),
-            new Panel('Spesifikasi', $this->spesifikasiFields()),
+            // new Panel('Spesifikasi', $this->spesifikasiFields()),
             HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
         ];
     }
@@ -155,7 +155,7 @@ class KerangkaAcuan extends Resource
             Date::make('Tanggal KAK', 'tanggal')
                 ->sortable()
                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
-                    if (Helper::getYearFromDate($value, false) != session('year')) {
+                    if (Helper::getYearFromDateString($value) != session('year')) {
                         return $fail('Tanggal harus di tahun yang telah dipilih');
                     }
                 })
@@ -333,14 +333,16 @@ class KerangkaAcuan extends Resource
             Select::make('Pembuat KAK', 'koordinator_user_id')
                 ->rules('required')
                 ->searchable()
+                ->displayUsingLabels()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal == null ? null : Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
+                    $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal)));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
+                ->displayUsingLabels()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', $formData->tanggal == null ? null : Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
+                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal)));
                 }),
 
         ];
@@ -353,11 +355,11 @@ class KerangkaAcuan extends Resource
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
-    protected static function afterValidation(NovaRequest $request, $validator)
-    {
-        $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi, true));
-        if (Helper::sumJson($spesifikasi, 'spek_nilai') != Helper::sumJson(json_decode($request->anggaran), 'perkiraan')) {
-            $validator->errors()->add('spesifikasi', 'Perkiraan anggaran yang digunakan tidak sama dengan total nilai pada spesifikasi!');
-        }
-    }
+    // protected static function afterValidation(NovaRequest $request, $validator)
+    // {
+    //     $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi, true));
+    //     if (Helper::sumJson($spesifikasi, 'spek_nilai') != Helper::sumJson(json_decode($request->anggaran), 'perkiraan')) {
+    //         $validator->errors()->add('spesifikasi', 'Perkiraan anggaran yang digunakan tidak sama dengan total nilai pada spesifikasi!');
+    //     }
+    // }
 }

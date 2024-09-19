@@ -319,9 +319,22 @@ class Helper
         }
     }
 
-    public static function getYearFromDate($tanggal, $typeIsDate = true)
+    public static function getYearFromDate($tanggal)
     {
-        return $typeIsDate ? Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year : Carbon::createFromFormat('Y-m-d', $tanggal)->year;
+        return  Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year ;
+    }
+
+    public static function getYearFromDateString($tanggal)
+    {
+        return  Carbon::createFromFormat('Y-m-d', $tanggal)->year ;
+    }
+
+    public static function createDateFromString($tanggal)
+    {
+        if ($tanggal == null) {
+            return null;
+        }
+        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
     }
 
     /**
@@ -425,6 +438,11 @@ class Helper
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+    }
+
+    public static function getPegawaiByUserId($user_id)
+    {
+        return User::cache()->get('all')->where('id', $user_id)->first();
     }
 
     /**
@@ -833,7 +851,7 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id ?? '';
+        return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id;
     }
 
     /**

@@ -17,7 +17,6 @@ class SpesifikasiKerangkaAcuan extends Resource
      * @var class-string<\App\Models\SpesifikasiKerangkaAcuan>
      */
     public static $model = \App\Models\SpesifikasiKerangkaAcuan::class;
-    public static $with = ['kerangkaAcuan'];
     public static $displayInNavigation = false;
 
     public static function label()
@@ -62,14 +61,9 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->step(1)
                 ->default(0),
             Textarea::make('Spesifikasi')
-                ->rows(2)
                 ->rules('required')
                 ->placeholder('Mohon diisi secara detail dan spesifik')
                 ->alwaysShow(),
-            BelongsTo::make('Kerangka Acuan Kerja', 'kerangkaAcuan', KerangkaAcuan::class)
-                ->rules('required')
-                ->searchable()
-                ->onlyOnForms(),
         ];
     }
 

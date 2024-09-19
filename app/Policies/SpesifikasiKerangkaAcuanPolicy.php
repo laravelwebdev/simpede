@@ -32,9 +32,7 @@ class SpesifikasiKerangkaAcuanPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return false;
     }
 
     /**
@@ -62,9 +60,7 @@ class SpesifikasiKerangkaAcuanPolicy
      */
     public function restore(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return false;
     }
 
     /**
@@ -72,15 +68,18 @@ class SpesifikasiKerangkaAcuanPolicy
      */
     public function forceDelete(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return false;
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
+    {
+        return false;
+    }
+
+    public function runAction(): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')

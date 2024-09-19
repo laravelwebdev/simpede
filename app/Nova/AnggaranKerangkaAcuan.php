@@ -4,10 +4,14 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\KerangkaAcuan;
+use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AnggaranKerangkaAcuan extends Resource
@@ -18,8 +22,7 @@ class AnggaranKerangkaAcuan extends Resource
      * @var class-string<\App\Models\AnggaranKerangkaAcuan>
      */
     public static $model = \App\Models\AnggaranKerangkaAcuan::class;
-    public static $with = ['kerangkaAcuan'];
-    public static $displayInNavigation = false;
+      public static $displayInNavigation = false;
 
     public static function label()
     {
@@ -51,12 +54,13 @@ class AnggaranKerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
             Select::make('MAK', 'mak')
                 ->rules('required')
                 ->searchable()
                 ->filterable()
-                ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangkaAcuan)->tanggal)));
+                ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangka_acuan_id)->tanggal)));
                 }),
 
             Currency::make('Perkiraan Digunakan ', 'perkiraan')
@@ -64,10 +68,7 @@ class AnggaranKerangkaAcuan extends Resource
                 ->step(1)
                 ->default(0),
 
-            BelongsTo::make('Kerangka Acuan Kerja', 'kerangkaAcuan', KerangkaAcuan::class)
-                ->rules('required')
-                ->searchable()
-                ->onlyOnForms(),
+
         ];
     }
 
@@ -112,6 +113,24 @@ class AnggaranKerangkaAcuan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('AnggaranKerangkaAcuan', 'KerangkaAcuan', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/kerangka-acuans/'.$request->viaResourceId;
     }
 }

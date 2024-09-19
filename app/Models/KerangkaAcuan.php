@@ -48,8 +48,21 @@ class KerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
-            $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Form Permintaan')->where('tata_naskah_id', self::getLatestTataNaskahId($kak->tanggal))->first();
-            $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'KU.320')->where('tata_naskah_id', self::getLatestTataNaskahId($kak->tanggal))->first();
+            $kode_naskah = KodeNaskah::cache()
+                ->get("all")
+                ->where("kategori", "Surat Dinas")
+                ->where("tata_naskah_id", Helper::getLatestTataNaskahId($kak->tanggal))
+                ->first();
+            $jenis_naskah = JenisNaskah::cache()
+                ->get('all')
+                ->where('jenis', 'Form Permintaan')
+                ->where('kode_naskah_id',  $kode_naskah->id)
+                ->first();
+            $kode_arsip = KodeArsip::cache()
+                ->get('all')
+                ->where('kode', 'KU.320')
+                ->where('tata_naskah_id', Helper::getLatestTataNaskahId($kak->tanggal))
+                ->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -86,54 +99,49 @@ class KerangkaAcuan extends Model
                 $kak->metode = '-';
                 $kak->tkdn = '-';
             }
-            // $user = User::cache()->get('all')->where('role', 'koordinator')->where('unit_kerja_id', Auth::user()->unit_kerja_id)->first();
-            // $kak->nama = $user->nama;
-            // $kak->nip = $user->nip;
-            // $kak->jabatan = $user->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan';
-            // $kak->unit_kerja_id = Auth::user()->unit_kerja_id;
-            // $kak->ppk = Helper::getPengelola('ppk')->nama;
-            // $kak->nipppk = Helper::getPengelola('ppk')->nip;
+            $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
+            $kak->unit_kerja_id = $dataKetua->unit_kerja_id;
         });
-        static::saved(function (KerangkaAcuan $kak) {
-            if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
-                if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
-                    $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                    $honor->awal = $kak->awal;
-                    $honor->akhir = $kak->akhir;
-                    $honor->tanggal_kak = $kak->tanggal;
-                    $honor->tanggal_spj = $kak->akhir;
-                    $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
-                    $honor->kegiatan = $kak->kegiatan;
-                    if ($kak->wasChanged('tanggal')) {
-                        $honor->generate_sk == 'Ya' ? $honor->tanggal_sk = $kak->tanggal : null;
-                        $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal : null;
-                    }
-                    $honor->save();
-                } else {
-                    $honor = new HonorSurvei;
-                    $honor->kerangka_acuan_id = $kak->id;
-                    $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                    $honor->awal = $kak->awal;
-                    $honor->akhir = $kak->akhir;
-                    $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
-                    $honor->kegiatan = $kak->kegiatan;
-                    $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
-                    $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                    $honor->generate_sk = 'Ya';
-                    $honor->generate_st = 'Ya';
-                    $honor->tanggal_kak = $kak->tanggal;
-                    $honor->tanggal_spj = $kak->akhir;
-                    $honor->tanggal_st = $kak->tanggal;
-                    $honor->tanggal_sk = $kak->tanggal;
-                    $honor->unit_kerja_id = $kak->unit_kerja_id;
-                    $honor->ketua = $kak->nama;
-                    $honor->nipketua = $kak->nip;
-                    $honor->save();
-                }
-            }
-            if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
-                HonorSurvei::destroy($kak->id);
-            }
-        });
+        // static::saved(function (KerangkaAcuan $kak) {
+        //     if (Helper::sumJenisAkunHonor($kak->anggaran) == 1) {
+        //         if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
+        //             $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+        //             $honor->awal = $kak->awal;
+        //             $honor->akhir = $kak->akhir;
+        //             $honor->tanggal_kak = $kak->tanggal;
+        //             $honor->tanggal_spj = $kak->akhir;
+        //             $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
+        //             $honor->kegiatan = $kak->kegiatan;
+        //             if ($kak->wasChanged('tanggal')) {
+        //                 $honor->generate_sk == 'Ya' ? $honor->tanggal_sk = $kak->tanggal : null;
+        //                 $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal : null;
+        //             }
+        //             $honor->save();
+        //         } else {
+        //             $honor = new HonorSurvei;
+        //             $honor->kerangka_acuan_id = $kak->id;
+        //             $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+        //             $honor->awal = $kak->awal;
+        //             $honor->akhir = $kak->akhir;
+        //             $honor->mak = Helper::getSingleAkunHonor($kak->anggaran);
+        //             $honor->kegiatan = $kak->kegiatan;
+        //             $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
+        //             $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+        //             $honor->generate_sk = 'Ya';
+        //             $honor->generate_st = 'Ya';
+        //             $honor->tanggal_kak = $kak->tanggal;
+        //             $honor->tanggal_spj = $kak->akhir;
+        //             $honor->tanggal_st = $kak->tanggal;
+        //             $honor->tanggal_sk = $kak->tanggal;
+        //             $honor->unit_kerja_id = $kak->unit_kerja_id;
+        //             $honor->ketua = $kak->nama;
+        //             $honor->nipketua = $kak->nip;
+        //             $honor->save();
+        //         }
+        //     }
+        //     if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
+        //         HonorSurvei::destroy($kak->id);
+        //     }
+        // });
     }
 }

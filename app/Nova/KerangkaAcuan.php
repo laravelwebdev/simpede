@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
+use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -333,13 +334,13 @@ class KerangkaAcuan extends Resource
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('koordinator', Carbon::createFromFormat('d/m/Y', Carbon::parse($formData->tanggal))));
+                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal==null?null:Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Carbon::createFromFormat('d/m/Y', Carbon::parse($formData->tanggal))));
+                    $field->options(Helper::setOptionPengelola('ppk', $formData->tanggal==null?null:Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
                 }),
 
         ];

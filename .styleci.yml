@@ -3,6 +3,8 @@ version: 8.2
 preset: laravel
 enabled:
   - method_chaining_indentation
+  - no_unused_imports
+  - no_unused_lambda_imports
 finder:
   not-name:
     - index.php

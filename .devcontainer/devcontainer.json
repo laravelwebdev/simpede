@@ -7,14 +7,13 @@
     "service": "app",
     "shutdownAction": "stopCompose",
     "extensions": [
-        "editorconfig.editorconfig",
-        "cweijan.dbclient-jdbc",
         "oderwat.indent-rainbow",
         "mikestead.dotenv",
         "porifa.laravel-intelephense",
         "zhuangtongfa.material-theme",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
         "tinkerun.tinkerun-vscode",
-        "CoenraadS.bracket-pair-colorizer",
         "bmewburn.vscode-intelephense-client"
 	],
     "settings": {
@@ -32,6 +31,6 @@
         "8081": {
             "label": "PHPMYadmin"
         }
-    },
+    }
 
 }

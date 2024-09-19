@@ -334,13 +334,13 @@ class KerangkaAcuan extends Resource
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal==null?null:Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
+                    $field->options(Helper::setOptionPengelola('koordinator', $formData->tanggal == null ? null : Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', $formData->tanggal==null?null:Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
+                    $field->options(Helper::setOptionPengelola('ppk', $formData->tanggal == null ? null : Carbon::createFromFormat('Y-m-d', $formData->tanggal)->endOfDay()->format('Y-m-d H:i:s')));
                 }),
 
         ];

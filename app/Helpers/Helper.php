@@ -321,12 +321,12 @@ class Helper
 
     public static function getYearFromDate($tanggal)
     {
-        return  Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year ;
+        return  Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
     }
 
     public static function getYearFromDateString($tanggal)
     {
-        return  Carbon::createFromFormat('Y-m-d', $tanggal)->year ;
+        return  Carbon::createFromFormat('Y-m-d', $tanggal)->year;
     }
 
     public static function createDateFromString($tanggal)
@@ -334,6 +334,7 @@ class Helper
         if ($tanggal == null) {
             return null;
         }
+
         return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
     }
 

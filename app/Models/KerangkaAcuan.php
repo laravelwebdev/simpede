@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
 
 class KerangkaAcuan extends Model
 {
@@ -49,14 +48,14 @@ class KerangkaAcuan extends Model
     {
         static::creating(function (KerangkaAcuan $kak) {
             $kode_naskah = KodeNaskah::cache()
-                ->get("all")
-                ->where("kategori", "Surat Dinas")
-                ->where("tata_naskah_id", Helper::getLatestTataNaskahId($kak->tanggal))
+                ->get('all')
+                ->where('kategori', 'Surat Dinas')
+                ->where('tata_naskah_id', Helper::getLatestTataNaskahId($kak->tanggal))
                 ->first();
             $jenis_naskah = JenisNaskah::cache()
                 ->get('all')
                 ->where('jenis', 'Form Permintaan')
-                ->where('kode_naskah_id',  $kode_naskah->id)
+                ->where('kode_naskah_id', $kode_naskah->id)
                 ->first();
             $kode_arsip = KodeArsip::cache()
                 ->get('all')

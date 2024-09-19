@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;

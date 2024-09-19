@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -49,21 +52,23 @@ class SpesifikasiKerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
             Text::make('Rincian')
                 ->rules('required'),
             Number::make('Volume')
-                ->rules('required')
-                ->default(0),
+                ->rules('required'),
             Text::make('Satuan')
                 ->rules('required'),
             Currency::make('Harga Satuan')
                 ->rules('required')
-                ->step(1)
-                ->default(0),
+                ->step(1),
+            Currency::make('Total', 'total_harga')
+                ->dependsOn(['volume', 'harga_satuan'], function (Currency $field, NovaRequest $request, FormData $formData) {
+                    return $field->default($formData->harga_satuan * $formData->volume);
+                }),
             Textarea::make('Spesifikasi')
                 ->rules('required')
-                ->placeholder('Mohon diisi secara detail dan spesifik')
-                ->alwaysShow(),
+                ->placeholder('Mohon diisi secara detail dan spesifik'),
         ];
     }
 
@@ -108,6 +113,24 @@ class SpesifikasiKerangkaAcuan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddHasManyModel::make('SpesifikasiKerangkaAcuan', 'KerangkaAcuan', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request)),
+        ];
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/kerangka-acuans/'.$request->viaResourceId;
     }
 }

@@ -65,8 +65,7 @@ class AnggaranKerangkaAcuan extends Resource
 
             Currency::make('Perkiraan Digunakan ', 'perkiraan')
                 ->rules('required')
-                ->step(1)
-                ->default(0),
+                ->step(1),
 
 
         ];

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('spesifikasi_kerangka_acuans', function (Blueprint $table) {
             $table->id();
+            $table->string('rincian', 80)->nullable();
+            $table->integer('volume')->nullable()->unsigned();
+            $table->string('satuan', 40)->nullable();
+            $table->bigInteger('harga_satuan')->nullable()->unsigned();
+            $table->bigInteger('total_harga')->nullable()->unsigned();
+            $table->text('spesifikasi')->nullable();
+            $table->bigInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -18,9 +18,12 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use ShuvroRoy\NovaTabs\Tabs;
+use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class KerangkaAcuan extends Resource
 {
+    use HasTabs;
     public static $with = ['naskahKeluar', 'arsipDokumen','anggaranKerangkaAcuan'];
 
     public static function label()
@@ -87,9 +90,11 @@ class KerangkaAcuan extends Resource
             new Panel('Keterangan Umum', $this->utamaFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
             new Panel('Keterangan Pejabat', $this->pengelolaFields()),
-            new Panel('Anggaran', $this->anggaranFields()),
-            // new Panel('Spesifikasi', $this->spesifikasiFields()),
-            HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
+            Tabs::make('Detail', [
+                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
+                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
+                HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
+            ]),
         ];
     }
 
@@ -196,91 +201,91 @@ class KerangkaAcuan extends Resource
         ];
     }
 
-    /**
-     * Fields Anggaran.
-     *
-     *
-     * @return array
-     */
-    public function anggaranFields()
-    {
-        return [
-            HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
-            // SimpleRepeatable::make('Anggaran', 'anggaran', [
-            //     Select::make('MAK', 'mak')
-            //         ->rules('required')
-            //         ->searchable()
-            //         ->filterable()
-            //         ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-            //             $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate($formData->tanggal)));
-            //         }),
+    // /**
+    //  * Fields Anggaran.
+    //  *
+    //  *
+    //  * @return array
+    //  */
+    // public function anggaranFields()
+    // {
+    //     return [
+    //         HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
+    //         // SimpleRepeatable::make('Anggaran', 'anggaran', [
+    //         //     Select::make('MAK', 'mak')
+    //         //         ->rules('required')
+    //         //         ->searchable()
+    //         //         ->filterable()
+    //         //         ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+    //         //             $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate($formData->tanggal)));
+    //         //         }),
 
-            //     Currency::make('Perkiraan Digunakan ', 'perkiraan')
-            //         ->rules('required')
-            //         ->step(1)
-            //         ->default(0),
-            // ])->rules('required', function ($attribute, $value, $fail) {
-            //     if (Helper::cekGanda(json_decode($value), 'mak')) {
-            //         return $fail('validation.unique')->translate();
-            //     }
-            // }, function ($attribute, $value, $fail) {
-            //     if ($value == '[]') {
-            //         return $fail('validation.required')->translate();
-            //     }
-            // },
-            //     function ($attribute, $value, $fail) {
-            //         if (Helper::sumJenisAkunHonor(json_decode($value, true)) > 1) {
-            //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
-            //         }
-            //     },
-            //     function ($attribute, $value, $fail) {
-            //         if (Helper::sumJenisAkunPerjalanan(json_decode($value, true)) > 1) {
-            //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
-            //         }
-            //     },
-            //     function ($attribute, $value, $fail) {
-            //         if (Helper::sumJenisAkunPersediaan(json_decode($value, true)) > 1) {
-            //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
-            //         }
-            //     },
-            // ),
-        ];
-    }
+    //         //     Currency::make('Perkiraan Digunakan ', 'perkiraan')
+    //         //         ->rules('required')
+    //         //         ->step(1)
+    //         //         ->default(0),
+    //         // ])->rules('required', function ($attribute, $value, $fail) {
+    //         //     if (Helper::cekGanda(json_decode($value), 'mak')) {
+    //         //         return $fail('validation.unique')->translate();
+    //         //     }
+    //         // }, function ($attribute, $value, $fail) {
+    //         //     if ($value == '[]') {
+    //         //         return $fail('validation.required')->translate();
+    //         //     }
+    //         // },
+    //         //     function ($attribute, $value, $fail) {
+    //         //         if (Helper::sumJenisAkunHonor(json_decode($value, true)) > 1) {
+    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
+    //         //         }
+    //         //     },
+    //         //     function ($attribute, $value, $fail) {
+    //         //         if (Helper::sumJenisAkunPerjalanan(json_decode($value, true)) > 1) {
+    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
+    //         //         }
+    //         //     },
+    //         //     function ($attribute, $value, $fail) {
+    //         //         if (Helper::sumJenisAkunPersediaan(json_decode($value, true)) > 1) {
+    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
+    //         //         }
+    //         //     },
+    //         // ),
+    //     ];
+    // }
 
-    /**
-     * Fields Spesifikasi Kerangka Acuan.
-     *
-     *
-     * @return array
-     */
-    public function spesifikasiFields()
-    {
-        return [
-            HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
-            // SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
-            //     Text::make('Rincian', 'spek_rincian')
-            //         ->rules('required'),
-            //     Number::make('Jumlah', 'spek_volume')
-            //         ->rules('required')
-            //         ->default(0),
-            //     Text::make('Satuan', 'spek_satuan')
-            //         ->rules('required'),
-            //     Currency::make('Harga Satuan', 'spek_harga')
-            //         ->rules('required')
-            //         ->step(1)
-            //         ->default(0),
-            //     Textarea::make('Spesifikasi', 'spek_spek')
-            //         ->rows(2)
-            //         ->rules('required')
-            //         ->placeholder('Mohon diisi secara detail dan spesifik')
-            //         ->alwaysShow(),
-            // ])->rules('required', function ($attribute, $value, $fail) {
-            //     if ($value == '[]') {
-            //         return $fail('validation.required')->translate();
-            //     }
-            // })->stacked(),
-        ];
-    }
+    // /**
+    //  * Fields Spesifikasi Kerangka Acuan.
+    //  *
+    //  *
+    //  * @return array
+    //  */
+    // public function spesifikasiFields()
+    // {
+    //     return [
+    //         HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
+    //         // SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
+    //         //     Text::make('Rincian', 'spek_rincian')
+    //         //         ->rules('required'),
+    //         //     Number::make('Jumlah', 'spek_volume')
+    //         //         ->rules('required')
+    //         //         ->default(0),
+    //         //     Text::make('Satuan', 'spek_satuan')
+    //         //         ->rules('required'),
+    //         //     Currency::make('Harga Satuan', 'spek_harga')
+    //         //         ->rules('required')
+    //         //         ->step(1)
+    //         //         ->default(0),
+    //         //     Textarea::make('Spesifikasi', 'spek_spek')
+    //         //         ->rows(2)
+    //         //         ->rules('required')
+    //         //         ->placeholder('Mohon diisi secara detail dan spesifik')
+    //         //         ->alwaysShow(),
+    //         // ])->rules('required', function ($attribute, $value, $fail) {
+    //         //     if ($value == '[]') {
+    //         //         return $fail('validation.required')->translate();
+    //         //     }
+    //         // })->stacked(),
+    //     ];
+    // }
 
     /**
      * Fields Pengadaan Kerangka Acuan.
@@ -333,14 +338,14 @@ class KerangkaAcuan extends Resource
             Select::make('Pembuat KAK', 'koordinator_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()
+                ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal)));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()
+                ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal)));
                 }),

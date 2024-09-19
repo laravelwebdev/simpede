@@ -64,7 +64,7 @@ class ImportMataAnggaran extends Action
                 ->default('15.00')
                 ->rules('required')
                 ->help('Kode Wilayah Satker, misal: 15.00'),
-            Heading::make('File import diambil dari excel satudja, kemudian hapus seluruh baris baseline dan simpan sebagai file .xlsx'),
+            Heading::make('File import diambil dari excel satudja dan simpan sebagai file .xlsx'),
         ];
     }
 }

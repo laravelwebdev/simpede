@@ -12,8 +12,7 @@ class SpesifikasiKerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::saving(function (SpesifikasiKerangkaAcuan $spesifikasi) {
-            $spesifikasi->total_harga =  $spesifikasi->volume * $spesifikasi->harga_satuan;
+            $spesifikasi->total_harga = $spesifikasi->volume * $spesifikasi->harga_satuan;
         });
     }
-
 }

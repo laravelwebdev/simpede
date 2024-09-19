@@ -5,13 +5,10 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\KerangkaAcuan;
 use App\Nova\Actions\AddHasManyModel;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AnggaranKerangkaAcuan extends Resource
@@ -22,7 +19,7 @@ class AnggaranKerangkaAcuan extends Resource
      * @var class-string<\App\Models\AnggaranKerangkaAcuan>
      */
     public static $model = \App\Models\AnggaranKerangkaAcuan::class;
-      public static $displayInNavigation = false;
+    public static $displayInNavigation = false;
 
     public static function label()
     {
@@ -66,7 +63,6 @@ class AnggaranKerangkaAcuan extends Resource
             Currency::make('Perkiraan Digunakan ', 'perkiraan')
                 ->rules('required')
                 ->step(1),
-
 
         ];
     }

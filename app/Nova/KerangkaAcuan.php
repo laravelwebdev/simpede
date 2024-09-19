@@ -23,7 +23,7 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class KerangkaAcuan extends Resource
 {
     use HasTabs;
-    public static $with = ['naskahKeluar', 'arsipDokumen','anggaranKerangkaAcuan'];
+    public static $with = ['naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan'];
 
     public static function label()
     {

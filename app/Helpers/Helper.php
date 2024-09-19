@@ -914,7 +914,7 @@ class Helper
      */
     public static function setOptionsMataAnggaran($tahun)
     {
-        $dipa_id = self::getDipa($tahun) == null ? '' :self::getDipa($tahun)->id;
+        $dipa_id = self::getDipa($tahun) == null ? '' : self::getDipa($tahun)->id;
 
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }

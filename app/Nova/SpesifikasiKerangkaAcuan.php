@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;

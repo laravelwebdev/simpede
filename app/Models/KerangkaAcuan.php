@@ -106,9 +106,8 @@ class KerangkaAcuan extends Model
                     foreach ($anggarans as $anggaran) {
                         $copyAnggaran = $anggaran->replicate();
                         $copyAnggaran->kerangka_acuan_id = $kak->id;
-                        $copyAnggaran->save(); 
-                }
-
+                        $copyAnggaran->save();
+                    }
                 }
                 $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
                 foreach ($spesifikasis as $spesifikasi) {

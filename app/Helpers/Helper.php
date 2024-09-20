@@ -493,21 +493,21 @@ class Helper
         return $spek;
     }
 
-    /**
-     * Mengecek mak memuat akun tertentu.
-     *
-     * @param  json anggaran $spek
-     * @param  array  $akun
-     * @return int
-     */
-    public static function sumJenisAkun($spek, $akun)
-    {
-        // $spek = collect($spek);
+    // /**
+    //  * Mengecek mak memuat akun tertentu.
+    //  *
+    //  * @param  json anggaran $spek
+    //  * @param  array  $akun
+    //  * @return int
+    //  */
+    // public static function sumJenisAkun($spek, $akun)
+    // {
+    //     // $spek = collect($spek);
 
-        return $spek->transform(function ($item, $key) {
-            return ['mak' => substr($item['mak'], -6)];
-        })->whereIn('mak', $akun)->count();
-    }
+    //     return $spek->transform(function ($item, $key) {
+    //         return ['mak' => substr($item['mak'], -6)];
+    //     })->whereIn('mak', $akun)->count();
+    // }
 
     /**
      * Menambahkan tambahan segmen nomor naskah.
@@ -529,27 +529,27 @@ class Helper
         return  $b26;
     }
 
-    /**
-     * Memeriksa apakah anggaran memuat akun perjalanan dinas.
-     *
-     * @param  json anggaran $spek
-     * @return int
-     */
-    public static function sumJenisAkunPerjalanan($spek)
-    {
-        return self::sumJenisAkun($spek, self::$akun_perjalanan);
-    }
+    // /**
+    //  * Memeriksa apakah anggaran memuat akun perjalanan dinas.
+    //  *
+    //  * @param  json anggaran $spek
+    //  * @return int
+    //  */
+    // public static function sumJenisAkunPerjalanan($spek)
+    // {
+    //     return self::sumJenisAkun($spek, self::$akun_perjalanan);
+    // }
 
-    /**
-     * Memeriksa apakah anggaran memuat akun belanja persediaan.
-     *
-     * @param  json anggaran $spek
-     * @return int
-     */
-    public static function sumJenisAkunPersediaan($spek)
-    {
-        return self::sumJenisAkun($spek, self::$akun_persediaan);
-    }
+    // /**
+    //  * Memeriksa apakah anggaran memuat akun belanja persediaan.
+    //  *
+    //  * @param  json anggaran $spek
+    //  * @return int
+    //  */
+    // public static function sumJenisAkunPersediaan($spek)
+    // {
+    //     return self::sumJenisAkun($spek, self::$akun_persediaan);
+    // }
 
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
@@ -557,46 +557,46 @@ class Helper
      * @param  json anggaran $spek
      * @return int
      */
-    public static function sumJenisAkunHonor($spek)
+    public static function isAkunHonor(String $mak): bool
     {
-        return self::sumJenisAkun($spek, self::$akun_honor);
+        return in_array(substr($mak, -6), self::$akun_honor);
     }
 
     /**
-     * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
-     *
-     * @param  json anggaran $spek_old
-     * @param  json anggaran $spek_new
-     * @return bool
-     */
-    public static function isAkunHonorChanged($spek_old, $spek_new)
-    {
-        return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;
-    }
+    //  * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
+    //  *
+    //  * @param  json anggaran $spek_old
+    //  * @param  json anggaran $spek_new
+    //  * @return bool
+    //  */
+    // public static function isAkunHonorChanged($spek_old, $spek_new)
+    // {
+    //     return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;
+    // }
 
-    /**
-     * Memeriksa apakah terjadi perubahan dari anggaran perjalanan menjadi tidak ada.
-     *
-     * @param  json anggaran $spek_old
-     * @param  json anggaran $spek_new
-     * @return bool
-     */
-    public static function isAkunPerjalananChanged($spek_old, $spek_new)
-    {
-        return self::sumJenisAkunPerjalanan($spek_old) - self::sumJenisAkunPerjalanan($spek_new) == 1;
-    }
+    // /**
+    //  * Memeriksa apakah terjadi perubahan dari anggaran perjalanan menjadi tidak ada.
+    //  *
+    //  * @param  json anggaran $spek_old
+    //  * @param  json anggaran $spek_new
+    //  * @return bool
+    //  */
+    // public static function isAkunPerjalananChanged($spek_old, $spek_new)
+    // {
+    //     return self::sumJenisAkunPerjalanan($spek_old) - self::sumJenisAkunPerjalanan($spek_new) == 1;
+    // }
 
-    /**
-     * Memeriksa apakah terjadi perubahan dari anggaran persediaan menjadi tidak ada.
-     *
-     * @param  json anggaran $spek_old
-     * @param  json anggaran $spek_new
-     * @return bool
-     */
-    public static function isAkunPersediaanChanged($spek_old, $spek_new)
-    {
-        return self::sumJenisAkunPersediaan($spek_old) - self::sumJenisAkunPersediaan($spek_new) == 1;
-    }
+    // /**
+    //  * Memeriksa apakah terjadi perubahan dari anggaran persediaan menjadi tidak ada.
+    //  *
+    //  * @param  json anggaran $spek_old
+    //  * @param  json anggaran $spek_new
+    //  * @return bool
+    //  */
+    // public static function isAkunPersediaanChanged($spek_old, $spek_new)
+    // {
+    //     return self::sumJenisAkunPersediaan($spek_old) - self::sumJenisAkunPersediaan($spek_new) == 1;
+    // }
 
     /**
      * Mengambil satu akun mak dari kumpulan akun.

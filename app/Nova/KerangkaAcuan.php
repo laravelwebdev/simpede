@@ -147,6 +147,16 @@ class KerangkaAcuan extends Resource
         return $actions;
     }
 
+    public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->tanggal = null;
+            $model->awal = null;
+            $model->akhir = null;
+        });
+    }
+
     /**
      * Fields Utama.
      *

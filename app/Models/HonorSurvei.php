@@ -54,10 +54,6 @@ class HonorSurvei extends Model
     {
         static::creating(function (HonorSurvei $honor) {
             $honor->tahun = session('year');
-            $honor->ppk = Helper::getPengelola('ppk')->nama;
-            $honor->nipppk = Helper::getPengelola('ppk')->nip;
-            $honor->bendahara = Helper::getPengelola('bendahara')->nama;
-            $honor->nipbendahara = Helper::getPengelola('bendahara')->nip;
         });
         static::saving(function (HonorSurvei $honor) {
             if ($honor->generate_sk === 'Tidak') {

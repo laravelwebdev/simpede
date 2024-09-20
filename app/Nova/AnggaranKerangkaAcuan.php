@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\KerangkaAcuan;
 use App\Nova\Actions\AddHasManyModel;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
@@ -53,7 +54,8 @@ class AnggaranKerangkaAcuan extends Resource
         return [
             Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
             Select::make('MAK', 'mak')
-                ->rules('required')
+                ->updateRules('required',  Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
+                ->creationRules('required',  Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId))
                 ->searchable()
                 ->filterable()
                 ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {

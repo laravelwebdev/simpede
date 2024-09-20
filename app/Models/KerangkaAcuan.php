@@ -100,14 +100,12 @@ class KerangkaAcuan extends Model
                     $copyAnggaran = $anggaran->replicate();
                     $copyAnggaran->kerangka_acuan_id = $kak->id;
                     $copyAnggaran->save();
-
                 }
                 $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
                 foreach ($spesifikasis as $spesifikasi) {
                     $copySpesifikasi = $spesifikasi->replicate();
                     $copySpesifikasi->kerangka_acuan_id = $kak->id;
                     $copySpesifikasi->save();
-
                 }
             });
         });

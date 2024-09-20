@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\DaftarHonor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -123,6 +124,11 @@ class HonorSurvei extends Model
         });
         static::deleting(function (HonorSurvei $honor) {
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
+            $daftarHonorIds = DaftarHonor::where('honor_survei_id', $honor->id)->pluck('id');
+            DaftarHonor::cache()->disable();
+            DaftarHonor::destroy($daftarHonorIds);
+            DaftarHonor::cache()->enable();
+            DaftarHonor::cache()->update('all');
         });
     }
 }

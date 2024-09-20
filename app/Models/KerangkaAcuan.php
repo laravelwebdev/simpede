@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\AnggaranKerangkaAcuan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -85,6 +86,12 @@ class KerangkaAcuan extends Model
         static::deleting(function (KerangkaAcuan $kak) {
             NaskahKeluar::destroy($kak->naskah_keluar_id);
             HonorSurvei::destroy($kak->id);
+            $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
+            AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
+            $arsipDokumenIds = ArsipDokumen::where('kerangka_acuan_id', $kak->id)->pluck('id');
+            ArsipDokumen::destroy($arsipDokumenIds);
+            $spesifikasiKerangkaAcuanIds = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
+            SpesifikasiKerangkaAcuan::destroy($spesifikasiKerangkaAcuanIds);
         });
         static::created(function (KerangkaAcuan $kak) {
             ArsipDokumen::create(['slug' => 'Kerangka Acuan Kerja', 'kerangka_acuan_id' => $kak->id]);

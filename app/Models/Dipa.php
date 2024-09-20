@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\KamusAnggaran;
+use App\Models\MataAnggaran;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,8 +47,18 @@ class Dipa extends Model
     protected static function booted(): void
     {
         static::deleting(function (Dipa $dipa) {
-            MataAnggaran::where('dipa_id', $dipa->id)->delete();
-            KamusAnggaran::where('dipa_id', $dipa->id)->delete();
+            $kamusAnggaranIds = KamusAnggaran::where('dipa_id', $dipa->id)->pluck('id');
+            KamusAnggaran::cache()->disable();
+            KamusAnggaran::destroy($kamusAnggaranIds);
+            KamusAnggaran::cache()->enable();
+            KamusAnggaran::cache()->update('all');
+            $mataAnggaranIds = MataAnggaran::where('dipa_id', $dipa->id)->pluck('id');
+            MataAnggaran::cache()->disable();
+            MataAnggaran::destroy($mataAnggaranIds);
+            MataAnggaran::cache()->enable();
+            MataAnggaran::cache()->update('all');
         });
     }
+
+
 }

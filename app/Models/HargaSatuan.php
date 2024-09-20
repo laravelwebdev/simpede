@@ -38,7 +38,10 @@ class HargaSatuan extends Model
     {
         static::deleting(function (HargaSatuan $harga_satuan) {
             $jenisKontrakIds = JenisKontrak::where('harga_satuan_id', $harga_satuan->id)->pluck('id');
+            JenisKontrak::cache()->disable();
             JenisKontrak::destroy($jenisKontrakIds);
+            JenisKontrak::cache()->enable();
+            JenisKontrak::cache()->update('all');
         });
     }
 }

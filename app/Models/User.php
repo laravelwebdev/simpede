@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\DataPegawai;
+use App\Models\Pengelola;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -86,6 +88,18 @@ class User extends Authenticatable
     {
         static::creating(function (User $user) {
             $user->avatar = $user->avatar ?? 'G99ElrTEgEDRG4blE3m1xxMmFcfB0VVeLio0L3H6.jpg';
+        });
+        static::deleting(function (User $user) {
+            $pengelolaIds = Pengelola::where('user_id', $user->id)->pluck('id');
+            Pengelola::cache()->disable();
+            Pengelola::destroy($pengelolaIds);
+            Pengelola::cache()->enable();
+            Pengelola::cache()->update('all');
+            $dataPegawaiIds = DataPegawai::where('user_id', $user->id)->pluck('id');
+            DataPegawai::cache()->disable();
+            DataPegawai::destroy($dataPegawaiIds);
+            DataPegawai::cache()->enable();
+            DataPegawai::cache()->update('all');
         });
     }
 }

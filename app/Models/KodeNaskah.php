@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\JenisNaskah;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,5 +26,16 @@ class KodeNaskah extends Model
                     return KodeNaskah::all();
                 }),
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (KodeNaskah $kode_naskah) {
+            $jenisNaskahIds = JenisNaskah::where('kode_naskah_id', $kode_naskah->id)->pluck('id');
+            JenisNaskah::cache()->disable();
+            JenisNaskah::destroy($jenisNaskahIds);
+            JenisNaskah::cache()->enable();
+            JenisNaskah::cache()->update('all');
+        });
     }
 }

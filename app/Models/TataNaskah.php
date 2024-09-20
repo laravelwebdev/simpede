@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\DerajatNaskah;
+use App\Models\KodeArsip;
+use App\Models\KodeNaskah;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,5 +45,26 @@ class TataNaskah extends Model
                     return TataNaskah::all();
                 }),
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (TataNaskah $tata_naskah) {
+            $kodeArsipIds = KodeArsip::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
+            KodeArsip::cache()->disable();
+            KodeArsip::destroy($kodeArsipIds);
+            KodeArsip::cache()->enable();
+            KodeArsip::cache()->update('all');
+            $derajatnaskahIds = DerajatNaskah::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
+            DerajatNaskah::cache()->disable();
+            DerajatNaskah::destroy($derajatnaskahIds);
+            DerajatNaskah::cache()->enable();
+            DerajatNaskah::cache()->update('all');
+            $kodenaskahIds = KodeNaskah::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
+            KodeNaskah::cache()->disable();
+            KodeNaskah::destroy($kodenaskahIds);
+            KodeNaskah::cache()->enable();
+            KodeNaskah::cache()->update('all');
+        });
     }
 }

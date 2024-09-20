@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\JenisKontrak;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -32,5 +33,13 @@ class HargaSatuan extends Model
                     return HargaSatuan::all();
                 }),
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (HargaSatuan $harga_satuan) {
+           $jenisKontrakIds = JenisKontrak::where('harga_satuan_id', $harga_satuan->id)->pluck('id');
+           JenisKontrak::destroy($jenisKontrakIds);
+        });
     }
 }

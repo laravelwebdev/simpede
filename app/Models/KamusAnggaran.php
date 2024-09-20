@@ -23,13 +23,4 @@ class KamusAnggaran extends Model
         ];
     }
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::creating(function (KamusAnggaran $mak) {
-            $mak->tahun = session('year');
-        });
-    }
 }

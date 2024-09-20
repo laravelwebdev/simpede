@@ -502,7 +502,7 @@ class Helper
      */
     public static function sumJenisAkun($spek, $akun)
     {
-        $spek = collect($spek);
+        // $spek = collect($spek);
 
         return $spek->transform(function ($item, $key) {
             return ['mak' => substr($item['mak'], -6)];
@@ -622,7 +622,7 @@ class Helper
      */
     public static function getSingleAkunHonor($spek)
     {
-        $spek = collect($spek);
+        // $spek = collect($spek);
 
         return $spek->filter(function ($item, $key) {
             return in_array(substr($item['mak'], -6), self::$akun_honor);

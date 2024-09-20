@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('mak')->nullable();
             $table->string('detail')->nullable();
-            $table->string('tahun', 4)->nullable();
             $table->bigInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

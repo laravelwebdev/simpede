@@ -844,8 +844,6 @@ class Helper
         return Dipa::cache()->get('all')->where('id', $id)->first();
     }
 
-
-
     /**
      * Mengambil ID Tata Naskah Terbaru.
      *
@@ -988,6 +986,6 @@ class Helper
 
     public static function setOptionDipa()
     {
-        return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year')+1]), 'id', 'tahun');
+        return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year') + 1]), 'id', 'tahun');
     }
 }

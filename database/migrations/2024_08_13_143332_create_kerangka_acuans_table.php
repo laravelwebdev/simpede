@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('kegiatan')->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
+            $table->bigInteger('dipa_id')->nullable()->unsigned();
             $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();
             $table->bigInteger('koordinator_user_id')->nullable()->unsigned();

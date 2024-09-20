@@ -59,7 +59,7 @@ class AnggaranKerangkaAcuan extends Resource
                 ->searchable()
                 ->filterable()
                 ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate(KerangkaAcuan::find($formData->kerangka_acuan_id)->tanggal)));
+                    $field->options(Helper::setOptionsMataAnggaran(KerangkaAcuan::find($formData->kerangka_acuan_id)->dipa_id));
                 }),
 
             Currency::make('Perkiraan Digunakan ', 'perkiraan')

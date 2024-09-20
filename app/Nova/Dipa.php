@@ -55,7 +55,7 @@ class Dipa extends Resource
             Select::make('Tahun', 'tahun')
                 ->sortable()
                 ->rules('required')
-                ->options(Helper::setOptionTahun())
+                ->options(Helper::setOptionTahunDipa())
                 ->creationRules('unique:dipas,tahun')
                 ->updateRules('unique:dipas,tahun,{{resourceId}}'),
             Text::make('Nomor', 'nomor')

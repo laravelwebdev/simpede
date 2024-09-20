@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\Dipa;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
 use Laravel\Nova\Fields\BelongsTo;
@@ -88,7 +89,15 @@ class KerangkaAcuan extends Resource
         return [
             new Panel('Keterangan Umum', $this->utamaFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
-            new Panel('Keterangan Pejabat', $this->pengelolaFields()),
+            new Panel('Penanda Tangan', $this->pengelolaFields()),
+            new Panel('DIPA', [
+                Select::make('DIPA Tahun Anggaran:', 'dipa_id')
+                    ->searchable()
+                    ->rules('required')
+                    ->displayUsingLabels()
+                    ->options(Helper::setOptionDipa())
+                    ->default(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id),
+            ]),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),

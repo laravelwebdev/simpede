@@ -836,13 +836,15 @@ class Helper
     /**
      * Mengambil Keterangan DIPA.
      *
-     * @param  string  $tahun
+     * @param  string  $id
      * @return collection
      */
-    public static function getDipa($tahun)
+    public static function getDipa($id)
     {
-        return Dipa::cache()->get('all')->where('tahun', $tahun)->first();
+        return Dipa::cache()->get('all')->where('id', $id)->first();
     }
+
+
 
     /**
      * Mengambil ID Tata Naskah Terbaru.
@@ -912,10 +914,8 @@ class Helper
      * @param  int  $tahun  The year for which to set the Mata Anggaran options.
      * @return array The filtered and set options for Mata Anggaran.
      */
-    public static function setOptionsMataAnggaran($tahun)
+    public static function setOptionsMataAnggaran($dipa_id)
     {
-        $dipa_id = self::getDipa($tahun) == null ? '' : self::getDipa($tahun)->id;
-
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
     }
 
@@ -963,18 +963,31 @@ class Helper
         return $options;
     }
 
-    /**
-     * Pilihan Tahun.
-     *
-     * @return array $tahun
-     */
-    public static function setOptionTahun()
+    // /**
+    //  * Pilihan Tahun.
+    //  *
+    //  * @return array $tahun
+    //  */
+    // public static function setOptionTahun()
+    // {
+    //     return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+    // }
+
+    public static function setOptionTahunDipa()
     {
-        return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
+        return [
+            session('year') => session('year'),
+            session('year') + 1 => session('year') + 1,
+        ];
     }
 
     public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
     {
         return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId), 'id', 'name');
+    }
+
+    public static function setOptionDipa()
+    {
+        return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year')+1]), 'id', 'tahun');
     }
 }

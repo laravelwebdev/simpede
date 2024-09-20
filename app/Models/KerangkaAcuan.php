@@ -123,6 +123,5 @@ class KerangkaAcuan extends Model
             $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
             $kak->unit_kerja_id = $dataKetua->unit_kerja_id;
         });
-      
     }
 }

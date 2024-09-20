@@ -557,18 +557,18 @@ class Helper
      * @param  json anggaran $spek
      * @return int
      */
-    public static function isAkunHonor(String $mak): bool
+    public static function isAkunHonor(string $mak): bool
     {
         return in_array(substr($mak, -6), self::$akun_honor);
     }
 
     /**
-    //  * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
-    //  *
-    //  * @param  json anggaran $spek_old
-    //  * @param  json anggaran $spek_new
-    //  * @return bool
-    //  */
+     * //  * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
+     * //  *
+     * //  * @param  json anggaran $spek_old
+     * //  * @param  json anggaran $spek_new
+     * //  * @return bool
+     * //  */
     // public static function isAkunHonorChanged($spek_old, $spek_new)
     // {
     //     return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;

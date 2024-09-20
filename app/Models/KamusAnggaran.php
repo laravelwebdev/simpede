@@ -22,5 +22,4 @@ class KamusAnggaran extends Model
                 }),
         ];
     }
-
 }

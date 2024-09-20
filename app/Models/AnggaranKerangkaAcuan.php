@@ -34,7 +34,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
-                    $honor->mak =$anggaranKak->mak;
+                    $honor->mak = $anggaranKak->mak;
                     $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);

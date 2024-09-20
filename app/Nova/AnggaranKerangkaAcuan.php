@@ -54,8 +54,8 @@ class AnggaranKerangkaAcuan extends Resource
         return [
             Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
             Select::make('MAK', 'mak')
-                ->updateRules('required',  Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
-                ->creationRules('required',  Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId))
+                ->updateRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
+                ->creationRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId))
                 ->searchable()
                 ->filterable()
                 ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {

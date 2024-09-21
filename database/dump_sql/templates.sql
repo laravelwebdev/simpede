@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_at`) VALUES
 (1, 'Template Import Kode Arsip','import', 'HMrafy1OQUdCv20aF7zFgb12BU7mkpCMk5yH4IUE.xlsx', '2024-08-16 11:04:17', '2024-08-16 11:04:17'),
 (2, 'Template Import Mitra', 'import', 'vs4vjnKmcr8CPUrONoj44wQbI1ntrEeSwLJvsDRD.xlsx', '2024-08-16 15:32:32', '2024-08-16 15:34:15'),
-(3, 'Template Kerangka Acuan Kerja', 'kak', 'A2R5jQsxBt7gKBbXDhLgopJVeBJtP9QB9gxRcnMZ.docx', '2024-09-02 15:05:11', '2024-09-05 09:13:09'),
+(3, 'Template Kerangka Acuan Kerja', 'kak', 'ReAdPXzRYWqgpho3W0mX4U3rxg3UfZ3F4MmKlxsP.docx', '2024-09-02 15:05:11', '2024-09-05 09:13:09'),
 (4, 'Template SPJ','spj', 'mpAl8wsW51iJKkjk8E8q91b3SrKCOnMinxvWbXQX.docx', '2024-09-08 08:13:31', '2024-09-08 09:41:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

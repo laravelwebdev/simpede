@@ -10,6 +10,10 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class Mitra extends Model
 {
     use HasFactory, LaraCache;
+    protected $guarded = [];
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+    ];
 
     public static function cacheEntities(): array
     {
@@ -21,13 +25,4 @@ class Mitra extends Model
         ];
     }
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::creating(function (Mitra $mitra) {
-            $mitra->tahun = session('year');
-        });
-    }
 }

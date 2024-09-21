@@ -20,10 +20,12 @@ class KodeArsipsImport implements ToCollection, WithHeadingRow
     {
         foreach ($rows as $row) {
             KodeArsip::updateOrCreate(
-                ['detail' => $row['detail']],
                 [
                     'detail' => $row['detail'],
                     'tata_naskah_id' => $this->tata_naskah_id,
+                ],
+                [
+                    'detail' => $row['detail'],                    
                     'kode' => $row['kode'],
                     'group' => $row['group'],
                     'updated_at' => now(),

@@ -2,10 +2,14 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\AddHasManyModel;
 use App\Nova\Actions\ImportMitra;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -50,15 +54,23 @@ class Mitra extends Resource
     {
         return [
             Text::make('NIK', 'nik')
-                ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('tahun', session('year'))->ignore($this->id))
+                ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)->ignore($this->id))
                 ->sortable()
-                ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('tahun', session('year'))),
+                ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)),
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->rules('required'),
+            Email::make('Email', 'email')
+                ->sortable()
+                ->rules('required', 'email'),
+            Date::make('Tanggal Lahir', 'tanggal_lahir')
+                ->sortable()
+                ->rules('required')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Alamat', 'alamat')
                 ->sortable()
                 ->rules('required'),
+            Text::make('NPWP'),
             Text::make('Rekening', 'rekening')
                 ->sortable()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
@@ -108,10 +120,26 @@ class Mitra extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
-                ImportMitra::make()->standalone();
+            $actions [] = 
+                AddHasManyModel::make('Mitra', 'KepkaMitra', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                ->size('7xl')
+                ->standalone()
+                ->addFields($this->fields($request));
         }
 
         return $actions;
+    }
+
+        /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/kepka-mitras/'.$request->viaResourceId;
     }
 }

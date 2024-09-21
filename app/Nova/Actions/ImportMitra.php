@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ImportMitra extends Action
 {
     use InteractsWithQueue, Queueable;
-    public $name = 'Import';
+    public $name = 'Impor Mitra';
 
     /**
      * Perform the action on the given models.
@@ -29,9 +29,11 @@ class ImportMitra extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $model = $models->first();
         Mitra::cache()->disable();
-        Mitra::where('tahun', session('year'))->delete();
-        Excel::import(new MitrasImport, $fields->file);
+        Mitra::where('kepka_mitra_id', $model->id)->update(['updated_at' => null]);
+        Excel::import(new MitrasImport($model->id), $fields->file);
+        Mitra::where('updated_at', null)->delete();
         Mitra::cache()->enable();
         Mitra::cache()->update('all');
 
@@ -48,9 +50,8 @@ class ImportMitra extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Mitra')['filename']).'">Unduh Template</a>')
-                ->asHtml(),
+                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
+            Heading::make('Gunakan File Excel Export Mitra dari Aplikasi SOBAT'),
         ];
     }
 }

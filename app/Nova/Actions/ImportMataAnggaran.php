@@ -55,7 +55,7 @@ class ImportMataAnggaran extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
+                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
             Text::make('Kode Satker', 'satker')
                 ->default('428578')
                 ->rules('required')

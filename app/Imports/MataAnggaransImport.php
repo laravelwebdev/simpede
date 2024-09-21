@@ -32,18 +32,22 @@ class MataAnggaransImport implements ToCollection, WithStartRow
             $anggaran = explode('||', $row[0])[0];
             $mak = strtr($anggaran, $replaces);
             KamusAnggaran::updateOrCreate(
-                ['mak' => $mak],
+                [
+                    'mak' => $mak,
+                    'dipa_id' => $this->dipa_id,
+                ],
                 [
                     'detail' => $row[1],
-                    'dipa_id' => $this->dipa_id,
                     'updated_at' => now(),
                 ]
             );
             if (strlen($mak) == 37) {
                 MataAnggaran::updateOrCreate(
-                    ['mak' => substr($mak, 0, 35)],
                     [
+                        'mak' => substr($mak, 0, 35),
                         'dipa_id' => $this->dipa_id,
+                    ],
+                    [
                         'updated_at' => now(),
                     ]
                 );

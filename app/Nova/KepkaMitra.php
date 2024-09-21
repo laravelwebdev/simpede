@@ -103,7 +103,8 @@ class KepkaMitra extends Resource
                 ImportMitra::make()
                     ->showInline()
                     ->showOnDetail()
-                    ->exceptOnIndex();
+                    ->exceptOnIndex()
+                    ->confirmButtonText('Impor');
         }
 
         return $actions;

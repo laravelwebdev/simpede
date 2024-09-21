@@ -10,7 +10,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArsipDokumen extends Resource
 {
-
     /**
      * Get the label for the resource.
      *

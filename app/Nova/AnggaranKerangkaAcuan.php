@@ -64,6 +64,7 @@ class AnggaranKerangkaAcuan extends Resource
 
             Currency::make('Perkiraan Digunakan ', 'perkiraan')
                 ->rules('required')
+                ->min(1)
                 ->step(1),
 
         ];
@@ -128,6 +129,6 @@ class AnggaranKerangkaAcuan extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId;
+        return '/resources/kerangka-acuans/'.$request->viaResourceId.'#Detail=anggaran';
     }
 }

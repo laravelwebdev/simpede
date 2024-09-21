@@ -55,16 +55,19 @@ class SpesifikasiKerangkaAcuan extends Resource
             Text::make('Rincian')
                 ->rules('required'),
             Number::make('Volume')
-                ->rules('required'),
+                ->rules('required')->min(1),
             Text::make('Satuan')
                 ->rules('required'),
             Currency::make('Harga Satuan')
                 ->rules('required')
+                ->min(1)
                 ->step(1),
             Currency::make('Total', 'total_harga')
                 ->dependsOn(['volume', 'harga_satuan'], function (Currency $field, NovaRequest $request, FormData $formData) {
-                    return $field->default($formData->harga_satuan * $formData->volume);
-                }),
+                    return $field->default((float) $formData->harga_satuan * (float)$formData->volume);
+                })
+                ->min(1)
+                ->onlyOnIndex(),
             Textarea::make('Spesifikasi')
                 ->rules('required')
                 ->placeholder('Mohon diisi secara detail dan spesifik'),
@@ -130,6 +133,6 @@ class SpesifikasiKerangkaAcuan extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId;
+        return '/resources/kerangka-acuans/'.$request->viaResourceId.'#Detail=spesifikasi';
     }
 }

@@ -54,7 +54,7 @@ class JenisKontrak extends Resource
             Currency::make('Batas maksimal (SBML)', 'sbml')
                 ->rules('required')
                 ->step(1)
-                ->default(0),
+                ->min(1),
         ];
     }
 

@@ -124,6 +124,6 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId;
+        return '/resources/kerangka-acuans/'.$request->viaResourceId.'#Detail=arsip-dokumen';
     }
 }

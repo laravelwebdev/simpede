@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;

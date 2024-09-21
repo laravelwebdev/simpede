@@ -39,6 +39,16 @@ class Helper
         '521831',
     ];
 
+    public static $template = [
+        'kontrak' => 'Kontrak',
+        'import'   => 'Import',
+        'kak'      => 'Kerangka Acuan',
+        'spj'      => 'SPJ',
+        'sk'       => 'Surat Keputusan',
+        'st'       => 'Surat Tugas',
+    ];
+
+
     /**
      * @var array An array containing account information for travel.
      */
@@ -69,6 +79,7 @@ class Helper
         '10' => 'Oktober',
         '11' => 'November',
         '12' => 'Desember',
+        '13' => 'AdHoc',
     ];
 
     public static $role = [
@@ -826,11 +837,24 @@ class Helper
      * @param  string  $jenis
      * @return string
      */
-    public static function getTemplatePath($jenis)
+    public static function getTemplatePath($column, $value)
     {
-        $file = Template::cache()->get('all')->where('slug', 'template_'.$jenis)->first()->file ?? '';
+        $file = Template::cache()->get('all')->where($column,'=', $value)->first()->file ?? '';
 
-        return Storage::disk('templates')->path($file);
+        return [
+            'filename' => $file,
+            'path' => Storage::disk('templates')->path($file),
+        ];
+    }
+
+    public static function getTemplatePathByName($name)
+    {
+        return self::getTemplatePath('nama', $name);
+    }
+
+    public static function getTemplatePathById($id)
+    {
+       return self::getTemplatePath('id', $id);
     }
 
     /**

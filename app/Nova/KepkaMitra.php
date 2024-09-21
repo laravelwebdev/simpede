@@ -2,41 +2,34 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\AddHasManyModel;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\File;
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportMitra;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ArsipDokumen extends Resource
+class KepkaMitra extends Resource
 {
-    public static $with = ['kerangkaAcuan'];
-
-    /**
-     * Get the label for the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return 'Arsip Dokumen';
-    }
-    public static $displayInNavigation = false;
-
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ArsipDokumen>
+     * @var class-string<\App\Models\KepkaMitra>
      */
-    public static $model = \App\Models\ArsipDokumen::class;
+    public static $model = \App\Models\KepkaMitra::class;
+
+    public static function label()
+    {
+        return 'Kepka Mitra';
+    }
+
+    public static $with = ['mitra'];
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'slug';
+    public static $title = 'nomor';
 
     /**
      * The columns that should be searched.
@@ -44,7 +37,7 @@ class ArsipDokumen extends Resource
      * @var array
      */
     public static $search = [
-        'slug',
+        'nomor',
     ];
 
     /**
@@ -56,15 +49,10 @@ class ArsipDokumen extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis Dokumen', 'slug')
+            Text::make('Nomor', 'nomor')
                 ->sortable()
                 ->rules('required'),
-            File::make('File')
-                ->disk('arsip')
-                ->rules('mimes:xlsx,pdf.docx')
-                ->acceptedTypes('.pdf,.docx,.xlsx')
-                ->rules('required')
-                ->prunable(),
+            HasMany::make('Mitra'),
         ];
     }
 
@@ -109,24 +97,15 @@ class ArsipDokumen extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
-            AddHasManyModel::make('ArsipDokumen', 'KerangkaAcuan', $request->viaResourceId)
-                ->confirmButtonText('Tambah')
-                // ->size('7xl')
-                ->standalone()
-                ->addFields($this->fields($request)),
-        ];
-    }
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions [] =
+                ImportMitra::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
 
-    /**
-     * Return the location to redirect the user after update.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Laravel\Nova\Resource  $resource
-     * @return \Laravel\Nova\URL|string
-     */
-    public static function redirectAfterUpdate(NovaRequest $request, $resource)
-    {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId;
+        return $actions;
     }
 }

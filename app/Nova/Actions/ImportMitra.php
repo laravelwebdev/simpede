@@ -49,7 +49,7 @@ class ImportMitra extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePath('import_mitra')).'">Unduh Template</a>')
+            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Mitra')['filename']).'">Unduh Template</a>')
                 ->asHtml(),
         ];
     }

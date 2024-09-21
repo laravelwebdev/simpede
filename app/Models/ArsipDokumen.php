@@ -11,9 +11,4 @@ class ArsipDokumen extends Model
     use HasFactory;
 
     protected $guarded = [];
-
-    public function kerangkaAcuan(): BelongsTo
-    {
-        return $this->belongsTo(KerangkaAcuan::class);
-    }
 }

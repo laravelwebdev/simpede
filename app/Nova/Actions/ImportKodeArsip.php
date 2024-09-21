@@ -50,7 +50,7 @@ class ImportKodeArsip extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data Lama Akan dihapus dan ditimpa data baru'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePath('import_kode_arsip')).'">Unduh Template</a>')
+            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Kode Arsip')['filename']).'">Unduh Template</a>')
                 ->asHtml(),
         ];
     }

@@ -15,6 +15,8 @@ class Mitra extends Resource
     {
         return 'Mitra';
     }
+
+    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *

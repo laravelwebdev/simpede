@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mitras', function (Blueprint $table) {
+        Schema::create('kepka_mitras', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
-            $table->string('nama');
-            $table->string('alamat')->nullable();
-            $table->string('rekening')->nullable();
-            $table->bigInteger('kepka_mitra_id')->nullable()->unsigned();
+            $table->string('nomor', 40)->nullable();
+            $table->string('tahun', 4)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mitras');
+        Schema::dropIfExists('kepka_mitras');
     }
 };

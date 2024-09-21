@@ -2,8 +2,10 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -50,9 +52,14 @@ class Template extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Slug')
+            Text::make('Nama Template', 'nama')
                 ->sortable()
                 ->rules('required'),
+            Select::make('Jenis Template', 'jenis')
+                ->sortable()
+                ->rules('required')
+                ->displayUsingLabels()
+                ->options(Helper::$template),
             File::make('File')
                 ->disk('templates')
                 ->rules('mimes:xlsx,pdf.docx')

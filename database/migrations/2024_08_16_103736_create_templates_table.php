@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
-            $table->string('slug', 50)->nullable();
+            $table->string('nama', 50)->nullable();
+            $table->string('jenis', 50)->nullable();
             $table->string('file', 255)->nullable();
             $table->timestamps();
         });

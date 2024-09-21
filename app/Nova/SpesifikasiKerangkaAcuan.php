@@ -55,7 +55,7 @@ class SpesifikasiKerangkaAcuan extends Resource
             Text::make('Rincian')
                 ->rules('required'),
             Number::make('Volume')
-                ->rules('required','gt:0')->min(0),
+                ->rules('required', 'gt:0')->min(0),
             Text::make('Satuan')
                 ->rules('required'),
             Currency::make('Harga Satuan')
@@ -64,7 +64,7 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->step(1),
             Currency::make('Total', 'total_harga')
                 ->dependsOn(['volume', 'harga_satuan'], function (Currency $field, NovaRequest $request, FormData $formData) {
-                    return $field->default((float) $formData->harga_satuan * (float)$formData->volume);
+                    return $field->default((float) $formData->harga_satuan * (float) $formData->volume);
                 })
                 ->min(1)
                 ->onlyOnIndex(),

@@ -218,6 +218,7 @@ class KerangkaAcuan extends Resource
 
         ];
     }
+
     /**
      * Fields Pengadaan Kerangka Acuan.
      *
@@ -283,6 +284,4 @@ class KerangkaAcuan extends Resource
 
         ];
     }
-
-
 }

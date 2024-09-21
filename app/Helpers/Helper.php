@@ -1006,7 +1006,6 @@ class Helper
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
     }
 
-
     public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
     {
         return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId), 'id', 'name');

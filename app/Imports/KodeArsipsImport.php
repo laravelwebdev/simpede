@@ -25,7 +25,7 @@ class KodeArsipsImport implements ToCollection, WithHeadingRow
                     'tata_naskah_id' => $this->tata_naskah_id,
                 ],
                 [
-                    'detail' => $row['detail'],                    
+                    'detail' => $row['detail'],
                     'kode' => $row['kode'],
                     'group' => $row['group'],
                     'updated_at' => now(),

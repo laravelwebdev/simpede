@@ -24,5 +24,4 @@ class Mitra extends Model
                 }),
         ];
     }
-
 }

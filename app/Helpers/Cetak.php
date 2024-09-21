@@ -21,7 +21,7 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models,  $filename, $template_id,)
+    public static function cetak($jenis, $models, $filename, $template_id)
     {
         $index = 0;
         $mainXml = '';
@@ -48,7 +48,7 @@ class Cetak
      * Ambil TemplateProsessor.
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
-     * @param   $id
+     * @param  $id
      * @return TemplateProcessor
      */
     public static function getTemplate(string $jenis, $id, $template_id)
@@ -180,6 +180,5 @@ class Cetak
                 'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
             );
         }
-
     }
 }

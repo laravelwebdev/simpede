@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class DaftarHonorImport implements ToCollection,  WithMultipleSheets, WithHeadingRow
+class DaftarHonorImport implements ToCollection, WithMultipleSheets, WithHeadingRow
 {
     protected $id;
 

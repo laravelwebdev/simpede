@@ -52,7 +52,7 @@ class JenisKontrak extends Resource
             Text::make('Jenis Kontrak', 'jenis')
                 ->rules('required'),
             Currency::make('Batas maksimal (SBML)', 'sbml')
-                ->rules('required','gt:1')
+                ->rules('required', 'gt:1')
                 ->step(1)
                 ->min(1),
         ];

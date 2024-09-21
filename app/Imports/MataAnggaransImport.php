@@ -10,8 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
-class MataAnggaransImport implements ToCollection,  WithHeadingRow
-
+class MataAnggaransImport implements ToCollection, WithHeadingRow
 {
     protected $satker;
     protected $wilayah;
@@ -34,17 +33,18 @@ class MataAnggaransImport implements ToCollection,  WithHeadingRow
             $replaces['.'.$this->wilayah] = '';
             $anggaran = explode('||', $row['Kode'])[0];
             $mak = strtr($anggaran, $replaces);
-            if ($mak)
-            KamusAnggaran::updateOrCreate(
-                [
-                    'mak' => $mak,
-                    'dipa_id' => $this->dipa_id,
-                ],
-                [
-                    'detail' => $row['Program/ Kegiatan/ KRO/ RO/ Komponen'],
-                    'updated_at' => now(),
-                ]
-            );
+            if ($mak) {
+                KamusAnggaran::updateOrCreate(
+                    [
+                        'mak' => $mak,
+                        'dipa_id' => $this->dipa_id,
+                    ],
+                    [
+                        'detail' => $row['Program/ Kegiatan/ KRO/ RO/ Komponen'],
+                        'updated_at' => now(),
+                    ]
+                );
+            }
             if (strlen($mak) == 37) {
                 MataAnggaran::updateOrCreate(
                     [

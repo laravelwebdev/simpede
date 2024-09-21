@@ -92,5 +92,4 @@ class KepkaMitraPolicy
             ->allowedFor('admin')
             ->get();
     }
-
 }

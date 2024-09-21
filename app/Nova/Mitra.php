@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
-use App\Nova\Actions\ImportMitra;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
@@ -120,18 +119,18 @@ class Mitra extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] = 
+            $actions [] =
                 AddHasManyModel::make('Mitra', 'KepkaMitra', $request->viaResourceId)
-                ->confirmButtonText('Tambah')
-                ->size('7xl')
-                ->standalone()
-                ->addFields($this->fields($request));
+                    ->confirmButtonText('Tambah')
+                    ->size('7xl')
+                    ->standalone()
+                    ->addFields($this->fields($request));
         }
 
         return $actions;
     }
 
-        /**
+    /**
      * Return the location to redirect the user after update.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

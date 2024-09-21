@@ -101,19 +101,21 @@ class KerangkaAcuan extends Model
             ArsipDokumen::create(['slug' => 'SPJ', 'kerangka_acuan_id' => $kak->id]);
             ArsipDokumen::create(['slug' => 'Mutasi Rekening', 'kerangka_acuan_id' => $kak->id]);
             Nova::whenServing(function (NovaRequest $request) use ($kak) {
-                if ($kak->dipa_id == KerangkaAcuan::find($request->input('fromResourceId'))->dipa_id) {
-                    $anggarans = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
-                    foreach ($anggarans as $anggaran) {
-                        $copyAnggaran = $anggaran->replicate();
-                        $copyAnggaran->kerangka_acuan_id = $kak->id;
-                        $copyAnggaran->save();
+                if ($request->input('fromResourceId') ) {
+                    if ($kak->dipa_id == KerangkaAcuan::find($request->input('fromResourceId'))->dipa_id) {
+                        $anggarans = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
+                        foreach ($anggarans as $anggaran) {
+                            $copyAnggaran = $anggaran->replicate();
+                            $copyAnggaran->kerangka_acuan_id = $kak->id;
+                            $copyAnggaran->save();
+                        }
                     }
-                }
-                $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
-                foreach ($spesifikasis as $spesifikasi) {
-                    $copySpesifikasi = $spesifikasi->replicate();
-                    $copySpesifikasi->kerangka_acuan_id = $kak->id;
-                    $copySpesifikasi->save();
+                    $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
+                    foreach ($spesifikasis as $spesifikasi) {
+                        $copySpesifikasi = $spesifikasi->replicate();
+                        $copySpesifikasi->kerangka_acuan_id = $kak->id;
+                        $copySpesifikasi->save();
+                    }
                 }
             });
         });

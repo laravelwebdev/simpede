@@ -24,7 +24,7 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class KerangkaAcuan extends Resource
 {
     use HasTabs;
-    public static $with = ['naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan'];
+    public static $with = ['naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
 
     public static function label()
     {
@@ -96,7 +96,7 @@ class KerangkaAcuan extends Resource
                     ->rules('required')
                     ->displayUsingLabels()
                     ->options(Helper::setOptionDipa())
-                    ->default(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id),
+                    ->default(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id ?? null),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),

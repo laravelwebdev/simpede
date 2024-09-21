@@ -11,6 +11,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class KepkaMitra extends Model
 {
     use HasFactory, LaraCache;
+
     public static function cacheEntities(): array
     {
         return [
@@ -20,6 +21,7 @@ class KepkaMitra extends Model
                 }),
         ];
     }
+
     public function mitra(): HasMany
     {
         return $this->hasMany(Mitra::class);

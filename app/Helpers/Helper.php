@@ -41,13 +41,12 @@ class Helper
 
     public static $template = [
         'kontrak' => 'Kontrak',
-        'import'   => 'Import',
-        'kak'      => 'Kerangka Acuan',
-        'spj'      => 'SPJ',
-        'sk'       => 'Surat Keputusan',
-        'st'       => 'Surat Tugas',
+        'import' => 'Import',
+        'kak' => 'Kerangka Acuan',
+        'spj' => 'SPJ',
+        'sk' => 'Surat Keputusan',
+        'st' => 'Surat Tugas',
     ];
-
 
     /**
      * @var array An array containing account information for travel.
@@ -839,7 +838,7 @@ class Helper
      */
     public static function getTemplatePath($column, $value)
     {
-        $file = Template::cache()->get('all')->where($column,'=', $value)->first()->file ?? '';
+        $file = Template::cache()->get('all')->where($column, '=', $value)->first()->file ?? '';
 
         return [
             'filename' => $file,
@@ -854,7 +853,7 @@ class Helper
 
     public static function getTemplatePathById($id)
     {
-       return self::getTemplatePath('id', $id);
+        return self::getTemplatePath('id', $id);
     }
 
     /**

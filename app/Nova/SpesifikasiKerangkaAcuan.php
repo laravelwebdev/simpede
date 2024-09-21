@@ -55,7 +55,7 @@ class SpesifikasiKerangkaAcuan extends Resource
             Text::make('Rincian')
                 ->rules('required'),
             Number::make('Volume')
-                ->rules('required','gt:1')->min(1),
+                ->rules('required','gt:0')->min(0),
             Text::make('Satuan')
                 ->rules('required'),
             Currency::make('Harga Satuan')

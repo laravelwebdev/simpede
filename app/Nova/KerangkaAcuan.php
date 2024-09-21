@@ -218,93 +218,6 @@ class KerangkaAcuan extends Resource
 
         ];
     }
-
-    // /**
-    //  * Fields Anggaran.
-    //  *
-    //  *
-    //  * @return array
-    //  */
-    // public function anggaranFields()
-    // {
-    //     return [
-    //         HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
-    //         // SimpleRepeatable::make('Anggaran', 'anggaran', [
-    //         //     Select::make('MAK', 'mak')
-    //         //         ->rules('required')
-    //         //         ->searchable()
-    //         //         ->filterable()
-    //         //         ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-    //         //             $field->options(Helper::setOptionsMataAnggaran(Helper::getYearFromDate($formData->tanggal)));
-    //         //         }),
-
-    //         //     Currency::make('Perkiraan Digunakan ', 'perkiraan')
-    //         //         ->rules('required')
-    //         //         ->step(1)
-    //         //         ->default(0),
-    //         // ])->rules('required', function ($attribute, $value, $fail) {
-    //         //     if (Helper::cekGanda(json_decode($value), 'mak')) {
-    //         //         return $fail('validation.unique')->translate();
-    //         //     }
-    //         // }, function ($attribute, $value, $fail) {
-    //         //     if ($value == '[]') {
-    //         //         return $fail('validation.required')->translate();
-    //         //     }
-    //         // },
-    //         //     function ($attribute, $value, $fail) {
-    //         //         if (Helper::sumJenisAkunHonor(json_decode($value, true)) > 1) {
-    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun honor output kegiatan');
-    //         //         }
-    //         //     },
-    //         //     function ($attribute, $value, $fail) {
-    //         //         if (Helper::sumJenisAkunPerjalanan(json_decode($value, true)) > 1) {
-    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun perjalanan dinas');
-    //         //         }
-    //         //     },
-    //         //     function ($attribute, $value, $fail) {
-    //         //         if (Helper::sumJenisAkunPersediaan(json_decode($value, true)) > 1) {
-    //         //             return $fail('Untuk kemudahan penyusunan SPJ, satu KAK hanya boleh memuat satu akun persediaan');
-    //         //         }
-    //         //     },
-    //         // ),
-    //     ];
-    // }
-
-    // /**
-    //  * Fields Spesifikasi Kerangka Acuan.
-    //  *
-    //  *
-    //  * @return array
-    //  */
-    // public function spesifikasiFields()
-    // {
-    //     return [
-    //         HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
-    //         // SimpleRepeatable::make('Spesifikasi', 'spesifikasi', [
-    //         //     Text::make('Rincian', 'spek_rincian')
-    //         //         ->rules('required'),
-    //         //     Number::make('Jumlah', 'spek_volume')
-    //         //         ->rules('required')
-    //         //         ->default(0),
-    //         //     Text::make('Satuan', 'spek_satuan')
-    //         //         ->rules('required'),
-    //         //     Currency::make('Harga Satuan', 'spek_harga')
-    //         //         ->rules('required')
-    //         //         ->step(1)
-    //         //         ->default(0),
-    //         //     Textarea::make('Spesifikasi', 'spek_spek')
-    //         //         ->rows(2)
-    //         //         ->rules('required')
-    //         //         ->placeholder('Mohon diisi secara detail dan spesifik')
-    //         //         ->alwaysShow(),
-    //         // ])->rules('required', function ($attribute, $value, $fail) {
-    //         //     if ($value == '[]') {
-    //         //         return $fail('validation.required')->translate();
-    //         //     }
-    //         // })->stacked(),
-    //     ];
-    // }
-
     /**
      * Fields Pengadaan Kerangka Acuan.
      *
@@ -371,18 +284,5 @@ class KerangkaAcuan extends Resource
         ];
     }
 
-    /**
-     * Handle any post-validation processing.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    // protected static function afterValidation(NovaRequest $request, $validator)
-    // {
-    //     $spesifikasi = Helper::addTotalToSpek(json_decode($request->spesifikasi, true));
-    //     if (Helper::sumJson($spesifikasi, 'spek_nilai') != Helper::sumJson(json_decode($request->anggaran), 'perkiraan')) {
-    //         $validator->errors()->add('spesifikasi', 'Perkiraan anggaran yang digunakan tidak sama dengan total nilai pada spesifikasi!');
-    //     }
-    // }
+
 }

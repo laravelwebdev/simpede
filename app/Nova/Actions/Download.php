@@ -3,11 +3,13 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Cetak;
+use App\Helpers\Helper;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -38,7 +40,7 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $filename = Cetak::cetak($this->jenis, $models, $fields->filename);
+        $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template);
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
@@ -58,6 +60,10 @@ class Download extends Action
                 ->rules('required', 'alpha_dash:ascii')
                 ->help('tanpa extensi file')
                 ->default(fn () => uniqid()),
+            Select::make('Template')
+                ->rules('required')
+                ->displayUsingLabels()
+                ->options(Helper::setOptionTemplate($this->jenis)),
         ];
     }
 }

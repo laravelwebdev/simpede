@@ -6,10 +6,10 @@ use App\Models\DaftarHonor;
 use App\Models\Mitra;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class DaftarHonorImport implements ToCollection, WithStartRow, WithMultipleSheets
+class DaftarHonorImport implements ToCollection,  WithMultipleSheets, WithHeadingRow
 {
     protected $id;
 
@@ -37,11 +37,6 @@ class DaftarHonorImport implements ToCollection, WithStartRow, WithMultipleSheet
                 $daftar->save();
             }
         }
-    }
-
-    public function startRow(): int
-    {
-        return 2;
     }
 
     public function sheets(): array

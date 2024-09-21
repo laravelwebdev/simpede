@@ -763,12 +763,11 @@ class Helper
         $spek = collect($spesifikasi);
         $spek->transform(function ($item, $index) {
             $item['spek_no'] = $index + 1;
-            $item['spek_nilai'] = (float) $item['spek_volume'] * (float) $item['spek_harga'];
-            if (isset($item['spek_harga'])) {
-                $item['spek_harga'] = self::formatRupiah($item['spek_harga']);
+            if (isset($item['harga_satuan'])) {
+                $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
             }
-            if (isset($item['spek_nilai'])) {
-                $item['spek_nilai'] = self::formatRupiah($item['spek_nilai']);
+            if (isset($item['total_harga'])) {
+                $item['total_harga'] = self::formatRupiah($item['total_harga']);
             }
 
             return $item;
@@ -788,7 +787,7 @@ class Helper
         // $speks= json_decode($spesifikasi,true);
         $spek = collect($anggaran);
         $spek->transform(function ($item, $index) {
-            $item['no'] = $index + 1;
+            $item['anggaran_no'] = $index + 1;
             if (isset($item['perkiraan'])) {
                 $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
             }
@@ -1001,6 +1000,12 @@ class Helper
             session('year') + 1 => session('year') + 1,
         ];
     }
+
+    public static function setOptionTemplate($jenis)
+    {
+        return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
+    }
+
 
     public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
     {

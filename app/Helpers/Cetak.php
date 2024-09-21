@@ -2,10 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Models\AnggaranKerangkaAcuan;
 use App\Models\DaftarHonor;
 use App\Models\HonorSurvei;
 use App\Models\KerangkaAcuan;
 use App\Models\NaskahKeluar;
+use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,16 +21,17 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models, $filename)
+    public static function cetak($jenis, $models,  $filename, $template_id,)
     {
         $index = 0;
         $mainXml = '';
         foreach ($models as $model) {
+            self::validate($jenis, $model->id);
             if ($index === 0) {
-                $mainTemplate = self::getTemplate($jenis, $model->id);
+                $mainTemplate = self::getTemplate($jenis, $model->id, $template_id);
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
-                $innerTemplate = self::getTemplate($jenis, $model->id);
+                $innerTemplate = self::getTemplate($jenis, $model->id, $template_id);
                 $innerXml = self::getModifiedInnerXml($innerTemplate);
                 $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
             }
@@ -45,15 +48,15 @@ class Cetak
      * Ambil TemplateProsessor.
      *
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
-     * @param  void  $id
+     * @param   $id
      * @return TemplateProcessor
      */
-    public static function getTemplate(string $jenis, $id)
+    public static function getTemplate(string $jenis, $id, $template_id)
     {
-        $templateProcessor = new TemplateProcessor(Helper::getTemplatePath($jenis));
+        $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
         $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
         if ($jenis === 'kak') {
-            $templateProcessor->cloneRowAndSetValues('no', Helper::formatAnggaran($data['anggaran']));
+            $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
         }
@@ -112,20 +115,20 @@ class Cetak
             'target' => Helper::hapusTitikAkhirKalimat($data->sasaran),
             'tkdn' => $data->tkdn,
             'pemaketan' => $data->jenis,
-            'anggaran' => $data->anggaran,
-            'spesifikasi' => $data->spesifikasi,
+            'anggaran' => AnggaranKerangkaAcuan::where('kerangka_acuan_id', $id)->get()->toArray(),
+            'spesifikasi' => SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $id)->get()->toArray(),
             'metode' => $data->metode,
-            'nama' => $data->nama,
-            'nip' => $data->nip,
-            'no_dipa' => Helper::getDipa($data->tahun)->nomor,
-            'tanggal_dipa' => Helper::terbilangTanggal(Helper::getDipa($data->tahun)->tanggal),
-            'tahun' => $data->tahun,
-            'jabatan' => $data->jabatan,
+            'nama' => Helper::getPegawaiByUserId($data->koordinator_user_id)->name,
+            'nip' => Helper::getPegawaiByUserId($data->koordinator_user_id)->nip,
+            'no_dipa' => Helper::getDipa($data->dipa_id)->nomor,
+            'tanggal_dipa' => Helper::terbilangTanggal(Helper::getDipa($data->dipa_id)->tanggal),
+            'tahun' => Helper::getDipa($data->dipa_id)->tahun,
+            'jabatan' => Helper::getDataPegawaiByUserId($data->koordinator_user_id, $data->tanggal)->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan',
             'waktu' => Helper::jangkaWaktuHariKalender($data->awal, $data->akhir),
             'awal' => Helper::terbilangTanggal($data->awal),
             'akhir' => Helper::terbilangTanggal($data->akhir),
-            'ppk' => $data->ppk,
-            'nipppk' => $data->nipppk,
+            'ppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->name,
+            'nipppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->nip,
         ];
     }
 
@@ -163,5 +166,20 @@ class Cetak
             'nipbendahara' => $data->nipbendahara,
             'terbilang_total' => Helper::terbilang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto'), 'uw', ' rupiah'),
         ];
+    }
+
+    public static function validate($jenis, $model_id)
+    {
+        if ($jenis === 'kak') {
+            throw_if(
+                AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') == 0,
+                'Belum terdapat akun anggaran yang digunakan pada KAK ini'
+            );
+            throw_if(
+                AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') != SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('total_harga'),
+                'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
+            );
+        }
+
     }
 }

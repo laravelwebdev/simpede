@@ -85,4 +85,11 @@ class KerangkaAcuanPolicy
             ->allowedFor('koordinator,anggota')
             ->get();
     }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('all')
+            ->get();
+    }
 }

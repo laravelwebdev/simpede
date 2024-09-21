@@ -101,7 +101,7 @@ class KerangkaAcuan extends Model
             ArsipDokumen::create(['slug' => 'SPJ', 'kerangka_acuan_id' => $kak->id]);
             ArsipDokumen::create(['slug' => 'Mutasi Rekening', 'kerangka_acuan_id' => $kak->id]);
             Nova::whenServing(function (NovaRequest $request) use ($kak) {
-                if ($request->input('fromResourceId') ) {
+                if ($request->input('fromResourceId')) {
                     if ($kak->dipa_id == KerangkaAcuan::find($request->input('fromResourceId'))->dipa_id) {
                         $anggarans = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
                         foreach ($anggarans as $anggaran) {

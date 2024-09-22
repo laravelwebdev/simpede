@@ -81,6 +81,10 @@ class KerangkaAcuan extends Model
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
+            if ($kak->isDirty('dipa_id')){
+                $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
+                AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
+            }
         });
         static::deleting(function (KerangkaAcuan $kak) {
             NaskahKeluar::destroy($kak->naskah_keluar_id);
@@ -126,6 +130,7 @@ class KerangkaAcuan extends Model
             }
             $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
             $kak->unit_kerja_id = $dataKetua->unit_kerja_id;
+            $kak->status = 'dibuat';
         });
     }
 }

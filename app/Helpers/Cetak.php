@@ -59,6 +59,7 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
+            KerangkaAcuan::where('id', $id)->update(['status' => 'selesai']);
         }
         if ($jenis === 'spj') {
             $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj(DaftarHonor::where('honor_survei_id', $id)->get(['nama As spj_nama', 'satuan AS spj_satuan', 'jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak', 'netto AS spj_netto', 'rekening AS spj_rekening'])));

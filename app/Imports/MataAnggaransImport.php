@@ -42,6 +42,7 @@ class MataAnggaransImport implements ToCollection, WithHeadingRow
                     [
                         'detail' => $row['Program/ Kegiatan/ KRO/ RO/ Komponen'],
                         'updated_at' => now(),
+                        'satuan' => $row['Volume'] !=''? explode(' ', $row['Volume'])[1]:'',
                     ]
                 );
             }

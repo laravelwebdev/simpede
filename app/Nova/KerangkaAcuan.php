@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -76,6 +77,9 @@ class KerangkaAcuan extends Resource
                 ->options(Helper::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit'))
                 ->displayUsingLabels()
                 ->filterable(),
+            Status::make('Status', 'status')
+                ->loadingWhen(['dibuat'])
+                ->failedWhen(['gagal']),
         ];
     }
 

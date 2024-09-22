@@ -62,15 +62,21 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->rules('required', 'gt:1')
                 ->min(1)
                 ->step(1),
-            Currency::make('Total', 'total_harga')
-                ->dependsOn(['volume', 'harga_satuan'], function (Currency $field, NovaRequest $request, FormData $formData) {
-                    return $field->default((float) $formData->harga_satuan * (float) $formData->volume);
-                })
-                ->min(1)
-                ->onlyOnIndex(),
             Textarea::make('Spesifikasi')
                 ->rules('required')
                 ->placeholder('Mohon diisi secara detail dan spesifik'),
+        ];
+    }
+
+    public function fieldsforIndex(NovaRequest $request)
+    {
+        return [
+            Text::make('Rincian'),
+            Number::make('Volume'),
+            Text::make('Satuan'),
+            Currency::make('Harga Satuan'),
+            Currency::make('Total', 'total_harga'),
+            Textarea::make('Spesifikasi'),
         ];
     }
 

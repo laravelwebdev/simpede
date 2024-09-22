@@ -22,10 +22,9 @@ class DaftarHonorMitraImport implements ToCollection, WithMultipleSheets, WithHe
     {
         $this->id = $id;
         $this->jenis = $jenis;
-        $this->bulan = $bulan;      
-        $this->kepka_mitra_id = $kepka_mitra_id; 
+        $this->bulan = $bulan;
+        $this->kepka_mitra_id = $kepka_mitra_id;
     }
-
 
     public function collection(Collection $rows)
     {

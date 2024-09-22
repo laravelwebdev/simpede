@@ -52,15 +52,15 @@ class HonorKegiatan extends Model
     protected static function booted(): void
     {
         static::saving(function (HonorKegiatan $honor) {
-            if ($honor->isDirty()){
+            if ($honor->isDirty()) {
                 $honor->status = 'diubah';
-            } 
-            if (!$honor->generate_sk) {
+            }
+            if (! $honor->generate_sk) {
                 $honor->tanggal_sk = null;
                 NaskahKeluar::destroy($honor->sk_naskah_keluar_id);
                 $honor->sk_naskah_keluar_id = null;
             }
-            if (!$honor->generate_st) {
+            if (! $honor->generate_st) {
                 $honor->tanggal_st = null;
                 $honor->uraian_tugas = null;
                 $honor->kode_arsip_id = null;
@@ -84,7 +84,7 @@ class HonorKegiatan extends Model
                             ->get('all')
                             ->where('kode', 'VS.220')
                             ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_sk))
-                            ->first();                       
+                            ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
                         $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -142,7 +142,6 @@ class HonorKegiatan extends Model
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
             $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
             DaftarHonorMitra::destroy($DaftarHonorMitraIds);
-
         });
         static::creating(function (HonorKegiatan $honor) {
             $honor->status = 'dibuat';

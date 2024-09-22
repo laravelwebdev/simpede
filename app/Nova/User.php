@@ -71,7 +71,7 @@ class User extends Resource
                     ->placeholder('NIP Baru')
                     ->creationRules('unique:users,nip')
                     ->updateRules('unique:users,nip,{{resourceId}}')
-                    ->rules('required','size:18'),
+                    ->rules('required', 'size:18'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),

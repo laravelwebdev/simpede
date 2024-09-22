@@ -81,7 +81,7 @@ class KerangkaAcuan extends Model
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
             $naskahkeluar->save();
-            if ($kak->isDirty('dipa_id')){
+            if ($kak->isDirty('dipa_id')) {
                 $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
                 AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
             }

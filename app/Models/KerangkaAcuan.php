@@ -13,6 +13,7 @@ use Laravel\Nova\Nova;
 class KerangkaAcuan extends Model
 {
     use HasFactory;
+    protected $fillable =['status'];
 
     protected $casts = [
         'tanggal' => 'date',
@@ -129,7 +130,7 @@ class KerangkaAcuan extends Model
             }
             $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
             $kak->unit_kerja_id = $dataKetua->unit_kerja_id;
-            $kak->status = 'dibuat';
+            if ($kak->isDirty()) $kak->status = 'dibuat';
         });
     }
 }

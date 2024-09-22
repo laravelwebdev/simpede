@@ -30,19 +30,24 @@ class DaftarHonorMitraImport implements ToCollection, WithMultipleSheets, WithHe
     {
         foreach ($rows as $row) {
             if (strlen($row['NIP Lama']) == 16) {
-                $daftar = new DaftarHonorMitra;
-                $daftar->nik = $row['NIP Lama'];
-                $daftar->nama = Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $this->kepka_mitra_id)->first()->nama;
-                $daftar->jumlah = $row['Volume'];
-                $daftar->satuan = $row['HargaSatuan'];
-                $daftar->bruto = $row['Volume'] * $row['HargaSatuan'];
-                $daftar->pajak = round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP);
-                $daftar->netto = ($row['Volume'] * $row['HargaSatuan']) - round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP);
-                $daftar->rekening = Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->first()->rekening ?? '';
-                $daftar->honor_kegiatan_id = $this->id;
-                $daftar->bulan = $this->bulan;
-                $daftar->jenis = $this->jenis;
-                $daftar->save();
+                DaftarHonorMitra::updateOrCreate(
+                    [
+                        'nik' => $row['NIP Lama'],
+                        'honor_kegiatan_id' => $this->id,
+                        'bulan' => $this->bulan,
+                        'jenis' => $this->jenis,
+                    ],
+                    [
+                        'nama' => Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $this->kepka_mitra_id)->first()->nama,
+                        'volume' => $row['Volume'],
+                        'harga_satuan' => $row['HargaSatuan'],
+                        'bruto' => $row['Volume'] * $row['HargaSatuan'],
+                        'pajak' => round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP),
+                        'netto' => ($row['Volume'] * $row['HargaSatuan']) - round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP),
+                        'rekening' => Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->first()->rekening ?? '',
+                        'updated_at' => now(),
+                    ]
+                );
             }
         }
     }

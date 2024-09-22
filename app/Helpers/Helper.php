@@ -571,7 +571,7 @@ class Helper
      */
     public static function isAkunHonor(string $mak): bool
     {
-        return in_array(substr($mak, -6), self::$akun_honor);
+        return $mak == in_array(substr($mak, -6), self::$akun_honor);
     }
 
     public static function isAkunHonorChanged($mak_old, $mak_new)

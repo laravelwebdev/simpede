@@ -50,8 +50,8 @@ class DaftarHonorMitra extends Resource
                 ->rules('required')->readOnly(),
             Text::make('Nama', 'nama')
                 ->rules('required')->readOnly(),
-            Number::make('Jumlah', 'jumlah')->rules('required')->readOnly(),
-            Currency::make('Harga Satuan', 'satuan')
+            Number::make('Jumlah', 'volume')->rules('required')->readOnly(),
+            Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
                 ->rules('required')->readOnly(),

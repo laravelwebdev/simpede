@@ -38,8 +38,9 @@ class ImportDaftarHonorMitra extends Action
         if ($model->bulan == '') {
             return Action::danger('Lengkapi Keterangan Honor Survei sebelum import file BOS');
         }
-        DaftarHonorMitra::where('honor_kegiatan_id', $model->id)->delete();
-        Excel::import(new DaftarHonorMitraImport($model->id, $model->bulan, $model->jenis, $fields->kepka_mitra_id), $fields->file);
+        DaftarHonorMitra::where('honor_kegiatan_id', $model->id)->update(['updated_at' => null]);
+        Excel::import(new DaftarHonorMitraImport($model->id, $model->bulan, $model->jenis_kontrak, $fields->kepka_mitra_id), $fields->file);
+        DaftarHonorMitra::where('updated_at', null)->delete();
         $model->status = 'import';
         $model->save();
 

@@ -50,14 +50,25 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->save();
                 }
             }
+
+        });
+        static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
+            $id = HonorKegiatan::where('mak', $anggaranKak->mak)->pluck('id');
+            HonorKegiatan::destroy($id);
+            KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
+        });
+        static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
+            if ($anggaranKak->isDirty()){
+                KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
+            }
+        });
+        static::updated(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
                 $id = HonorKegiatan::where('mak', $anggaranKak->getOriginal('mak'))->pluck('id');
                 HonorKegiatan::destroy($id);
             }
         });
-        static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
-            $id = HonorKegiatan::where('mak', $anggaranKak->mak)->pluck('id');
-            HonorKegiatan::destroy($id);
-        });
     }
 }
+
+

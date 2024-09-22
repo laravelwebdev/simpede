@@ -574,10 +574,9 @@ class Helper
         return in_array(substr($mak, -6), self::$akun_honor);
     }
 
-
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
-        return (self::isAkunHonor($mak_old) && !self::isAkunHonor($mak_new)) ||(self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new) ;
+        return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
     }
 
     // /**
@@ -710,7 +709,7 @@ class Helper
         $kamus = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
             return Str::of($item->mak)->startsWith(Str::substr($mak, 0, $length[$level])) && Str::of($item->mak)->length == $length[$level];
         })->first();
-        $detail =  $kamus == null ? 'edit manual karena belum ada di POK': $kamus->detail;
+        $detail = $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
     }
@@ -791,7 +790,7 @@ class Helper
             if (isset($item['harga_satuan'])) {
                 $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             }
-            if (!isset($item['golongan'])) {
+            if (! isset($item['golongan'])) {
                 $item['golongan'] = '-';
             }
             if (isset($item['bruto'])) {
@@ -844,7 +843,7 @@ class Helper
      */
     public static function getDipa($id)
     {
-        return Dipa::cache()->get('all')->where('id', $id)->first()?? '';
+        return Dipa::cache()->get('all')->where('id', $id)->first() ?? '';
     }
 
     /**
@@ -856,13 +855,15 @@ class Helper
     public static function getLatestTataNaskahId($tanggal)
     {
         $tata_naskah = TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
-        return $tata_naskah == null ? '': $tata_naskah->id;
+
+        return $tata_naskah == null ? '' : $tata_naskah->id;
     }
 
     public static function getLatestHargaSatuanId($tanggal)
     {
         $harga_satuan = HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
-        return $harga_satuan == null ? null: $harga_satuan->id;
+
+        return $harga_satuan == null ? null : $harga_satuan->id;
     }
 
     /**
@@ -997,6 +998,7 @@ class Helper
     {
         return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year') + 1]), 'id', 'tahun');
     }
+
     public static function setOptionKepkaMitra($tahun)
     {
         return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');

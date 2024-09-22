@@ -70,12 +70,12 @@ class Cetak
             foreach ($detailAnggarans as $detailAnggaran) {
                 if (Str::of($data[$detailAnggaran])->contains('edit manual karena belum ada di POK')) {
                     $detail = new TextRun();
-                    $detail ->addText(Str::of($data[$detailAnggaran])->before('edit manual karena belum ada di POK'));
-                    $detail->addText('edit manual karena belum ada di POK', array('color' => 'red'));
+                    $detail->addText(Str::of($data[$detailAnggaran])->before('edit manual karena belum ada di POK'));
+                    $detail->addText('edit manual karena belum ada di POK', ['color' => 'red']);
                     $templateProcessor->setComplexValue($detailAnggaran, $detail);
                     unset($data[$detailAnggaran]);
                 }
-            }          
+            }
 
             unset($data['daftar_honor_mitra']);
             HonorKegiatan::where('id', $id)->update(['status' => 'selesai']);
@@ -158,12 +158,13 @@ class Cetak
     public static function spj($id)
     {
         $data = HonorKegiatan::find($id);
-        $kamus = KamusAnggaran::cache()->get('all')->where('id',$data->kamus_anggaran_id)->first();
+        $kamus = KamusAnggaran::cache()->get('all')->where('id', $data->kamus_anggaran_id)->first();
+
         return [
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
-            'detail' => $kamus == null ?'edit manual karena belum ada di POK':$kamus->detail,
-            'bulan' => $data->bulan == '13'? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) :Helper::terbilangBulan($data->bulan),
+            'detail' => $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail,
+            'bulan' => $data->bulan == '13' ? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) : Helper::terbilangBulan($data->bulan),
             'mak' => $data->mak,
             'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
             'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),

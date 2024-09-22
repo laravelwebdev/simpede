@@ -5,7 +5,6 @@ namespace App\Nova\Actions;
 use App\Helpers\Helper;
 use App\Imports\DaftarHonorMitraImport;
 use App\Models\DaftarHonorMitra;
-use App\Models\KepkaMitra;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -28,7 +27,6 @@ class ImportDaftarHonorMitra extends Action
         $this->tahun = $tahun;
     }
 
-
     /**
      * Perform the action on the given models.
      *
@@ -44,6 +42,7 @@ class ImportDaftarHonorMitra extends Action
         Excel::import(new DaftarHonorMitraImport($model->id, $model->bulan, $model->jenis, $fields->kepka_mitra_id), $fields->file);
         $model->status = 'import';
         $model->save();
+
         return Action::message('File BOS sukses diimport!');
     }
 
@@ -59,7 +58,7 @@ class ImportDaftarHonorMitra extends Action
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
             Select::make('Kepka Mitra', 'kepka_mitra_id')
                 ->rules('required')
-                ->options(Helper::setOptionKepkaMitra($this->tahun))
+                ->options(Helper::setOptionKepkaMitra($this->tahun)),
         ];
     }
 }

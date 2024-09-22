@@ -21,7 +21,6 @@ return new class extends Migration
             $table->after('nip', function (Blueprint $table) {
                 $table->string('rekening', 40)->nullable();
             });
-
         });
     }
 

@@ -7,7 +7,6 @@ use App\Helpers\Policy;
 use App\Models\JenisKontrak;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
-use App\Models\User;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +24,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class HonorKegiatan extends Resource
 {
@@ -137,8 +135,9 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
                     ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
-                        if (KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first())
-                        $field->setValue(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()->satuan);
+                        if (KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()) {
+                            $field->setValue(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()->satuan);
+                        }
                     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
@@ -167,7 +166,7 @@ class HonorKegiatan extends Resource
                 Boolean::make('Buat Surat Tugas', 'generate_st')
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
-                    ->hide()                    
+                    ->hide()
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
@@ -185,26 +184,26 @@ class HonorKegiatan extends Resource
                     ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                                    ->rules('required');
+                                ->rules('required');
                         }
                     })
                     ->hideFromIndex(),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
                     ->hide()
-                    ->hideFromIndex()                    
+                    ->hideFromIndex()
                     ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
-                    ->dependsOn(['generate_st' , 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['generate_st', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->rules('required')
-                                    ->show()
-                                    ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                                ->show()
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
                         }
                     }),
 
             ]),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat','import','diubah'])
+                ->loadingWhen(['dibuat', 'import', 'diubah'])
                 ->failedWhen(['gagal'])->onlyOnIndex(),
 
             Panel::make('Penanda Tangan', [
@@ -313,6 +312,4 @@ class HonorKegiatan extends Resource
 
         return $actions;
     }
-
-
 }

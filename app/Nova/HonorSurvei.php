@@ -148,18 +148,16 @@ class HonorSurvei extends Resource
 
             Panel::make('Keterangan Surat Keputusan', [
                 Boolean::make('Buat Surat Keputusan (SK)', 'generate_sk')
-                    ->trueValue('Ya')
-                    ->falseValue('Tidak')
                     ->hideFromIndex(),
                 Date::make('Tanggal SK', 'tanggal_sk')
                     ->hide()
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->dependsOn('generate_sk', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_sk == 'Ya') {
+                        if ($formData->generate_sk) {
                             $field->show()
                                 ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
                     })
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
@@ -167,18 +165,17 @@ class HonorSurvei extends Resource
 
             Panel::make('Keterangan Surat Tugas', [
                 Boolean::make('Buat Surat Tugas', 'generate_st')
-                    ->trueValue('Ya')
-                    ->falseValue('Tidak')
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
-                    ->hide()
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->hide()                    
                     ->dependsOn('generate_st', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st == 'Ya') {
+                        if ($formData->generate_st) {
                             $field->show()
                                 ->rules('required', 'before_or_equal:today', 'after_or_equal:tanggal_kak');
                         }
-                    })->hideFromIndex(),
+                    })
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->hideFromIndex(),
                 BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
 
@@ -186,9 +183,9 @@ class HonorSurvei extends Resource
                     ->hide()
                     ->help('Contoh: Melakukan Pencacahan Lapangan Sensus Penduduk 2020')
                     ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st == 'Ya') {
+                        if ($formData->generate_st) {
                             $field->show()
-                                ->rules('required');
+                                    ->rules('required');
                         }
                     })
                     ->hideFromIndex(),
@@ -198,32 +195,44 @@ class HonorSurvei extends Resource
                     ->hideFromIndex()                    
                     ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
                     ->dependsOn(['generate_st' , 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->generate_st == 'Ya') {
+                        if ($formData->generate_st) {
                             $field->rules('required')
-                            ->show()
-                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                                    ->show()
+                                    ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
                         }
                     }),
 
             ]),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat'])
+                ->loadingWhen(['dibuat','import','diubah'])
                 ->failedWhen(['gagal'])->onlyOnIndex(),
 
-            // Panel::make('Keterangan Petugas Organik', [
-            //     SimpleRepeatable::make('Pegawai', 'pegawai', [
-            //         Select::make('Nama Pegawai', 'user_id')
-            //             ->rules('required')
-            //             ->searchable()
-            //             ->options(Helper::setOptions(User::cache()->get('all'), 'id', 'nama'))
-            //             ->displayUsingLabels(),
-            //     ])->rules('required',
-            //         function ($attribute, $value, $fail) {
-            //             if (Helper::cekGanda(json_decode($value), 'user_id')) {
-            //                 return $fail('validation.unique')->translate();
-            //             }
-            //         }),
-            // ]),
+            Panel::make('Penanda Tangan', [
+                Select::make('Pembuat Daftar', 'koordinator_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal_spj)));
+                    }),
+                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spj)));
+                    }),
+                Select::make('Bendahara', 'bendahara_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
+                    }),
+            ]),
 
             HasMany::make('Daftar Honor', 'daftarHonor', 'App\Nova\DaftarHonor'),
         ];
@@ -271,7 +280,7 @@ class HonorSurvei extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
                 ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
                     ->canSee(function ($request) {
@@ -279,10 +288,14 @@ class HonorSurvei extends Resource
                             return true;
                         }
 
-                        return $this->resource instanceof Model && $this->resource->bulan !== null;
-                    });
+                        return $this->resource instanceof Model && $this->resource->status !== 'dibuat';
+                    })
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex()
+                    ->confirmButtonText('Impor');
         }
-        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm')->get()) {
+        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm, anggota')->get()) {
             $actions[] =
                 Download::make('spj', 'Unduh SPJ')
                     ->showInline()
@@ -294,10 +307,12 @@ class HonorSurvei extends Resource
                             return true;
                         }
 
-                        return $this->resource instanceof Model && $this->resource->bulan !== null;
+                        return $this->resource instanceof Model && $this->resource->status !== 'dibuat';
                     });
         }
 
         return $actions;
     }
+
+
 }

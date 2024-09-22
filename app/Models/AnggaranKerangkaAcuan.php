@@ -25,8 +25,8 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tahun = Helper::getDipa($kak->dipa_id)->tahun;
                     $honor->kegiatan = $kak->kegiatan;
                     if ($kak->wasChanged('tanggal')) {
-                        $honor->generate_sk == 'Ya' ? $honor->tanggal_sk = $kak->tanggal : null;
-                        $honor->generate_st == 'Ya' ? $honor->tanggal_st = $kak->tanggal : null;
+                        $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
+                        $honor->generate_st ? $honor->tanggal_st = $kak->tanggal : null;
                     }
                     $honor->save();
                 } else {

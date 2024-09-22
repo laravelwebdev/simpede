@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('akhir')->nullable();
             $table->string('satuan', 20)->nullable();
             $table->date('tanggal_spj')->nullable();
-            $table->string('generate_sk', 5)->nullable();
-            $table->string('generate_st', 5)->nullable();
+            $table->boolean('generate_sk')->nullable();
+            $table->boolean('generate_st')->nullable();
             $table->date('tanggal_sk')->nullable();
             $table->date('tanggal_st')->nullable();
             $table->string('objek_sk')->nullable();

@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\AnggaranKerangkaAcuan;
 use App\Models\DaftarHonor;
 use App\Models\HonorSurvei;
+use App\Models\KamusAnggaran;
 use App\Models\KerangkaAcuan;
 use App\Models\NaskahKeluar;
 use App\Models\SpesifikasiKerangkaAcuan;
@@ -146,8 +147,8 @@ class Cetak
         return [
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
-            'detail' => $data->detail,
-            'bulan' => Helper::terbilangBulan($data->bulan),
+            'detail' => KamusAnggaran::cache()->get('all')->where('id',$data->kamus_anggaran_id)->first()->detail,
+            'bulan' => $data->bulan == '13'? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) :Helper::terbilangBulan($data->bulan),
             'mak' => $data->mak,
             'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
             'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),
@@ -159,12 +160,12 @@ class Cetak
             'total_bruto' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto')),
             'total_pajak' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('pajak')),
             'total_netto' => Helper::formatUang(DaftarHonor::where('honor_survei_id', $id)->sum('netto')),
-            'ketua' => $data->ketua,
-            'nipketua' => $data->nipketua,
-            'ppk' => $data->ppk,
-            'nipppk' => $data->nipppk,
-            'bendahara' => $data->bendahara,
-            'nipbendahara' => $data->nipbendahara,
+            'ketua' => Helper::getPegawaiByUserId($data->koordinator_user_id)->name,
+            'nipketua' => Helper::getPegawaiByUserId($data->koordinator_user_id)->nip,
+            'ppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->name,
+            'nipppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->nip,
+            'bendahara' => Helper::getPegawaiByUserId($data->bendahara_user_id)->name,
+            'nipbendahara' => Helper::getPegawaiByUserId($data->bendahara_user_id)->nip,
             'terbilang_total' => Helper::terbilang(DaftarHonor::where('honor_survei_id', $id)->sum('bruto'), 'uw', ' rupiah'),
         ];
     }
@@ -179,6 +180,12 @@ class Cetak
             throw_if(
                 AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') != SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('total_harga'),
                 'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
+            );
+        }
+        if ($jenis === 'spj') {
+            throw_if(
+                in_array(HonorSurvei::where('id', $model_id)->first()->status,['dibuat', 'diubah']),
+                'Upps sepertinya belum ada mitra yang diimport pada spj ini'
             );
         }
     }

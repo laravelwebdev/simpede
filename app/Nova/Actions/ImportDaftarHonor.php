@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,7 +32,8 @@ class ImportDaftarHonor extends Action
         }
         DaftarHonor::where('honor_survei_id', $model->id)->delete();
         Excel::import(new DaftarHonorImport([$model->id, $model->bulan, $model->jenis]), $fields->file);
-
+        $model->status = 'import';
+        $model->save();
         return Action::message('File BOS sukses diimport!');
     }
 
@@ -45,6 +47,7 @@ class ImportDaftarHonor extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
+            Select::make('Kepka Mitra', 'kepka_mitra_id')
         ];
     }
 }

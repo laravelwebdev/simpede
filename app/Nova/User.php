@@ -68,8 +68,10 @@ class User extends Resource
                     ->sortable()
                     ->rules('required'),
                 Text::make('NIP')
-                    ->placeholder('xxxxxxxx xxxxxx x xxxx')
-                    ->rules('required'),
+                    ->placeholder('NIP Baru')
+                    ->creationRules('unique:users,nip')
+                    ->updateRules('unique:users,nip,{{resourceId}}')
+                    ->rules('required','size:18'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),

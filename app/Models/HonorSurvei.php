@@ -18,7 +18,6 @@ class HonorSurvei extends Model
         'tanggal_kak' => 'date',
         'awal' => 'date',
         'akhir' => 'date',
-        'pegawai' => 'array',
     ];
 
     /**
@@ -53,13 +52,15 @@ class HonorSurvei extends Model
     protected static function booted(): void
     {
         static::saving(function (HonorSurvei $honor) {
-            if ($honor->isDirty()) $honor->status = 'dibuat';
-            if ($honor->generate_sk === 'Tidak') {
+            if ($honor->isDirty()){
+                $honor->status == 'import'? $honor->status = 'import': $honor->status = 'diubah';
+            } 
+            if (!$honor->generate_sk) {
                 $honor->tanggal_sk = null;
                 NaskahKeluar::destroy($honor->sk_naskah_keluar_id);
                 $honor->sk_naskah_keluar_id = null;
             }
-            if ($honor->generate_st === 'Tidak') {
+            if (!$honor->generate_st) {
                 $honor->tanggal_st = null;
                 $honor->uraian_tugas = null;
                 $honor->kode_arsip_id = null;
@@ -67,7 +68,7 @@ class HonorSurvei extends Model
                 $honor->st_naskah_keluar_id = null;
             }
             if ($honor->bulan != null) {
-                if ($honor->generate_sk == 'Ya') {
+                if ($honor->generate_sk) {
                     if ($honor->sk_naskah_keluar_id === null) {
                         $kode_naskah = KodeNaskah::cache()
                             ->get('all')
@@ -104,7 +105,7 @@ class HonorSurvei extends Model
                     }
                 }
 
-                if ($honor->generate_st == 'Ya') {
+                if ($honor->generate_st) {
                     if ($honor->st_naskah_keluar_id === null) {
                         $kode_naskah = KodeNaskah::cache()
                             ->get('all')
@@ -142,6 +143,9 @@ class HonorSurvei extends Model
             $daftarHonorIds = DaftarHonor::where('honor_survei_id', $honor->id)->pluck('id');
             DaftarHonor::destroy($daftarHonorIds);
 
+        });
+        static::creating(function (HonorSurvei $honor) {
+            $honor->status = 'dibuat';
         });
     }
 }

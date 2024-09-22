@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class DaftarHonorPolicy
+class DaftarHonorMitraPolicy
 {
     /**
      * Determine whether the user can view any models.

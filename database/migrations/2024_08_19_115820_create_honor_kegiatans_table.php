@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('honor_surveis', function (Blueprint $table) {
+        Schema::create('honor_kegiatans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_kak')->nullable();
             $table->string('judul_spj')->nullable();
@@ -50,6 +50,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('honor_surveis');
+        Schema::dropIfExists('honor_kegiatans');
     }
 };

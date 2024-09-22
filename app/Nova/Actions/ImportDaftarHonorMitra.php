@@ -2,8 +2,8 @@
 
 namespace App\Nova\Actions;
 
-use App\Imports\DaftarHonorImport;
-use App\Models\DaftarHonor;
+use App\Imports\DaftarHonorMitraImport;
+use App\Models\DaftarHonorMitra;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -14,7 +14,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ImportDaftarHonor extends Action
+class ImportDaftarHonorMitra extends Action
 {
     use InteractsWithQueue, Queueable;
     public $name = 'Import dari BOS';
@@ -30,8 +30,8 @@ class ImportDaftarHonor extends Action
         if ($model->bulan == '') {
             return Action::danger('Lengkapi Keterangan Honor Survei sebelum import file BOS');
         }
-        DaftarHonor::where('honor_survei_id', $model->id)->delete();
-        Excel::import(new DaftarHonorImport([$model->id, $model->bulan, $model->jenis]), $fields->file);
+        DaftarHonorMitra::where('honor_kegiatan_id', $model->id)->delete();
+        Excel::import(new DaftarHonorMitraImport([$model->id, $model->bulan, $model->jenis]), $fields->file);
         $model->status = 'import';
         $model->save();
         return Action::message('File BOS sukses diimport!');

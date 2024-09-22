@@ -9,7 +9,7 @@ use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\User;
 use App\Nova\Actions\Download;
-use App\Nova\Actions\ImportDaftarHonor;
+use App\Nova\Actions\ImportDaftarHonorMitra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -27,15 +27,15 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
-class HonorSurvei extends Resource
+class HonorKegiatan extends Resource
 {
-    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonor', 'skNaskahKeluar', 'stNaskahKeluar'];
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'DaftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar'];
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\HonorSurvei>
+     * @var class-string<\App\Models\HonorKegiatan>
      */
-    public static $model = \App\Models\HonorSurvei::class;
+    public static $model = \App\Models\HonorKegiatan::class;
 
     public static function label()
     {
@@ -234,7 +234,7 @@ class HonorSurvei extends Resource
                     }),
             ]),
 
-            HasMany::make('Daftar Honor', 'daftarHonor', 'App\Nova\DaftarHonor'),
+            HasMany::make('Daftar Honor', 'DaftarHonorMitra', 'App\Nova\DaftarHonorMitra'),
         ];
     }
 
@@ -282,7 +282,7 @@ class HonorSurvei extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
-                ImportDaftarHonor::make()->onlyOnDetail()->confirmButtonText('Import')
+                ImportDaftarHonorMitra::make()->onlyOnDetail()->confirmButtonText('Import')
                     ->canSee(function ($request) {
                         if ($request instanceof ActionRequest) {
                             return true;

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class HonorSurvei extends Model
+class HonorKegiatan extends Model
 {
     use HasFactory;
     protected $casts = [
@@ -41,9 +41,9 @@ class HonorSurvei extends Model
     /**
      * Get the daftar honor.
      */
-    public function daftarHonor(): HasMany
+    public function DaftarHonorMitra(): HasMany
     {
-        return $this->hasMany(DaftarHonor::class)->orderBy('nama', 'asc');
+        return $this->hasMany(DaftarHonorMitra::class)->orderBy('nama', 'asc');
     }
 
     /**
@@ -51,7 +51,7 @@ class HonorSurvei extends Model
      */
     protected static function booted(): void
     {
-        static::saving(function (HonorSurvei $honor) {
+        static::saving(function (HonorKegiatan $honor) {
             if ($honor->isDirty()){
                 $honor->status == 'import'? $honor->status = 'import': $honor->status = 'diubah';
             } 
@@ -138,13 +138,13 @@ class HonorSurvei extends Model
                 }
             }
         });
-        static::deleting(function (HonorSurvei $honor) {
+        static::deleting(function (HonorKegiatan $honor) {
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
-            $daftarHonorIds = DaftarHonor::where('honor_survei_id', $honor->id)->pluck('id');
-            DaftarHonor::destroy($daftarHonorIds);
+            $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
+            DaftarHonorMitra::destroy($DaftarHonorMitraIds);
 
         });
-        static::creating(function (HonorSurvei $honor) {
+        static::creating(function (HonorKegiatan $honor) {
             $honor->status = 'dibuat';
         });
     }

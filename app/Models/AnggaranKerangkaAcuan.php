@@ -15,7 +15,7 @@ class AnggaranKerangkaAcuan extends Model
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonor($anggaranKak->mak)) {
                 $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
-                if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->where('mak', $anggaranKak->mak)->first()) {
+                if ($honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->where('mak', $anggaranKak->mak)->first()) {
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
@@ -30,7 +30,7 @@ class AnggaranKerangkaAcuan extends Model
                     }
                     $honor->save();
                 } else {
-                    $honor = new HonorSurvei;
+                    $honor = new HonorKegiatan;
                     $honor->kerangka_acuan_id = $kak->id;
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
@@ -51,13 +51,13 @@ class AnggaranKerangkaAcuan extends Model
                 }
             }
             if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
-                $id = HonorSurvei::where('mak', $anggaranKak->getOriginal('mak'))->pluck('id');
-                HonorSurvei::destroy($id);
+                $id = HonorKegiatan::where('mak', $anggaranKak->getOriginal('mak'))->pluck('id');
+                HonorKegiatan::destroy($id);
             }
         });
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
-            $id = HonorSurvei::where('mak', $anggaranKak->mak)->pluck('id');
-            HonorSurvei::destroy($id);
+            $id = HonorKegiatan::where('mak', $anggaranKak->mak)->pluck('id');
+            HonorKegiatan::destroy($id);
         });
     }
 }

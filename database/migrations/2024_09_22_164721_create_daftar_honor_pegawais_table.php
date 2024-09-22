@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('rekening', 40)->nullable();
             $table->string('bulan', 20)->nullable();
             $table->string('jenis', 20)->nullable();
-            $table->bigInteger('honor_survei_id')->nullable()->unsigned();
+            $table->bigInteger('honor_kegiatan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

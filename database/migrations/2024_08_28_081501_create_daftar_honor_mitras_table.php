@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daftar_honors', function (Blueprint $table) {
+        Schema::create('daftar_honor_mitras', function (Blueprint $table) {
             $table->id();
             $table->string('nik', 30)->nullable();
             $table->string('nama', 80)->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('rekening', 40)->nullable();
             $table->string('bulan', 20)->nullable();
             $table->string('jenis', 20)->nullable();
-            $table->bigInteger('honor_survei_id')->nullable()->unsigned();
+            $table->bigInteger('honor_kegiatan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daftar_honors');
+        Schema::dropIfExists('daftar_honor_mitras');
     }
 };

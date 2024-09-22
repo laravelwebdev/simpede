@@ -10,16 +10,16 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class DaftarHonor extends Resource
+class DaftarHonorMitra extends Resource
 {
     public static $perPageViaRelationship = 10;
     public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\DaftarHonor>
+     * @var class-string<\App\Models\DaftarHonorMitra>
      */
-    public static $model = \App\Models\DaftarHonor::class;
+    public static $model = \App\Models\DaftarHonorMitra::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

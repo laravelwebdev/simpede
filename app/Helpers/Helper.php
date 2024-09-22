@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
+use App\Models\HargaSatuan;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
@@ -572,17 +573,11 @@ class Helper
         return in_array(substr($mak, -6), self::$akun_honor);
     }
 
-    /**
-     * //  * Memeriksa apakah terjadi perubahan dari anggaran honor menjadi tidak ada.
-     * //  *
-     * //  * @param  json anggaran $spek_old
-     * //  * @param  json anggaran $spek_new
-     * //  * @return bool
-     * //  */
-    // public static function isAkunHonorChanged($spek_old, $spek_new)
-    // {
-    //     return self::sumJenisAkunHonor($spek_old) - self::sumJenisAkunHonor($spek_new) == 1;
-    // }
+
+    public static function isAkunHonorChanged($mak_old, $mak_new)
+    {
+        return self::isAkunHonor($mak_old) && !self::isAkunHonor($mak_new);
+    }
 
     // /**
     //  * Memeriksa apakah terjadi perubahan dari anggaran perjalanan menjadi tidak ada.
@@ -725,31 +720,12 @@ class Helper
      * @param  string  $bulan
      * @return array
      */
-    public static function getJenisKontrak($tahun, $bulan): array
-    {
-        $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
+    // public static function getJenisKontrak($tahun, $bulan): array
+    // {
+    //     $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
 
-        return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
-    }
-
-    /**
-     * Mengambil batas SBML.
-     *
-     * @param  string  $tahun
-     * @param  string  $bulan
-     * @param  string  $jenis
-     * @return array
-     */
-    public static function getSbml($tahun, $bulan, $jenis)
-    {
-        $nilai = 0;
-        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
-        foreach ($jeniskontrak as $option) {
-            $nilai = $option['jenis'] === $jenis ? $option['sbml'] : 0;
-        }
-
-        return $nilai;
-    }
+    //     return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
+    // }
 
     /**
      * Format tampilan spesifikasi.
@@ -863,7 +839,7 @@ class Helper
      */
     public static function getDipa($id)
     {
-        return Dipa::cache()->get('all')->where('id', $id)->first();
+        return Dipa::cache()->get('all')->where('id', $id)->first()?? '';
     }
 
     /**
@@ -874,7 +850,14 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        return TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->id;
+        $tata_naskah = TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return $tata_naskah == null ? '': $tata_naskah->id;
+    }
+
+    public static function getLatestHargaSatuanId($tanggal)
+    {
+        $harga_satuan = HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return $harga_satuan == null ? null: $harga_satuan->id;
     }
 
     /**
@@ -972,15 +955,9 @@ class Helper
      * @param  string  $bulan
      * @return array
      */
-    public static function setOptionJenisKontrak($tahun, $bulan)
+    public static function setOptionJenisKontrak($tanggal)
     {
-        $options = [];
-        $jeniskontrak = self::getJenisKontrak($tahun, $bulan);
-        foreach ($jeniskontrak as $option) {
-            $options[$option['jenis']] = $option['jenis'];
-        }
-
-        return $options;
+        return self::setOptions(JenisKontrak::cache()->get('all')->where('harga_satuan_id', self::getLatestHargaSatuanId($tanggal)), 'id', 'jenis');
     }
 
     // /**

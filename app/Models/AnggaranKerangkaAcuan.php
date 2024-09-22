@@ -15,13 +15,14 @@ class AnggaranKerangkaAcuan extends Model
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonor($anggaranKak->mak)) {
                 $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
-                if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->first()) {
+                if ($honor = HonorSurvei::where('kerangka_acuan_id', $kak->id)->where('mak', $anggaranKak->mak)->first()) {
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->mak = $anggaranKak->mak;
+                    $honor->tahun = Helper::getDipa($kak->dipa_id)->tahun;
                     $honor->kegiatan = $kak->kegiatan;
                     if ($kak->wasChanged('tanggal')) {
                         $honor->generate_sk == 'Ya' ? $honor->tanggal_sk = $kak->tanggal : null;
@@ -44,13 +45,19 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;
                     $honor->tanggal_sk = $kak->tanggal;
+                    $honor->tahun = Helper::getDipa($kak->dipa_id)->tahun;
                     $honor->unit_kerja_id = $kak->unit_kerja_id;
                     $honor->save();
                 }
             }
-            // if (Helper::isAkunHonorChanged($kak->getOriginal('anggaran'), $kak->anggaran)) {
-            //     HonorSurvei::destroy($kak->id);
-            // }
+            if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
+                $id = HonorSurvei::where('mak', $anggaranKak->getOriginal('mak'))->pluck('id');
+                HonorSurvei::destroy($id);
+            }
+        });
+        static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
+            $id = HonorSurvei::where('mak', $anggaranKak->mak)->pluck('id');
+            HonorSurvei::destroy($id);
         });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,10 +52,8 @@ class HonorSurvei extends Model
      */
     protected static function booted(): void
     {
-        static::creating(function (HonorSurvei $honor) {
-            $honor->tahun = session('year');
-        });
         static::saving(function (HonorSurvei $honor) {
+            if ($honor->isDirty()) $honor->status = 'dibuat';
             if ($honor->generate_sk === 'Tidak') {
                 $honor->tanggal_sk = null;
                 NaskahKeluar::destroy($honor->sk_naskah_keluar_id);
@@ -70,8 +69,21 @@ class HonorSurvei extends Model
             if ($honor->bulan != null) {
                 if ($honor->generate_sk == 'Ya') {
                     if ($honor->sk_naskah_keluar_id === null) {
-                        $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Keputusan')->first();
-                        $kode_arsip = KodeArsip::cache()->get('all')->where('kode', 'VS.220')->first();
+                        $kode_naskah = KodeNaskah::cache()
+                            ->get('all')
+                            ->where('kategori', 'Naskah Dinas Penetapan')
+                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_sk))
+                            ->first();
+                        $jenis_naskah = JenisNaskah::cache()
+                            ->get('all')
+                            ->where('jenis', 'Keputusan')
+                            ->where('kode_naskah_id', $kode_naskah->id)
+                            ->first();
+                        $kode_arsip = KodeArsip::cache()
+                            ->get('all')
+                            ->where('kode', 'VS.220')
+                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_sk))
+                            ->first();                       
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
                         $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -94,7 +106,16 @@ class HonorSurvei extends Model
 
                 if ($honor->generate_st == 'Ya') {
                     if ($honor->st_naskah_keluar_id === null) {
-                        $jenis_naskah = JenisNaskah::cache()->get('all')->where('jenis', 'Surat Tugas')->first();
+                        $kode_naskah = KodeNaskah::cache()
+                            ->get('all')
+                            ->where('kategori', 'Surat Dinas')
+                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_st))
+                            ->first();
+                        $jenis_naskah = JenisNaskah::cache()
+                            ->get('all')
+                            ->where('jenis', 'Surat Tugas')
+                            ->where('kode_naskah_id', $kode_naskah->id)
+                            ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
                         $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
@@ -119,10 +140,8 @@ class HonorSurvei extends Model
         static::deleting(function (HonorSurvei $honor) {
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
             $daftarHonorIds = DaftarHonor::where('honor_survei_id', $honor->id)->pluck('id');
-            DaftarHonor::cache()->disable();
             DaftarHonor::destroy($daftarHonorIds);
-            DaftarHonor::cache()->enable();
-            DaftarHonor::cache()->update('all');
+
         });
     }
 }

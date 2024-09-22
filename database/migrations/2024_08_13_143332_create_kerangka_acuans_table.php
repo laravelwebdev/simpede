@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('kerangka_acuans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->bigInteger('naskah_keluar_id')->unsigned()->nullable();
             $table->text('rincian')->nullable();
             $table->text('latar')->nullable();
             $table->text('maksud')->nullable();
@@ -27,6 +26,7 @@ return new class extends Migration
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
             $table->string('status', 30)->nullable();
+            $table->bigInteger('naskah_keluar_id')->unsigned()->nullable();
             $table->bigInteger('dipa_id')->nullable()->unsigned();
             $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();

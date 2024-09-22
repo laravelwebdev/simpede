@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('honor_surveis', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->date('tanggal_kak')->nullable();
-            $table->bigInteger('nomor_sk')->unsigned()->nullable();
-            $table->bigInteger('nomor_st')->unsigned()->nullable();
             $table->string('judul_spj')->nullable();
             $table->string('mak', 40)->nullable();
-            $table->string('detail')->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
             $table->string('satuan', 20)->nullable();
@@ -34,6 +30,9 @@ return new class extends Migration
             $table->string('tahun', 4)->nullable();
             $table->string('jenis_kontrak', 40)->nullable();
             $table->string('kegiatan')->nullable();
+            $table->string('status', 30)->nullable();
+            $table->bigInteger('kamus_anggaran_id')->unsigned()->nullable();
+            $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->bigInteger('koordinator_user_id')->nullable()->unsigned();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();
             $table->bigInteger('bendahara_user_id')->nullable()->unsigned();
@@ -41,6 +40,7 @@ return new class extends Migration
             $table->bigInteger('kode_arsip_id')->nullable()->unsigned();
             $table->bigInteger('sk_naskah_keluar_id')->nullable()->unsigned();
             $table->bigInteger('st_naskah_keluar_id')->nullable()->unsigned();
+            $table->bigInteger('kepka_mitra_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

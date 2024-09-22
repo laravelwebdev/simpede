@@ -28,10 +28,8 @@ class NaskahKeluar extends Model
                 $naskah->no_urut = $nomor['no_urut'];
                 $naskah->segmen = $nomor['segmen'];
                 $naskah->kode_naskah_id = $nomor['kode_naskah_id'];
+                $naskah->unit_kerja_id = Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal)->unit_kerja_id;
             }
-        });
-        static::creating(function (NaskahKeluar $naskah) {
-            $naskah->unit_kerja_id = Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal)->unit_kerja_id;
         });
     }
 }

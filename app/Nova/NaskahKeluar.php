@@ -139,7 +139,7 @@ class NaskahKeluar extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()
+                ->displayUsing(fn ($kode) => $kode ? JenisNaskah::cache()->get('all')->where('id', $kode)->first()->jenis : null)
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),

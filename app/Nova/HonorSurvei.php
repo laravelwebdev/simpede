@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\JenisKontrak;
+use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\User;
 use App\Nova\Actions\Download;
@@ -18,6 +20,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -110,14 +113,10 @@ class HonorSurvei extends Resource
                 Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->rules('required')
                     ->filterable()
-                    ->displayUsingLabels()
-                    ->dependsOn('bulan', function (Select $field, NovaRequest $request, FormData $form) {
-                        $field->options(Helper::setOptionJenisKontrak(session('year'), $form->bulan));
+                    ->displayUsing(fn ($kode) => $kode ? JenisKontrak::cache()->get('all')->where('id', $kode)->first()->jenis : null)
+                    ->dependsOn('tanggal_kak', function (Select $field, NovaRequest $request, FormData $form) {
+                        $field->options(Helper::setOptionJenisKontrak($form->tanggal_kak));
                     }),
-                Text::make('Satuan Pembayaran', 'satuan')
-                    ->rules('required')
-                    ->hideFromIndex()
-                    ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS'),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
                     ->hideFromIndex(),
@@ -127,12 +126,20 @@ class HonorSurvei extends Resource
                 Text::make('MAK', 'mak')
                     ->readonly()
                     ->hideFromIndex(),
-                Select::make('Detail', 'detail')
-                    ->rules('required')
+                Select::make('Detail', 'kamus_anggaran_id')
                     ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
-                        $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'detail', 'detail'));
+                        $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'id', 'detail'));
                     })
-                    ->hideFromIndex(),
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => $kode ? KamusAnggaran::cache()->get('all')->where('id', $kode)->first()->detail : null),
+                Text::make('Satuan Pembayaran', 'satuan')
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
+                    ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
+                        if (KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first())
+                        $field->setValue(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()->satuan);
+                    }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
                     ->showOnIndex(fn () => session('role') == 'ppk')
@@ -188,17 +195,20 @@ class HonorSurvei extends Resource
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
                     ->hide()
-                    ->hideFromIndex()
-                    ->options(Helper::setOptions(KodeArsip::cache()->get('all'), 'id', 'detail', 'group'))
+                    ->hideFromIndex()                    
                     ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
-                    ->dependsOn('generate_st', function (Select $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['generate_st' , 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st == 'Ya') {
-                            $field->show()
-                                ->rules('required');
+                            $field->rules('required')
+                            ->show()
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
                         }
                     }),
 
             ]),
+            Status::make('Status', 'status')
+                ->loadingWhen(['dibuat'])
+                ->failedWhen(['gagal'])->onlyOnIndex(),
 
             // Panel::make('Keterangan Petugas Organik', [
             //     SimpleRepeatable::make('Pegawai', 'pegawai', [

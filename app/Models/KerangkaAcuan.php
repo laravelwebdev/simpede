@@ -88,7 +88,6 @@ class KerangkaAcuan extends Model
         });
         static::deleting(function (KerangkaAcuan $kak) {
             NaskahKeluar::destroy($kak->naskah_keluar_id);
-            HonorSurvei::destroy($kak->id);
             $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
             AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
             $arsipDokumenIds = ArsipDokumen::where('kerangka_acuan_id', $kak->id)->pluck('id');

@@ -234,7 +234,7 @@ class HonorKegiatan extends Resource
                     }),
             ]),
 
-            HasMany::make('Daftar Honor', 'DaftarHonorMitra', 'App\Nova\DaftarHonorMitra'),
+            HasMany::make('Daftar Honor Mitra', 'DaftarHonorMitra', 'App\Nova\DaftarHonorMitra'),
         ];
     }
 
@@ -282,7 +282,7 @@ class HonorKegiatan extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
-                ImportDaftarHonorMitra::make()->onlyOnDetail()->confirmButtonText('Import')
+                ImportDaftarHonorMitra::make($this->tahun)->onlyOnDetail()->confirmButtonText('Import')
                     ->canSee(function ($request) {
                         if ($request instanceof ActionRequest) {
                             return true;
@@ -295,7 +295,7 @@ class HonorKegiatan extends Resource
                     ->exceptOnIndex()
                     ->confirmButtonText('Impor');
         }
-        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm, anggota')->get()) {
+        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm,anggota')->get()) {
             $actions[] =
                 Download::make('spj', 'Unduh SPJ')
                     ->showInline()

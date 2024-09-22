@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nik', 30)->nullable();
             $table->string('nama', 80)->nullable();
-            $table->bigInteger('jumlah')->nullable()->unsigned();
-            $table->bigInteger('satuan')->nullable()->unsigned();
+            $table->string('golongan', 10)->nullable();
+            $table->bigInteger('volume')->nullable()->unsigned();
+            $table->bigInteger('harga_satuan')->nullable()->unsigned();
             $table->bigInteger('bruto')->nullable()->unsigned();
             $table->bigInteger('pajak')->nullable()->unsigned();
             $table->bigInteger('netto')->nullable()->unsigned();

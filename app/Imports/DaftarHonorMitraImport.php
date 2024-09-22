@@ -8,32 +8,41 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
+HeadingRowFormatter::default('none');
 class DaftarHonorMitraImport implements ToCollection, WithMultipleSheets, WithHeadingRow
 {
     protected $id;
+    protected $jenis;
+    protected $bulan;
+    protected $kepka_mitra_id;
 
-    public function __construct($id)
+    public function __construct($id, $bulan, $jenis, $kepka_mitra_id)
     {
         $this->id = $id;
+        $this->jenis = $jenis;
+        $this->bulan = $bulan;      
+        $this->kepka_mitra_id = $kepka_mitra_id; 
     }
+
 
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            if (strlen($row[0]) == 16) {
+            if (strlen($row['NIP Lama']) == 16) {
                 $daftar = new DaftarHonorMitra;
-                $daftar->nik = $row[0];
-                $daftar->nama = Mitra::cache()->get('all')->where('nik', $row[0])->first()->nama;
-                $daftar->jumlah = $row[5];
-                $daftar->satuan = $row[6];
-                $daftar->bruto = $row[5] * $row[6];
-                $daftar->pajak = round(($row[5] * $row[6] * $row[7]) / 100, 0, PHP_ROUND_HALF_UP);
-                $daftar->netto = ($row[5] * $row[6]) - round(($row[5] * $row[6] * $row[7]) / 100, 0, PHP_ROUND_HALF_UP);
-                $daftar->rekening = Mitra::cache()->get('all')->where('nik', $row[0])->first()->rekening ?? '';
-                $daftar->honor_kegiatan_id = $this->id[0];
-                $daftar->bulan = $this->id[1];
-                $daftar->jenis = $this->id[2];
+                $daftar->nik = $row['NIP Lama'];
+                $daftar->nama = Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $this->kepka_mitra_id)->first()->nama;
+                $daftar->jumlah = $row['Volume'];
+                $daftar->satuan = $row['HargaSatuan'];
+                $daftar->bruto = $row['Volume'] * $row['HargaSatuan'];
+                $daftar->pajak = round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP);
+                $daftar->netto = ($row['Volume'] * $row['HargaSatuan']) - round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP);
+                $daftar->rekening = Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->first()->rekening ?? '';
+                $daftar->honor_kegiatan_id = $this->id;
+                $daftar->bulan = $this->bulan;
+                $daftar->jenis = $this->jenis;
                 $daftar->save();
             }
         }

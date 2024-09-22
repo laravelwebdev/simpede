@@ -14,8 +14,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class EditRekening extends Action
 {
     use InteractsWithQueue, Queueable;
-    public $confirmButtonText = 'Edit Rekening';
-    public $name = 'Edit';
+    public $confirmButtonText = 'Edit';
+    public $name = 'Edit Rekening';
 
     /**
      * Perform the action on the given models.

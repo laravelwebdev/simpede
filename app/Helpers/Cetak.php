@@ -11,6 +11,8 @@ use App\Models\NaskahKeluar;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use PhpOffice\PhpWord\Element\TextRun;
 
 class Cetak
 {
@@ -63,7 +65,20 @@ class Cetak
             KerangkaAcuan::where('id', $id)->update(['status' => 'selesai']);
         }
         if ($jenis === 'spj') {
-            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj(DaftarHonorMitra::where('honor_kegiatan_id', $id)->get(['nama As spj_nama', 'satuan AS spj_satuan', 'jumlah AS spj_jumlah', 'bruto AS spj_bruto', 'pajak AS spj_pajak', 'netto AS spj_netto', 'rekening AS spj_rekening'])));
+            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj($data['daftar_honor_mitra']));
+            $detailAnggarans = ['kegiatan', 'kro', 'ro', 'komponen', 'sub', 'akun', 'detail'];
+            foreach ($detailAnggarans as $detailAnggaran) {
+                if (Str::of($data[$detailAnggaran])->contains('edit manual karena belum ada di POK')) {
+                    $detail = new TextRun();
+                    $detail ->addText(Str::of($data[$detailAnggaran])->before('edit manual karena belum ada di POK'));
+                    $detail->addText('edit manual karena belum ada di POK', array('color' => 'red'));
+                    $templateProcessor->setComplexValue($detailAnggaran, $detail);
+                    unset($data[$detailAnggaran]);
+                }
+            }          
+
+            unset($data['daftar_honor_mitra']);
+            HonorKegiatan::where('id', $id)->update(['status' => 'selesai']);
         }
         $templateProcessor->setValues($data);
 
@@ -143,11 +158,11 @@ class Cetak
     public static function spj($id)
     {
         $data = HonorKegiatan::find($id);
-
+        $kamus = KamusAnggaran::cache()->get('all')->where('id',$data->kamus_anggaran_id)->first();
         return [
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
-            'detail' => KamusAnggaran::cache()->get('all')->where('id',$data->kamus_anggaran_id)->first()->detail,
+            'detail' => $kamus == null ?'edit manual karena belum ada di POK':$kamus->detail,
             'bulan' => $data->bulan == '13'? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) :Helper::terbilangBulan($data->bulan),
             'mak' => $data->mak,
             'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
@@ -156,6 +171,7 @@ class Cetak
             'komponen' => Helper::getDetailAnggaran($data->mak, 'komponen'),
             'sub' => Helper::getDetailAnggaran($data->mak, 'sub'),
             'akun' => Helper::getDetailAnggaran($data->mak, 'akun'),
+            'daftar_honor_mitra' => DaftarHonorMitra::where('honor_kegiatan_id', $id)->get()->toArray(),
             'satuan' => $data->satuan,
             'total_bruto' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('bruto')),
             'total_pajak' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('pajak')),
@@ -180,12 +196,6 @@ class Cetak
             throw_if(
                 AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') != SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('total_harga'),
                 'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
-            );
-        }
-        if ($jenis === 'spj') {
-            throw_if(
-                in_array(HonorKegiatan::where('id', $model_id)->first()->status,['dibuat', 'diubah']),
-                'Upps sepertinya belum ada mitra yang diimport pada spj ini'
             );
         }
     }

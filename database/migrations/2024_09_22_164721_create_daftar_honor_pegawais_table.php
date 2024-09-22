@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nip', 30)->nullable();
             $table->string('nama', 80)->nullable();
+            $table->string('golongan', 10)->nullable();
             $table->bigInteger('jumlah')->nullable()->unsigned();
             $table->bigInteger('satuan')->nullable()->unsigned();
             $table->bigInteger('bruto')->nullable()->unsigned();

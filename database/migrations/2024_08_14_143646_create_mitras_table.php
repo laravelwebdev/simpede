@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nik');
             $table->string('nama');
             $table->string('alamat')->nullable();
-            $table->string('rekening', 80)->nullable();
+            $table->string('rekening', 40)->nullable();
             $table->string('npwp', 40)->nullable();
             $table->string('email', 80)->nullable();
             $table->date('tanggal_lahir')->nullable();

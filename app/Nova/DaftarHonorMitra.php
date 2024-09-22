@@ -114,9 +114,9 @@ class DaftarHonorMitra extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions [] =
-                EditRekening::make()->standalone();
+                EditRekening::make()->onlyInline();
         }
 
         return $actions;

@@ -9,6 +9,7 @@ use App\Models\HargaSatuan;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
+use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\MataAnggaran;
@@ -576,7 +577,7 @@ class Helper
 
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
-        return self::isAkunHonor($mak_old) && !self::isAkunHonor($mak_new);
+        return (self::isAkunHonor($mak_old) && !self::isAkunHonor($mak_new)) ||(self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new) ;
     }
 
     // /**
@@ -706,9 +707,10 @@ class Helper
             'akun' => '('.Str::substr($mak, 29, 6).') ',
 
         ];
-        $detail = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
+        $kamus = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
             return Str::of($item->mak)->startsWith(Str::substr($mak, 0, $length[$level])) && Str::of($item->mak)->length == $length[$level];
-        })->first()->detail ?? '';
+        })->first();
+        $detail =  $kamus == null ? 'edit manual karena belum ada di POK': $kamus->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
     }
@@ -782,21 +784,24 @@ class Helper
      */
     public static function formatSpj($spesifikasi)
     {
-        $spek = json_decode($spesifikasi, true);
-        $speks = collect($spek);
+        // $spek = json_decode($spesifikasi, true);
+        $speks = collect($spesifikasi);
         $speks->transform(function ($item, $index) {
             $item['spj_no'] = $index + 1;
-            if (isset($item['spj_satuan'])) {
-                $item['spj_satuan'] = self::formatUang($item['spj_satuan']);
+            if (isset($item['harga_satuan'])) {
+                $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             }
-            if (isset($item['spj_bruto'])) {
-                $item['spj_bruto'] = self::formatUang($item['spj_bruto']);
+            if (!isset($item['golongan'])) {
+                $item['golongan'] = '-';
             }
-            if (isset($item['spj_pajak'])) {
-                $item['spj_pajak'] = self::formatUang($item['spj_pajak']);
+            if (isset($item['bruto'])) {
+                $item['bruto'] = self::formatUang($item['bruto']);
             }
-            if (isset($item['spj_netto'])) {
-                $item['spj_netto'] = self::formatUang($item['spj_netto']);
+            if (isset($item['pajak'])) {
+                $item['pajak'] = self::formatUang($item['pajak']);
+            }
+            if (isset($item['netto'])) {
+                $item['netto'] = self::formatUang($item['netto']);
             }
 
             return $item;
@@ -991,5 +996,9 @@ class Helper
     public static function setOptionDipa()
     {
         return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year') + 1]), 'id', 'tahun');
+    }
+    public static function setOptionKepkaMitra($tahun)
+    {
+        return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');
     }
 }

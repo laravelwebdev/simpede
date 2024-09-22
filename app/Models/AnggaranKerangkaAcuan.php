@@ -39,8 +39,8 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                    $honor->generate_sk = 'Ya';
-                    $honor->generate_st = 'Ya';
+                    $honor->generate_sk = true;
+                    $honor->generate_st = true;
                     $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;

@@ -18,6 +18,10 @@ return new class extends Migration
                 $table->string('avatar')->nullable();
                 $table->string('nip', 30)->nullable();
             });
+            $table->after('nip', function (Blueprint $table) {
+                $table->string('rekening', 40)->nullable();
+            });
+
         });
     }
 

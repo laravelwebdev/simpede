@@ -53,7 +53,7 @@ class HonorKegiatan extends Model
     {
         static::saving(function (HonorKegiatan $honor) {
             if ($honor->isDirty()){
-                $honor->status == 'import'? $honor->status = 'import': $honor->status = 'diubah';
+                $honor->status = 'diubah';
             } 
             if (!$honor->generate_sk) {
                 $honor->tanggal_sk = null;

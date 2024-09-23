@@ -204,5 +204,11 @@ class Cetak
                 'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
             );
         }
+        if ($jenis === 'spj') {
+            throw_if(
+               HonorKegiatan::where('id', $model_id)->first()->status == 'dibuat',
+                'Mohon lengkapi terlebih dulu sisian honor kegiatan yang akan dicetak melalui menu Ubah'
+            );
+        }
     }
 }

@@ -454,9 +454,19 @@ class Helper
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
+    public static function getDataPegawaiByNip($nip, $tanggal)
+    {
+        return DataPegawai::cache()->get('all')->where('nip', $nip)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+    }
+
     public static function getPegawaiByUserId($user_id)
     {
         return User::cache()->get('all')->where('id', $user_id)->first();
+    }
+
+    public static function getPegawaiByNip($nip)
+    {
+        return User::cache()->get('all')->where('nip', $nip)->first();
     }
 
     /**
@@ -851,10 +861,16 @@ class Helper
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
     }
 
-    public static function setOptionPengelola($role, $tanggal, $unitKerjaId = null)
+    public static function setOptionPengelola($role, $tanggal)
     {
-        return self::setOptions(self::getUsersByPengelola($role, $tanggal, $unitKerjaId), 'id', 'name');
+        return self::setOptions(self::getUsersByPengelola($role, $tanggal), 'id', 'name');
     }
+
+    public static function setOptionPengelolaWithNip($role, $tanggal)
+    {
+        return self::setOptions(self::getUsersByPengelola($role, $tanggal), 'nip', 'name');
+    }
+
 
     public static function setOptionDipa()
     {

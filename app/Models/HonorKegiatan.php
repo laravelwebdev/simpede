@@ -41,9 +41,14 @@ class HonorKegiatan extends Model
     /**
      * Get the daftar honor.
      */
-    public function DaftarHonorMitra(): HasMany
+    public function daftarHonorMitra(): HasMany
     {
         return $this->hasMany(DaftarHonorMitra::class)->orderBy('nama', 'asc');
+    }
+
+    public function daftarHonorPegawai(): HasMany
+    {
+        return $this->hasMany(DaftarHonorPegawai::class)->orderBy('nama', 'asc');
     }
 
     /**

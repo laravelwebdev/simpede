@@ -12,7 +12,7 @@ class DaftarHonorMitraPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,ppk')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 
@@ -80,7 +80,7 @@ class DaftarHonorMitraPolicy
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,ppk')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 }

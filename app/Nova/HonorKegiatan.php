@@ -24,10 +24,13 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use ShuvroRoy\NovaTabs\Tabs;
+use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class HonorKegiatan extends Resource
 {
-    public static $with = ['kerangkaAcuan.naskahKeluar', 'DaftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar'];
+    use HasTabs;
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai'];
     /**
      * The model the resource corresponds to.
      *
@@ -117,6 +120,7 @@ class HonorKegiatan extends Resource
                     }),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
+                    ->rules('required')
                     ->hideFromIndex(),
             ]),
 
@@ -230,8 +234,10 @@ class HonorKegiatan extends Resource
                         $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
             ]),
-
-            HasMany::make('Daftar Honor Mitra', 'DaftarHonorMitra', 'App\Nova\DaftarHonorMitra'),
+            Tabs::make('Daftar Honor', [
+                HasMany::make('Daftar Honor Mitra'),
+                HasMany::make('Daftar Honor Pegawai'),
+            ]),
         ];
     }
 
@@ -277,35 +283,13 @@ class HonorKegiatan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $actions[] =
-                ImportDaftarHonorMitra::make($this->tahun)->onlyOnDetail()->confirmButtonText('Import')
-                    ->canSee(function ($request) {
-                        if ($request instanceof ActionRequest) {
-                            return true;
-                        }
-
-                        return $this->resource instanceof Model && $this->resource->status !== 'dibuat';
-                    })
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex()
-                    ->confirmButtonText('Impor');
-        }
         if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm,anggota')->get()) {
             $actions[] =
                 Download::make('spj', 'Unduh SPJ')
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex()
-                    ->confirmButtonText('Unduh')
-                    ->canSee(function ($request) {
-                        if ($request instanceof ActionRequest) {
-                            return true;
-                        }
-
-                        return $this->resource instanceof Model && $this->resource->status !== 'dibuat';
-                    });
+                    ->confirmButtonText('Unduh');
         }
 
         return $actions;

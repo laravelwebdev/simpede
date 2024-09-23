@@ -2,27 +2,25 @@
 
 namespace App\Nova;
 
-use App\Helpers\Policy;
-use App\Nova\Actions\EditRekening;
-use App\Nova\Actions\ImportDaftarHonorMitra;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
+use App\Helpers\Helper;
+use App\Models\HonorKegiatan;
+use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class DaftarHonorMitra extends Resource
+class DaftarHonorPegawai extends Resource
 {
     public static $perPageViaRelationship = 10;
     public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\DaftarHonorMitra>
+     * @var class-string<\App\Models\DaftarHonorPegawai>
      */
-    public static $model = \App\Models\DaftarHonorMitra::class;
+    public static $model = \App\Models\DaftarHonorPegawai::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,7 +35,7 @@ class DaftarHonorMitra extends Resource
      * @var array
      */
     public static $search = [
-        'nik', 'nama',
+        'nip', 'nama',
     ];
 
     /**
@@ -46,16 +44,17 @@ class DaftarHonorMitra extends Resource
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function fields(NovaRequest $request)
+    public function fieldsforIndex(NovaRequest $request)
     {
         return [
-            Text::make('NIK')
+            Text::make('NIP', 'nik')
                 ->readOnly(),
-            Text::make('Nama')
+            Text::make('Nama', 'nama')
                 ->readOnly(),
             Text::make('Golongan')
                 ->readOnly(),
-            Number::make('Jumlah', 'volume')->readOnly(),
+            Number::make('Jumlah', 'volume')
+                ->readOnly(),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
@@ -74,6 +73,27 @@ class DaftarHonorMitra extends Resource
                 ->readOnly(),
             Text::make('Rekening', 'rekening')
                 ->rules('required')->readOnly(),
+        ];
+    }
+
+    public function fields(NovaRequest $request)
+    {
+        return [
+            Select::make('Nama Pegawai','nik')
+                ->rules('required')
+                ->searchable()
+                ->options(Helper::setOptionPengelolaWithNip('anggota',HonorKegiatan::where('id', $request->viaResourceId)->first()->akhir))
+                ->creationRules('unique:daftar_honor_pegawais,nik')
+                ->updateRules('unique:daftar_honor_pegawais,nik,{{resourceId}}'), //berdasarkan tanggal akhir kegiatan
+            Number::make('Jumlah', 'volume')
+                ->step(1),
+            Currency::make('Harga Satuan', 'harga_satuan')
+                ->currency('IDR')
+                ->locale('id')
+                ->step(1),
+            Number::make('Persentase Pajak (%)', 'pajak'),
+            Text::make('Rekening', 'rekening')
+                ->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];
     }
 
@@ -118,19 +138,24 @@ class DaftarHonorMitra extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $actions [] =
-                EditRekening::make()->onlyInline();
-        }
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $actions[] =
-                ImportDaftarHonorMitra::make($request->viaResourceId)
+        return [
+            AddHasManyModel::make('DaftarHonorPegawai', 'HonorKegiatan', $request->viaResourceId)
+                ->confirmButtonText('Tambah')
+                // ->size('7xl')
                 ->standalone()
-                ->confirmButtonText('Unduh');
-        }
-
-        return $actions;
+                ->addFields($this->fields($request)),
+        ];
     }
 
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Detail=daftar-honor-pegawai';
+    }
 }

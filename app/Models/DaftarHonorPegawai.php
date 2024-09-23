@@ -15,7 +15,7 @@ class DaftarHonorPegawai extends Model
     {
         static::saving(function (DaftarHonorPegawai $honor) {
             $honor->nama = Helper::getPropertyFromCollection(Helper::getPegawaiByNip($honor->nik),'name');
-            $honor->golongan = Helper::getPropertyFromCollection(Helper::getDataPegawaiByNip($honor->nik, HonorKegiatan::where('id',$honor->honor_kegiatan_id )->first()->akhir),'golongan');
+            $honor->golongan = Helper::getPropertyFromCollection(Helper::getDataPegawaiByNip($honor->nik, HonorKegiatan::where('id',$honor->honor_kegiatan_id )->first()->tanggal_spj),'golongan');
         });
     }
 }

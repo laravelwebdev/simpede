@@ -82,7 +82,7 @@ class DaftarHonorPegawai extends Resource
             Select::make('Nama Pegawai','nik')
                 ->rules('required')
                 ->searchable()
-                ->options(Helper::setOptionPengelolaWithNip('anggota',HonorKegiatan::where('id', $request->viaResourceId)->first()->akhir))
+                ->options(Helper::setOptionPengelolaWithNip('anggota',HonorKegiatan::where('id', $request->viaResourceId)->first()->tanggal_spj))
                 ->creationRules('unique:daftar_honor_pegawais,nik')
                 ->updateRules('unique:daftar_honor_pegawais,nik,{{resourceId}}'), //berdasarkan tanggal akhir kegiatan
             Number::make('Jumlah', 'volume')

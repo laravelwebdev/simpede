@@ -149,6 +149,26 @@ class Helper
         'IV/e' => 'Pembina Utama',
     ];
 
+    public static $pajakgolongan = [
+        'I/a' => 0,
+        'I/b' => 0,
+        'I/c' => 0,
+        'I/d' => 0,
+        'II/a' => 0,
+        'II/b' => 0,
+        'II/c' => 0,
+        'II/d' => 0,
+        'III/a' => 5,
+        'III/b' => 5,
+        'III/c' => 5,
+        'III/d' => 5,
+        'IV/a' => 15,
+        'IV/b' => 15,
+        'IV/c' => 15,
+        'IV/d' => 15,
+        'IV/e' => 15,
+    ];
+
     /**
      * Mengubah tanggal ke nama hari.
      *
@@ -456,7 +476,8 @@ class Helper
 
     public static function getDataPegawaiByNip($nip, $tanggal)
     {
-        return DataPegawai::cache()->get('all')->where('nip', $nip)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        $user_id = self::getPropertyFromCollection(self::getPegawaiByNip($nip),'id');
+        return self::getDataPegawaiByUserId($user_id, $tanggal);
     }
 
     public static function getPegawaiByUserId($user_id)

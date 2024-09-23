@@ -11,5 +11,4 @@ class DaftarHonorPegawai extends Model
 {
     use HasFactory;
 
-
 }

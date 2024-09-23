@@ -121,7 +121,7 @@ class DaftarHonorMitra extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions [] =
-                EditRekening::make()->onlyInline();
+                EditRekening::make('mitra')->onlyInline();
         }
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =

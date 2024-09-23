@@ -12,18 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('daftar_honor_pegawais', function (Blueprint $table) {
-            $table->id();
-            $table->string('nik', 30)->nullable();
-            $table->string('nama', 80)->nullable();
-            $table->string('golongan', 10)->nullable();
+            $table->id();  
             $table->bigInteger('volume')->nullable()->unsigned();
             $table->bigInteger('harga_satuan')->nullable()->unsigned();
-            $table->bigInteger('bruto')->nullable()->unsigned();
-            $table->bigInteger('pajak')->nullable()->unsigned();
-            $table->bigInteger('netto')->nullable()->unsigned();
-            $table->string('rekening', 40)->nullable();
+            $table->bigInteger('persen_pajak')->nullable()->unsigned();
             $table->string('bulan', 20)->nullable();
             $table->string('jenis', 20)->nullable();
+            $table->bigInteger('user_id')->nullable()->unsigned();
             $table->bigInteger('honor_kegiatan_id')->nullable()->unsigned();
             $table->timestamps();
         });

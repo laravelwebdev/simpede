@@ -48,32 +48,32 @@ class DaftarHonorMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        $mitra = Mitra::cacche()->get('all')->where('id', $this->id)->first();
         return [
-            Text::make('NIK')
-                ->readOnly(),
-            Text::make('Nama')
-                ->readOnly(),
-            Text::make('Golongan')
-                ->readOnly(),
-            Number::make('Jumlah', 'volume')->readOnly(),
+            Text::make('Nama' , fn() => $mitra->nama)
+                ->onlyOnIndex(),
+            Text::make('Golongan', fn() => '-')
+                ->onlyOnIndex(),
+            Number::make('Jumlah', 'volume')
+                ->onlyOnIndex(),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
-                ->readOnly(),
-            Currency::make('Bruto', 'bruto')
+                ->onlyOnIndex(),
+            Currency::make('Bruto', fn() => $this->volume * $this->harga_satuan)
                 ->currency('IDR')
                 ->locale('id')
-                ->readOnly(),
-            Currency::make('Pajak', 'pajak')
+                ->onlyOnIndex(),
+            Currency::make('Pajak', fn() => round($this->bruto * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
-                ->readOnly(),
-            Currency::make('Netto', 'netto')
+                ->onlyOnIndex(),
+            Currency::make('Netto', fn() => $this->bruto - $this->pajak)
                 ->currency('IDR')
                 ->locale('id')
-                ->readOnly(),
-            Text::make('Rekening', 'rekening')
-                ->rules('required')->readOnly(),
+                ->onlyOnIndex(),
+            Text::make('Rekening', fn() => $mitra->rekening)
+                ->onlyOnIndex(),
         ];
     }
 

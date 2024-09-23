@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Models\Mitra;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -16,6 +17,12 @@ class EditRekening extends Action
     use InteractsWithQueue, Queueable;
     public $confirmButtonText = 'Edit';
     public $name = 'Edit Rekening';
+    protected $jenis;
+
+    public function __construct($jenis)
+    {
+        $this->jenis = $jenis;
+    }
 
     /**
      * Perform the action on the given models.
@@ -27,9 +34,17 @@ class EditRekening extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        $mitra = Mitra::where('nik', $model->nik)->first();
-        $mitra->rekening = $fields->rekening;
-        $mitra->save();
+        if ($this->jenis == 'mitra'){
+            $mitra = Mitra::where('nik', $model->nik)->first();
+            $mitra->rekening = $fields->rekening;
+            $mitra->save();
+        }
+        if ($this->jenis == 'pegawai'){
+            $user = User::where('nip', $model->nik)->first();
+            $user->rekening = $fields->rekening;
+            $user->save();
+        }
+
         $model->rekening = $fields->rekening;
         $model->save();
 

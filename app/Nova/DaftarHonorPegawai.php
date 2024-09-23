@@ -3,9 +3,13 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
 use App\Nova\Actions\AddHasManyModel;
+use App\Nova\Actions\EditRekening;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -38,62 +42,48 @@ class DaftarHonorPegawai extends Resource
         'nip', 'nama',
     ];
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return array
-     */
-    public function fieldsforIndex(NovaRequest $request)
-    {
-        return [
-            Text::make('NIP', 'nik')
-                ->readOnly(),
-            Text::make('Nama', 'nama')
-                ->readOnly(),
-            Text::make('Golongan')
-                ->readOnly(),
-            Number::make('Jumlah', 'volume')
-                ->readOnly(),
-            Currency::make('Harga Satuan', 'harga_satuan')
-                ->currency('IDR')
-                ->locale('id')
-                ->readOnly(),
-            Currency::make('Bruto', 'bruto')
-                ->currency('IDR')
-                ->locale('id')
-                ->readOnly(),
-            Currency::make('Pajak', 'pajak')
-                ->currency('IDR')
-                ->locale('id')
-                ->readOnly(),
-            Currency::make('Netto', 'netto')
-                ->currency('IDR')
-                ->locale('id')
-                ->readOnly(),
-            Text::make('Rekening', 'rekening')
-                ->rules('required')->readOnly(),
-        ];
-    }
-
     public function fields(NovaRequest $request)
     {
         return [
             Select::make('Nama Pegawai','nik')
                 ->rules('required')
                 ->searchable()
-                ->options(Helper::setOptionPengelolaWithNip('anggota',HonorKegiatan::where('id', $request->viaResourceId)->first()->tanggal_spj))
+                ->options(Helper::setOptionPengelolaWithNip('anggota',Helper::getPropertyFromCollection(HonorKegiatan::where('id',$request->viaResourceId)->first(),'tanggal_spj')))
                 ->creationRules('unique:daftar_honor_pegawais,nik')
-                ->updateRules('unique:daftar_honor_pegawais,nik,{{resourceId}}'), //berdasarkan tanggal akhir kegiatan
+                ->updateRules('unique:daftar_honor_pegawais,nik,{{resourceId}}'),
+            Text::make('Nama', 'nama')
+                ->onlyOnIndex(),
+            Text::make('Golongan')
+                ->onlyOnIndex(),
             Number::make('Jumlah', 'volume')
-                ->step(1),
+                ->step(1)
+                ->help('Kosongkan jika pegawai tidak diberi honor'),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
+                ->help('Kosongkan jika pegawai tidak diberi honor')
                 ->step(1),
-            Number::make('Persentase Pajak (%)', 'pajak'),
+            Currency::make('Bruto', 'bruto')
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
+            Number::make('Persentase Pajak (%)', 'pajak')
+                ->help('Kosongkan jika pegawai tidak diberi honor')
+                ->dependsOn(['nik', 'honor_kegiatan_id'], function (Number $field, NovaRequest $request, FormData $formData) {
+                        $field->setvalue(Helper::$pajakgolongan[Helper::getPropertyFromCollection(Helper::getDataPegawaiByNip($formData->nik, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(),'tanggal_spj')),'golongan')?? 'I/a']);
+                })->onlyOnForms(),
+            Currency::make('Pajak', 'pajak')
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
+            Currency::make('Netto', 'netto')
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
             Text::make('Rekening', 'rekening')
-                ->help('Contoh Penulisan Rekening: BRI 123456788089'),
+                ->rules('required')
+                ->onlyOnIndex(),
+
         ];
     }
 
@@ -138,13 +128,13 @@ class DaftarHonorPegawai extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
-            AddHasManyModel::make('DaftarHonorPegawai', 'HonorKegiatan', $request->viaResourceId)
-                ->confirmButtonText('Tambah')
-                // ->size('7xl')
-                ->standalone()
-                ->addFields($this->fields($request)),
-        ];
+        $actions = [];
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            $actions [] =
+                EditRekening::make('pegawai')->onlyInline();
+        }
+
+        return $actions;
     }
 
     /**
@@ -156,6 +146,10 @@ class DaftarHonorPegawai extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Detail=daftar-honor-pegawai';
+        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
+    }
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
     }
 }

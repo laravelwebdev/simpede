@@ -13,6 +13,7 @@ use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\MataAnggaran;
+use App\Models\Mitra;
 use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
 use App\Models\TataNaskah;
@@ -474,21 +475,16 @@ class Helper
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
-    public static function getDataPegawaiByNip($nip, $tanggal)
-    {
-        $user_id = self::getPropertyFromCollection(self::getPegawaiByNip($nip),'id');
-        return self::getDataPegawaiByUserId($user_id, $tanggal);
-    }
-
     public static function getPegawaiByUserId($user_id)
     {
         return User::cache()->get('all')->where('id', $user_id)->first();
     }
 
-    public static function getPegawaiByNip($nip)
+    public static function getMitraById($id)
     {
-        return User::cache()->get('all')->where('nip', $nip)->first();
+        return Mitra::cache()->get('all')->where('id', $id)->first();
     }
+
 
     /**
      * Cek Duplicate from json.
@@ -886,12 +882,6 @@ class Helper
     {
         return self::setOptions(self::getUsersByPengelola($role, $tanggal), 'id', 'name');
     }
-
-    public static function setOptionPengelolaWithNip($role, $tanggal)
-    {
-        return self::setOptions(self::getUsersByPengelola($role, $tanggal), 'nip', 'name');
-    }
-
 
     public static function setOptionDipa()
     {

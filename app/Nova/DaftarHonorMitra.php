@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\Mitra;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +50,7 @@ class DaftarHonorMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $mitra = Mitra::cacche()->get('all')->where('id', $this->id)->first();
+        $mitra = Helper::getMitraById($this->mitra_id);
         return [
             Text::make('Nama' , fn() => $mitra->nama)
                 ->onlyOnIndex(),
@@ -64,11 +66,11 @@ class DaftarHonorMitra extends Resource
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Pajak', fn() => round($this->bruto * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
+            Currency::make('Pajak', fn() => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Netto', fn() => $this->bruto - $this->pajak)
+            Currency::make('Netto', fn() => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),

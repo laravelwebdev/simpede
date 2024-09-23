@@ -35,19 +35,15 @@ class EditRekening extends Action
     {
         $model = $models->first();
         if ($this->jenis == 'mitra'){
-            $mitra = Mitra::where('nik', $model->nik)->first();
+            $mitra = Mitra::where('id', $model->id)->first();
             $mitra->rekening = $fields->rekening;
             $mitra->save();
         }
         if ($this->jenis == 'pegawai'){
-            $user = User::where('nip', $model->nik)->first();
+            $user = User::where('id', $model->id)->first();
             $user->rekening = $fields->rekening;
             $user->save();
         }
-
-        $model->rekening = $fields->rekening;
-        $model->save();
-
         return Action::message('Edit Rekening Berhasil!');
     }
 

@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
+use App\Models\User;
 use App\Nova\Actions\AddHasManyModel;
 use App\Nova\Actions\EditRekening;
 use Laravel\Nova\Fields\Currency;
@@ -44,17 +45,19 @@ class DaftarHonorPegawai extends Resource
 
     public function fields(NovaRequest $request)
     {
+        $user = Helper::getPegawaiByUserId($this->user_id);
         return [
-            Select::make('Nama Pegawai','nik')
+            Select::make('Nama Pegawai','user_id')
                 ->rules('required')
                 ->searchable()
-                ->options(Helper::setOptionPengelolaWithNip('anggota',Helper::getPropertyFromCollection(HonorKegiatan::where('id',$request->viaResourceId)->first(),'tanggal_spj')))
-                ->creationRules('unique:daftar_honor_pegawais,nik')
-                ->updateRules('unique:daftar_honor_pegawais,nik,{{resourceId}}'),
-            Text::make('Nama', 'nama')
-                ->onlyOnIndex(),
-            Text::make('Golongan')
-                ->onlyOnIndex(),
+                ->options(Helper::setOptionPengelola('anggota',Helper::getPropertyFromCollection(HonorKegiatan::where('id',$request->viaResourceId)->first(),'tanggal_spj')))
+                ->creationRules('unique:daftar_honor_pegawais,user_id')
+                ->updateRules('unique:daftar_honor_pegawais,user_id,{{resourceId}}')
+                ->onlyOnForms(),
+            Text::make('Nama' , fn() => $user->name)
+                ->exceptOnForms(),
+            Text::make('Golongan', fn() => Helper::getDataPegawaiByUserId($user->id, Helper::getPropertyFromCollection(HonorKegiatan::where('id',$request->viaResourceId)->first(),'tanggal_spj'))->golongan)
+                ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
                 ->step(1)
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
@@ -63,26 +66,26 @@ class DaftarHonorPegawai extends Resource
                 ->locale('id')
                 ->help('Kosongkan jika pegawai tidak diberi honor')
                 ->step(1),
-            Currency::make('Bruto', 'bruto')
+            Currency::make('Bruto', fn() => $this->volume * $this->harga_satuan)
                 ->currency('IDR')
                 ->locale('id')
-                ->onlyOnIndex(),
-            Number::make('Persentase Pajak (%)', 'pajak')
+                ->exceptOnForms(),
+            Number::make('Persentase Pajak (%)', 'persen_pajak')
                 ->help('Kosongkan jika pegawai tidak diberi honor')
-                ->dependsOn(['nik', 'honor_kegiatan_id'], function (Number $field, NovaRequest $request, FormData $formData) {
-                        $field->setvalue(Helper::$pajakgolongan[Helper::getPropertyFromCollection(Helper::getDataPegawaiByNip($formData->nik, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(),'tanggal_spj')),'golongan')?? 'I/a']);
+                ->dependsOn('user_id', function (Number $field, NovaRequest $request, FormData $formData) {
+                        $field->setvalue(Helper::$pajakgolongan[Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($formData->user_id, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(),'tanggal_spj')),'golongan')?? 'I/a']);
                 })->onlyOnForms(),
-            Currency::make('Pajak', 'pajak')
+            Currency::make('Pajak', fn() => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
-                ->onlyOnIndex(),
-            Currency::make('Netto', 'netto')
+                ->exceptOnForms(),
+                Currency::make('Netto', fn() => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
-                ->onlyOnIndex(),
+                ->exceptOnForms(),
             Text::make('Rekening', 'rekening')
                 ->rules('required')
-                ->onlyOnIndex(),
+                ->exceptOnForms(),
 
         ];
     }

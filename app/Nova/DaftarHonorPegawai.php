@@ -79,12 +79,11 @@ class DaftarHonorPegawai extends Resource
                 ->currency('IDR')
                 ->locale('id')
                 ->exceptOnForms(),
-                Currency::make('Netto', fn() => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
+            Currency::make('Netto', fn() => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->exceptOnForms(),
-            Text::make('Rekening', 'rekening')
-                ->rules('required')
+            Text::make('Rekening', fn() => $user->rekening)
                 ->exceptOnForms(),
 
         ];

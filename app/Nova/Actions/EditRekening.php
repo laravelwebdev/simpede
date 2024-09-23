@@ -35,12 +35,12 @@ class EditRekening extends Action
     {
         $model = $models->first();
         if ($this->jenis == 'mitra'){
-            $mitra = Mitra::where('id', $model->id)->first();
+            $mitra = Mitra::where('id', $model->mitra_id)->first();
             $mitra->rekening = $fields->rekening;
             $mitra->save();
         }
         if ($this->jenis == 'pegawai'){
-            $user = User::where('id', $model->id)->first();
+            $user = User::where('id', $model->user_id)->first();
             $user->rekening = $fields->rekening;
             $user->save();
         }

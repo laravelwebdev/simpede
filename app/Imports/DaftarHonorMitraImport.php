@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Helpers\Helper;
 use App\Models\DaftarHonorMitra;
 use App\Models\Mitra;
 use Illuminate\Support\Collection;
@@ -44,7 +45,7 @@ class DaftarHonorMitraImport implements ToCollection, WithMultipleSheets, WithHe
                         'bruto' => $row['Volume'] * $row['HargaSatuan'],
                         'pajak' => round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP),
                         'netto' => ($row['Volume'] * $row['HargaSatuan']) - round(($row['Volume'] * $row['HargaSatuan'] * $row['PersentasePajak']) / 100, 0, PHP_ROUND_HALF_UP),
-                        'rekening' => Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->first()->rekening ?? '',
+                        'rekening' => Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->first(), 'rekening'),
                         'updated_at' => now(),
                     ]
                 );

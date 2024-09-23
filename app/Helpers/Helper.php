@@ -19,6 +19,7 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Hamcrest\SelfDescribing;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -367,20 +368,20 @@ class Helper
         $tahun = self::getYearFromDate($tanggal);
         $replaces['<tahun>'] = $tahun;
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
-        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $jenis_naskah->kode_naskah_id)->first();
+        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', self::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id'))->first();
         if ($unit_kerja_id !== null) {
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
-            $replaces['<kode_unit_kerja>'] = $unit_kerja->kode;
+            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode');
         }
         if ($kode_arsip_id !== null) {
             $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
-            $replaces['<kode_arsip>'] = $kode_arsip->kode;
+            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode');
         }
         if ($derajat !== null) {
             $replaces['<derajat>'] = $derajat;
         }
 
-        $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', $kode_naskah->id);
+        $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'));
         $max_no_urut = $naskah->max('no_urut');
         $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
         if ($tanggal >= $max_tanggal) {
@@ -389,17 +390,17 @@ class Helper
             $replaces['<no_urut>'] = $no_urut;
         } else {
             $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
-            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', $kode_naskah->id)->where('no_urut', $no_urut)->max('segmen') + 1;
+            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))->where('no_urut', $no_urut)->max('segmen') + 1;
             $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
         }
-        $format = $jenis_naskah->format ?? $kode_naskah->format;
+        $format = self::getPropertyFromCollection($jenis_naskah, 'format') ?? self::getPropertyFromCollection($kode_naskah, 'format');
         $nomor = strtr($format, $replaces);
 
         return [
             'nomor' => $nomor,
             'no_urut' => $no_urut,
             'segmen' => $segmen,
-            'kode_naskah_id' => $kode_naskah->id,
+            'kode_naskah_id' => self::getPropertyFromCollection($kode_naskah, 'id'),
         ];
     }
 
@@ -425,7 +426,7 @@ class Helper
         if ($role == 'koordinator') {
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
-                ->where('unit_kerja_id', Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal) ? Helper::getDataPegawaiByUserId(Auth::user()->id, $tanggal)->unit_kerja_id : null)
+                ->where('unit_kerja_id',self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal),'unit_kerja_id'))
                 ->where('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
@@ -505,22 +506,6 @@ class Helper
         return $spek;
     }
 
-    // /**
-    //  * Mengecek mak memuat akun tertentu.
-    //  *
-    //  * @param  json anggaran $spek
-    //  * @param  array  $akun
-    //  * @return int
-    //  */
-    // public static function sumJenisAkun($spek, $akun)
-    // {
-    //     // $spek = collect($spek);
-
-    //     return $spek->transform(function ($item, $key) {
-    //         return ['mak' => substr($item['mak'], -6)];
-    //     })->whereIn('mak', $akun)->count();
-    // }
-
     /**
      * Menambahkan tambahan segmen nomor naskah.
      *
@@ -541,28 +526,6 @@ class Helper
         return  $b26;
     }
 
-    // /**
-    //  * Memeriksa apakah anggaran memuat akun perjalanan dinas.
-    //  *
-    //  * @param  json anggaran $spek
-    //  * @return int
-    //  */
-    // public static function sumJenisAkunPerjalanan($spek)
-    // {
-    //     return self::sumJenisAkun($spek, self::$akun_perjalanan);
-    // }
-
-    // /**
-    //  * Memeriksa apakah anggaran memuat akun belanja persediaan.
-    //  *
-    //  * @param  json anggaran $spek
-    //  * @return int
-    //  */
-    // public static function sumJenisAkunPersediaan($spek)
-    // {
-    //     return self::sumJenisAkun($spek, self::$akun_persediaan);
-    // }
-
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
      *
@@ -579,30 +542,6 @@ class Helper
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
     }
 
-    // /**
-    //  * Memeriksa apakah terjadi perubahan dari anggaran perjalanan menjadi tidak ada.
-    //  *
-    //  * @param  json anggaran $spek_old
-    //  * @param  json anggaran $spek_new
-    //  * @return bool
-    //  */
-    // public static function isAkunPerjalananChanged($spek_old, $spek_new)
-    // {
-    //     return self::sumJenisAkunPerjalanan($spek_old) - self::sumJenisAkunPerjalanan($spek_new) == 1;
-    // }
-
-    // /**
-    //  * Memeriksa apakah terjadi perubahan dari anggaran persediaan menjadi tidak ada.
-    //  *
-    //  * @param  json anggaran $spek_old
-    //  * @param  json anggaran $spek_new
-    //  * @return bool
-    //  */
-    // public static function isAkunPersediaanChanged($spek_old, $spek_new)
-    // {
-    //     return self::sumJenisAkunPersediaan($spek_old) - self::sumJenisAkunPersediaan($spek_new) == 1;
-    // }
-
     /**
      * Mengambil satu akun mak dari kumpulan akun.
      *
@@ -617,51 +556,6 @@ class Helper
         return $spek->filter(function ($item, $key) use ($akun) {
             return in_array(substr($item['mak'], -6), $akun);
         });
-    }
-
-    /**
-     * Mengambil satu akun honor dari kumpulan akun.
-     *
-     * @param  json anggaran $spek
-     * @return string
-     */
-    public static function getSingleAkunHonor($spek)
-    {
-        // $spek = collect($spek);
-
-        return $spek->filter(function ($item, $key) {
-            return in_array(substr($item['mak'], -6), self::$akun_honor);
-        })->first()['mak'];
-    }
-
-    /**
-     * Mengambil satu akun perjalanan dari kumpulan akun.
-     *
-     * @param  json anggaran $spek
-     * @return string
-     */
-    public static function getSingleAkunPerjalanan($spek)
-    {
-        $spek = collect($spek);
-
-        return $spek->filter(function ($item, $key) {
-            return in_array(substr($item['mak'], -6), self::$akun_perjalanan);
-        })->first()['mak'];
-    }
-
-    /**
-     * Mengambil satu akun persediaan dari kumpulan akun.
-     *
-     * @param  json anggaran $spek
-     * @return string
-     */
-    public static function getSingleAkunPersediaan($spek)
-    {
-        $spek = collect($spek);
-
-        return $spek->filter(function ($item, $key) {
-            return in_array(substr($item['mak'], -6), self::$akun_persediaan);
-        })->first()['mak'];
     }
 
     /**
@@ -713,20 +607,6 @@ class Helper
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
     }
-
-    /**
-     * Mengambil array Jenis Kontrak.
-     *
-     * @param  string  $tahun
-     * @param  string  $bulan
-     * @return array
-     */
-    // public static function getJenisKontrak($tahun, $bulan): array
-    // {
-    //     $tanggal = Carbon::createFromDate($tahun, $bulan)->startOfMonth();
-
-    //     return JenisKontrak::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first()->jenis ?? '';
-    // }
 
     /**
      * Format tampilan spesifikasi.
@@ -809,6 +689,11 @@ class Helper
         return $speks;
     }
 
+    public static function getPropertyFromCollection($collection, $property)
+    {
+        return $collection == null ? null : $collection->$property;
+    }
+
     /**
      * Mengambil Path Template.
      *
@@ -817,7 +702,7 @@ class Helper
      */
     public static function getTemplatePath($column, $value)
     {
-        $file = Template::cache()->get('all')->where($column, '=', $value)->first()->file ?? '';
+        $file = self::getPropertyFromCollection(Template::cache()->get('all')->where($column, '=', $value)->first(),'file');
 
         return [
             'filename' => $file,
@@ -835,16 +720,6 @@ class Helper
         return self::getTemplatePath('id', $id);
     }
 
-    /**
-     * Mengambil Keterangan DIPA.
-     *
-     * @param  string  $id
-     * @return collection
-     */
-    public static function getDipa($id)
-    {
-        return Dipa::cache()->get('all')->where('id', $id)->first() ?? '';
-    }
 
     /**
      * Mengambil ID Tata Naskah Terbaru.
@@ -854,16 +729,12 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        $tata_naskah = TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
-
-        return $tata_naskah == null ? '' : $tata_naskah->id;
+        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
     public static function getLatestHargaSatuanId($tanggal)
     {
-        $harga_satuan = HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
-
-        return $harga_satuan == null ? null : $harga_satuan->id;
+        return self::getPropertyFromCollection(HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
     /**
@@ -966,15 +837,6 @@ class Helper
         return self::setOptions(JenisKontrak::cache()->get('all')->where('harga_satuan_id', self::getLatestHargaSatuanId($tanggal)), 'id', 'jenis');
     }
 
-    // /**
-    //  * Pilihan Tahun.
-    //  *
-    //  * @return array $tahun
-    //  */
-    // public static function setOptionTahun()
-    // {
-    //     return array_combine(range(date('Y'), 2024), range(date('Y'), 2024));
-    // }
 
     public static function setOptionTahunDipa()
     {

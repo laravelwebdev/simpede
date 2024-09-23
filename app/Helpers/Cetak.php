@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\AnggaranKerangkaAcuan;
 use App\Models\DaftarHonorMitra;
+use App\Models\Dipa;
 use App\Models\HonorKegiatan;
 use App\Models\KamusAnggaran;
 use App\Models\KerangkaAcuan;
@@ -120,12 +121,14 @@ class Cetak
     public static function kak($id)
     {
         $data = KerangkaAcuan::find($id);
-
+        $dipa = Dipa::cache()->get('all')->where('id', $data->dipa_id)->first();
+        $koordinator = Helper::getPegawaiByUserId($data->koordinator_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
         return [
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'rincian' => Helper::hapusTitikAkhirKalimat($data->rincian),
-            'unit' => UnitKerja::cache()->get('all')->where('id', $data->unit_kerja_id)->first()->unit ?? '',
+            'unit' => Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $data->unit_kerja_id)->first(),'unit'),
             'latar_belakang' => Helper::hapusTitikAkhirKalimat($data->latar),
             'maksud' => Helper::hapusTitikAkhirKalimat($data->maksud),
             'tujuan' => Helper::hapusTitikAkhirKalimat($data->tujuan),
@@ -135,17 +138,17 @@ class Cetak
             'anggaran' => AnggaranKerangkaAcuan::where('kerangka_acuan_id', $id)->get()->toArray(),
             'spesifikasi' => SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $id)->get()->toArray(),
             'metode' => $data->metode,
-            'nama' => Helper::getPegawaiByUserId($data->koordinator_user_id)->name,
-            'nip' => Helper::getPegawaiByUserId($data->koordinator_user_id)->nip,
-            'no_dipa' => Helper::getDipa($data->dipa_id)->nomor,
-            'tanggal_dipa' => Helper::terbilangTanggal(Helper::getDipa($data->dipa_id)->tanggal),
-            'tahun' => Helper::getDipa($data->dipa_id)->tahun,
-            'jabatan' => Helper::getDataPegawaiByUserId($data->koordinator_user_id, $data->tanggal)->jabatan == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan',
+            'nama' => Helper::getPropertyFromCollection($koordinator, 'name'),
+            'nip' => Helper::getPropertyFromCollection($koordinator,'nip'),
+            'no_dipa' => Helper::getPropertyFromCollection($dipa, 'nomor'),
+            'tanggal_dipa' => Helper::terbilangTanggal(Helper::getPropertyFromCollection($dipa, 'tanggal')),
+            'tahun' => Helper::getPropertyFromCollection($dipa, 'tahun'),
+            'jabatan' => Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->koordinator_user_id, $data->tanggal),'jabatan') == 'Kepala Subbagian Umum' ? 'Kepala Subbagian Umum' : 'Penanggung Jawab Kegiatan',
             'waktu' => Helper::jangkaWaktuHariKalender($data->awal, $data->akhir),
             'awal' => Helper::terbilangTanggal($data->awal),
             'akhir' => Helper::terbilangTanggal($data->akhir),
-            'ppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->name,
-            'nipppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->nip,
+            'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
+            'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
         ];
     }
 
@@ -159,7 +162,9 @@ class Cetak
     {
         $data = HonorKegiatan::find($id);
         $kamus = KamusAnggaran::cache()->get('all')->where('id', $data->kamus_anggaran_id)->first();
-
+        $koordinator = Helper::getPegawaiByUserId($data->koordinator_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
+        $bendahara = Helper::getPegawaiByUserId($data->bendahara_user_id);
         return [
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
@@ -177,12 +182,12 @@ class Cetak
             'total_bruto' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('bruto')),
             'total_pajak' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('pajak')),
             'total_netto' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('netto')),
-            'ketua' => Helper::getPegawaiByUserId($data->koordinator_user_id)->name,
-            'nipketua' => Helper::getPegawaiByUserId($data->koordinator_user_id)->nip,
-            'ppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->name,
-            'nipppk' => Helper::getPegawaiByUserId($data->ppk_user_id)->nip,
-            'bendahara' => Helper::getPegawaiByUserId($data->bendahara_user_id)->name,
-            'nipbendahara' => Helper::getPegawaiByUserId($data->bendahara_user_id)->nip,
+            'ketua' => Helper::getPropertyFromCollection($koordinator, 'name'),
+            'nipketua' => Helper::getPropertyFromCollection($koordinator, 'nip'),
+            'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
+            'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
+            'bendahara' => Helper::getPropertyFromCollection($bendahara, 'name'),
+            'nipbendahara' => Helper::getPropertyFromCollection($bendahara, 'nip'),
             'terbilang_total' => Helper::terbilang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('bruto'), 'uw', ' rupiah'),
         ];
     }

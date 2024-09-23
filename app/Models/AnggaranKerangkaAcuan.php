@@ -15,6 +15,7 @@ class AnggaranKerangkaAcuan extends Model
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonor($anggaranKak->mak)) {
                 $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
                 if ($honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->where('mak', $anggaranKak->mak)->first()) {
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
@@ -22,7 +23,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->mak = $anggaranKak->mak;
-                    $honor->tahun = Helper::getDipa($kak->dipa_id)->tahun;
+                    $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
                     $honor->kegiatan = $kak->kegiatan;
                     if ($kak->wasChanged('tanggal')) {
                         $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
@@ -45,7 +46,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;
                     $honor->tanggal_sk = $kak->tanggal;
-                    $honor->tahun = Helper::getDipa($kak->dipa_id)->tahun;
+                    $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
                     $honor->unit_kerja_id = $kak->unit_kerja_id;
                     $honor->save();
                 }

@@ -58,7 +58,7 @@ class KerangkaAcuan extends Model
             $jenis_naskah = JenisNaskah::cache()
                 ->get('all')
                 ->where('jenis', 'Form Permintaan')
-                ->where('kode_naskah_id', $kode_naskah->id)
+                ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
                 ->first();
             $kode_arsip = KodeArsip::cache()
                 ->get('all')
@@ -67,9 +67,9 @@ class KerangkaAcuan extends Model
                 ->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kak->tanggal;
-            $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
+            $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
             $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-            $naskahkeluar->kode_naskah_id = $jenis_naskah->kode_naskah_id;
+            $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah ,'kode_naskah_id');
             $naskahkeluar->derajat = 'B';
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
@@ -129,7 +129,7 @@ class KerangkaAcuan extends Model
                 $kak->tkdn = '-';
             }
             $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
-            $kak->unit_kerja_id = $dataKetua->unit_kerja_id;
+            $kak->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
             if ($kak->isDirty()) $kak->status = 'dibuat';
         });
     }

@@ -100,7 +100,7 @@ class KerangkaAcuan extends Resource
                     ->rules('required')
                     ->displayUsingLabels()
                     ->options(Helper::setOptionDipa())
-                    ->default(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id ?? null),
+                    ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
@@ -274,14 +274,14 @@ class KerangkaAcuan extends Resource
             Select::make('Pembuat KAK', 'koordinator_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal)));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal)));
                 }),

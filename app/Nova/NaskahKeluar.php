@@ -132,14 +132,14 @@ class NaskahKeluar extends Resource
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsKodeArsip($form->tanggal));
                 }),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => $kode ? JenisNaskah::cache()->get('all')->where('id', $kode)->first()->jenis : null)
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisNaskah::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),

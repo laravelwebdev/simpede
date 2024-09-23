@@ -88,7 +88,7 @@ class HonorKegiatan extends Model
                         $jenis_naskah = JenisNaskah::cache()
                             ->get('all')
                             ->where('jenis', 'Keputusan')
-                            ->where('kode_naskah_id', $kode_naskah->id)
+                            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
                             ->first();
                         $kode_arsip = KodeArsip::cache()
                             ->get('all')
@@ -97,9 +97,9 @@ class HonorKegiatan extends Model
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
-                        $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
+                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
                         $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-                        $naskahkeluar->kode_naskah_id = $jenis_naskah->kode_naskah_id;
+                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
                         $naskahkeluar->derajat = 'B';
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'SK '.$honor->objek_sk;
@@ -125,13 +125,13 @@ class HonorKegiatan extends Model
                         $jenis_naskah = JenisNaskah::cache()
                             ->get('all')
                             ->where('jenis', 'Surat Tugas')
-                            ->where('kode_naskah_id', $kode_naskah->id)
+                            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
-                        $naskahkeluar->jenis_naskah_id = $jenis_naskah->id;
+                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah,'id');
                         $naskahkeluar->kode_arsip_id = $honor->kode_arsip_id;
-                        $naskahkeluar->kode_naskah_id = $jenis_naskah->kode_naskah_id;
+                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah,'kode_naskah_id');
                         $naskahkeluar->derajat = 'B';
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;

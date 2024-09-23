@@ -111,7 +111,7 @@ class HonorKegiatan extends Resource
                 Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->rules('required')
                     ->filterable()
-                    ->displayUsing(fn ($kode) => $kode ? JenisKontrak::cache()->get('all')->where('id', $kode)->first()->jenis : null)
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(),'jenis'))
                     ->dependsOn('tanggal_kak', function (Select $field, NovaRequest $request, FormData $form) {
                         $field->options(Helper::setOptionJenisKontrak($form->tanggal_kak));
                     }),
@@ -129,15 +129,13 @@ class HonorKegiatan extends Resource
                         $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'id', 'detail'));
                     })
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => $kode ? KamusAnggaran::cache()->get('all')->where('id', $kode)->first()->detail : null),
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $kode)->first(), 'detail')),
                 Text::make('Satuan Pembayaran', 'satuan')
                     ->rules('required')
                     ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
                     ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
-                        if (KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()) {
-                            $field->setValue(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first()->satuan);
-                        }
+                            $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
                     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
@@ -192,7 +190,7 @@ class HonorKegiatan extends Resource
                     ->searchable()
                     ->hide()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => $kode ? KodeArsip::cache()->get('all')->where('id', $kode)->first()->kode : null)
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->dependsOn(['generate_st', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->rules('required')
@@ -211,7 +209,7 @@ class HonorKegiatan extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
@@ -219,7 +217,7 @@ class HonorKegiatan extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
@@ -227,7 +225,7 @@ class HonorKegiatan extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPegawaiByUserId($id)->name)
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
                     }),

@@ -129,7 +129,7 @@ class DaftarHonorMitra extends Resource
             $actions[] =
                 ImportDaftarHonorMitra::make($request->viaResourceId)
                 ->standalone()
-                ->confirmButtonText('Unduh');
+                ->confirmButtonText('Import');
         }
 
         return $actions;

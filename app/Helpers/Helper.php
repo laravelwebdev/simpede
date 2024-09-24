@@ -20,7 +20,6 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
-use Hamcrest\SelfDescribing;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -369,7 +368,7 @@ class Helper
             return null;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
+        $tanggal =  Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
     }
 
     /**
@@ -460,16 +459,6 @@ class Helper
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
-    /**
-     * Retrieve the most recent DataPegawai record for a given user ID up to a specified date.
-     *
-     * This method fetches all cached DataPegawai records, filters them by the provided user ID
-     * and date, sorts them in descending order by date, and returns the first record.
-     *
-     * @param  int  $user_id  The ID of the user whose DataPegawai record is to be retrieved.
-     * @param  string  $tanggal  The date up to which the DataPegawai records should be considered.
-     * @return DataPegawai|null The most recent DataPegawai record for the given user ID up to the specified date, or null if no record is found.
-     */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
@@ -486,59 +475,6 @@ class Helper
     }
 
 
-    /**
-     * Cek Duplicate from json.
-     *
-     * @param  json  $json
-     * @param  string  $key
-     * @return bool
-     */
-    public static function cekGanda($json, $key)
-    {
-        $spek = collect($json);
-        $cek = $spek->duplicates($key);
-
-        return $cek->isNotEmpty();
-    }
-
-    /**
-     * Menghitung jumlah nilai spesifikasi.
-     *
-     * @param  json  $json
-     * @param  string  $key
-     * @return float
-     */
-    public static function sumJson($json, $key)
-    {
-        $spek = collect($json);
-
-        return $spek->sum($key);
-    }
-
-    /**
-     * Menambahkan rincian total pada spesifikasi.
-     *
-     * @param  json  $spek
-     * @return json
-     */
-    public static function addTotalToSpek($spek)
-    {
-        $spek = collect($spek);
-        $spek->transform(function ($item, $index) {
-            $item['spek_nilai'] = (float) $item['spek_volume'] * (float) $item['spek_harga'];
-
-            return $item;
-        })->toArray();
-
-        return $spek;
-    }
-
-    /**
-     * Menambahkan tambahan segmen nomor naskah.
-     *
-     * @param  int  $num
-     * @return string
-     */
     public static function setSegmen($num): string
     {
         $b26 = '';
@@ -567,22 +503,6 @@ class Helper
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
-    }
-
-    /**
-     * Mengambil satu akun mak dari kumpulan akun.
-     *
-     * @param  json anggaran $spek
-     * @param  array  $akun
-     * @return string
-     */
-    public static function getSingleAkun($spek, $akun)
-    {
-        $spek = collect($spek);
-
-        return $spek->filter(function ($item, $key) use ($akun) {
-            return in_array(substr($item['mak'], -6), $akun);
-        });
     }
 
     /**
@@ -764,32 +684,11 @@ class Helper
         return self::getPropertyFromCollection(HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
-    /**
-     * Sets options for Derajat Naskah based on the given date.
-     *
-     * This method retrieves all Derajat Naskah records from the cache, filters them
-     * by the 'tata_naskah_id' corresponding to the provided date, and then sets the
-     * options using the 'kode' and 'derajat' fields.
-     *
-     * @param  string  $tanggal  The date used to determine the 'tata_naskah_id'.
-     * @return mixed The result of setting the options.
-     */
     public static function setOptionsDerajatNaskah($tanggal)
     {
         return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'kode', 'derajat');
     }
 
-    /**
-     * Sets options for Jenis Naskah based on the provided date.
-     *
-     * This method retrieves the `kode_naskah_id` by filtering the cached KodeNaskah
-     * records using the `tata_naskah_id` obtained from the provided date. It then
-     * sets the options for Jenis Naskah by filtering the cached JenisNaskah records
-     * using the retrieved `kode_naskah_id`.
-     *
-     * @param  string  $tanggal  The date used to determine the `tata_naskah_id`.
-     * @return array The options for Jenis Naskah with keys as 'id' and values as 'jenis'.
-     */
     public static function setOptionsJenisNaskah($tanggal)
     {
         $kode_naskah_id = KodeNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal))->pluck('id');
@@ -797,30 +696,11 @@ class Helper
         return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
     }
 
-    /**
-     * Sets options for Kode Arsip based on the provided date.
-     *
-     * This method retrieves all cached Kode Arsip records and filters them
-     * by the 'tata_naskah_id' that corresponds to the given date. It then
-     * sets options using the filtered records.
-     *
-     * @param  string  $tanggal  The date used to determine the 'tata_naskah_id'.
-     * @return mixed The result of the setOptions method.
-     */
     public static function setOptionsKodeArsip($tanggal)
     {
         return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group');
     }
 
-    /**
-     * Sets options for Mata Anggaran based on the given year.
-     *
-     * This method retrieves the DIPA ID for the specified year and uses it to filter
-     * the Mata Anggaran options. It then sets these options using the 'mak' field.
-     *
-     * @param  int  $tahun  The year for which to set the Mata Anggaran options.
-     * @return array The filtered and set options for Mata Anggaran.
-     */
     public static function setOptionsMataAnggaran($dipa_id)
     {
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');

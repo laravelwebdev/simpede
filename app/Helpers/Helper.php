@@ -608,12 +608,18 @@ class Helper
      * @param  string  $spesifikasi
      * @return array
      */
-    public static function formatSpj($spesifikasi)
+    public static function formatSpj($mitra, $pegawai)
     {
         // $spek = json_decode($spesifikasi, true);
-        $speks = collect($spesifikasi);
+        $speks = collect($mitra);
         $speks->transform(function ($item, $index) {
+            $mitra =Helper::getMitraById($item['mitra_id']);
             $item['spj_no'] = $index + 1;
+            $item['nama']   = Helper::getPropertyFromCollection($mitra, 'nama');
+            $item['rekening']   = Helper::getPropertyFromCollection($mitra, 'rekening');
+            $item['bruto'] = $item['volume']*$item['harga_satuan'];
+            $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
+            $item['netto'] = $item['bruto'] - $item['pajak'];
             if (isset($item['harga_satuan'])) {
                 $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             }
@@ -631,8 +637,12 @@ class Helper
             }
 
             return $item;
-        })->toArray();
+        })->forget(['id'])
+        ->toArray();
 
+        $spekPegawai = collect($pegawai);
+        $lastNomor = $speks->count();
+        
         return $speks;
     }
 

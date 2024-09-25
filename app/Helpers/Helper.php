@@ -608,13 +608,10 @@ class Helper
      * @param  string  $spesifikasi
      * @return array
      */
-    public static function formatSpj($mitra, $pegawai)
+    public static function formatMitra($mitra)
     {
-        // $spek = json_decode($spesifikasi, true);
-        $speks = collect($mitra);
-        $speks->transform(function ($item, $index) {
+        $mitra->transform(function ($item, $index) {
             $mitra = Helper::getMitraById($item['mitra_id']);
-            $item['spj_no'] = $index + 1;
             $item['nama']   = Helper::getPropertyFromCollection($mitra, 'nama');
             $item['rekening']   = Helper::getPropertyFromCollection($mitra, 'rekening');
             $item['golongan'] = '-';
@@ -626,13 +623,29 @@ class Helper
             $item['pajak'] = self::formatUang($item['pajak']);
             $item['netto'] = self::formatUang($item['netto']);
             return $item;
-        })
-        ->toArray();
+        });
 
-        // $spekPegawai = collect($pegawai);
-        // $lastNomor = $speks->count();
+        return $mitra;
+    }
 
-        return $speks;
+    public static function formatPegawai($pegawai, $tanggal_spj)
+    {
+        $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
+            $pegawai = Helper::getPegawaiByUserId($item['user_id']);
+            $item['nama']   = Helper::getPropertyFromCollection($pegawai, 'name');
+            $item['rekening'] = Helper::getPropertyFromCollection($pegawai, 'rekening');
+            $item['golongan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
+            $item['bruto'] = $item['volume']*$item['harga_satuan'];
+            $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
+            $item['netto'] = $item['bruto'] - $item['pajak'];
+            $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
+            $item['bruto'] = self::formatUang($item['bruto']);
+            $item['pajak'] = self::formatUang($item['pajak']);
+            $item['netto'] = self::formatUang($item['netto']);
+            return $item;
+        });
+
+        return $pegawai;
     }
 
     public static function getPropertyFromCollection($collection, $property)

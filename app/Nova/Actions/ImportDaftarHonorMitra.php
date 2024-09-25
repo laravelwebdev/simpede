@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
-use App\Imports\DaftarHonorMitraImport;
 use App\Models\DaftarHonorMitra;
 use App\Models\HonorKegiatan;
 use App\Models\Mitra;
@@ -15,7 +14,6 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportDaftarHonorMitra extends Action

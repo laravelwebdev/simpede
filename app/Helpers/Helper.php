@@ -613,36 +613,25 @@ class Helper
         // $spek = json_decode($spesifikasi, true);
         $speks = collect($mitra);
         $speks->transform(function ($item, $index) {
-            $mitra =Helper::getMitraById($item['mitra_id']);
+            $mitra = Helper::getMitraById($item['mitra_id']);
             $item['spj_no'] = $index + 1;
             $item['nama']   = Helper::getPropertyFromCollection($mitra, 'nama');
             $item['rekening']   = Helper::getPropertyFromCollection($mitra, 'rekening');
+            $item['golongan'] = '-';
             $item['bruto'] = $item['volume']*$item['harga_satuan'];
             $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
-            if (isset($item['harga_satuan'])) {
-                $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
-            }
-            if (! isset($item['golongan'])) {
-                $item['golongan'] = '-';
-            }
-            if (isset($item['bruto'])) {
-                $item['bruto'] = self::formatUang($item['bruto']);
-            }
-            if (isset($item['pajak'])) {
-                $item['pajak'] = self::formatUang($item['pajak']);
-            }
-            if (isset($item['netto'])) {
-                $item['netto'] = self::formatUang($item['netto']);
-            }
-
+            $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
+            $item['bruto'] = self::formatUang($item['bruto']);
+            $item['pajak'] = self::formatUang($item['pajak']);
+            $item['netto'] = self::formatUang($item['netto']);
             return $item;
-        })->forget(['id'])
+        })
         ->toArray();
 
-        $spekPegawai = collect($pegawai);
-        $lastNomor = $speks->count();
-        
+        // $spekPegawai = collect($pegawai);
+        // $lastNomor = $speks->count();
+
         return $speks;
     }
 

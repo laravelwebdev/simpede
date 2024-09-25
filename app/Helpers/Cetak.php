@@ -66,7 +66,7 @@ class Cetak
             KerangkaAcuan::where('id', $id)->update(['status' => 'selesai']);
         }
         if ($jenis === 'spj') {
-            $templateProcessor->cloneRowAndSetValues('spj_no', Helper::formatSpj($data['daftar_honor_mitra']));
+            $templateProcessor->cloneRowAndSetValues('volume', $data['daftar_honor_mitra']);
             $detailAnggarans = ['kegiatan', 'kro', 'ro', 'komponen', 'sub', 'akun', 'detail'];
             foreach ($detailAnggarans as $detailAnggaran) {
                 if (Str::of($data[$detailAnggaran])->contains('edit manual karena belum ada di POK')) {
@@ -177,18 +177,19 @@ class Cetak
             'komponen' => Helper::getDetailAnggaran($data->mak, 'komponen'),
             'sub' => Helper::getDetailAnggaran($data->mak, 'sub'),
             'akun' => Helper::getDetailAnggaran($data->mak, 'akun'),
-            'daftar_honor_mitra' => DaftarHonorMitra::where('honor_kegiatan_id', $id)->get()->toArray(),
+            'daftar_honor_mitra' => Helper::makeSpjMitraAndPegawai($id,$data->tanggal_spj ),
             'satuan' => $data->satuan,
-            'total_bruto' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('bruto')),
-            'total_pajak' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('pajak')),
-            'total_netto' => Helper::formatUang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('netto')),
+            'total_bruto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, "2024-09-01")->sum("bruto")),
+            'total_pajak' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, "2024-09-01")->sum("pajak")),
+            'total_netto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, "2024-09-01")->sum("netto")),
+            'total_volume' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, "2024-09-01")->sum("volume")),
             'ketua' => Helper::getPropertyFromCollection($koordinator, 'name'),
             'nipketua' => Helper::getPropertyFromCollection($koordinator, 'nip'),
             'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
             'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
             'bendahara' => Helper::getPropertyFromCollection($bendahara, 'name'),
             'nipbendahara' => Helper::getPropertyFromCollection($bendahara, 'nip'),
-            'terbilang_total' => Helper::terbilang(DaftarHonorMitra::where('honor_kegiatan_id', $id)->sum('bruto'), 'uw', ' rupiah'),
+            'terbilang_total' => Helper::terbilang(Helper::makeBaseListMitraAndPegawai(1, "2024-09-01")->sum("bruto"), 'uw', ' rupiah'),
         ];
     }
 

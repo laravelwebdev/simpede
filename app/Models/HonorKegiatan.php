@@ -64,12 +64,6 @@ class HonorKegiatan extends Model
                 $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
                 DaftarHonorMitra::destroy($DaftarHonorMitraIds);
             }
-            if ($honor->isDirty('jenis') || $honor->isDirty('bulan')){
-                DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update([
-                    'jenis' => $honor->jenis_kontrak,
-                    'bulan' => $honor->bulan,
-                ]);
-            }
             if (! $honor->generate_sk) {
                 $honor->tanggal_sk = null;
                 NaskahKeluar::destroy($honor->sk_naskah_keluar_id);

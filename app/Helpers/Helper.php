@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\DaftarHonorMitra;
+use App\Models\DaftarHonorPegawai;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
@@ -368,7 +370,7 @@ class Helper
             return null;
         }
 
-        $tanggal =  Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
+        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d h:i:s');
     }
 
     /**
@@ -615,13 +617,21 @@ class Helper
             $item['nama']   = Helper::getPropertyFromCollection($mitra, 'nama');
             $item['rekening']   = Helper::getPropertyFromCollection($mitra, 'rekening');
             $item['golongan'] = '-';
+            $item['nip'] = '-';
+            $item['jabatan'] = 'Mitra Statistik';
             $item['bruto'] = $item['volume']*$item['harga_satuan'];
             $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
-            $item['bruto'] = self::formatUang($item['bruto']);
-            $item['pajak'] = self::formatUang($item['pajak']);
-            $item['netto'] = self::formatUang($item['netto']);
+            // $item['bruto'] = self::formatUang($item['bruto']);
+            // $item['pajak'] = self::formatUang($item['pajak']);
+            // $item['netto'] = self::formatUang($item['netto']);
+            unset($item['mitra_id']);
+            unset($item['id']);
+            unset($item['created_at']);
+            unset($item['updated_at']);
+            unset($item['persen_pajak']);
+            unset($item['honor_kegiatan_id']);
             return $item;
         });
 
@@ -633,19 +643,56 @@ class Helper
         $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
             $pegawai = Helper::getPegawaiByUserId($item['user_id']);
             $item['nama']   = Helper::getPropertyFromCollection($pegawai, 'name');
+            $item['nip']   = Helper::getPropertyFromCollection($pegawai, 'nip');
+            $item['jabatan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
             $item['rekening'] = Helper::getPropertyFromCollection($pegawai, 'rekening');
             $item['golongan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
             $item['bruto'] = $item['volume']*$item['harga_satuan'];
             $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
-            $item['bruto'] = self::formatUang($item['bruto']);
-            $item['pajak'] = self::formatUang($item['pajak']);
-            $item['netto'] = self::formatUang($item['netto']);
+            // $item['bruto'] = self::formatUang($item['bruto']);
+            // $item['pajak'] = self::formatUang($item['pajak']);
+            // $item['netto'] = self::formatUang($item['netto']);
+            unset($item['user_id']);
+            unset($item['id']);
+            unset($item['created_at']);
+            unset($item['updated_at']);
+            unset($item['persen_pajak']);
+            unset($item['honor_kegiatan_id']);
             return $item;
         });
 
         return $pegawai;
+    }
+
+    public static function makeBaseListMitraAndPegawai ($honor_kegiatan_id, $tanggal) {
+        $mitra = DaftarHonorMitra::where("honor_kegiatan_id", $honor_kegiatan_id)->get();
+        $pegawai = DaftarHonorPegawai::where("honor_kegiatan_id", $honor_kegiatan_id)->get();
+        $a = self::formatMitra($mitra);
+        $b = self::formatPegawai($pegawai, $tanggal);
+        $b->each(function ($item, $key) use ($a) {
+            $a->push($item);
+        });
+        $a->transform(function ($item, $index) {
+            $item["spj_no"] = $index + 1;
+            return $item;
+        });
+        return $a;
+    }
+
+    public static function makeSpjMitraAndPegawai ($honor_kegiatan_id, $tanggal) {
+        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->transform(function ($item, $index) {
+                $item['bruto'] = self::formatUang($item['bruto']);
+                $item['pajak'] = self::formatUang($item['pajak']);
+                $item['netto'] = self::formatUang($item['netto']);
+                return $item;
+            })
+            ->reject(function ($item, $index) {
+                return $item["netto"] == 0;
+            })
+            ->toArray();
     }
 
     public static function getPropertyFromCollection($collection, $property)

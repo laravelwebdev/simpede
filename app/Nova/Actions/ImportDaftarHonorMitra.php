@@ -44,8 +44,7 @@ class ImportDaftarHonorMitra extends Action
                     [
                         'mitra_id' => $mitra_id,
                         'honor_kegiatan_id' => $honor->id,
-                        'bulan' => $honor->bulan,
-                        'jenis' => $honor->jenis_kontrak,
+
                     ],
                     [
                         'volume' => $row['Volume'] ?: 0 ,

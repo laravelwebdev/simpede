@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Imports\DaftarHonorMitraImport;
 use App\Models\DaftarHonorMitra;
 use App\Models\HonorKegiatan;
+use App\Models\Mitra;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -15,6 +16,7 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportDaftarHonorMitra extends Action
 {
@@ -37,7 +39,25 @@ class ImportDaftarHonorMitra extends Action
     {
         $honor = $this->model->first();
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
-        Excel::import(new DaftarHonorMitraImport($honor->id, $honor->bulan, $honor->jenis_kontrak, $fields->kepka_mitra_id), $fields->file);
+        (new FastExcel)->import($fields->file, function ($row) use($honor, $fields) {
+            if (strlen($row['NIP Lama']) == 16) {
+                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(),'id');
+                DaftarHonorMitra::updateOrCreate(
+                    [
+                        'mitra_id' => $mitra_id,
+                        'honor_kegiatan_id' => $honor->id,
+                        'bulan' => $honor->bulan,
+                        'jenis' => $honor->jenis,
+                    ],
+                    [
+                        'volume' => $row['Volume'],
+                        'harga_satuan' => $row['HargaSatuan'],
+                        'persen_pajak' =>  $row['PersentasePajak'],
+                        'updated_at' => now(),
+                    ]
+                );
+            }
+        });
         DaftarHonorMitra::where('updated_at', null)->delete();
         $this->model->update(['status' =>'diubah']);
         return Action::message('File BOS sukses diimport!');

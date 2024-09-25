@@ -2,7 +2,6 @@
 
 namespace App\Nova\Actions;
 
-use App\Imports\MataAnggaransImport;
 use App\Models\KamusAnggaran;
 use App\Models\MataAnggaran;
 use Illuminate\Bus\Queueable;
@@ -14,7 +13,7 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportMataAnggaran extends Action
 {
@@ -34,7 +33,36 @@ class ImportMataAnggaran extends Action
         KamusAnggaran::cache()->disable();
         MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         KamusAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
-        Excel::import(new MataAnggaransImport($fields->satker, $fields->wilayah, $model->id), $fields->file);
+        (new FastExcel)->import($fields->file, function ($row) use($model, $fields) {
+            $replaces[$fields->satker.'.'] = '';
+            $replaces['.'.$fields->wilayah] = '';
+            $anggaran = explode('||', $row['Kode'])[0];
+            $mak = strtr($anggaran, $replaces);
+            if ($mak) {
+                KamusAnggaran::updateOrCreate(
+                    [
+                        'mak' => $mak,
+                        'dipa_id' => $model->id,
+                    ],
+                    [
+                        'detail' => $row['Program/ Kegiatan/ KRO/ RO/ Komponen'],
+                        'updated_at' => now(),
+                        'satuan' => $row['Volume'] != '' ? explode(' ', $row['Volume'])[1] : '',
+                    ]
+                );
+            }
+            if (strlen($mak) == 37) {
+                MataAnggaran::updateOrCreate(
+                    [
+                        'mak' => substr($mak, 0, 35),
+                        'dipa_id' => $model->id,
+                    ],
+                    [
+                        'updated_at' => now(),
+                    ]
+                );
+            }
+        });
         MataAnggaran::where('updated_at', null)->delete();
         KamusAnggaran::where('updated_at', null)->delete();
         MataAnggaran::cache()->enable();

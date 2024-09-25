@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportKodeArsip extends Action
 {
@@ -31,7 +32,20 @@ class ImportKodeArsip extends Action
         $model = $models->first();
         KodeArsip::cache()->disable();
         KodeArsip::where('tata_naskah_id', $model->id)->update(['updated_at' => null]);
-        Excel::import(new KodeArsipsImport($model->id), $fields->file);
+        (new FastExcel)->import($fields->file, function ($row) use($model) {
+            return KodeArsip::updateOrCreate(
+                [
+                    'detail' => $row['detail'],
+                    'tata_naskah_id' => $model->id,
+                ],
+                [
+                    'detail' => $row['detail'],
+                    'kode' => $row['kode'],
+                    'group' => $row['group'],
+                    'updated_at' => now(),
+                ]
+            );
+        });
         KodeArsip::where('updated_at', null)->delete();
         KodeArsip::cache()->enable();
         KodeArsip::cache()->update('all');

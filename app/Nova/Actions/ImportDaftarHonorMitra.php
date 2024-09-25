@@ -47,12 +47,12 @@ class ImportDaftarHonorMitra extends Action
                         'mitra_id' => $mitra_id,
                         'honor_kegiatan_id' => $honor->id,
                         'bulan' => $honor->bulan,
-                        'jenis' => $honor->jenis,
+                        'jenis' => $honor->jenis_kontrak,
                     ],
                     [
-                        'volume' => $row['Volume'],
-                        'harga_satuan' => $row['HargaSatuan'],
-                        'persen_pajak' =>  $row['PersentasePajak'],
+                        'volume' => $row['Volume'] ?: 0 ,
+                        'harga_satuan' => $row['HargaSatuan'] ?: 0,
+                        'persen_pajak' =>  $row['PersentasePajak'] ?: 0,
                         'updated_at' => now(),
                     ]
                 );

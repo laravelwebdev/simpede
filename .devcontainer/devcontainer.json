@@ -1,36 +1,26 @@
-// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+// https://aka.ms/devcontainer.json
 {
-    "name": "codespaces-laravel",
-    "dockerComposeFile": ["docker-compose.yml"],
-    "workspaceFolder": "/workspace",
-
-    "service": "app",
-    "shutdownAction": "stopCompose",
-    "extensions": [
-        "oderwat.indent-rainbow",
-        "mikestead.dotenv",
-        "porifa.laravel-intelephense",
-        "zhuangtongfa.material-theme",
-        "GitHub.copilot",
-        "GitHub.copilot-chat",
-        "tinkerun.tinkerun-vscode",
-        "bmewburn.vscode-intelephense-client"
+	"name": "Existing Docker Compose (Extend)",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
 	],
-    "settings": {
-        "#terminal.integrated.shell.linux": "/bin/bash"
-    },
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    "forwardPorts": [80,3306,8081],
-    "portsAttributes": {
-        "80": {
-            "label": "HTTP"
-        },
-        "3306": {
-            "label": "MariaDB"
-        },
-        "8081": {
-            "label": "PHPMYadmin"
-        }
-    }
-
+	"service": "laravel.test",
+	"workspaceFolder": "/var/www/html",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// "mikestead.dotenv",
+				// "amiralizadeh9480.laravel-extra-intellisense",
+				// "ryannaddy.laravel-artisan",
+				// "onecentlin.laravel5-snippets",
+				// "onecentlin.laravel-blade"
+			],
+			"settings": {}
+		}
+	},
+	"remoteUser": "sail",
+	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
+	// "forwardPorts": [],
+	// "runServices": [],
+	// "shutdownAction": "none",
 }

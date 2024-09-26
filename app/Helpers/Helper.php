@@ -623,9 +623,6 @@ class Helper
             $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
-            // $item['bruto'] = self::formatUang($item['bruto']);
-            // $item['pajak'] = self::formatUang($item['pajak']);
-            // $item['netto'] = self::formatUang($item['netto']);
             unset($item['mitra_id']);
             unset($item['id']);
             unset($item['created_at']);
@@ -651,9 +648,6 @@ class Helper
             $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
-            // $item['bruto'] = self::formatUang($item['bruto']);
-            // $item['pajak'] = self::formatUang($item['pajak']);
-            // $item['netto'] = self::formatUang($item['netto']);
             unset($item['user_id']);
             unset($item['id']);
             unset($item['created_at']);

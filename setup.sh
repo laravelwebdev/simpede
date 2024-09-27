@@ -19,7 +19,7 @@ sed -i "s/^# DB_PORT=.*/${new_db_port}/" .env
 sed -i "s/^# DB_DATABASE=.*/${new_db_database}/" .env
 sed -i "s/^# DB_USERNAME=.*/${new_db_username}/" .env
 sed -i "s/^# DB_PASSWORD=.*/${new_db_password}/" .env
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 echo "--- Install dependencies (first sail install will take a while) ..."
 composer install
 

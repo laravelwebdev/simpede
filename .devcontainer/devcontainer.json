@@ -6,6 +6,20 @@
             "version": "latest"
         }
     },
+    "shutdownAction": "stopCompose",
+    "extensions": [
+        "oderwat.indent-rainbow",
+        "mikestead.dotenv",
+        "porifa.laravel-intelephense",
+        "zhuangtongfa.material-theme",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-azuretools.vscode-docker",
+        "bmewburn.vscode-intelephense-client"
+	],
+    "settings": {
+        "#terminal.integrated.shell.linux": "/bin/bash"
+    },
     "postCreateCommand": "bash ./setup.sh",
     "postStartCommand": "echo alias sail=\\'vendor/bin/sail\\' >> ~/.bashrc && . ~/.bashrc"
 }

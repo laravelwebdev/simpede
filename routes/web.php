@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Nova\Http\Middleware\Authenticate;
 
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/changerole/{role}', 'App\Http\Controllers\RoleController@changeRole')
     ->name('changerole')
     ->middleware(Authenticate::class);

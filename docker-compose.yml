@@ -26,6 +26,11 @@ services:
             - redis
             - memcached
             - phpmyadmin
+        FROM sail-8.3/app
+        RUN apt-get install -y \
+        libzip-dev \
+        zip \
+        && docker-php-ext-install zip
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:

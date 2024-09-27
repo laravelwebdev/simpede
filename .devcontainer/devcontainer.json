@@ -1,25 +1,31 @@
 {
-    "name": "laravel-11-container",
-    "image": "mcr.microsoft.com/devcontainers/php:1-8.3-bullseye",
-    "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
-            "version": "latest"
-        }
-    },
-    "shutdownAction": "stopCompose",
-    "extensions": [
-        "oderwat.indent-rainbow",
-        "mikestead.dotenv",
-        "porifa.laravel-intelephense",
-        "zhuangtongfa.material-theme",
-        "GitHub.copilot",
-        "GitHub.copilot-chat",
-        "ms-azuretools.vscode-docker",
-        "bmewburn.vscode-intelephense-client"
+	"name": "Existing Docker Compose (Extend)",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
 	],
-    "settings": {
-        "#terminal.integrated.shell.linux": "/bin/bash"
-    },
-    "postCreateCommand": "bash ./setup.sh",
-    "postStartCommand": "echo alias sail=\\'vendor/bin/sail\\' >> ~/.bashrc && . ~/.bashrc"
+	"service": "laravel.test",
+	"workspaceFolder": "/var/www/html",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+			        "oderwat.indent-rainbow",
+			        "mikestead.dotenv",
+			        "porifa.laravel-intelephense",
+			        "zhuangtongfa.material-theme",
+			        "GitHub.copilot",
+			        "GitHub.copilot-chat",
+			        "ms-azuretools.vscode-docker",
+			        "bmewburn.vscode-intelephense-client"
+			],
+			"settings": {}
+		}
+	},
+	"remoteUser": "sail",
+	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true",
+	"postCreateCommand": "bash ./setup.sh",
+        "postStartCommand": "echo alias sail=\\'vendor/bin/sail\\' >> ~/.bashrc && . ~/.bashrc"
+	// "forwardPorts": [],
+	// "runServices": [],
+	// "shutdownAction": "none",
 }
+

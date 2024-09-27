@@ -21,7 +21,7 @@ sed -i "s/^# DB_USERNAME=.*/${new_db_username}/" .env
 sed -i "s/^# DB_PASSWORD=.*/${new_db_password}/" .env
 
 echo "--- Install dependencies (first sail install will take a while) ..."
-composer install
+composer update
 
 echo "--- Start sail containers ..."
 ./vendor/bin/sail up -d

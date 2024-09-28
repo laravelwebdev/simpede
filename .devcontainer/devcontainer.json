@@ -19,8 +19,8 @@
             ]
         }
     },
-    "postCreateCommand": "cp env.example .env && composer install && php artisan key:generate && php artisan migrate:fresh --seed",
-    "forwardPorts": [80,3306,8081],
+    "postCreateCommand": "bash ./.devcontaiter/setup.sh",
+    "forwardPorts": [80,3306,8080],
     "portsAttributes": {
         "80": {
             "label": "HTTP"
@@ -28,7 +28,7 @@
         "3306": {
             "label": "MySQL"
         },
-        "8081": {
+        "8080": {
             "label": "PHPMyAdmin"
         }
     }

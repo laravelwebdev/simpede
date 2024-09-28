@@ -19,7 +19,7 @@
             ]
         }
     },
-    "postCreateCommand": "cp .env.example .env && composer install && php artisan key:generate",
+    "postCreateCommand": "cp .env.example .env && composer install && php artisan key:generate && php artisan migrate:fresh --seed",
     "forwardPorts": [80,3306,8081],
     "portsAttributes": {
         "80": {

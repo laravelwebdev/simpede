@@ -11,24 +11,22 @@ new_db_port="DB_PORT=3306"
 new_db_database="DB_DATABASE=simpede"
 new_db_username="DB_USERNAME=homestead"
 new_db_password="DB_PASSWORD=secret"
-new_app_url="APP_URL=https://${CODESPACE_NAME}-80.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+new_app_url="APP_URL=https:\/\/${CODESPACE_NAME}-80.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
 
 # Replace lines in .env.example
 sed -i "s/^APP_URL=.*/${new_app_url}/" .env
 sed -i "s/^DB_CONNECTION=.*/${new_db_connection}/" .env
-sed -i "s/^# DB_HOST=.*/${new_db_host}/" .env
-sed -i "s/^# DB_PORT=.*/${new_db_port}/" .env
-sed -i "s/^# DB_DATABASE=.*/${new_db_database}/" .env
-sed -i "s/^# DB_USERNAME=.*/${new_db_username}/" .env
-sed -i "s/^# DB_PASSWORD=.*/${new_db_password}/" .env
+sed -i "s/^DB_HOST=.*/${new_db_host}/" .env
+sed -i "s/^DB_PORT=.*/${new_db_port}/" .env
+sed -i "s/^DB_DATABASE=.*/${new_db_database}/" .env
+sed -i "s/^DB_USERNAME=.*/${new_db_username}/" .env
+sed -i "s/^DB_PASSWORD=.*/${new_db_password}/" .env
 
-echo "--- Install dependencies (first sail install will take a while) ..."
+echo "--- Install dependencies ..."
 composer install
 
 echo "--- Generate the application key ..."
 php artisan key:generate
 
-echo "--- Running Migration ..."
-php artisan migrate:fresh --seed
-
 echo "--- SETUP DONE ---"
+echo "please run 'php artisan migrate:fresh --seed' to create the database tables"

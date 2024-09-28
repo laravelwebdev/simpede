@@ -7,39 +7,39 @@ services:
       - 80:80
     tty: true
     environment:
-        APP_ENV: local
-        APACHE_DOCUMENT_ROOT: /simpede/public
+      APP_ENV: local
+      APACHE_DOCUMENT_ROOT: /simpede/public
     depends_on:
       - mysql
       - redis
       - memcached
       - phpmyadmin
-    mysql:
-      image: 'mysql/mysql-server:8.0'
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    restart: always
+    ports:
+      - 3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_HOST: 'mysql'
+      MYSQL_DATABASE: 'simpede'
+      MYSQL_USER: 'homestead'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  redis:
+      image: 'redis:alpine'
       restart: always
       ports:
-        - 3306:3306'
+        - '6379:6379'
+  memcached:
+      image: 'memcached:alpine'
+      restart: always
+      ports:
+        - '11211:11211'
+  phpmyadmin:
+      image: 'phpmyadmin:latest'
+      restart: always
+      ports:
+        - '8080:80'
       environment:
-        MYSQL_ROOT_PASSWORD: 'root'
-        MYSQL_ROOT_HOST: 'mysql'
-        MYSQL_DATABASE: 'simpede'
-        MYSQL_USER: 'homestead'
-        MYSQL_PASSWORD: 'secret'
-        MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    redis:
-        image: 'redis:alpine'
-        restart: always
-        ports:
-            - '6379:6379'
-    memcached:
-        image: 'memcached:alpine'
-        restart: always
-        ports:
-            - '11211:11211'
-    phpmyadmin:
-        image: 'phpmyadmin:latest'
-        restart: always
-        ports:
-            - '8080:80'
-        environment:
-            - PMA_ARBITRARY=1
+        - PMA_ARBITRARY=1

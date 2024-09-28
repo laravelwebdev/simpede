@@ -1,5 +1,36 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-  }
+    "name": "codespaces-laravel",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "workspaceFolder": "/simpede",
+    "service": "app",
+    "shutdownAction": "stopCompose",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "SeyyedKhandon.firacode",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "oderwat.indent-rainbow",
+                "porifa.laravel-intelephense",
+                "zhuangtongfa.material-theme",
+                "SeyyedKhandon.tpack",
+                "bmewburn.vscode-intelephense-client",
+                "miguelsolorio.symbols"
+            ]
+        }
+    },
+    "postCreateCommand": "cp .env.example .env && composer install && php artisan key:generate",
+    "forwardPorts": [80,3306,8081],
+    "portsAttributes": {
+        "80": {
+            "label": "HTTP"
+        },
+        "3306": {
+            "label": "MySQL"
+        },
+        "8081": {
+            "label": "PHPMyAdmin"
+        }
+    }
+
 }

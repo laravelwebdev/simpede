@@ -19,8 +19,6 @@ class SpesifikasiKerangkaAcuan extends Model
         });
         static::deleting(function (SpesifikasiKerangkaAcuan $spesifikasi) {
             KerangkaAcuan::find($spesifikasi->kerangka_acuan_id)->update(['status' => 'dibuat']);
-
         });
-
     }
 }

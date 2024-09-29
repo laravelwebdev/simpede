@@ -71,7 +71,7 @@ return [
         'naskah' => [
             'driver' => 'local',
             'root' => storage_path('app/public/naskah'),
-            'url' => env('APP_URL').'storage/naskah',
+            'url' => env('APP_URL').'/storage/naskah',
             'visibility' => 'public',
             'throw' => false,
         ],

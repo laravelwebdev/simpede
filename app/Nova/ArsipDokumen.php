@@ -58,9 +58,9 @@ class ArsipDokumen extends Resource
                 ->rules('required'),
             File::make('File')
                 ->disk('arsip')
-                ->rules('mimes:xlsx,pdf.docx')
+                ->rules('mimes:xlsx,pdf,docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
-                ->rules('required')
+                ->creationRules('required') 
                 ->prunable(),
         ];
     }

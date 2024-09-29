@@ -62,9 +62,9 @@ class Template extends Resource
                 ->options(Helper::$template),
             File::make('File')
                 ->disk('templates')
-                ->rules('mimes:xlsx,pdf.docx')
+                ->rules('mimes:xlsx,pdf,docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
-                ->rules('required')
+                ->creationRules('required') 
                 ->prunable(),
         ];
     }

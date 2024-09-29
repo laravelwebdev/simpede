@@ -12,14 +12,5 @@ class NaskahMasuk extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
-
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::creating(function (NaskahMasuk $naskah) {
-            $naskah->tahun = session('year');
-        });
-    }
+ 
 }

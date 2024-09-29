@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -13,6 +14,7 @@ use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -117,6 +119,12 @@ class NaskahKeluar extends Resource
                 'M' => 'info',
                 'A' => 'success',
             ]),
+            $this->signed ? 
+            URL::make('Arsip', fn () => Storage::disk('naskah')
+                ->url($this->signed))
+                ->displayUsing(fn () => 'Lihat')
+                :
+            Text::make('Arsip', fn () => '—'),
         ];
     }
 

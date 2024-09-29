@@ -20,6 +20,7 @@ class AnggaranKerangkaAcuan extends Resource
      * @var class-string<\App\Models\AnggaranKerangkaAcuan>
      */
     public static $model = \App\Models\AnggaranKerangkaAcuan::class;
+
     public static $displayInNavigation = false;
 
     public static function label()
@@ -46,7 +47,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -73,7 +73,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -84,7 +83,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -95,7 +93,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -106,7 +103,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
@@ -123,7 +119,6 @@ class AnggaranKerangkaAcuan extends Resource
     /**
      * Return the location to redirect the user after update.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
      * @return \Laravel\Nova\URL|string
      */

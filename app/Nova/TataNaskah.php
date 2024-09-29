@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportKodeArsip;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
@@ -16,12 +15,14 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class TataNaskah extends Resource
 {
     use HasTabs;
+
     public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah'];
 
     public static function label()
     {
         return 'Tata Naskah';
     }
+
     /**
      * The model the resource corresponds to.
      *
@@ -48,7 +49,6 @@ class TataNaskah extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -72,7 +72,6 @@ class TataNaskah extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -83,7 +82,6 @@ class TataNaskah extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -94,7 +92,6 @@ class TataNaskah extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -105,14 +102,13 @@ class TataNaskah extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
+            $actions[] =
                 ImportKodeArsip::make()
                     ->showInline()
                     ->showOnDetail()

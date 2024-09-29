@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class HonorKegiatan extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'tanggal_spj' => 'date',
         'tanggal_sk' => 'date',
@@ -128,9 +129,9 @@ class HonorKegiatan extends Model
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
-                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah,'id');
+                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
                         $naskahkeluar->kode_arsip_id = $honor->kode_arsip_id;
-                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah,'kode_naskah_id');
+                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
                         $naskahkeluar->derajat = 'B';
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;

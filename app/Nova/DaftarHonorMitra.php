@@ -4,21 +4,19 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\Mitra;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorMitra extends Resource
 {
     public static $perPageViaRelationship = 10;
+
     public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
@@ -45,16 +43,16 @@ class DaftarHonorMitra extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         $mitra = Helper::getMitraById($this->mitra_id);
+
         return [
-            Text::make('Nama' , fn() => $mitra->nama)
+            Text::make('Nama', fn () => $mitra->nama)
                 ->onlyOnIndex(),
-            Text::make('Golongan', fn() => '-')
+            Text::make('Golongan', fn () => '-')
                 ->onlyOnIndex(),
             Number::make('Jumlah', 'volume')
                 ->onlyOnIndex(),
@@ -62,19 +60,19 @@ class DaftarHonorMitra extends Resource
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Bruto', fn() => $this->volume * $this->harga_satuan)
+            Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Pajak', fn() => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
+            Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Netto', fn() => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100,0,PHP_ROUND_HALF_UP))
+            Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Text::make('Rekening', fn() => $mitra->rekening)
+            Text::make('Rekening', fn () => $mitra->rekening)
                 ->onlyOnIndex(),
         ];
     }
@@ -82,7 +80,6 @@ class DaftarHonorMitra extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -93,7 +90,6 @@ class DaftarHonorMitra extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -104,7 +100,6 @@ class DaftarHonorMitra extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -115,24 +110,22 @@ class DaftarHonorMitra extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         $actions = [];
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $actions [] =
+            $actions[] =
                 EditRekening::make('mitra')->onlyInline();
         }
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
                 ImportDaftarHonorMitra::make($request->viaResourceId)
-                ->standalone()
-                ->confirmButtonText('Import');
+                    ->standalone()
+                    ->confirmButtonText('Import');
         }
 
         return $actions;
     }
-
 }

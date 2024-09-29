@@ -119,7 +119,7 @@ class NaskahKeluar extends Resource
                 'M' => 'info',
                 'A' => 'success',
             ]),
-            $this->signed ? 
+            $this->signed ?
             URL::make('Arsip', fn () => Storage::disk('naskah')
                 ->url($this->signed))
                 ->displayUsing(fn () => 'Lihat')

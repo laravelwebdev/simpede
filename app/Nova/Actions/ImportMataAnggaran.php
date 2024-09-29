@@ -33,7 +33,7 @@ class ImportMataAnggaran extends Action
         KamusAnggaran::cache()->disable();
         MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         KamusAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use($model, $fields) {
+        (new FastExcel)->import($fields->file, function ($row) use ($model, $fields) {
             $replaces[$fields->satker.'.'] = '';
             $replaces['.'.$fields->wilayah] = '';
             $anggaran = explode('||', $row['Kode'])[0];

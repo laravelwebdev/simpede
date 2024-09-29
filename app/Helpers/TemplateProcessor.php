@@ -19,6 +19,6 @@ class TemplateProcessor extends PhpWordTemplateProcessor
 
     protected static function ensureUtf8Encoded($subject)
     {
-        return (null !== $subject) ? Text::toUTF8($subject) : '';
+        return ($subject !== null) ? Text::toUTF8($subject) : '';
     }
 }

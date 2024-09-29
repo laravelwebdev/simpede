@@ -80,7 +80,7 @@ class NaskahMasuk extends Resource
                 ->disk('naskah')
                 ->rules('mimes:pdf')
                 ->acceptedTypes('.pdf')
-                ->creationRules('required') 
+                ->creationRules('required')
                 ->prunable(),
         ];
     }
@@ -105,7 +105,7 @@ class NaskahMasuk extends Resource
                 ->searchable()
                 ->displayUsingLabels()->filterable()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
-            $this->arsip ? 
+            $this->arsip ?
                 URL::make('Arsip', fn () => Storage::disk('naskah')
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')

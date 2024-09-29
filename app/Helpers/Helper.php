@@ -66,6 +66,7 @@ class Helper
         '524212',
         '524219',
     ];
+
     public static $akun_honor = [
         '521213',
     ];
@@ -356,12 +357,12 @@ class Helper
 
     public static function getYearFromDate($tanggal)
     {
-        return  Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
+        return Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
     }
 
     public static function getYearFromDateString($tanggal)
     {
-        return  Carbon::createFromFormat('Y-m-d', $tanggal)->year;
+        return Carbon::createFromFormat('Y-m-d', $tanggal)->year;
     }
 
     public static function createDateFromString($tanggal)
@@ -448,7 +449,7 @@ class Helper
         if ($role == 'koordinator') {
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
-                ->where('unit_kerja_id',self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal),'unit_kerja_id'))
+                ->where('unit_kerja_id', self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal), 'unit_kerja_id'))
                 ->where('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
@@ -476,7 +477,6 @@ class Helper
         return Mitra::cache()->get('all')->where('id', $id)->first();
     }
 
-
     public static function setSegmen($num): string
     {
         $b26 = '';
@@ -485,10 +485,10 @@ class Helper
                 $val = ($num % 26) ?: 26;
                 $num = ($num - $val) / 26;
                 $b26 = chr($val + 64).($b26 ?: '');
-            } while (0 < $num);
+            } while ($num > 0);
         }
 
-        return  $b26;
+        return $b26;
     }
 
     /**
@@ -614,13 +614,13 @@ class Helper
     {
         $mitra->transform(function ($item, $index) {
             $mitra = Helper::getMitraById($item['mitra_id']);
-            $item['nama']   = Helper::getPropertyFromCollection($mitra, 'nama');
-            $item['rekening']   = Helper::getPropertyFromCollection($mitra, 'rekening');
+            $item['nama'] = Helper::getPropertyFromCollection($mitra, 'nama');
+            $item['rekening'] = Helper::getPropertyFromCollection($mitra, 'rekening');
             $item['golongan'] = '-';
             $item['nip'] = '-';
             $item['jabatan'] = 'Mitra Statistik';
-            $item['bruto'] = $item['volume']*$item['harga_satuan'];
-            $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
+            $item['bruto'] = $item['volume'] * $item['harga_satuan'];
+            $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             unset($item['mitra_id']);
@@ -629,6 +629,7 @@ class Helper
             unset($item['updated_at']);
             unset($item['persen_pajak']);
             unset($item['honor_kegiatan_id']);
+
             return $item;
         });
 
@@ -639,13 +640,13 @@ class Helper
     {
         $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
             $pegawai = Helper::getPegawaiByUserId($item['user_id']);
-            $item['nama']   = Helper::getPropertyFromCollection($pegawai, 'name');
-            $item['nip']   = Helper::getPropertyFromCollection($pegawai, 'nip');
+            $item['nama'] = Helper::getPropertyFromCollection($pegawai, 'name');
+            $item['nip'] = Helper::getPropertyFromCollection($pegawai, 'nip');
             $item['jabatan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
             $item['rekening'] = Helper::getPropertyFromCollection($pegawai, 'rekening');
             $item['golongan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
-            $item['bruto'] = $item['volume']*$item['harga_satuan'];
-            $item['pajak'] = round($item['volume']*$item['harga_satuan']*$item['persen_pajak']/100,0,PHP_ROUND_HALF_UP);
+            $item['bruto'] = $item['volume'] * $item['harga_satuan'];
+            $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             unset($item['user_id']);
@@ -654,37 +655,43 @@ class Helper
             unset($item['updated_at']);
             unset($item['persen_pajak']);
             unset($item['honor_kegiatan_id']);
+
             return $item;
         });
 
         return $pegawai;
     }
 
-    public static function makeBaseListMitraAndPegawai ($honor_kegiatan_id, $tanggal) {
-        $mitra = DaftarHonorMitra::where("honor_kegiatan_id", $honor_kegiatan_id)->get();
-        $pegawai = DaftarHonorPegawai::where("honor_kegiatan_id", $honor_kegiatan_id)->get();
+    public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+    {
+        $mitra = DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
+        $pegawai = DaftarHonorPegawai::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
         $a = self::formatMitra($mitra);
         $b = self::formatPegawai($pegawai, $tanggal);
         $b->each(function ($item, $key) use ($a) {
             $a->push($item);
         });
         $a->transform(function ($item, $index) {
-            $item["spj_no"] = $index + 1;
+            $item['spj_no'] = $index + 1;
+
             return $item;
         });
+
         return $a;
     }
 
-    public static function makeSpjMitraAndPegawai ($honor_kegiatan_id, $tanggal) {
+    public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)
+    {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->transform(function ($item, $index) {
                 $item['bruto'] = self::formatUang($item['bruto']);
                 $item['pajak'] = self::formatUang($item['pajak']);
                 $item['netto'] = self::formatUang($item['netto']);
+
                 return $item;
             })
             ->reject(function ($item, $index) {
-                return $item["netto"] == 0;
+                return $item['netto'] == 0;
             })
             ->toArray();
     }
@@ -702,7 +709,7 @@ class Helper
      */
     public static function getTemplatePath($column, $value)
     {
-        $file = self::getPropertyFromCollection(Template::cache()->get('all')->where($column, '=', $value)->first(),'file');
+        $file = self::getPropertyFromCollection(Template::cache()->get('all')->where($column, '=', $value)->first(), 'file');
 
         return [
             'filename' => $file,
@@ -719,7 +726,6 @@ class Helper
     {
         return self::getTemplatePath('id', $id);
     }
-
 
     /**
      * Mengambil ID Tata Naskah Terbaru.
@@ -796,7 +802,6 @@ class Helper
     {
         return self::setOptions(JenisKontrak::cache()->get('all')->where('harga_satuan_id', self::getLatestHargaSatuanId($tanggal)), 'id', 'jenis');
     }
-
 
     public static function setOptionTahunDipa()
     {

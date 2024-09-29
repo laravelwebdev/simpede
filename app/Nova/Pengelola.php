@@ -119,7 +119,6 @@ class Pengelola extends Resource
     /**
      * Return the location to redirect the user after update.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
      * @return \Laravel\Nova\URL|string
      */

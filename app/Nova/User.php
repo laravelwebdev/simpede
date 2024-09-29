@@ -10,13 +10,13 @@ use Laravel\Nova\Fields\PasswordConfirmation;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class User extends Resource
 {
     use HasTabs;
+
     public static $with = ['unitKerja', 'pengelola'];
 
     /**
@@ -119,7 +119,7 @@ class User extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            // new DownloadExcel,
+
         ];
     }
 }

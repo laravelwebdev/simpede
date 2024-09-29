@@ -2,7 +2,6 @@
 
 namespace App\Nova\Actions;
 
-use App\Imports\MitrasImport;
 use App\Models\Mitra;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,6 +17,7 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportMitra extends Action
 {
     use InteractsWithQueue, Queueable;
+
     public $name = 'Impor Mitra';
 
     /**
@@ -31,7 +31,7 @@ class ImportMitra extends Action
         $model = $models->first();
         Mitra::cache()->disable();
         Mitra::where('kepka_mitra_id', $model->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use($model) {
+        (new FastExcel)->import($fields->file, function ($row) use ($model) {
             if ($row['Status Seleksi (1=Terpilih, 2=Tidak Terpilih)'] == 1) {
                 return Mitra::updateOrCreate(
                     [

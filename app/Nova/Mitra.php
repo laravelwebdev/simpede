@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
@@ -20,6 +19,7 @@ class Mitra extends Resource
     }
 
     public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
@@ -46,7 +46,6 @@ class Mitra extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -79,7 +78,6 @@ class Mitra extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -90,7 +88,6 @@ class Mitra extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -101,7 +98,6 @@ class Mitra extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -112,14 +108,13 @@ class Mitra extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
-            $actions [] =
+            $actions[] =
                 AddHasManyModel::make('Mitra', 'KepkaMitra', $request->viaResourceId)
                     ->confirmButtonText('Tambah')
                     ->size('7xl')
@@ -133,7 +128,6 @@ class Mitra extends Resource
     /**
      * Return the location to redirect the user after update.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
      * @return \Laravel\Nova\URL|string
      */

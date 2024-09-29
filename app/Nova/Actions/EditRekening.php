@@ -15,8 +15,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class EditRekening extends Action
 {
     use InteractsWithQueue, Queueable;
+
     public $confirmButtonText = 'Edit';
+
     public $name = 'Edit Rekening';
+
     protected $jenis;
 
     public function __construct($jenis)
@@ -27,30 +30,28 @@ class EditRekening extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        if ($this->jenis == 'mitra'){
+        if ($this->jenis == 'mitra') {
             $mitra = Mitra::where('id', $model->mitra_id)->first();
             $mitra->rekening = $fields->rekening;
             $mitra->save();
         }
-        if ($this->jenis == 'pegawai'){
+        if ($this->jenis == 'pegawai') {
             $user = User::where('id', $model->user_id)->first();
             $user->rekening = $fields->rekening;
             $user->save();
         }
+
         return Action::message('Edit Rekening Berhasil!');
     }
 
     /**
      * Get the fields available on the action.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)

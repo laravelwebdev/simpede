@@ -8,9 +8,6 @@ use App\Models\JenisKontrak;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Nova\Actions\Download;
-use App\Nova\Actions\ImportDaftarHonorMitra;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -21,7 +18,6 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use ShuvroRoy\NovaTabs\Tabs;
@@ -30,7 +26,9 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class HonorKegiatan extends Resource
 {
     use HasTabs;
+
     public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -62,7 +60,6 @@ class HonorKegiatan extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -114,7 +111,7 @@ class HonorKegiatan extends Resource
                 Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->rules('required')
                     ->filterable()
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(),'jenis'))
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
                     ->dependsOn('tanggal_kak', function (Select $field, NovaRequest $request, FormData $form) {
                         $field->options(Helper::setOptionJenisKontrak($form->tanggal_kak));
                     }),
@@ -139,7 +136,7 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
                     ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
-                            $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
+                        $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
                     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
@@ -244,7 +241,6 @@ class HonorKegiatan extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -255,7 +251,6 @@ class HonorKegiatan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -266,7 +261,6 @@ class HonorKegiatan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -277,7 +271,6 @@ class HonorKegiatan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

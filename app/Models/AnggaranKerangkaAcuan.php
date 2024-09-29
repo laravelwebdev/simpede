@@ -59,7 +59,7 @@ class AnggaranKerangkaAcuan extends Model
             KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
         });
         static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
-            if ($anggaranKak->isDirty()){
+            if ($anggaranKak->isDirty()) {
                 KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
             }
         });

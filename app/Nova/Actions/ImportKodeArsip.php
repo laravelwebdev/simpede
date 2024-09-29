@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
-use App\Imports\KodeArsipsImport;
 use App\Models\KodeArsip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,12 +13,12 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportKodeArsip extends Action
 {
     use InteractsWithQueue, Queueable;
+
     public $name = 'Import Kode Arsip';
 
     /**
@@ -32,7 +31,7 @@ class ImportKodeArsip extends Action
         $model = $models->first();
         KodeArsip::cache()->disable();
         KodeArsip::where('tata_naskah_id', $model->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use($model) {
+        (new FastExcel)->import($fields->file, function ($row) use ($model) {
             return KodeArsip::updateOrCreate(
                 [
                     'detail' => $row['detail'],

@@ -13,7 +13,8 @@ use Laravel\Nova\Nova;
 class KerangkaAcuan extends Model
 {
     use HasFactory;
-    protected $fillable =['status'];
+
+    protected $fillable = ['status'];
 
     protected $casts = [
         'tanggal' => 'date',
@@ -69,7 +70,7 @@ class KerangkaAcuan extends Model
             $naskahkeluar->tanggal = $kak->tanggal;
             $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
             $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-            $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah ,'kode_naskah_id');
+            $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
             $naskahkeluar->derajat = 'B';
             $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
             $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
@@ -130,7 +131,9 @@ class KerangkaAcuan extends Model
             }
             $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
             $kak->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
-            if ($kak->isDirty()) $kak->status = 'dibuat';
+            if ($kak->isDirty()) {
+                $kak->status = 'dibuat';
+            }
         });
     }
 }

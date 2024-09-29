@@ -12,5 +12,4 @@ class NaskahMasuk extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
- 
 }

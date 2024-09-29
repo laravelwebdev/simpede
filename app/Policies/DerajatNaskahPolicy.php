@@ -60,7 +60,7 @@ class DerajatNaskahPolicy
      */
     public function restore(): bool
     {
-        return  false;
+        return false;
     }
 
     /**

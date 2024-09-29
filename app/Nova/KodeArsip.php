@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
 use App\Nova\Filters\GroupArsip;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -117,7 +116,6 @@ class KodeArsip extends Resource
     /**
      * Return the location to redirect the user after update.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
      * @return \Laravel\Nova\URL|string
      */

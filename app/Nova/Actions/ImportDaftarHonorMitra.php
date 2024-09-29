@@ -19,13 +19,14 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportDaftarHonorMitra extends Action
 {
     use InteractsWithQueue, Queueable;
+
     public $name = 'Import dari BOS';
 
     protected $model;
 
     public function __construct($honor_kegiatan_id)
     {
-        $this->model = HonorKegiatan::where('id',$honor_kegiatan_id);
+        $this->model = HonorKegiatan::where('id', $honor_kegiatan_id);
     }
 
     /**
@@ -37,9 +38,9 @@ class ImportDaftarHonorMitra extends Action
     {
         $honor = $this->model->first();
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use($honor, $fields) {
+        (new FastExcel)->import($fields->file, function ($row) use ($honor, $fields) {
             if (strlen($row['NIP Lama']) == 16) {
-                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(),'id');
+                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
                 DaftarHonorMitra::updateOrCreate(
                     [
                         'mitra_id' => $mitra_id,
@@ -47,16 +48,17 @@ class ImportDaftarHonorMitra extends Action
 
                     ],
                     [
-                        'volume' => $row['Volume'] ?: 0 ,
+                        'volume' => $row['Volume'] ?: 0,
                         'harga_satuan' => $row['HargaSatuan'] ?: 0,
-                        'persen_pajak' =>  $row['PersentasePajak'] ?: 0,
+                        'persen_pajak' => $row['PersentasePajak'] ?: 0,
                         'updated_at' => now(),
                     ]
                 );
             }
         });
         DaftarHonorMitra::where('updated_at', null)->delete();
-        $this->model->update(['status' =>'diubah']);
+        $this->model->update(['status' => 'diubah']);
+
         return Action::message('File BOS sukses diimport!');
     }
 

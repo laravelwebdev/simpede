@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class Policy
 {
-    private bool $allowed;
+    private bool $allowed = false;
 
     /**
      * Create a new element.
@@ -16,61 +16,56 @@ class Policy
         return new static;
     }
 
-    public function get()
+    public function get(): bool
     {
         return $this->allowed;
     }
 
-    public function allowedFor(string $roles = 'all')
+    public function allowedFor(string $roles = 'all'): self
     {
-        if ($roles === 'all') {
-            $this->allowed = true;
-        } else {
-            $allowedroles = explode(',', $roles);
-            $this->allowed = in_array(session('role'), $allowedroles);
-        }
+        $this->allowed = $roles === 'all' || in_array(session('role'), explode(',', $roles));
 
         return $this;
     }
 
-    public function notAllowedFor(string $roles = 'all')
+    public function notAllowedFor(string $roles = 'all'): self
     {
-        $this->allowed = ! $this->allowedFor($roles);
+        $this->allowed = ! $this->allowedFor($roles)->allowed;
 
         return $this;
     }
 
-    public function withYear($year)
+    public function withYear($year): self
     {
-        $this->allowed = $this->allowed ?? true && (session('year') == $year);
+        $this->allowed = $this->allowed && (session('year') == $year);
 
         return $this;
     }
 
-    public function andEqual($expr1, $expr2, $strict = true)
+    public function andEqual($expr1, $expr2, $strict = true): self
     {
-        $this->allowed = $this->allowed ?? true && $strict ? $expr1 === $expr2 : $expr1 == $expr2;
+        $this->allowed = $this->allowed && ($strict ? $expr1 === $expr2 : $expr1 == $expr2);
 
         return $this;
     }
 
-    public function andNotEqual($expr1, $expr2, $strict = true)
+    public function andNotEqual($expr1, $expr2, $strict = true): self
     {
-        $this->allowed = $this->allowed ?? true && $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
+        $this->allowed = $this->allowed && ($strict ? $expr1 !== $expr2 : $expr1 != $expr2);
 
         return $this;
     }
 
-    public function orEqual($expr1, $expr2, $strict = true)
+    public function orEqual($expr1, $expr2, $strict = true): self
     {
-        $this->allowed = $this->allowed ?? false || $strict ? $expr1 === $expr2 : $expr1 == $expr2;
+        $this->allowed = $this->allowed || ($strict ? $expr1 === $expr2 : $expr1 == $expr2);
 
         return $this;
     }
 
-    public function orNotEqual($expr1, $expr2, $strict = true)
+    public function orNotEqual($expr1, $expr2, $strict = true): self
     {
-        $this->allowed = $this->allowed ?? false || $strict ? $expr1 !== $expr2 : $expr1 != $expr2;
+        $this->allowed = $this->allowed || ($strict ? $expr1 !== $expr2 : $expr1 != $expr2);
 
         return $this;
     }

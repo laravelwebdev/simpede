@@ -180,9 +180,8 @@ class Helper
      */
     public static function terbilangHari($tanggal)
     {
-        $tanggal = $tanggal->format('Y-m-d');
-        $hari = ['Senin',	'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-        $num = date('N', strtotime($tanggal));
+        $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        $num = (int) $tanggal->format('N');
 
         return $hari[$num - 1];
     }
@@ -357,7 +356,7 @@ class Helper
 
     public static function getYearFromDate($tanggal)
     {
-        return Carbon::createFromFormat('Y-m-d', $tanggal->format('Y-m-d'))->year;
+        return $tanggal->format('Y');
     }
 
     public static function getYearFromDateString($tanggal)
@@ -367,11 +366,11 @@ class Helper
 
     public static function createDateFromString($tanggal)
     {
-        if ($tanggal == null) {
+        if (empty($tanggal)) {
             return null;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d h:i:s');
+        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
     }
 
     /**
@@ -385,37 +384,46 @@ class Helper
      * @param  string  $derajat
      * @return array nomor, nomor_urut, segmen
      */
-    public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat = null)
+        public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat = null)
     {
         $replaces = [];
         $tahun = self::getYearFromDate($tanggal);
         $replaces['<tahun>'] = $tahun;
+
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
-        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', self::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id'))->first();
+        $kode_naskah_id = self::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
+        $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $kode_naskah_id)->first();
+
         if ($unit_kerja_id !== null) {
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
-            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode');
+            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode') ?? '';
         }
+        
         if ($kode_arsip_id !== null) {
             $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
-            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode');
+            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode') ?? '';
         }
+        
         if ($derajat !== null) {
             $replaces['<derajat>'] = $derajat;
         }
 
         $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'));
-        $max_no_urut = $naskah->max('no_urut');
+        $max_no_urut = $naskah->max('no_urut') ?? 0;
         $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
+
         if ($tanggal >= $max_tanggal) {
-            $no_urut = ($max_no_urut ?? 0) + 1;
+            $no_urut = $max_no_urut + 1;
             $segmen = 0;
-            $replaces['<no_urut>'] = $no_urut;
         } else {
             $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
-            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))->where('no_urut', $no_urut)->max('segmen') + 1;
-            $replaces['<no_urut>'] = $no_urut.'.'.$segmen;
+            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
+                        ->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))
+                        ->where('no_urut', $no_urut)
+                        ->max('segmen') + 1;
         }
+
+        $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
         $format = self::getPropertyFromCollection($jenis_naskah, 'format') ?? self::getPropertyFromCollection($kode_naskah, 'format');
         $nomor = strtr($format, $replaces);
 
@@ -664,20 +672,15 @@ class Helper
 
     public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
-        $mitra = DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
-        $pegawai = DaftarHonorPegawai::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
-        $a = self::formatMitra($mitra);
-        $b = self::formatPegawai($pegawai, $tanggal);
-        $b->each(function ($item, $key) use ($a) {
-            $a->push($item);
-        });
-        $a->transform(function ($item, $index) {
+        $formattedMitra = self::formatMitra(DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get());
+        $formattedPegawai = self::formatPegawai(DaftarHonorPegawai::where('honor_kegiatan_id', $honor_kegiatan_id)->get(), $tanggal);
+        $combined = $formattedMitra->merge($formattedPegawai);
+
+        return $combined->transform(function ($item, $index) {
             $item['spj_no'] = $index + 1;
 
             return $item;
         });
-
-        return $a;
     }
 
     public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)

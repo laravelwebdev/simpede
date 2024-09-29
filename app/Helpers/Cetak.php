@@ -24,28 +24,36 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models, $filename, $template_id)
-    {
-        $index = 0;
-        $mainXml = '';
-        foreach ($models as $model) {
-            self::validate($jenis, $model->id);
-            if ($index === 0) {
-                $mainTemplate = self::getTemplate($jenis, $model->id, $template_id);
-                $mainXml = self::getMainXml($mainTemplate);
-            } else {
-                $innerTemplate = self::getTemplate($jenis, $model->id, $template_id);
-                $innerXml = self::getModifiedInnerXml($innerTemplate);
-                $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
-            }
-            $index++;
-        }
-        $mainTemplate->settempDocumentMainPart($mainXml);
-        $filename = $filename.'.docx';
-        $mainTemplate->saveAs(Storage::path('public/'.$filename));
+public static function cetak($jenis, $models, $filename, $template_id)
+{
+    $mainTemplate = null;
+    $mainXml = '';
 
-        return $filename;
+    foreach ($models as $index => $model) {
+        self::validate($jenis, $model->id);
+
+        $template = self::getTemplate($jenis, $model->id, $template_id);
+
+        if ($index === 0) {
+            $mainTemplate = $template;
+            $mainXml = self::getMainXml($mainTemplate);
+        } else {
+            $innerXml = self::getModifiedInnerXml($template);
+            $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
+        }
     }
+
+    if ($mainTemplate === null) {
+        throw new \Exception('Main template could not be created.');
+    }
+
+    $mainTemplate->settempDocumentMainPart($mainXml);
+    $filename .= '.docx'; 
+    $mainTemplate->saveAs(Storage::path('public/' . $filename));
+
+    return $filename;
+}
+
 
     /**
      * Ambil TemplateProsessor.

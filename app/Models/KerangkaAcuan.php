@@ -22,9 +22,6 @@ class KerangkaAcuan extends Model
         'akhir' => 'date',
     ];
 
-    /**
-     * Get the naskah_keluar that owns thekerangka acuan.
-     */
     public function naskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class);
@@ -45,95 +42,156 @@ class KerangkaAcuan extends Model
         return $this->hasMany(SpesifikasiKerangkaAcuan::class);
     }
 
-    /**
-     * The "booted" method of the model.
-     */
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
-            $kode_naskah = KodeNaskah::cache()
-                ->get('all')
-                ->where('kategori', 'Surat Dinas')
-                ->where('tata_naskah_id', Helper::getLatestTataNaskahId($kak->tanggal))
-                ->first();
-            $jenis_naskah = JenisNaskah::cache()
-                ->get('all')
-                ->where('jenis', 'Form Permintaan')
-                ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
-                ->first();
-            $kode_arsip = KodeArsip::cache()
-                ->get('all')
-                ->where('kode', 'KU.320')
-                ->where('tata_naskah_id', Helper::getLatestTataNaskahId($kak->tanggal))
-                ->first();
-            $naskahkeluar = new NaskahKeluar;
-            $naskahkeluar->tanggal = $kak->tanggal;
-            $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
-            $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-            $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
-            $naskahkeluar->derajat = 'B';
-            $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
-            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
-            $naskahkeluar->generate = 'A';
-            $naskahkeluar->save();
-            $kak->naskah_keluar_id = $naskahkeluar->id;
+            $kak->createNaskahKeluar();
         });
+        
         static::updating(function (KerangkaAcuan $kak) {
-            $naskahkeluar = NaskahKeluar::where('id', $kak->naskah_keluar_id)->first();
-            $naskahkeluar->tanggal = $kak->tanggal;
-            $naskahkeluar->perihal = 'Form Permintaan '.$kak->rincian;
-            $naskahkeluar->save();
+            $kak->updateNaskahKeluar();
             if ($kak->isDirty('dipa_id')) {
-                $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
-                AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
+                $kak->deleteOldAnggaran();
             }
         });
+
         static::deleting(function (KerangkaAcuan $kak) {
-            NaskahKeluar::destroy($kak->naskah_keluar_id);
-            $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
-            AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
-            $arsipDokumenIds = ArsipDokumen::where('kerangka_acuan_id', $kak->id)->pluck('id');
-            ArsipDokumen::destroy($arsipDokumenIds);
-            $spesifikasiKerangkaAcuanIds = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $kak->id)->pluck('id');
-            SpesifikasiKerangkaAcuan::destroy($spesifikasiKerangkaAcuanIds);
+            $kak->deleteAssociatedRecords();
         });
+
         static::created(function (KerangkaAcuan $kak) {
-            ArsipDokumen::create(['slug' => 'Kerangka Acuan Kerja', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'Form Permintaan', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'SPM', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'SP2D', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'Surat Setoran Pajak', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'SPJ', 'kerangka_acuan_id' => $kak->id]);
-            ArsipDokumen::create(['slug' => 'Mutasi Rekening', 'kerangka_acuan_id' => $kak->id]);
-            Nova::whenServing(function (NovaRequest $request) use ($kak) {
-                if ($request->input('fromResourceId')) {
-                    if ($kak->dipa_id == KerangkaAcuan::find($request->input('fromResourceId'))->dipa_id) {
-                        $anggarans = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
-                        foreach ($anggarans as $anggaran) {
-                            $copyAnggaran = $anggaran->replicate();
-                            $copyAnggaran->kerangka_acuan_id = $kak->id;
-                            $copyAnggaran->save();
-                        }
-                    }
-                    $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $request->input('fromResourceId'))->get();
-                    foreach ($spesifikasis as $spesifikasi) {
-                        $copySpesifikasi = $spesifikasi->replicate();
-                        $copySpesifikasi->kerangka_acuan_id = $kak->id;
-                        $copySpesifikasi->save();
-                    }
-                }
-            });
+            $kak->createInitialArsipDokumen();
+            $kak->replicateAnggaranAndSpesifikasi();
         });
+
         static::saving(function (KerangkaAcuan $kak) {
-            if ($kak->jenis !== 'Penyedia') {
-                $kak->metode = '-';
-                $kak->tkdn = '-';
-            }
-            $dataKetua = Helper::getDataPegawaiByUserId($kak->koordinator_user_id, $kak->tanggal);
-            $kak->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
+            $kak->setDefaultValues();
+            $kak->setKoordinatorUnitKerja();
             if ($kak->isDirty()) {
                 $kak->status = 'dibuat';
             }
         });
+    }
+
+    private function createNaskahKeluar(): void
+    {
+        $naskahkeluar = new NaskahKeluar();
+        $this->setNaskahKeluarAttributes($naskahkeluar);
+        $naskahkeluar->save();
+        $this->naskah_keluar_id = $naskahkeluar->id;
+    }
+
+    private function setNaskahKeluarAttributes(NaskahKeluar $naskahkeluar): void
+    {
+        $kode_naskah = KodeNaskah::cache()->get('all')
+            ->where('kategori', 'Surat Dinas')
+            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($this->tanggal))->first();
+        
+        $jenis_naskah = JenisNaskah::cache()->get('all')
+            ->where('jenis', 'Form Permintaan')
+            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))->first();
+
+        $kode_arsip = KodeArsip::cache()->get('all')
+            ->where('kode', 'KU.320')
+            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($this->tanggal))->first();
+
+        $naskahkeluar->tanggal = $this->tanggal;
+        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
+        $naskahkeluar->kode_arsip_id = $kode_arsip->id;
+        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
+        $naskahkeluar->derajat = 'B';
+        $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
+        $naskahkeluar->perihal = 'Form Permintaan ' . $this->rincian;
+        $naskahkeluar->generate = 'A';
+    }
+
+    private function updateNaskahKeluar(): void
+    {
+        $naskahkeluar = NaskahKeluar::find($this->naskah_keluar_id);
+        if ($naskahkeluar) {
+            $naskahkeluar->tanggal = $this->tanggal;
+            $naskahkeluar->perihal = 'Form Permintaan ' . $this->rincian;
+            $naskahkeluar->save();
+        }
+    }
+
+    private function deleteOldAnggaran(): void
+    {
+        $anggaranKerangkaAcuanIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $this->id)->pluck('id');
+        AnggaranKerangkaAcuan::destroy($anggaranKerangkaAcuanIds);
+    }
+
+    private function deleteAssociatedRecords(): void
+    {
+        NaskahKeluar::destroy($this->naskah_keluar_id);
+        $this->deleteOldAnggaran();
+        ArsipDokumen::where('kerangka_acuan_id', $this->id)->delete();
+        SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $this->id)->delete();
+    }
+
+    private function createInitialArsipDokumen(): void
+    {
+        $slugs = [
+            'Kerangka Acuan Kerja',
+            'Form Permintaan',
+            'SPM',
+            'SP2D',
+            'Surat Setoran Pajak',
+            'SPJ',
+            'Mutasi Rekening'
+        ];
+        
+        foreach ($slugs as $slug) {
+            ArsipDokumen::create(['slug' => $slug, 'kerangka_acuan_id' => $this->id]);
+        }
+    }
+
+    private function replicateAnggaranAndSpesifikasi(): void
+    {
+        Nova::whenServing(function (NovaRequest $request) {
+            $fromResourceId = $request->input('fromResourceId');
+
+            if ($fromResourceId) {
+                $sourceKak = KerangkaAcuan::find($fromResourceId);
+                if ($this->dipa_id == $sourceKak->dipa_id) {
+                    $this->copyAnggaran($fromResourceId);
+                    $this->copySpesifikasi($fromResourceId);
+                }
+            }
+        });
+    }
+
+    private function copyAnggaran($fromResourceId): void
+    {
+        $anggarans = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $fromResourceId)->get();
+        foreach ($anggarans as $anggaran) {
+            $copyAnggaran = $anggaran->replicate();
+            $copyAnggaran->kerangka_acuan_id = $this->id;
+            $copyAnggaran->save();
+        }
+    }
+
+    private function copySpesifikasi($fromResourceId): void
+    {
+        $spesifikasis = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $fromResourceId)->get();
+        foreach ($spesifikasis as $spesifikasi) {
+            $copySpesifikasi = $spesifikasi->replicate();
+            $copySpesifikasi->kerangka_acuan_id = $this->id;
+            $copySpesifikasi->save();
+        }
+    }
+
+    private function setDefaultValues(): void
+    {
+        if ($this->jenis !== 'Penyedia') {
+            $this->metode = '-';
+            $this->tkdn = '-';
+        }
+    }
+
+    private function setKoordinatorUnitKerja(): void
+    {
+        $dataKetua = Helper::getDataPegawaiByUserId($this->koordinator_user_id, $this->tanggal);
+        $this->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
     }
 }

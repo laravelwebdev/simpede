@@ -384,7 +384,7 @@ class Helper
      * @param  string  $derajat
      * @return array nomor, nomor_urut, segmen
      */
-        public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat = null)
+    public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat = null)
     {
         $replaces = [];
         $tahun = self::getYearFromDate($tanggal);
@@ -398,12 +398,12 @@ class Helper
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
             $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode') ?? '';
         }
-        
+
         if ($kode_arsip_id !== null) {
             $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
             $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode') ?? '';
         }
-        
+
         if ($derajat !== null) {
             $replaces['<derajat>'] = $derajat;
         }
@@ -418,9 +418,9 @@ class Helper
         } else {
             $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
             $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
-                        ->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))
-                        ->where('no_urut', $no_urut)
-                        ->max('segmen') + 1;
+                ->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))
+                ->where('no_urut', $no_urut)
+                ->max('segmen') + 1;
         }
 
         $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
@@ -672,29 +672,42 @@ class Helper
 
     public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
-        $formattedMitra = self::formatMitra(DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get());
-        $formattedPegawai = self::formatPegawai(DaftarHonorPegawai::where('honor_kegiatan_id', $honor_kegiatan_id)->get(), $tanggal);
-        $combined = $formattedMitra->merge($formattedPegawai);
+        $mitra = DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
+        $pegawai = DaftarHonorPegawai::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
+        $formattedMitra = self::formatMitra($mitra);
+        $formattedPegawai = self::formatPegawai($pegawai, $tanggal);
+        $formattedMitra->push(...$formattedPegawai);
 
-        return $combined->transform(function ($item, $index) {
-            $item['spj_no'] = $index + 1;
+        return $formattedMitra;
 
-            return $item;
-        });
     }
 
     public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->reject(function ($item) {
+                return $item['netto'] == 0;
+            })           
+            ->flatten()
             ->transform(function ($item, $index) {
+                $item['spj_no'] = $index + 1;
                 $item['bruto'] = self::formatUang($item['bruto']);
                 $item['pajak'] = self::formatUang($item['pajak']);
                 $item['netto'] = self::formatUang($item['netto']);
 
                 return $item;
             })
-            ->reject(function ($item, $index) {
-                return $item['netto'] == 0;
+            ->toArray();
+    }
+
+    public static function makeStMitraAndPegawai($honor_kegiatan_id, $tanggal)
+    {
+        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->transform(function ($item, $index) {
+                $item['kepada'] = $index == 0 ? 'Kepada: ' : '';
+                $item['st_no'] = $index + 1;
+
+                return $item;
             })
             ->toArray();
     }

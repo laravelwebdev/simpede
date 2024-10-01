@@ -24,36 +24,35 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-public static function cetak($jenis, $models, $filename, $template_id)
-{
-    $mainTemplate = null;
-    $mainXml = '';
+    public static function cetak($jenis, $models, $filename, $template_id)
+    {
+        $mainTemplate = null;
+        $mainXml = '';
 
-    foreach ($models as $index => $model) {
-        self::validate($jenis, $model->id);
+        foreach ($models as $index => $model) {
+            self::validate($jenis, $model->id);
 
-        $template = self::getTemplate($jenis, $model->id, $template_id);
+            $template = self::getTemplate($jenis, $model->id, $template_id);
 
-        if ($index === 0) {
-            $mainTemplate = $template;
-            $mainXml = self::getMainXml($mainTemplate);
-        } else {
-            $innerXml = self::getModifiedInnerXml($template);
-            $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
+            if ($index === 0) {
+                $mainTemplate = $template;
+                $mainXml = self::getMainXml($mainTemplate);
+            } else {
+                $innerXml = self::getModifiedInnerXml($template);
+                $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
+            }
         }
+
+        if ($mainTemplate === null) {
+            throw new \Exception('Main template could not be created.');
+        }
+
+        $mainTemplate->settempDocumentMainPart($mainXml);
+        $filename .= '.docx';
+        $mainTemplate->saveAs(Storage::path('public/'.$filename));
+
+        return $filename;
     }
-
-    if ($mainTemplate === null) {
-        throw new \Exception('Main template could not be created.');
-    }
-
-    $mainTemplate->settempDocumentMainPart($mainXml);
-    $filename .= '.docx'; 
-    $mainTemplate->saveAs(Storage::path('public/' . $filename));
-
-    return $filename;
-}
-
 
     /**
      * Ambil TemplateProsessor.
@@ -65,14 +64,19 @@ public static function cetak($jenis, $models, $filename, $template_id)
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
         $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
-        if ($jenis === 'kak') {
+        if ($jenis === 'kak') {            
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
             KerangkaAcuan::where('id', $id)->update(['status' => 'selesai']);
         }
+        if ($jenis === 'st') {
+            $templateProcessor->cloneRowAndSetValues('st_no', $data['daftar_petugas']);
+            $templateProcessor->cloneRowAndSetValues('kepada', $data['daftar_petugas']);
+            unset($data['daftar_petugas']);
+        }
         if ($jenis === 'spj') {
-            $templateProcessor->cloneRowAndSetValues('volume', $data['daftar_honor_mitra']);
+            $templateProcessor->cloneRowAndSetValues('spj_no', $data['daftar_honor_mitra']);
             $detailAnggarans = ['kegiatan', 'kro', 'ro', 'komponen', 'sub', 'akun', 'detail'];
             foreach ($detailAnggarans as $detailAnggaran) {
                 if (Str::of($data[$detailAnggaran])->contains('edit manual karena belum ada di POK')) {
@@ -198,6 +202,24 @@ public static function cetak($jenis, $models, $filename, $template_id)
             'bendahara' => Helper::getPropertyFromCollection($bendahara, 'name'),
             'nipbendahara' => Helper::getPropertyFromCollection($bendahara, 'nip'),
             'terbilang_total' => Helper::terbilang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('bruto'), 'uw', ' rupiah'),
+        ];
+    }
+
+    public static function st($id)
+    {
+        $data = HonorKegiatan::find($id);
+        $kepala = Helper::getUsersByPengelola('kepala', $data->tanggal_st)->first();
+
+        return [
+            'nomor' => NaskahKeluar::find($data->st_naskah_keluar_id)->nomor,
+            'kegiatan' => $data->kegiatan,
+            'uraian_tugas' => $data->uraian_tugas,
+            'awal' => Helper::terbilangTanggal($data->awal),
+            'akhir' => Helper::terbilangTanggal($data->akhir),
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_st),
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
+            'daftar_petugas' => Helper::makeStMitraAndPegawai($id, $data->tanggal_st),
         ];
     }
 

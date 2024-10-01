@@ -8,6 +8,7 @@ use App\Models\JenisKontrak;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Nova\Actions\Download;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -18,6 +19,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use ShuvroRoy\NovaTabs\Tabs;
@@ -283,6 +285,19 @@ class HonorKegiatan extends Resource
                     ->showOnDetail()
                     ->exceptOnIndex()
                     ->confirmButtonText('Unduh');
+            $actions[] =
+                Download::make('st', 'Surat Tugas')
+                        ->showInline()
+                        ->showOnDetail()
+                        ->exceptOnIndex()
+                        ->confirmButtonText('Unduh')
+                        ->canSee(function ($request) {
+                            if ($request instanceof ActionRequest) {
+                                return true;
+                            }
+    
+                            return $this->resource instanceof Model && $this->resource->st_naskah_keluar_id !== null;
+                        });
         }
 
         return $actions;

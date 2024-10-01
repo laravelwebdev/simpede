@@ -286,18 +286,31 @@ class HonorKegiatan extends Resource
                     ->exceptOnIndex()
                     ->confirmButtonText('Unduh');
             $actions[] =
-                Download::make('st', 'Surat Tugas')
-                        ->showInline()
-                        ->showOnDetail()
-                        ->exceptOnIndex()
-                        ->confirmButtonText('Unduh')
-                        ->canSee(function ($request) {
-                            if ($request instanceof ActionRequest) {
-                                return true;
-                            }
-    
-                            return $this->resource instanceof Model && $this->resource->st_naskah_keluar_id !== null;
-                        });
+                Download::make('st', 'Unduh Surat Tugas')
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex()
+                    ->confirmButtonText('Unduh')
+                    ->canSee(function ($request) {
+                        if ($request instanceof ActionRequest) {
+                            return true;
+                        }
+
+                        return $this->resource instanceof Model && $this->resource->st_naskah_keluar_id !== null;
+                    });
+            $actions[] =
+            Download::make('sk', 'Unduh SK')
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Unduh')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->sk_naskah_keluar_id !== null;
+                });
         }
 
         return $actions;

@@ -8,6 +8,7 @@ use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
 use App\Models\HargaSatuan;
+use App\Models\HonorKegiatan;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
@@ -629,8 +630,7 @@ class Helper
             $item['jabatan'] = 'Mitra Statistik';
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
-            $item['netto'] = $item['bruto'] - $item['pajak'];
-            $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
+            $item['netto'] = $item['bruto'] - $item['pajak'];            
             unset($item['mitra_id']);
             unset($item['id']);
             unset($item['created_at']);
@@ -656,7 +656,6 @@ class Helper
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
-            $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
             unset($item['user_id']);
             unset($item['id']);
             unset($item['created_at']);
@@ -687,13 +686,14 @@ class Helper
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->reject(function ($item) {
                 return $item['netto'] == 0;
-            })           
+            })
             ->flatten()
             ->transform(function ($item, $index) {
                 $item['spj_no'] = $index + 1;
                 $item['bruto'] = self::formatUang($item['bruto']);
                 $item['pajak'] = self::formatUang($item['pajak']);
                 $item['netto'] = self::formatUang($item['netto']);
+                $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
 
                 return $item;
             })
@@ -706,6 +706,18 @@ class Helper
             ->transform(function ($item, $index) {
                 $item['kepada'] = $index == 0 ? 'Kepada: ' : '';
                 $item['st_no'] = $index + 1;
+
+                return $item;
+            })
+            ->toArray();
+    }
+
+    public static function makeSkMitraAndPegawai($honor_kegiatan_id, $tanggal)
+    {
+        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->transform(function ($item, $index) use($honor_kegiatan_id) {
+                $item['sk_no'] = $index + 1;
+                $item['honor'] = $item['harga_satuan'] > 0 ? self::formatUang($item['harga_satuan']).'/'.HonorKegiatan::find($honor_kegiatan_id)->satuan:'-';
 
                 return $item;
             })

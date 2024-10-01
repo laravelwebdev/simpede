@@ -64,7 +64,7 @@ class Cetak
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
         $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
-        if ($jenis === 'kak') {            
+        if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
@@ -73,6 +73,10 @@ class Cetak
         if ($jenis === 'st') {
             $templateProcessor->cloneRowAndSetValues('st_no', $data['daftar_petugas']);
             $templateProcessor->cloneRowAndSetValues('kepada', $data['daftar_petugas']);
+            unset($data['daftar_petugas']);
+        }
+        if ($jenis === 'sk') {
+            $templateProcessor->cloneRowAndSetValues('sk_no', $data['daftar_petugas']);
             unset($data['daftar_petugas']);
         }
         if ($jenis === 'spj') {
@@ -191,17 +195,17 @@ class Cetak
             'akun' => Helper::getDetailAnggaran($data->mak, 'akun'),
             'daftar_honor_mitra' => Helper::makeSpjMitraAndPegawai($id, $data->tanggal_spj),
             'satuan' => $data->satuan,
-            'total_bruto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('bruto')),
-            'total_pajak' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('pajak')),
-            'total_netto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('netto')),
-            'total_volume' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('volume')),
+            'total_bruto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('bruto')),
+            'total_pajak' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('pajak')),
+            'total_netto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('netto')),
+            'total_volume' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('volume')),
             'ketua' => Helper::getPropertyFromCollection($koordinator, 'name'),
             'nipketua' => Helper::getPropertyFromCollection($koordinator, 'nip'),
             'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
             'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
             'bendahara' => Helper::getPropertyFromCollection($bendahara, 'name'),
             'nipbendahara' => Helper::getPropertyFromCollection($bendahara, 'nip'),
-            'terbilang_total' => Helper::terbilang(Helper::makeBaseListMitraAndPegawai(1, '2024-09-01')->sum('bruto'), 'uw', ' rupiah'),
+            'terbilang_total' => Helper::terbilang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('bruto'), 'uw', ' rupiah'),
         ];
     }
 
@@ -220,6 +224,24 @@ class Cetak
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
             'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
             'daftar_petugas' => Helper::makeStMitraAndPegawai($id, $data->tanggal_st),
+        ];
+    }
+
+    public static function sk($id)
+    {
+        $data = HonorKegiatan::find($id);
+        $kpa = Helper::getUsersByPengelola('kpa', $data->tanggal_st)->first();
+
+        return [
+            'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,
+            'kegiatan' => $data->kegiatan,
+            'objek_sk' => $data->objek_sk,
+            'tahun' => $data->tahun,
+            'upper_objek_sk' => Str::upper($data->objek_sk),
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_sk),
+            'kpa' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($kpa, 'name')),
+            'nipkpa' => Helper::getPropertyFromCollection($kpa, 'nip'),
+            'daftar_petugas' => Helper::makeSkMitraAndPegawai($id, $data->tanggal_sk),
         ];
     }
 

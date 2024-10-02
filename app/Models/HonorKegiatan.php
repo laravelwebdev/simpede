@@ -12,6 +12,8 @@ class HonorKegiatan extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['status'];
+
     protected $casts = [
         'tanggal_spj' => 'date',
         'tanggal_sk' => 'date',

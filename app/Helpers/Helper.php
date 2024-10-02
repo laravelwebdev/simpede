@@ -450,12 +450,12 @@ class Helper
             ->where('active', '<=', $tanggal)
             ->where(function ($query) use ($tanggal) {
                 return $query->where('inactive', '>', $tanggal)
-                    ->orWhere('inactive', '=', null);
+                    ->orWhereNull('inactive');
             })
             ->pluck('user_id')
             ->toArray();
         $usersId = $usersIdByPengelola;
-        if ($role == 'koordinator') {
+        if ($role === 'koordinator') {
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
                 ->where('unit_kerja_id', self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal), 'unit_kerja_id'))
@@ -484,20 +484,6 @@ class Helper
     public static function getMitraById($id)
     {
         return Mitra::cache()->get('all')->where('id', $id)->first();
-    }
-
-    public static function setSegmen($num): string
-    {
-        $b26 = '';
-        if ($num > 0) {
-            do {
-                $val = ($num % 26) ?: 26;
-                $num = ($num - $val) / 26;
-                $b26 = chr($val + 64).($b26 ?: '');
-            } while ($num > 0);
-        }
-
-        return $b26;
     }
 
     /**
@@ -574,21 +560,16 @@ class Helper
      */
     public static function formatSpek($spesifikasi)
     {
-        // $speks= json_decode($spesifikasi,true);
         $spek = collect($spesifikasi);
         $spek->transform(function ($item, $index) {
             $item['spek_no'] = $index + 1;
-            if (isset($item['harga_satuan'])) {
-                $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
-            }
-            if (isset($item['total_harga'])) {
-                $item['total_harga'] = self::formatRupiah($item['total_harga']);
-            }
+            $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
+            $item['total_harga'] = self::formatRupiah($item['total_harga']);
 
             return $item;
-        })->toArray();
+        });
 
-        return $spek;
+        return $spek->toArray();
     }
 
     /**
@@ -599,18 +580,15 @@ class Helper
      */
     public static function formatAnggaran($anggaran)
     {
-        // $speks= json_decode($spesifikasi,true);
         $spek = collect($anggaran);
         $spek->transform(function ($item, $index) {
             $item['anggaran_no'] = $index + 1;
-            if (isset($item['perkiraan'])) {
-                $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
-            }
+            $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
 
             return $item;
-        })->toArray();
+        });
 
-        return $spek;
+        return $spek->toArray();
     }
 
     /**
@@ -630,7 +608,7 @@ class Helper
             $item['jabatan'] = 'Mitra Statistik';
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
-            $item['netto'] = $item['bruto'] - $item['pajak'];            
+            $item['netto'] = $item['bruto'] - $item['pajak'];
             unset($item['mitra_id']);
             unset($item['id']);
             unset($item['created_at']);
@@ -715,9 +693,9 @@ class Helper
     public static function makeSkMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
-            ->transform(function ($item, $index) use($honor_kegiatan_id) {
+            ->transform(function ($item, $index) use ($honor_kegiatan_id) {
                 $item['sk_no'] = $index + 1;
-                $item['honor'] = $item['harga_satuan'] > 0 ? self::formatUang($item['harga_satuan']).'/'.HonorKegiatan::find($honor_kegiatan_id)->satuan:'-';
+                $item['honor'] = $item['harga_satuan'] > 0 ? self::formatUang($item['harga_satuan']).'/'.HonorKegiatan::find($honor_kegiatan_id)->satuan : '-';
 
                 return $item;
             })
@@ -804,16 +782,11 @@ class Helper
      */
     public static function setOptions($collection, $value, $label, $group = '')
     {
-        $collection = $collection->all();
         $options = [];
-        if ($group !== '') {
-            foreach ($collection as $option) {
-                $options[$option->$value] = ['label' => $option->$label, 'group' => $option->$group];
-            }
-        } else {
-            foreach ($collection as $option) {
-                $options[$option->$value] = $option->$label;
-            }
+        foreach ($collection as $option) {
+            $options[$option->$value] = $group !== ''
+                ? ['label' => $option->$label, 'group' => $option->$group]
+                : $option->$label;
         }
 
         return $options;
@@ -833,9 +806,11 @@ class Helper
 
     public static function setOptionTahunDipa()
     {
+        $year = session('year');
+
         return [
-            session('year') => session('year'),
-            session('year') + 1 => session('year') + 1,
+            $year => $year,
+            $year + 1 => $year + 1,
         ];
     }
 

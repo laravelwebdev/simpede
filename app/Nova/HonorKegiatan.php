@@ -112,7 +112,6 @@ class HonorKegiatan extends Resource
                     ->displayUsingLabels(),
                 Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->rules('required')
-                    ->filterable()
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
                     ->dependsOn('tanggal_kak', function (Select $field, NovaRequest $request, FormData $form) {
                         $field->options(Helper::setOptionJenisKontrak($form->tanggal_kak));

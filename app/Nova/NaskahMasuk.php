@@ -7,6 +7,7 @@ use App\Models\JenisNaskah;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
@@ -61,7 +62,6 @@ class NaskahMasuk extends Resource
                 ->sortable()
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable()
                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {
                         return $fail('Tanggal harus di tahun yang telah dipilih');
@@ -74,8 +74,10 @@ class NaskahMasuk extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisNaskah::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
+                }),
             File::make('Arsip')
                 ->disk('naskah')
                 ->rules('mimes:pdf')
@@ -103,7 +105,8 @@ class NaskahMasuk extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsingLabels()->filterable()
+                ->displayUsingLabels()
+                ->filterable()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
             $this->arsip ?
                 URL::make('Arsip', fn () => Storage::disk('naskah')

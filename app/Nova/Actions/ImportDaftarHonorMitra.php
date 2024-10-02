@@ -58,7 +58,6 @@ class ImportDaftarHonorMitra extends Action
             }
         });
         DaftarHonorMitra::where('updated_at', null)->delete();
-        $this->model->update(['status' => 'diubah']);
 
         return Action::message('File BOS sukses diimport!');
     }

@@ -57,7 +57,6 @@ class AnggaranKerangkaAcuan extends Resource
                 ->updateRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId))
                 ->searchable()
-                ->filterable()
                 ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionsMataAnggaran(KerangkaAcuan::find($formData->kerangka_acuan_id)->dipa_id));
                 }),

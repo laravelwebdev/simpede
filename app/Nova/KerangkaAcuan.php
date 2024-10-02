@@ -187,8 +187,7 @@ class KerangkaAcuan extends Resource
                         return $fail('Tanggal harus di tahun yang telah dipilih');
                     }
                 })
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable(),
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
                 ->onlyOnDetail(),
             Text::make('Rincian', 'rincian')

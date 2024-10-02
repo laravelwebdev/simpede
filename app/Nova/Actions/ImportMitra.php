@@ -33,20 +33,21 @@ class ImportMitra extends Action
         Mitra::where('kepka_mitra_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model) {
             if ($row['Status Seleksi (1=Terpilih, 2=Tidak Terpilih)'] == 1) {
-                return Mitra::updateOrCreate(
+                $mitra = Mitra::firstOrNew(
                     [
                         'nik' => $row['NIK'],
                         'kepka_mitra_id' => $model->id,
-                    ],
-                    [
-
-                        'nama' => $row['Nama'],
-                        'email' => $row['Email'],
-                        'alamat' => $row['Alamat Detail'],
-                        'tanggal_lahir' => Carbon::createFromFormat('d/m/Y', $row['Tanggal Lahir (dd/mm/yyyy)']),
-                        'npwp' => $row['NPWP'],
                     ]
                 );
+
+                $mitra->nama = $row['Nama'];
+                $mitra->email = $row['Email'];
+                $mitra->alamat = $row['Alamat Detail'];
+                $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tanggal Lahir (dd/mm/yyyy)']);
+                $mitra->npwp = $row['NPWP'];
+
+                $mitra->save();
+
             }
         });
         Mitra::where('updated_at', null)->delete();

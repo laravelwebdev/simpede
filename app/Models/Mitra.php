@@ -11,8 +11,6 @@ class Mitra extends Model
 {
     use HasFactory, LaraCache;
 
-    protected $guarded = [];
-
     protected $casts = [
         'tanggal_lahir' => 'date',
     ];

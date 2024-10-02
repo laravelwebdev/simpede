@@ -39,29 +39,29 @@ class ImportMataAnggaran extends Action
             $anggaran = explode('||', $row['Kode'])[0];
             $mak = strtr($anggaran, $replaces);
             if ($mak) {
-                KamusAnggaran::updateOrCreate(
+                $kamusAnggaran = KamusAnggaran::firstOrNew(
                     [
                         'mak' => $mak,
                         'dipa_id' => $model->id,
-                    ],
-                    [
-                        'detail' => $row['Program/ Kegiatan/ KRO/ RO/ Komponen'],
-                        'updated_at' => now(),
-                        'satuan' => $row['Volume'] != '' ? explode(' ', $row['Volume'])[1] : '',
                     ]
                 );
+                $kamusAnggaran->detail = $row['Program/ Kegiatan/ KRO/ RO/ Komponen'];
+                $kamusAnggaran->updated_at = now();
+                $kamusAnggaran->satuan = $row['Volume'] != '' ? explode(' ', $row['Volume'])[1] : '';
+                $kamusAnggaran->save();
             }
+
             if (strlen($mak) == 37) {
-                MataAnggaran::updateOrCreate(
+                $mataAnggaran = MataAnggaran::firstOrNew(
                     [
                         'mak' => substr($mak, 0, 35),
                         'dipa_id' => $model->id,
-                    ],
-                    [
-                        'updated_at' => now(),
                     ]
                 );
+                $mataAnggaran->updated_at = now();
+                $mataAnggaran->save();
             }
+
         });
         MataAnggaran::where('updated_at', null)->delete();
         KamusAnggaran::where('updated_at', null)->delete();

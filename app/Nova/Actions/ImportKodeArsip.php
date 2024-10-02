@@ -32,18 +32,19 @@ class ImportKodeArsip extends Action
         KodeArsip::cache()->disable();
         KodeArsip::where('tata_naskah_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model) {
-            return KodeArsip::updateOrCreate(
+            $kodeArsip = KodeArsip::firstOrNew(
                 [
                     'detail' => $row['detail'],
                     'tata_naskah_id' => $model->id,
-                ],
-                [
-                    'detail' => $row['detail'],
-                    'kode' => $row['kode'],
-                    'group' => $row['group'],
-                    'updated_at' => now(),
                 ]
             );
+            $kodeArsip->detail = $row['detail'];
+            $kodeArsip->kode = $row['kode'];
+            $kodeArsip->group = $row['group'];
+            $kodeArsip->updated_at = now();
+
+            $kodeArsip->save();
+
         });
         KodeArsip::where('updated_at', null)->delete();
         KodeArsip::cache()->enable();

@@ -41,19 +41,20 @@ class ImportDaftarHonorMitra extends Action
         (new FastExcel)->import($fields->file, function ($row) use ($honor, $fields) {
             if (strlen($row['NIP Lama']) == 16) {
                 $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
-                DaftarHonorMitra::updateOrCreate(
+                $daftarHonorMitra = DaftarHonorMitra::firstOrNew(
                     [
                         'mitra_id' => $mitra_id,
                         'honor_kegiatan_id' => $honor->id,
-
-                    ],
-                    [
-                        'volume' => $row['Volume'] ?: 0,
-                        'harga_satuan' => $row['HargaSatuan'] ?: 0,
-                        'persen_pajak' => $row['PersentasePajak'] ?: 0,
-                        'updated_at' => now(),
                     ]
                 );
+
+                $daftarHonorMitra->volume = $row['Volume'] ?: 0;
+                $daftarHonorMitra->harga_satuan = $row['HargaSatuan'] ?: 0;
+                $daftarHonorMitra->persen_pajak = $row['PersentasePajak'] ?: 0;
+                $daftarHonorMitra->updated_at = now();
+
+                $daftarHonorMitra->save();
+
             }
         });
         DaftarHonorMitra::where('updated_at', null)->delete();

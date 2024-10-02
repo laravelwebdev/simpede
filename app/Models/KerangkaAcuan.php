@@ -47,7 +47,7 @@ class KerangkaAcuan extends Model
         static::creating(function (KerangkaAcuan $kak) {
             $kak->createNaskahKeluar();
         });
-        
+
         static::updating(function (KerangkaAcuan $kak) {
             $kak->updateNaskahKeluar();
             if ($kak->isDirty('dipa_id')) {
@@ -75,7 +75,7 @@ class KerangkaAcuan extends Model
 
     private function createNaskahKeluar(): void
     {
-        $naskahkeluar = new NaskahKeluar();
+        $naskahkeluar = new NaskahKeluar;
         $this->setNaskahKeluarAttributes($naskahkeluar);
         $naskahkeluar->save();
         $this->naskah_keluar_id = $naskahkeluar->id;
@@ -86,7 +86,7 @@ class KerangkaAcuan extends Model
         $kode_naskah = KodeNaskah::cache()->get('all')
             ->where('kategori', 'Surat Dinas')
             ->where('tata_naskah_id', Helper::getLatestTataNaskahId($this->tanggal))->first();
-        
+
         $jenis_naskah = JenisNaskah::cache()->get('all')
             ->where('jenis', 'Form Permintaan')
             ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))->first();
@@ -101,7 +101,7 @@ class KerangkaAcuan extends Model
         $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
         $naskahkeluar->derajat = 'B';
         $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
-        $naskahkeluar->perihal = 'Form Permintaan ' . $this->rincian;
+        $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
         $naskahkeluar->generate = 'A';
     }
 
@@ -110,7 +110,7 @@ class KerangkaAcuan extends Model
         $naskahkeluar = NaskahKeluar::find($this->naskah_keluar_id);
         if ($naskahkeluar) {
             $naskahkeluar->tanggal = $this->tanggal;
-            $naskahkeluar->perihal = 'Form Permintaan ' . $this->rincian;
+            $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
             $naskahkeluar->save();
         }
     }
@@ -138,11 +138,15 @@ class KerangkaAcuan extends Model
             'SP2D',
             'Surat Setoran Pajak',
             'SPJ',
-            'Mutasi Rekening'
+            'Mutasi Rekening',
         ];
-        
+
         foreach ($slugs as $slug) {
-            ArsipDokumen::create(['slug' => $slug, 'kerangka_acuan_id' => $this->id]);
+            $arsipDokumen = new ArsipDokumen;
+            $arsipDokumen->slug = $slug;
+            $arsipDokumen->kerangka_acuan_id = $this->id;
+            $arsipDokumen->save();
+
         }
     }
 

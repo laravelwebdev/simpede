@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class DumpDownloadController extends Controller
 {
-    public function show($filename, Request $request)
+    private const STORAGE_PATH = 'public/';
+
+    public function show(string $filename)
     {
-        $path = Storage::path('public/'.$filename);
+        $path = Storage::path(self::STORAGE_PATH.$filename);
+
+        if (! Storage::exists(self::STORAGE_PATH.$filename)) {
+            abort(404, 'File not found.');
+        }
 
         return response()->download($path, $filename)->deleteFileAfterSend(true);
     }

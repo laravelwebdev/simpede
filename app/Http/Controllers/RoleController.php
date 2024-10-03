@@ -12,12 +12,16 @@ class RoleController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function changeRole($role, Request $request)
-    {
-        if (Pengelola::cache()->get('all')->where('user_id', Auth::user()->id)->where('role', $role)->whereNull('inactive')->first() !== null) {
-            session(['role' => $role]);
-        }
+public function changeRole($role, Request $request)
+{
+    $userId = Auth::user()->id;
 
-        return redirect(Nova::path());
+    if (Pengelola::cache()->get('all')->where('user_id', $userId)
+        ->where('role', $role)->whereNull('inactive')->exists()) {
+        session(['role' => $role]);
     }
+
+    return redirect(Nova::path());
+}
+
 }

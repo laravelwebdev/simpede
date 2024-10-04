@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('tanggal_st')->nullable();
             $table->string('objek_sk')->nullable();
             $table->string('uraian_tugas')->nullable();
+            $table->string('jenis_honor', 40)->nullable();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
             $table->string('jenis_kontrak', 40)->nullable();

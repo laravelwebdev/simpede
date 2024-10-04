@@ -63,6 +63,10 @@ class HonorKegiatan extends Model
             if ($honor->isDirty()) {
                 $honor->status = 'diubah';
             }
+            if ($honor->jenis_honor !== 'Kontrak Mitra Bulanan') {
+                $honor->bulan = null;
+                $honor->jenis_kontrak = null;
+            }
             if ($honor->isDirty('tahun')) {
                 $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
                 DaftarHonorMitra::destroy($DaftarHonorMitraIds);

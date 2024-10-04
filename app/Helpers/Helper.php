@@ -54,6 +54,12 @@ class Helper
         'st' => 'Surat Tugas',
     ];
 
+    public static $jenis_honor = [
+        'Kontrak Mitra Bulanan' => 'Kontrak Mitra Bulanan',
+        'Kontrak Mitra AdHoc' => 'Kontrak Mitra AdHoc',
+        'Honor Pegawai' => 'Honor Pegawai',
+    ];
+
     /**
      * @var array An array containing account information for travel.
      */
@@ -85,7 +91,6 @@ class Helper
         '10' => 'Oktober',
         '11' => 'November',
         '12' => 'Desember',
-        '13' => 'AdHoc',
     ];
 
     public static $role = [

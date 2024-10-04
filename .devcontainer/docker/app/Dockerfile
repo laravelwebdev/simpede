@@ -1,8 +1,9 @@
-FROM ubuntu:22.04
-WORKDIR /simpede
+FROM thecodingmachine/php:8.2-v4-apache-node20
 
 ARG NODE_VERSION=20
 ARG POSTGRES_VERSION=15
+
+WORKDIR /simpede
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC

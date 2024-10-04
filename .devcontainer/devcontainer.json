@@ -8,14 +8,18 @@
         "vscode": {
             "extensions": [
                 "SeyyedKhandon.firacode",
-                "GitHub.copilot",
-                "GitHub.copilot-chat",
                 "oderwat.indent-rainbow",
                 "porifa.laravel-intelephense",
                 "zhuangtongfa.material-theme",
                 "SeyyedKhandon.tpack",
                 "bmewburn.vscode-intelephense-client",
-                "miguelsolorio.symbols"
+                "miguelsolorio.symbols",
+                "ms-vscode-remote.remote-containers",
+                "ms-azuretools.vscode-docker",
+                "FittenTech.Fitten-Code",
+                "amiralizadeh9480.laravel-extra-intellisense",
+                "open-southeners.laravel-pint",
+                "Cardinal90.multi-cursor-case-preserve"
             ]
         }
     },

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('kontrak_adhocs', function (Blueprint $table) {
             $table->id();
             $table->string('nama_kontrak')->nullable();
-            $table->date('awal_kontrak')->nullable();
-            $table->date('akhir_kontrak')->nullable();
             $table->date('tanggal_spk')->nullable();
             $table->string('status', 30)->nullable();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();

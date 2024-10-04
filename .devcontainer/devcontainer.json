@@ -1,5 +1,5 @@
 {
-    "name": "codespaces-laravel",
+    "name": "simpede",
     "dockerComposeFile": [
         "docker-compose.yml"
     ],
@@ -20,14 +20,8 @@
                 "FittenTech.Fitten-Code",
                 "amiralizadeh9480.laravel-extra-intellisense",
                 "open-southeners.laravel-pint",
-                "Cardinal90.multi-cursor-case-preserve",
-                "ms-azuretools.vscode-docker"
+                "Cardinal90.multi-cursor-case-preserve"
             ]
-        }
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
-            "version": "latest"
         }
     },
     "postCreateCommand": "bash ./.devcontainer/setup.sh",

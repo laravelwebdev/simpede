@@ -1,6 +1,8 @@
 {
     "name": "codespaces-laravel",
-    "dockerComposeFile": ["docker-compose.yml"],
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
     "workspaceFolder": "/simpede",
     "service": "app",
     "shutdownAction": "stopCompose",
@@ -15,16 +17,25 @@
                 "bmewburn.vscode-intelephense-client",
                 "miguelsolorio.symbols",
                 "ms-vscode-remote.remote-containers",
-                "ms-azuretools.vscode-docker",
                 "FittenTech.Fitten-Code",
                 "amiralizadeh9480.laravel-extra-intellisense",
                 "open-southeners.laravel-pint",
-                "Cardinal90.multi-cursor-case-preserve"
+                "Cardinal90.multi-cursor-case-preserve",
+                "ms-azuretools.vscode-docker"
             ]
         }
     },
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest"
+        }
+    },
     "postCreateCommand": "bash ./.devcontainer/setup.sh",
-    "forwardPorts": [80,3306,8080],
+    "forwardPorts": [
+        80,
+        3306,
+        8080
+    ],
     "portsAttributes": {
         "80": {
             "label": "HTTP"
@@ -36,5 +47,4 @@
             "label": "PHPMyAdmin"
         }
     }
-
 }

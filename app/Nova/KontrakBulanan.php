@@ -9,18 +9,18 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class KontrakMitra extends Resource
+class KontrakBulanan extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\KontrakMitra>
      */
-    public static $model = \App\Models\KontrakMitra::class;
+    public static $model = \App\Models\KontrakBulanan::class;
 
     public static function label()
     {
-        return 'Kontrak Mitra';
+        return 'Kontrak Bulanan';
     }
 
     /**

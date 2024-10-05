@@ -56,7 +56,7 @@ class KontrakBulanan extends Resource
                 ->readonly()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
             Date::make('Tanggal SPK', 'tanggal_spk')
-                ->rules('required')->displayUsing(function ($tanggal) {
+                ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 }),
             Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')

@@ -1,5 +1,5 @@
 {
-    "name": "simpede",
+    "name": "codespace-laravel",
     "dockerComposeFile": [
         "docker-compose.yml"
     ],

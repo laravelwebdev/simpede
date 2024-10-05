@@ -34,7 +34,8 @@
                 "miguelsolorio.symbols",
                 "bmewburn.vscode-intelephense-client",
                 "SeyyedKhandon.tpack",
-                "SeyyedKhandon.firacode"
+                "SeyyedKhandon.firacode",
+                "FittenTech.Fitten-Code"
             ]
         }
     }

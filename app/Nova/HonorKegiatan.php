@@ -110,25 +110,29 @@ class HonorKegiatan extends Resource
                     ->dependsOn(['jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {
                             $field
+                                ->show()
                                 ->rules('required', function ($attribute, $value, $fail) {
                                     if (Carbon::createFromDate(session('year'), $value)->startOfMonth() < $this->tanggal_kak) {
                                         return $fail('Bulan Kontrak harus berisi tanggal setelah atau sama dengan awal bulan tanggal KAK.');
                                     }
-                                })
-                                ->options(Helper::$bulan)
-                                ->displayUsingLabels();
+                                });
+
                         }
-                    }),
+                    })
+                    ->options(Helper::$bulan)
+                    ->displayUsingLabels(),
                 Select::make('Jenis Kontrak', 'jenis_kontrak')
                     ->hide()
                     ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {
                             $field
-                                ->rules('required')
-                                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
-                                ->options(Helper::setOptionJenisKontrak($form->tanggal_kak));
+                                ->show()
+                                ->options(Helper::setOptionJenisKontrak($form->tanggal_kak))
+                                ->rules('required');
+
                         }
-                    }),
+                    })
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
                     ->rules('required')

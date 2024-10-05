@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class HonorKegiatan extends Model
 {
@@ -83,7 +84,23 @@ class HonorKegiatan extends Model
                 NaskahKeluar::destroy($honor->st_naskah_keluar_id);
                 $honor->st_naskah_keluar_id = null;
             }
-            if ($honor->bulan != null) {
+            if ($honor->jenis_honor !== null) {
+                if ($honor->jenis_honor === 'Kontrak Mitra Bulanan'){
+                    $kontrak_bulanan = KontrakBulanan::firstOrNew(
+                        [
+                            'jenis_kontrak' => $honor->jenis_kontrak,
+                            'bulan' => $honor->bulan,
+                            'tahun' => $honor->tahun,
+                        ]
+                    );
+                    $kontrak_bulanan->nama_kontrak = 'Kontrak Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak_bulanan->status = 'dibuat';
+                    $kontrak_bulanan->ppk_user_id = $honor->ppk_user_id;
+                    $kontrak_bulanan->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
+                    $kontrak_bulanan->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
+  
+                    $kontrak_bulanan->save();
+                }
                 if ($honor->generate_sk) {
                     if ($honor->sk_naskah_keluar_id === null) {
                         $kode_naskah = KodeNaskah::cache()

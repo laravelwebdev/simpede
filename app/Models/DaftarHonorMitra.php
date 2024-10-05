@@ -9,6 +9,8 @@ class DaftarHonorMitra extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['mitra_id', 'honor_kegiatan_id'];
+
     protected static function booted(): void
     {
         static::saving(function (DaftarHonorMitra $honor) {

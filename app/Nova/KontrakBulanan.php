@@ -3,10 +3,12 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\JenisKontrak;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KontrakBulanan extends Resource
@@ -36,7 +38,7 @@ class KontrakBulanan extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'jenis',
+        'nama_kontrak', 'bulan', 'jenis_kontrak',
     ];
 
     /**
@@ -47,17 +49,12 @@ class KontrakBulanan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Bulan Kontrak', 'bulan')
-                ->rules('required')
-                ->options(Helper::$bulan)
-                ->filterable()
-                ->displayUsingLabels(),
-            Select::make('Jenis Kontrak', 'jenis_kontrak')
-                ->rules('required')
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
-                ->dependsOn('bulan', function (Select $field, NovaRequest $request, FormData $form) {
-                    $field->options(Helper::setOptionJenisKontrak(Carbon::createFromDate(session('year'), $form->bulan)->startOfMonth()));
-                }),
+            Text::make('Bulan Kontrak', 'bulan')
+                ->readonly()
+                ->displayUsing(fn ($bulan) => Helper::$bulan[$bulan]),
+            Text::make('Jenis Kontrak', 'jenis_kontrak')
+                ->readonly()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
             Date::make('Tanggal SPK', 'tanggal_spk')
                 ->rules('required')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);

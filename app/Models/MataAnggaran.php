@@ -11,6 +11,8 @@ class MataAnggaran extends Model
 {
     use HasFactory, LaraCache;
 
+    protected $fillable = ['mak', 'dipa_id'];
+
     public static function cacheEntities(): array
     {
         return [

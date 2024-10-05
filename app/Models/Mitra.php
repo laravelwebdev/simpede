@@ -11,6 +11,8 @@ class Mitra extends Model
 {
     use HasFactory, LaraCache;
 
+    protected $fillable = ['nik', 'kepka_mitra_id'];
+
     protected $casts = [
         'tanggal_lahir' => 'date',
     ];

@@ -11,6 +11,8 @@ class KodeArsip extends Model
 {
     use HasFactory, LaraCache;
 
+    protected $fillable = ['detail', 'tata_naskah_id'];
+
     public static function cacheEntities(): array
     {
         return [

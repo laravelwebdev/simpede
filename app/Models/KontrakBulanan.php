@@ -9,7 +9,7 @@ class KontrakBulanan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'tahun', 'bulan','jenis_kontrak'];
 
     protected $casts = [
         'tanggal' => 'date',

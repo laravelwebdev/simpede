@@ -1,4 +1,4 @@
-ENV PHP_EXTENSIONS="mysqli gd pdo_mysql memcached intl xdebug msgpack"
+ENV PHP_EXTENSIONS=mysqli gd pdo_mysql memcached intl xdebug msgpack
 
 FROM thecodingmachine/php:8.2-v4-cli-node20
 

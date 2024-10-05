@@ -22,5 +22,20 @@
         "8080": {
             "label": "PHPMyAdmin"
         }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "oderwat.indent-rainbow",
+                "porifa.laravel-intelephense",
+                "open-southeners.laravel-pint",
+                "Cardinal90.multi-cursor-case-preserve",
+                "zhuangtongfa.material-theme",
+                "miguelsolorio.symbols",
+                "bmewburn.vscode-intelephense-client",
+                "SeyyedKhandon.tpack",
+                "SeyyedKhandon.firacode"
+            ]
+        }
     }
 }

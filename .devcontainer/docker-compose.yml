@@ -9,11 +9,6 @@ services:
     environment:
       APP_ENV: local
       APACHE_DOCUMENT_ROOT: /simpede/public
-      PHP_EXTENSION_MYSQLI: 1
-      PHP_EXTENSION_GD: 1
-      PHP_EXTENSION_PDO_MYSQL: 1
-      PHP_EXTENSION_MEMCACHED: 1
-      PHP_EXTENSION_INTL: 1
     depends_on:
       - mysql
       - redis

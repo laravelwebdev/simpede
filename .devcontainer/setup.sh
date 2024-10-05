@@ -11,7 +11,7 @@ new_db_port="DB_PORT=3306"
 new_db_database="DB_DATABASE=simpede"
 new_db_username="DB_USERNAME=homestead"
 new_db_password="DB_PASSWORD=secret"
-new_app_url="APP_URL=https:\/\/${CODESPACE_NAME}-80.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+new_app_url="APP_URL=http:\/\/127.0.0.1"
 
 # Replace lines in .env.example
 sed -i "s/^APP_URL=.*/${new_app_url}/" .env

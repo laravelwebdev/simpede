@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KontrakBulanan extends Model
+class Kontrak extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'tahun', 'bulan','jenis_kontrak'];
+    protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak' ,'jenis_honor', 'honor_kegiatan_id'];
 
     protected $casts = [
         'tanggal' => 'date',

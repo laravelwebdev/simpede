@@ -11,18 +11,18 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class KontrakBulanan extends Resource
+class Kontrak extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\KontrakMitra>
      */
-    public static $model = \App\Models\KontrakBulanan::class;
+    public static $model = \App\Models\Kontrak::class;
 
     public static function label()
     {
-        return 'Kontrak Bulanan';
+        return 'Kontrak';
     }
 
     /**
@@ -38,7 +38,7 @@ class KontrakBulanan extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'jenis_kontrak',
+        'nama_kontrak', 'bulan', 'jenis_kontrak', 'jenis_honor',
     ];
 
     /**

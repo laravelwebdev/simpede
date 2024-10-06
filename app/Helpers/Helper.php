@@ -297,22 +297,18 @@ class Helper
         }
         switch ($style) {
             case 'up':
-                // mengubah semua karakter menjadi huruf besar
                 $hasil = strtoupper($hasil.' '.$suffix);
                 break;
             case 'uw':
-                // mengubah karakter pertama dari setiap kata menjadi huruf besar
                 $hasil = ucwords($hasil.' '.$suffix);
                 break;
             case 'uf':
-                // mengubah karakter pertama menjadi huruf besar
                 $hasil = ucfirst($hasil.' '.$suffix);
                 break;
         }
 
         return $hasil;
     }
-
     /**
      * Mengubah Tanggal ke Kata.
      *

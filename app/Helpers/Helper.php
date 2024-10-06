@@ -190,8 +190,7 @@ class Helper
         $num = (int) $tanggal->format('N');
 
         return $hari[$num - 1];
-    }
-
+    }    
     /**
      * Mengubah bulan ke nama bulan.
      *
@@ -341,16 +340,9 @@ class Helper
     public static function terbilangTanggal($tanggal, $format = 's')
     {
         if ($tanggal) {
-            $bulan = ['Januari',	'Februari',	'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            $tanggal = $tanggal->format('Y-m-d');
-            $split = explode('-', $tanggal);
-            if ($format == 's') {
-                $hasil = $split[2].' '.$bulan[(int) $split[1] - 1].' '.$split[0];
-            } else {
-                $hasil = self::terbilang((int) $split[2]).' bulan '.$bulan[(int) $split[1] - 1].' tahun '.self::terbilang((int) $split[0]);
-            }
-
-            return $hasil;
+            return $format == 's'
+                ? $tanggal->format('d').' '.self::terbilangBulan($tanggal->month).' '.$tanggal->format('Y')
+                : self::terbilang($tanggal->day).'bulan '.self::terbilangBulan($tanggal->month).' tahun '.self::terbilang($tanggal->year);
         }
     }
 

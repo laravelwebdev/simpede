@@ -30,11 +30,6 @@ use Illuminate\Support\Str;
 
 class Helper
 {
-    /**
-     * @var array
-     *
-     * This static property holds an array of account inventory data.
-     */
     public static $akun_persediaan = [
         '521811',
         '521813',
@@ -60,9 +55,6 @@ class Helper
         'Honor Pegawai' => 'Honor Pegawai',
     ];
 
-    /**
-     * @var array An array containing account information for travel.
-     */
     public static $akun_perjalanan = [
         '524111',
         '524112',
@@ -108,11 +100,6 @@ class Helper
         'arsiparis' => 'Arsiparis',
     ];
 
-    /**
-     * Golongan PNS.
-     *
-     * @var array
-     */
     public static $golongan = [
         'I/a' => ['label' => 'I/a', 'group' => 'GOLONGAN I (Juru)'],
         'I/b' => ['label' => 'I/b', 'group' => 'GOLONGAN I (Juru)'],
@@ -133,11 +120,6 @@ class Helper
         'IV/e' => ['label' => 'IV/e', 'group' => 'GOLONGAN IV (Pembina)'],
     ];
 
-    /**
-     * Array Pangkat dan Golongan.
-     *
-     * @var array
-     */
     public static $pangkat = [
         'I/a' => 'Juru Muda',
         'I/b' => 'Juru Muda Tingkat 1',
@@ -191,6 +173,7 @@ class Helper
 
         return $hari[$num - 1];
     }    
+    
     /**
      * Mengubah bulan ke nama bulan.
      *
@@ -346,16 +329,35 @@ class Helper
         }
     }
 
+    /**
+     * Mengembalikan tahun dari tanggal yang diberikan.
+     *
+     * @param  \Illuminate\Support\Carbon  $tanggal  Tanggal
+     * @return int  Tahun
+     */
     public static function getYearFromDate($tanggal)
     {
         return $tanggal->format('Y');
     }
 
+
+    /**
+     * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
+     *
+     * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
+     * @return int  Tahun
+     */
     public static function getYearFromDateString($tanggal)
     {
         return Carbon::createFromFormat('Y-m-d', $tanggal)->year;
     }
 
+    /**
+     * Create a date from a given string.
+     *
+     * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
+     * @return string|null  Tanggal dalam format 'Y-m-d H:i:s' atau null jika tanggal kosong
+     */
     public static function createDateFromString($tanggal)
     {
         if (empty($tanggal)) {
@@ -428,10 +430,11 @@ class Helper
     }
 
     /**
-     * Generate Keterangan Pengelola.
+     * Mendapatkan user yang memiliki peran pengelola berdasarkan tanggal aktif/inaktif.
      *
-     * @param  string  $role  Role
-     * @return User $user
+     * @param  string  $role  Peran pengelola (admin/koordinator)
+     * @param  date  $tanggal  Tanggal
+     * @return Collection  Kumpulan user
      */
     public static function getUsersByPengelola($role, $tanggal)
     {
@@ -462,16 +465,35 @@ class Helper
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
+    /**
+     * Mendapatkan data Pegawai berdasarkan ID User dan tanggal.
+     *
+     * @param  int  $user_id  ID User
+     * @param  \Illuminate\Support\Carbon  $tanggal  Tanggal
+     * @return \App\Models\DataPegawai|null
+     */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
+    /**
+     * Mendapatkan data Pegawai berdasarkan ID User.
+     *
+     * @param  int  $user_id  ID User
+     * @return \App\Models\User|null
+     */
     public static function getPegawaiByUserId($user_id)
     {
         return User::cache()->get('all')->where('id', $user_id)->first();
     }
 
+    /**
+     * Mendapatkan data Mitra berdasarkan ID.
+     *
+     * @param  int  $id  ID Mitra
+     * @return \App\Models\Mitra|null
+     */
     public static function getMitraById($id)
     {
         return Mitra::cache()->get('all')->where('id', $id)->first();
@@ -488,6 +510,13 @@ class Helper
         return $mak == in_array(substr($mak, -6), self::$akun_honor);
     }
 
+    /**
+     * Memeriksa apakah akun honor berubah dari $mak_old menjadi $mak_new.
+     *
+     * @param  string  $mak_old  Maksimal akun sebelumnya
+     * @param  string  $mak_new  Maksimal akun setelahnya
+     * @return bool
+     */
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
@@ -507,10 +536,11 @@ class Helper
     }
 
     /**
-     * Mengambil detail Anggaran.
+     * Mengambil detail akun sesuai level yang diinginkan.
      *
      * @param  string  $mak
-     * @param  string  $level
+     * @param  string  $level  default 'akun', pilihan: program, kegiatan, kro, ro, komponen, sub, akun
+     * @param  bool  $kode_prefix  default true, jika true maka detail akan diawali dengan kode level yang diinginkan
      * @return string
      */
     public static function getDetailAnggaran($mak, $level = 'akun', bool $kode_prefix = true)
@@ -566,7 +596,7 @@ class Helper
     /**
      * Format tampilan anggaran.
      *
-     * @param  array  $spesifikasi
+     * @param  array  $anggaran
      * @return array
      */
     public static function formatAnggaran($anggaran)
@@ -583,12 +613,12 @@ class Helper
     }
 
     /**
-     * Format tampilan spj.
+     * Format tampilan data Mitra untuk keperluan cetak SPJ.
      *
-     * @param  string  $spesifikasi
-     * @return array
+     * @param  collection  $mitra
+     * @return collection
      */
-    public static function formatMitra($mitra)
+   public static function formatMitra($mitra)
     {
         $mitra->transform(function ($item, $index) {
             $mitra = Helper::getMitraById($item['mitra_id']);
@@ -613,6 +643,13 @@ class Helper
         return $mitra;
     }
 
+    /**
+     * Format tampilan pegawai.
+     *
+     * @param  \Illuminate\Support\Collection  $pegawai
+     * @param  string  $tanggal_spj
+     * @return \Illuminate\Support\Collection
+     */
     public static function formatPegawai($pegawai, $tanggal_spj)
     {
         $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
@@ -638,6 +675,13 @@ class Helper
         return $pegawai;
     }
 
+    /**
+     * Format the mitra and pegawai from the database into a unified list with the required fields.
+     *
+     * @param int $honor_kegiatan_id The ID of the honor kegiatan
+     * @param string $tanggal The date of the SPJ
+     * @return Collection A collection of the unified list
+     */
     public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         $mitra = DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
@@ -650,6 +694,13 @@ class Helper
 
     }
 
+    /**
+     * Buat array untuk keperluan SPJ berdasar id honor kegiatan dan tanggal.
+     *
+     * @param int $honor_kegiatan_id
+     * @param string $tanggal
+     * @return array
+     */
     public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -669,6 +720,14 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Membuat format data untuk Surat Tugas (ST) ke mitra dan pegawai.
+     *
+     * @param int $honor_kegiatan_id
+     * @param \Illuminate\Support\Carbon $tanggal
+     *
+     * @return array
+     */
     public static function makeStMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -681,6 +740,13 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Make Surat Keterangan (SK) for both Mitra and Pegawai.
+     *
+     * @param  int  $honor_kegiatan_id  ID of HonorKegiatan
+     * @param  string  $tanggal  Date in 'Y-m-d' format
+     * @return array
+     */
     public static function makeSkMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -693,16 +759,24 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Get property from collection.
+     *
+     * @param  mixed  $collection  Eloquent collection or null
+     * @param  string  $property  Property name
+     * @return mixed
+     */
     public static function getPropertyFromCollection($collection, $property)
     {
         return $collection == null ? null : $collection->$property;
     }
 
     /**
-     * Mengambil Path Template.
+     * Mendapatkan path template berdasarkan kolom dan value.
      *
-     * @param  string  $jenis
-     * @return string
+     * @param  string  $column  Nama kolom template
+     * @param  string  $value  Nilai kolom template
+     * @return array  Berisi filename dan path template
      */
     public static function getTemplatePath($column, $value)
     {
@@ -714,18 +788,30 @@ class Helper
         ];
     }
 
+    /**
+     * Mengambil Path Template berdasarkan nama Template.
+     *
+     * @param  string  $name  Nama Template
+     * @return array
+     */
     public static function getTemplatePathByName($name)
     {
         return self::getTemplatePath('nama', $name);
     }
 
+    /**
+     * Mengambil Path Template berdasarkan ID Template.
+     *
+     * @param  int  $id
+     * @return array
+     */
     public static function getTemplatePathById($id)
     {
         return self::getTemplatePath('id', $id);
     }
 
     /**
-     * Mengambil ID Tata Naskah Terbaru.
+     * Mengambil ID Tata Naskah terbaru berdasarkan tanggal yang diberikan.
      *
      * @param  string  $tanggal
      * @return string
@@ -735,16 +821,34 @@ class Helper
         return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
+    /**
+     * Mengambil ID Harga Satuan Terbaru berdasarkan tanggal yang diberikan.
+     *
+     * @param  string  $tanggal
+     * @return string
+     */
     public static function getLatestHargaSatuanId($tanggal)
     {
         return self::getPropertyFromCollection(HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
+    /**
+     * Membuat option value select field Derajat Naskah berdasarkan tanggal yang diberikan.
+     *
+     * @param  string  $tanggal
+     * @return array
+     */
     public static function setOptionsDerajatNaskah($tanggal)
     {
         return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'kode', 'derajat');
     }
 
+    /**
+     * Membuat option value select field Jenis Naskah berdasarkan tanggal yang diberikan.
+     *
+     * @param  string  $tanggal
+     * @return array
+     */
     public static function setOptionsJenisNaskah($tanggal)
     {
         $kode_naskah_id = KodeNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal))->pluck('id');
@@ -752,11 +856,23 @@ class Helper
         return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
     }
 
+    /**
+     * Membuat option value select field Kode Arsip berdasarkan tanggal yang diberikan.
+     *
+     * @param  string  $tanggal
+     * @return array
+     */
     public static function setOptionsKodeArsip($tanggal)
     {
         return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group');
     }
 
+    /**
+     * Membuat option value select field Mata Anggaran berdasarkan dipa_id yang diberikan.
+     *
+     * @param  int  $dipa_id
+     * @return array
+     */
     public static function setOptionsMataAnggaran($dipa_id)
     {
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
@@ -784,10 +900,9 @@ class Helper
     }
 
     /**
-     * Pilihan Jenis kontrak.
+     * Mengembalikan opsi jenis kontrak berdasarkan tanggal yang diberikan.
      *
-     * @param  string  $tahun
-     * @param  string  $bulan
+     * @param  string  $tanggal
      * @return array
      */
     public static function setOptionJenisKontrak($tanggal)
@@ -795,6 +910,11 @@ class Helper
         return self::setOptions(JenisKontrak::cache()->get('all')->where('harga_satuan_id', self::getLatestHargaSatuanId($tanggal)), 'id', 'jenis');
     }
 
+    /**
+     * Opsi tahun DIPA.
+     *
+     * @return array
+     */
     public static function setOptionTahunDipa()
     {
         $year = session('year');
@@ -805,21 +925,45 @@ class Helper
         ];
     }
 
+    /**
+     * Pilihan template berdasarkan jenis.
+     *
+     * @param  string  $jenis
+     * @return array
+     */
     public static function setOptionTemplate($jenis)
     {
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
     }
 
+    /**
+     * Mengambil opsi pengelola berdasarkan role dan tanggal.
+     *
+     * @param  string  $role
+     * @param  string  $tanggal
+     * @return array
+     */
     public static function setOptionPengelola($role, $tanggal)
     {
         return self::setOptions(self::getUsersByPengelola($role, $tanggal), 'id', 'name');
     }
 
+    /**
+     * Opsi DIPA.
+     *
+     * @return array
+     */
     public static function setOptionDipa()
     {
         return self::setOptions(Dipa::cache()->get('all')->whereBetween('tahun', [session('year'), session('year') + 1]), 'id', 'tahun');
     }
 
+    /**
+     * Opsi Kepka Mitra berdasarkan tahun.
+     *
+     * @param  int  $tahun
+     * @return array
+     */
     public static function setOptionKepkaMitra($tahun)
     {
         return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');

@@ -324,7 +324,7 @@ class Helper
     {
         if ($tanggal) {
             return $format == 's'
-                ? $tanggal->format('d').' '.self::terbilangBulan($tanggal->month).' '.$tanggal->format('Y')
+                ? $tanggal->day.' '.self::terbilangBulan($tanggal->month).' '.$tanggal->format('Y')
                 : self::terbilang($tanggal->day).'bulan '.self::terbilangBulan($tanggal->month).' tahun '.self::terbilang($tanggal->year);
         }
     }

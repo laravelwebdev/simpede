@@ -204,16 +204,14 @@ class Helper
     }
 
     /**
-     * Mengubah angka ke rupiah.
+     * Mengubah angka ke format rupiah.
      *
      * @param  int|float  $angka
      * @return string
      */
     public static function formatRupiah($angka)
     {
-        $hasil = 'Rp.'.self::formatUang($angka);
-
-        return $hasil;
+        return 'Rp.'.self::formatUang($angka);
     }
 
     /**
@@ -224,9 +222,7 @@ class Helper
      */
     public static function upperNamaTanpaGelar($nama)
     {
-        $hasil = explode(',', $nama)[0];
-
-        return strtoupper($hasil);
+        return strtoupper(explode(',', $nama)[0]);
     }
 
     /**
@@ -237,9 +233,7 @@ class Helper
      */
     public static function formatUang($angka)
     {
-        $hasil = number_format($angka, 0, ',', '.');
-
-        return $hasil;
+        return number_format($angka, 0, ',', '.');
     }
 
     /**

@@ -33,7 +33,8 @@
                 "zhuangtongfa.material-theme",
                 "miguelsolorio.symbols",
                 "bmewburn.vscode-intelephense-client",
-                "Codeium.codeium"
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
             ]
         }
     }

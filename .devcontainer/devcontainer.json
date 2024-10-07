@@ -34,7 +34,9 @@
                 "miguelsolorio.symbols",
                 "bmewburn.vscode-intelephense-client",
                 "GitHub.copilot",
-                "GitHub.copilot-chat"
+                "GitHub.copilot-chat",
+                "fabiospampinato.vscode-todo-plus",
+                "AntiAntiSepticeye.vscode-color-picker"
             ]
         }
     }

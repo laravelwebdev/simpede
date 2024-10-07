@@ -883,13 +883,16 @@ class Helper
      * @param  string  $group
      * @return array
      */
-    public static function setOptions($collection, $value, $label, $group = '')
+    public static function setOptions($collection, $value, $label, $group = '', $prefixUsingValue = false)
     {
         $options = [];
         foreach ($collection as $option) {
-            $options[$option->$value] = $group !== ''
-                ? ['label' => $option->$label, 'group' => $option->$group]
-                : $option->$label;
+            $labelValue = $prefixUsingValue ? $option->$value . ' ' . $option->$label : $option->$label;
+            if ($group !== '') {
+            $options[$option->$value] = ['label' => $labelValue, 'group' => $option->$group];
+            } else {
+            $options[$option->$value] = $labelValue;
+            }
         }
 
         return $options;

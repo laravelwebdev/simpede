@@ -125,8 +125,8 @@ class KerangkaAcuan extends Model
     {
         NaskahKeluar::destroy($this->naskah_keluar_id);
         $this->deleteOldAnggaran();
-        ArsipDokumen::destroy(ArsipDokumen::where('kerangka_acuan_id', $this->id)->pluck('id'));
-        SpesifikasiKerangkaAcuan::destroy(SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $this->id)->pluck('id'));
+        ArsipDokumen::where('kerangka_acuan_id', $this->id)->delete();
+        SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $this->id)->delete();
     }
 
     private function createInitialArsipDokumen(): void

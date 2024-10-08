@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('honor_kegiatans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_kak')->nullable();
             $table->string('judul_spj')->nullable();
+            $table->string('mak', 40)->nullable();
+            $table->bigInteger('perkiraan_anggaran')->unsigned()->nullable();
+            $table->date('awal')->nullable();
+            $table->date('akhir')->nullable();
             $table->string('satuan', 20)->nullable();
             $table->date('tanggal_spj')->nullable();
             $table->boolean('generate_sk')->nullable();
@@ -26,9 +31,10 @@ return new class extends Migration
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
             $table->string('jenis_kontrak', 40)->nullable();
+            $table->string('kegiatan')->nullable();
             $table->string('status', 30)->nullable();
             $table->bigInteger('kamus_anggaran_id')->unsigned()->nullable();
-            $table->bigInteger('anggaran_kerangka_acuan_id')->unsigned()->nullable();
+            $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->bigInteger('koordinator_user_id')->nullable()->unsigned();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();
             $table->bigInteger('bendahara_user_id')->nullable()->unsigned();

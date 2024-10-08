@@ -16,10 +16,16 @@ class AnggaranKerangkaAcuan extends Model
             if (Helper::isAkunHonor($anggaranKak->mak)) {
                 $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                 $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
-                if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
+                if ($honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->where('mak', $anggaranKak->mak)->first()) {
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+                    $honor->awal = $kak->awal;
+                    $honor->akhir = $kak->akhir;
+                    $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
+                    $honor->mak = $anggaranKak->mak;
+                    $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
+                    $honor->kegiatan = $kak->kegiatan;
                     if ($kak->wasChanged('tanggal')) {
                         $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
                         $honor->generate_st ? $honor->tanggal_st = $kak->tanggal : null;
@@ -27,12 +33,19 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->save();
                 } else {
                     $honor = new HonorKegiatan;
-                    $honor->anggaran_kerangka_acuan_id = $anggaranKak->id;
+                    $honor->kerangka_acuan_id = $kak->id;
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+                    $honor->awal = $kak->awal;
+                    $honor->akhir = $kak->akhir;
+                    $honor->mak = $anggaranKak->mak;
+                    //BUG : harusnya pakai anggaran_kak_id
+                    $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
+                    $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->generate_sk = true;
                     $honor->generate_st = true;
+                    $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;
                     $honor->tanggal_sk = $kak->tanggal;
@@ -44,7 +57,7 @@ class AnggaranKerangkaAcuan extends Model
         });
         //BUG: jangan pakai mak harusnya pakai anggaran_kak _id
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
-            $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
+            $id = HonorKegiatan::where('mak', $anggaranKak->mak)->pluck('id');
             HonorKegiatan::destroy($id);
             KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
         });
@@ -55,7 +68,7 @@ class AnggaranKerangkaAcuan extends Model
         });
         static::updated(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
-                $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
+                $id = HonorKegiatan::where('mak', $anggaranKak->getOriginal('mak'))->pluck('id');
                 HonorKegiatan::destroy($id);
             }
         });

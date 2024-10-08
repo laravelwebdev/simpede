@@ -35,6 +35,7 @@ return new class extends Migration
             $table->string('status', 30)->nullable();
             $table->bigInteger('kamus_anggaran_id')->unsigned()->nullable();
             $table->bigInteger('kerangka_acuan_id')->unsigned()->nullable();
+            $table->bigInteger('anggaran_kerangka_acuan_id')->unsigned()->nullable();
             $table->bigInteger('koordinator_user_id')->nullable()->unsigned();
             $table->bigInteger('ppk_user_id')->nullable()->unsigned();
             $table->bigInteger('bendahara_user_id')->nullable()->unsigned();

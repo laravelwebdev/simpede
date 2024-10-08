@@ -25,7 +25,8 @@
         "oriondevelops/nova-greeter": "^0.0.2",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
-        "shuvroroy/nova-tabs": "^1.1"
+        "shuvroroy/nova-tabs": "^1.1",
+        "staudenmeir/belongs-to-through": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

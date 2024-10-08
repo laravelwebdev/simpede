@@ -66,36 +66,26 @@ class HonorKegiatan extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        $tanggal_kak = $this->kerangkaAcuan->tanggal;
         return [
-            Hidden::make('Tanggal KAK', 'tanggal_kak'),
             Panel::make('Keterangan SPJ', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
+                // FIXME: tetap tampilkan
                 Text::make('Nama Survei', 'kegiatan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
-                Date::make('Awal Pelaksanaan', 'awal')
-                    ->rules('required')
-                    ->hideFromIndex()
-                    ->readOnly()
-                    ->hideWhenUpdating()
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-                Date::make('Akhir Penyelesaian', 'akhir')
-                    ->rules('required')
-                    ->hideFromIndex()
-                    ->readOnly()
-                    ->hideWhenUpdating()
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Text::make('Judul SPJ', 'judul_spj')
                     ->rules('required')
                     ->sortable()
                     ->hideFromIndex(),
                 Date::make('Tanggal SPJ', 'tanggal_spj')
+                //BUG: tidak ada akhir
                     ->rules('required', 'after_or_equal:akhir')
                     ->hideFromIndex()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
@@ -107,12 +97,12 @@ class HonorKegiatan extends Resource
                     ->displayUsingLabels(),
                 Select::make('Bulan Kontrak', 'bulan')
                     ->hide()
-                    ->dependsOn(['jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
+                    ->dependsOn(['jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) use ($tanggal_kak) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {
                             $field
                                 ->show()
-                                ->rules('required', function ($attribute, $value, $fail) {
-                                    if (Carbon::createFromDate(session('year'), $value)->startOfMonth() < $this->tanggal_kak) {
+                                ->rules('required', function ($attribute, $value, $fail) use ($tanggal_kak) {
+                                    if (Carbon::createFromDate(session('year'), $value)->startOfMonth() < $tanggal_kak) {
                                         return $fail('Bulan Kontrak harus berisi tanggal setelah atau sama dengan awal bulan tanggal KAK.');
                                     }
                                 });
@@ -123,11 +113,12 @@ class HonorKegiatan extends Resource
                     ->displayUsingLabels(),
                 Select::make('Jenis Kegiatan', 'jenis_kontrak')
                     ->hide()
-                    ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
+                    // FIXME: tidak ada tanggal_kak
+                    ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) use ($tanggal_kak) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {
                             $field
                                 ->show()
-                                ->options(Helper::setOptionJenisKontrak($form->tanggal_kak))
+                                ->options(Helper::setOptionJenisKontrak($tanggal_kak))
                                 ->rules('required');
 
                         }

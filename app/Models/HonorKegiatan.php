@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
 
 class HonorKegiatan extends Model
 {
-    use HasFactory;
+    use HasFactory, TraitsBelongsToThrough;
 
     protected $fillable = ['status'];
 
@@ -27,9 +29,14 @@ class HonorKegiatan extends Model
     /**
      * Get the kerangka acuan that owns the honor survei.
      */
-    public function kerangkaAcuan(): BelongsTo
+    public function anggaranKerangkaAcuan(): BelongsTo
     {
-        return $this->belongsTo(KerangkaAcuan::class);
+        return $this->belongsTo(AnggaranKerangkaAcuan::class);
+    }
+
+    public function kerangkaAcuan(): BelongsToThrough
+    {
+        return $this->belongsToThrough(KerangkaAcuan::class , AnggaranKerangkaAcuan::class);
     }
 
     public function skNaskahKeluar(): BelongsTo
@@ -102,18 +109,19 @@ class HonorKegiatan extends Model
                     $kontrak->save();
                 }
                 if ($honor->jenis_honor === 'Kontrak Mitra AdHoc'){
+                    $kak = $honor->kerangkaAcuan;
                     $kontrak = Kontrak::firstOrNew(
                         [
                             'honor_kegiatan_id' => $honor->id,
                         ]
                     );
-                    $kontrak->nama_kontrak = 'Kontrak '.$honor->kegiatan;
+                    $kontrak->nama_kontrak = 'Kontrak '.$kak->kegiatan;
                     $kontrak->tahun = $honor->tahun;
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->ppk_user_id = $honor->ppk_user_id;
-                    $kontrak->awal_kontrak = $honor->awal;
-                    $kontrak->akhir_kontrak = $honor->akhir;  
+                    $kontrak->awal_kontrak = $kak->awal;
+                    $kontrak->akhir_kontrak = $kak->akhir;  
                     $kontrak->save();
                 }
                 if ($honor->generate_sk) {

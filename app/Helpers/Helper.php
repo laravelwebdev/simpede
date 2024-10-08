@@ -172,8 +172,8 @@ class Helper
         $num = (int) $tanggal->format('N');
 
         return $hari[$num - 1];
-    }    
-    
+    }
+
     /**
      * Mengubah bulan ke nama bulan.
      *
@@ -309,6 +309,7 @@ class Helper
 
         return $hasil;
     }
+
     /**
      * Mengubah Tanggal ke Kata.
      *
@@ -329,19 +330,18 @@ class Helper
      * Mengembalikan tahun dari tanggal yang diberikan.
      *
      * @param  \Illuminate\Support\Carbon  $tanggal  Tanggal
-     * @return int  Tahun
+     * @return int Tahun
      */
     public static function getYearFromDate($tanggal)
     {
         return $tanggal->format('Y');
     }
 
-
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *
      * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
-     * @return int  Tahun
+     * @return int Tahun
      */
     public static function getYearFromDateString($tanggal)
     {
@@ -352,7 +352,7 @@ class Helper
      * Create a date from a given string.
      *
      * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
-     * @return string|null  Tanggal dalam format 'Y-m-d H:i:s' atau null jika tanggal kosong
+     * @return string|null Tanggal dalam format 'Y-m-d H:i:s' atau null jika tanggal kosong
      */
     public static function createDateFromString($tanggal)
     {
@@ -430,7 +430,7 @@ class Helper
      *
      * @param  string  $role  Peran pengelola (admin/koordinator)
      * @param  date  $tanggal  Tanggal
-     * @return Collection  Kumpulan user
+     * @return Collection Kumpulan user
      */
     public static function getUsersByPengelola($role, $tanggal)
     {
@@ -614,7 +614,7 @@ class Helper
      * @param  collection  $mitra
      * @return collection
      */
-   public static function formatMitra($mitra)
+    public static function formatMitra($mitra)
     {
         $mitra->transform(function ($item, $index) {
             $mitra = Helper::getMitraById($item['mitra_id']);
@@ -674,8 +674,8 @@ class Helper
     /**
      * Format the mitra and pegawai from the database into a unified list with the required fields.
      *
-     * @param int $honor_kegiatan_id The ID of the honor kegiatan
-     * @param string $tanggal The date of the SPJ
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan
+     * @param  string  $tanggal  The date of the SPJ
      * @return Collection A collection of the unified list
      */
     public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -693,8 +693,8 @@ class Helper
     /**
      * Buat array untuk keperluan SPJ berdasar id honor kegiatan dan tanggal.
      *
-     * @param int $honor_kegiatan_id
-     * @param string $tanggal
+     * @param  int  $honor_kegiatan_id
+     * @param  string  $tanggal
      * @return array
      */
     public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -719,9 +719,8 @@ class Helper
     /**
      * Membuat format data untuk Surat Tugas (ST) ke mitra dan pegawai.
      *
-     * @param int $honor_kegiatan_id
-     * @param \Illuminate\Support\Carbon $tanggal
-     *
+     * @param  int  $honor_kegiatan_id
+     * @param  \Illuminate\Support\Carbon  $tanggal
      * @return array
      */
     public static function makeStMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -772,7 +771,7 @@ class Helper
      *
      * @param  string  $column  Nama kolom template
      * @param  string  $value  Nilai kolom template
-     * @return array  Berisi filename dan path template
+     * @return array Berisi filename dan path template
      */
     public static function getTemplatePath($column, $value)
     {
@@ -852,7 +851,6 @@ class Helper
         return self::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kode_naskah_id), 'id', 'jenis');
     }
 
-      // TODO: Tambahkan kode arsip di dropdown pilihan
     /**
      * Membuat option value select field Kode Arsip berdasarkan tanggal yang diberikan.
      *
@@ -861,7 +859,7 @@ class Helper
      */
     public static function setOptionsKodeArsip($tanggal)
     {
-        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group');
+        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group', '', 'kode');
     }
 
     /**
@@ -876,27 +874,24 @@ class Helper
     }
 
     /**
-     * Membuat option value select filed.
+     * Membuat option value select field.
      *
-     * @param  Collection  $collection
+     * @param  \Illuminate\Support\Collection  $collection
      * @param  string  $value
-     * @param  string  $tanggal
+     * @param  string  $label
      * @param  string  $group
+     * @param  string  $labelPrefix
+     * @param  string  $groupPrefix
      * @return array
      */
-    public static function setOptions($collection, $value, $label, $group = '', $prefixUsingValue = false)
+    public static function setOptions($collection, $value, $label, $group = '', $labelPrefix = '', $groupPrefix = '')
     {
-        $options = [];
-        foreach ($collection as $option) {
-            $labelValue = $prefixUsingValue ? $option->$value . ' ' . $option->$label : $option->$label;
-            if ($group !== '') {
-            $options[$option->$value] = ['label' => $labelValue, 'group' => $option->$group];
-            } else {
-            $options[$option->$value] = $labelValue;
-            }
-        }
+        return $collection->mapWithKeys(function ($option) use ($value, $label, $group, $labelPrefix, $groupPrefix) {
+            $labelValue = $labelPrefix ? $option->$labelPrefix.' '.$option->$label : $option->$label;
+            $groupValue = $groupPrefix ? $option->$groupPrefix.' '.$option->$group : $option->$group;
 
-        return $options;
+            return [$option->$value => $group ? ['label' => $labelValue, 'group' => $groupValue] : $labelValue];
+        })->toArray();
     }
 
     /**

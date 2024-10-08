@@ -38,6 +38,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->mak = $anggaranKak->mak;
+                    //BUG : harusnya pakai anggaran_kak_id
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
@@ -54,6 +55,7 @@ class AnggaranKerangkaAcuan extends Model
                 }
             }
         });
+        //BUG: jangan pakai mak harusnya pakai anggaran_kak _id
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
             $id = HonorKegiatan::where('mak', $anggaranKak->mak)->pluck('id');
             HonorKegiatan::destroy($id);

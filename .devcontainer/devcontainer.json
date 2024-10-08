@@ -36,7 +36,8 @@
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
                 "fabiospampinato.vscode-todo-plus",
-                "AntiAntiSepticeye.vscode-color-picker"
+                "AntiAntiSepticeye.vscode-color-picker",
+                "Dheovani.svg-viewer"
             ]
         }
     }

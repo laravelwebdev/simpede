@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('tanggal_kak')->nullable();
             $table->string('judul_spj')->nullable();
             $table->string('mak', 40)->nullable();
+            $table->bigInteger('perkiraan_anggaran')->unsigned()->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
             $table->string('satuan', 20)->nullable();

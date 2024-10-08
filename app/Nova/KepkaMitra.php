@@ -2,9 +2,11 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMitra;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -50,6 +52,9 @@ class KepkaMitra extends Resource
         return [
             Text::make('Nomor', 'nomor')
                 ->sortable()
+                ->rules('required'),
+            Select::make('Tahun', 'tahun')
+                ->options(Helper::setOptionTahunDipa())
                 ->rules('required'),
             HasMany::make('Mitra'),
         ];

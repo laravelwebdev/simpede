@@ -23,6 +23,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tanggal_kak = $kak->tanggal;
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->mak = $anggaranKak->mak;
+                    $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
                     $honor->kegiatan = $kak->kegiatan;
                     if ($kak->wasChanged('tanggal')) {
@@ -37,6 +38,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->mak = $anggaranKak->mak;
+                    $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->kegiatan = $kak->kegiatan;
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);

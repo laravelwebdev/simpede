@@ -36,8 +36,5 @@ class KepkaMitra extends Model
             Mitra::cache()->enable();
             Mitra::cache()->update('all');
         });
-        static::creating(function (KepkaMitra $kepkaMitra) {
-            $kepkaMitra->tahun = session('year');
-        });
     }
 }

@@ -4,10 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\JenisKontrak;
-use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -49,10 +46,14 @@ class Kontrak extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Jenis Kontrak/Honor', 'jenis_honor')
+                ->readonly(),
+            Text::make('Nama Kontrak', 'nama_kontrak')
+                ->readonly(),
             Text::make('Bulan Kontrak', 'bulan')
                 ->readonly()
-                ->displayUsing(fn ($bulan) => Helper::$bulan[$bulan]),
-            Text::make('Jenis Kontrak', 'jenis_kontrak')
+                ->displayUsing(fn ($bulan) => $bulan ? Helper::$bulan[$bulan] : null),
+            Text::make('Jenis Kegiatan', 'jenis_kontrak')
                 ->readonly()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
             Date::make('Tanggal SPK', 'tanggal_spk')
@@ -62,11 +63,11 @@ class Kontrak extends Resource
             Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')
                 ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
-                }),
+                })->hideFromIndex(),
             Date::make('Tanggal Selesai Kontrak', 'akhir_kontrak')
                 ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
-                }),
+                })->hideFromIndex(),
         ];
     }
 

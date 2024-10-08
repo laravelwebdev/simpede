@@ -258,9 +258,14 @@ class Cetak
             );
         }
         if ($jenis === 'spj') {
+            $honor =HonorKegiatan::where('id', $model_id)->first();
             throw_if(
-                HonorKegiatan::where('id', $model_id)->first()->status == 'dibuat',
-                'Mohon lengkapi terlebih dulu sisian honor kegiatan yang akan dicetak melalui menu Ubah'
+                $honor->status == 'dibuat',
+                'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Ubah'
+            );
+            throw_if(
+                $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),
+                'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK'
             );
         }
     }

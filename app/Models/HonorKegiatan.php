@@ -86,20 +86,35 @@ class HonorKegiatan extends Model
             }
             if ($honor->jenis_honor !== null) {
                 if ($honor->jenis_honor === 'Kontrak Mitra Bulanan'){
-                    $kontrak_bulanan = KontrakBulanan::firstOrNew(
+                    $kontrak = Kontrak::firstOrNew(
                         [
                             'jenis_kontrak' => $honor->jenis_kontrak,
                             'bulan' => $honor->bulan,
                             'tahun' => $honor->tahun,
                         ]
                     );
-                    $kontrak_bulanan->nama_kontrak = 'Kontrak Bulan '.Helper::$bulan[$honor->bulan];
-                    $kontrak_bulanan->status = 'dibuat';
-                    $kontrak_bulanan->ppk_user_id = $honor->ppk_user_id;
-                    $kontrak_bulanan->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
-                    $kontrak_bulanan->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
-  
-                    $kontrak_bulanan->save();
+                    $kontrak->nama_kontrak = 'Kontrak Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak->status = 'dibuat';
+                    $kontrak->jenis_honor = $honor->jenis_honor;
+                    $kontrak->ppk_user_id = $honor->ppk_user_id;
+                    $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
+                    $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();  
+                    $kontrak->save();
+                }
+                if ($honor->jenis_honor === 'Kontrak Mitra AdHoc'){
+                    $kontrak = Kontrak::firstOrNew(
+                        [
+                            'honor_kegiatan_id' => $honor->id,
+                        ]
+                    );
+                    $kontrak->nama_kontrak = 'Kontrak '.$honor->kegiatan;
+                    $kontrak->tahun = $honor->tahun;
+                    $kontrak->status = 'dibuat';
+                    $kontrak->jenis_honor = $honor->jenis_honor;
+                    $kontrak->ppk_user_id = $honor->ppk_user_id;
+                    $kontrak->awal_kontrak = $honor->awal;
+                    $kontrak->akhir_kontrak = $honor->akhir;  
+                    $kontrak->save();
                 }
                 if ($honor->generate_sk) {
                     if ($honor->sk_naskah_keluar_id === null) {

@@ -101,7 +101,7 @@ class HonorKegiatan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Panel::make('Keterangan Kontrak', [
-                Select::make('Jenis Honor', 'jenis_honor')
+                Select::make('Jenis Kontrak/Honor', 'jenis_honor')
                     ->rules('required')
                     ->options(Helper::$jenis_honor)
                     ->displayUsingLabels(),
@@ -121,7 +121,7 @@ class HonorKegiatan extends Resource
                     })
                     ->options(Helper::$bulan)
                     ->displayUsingLabels(),
-                Select::make('Jenis Kontrak', 'jenis_kontrak')
+                Select::make('Jenis Kegiatan', 'jenis_kontrak')
                     ->hide()
                     ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {

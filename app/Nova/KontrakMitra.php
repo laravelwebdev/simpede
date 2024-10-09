@@ -52,9 +52,11 @@ class KontrakMitra extends Resource
                 ->readonly(),
             Text::make('Bulan Kontrak', 'bulan')
                 ->readonly()
+                ->exceptOnForms()
                 ->displayUsing(fn ($bulan) => $bulan ? Helper::$bulan[$bulan] : null),
             Text::make('Jenis Kegiatan', 'jenis_kontrak')
                 ->readonly()
+                ->exceptOnForms()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
             Date::make('Tanggal SPK', 'tanggal_spk')
                 ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {

@@ -496,6 +496,20 @@ class Helper
     }
 
     /**
+     * Mengambil jenis kontrak berdasarkan ID.
+     *
+     * Metode ini mengambil semua catatan dari cache Mitra dan memfilter
+     * untuk menemukan catatan pertama yang cocok dengan ID yang diberikan.
+     *
+     * @param int $id ID jenis kontrak yang akan diambil.
+     * @return mixed Catatan pertama yang cocok dengan ID yang diberikan, atau null jika tidak ada yang cocok.
+     */
+    public static function getJenisKontrakById($id)
+    {
+        return JenisKontrak::cache()->get('all')->where('id', $id)->first();
+    }
+
+    /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
      *
      * @param  json anggaran $spek

@@ -94,7 +94,7 @@ class HonorKegiatan extends Model
                             'tahun' => $honor->tahun,
                         ]
                     );
-                    $kontrak->nama_kontrak = 'Kontrak Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak),'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->ppk_user_id = $honor->ppk_user_id;

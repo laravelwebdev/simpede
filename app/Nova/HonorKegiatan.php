@@ -74,7 +74,7 @@ class HonorKegiatan extends Resource
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
-                Text::make('Nama Survei', 'kegiatan')
+                Text::make('Nama Kegiatan', 'kegiatan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()

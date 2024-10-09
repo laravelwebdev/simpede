@@ -53,6 +53,11 @@ class KerangkaAcuan extends Model
             if ($kak->isDirty('dipa_id')) {
                 $kak->deleteOldAnggaran();
             }
+            if ($kak->isDirty('tanggal')) {
+                $honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->first();
+                $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
+                $honor->generate_st ? $honor->tanggal_st = $kak->tanggal : null;
+            }
         });
 
         static::deleting(function (KerangkaAcuan $kak) {
@@ -63,7 +68,6 @@ class KerangkaAcuan extends Model
             $kak->createInitialArsipDokumen();
             $kak->replicateAnggaranAndSpesifikasi();
         });
-
         static::saving(function (KerangkaAcuan $kak) {
             $kak->setDefaultValues();
             $kak->setKoordinatorUnitKerja();

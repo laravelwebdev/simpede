@@ -8,18 +8,18 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Kontrak extends Resource
+class KontrakMitra extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\KontrakMitra>
      */
-    public static $model = \App\Models\Kontrak::class;
+    public static $model = \App\Models\KontrakMitra::class;
 
     public static function label()
     {
-        return 'Kontrak';
+        return 'Kontrak Mitra';
     }
 
     /**

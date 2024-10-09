@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\KontrakMitra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -86,7 +87,7 @@ class HonorKegiatan extends Model
             }
             if ($honor->jenis_honor !== null) {
                 if ($honor->jenis_honor === 'Kontrak Mitra Bulanan'){
-                    $kontrak = Kontrak::firstOrNew(
+                    $kontrak = KontrakMitra::firstOrNew(
                         [
                             'jenis_kontrak' => $honor->jenis_kontrak,
                             'bulan' => $honor->bulan,
@@ -102,7 +103,7 @@ class HonorKegiatan extends Model
                     $kontrak->save();
                 }
                 if ($honor->jenis_honor === 'Kontrak Mitra AdHoc'){
-                    $kontrak = Kontrak::firstOrNew(
+                    $kontrak = KontrakMitra::firstOrNew(
                         [
                             'honor_kegiatan_id' => $honor->id,
                         ]

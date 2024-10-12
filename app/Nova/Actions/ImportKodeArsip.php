@@ -36,10 +36,9 @@ class ImportKodeArsip extends Action
                 [
                     'detail' => $row['detail'],
                     'tata_naskah_id' => $model->id,
+                    'kode' => $row['kode'],
                 ]
-            );
-            $kodeArsip->detail = $row['detail'];
-            $kodeArsip->kode = $row['kode'];
+            );     
             $kodeArsip->group = $row['group'];
             $kodeArsip->updated_at = now();
 

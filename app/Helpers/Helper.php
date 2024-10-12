@@ -869,11 +869,18 @@ class Helper
      * Membuat option value select field Kode Arsip berdasarkan tanggal yang diberikan.
      *
      * @param  string  $tanggal
+     * @param  array  $filterId
      * @return array
      */
-    public static function setOptionsKodeArsip($tanggal)
+    public static function setOptionsKodeArsip($tanggal, array $filterId = [])
     {
-        return self::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'detail', 'group', '', 'kode');
+        $kodeArsip = KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal));
+        
+        if (!empty($filterId)) {
+            $kodeArsip = $kodeArsip->whereIn('id', $filterId);
+        }
+        
+        return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 
     /**

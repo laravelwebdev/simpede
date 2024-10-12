@@ -226,7 +226,7 @@ class HonorKegiatan extends Resource
                         if ($formData->generate_st) {
                             $field->rules('required')
                                 ->show()
-                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st, array_merge(range(28, 39), range(71, 82))));
                         }
                     }),
                 Select::make('Kepala', 'kepala_user_id')

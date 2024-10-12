@@ -26,9 +26,6 @@ class KontrakMitra extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (KontrakMitra $kontrak) {
-            $kontrak->status = 'dibuat';
-        });
         static::created(function (KontrakMitra $kontrak) {
             $bast = new BastMitra;
             $bast->kontrak_mitra_id = $kontrak->id;

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('jenis_kontrak', 40)->nullable();
             $table->string('status', 20)->nullable();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('honor_kegiatan_id')->nullable()->unsigned();
             $table->timestamps();
         });

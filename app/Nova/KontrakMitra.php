@@ -85,6 +85,14 @@ class KontrakMitra extends Resource
                 ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
                 }),
+            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                ->searchable()
+                ->hideFromIndex()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->rules('required')
+                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, array_merge(range(28, 39), range(71, 82))));
+                }),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])

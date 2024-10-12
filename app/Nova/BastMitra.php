@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class BastMitra extends Resource
@@ -55,6 +57,13 @@ class BastMitra extends Resource
                     return Helper::terbilangTanggal($tanggal);
                 })
                 ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$this->kontrakMitra->akhir_kontrak),
+            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                ->rules('required')
+                ->searchable()
+                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
+                }),
         ];
     }
 

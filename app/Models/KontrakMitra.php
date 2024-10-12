@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KontrakMitra extends Model
 {
@@ -17,6 +18,11 @@ class KontrakMitra extends Model
         'akhir_kontrak' => 'date',
         'tanggal_spk' => 'date',
     ];
+
+    public function daftarKontrakMitra(): HasMany
+    {
+        return $this->hasMany(DaftarKontrakMitra::class);
+    }
 
     protected static function booted(): void
     {

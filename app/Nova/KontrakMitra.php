@@ -5,6 +5,9 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisKontrak;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -16,6 +19,8 @@ class KontrakMitra extends Resource
      * @var class-string<\App\Models\KontrakMitra>
      */
     public static $model = \App\Models\KontrakMitra::class;
+
+    public static $with = ['daftarKontrakMitra'];
 
     public static function label()
     {
@@ -70,6 +75,14 @@ class KontrakMitra extends Resource
                 ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 })->hideFromIndex(),
+            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                ->rules('required')
+                ->searchable()
+                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
+                }),
+            HasMany::make('Daftar Kontrak Mitra'),
         ];
     }
 

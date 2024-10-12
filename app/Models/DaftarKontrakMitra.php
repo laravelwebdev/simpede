@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DaftarKontrakMitra extends Model
 {
     use HasFactory;
+
 }

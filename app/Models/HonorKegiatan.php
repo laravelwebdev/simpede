@@ -97,7 +97,6 @@ class HonorKegiatan extends Model
                     $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak),'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
-                    $kontrak->ppk_user_id = $honor->ppk_user_id;
                     $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
                     $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();  
                     $kontrak->save();
@@ -112,7 +111,6 @@ class HonorKegiatan extends Model
                     $kontrak->tahun = $honor->tahun;
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
-                    $kontrak->ppk_user_id = $honor->ppk_user_id;
                     $kontrak->awal_kontrak = $honor->awal;
                     $kontrak->akhir_kontrak = $honor->akhir;  
                     $kontrak->save();

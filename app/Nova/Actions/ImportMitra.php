@@ -47,7 +47,6 @@ class ImportMitra extends Action
                 $mitra->npwp = $row['NPWP'];
 
                 $mitra->save();
-
             }
         });
         Mitra::where('updated_at', null)->delete();

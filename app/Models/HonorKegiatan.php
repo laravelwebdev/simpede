@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\KontrakMitra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -88,7 +87,7 @@ class HonorKegiatan extends Model
                 $honor->st_naskah_keluar_id = null;
             }
             if ($honor->jenis_honor !== null) {
-                if ($honor->jenis_honor === 'Kontrak Mitra Bulanan'){
+                if ($honor->jenis_honor === 'Kontrak Mitra Bulanan') {
                     $kontrak = KontrakMitra::firstOrNew(
                         [
                             'jenis_kontrak' => $honor->jenis_kontrak,
@@ -96,14 +95,14 @@ class HonorKegiatan extends Model
                             'tahun' => $honor->tahun,
                         ]
                     );
-                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak),'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak), 'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
-                    $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();  
+                    $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
                     $kontrak->save();
                 }
-                if ($honor->jenis_honor === 'Kontrak Mitra AdHoc'){
+                if ($honor->jenis_honor === 'Kontrak Mitra AdHoc') {
                     $kontrak = KontrakMitra::firstOrNew(
                         [
                             'honor_kegiatan_id' => $honor->id,
@@ -114,7 +113,7 @@ class HonorKegiatan extends Model
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = $honor->awal;
-                    $kontrak->akhir_kontrak = $honor->akhir;  
+                    $kontrak->akhir_kontrak = $honor->akhir;
                     $kontrak->save();
                 }
                 if ($honor->generate_sk) {

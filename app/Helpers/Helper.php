@@ -501,7 +501,7 @@ class Helper
      * Metode ini mengambil semua catatan dari cache Mitra dan memfilter
      * untuk menemukan catatan pertama yang cocok dengan ID yang diberikan.
      *
-     * @param int $id ID jenis kontrak yang akan diambil.
+     * @param  int  $id  ID jenis kontrak yang akan diambil.
      * @return mixed Catatan pertama yang cocok dengan ID yang diberikan, atau null jika tidak ada yang cocok.
      */
     public static function getJenisKontrakById($id)
@@ -701,7 +701,6 @@ class Helper
         $formattedMitra->push(...$formattedPegawai);
 
         return $formattedMitra;
-
     }
 
     /**
@@ -875,11 +874,11 @@ class Helper
     public static function setOptionsKodeArsip($tanggal, array $filterId = [])
     {
         $kodeArsip = KodeArsip::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal));
-        
-        if (!empty($filterId)) {
+
+        if (! empty($filterId)) {
             $kodeArsip = $kodeArsip->whereIn('id', $filterId);
         }
-        
+
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 

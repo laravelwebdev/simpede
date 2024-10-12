@@ -60,6 +60,7 @@ class GenerateKontrakMitra extends Action
         $model->status = 'selesai';
         $model->save();
         DaftarKontrakMitra::where('updated_at', null)->delete();
+
         return Action::message('Kontrak Sukses Digenerate');
     }
 

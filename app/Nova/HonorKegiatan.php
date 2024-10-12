@@ -116,7 +116,6 @@ class HonorKegiatan extends Resource
                                         return $fail('Bulan Kontrak harus berisi tanggal setelah atau sama dengan awal bulan tanggal KAK.');
                                     }
                                 });
-
                         }
                     })
                     ->options(Helper::$bulan)
@@ -129,7 +128,6 @@ class HonorKegiatan extends Resource
                                 ->show()
                                 ->options(Helper::setOptionJenisKontrak($form->tanggal_kak))
                                 ->rules('required');
-
                         }
                     })
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
@@ -187,8 +185,8 @@ class HonorKegiatan extends Resource
                             $field->show()
                                 ->rules('required')
                                 ->options(Helper::setOptionPengelola('kpa', Helper::createDateFromString($formData->tanggal_sk)));
-                        }                        
-                    }),                
+                        }
+                    }),
             ]),
 
             Panel::make('Keterangan Surat Tugas', [
@@ -239,8 +237,8 @@ class HonorKegiatan extends Resource
                             $field->show()
                                 ->rules('required')
                                 ->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
-                        }                        
-                    }),  
+                        }
+                    }),
             ]),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat', 'import', 'diubah'])

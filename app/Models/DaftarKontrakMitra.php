@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\KontrakMitra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,5 +54,4 @@ class DaftarKontrakMitra extends Model
             }
         });
     }
-
 }

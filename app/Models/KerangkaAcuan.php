@@ -150,7 +150,6 @@ class KerangkaAcuan extends Model
             $arsipDokumen->slug = $slug;
             $arsipDokumen->kerangka_acuan_id = $this->id;
             $arsipDokumen->save();
-
         }
     }
 

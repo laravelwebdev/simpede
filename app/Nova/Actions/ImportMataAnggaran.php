@@ -61,7 +61,6 @@ class ImportMataAnggaran extends Action
                 $mataAnggaran->updated_at = now();
                 $mataAnggaran->save();
             }
-
         });
         MataAnggaran::where('updated_at', null)->delete();
         KamusAnggaran::where('updated_at', null)->delete();

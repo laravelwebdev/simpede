@@ -38,12 +38,11 @@ class ImportKodeArsip extends Action
                     'tata_naskah_id' => $model->id,
                     'kode' => $row['kode'],
                 ]
-            );     
+            );
             $kodeArsip->group = $row['group'];
             $kodeArsip->updated_at = now();
 
             $kodeArsip->save();
-
         });
         KodeArsip::where('updated_at', null)->delete();
         KodeArsip::cache()->enable();

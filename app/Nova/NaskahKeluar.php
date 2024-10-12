@@ -65,7 +65,7 @@ class NaskahKeluar extends Resource
                 ->sortable()
                 ->rules('required', 'before_or_equal:today')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
+                ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {
                         return $fail('Tanggal harus di tahun yang telah dipilih');
                     }

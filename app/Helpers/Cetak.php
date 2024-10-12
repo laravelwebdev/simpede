@@ -232,7 +232,6 @@ class Cetak
         $data = HonorKegiatan::find($id);
         $kpa = Helper::getPegawaiByUserId($data->kpa_user_id);
 
-
         return [
             'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,
             'kegiatan' => $data->kegiatan,
@@ -259,7 +258,7 @@ class Cetak
             );
         }
         if ($jenis === 'spj') {
-            $honor =HonorKegiatan::where('id', $model_id)->first();
+            $honor = HonorKegiatan::where('id', $model_id)->first();
             throw_if(
                 $honor->status == 'dibuat',
                 'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Ubah'

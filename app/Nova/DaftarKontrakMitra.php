@@ -48,6 +48,7 @@ class DaftarKontrakMitra extends Resource
     public function fields(NovaRequest $request)
     {
         $mitra = Helper::getMitraById($this->mitra_id);
+
         return [
             Text::make('NIK', fn () => Helper::getPropertyFromCollection($mitra, 'nik'))
                 ->readOnly(),
@@ -57,7 +58,7 @@ class DaftarKontrakMitra extends Resource
                 ->readOnly(),
             Text::make('Nomor BAST', 'nomor_bast')
                 ->readOnly(),
-            Number::make('Jumlah Kegiatan','jumlah_kegiatan')
+            Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Honor', 'honor')
                 ->currency('IDR')

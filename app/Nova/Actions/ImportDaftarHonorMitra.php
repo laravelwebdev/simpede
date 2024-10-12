@@ -54,7 +54,6 @@ class ImportDaftarHonorMitra extends Action
                 $daftarHonorMitra->updated_at = now();
 
                 $daftarHonorMitra->save();
-
             }
         });
         DaftarHonorMitra::where('updated_at', null)->delete();

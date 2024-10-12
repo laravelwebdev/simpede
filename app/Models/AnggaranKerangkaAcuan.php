@@ -18,7 +18,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->mak = $anggaranKak->mak;
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->save();
-                } else {                
+                } else {
                     $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                     $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
                     $honor = new HonorKegiatan;

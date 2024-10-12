@@ -38,6 +38,8 @@ return new class extends Migration
             $table->mediumInteger('anggaran_kerangka_acuan_id')->unsigned()->nullable();
             $table->mediumInteger('koordinator_user_id')->nullable()->unsigned();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('kepala_user_id')->nullable()->unsigned();
+            $table->mediumInteger('kpa_user_id')->nullable()->unsigned();
             $table->mediumInteger('bendahara_user_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();

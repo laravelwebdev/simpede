@@ -177,6 +177,18 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
+                Select::make('Kuasa Pengguna Anggaran', 'kpa_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hide()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn(['tanggal_sk', 'generate_sk'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_sk) {
+                            $field->show()
+                                ->rules('required')
+                                ->options(Helper::setOptionPengelola('kpa', Helper::createDateFromString($formData->tanggal_sk)));
+                        }                        
+                    }),                
             ]),
 
             Panel::make('Keterangan Surat Tugas', [
@@ -217,7 +229,18 @@ class HonorKegiatan extends Resource
                                 ->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
                         }
                     }),
-
+                Select::make('Kepala', 'kepala_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hide()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn(['tanggal_st', 'generate_st'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_st) {
+                            $field->show()
+                                ->rules('required')
+                                ->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
+                        }                        
+                    }),  
             ]),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat', 'import', 'diubah'])

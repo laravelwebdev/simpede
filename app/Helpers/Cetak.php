@@ -212,7 +212,7 @@ class Cetak
     public static function st($id)
     {
         $data = HonorKegiatan::find($id);
-        $kepala = Helper::getUsersByPengelola('kepala', $data->tanggal_st)->first();
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
 
         return [
             'nomor' => NaskahKeluar::find($data->st_naskah_keluar_id)->nomor,
@@ -230,7 +230,8 @@ class Cetak
     public static function sk($id)
     {
         $data = HonorKegiatan::find($id);
-        $kpa = Helper::getUsersByPengelola('kpa', $data->tanggal_st)->first();
+        $kpa = Helper::getPegawaiByUserId($data->kpa_user_id);
+
 
         return [
             'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,

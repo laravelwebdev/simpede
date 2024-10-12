@@ -11,7 +11,7 @@ class KontrakMitra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak' ,'jenis_honor', 'honor_kegiatan_id'];
+    protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak', 'jenis_honor', 'honor_kegiatan_id'];
 
     protected $casts = [
         'awal_kontrak' => 'date',
@@ -26,15 +26,17 @@ class KontrakMitra extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (KontrakMitra $kontrak) {
+            $kontrak->status = 'dibuat';
+        });
         static::created(function (KontrakMitra $kontrak) {
-           $bast = new BastMitra();
-           $bast->kontrak_mitra_id = $kontrak->id;
-           $bast->save();
+            $bast = new BastMitra;
+            $bast->kontrak_mitra_id = $kontrak->id;
+            $bast->save();
         });
         static::deleting(function (KontrakMitra $kontrak) {
             $bastId = Helper::getPropertyFromCollection(BastMitra::where('kontrak_mitra_id', $kontrak->id)->first(), 'id');
             BastMitra::destroy($bastId);
-         });
+        });
     }
-
 }

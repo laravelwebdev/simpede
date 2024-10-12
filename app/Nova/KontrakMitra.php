@@ -3,11 +3,14 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\JenisKontrak;
+use App\Nova\Actions\GenerateKontrakMitra;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -82,6 +85,10 @@ class KontrakMitra extends Resource
                 ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
                 }),
+            Status::make('Status', 'status')
+                ->loadingWhen(['dibuat'])
+                ->failedWhen(['outdated'])
+                ->onlyOnIndex(),
             HasMany::make('Daftar Kontrak Mitra'),
         ];
     }
@@ -123,6 +130,16 @@ class KontrakMitra extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('all')->get()) {
+            $actions[] =
+            GenerateKontrakMitra::make()
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Generate')
+                ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 }

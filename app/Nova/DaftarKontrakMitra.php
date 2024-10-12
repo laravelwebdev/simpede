@@ -3,27 +3,24 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class BastMitra extends Resource
+class DaftarKontrakMitra extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\BastMitra>
+     * @var class-string<\App\Models\DaftarKontrakMitra>
      */
-    public static $model = \App\Models\BastMitra::class;
-
-    public static $with = ['kontrakMitra'];
+    public static $model = \App\Models\DaftarKontrakMitra::class;
 
     public static function label()
     {
-        return 'BAST Mitra';
+        return 'Daftar Kontrak Mitra';
     }
 
     /**
@@ -31,7 +28,7 @@ class BastMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'kontrakMitra.nama_kontrak';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -50,21 +47,22 @@ class BastMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        $mitra = Helper::getMitraById($this->mitra_id);
         return [
-            BelongsTo::make('Kontrak Mitra')
-                ->onlyOnIndex(),
-            Date::make('Tanggal BAST', 'tanggal_bast')
-                ->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                })
-                ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$this->kontrakMitra->akhir_kontrak),
-            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                ->rules('required')
-                ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
-                }),
+            Text::make('NIK', fn () => Helper::getPropertyFromCollection($mitra, 'nik'))
+                ->readOnly(),
+            Text::make('Nama', fn () => Helper::getPropertyFromCollection($mitra, 'nama'))
+                ->readOnly(),
+            Text::make('Nomor Kontrak', 'nomor_kontrak')
+                ->readOnly(),
+            Text::make('Nomor BAST', 'nomor_bast')
+                ->readOnly(),
+            Number::make('Jumlah Kegiatan','jumlah_kegiatan')
+                ->readOnly(),
+            Currency::make('Honor', 'honor')
+                ->currency('IDR')
+                ->locale('id')
+                ->readOnly(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])

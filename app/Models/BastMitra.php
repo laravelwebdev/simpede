@@ -19,4 +19,10 @@ class BastMitra extends Model
         return $this->belongsTo(KontrakMitra::class);
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (BastMitra $bast) {
+            $bast->status = 'dibuat';
+        });
+    }
 }

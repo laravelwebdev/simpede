@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('jenis', 80)->nullable();
             $table->integer('sbml')->nullable()->unsigned();
-            $table->bigInteger('harga_satuan_id')->nullable()->unsigned();
+            $table->mediumInteger('harga_satuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

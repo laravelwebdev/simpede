@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('jenis', 100)->nullable();
             $table->string('format')->nullable();
             $table->string('template')->nullable();
-            $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('kode_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

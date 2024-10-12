@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('role', 20)->nullable();
             $table->date('active')->nullable();
             $table->date('inactive')->nullable();
-            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->mediumInteger('user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

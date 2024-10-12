@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode', 10)->nullable();
             $table->string('derajat', 20)->nullable();
-            $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('tata_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('daftar_honor_mitras', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('volume')->nullable()->unsigned();
-            $table->bigInteger('harga_satuan')->nullable()->unsigned();
-            $table->bigInteger('persen_pajak')->nullable()->unsigned();
-            $table->bigInteger('mitra_id')->nullable()->unsigned();
-            $table->bigInteger('honor_kegiatan_id')->nullable()->unsigned();
+            $table->smallInteger('volume')->nullable()->unsigned();
+            $table->mediumInteger('harga_satuan')->nullable()->unsigned();
+            $table->decimal('persen_pajak', 5)->nullable()->unsigned();
+            $table->mediumInteger('mitra_id')->nullable()->unsigned();
+            $table->mediumInteger('honor_kegiatan_id')->nullable()->unsigned();
+            $table->mediumInteger('daftar_kontrak_mitra_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

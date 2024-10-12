@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('npwp', 40)->nullable();
             $table->string('email', 80)->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->bigInteger('kepka_mitra_id')->nullable()->unsigned();
+            $table->mediumInteger('kepka_mitra_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

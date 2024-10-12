@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug', 50)->nullable();
             $table->string('file')->nullable();
-            $table->bigInteger('kerangka_acuan_id')->nullable()->unsigned();
+            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

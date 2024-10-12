@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kategori', 60)->nullable();
             $table->string('format')->nullable();
-            $table->bigInteger('tata_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('tata_naskah_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

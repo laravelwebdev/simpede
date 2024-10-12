@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('mak', 40)->nullable();
             $table->integer('perkiraan')->nullable()->unsigned();
-            $table->bigInteger('kerangka_acuan_id')->nullable()->unsigned();
+            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

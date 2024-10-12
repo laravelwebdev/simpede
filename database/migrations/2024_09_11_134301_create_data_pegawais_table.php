@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('pangkat', 30)->nullable();
             $table->string('golongan', 40)->nullable();
             $table->string('jabatan', 50)->nullable();
-            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->mediumInteger('user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

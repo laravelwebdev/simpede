@@ -25,10 +25,10 @@ return new class extends Migration
             $table->string('draft')->nullable();
             $table->string('signed')->nullable();
             $table->char('generate', 1)->default('M');
-            $table->bigInteger('jenis_naskah_id')->nullable()->unsigned();
-            $table->bigInteger('kode_arsip_id')->nullable()->unsigned();
-            $table->bigInteger('kode_naskah_id')->nullable()->unsigned();
-            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->mediumInteger('jenis_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
+            $table->mediumInteger('kode_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

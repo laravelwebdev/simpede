@@ -25,12 +25,12 @@ return new class extends Migration
             $table->text('kegiatan')->nullable();
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
-            $table->string('status', 30)->nullable();
-            $table->bigInteger('naskah_keluar_id')->unsigned()->nullable();
-            $table->bigInteger('dipa_id')->nullable()->unsigned();
-            $table->bigInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->bigInteger('ppk_user_id')->nullable()->unsigned();
-            $table->bigInteger('koordinator_user_id')->nullable()->unsigned();
+            $table->string('status', 20)->nullable();
+            $table->mediumInteger('naskah_keluar_id')->unsigned()->nullable();
+            $table->mediumInteger('dipa_id')->nullable()->unsigned();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('koordinator_user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

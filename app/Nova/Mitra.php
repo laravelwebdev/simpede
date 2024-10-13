@@ -118,6 +118,7 @@ class Mitra extends Resource
                 AddHasManyModel::make('Mitra', 'KepkaMitra', $request->viaResourceId)
                     ->confirmButtonText('Tambah')
                     ->size('7xl')
+                    ->onlyOnIndex()
                     ->standalone()
                     ->addFields($this->fields($request));
         }

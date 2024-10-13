@@ -106,6 +106,7 @@ class KodeNaskah extends Resource
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()
+                ->onlyOnIndex()
                 ->addFields($this->fields($request)),
         ];
     }

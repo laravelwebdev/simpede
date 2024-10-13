@@ -6,8 +6,8 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\User;
 use Carbon\Carbon;
+use Ctessier\NovaAdvancedImageField\AdvancedImage;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -97,8 +97,11 @@ class IzinKeluar extends Resource
                 ->rules('required'),
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali'),
-                Image::make('Bukti Dukung', 'bukti')
+                AdvancedImage::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
+                    ->croppable()
+                    ->quality(60)
+                    ->convert('webp')
                     ->prunable(),
             ]),
 

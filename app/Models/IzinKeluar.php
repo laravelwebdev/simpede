@@ -36,43 +36,43 @@ class IzinKeluar extends Model
         static::creating(function (IzinKeluar $izin) {
             $izin->user_id = Auth::user()->id;
         });
-        static::created(function (IzinKeluar $izin) {
-            if (Policy::make()->allowedFor('kepala')) {
-                $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
-                foreach ($users as $user) {
-                    $user->notify(
-                        NovaNotification::make()
-                            ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
-                            ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
-                            ->icon('information-circle')
-                            ->type('info')
-                    );
-                }
-            }
-            if (Policy::make()->allowedFor('koordinator')) {
-                $users = Helper::getUsersByPengelola('kepala', $izin->tanggal);
-                foreach ($users as $user) {
-                    $user->notify(
-                        NovaNotification::make()
-                            ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
-                            ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
-                            ->icon('information-circle')
-                            ->type('info')
-                    );
-                }
-            }
-            if (Policy::make()->allowedFor('anggota')) {
-                $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
-                foreach ($users as $user) {
-                    $user->notify(
-                        NovaNotification::make()
-                            ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
-                            ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
-                            ->icon('information-circle')
-                            ->type('info')
-                    );
-                }
-            }
-        });
+        // static::created(function (IzinKeluar $izin) {
+        //     if (Policy::make()->allowedFor('kepala')) {
+        //         $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
+        //         foreach ($users as $user) {
+        //             $user->notify(
+        //                 NovaNotification::make()
+        //                     ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
+        //                     ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
+        //                     ->icon('information-circle')
+        //                     ->type('info')
+        //             );
+        //         }
+        //     }
+        //     if (Policy::make()->allowedFor('koordinator')) {
+        //         $users = Helper::getUsersByPengelola('kepala', $izin->tanggal);
+        //         foreach ($users as $user) {
+        //             $user->notify(
+        //                 NovaNotification::make()
+        //                     ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
+        //                     ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
+        //                     ->icon('information-circle')
+        //                     ->type('info')
+        //             );
+        //         }
+        //     }
+        //     if (Policy::make()->allowedFor('anggota')) {
+        //         $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
+        //         foreach ($users as $user) {
+        //             $user->notify(
+        //                 NovaNotification::make()
+        //                     ->message('Izin Keluar Baru: '.Auth::user()->name.' Mengajukan Izin Keluar untuk '.$izin->kegiatan)
+        //                     ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\IzinKeluar::uriKey().'/'.$izin->id))
+        //                     ->icon('information-circle')
+        //                     ->type('info')
+        //             );
+        //         }
+        //     }
+        // });
     }
 }

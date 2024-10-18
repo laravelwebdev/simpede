@@ -16,9 +16,8 @@ class DaftarKontrakMitra extends Model
             $daftar->status = 'dibuat';
         });
         // BUG: masih sementara
-        static::saving(function (DaftarKontrakMitra $daftar) {
+        static::creating(function (DaftarKontrakMitra $daftar) {
             $kontrak = KontrakMitra::find($daftar->kontrak_mitra_id);
-            if ($daftar->kontrak_naskah_keluar_id === null) {
                 $kode_naskah = KodeNaskah::cache()
                     ->get('all')
                     ->where('kategori', 'Surat Dinas')
@@ -29,29 +28,18 @@ class DaftarKontrakMitra extends Model
                     ->where('jenis', 'Surat Perjanjian')
                     ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
                     ->first();
-                $kode_arsip = KodeArsip::cache()
-                    ->get('all')
-                    ->where('kode', 'VS.220')
-                    ->where('tata_naskah_id', Helper::getLatestTataNaskahId($kontrak->tanggal_spk))
-                    ->first();
+                $kode_arsip_id = $kontrak->kode_arsip_id;
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $kontrak->tanggal_spk;
                 $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
-                $naskahkeluar->kode_arsip_id = $kode_arsip->id;
+                $naskahkeluar->kode_arsip_id = $kode_arsip_id;
                 $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
                 $naskahkeluar->derajat = 'B';
                 $naskahkeluar->tujuan = $daftar->objek_sk;
-                $naskahkeluar->perihal = 'SK '.$daftar->objek_sk;
+                $naskahkeluar->perihal = 'Kontrak '.$daftar->objek_sk;
                 $naskahkeluar->generate = 'A';
                 $naskahkeluar->save();
-                $daftar->sk_naskah_keluar_id = $naskahkeluar->id;
-            } else {
-                if ($daftar->isDirty('tanggal_sk')) {
-                    $naskahkeluar = NaskahKeluar::where('id', $daftar->sk_naskah_keluar_id)->first();
-                    $naskahkeluar->tanggal = $kontrak->tanggal_spk;
-                    $naskahkeluar->save();
-                }
-            }
+                $daftar->kontrak_naskah_keluar_id = $naskahkeluar->id;            
         });
     }
 }

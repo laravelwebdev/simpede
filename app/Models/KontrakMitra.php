@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\DaftarKontrakMitra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,6 +35,18 @@ class KontrakMitra extends Model
         static::deleting(function (KontrakMitra $kontrak) {
             $bastId = Helper::getPropertyFromCollection(BastMitra::where('kontrak_mitra_id', $kontrak->id)->first(), 'id');
             BastMitra::destroy($bastId);
+        });
+
+        static::updating(function (KontrakMitra $kontrak) {
+            if ($kontrak->isDirty('tanggal_spk')) {
+                $daftar_kontraks =  DaftarKontrakMitra::where('kontrak_mitra_id', $kontrak->id)->get();
+                foreach ($daftar_kontraks as $daftar_kontrak) {
+                    $naskah_keluar = NaskahKeluar::find($daftar_kontrak->kontrak_naskah_keluar_id);
+                    $naskah_keluar->tanggal = $kontrak->tanggal_spk;
+                    $naskah_keluar->save();
+                }
+
+            }
         });
     }
 }

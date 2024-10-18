@@ -50,6 +50,7 @@ class BastMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        $akhir = $this->kontrakMitra ?  $this->kontrakMitra->akhir_kontrak : 'today';
         return [
             BelongsTo::make('Kontrak Mitra')
                 ->onlyOnIndex(),
@@ -57,7 +58,7 @@ class BastMitra extends Resource
                 ->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 })
-                ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$this->kontrakMitra->akhir_kontrak),
+                ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()

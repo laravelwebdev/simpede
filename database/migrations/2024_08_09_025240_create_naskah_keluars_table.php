@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('no_urut')->nullable()->unsigned();
             $table->integer('segmen')->nullable()->unsigned();
             $table->string('nomor')->nullable();
-            $table->string('derajat', 10)->nullable();
             $table->string('tujuan')->nullable();
             $table->text('perihal')->nullable();
             $table->string('pengiriman')->nullable();
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->string('signed')->nullable();
             $table->char('generate', 1)->default('M');
             $table->mediumInteger('jenis_naskah_id')->nullable()->unsigned();
+            $table->mediumInteger('derajat_naskah_id')->nullable()->unsigned();
             $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('kode_naskah_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();

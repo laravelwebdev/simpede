@@ -176,7 +176,6 @@ class HonorKegiatan extends Resource
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
                 Select::make('Kuasa Pengguna Anggaran', 'kpa_user_id')
-                    ->rules('required')
                     ->searchable()
                     ->hide()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
@@ -228,7 +227,6 @@ class HonorKegiatan extends Resource
                         }
                     }),
                 Select::make('Kepala', 'kepala_user_id')
-                    ->rules('required')
                     ->searchable()
                     ->hide()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))

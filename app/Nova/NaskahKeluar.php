@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use Illuminate\Support\Facades\Storage;
@@ -130,9 +131,9 @@ class NaskahKeluar extends Resource
     public function klasifikasiFields()
     {
         return [
-            Select::make('Derajat Kerahasiaan', 'derajat')
+            Select::make('Derajat Kerahasiaan', 'derajat_naskah_id')
                 ->rules('required')
-                ->displayUsingLabels()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(DerajatNaskah::cache()->get('all')->where('id', $kode)->first(), 'derajat'))
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsDerajatNaskah($form->tanggal));
                 }),

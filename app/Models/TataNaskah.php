@@ -34,6 +34,11 @@ class TataNaskah extends Model
         return $this->hasMany(DerajatNaskah::class);
     }
 
+    public function naskahDefault(): HasMany
+    {
+        return $this->hasMany(NaskahDefault::class);
+    }
+
     public static function cacheEntities(): array
     {
         return [
@@ -62,6 +67,11 @@ class TataNaskah extends Model
             KodeNaskah::destroy($kodenaskahIds);
             KodeNaskah::cache()->enable();
             KodeNaskah::cache()->update('all');
+            $naskahDefaultIds = NaskahDefault::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
+            NaskahDefault::cache()->disable();
+            NaskahDefault::destroy($naskahDefaultIds);
+            NaskahDefault::cache()->enable();
+            NaskahDefault::cache()->update('all');
         });
     }
 }

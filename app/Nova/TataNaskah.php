@@ -16,7 +16,7 @@ class TataNaskah extends Resource
 {
     use HasTabs;
 
-    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah'];
+    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah' , 'naskahDefault'];
 
     public static function label()
     {
@@ -65,6 +65,7 @@ class TataNaskah extends Resource
                 HasMany::make('Kode Naskah'),
                 HasMany::make('Kode Arsip'),
                 HasMany::make('Derajat Naskah'),
+                HasMany::make('Naskah Default'),
             ]),
         ];
     }

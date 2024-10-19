@@ -41,6 +41,7 @@ class Helper
     ];
 
     public static $template = [
+        'bast' => 'BAST',
         'kontrak' => 'Kontrak',
         'import' => 'Import',
         'kak' => 'Kerangka Acuan',
@@ -374,7 +375,7 @@ class Helper
      * @param  string  $derajat
      * @return array nomor, nomor_urut, segmen
      */
-    public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat = null)
+    public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat_naskah_id = null)
     {
         $replaces = [];
         $tahun = self::getYearFromDate($tanggal);
@@ -386,16 +387,17 @@ class Helper
 
         if ($unit_kerja_id !== null) {
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
-            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode') ?? '';
+            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode');
         }
 
         if ($kode_arsip_id !== null) {
             $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
-            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode') ?? '';
+            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode');
         }
 
-        if ($derajat !== null) {
-            $replaces['<derajat>'] = $derajat;
+        if ($derajat_naskah_id !== null) {
+            $derajat_naskah = DerajatNaskah::cache()->get('all')->where('id', $derajat_naskah_id)->first();
+            $replaces['<derajat>'] = self::getPropertyFromCollection($derajat_naskah, 'kode');
         }
 
         $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'));
@@ -848,7 +850,7 @@ class Helper
      */
     public static function setOptionsDerajatNaskah($tanggal)
     {
-        return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'kode', 'derajat');
+        return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'derajat');
     }
 
     /**

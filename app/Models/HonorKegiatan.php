@@ -118,27 +118,14 @@ class HonorKegiatan extends Model
                 }
                 if ($honor->generate_sk) {
                     if ($honor->sk_naskah_keluar_id === null) {
-                        $kode_naskah = KodeNaskah::cache()
-                            ->get('all')
-                            ->where('kategori', 'Naskah Dinas Penetapan')
-                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_sk))
-                            ->first();
-                        $jenis_naskah = JenisNaskah::cache()
-                            ->get('all')
-                            ->where('jenis', 'Keputusan')
-                            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
-                            ->first();
-                        $kode_arsip = KodeArsip::cache()
-                            ->get('all')
-                            ->where('kode', 'VS.220')
-                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_sk))
+                        $default_naskah = NaskahDefault::cache()->get('all')
+                            ->where('jenis', 'sk')
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
-                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
-                        $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
-                        $naskahkeluar->derajat = 'B';
+                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id');
+                        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'SK '.$honor->objek_sk;
                         $naskahkeluar->generate = 'A';
@@ -155,22 +142,14 @@ class HonorKegiatan extends Model
 
                 if ($honor->generate_st) {
                     if ($honor->st_naskah_keluar_id === null) {
-                        $kode_naskah = KodeNaskah::cache()
-                            ->get('all')
-                            ->where('kategori', 'Surat Dinas')
-                            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($honor->tanggal_st))
-                            ->first();
-                        $jenis_naskah = JenisNaskah::cache()
-                            ->get('all')
-                            ->where('jenis', 'Surat Tugas')
-                            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))
+                        $default_naskah = NaskahDefault::cache()->get('all')
+                            ->where('jenis', 'st')
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
-                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
+                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
                         $naskahkeluar->kode_arsip_id = $honor->kode_arsip_id;
-                        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
-                        $naskahkeluar->derajat = 'B';
+                        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;
                         $naskahkeluar->generate = 'A';

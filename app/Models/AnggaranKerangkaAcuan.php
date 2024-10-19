@@ -14,7 +14,7 @@ class AnggaranKerangkaAcuan extends Model
     {
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
             if (Helper::isAkunHonor($anggaranKak->mak)) {
-                if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)) {
+                if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $honor->mak = $anggaranKak->mak;
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->save();

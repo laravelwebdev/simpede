@@ -87,23 +87,13 @@ class KerangkaAcuan extends Model
 
     private function setNaskahKeluarAttributes(NaskahKeluar $naskahkeluar): void
     {
-        $kode_naskah = KodeNaskah::cache()->get('all')
-            ->where('kategori', 'Surat Dinas')
-            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($this->tanggal))->first();
-
-        $jenis_naskah = JenisNaskah::cache()->get('all')
-            ->where('jenis', 'Form Permintaan')
-            ->where('kode_naskah_id', Helper::getPropertyFromCollection($kode_naskah, 'id'))->first();
-
-        $kode_arsip = KodeArsip::cache()->get('all')
-            ->where('kode', 'KU.320')
-            ->where('tata_naskah_id', Helper::getLatestTataNaskahId($this->tanggal))->first();
-
+        $default_naskah = NaskahDefault::cache()->get('all')
+            ->where('jenis', 'kak')
+            ->first();
         $naskahkeluar->tanggal = $this->tanggal;
-        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'id');
-        $naskahkeluar->kode_arsip_id = $kode_arsip->id;
-        $naskahkeluar->kode_naskah_id = Helper::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
-        $naskahkeluar->derajat = 'B';
+        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id');
+        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
         $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
         $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
         $naskahkeluar->generate = 'A';

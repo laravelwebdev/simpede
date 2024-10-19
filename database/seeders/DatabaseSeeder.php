@@ -13,6 +13,7 @@ use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Models\MataAnggaran;
 use App\Models\Mitra;
+use App\Models\NaskahDefault;
 use App\Models\Pengelola;
 use App\Models\TataNaskah;
 use App\Models\Template;
@@ -75,5 +76,6 @@ class DatabaseSeeder extends Seeder
         Template::cache()->updateAll();
         UnitKerja::cache()->updateAll();
         User::cache()->updateAll();
+        NaskahDefault::cache()->updateAll();
     }
 }

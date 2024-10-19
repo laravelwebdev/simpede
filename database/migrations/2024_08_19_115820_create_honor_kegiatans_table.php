@@ -42,7 +42,8 @@ return new class extends Migration
             $table->mediumInteger('kpa_user_id')->nullable()->unsigned();
             $table->mediumInteger('bendahara_user_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
+            $table->mediumInteger('sk_kode_arsip_id')->nullable()->unsigned();
+            $table->mediumInteger('st_kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('sk_naskah_keluar_id')->nullable()->unsigned();
             $table->mediumInteger('st_naskah_keluar_id')->nullable()->unsigned();
             $table->mediumInteger('kepka_mitra_id')->nullable()->unsigned();

@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KodeArsip;
+use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -68,9 +69,12 @@ class BastMitra extends Resource
                 ->hideFromIndex()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                 ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    $default_naskah = NaskahDefault::cache()
+                        ->get("all")
+                        ->where("jenis", "bast")
+                        ->first();
                     $field->rules('required')
-                    // TODO: coba arraymerge ini diset di defaultnaskahg
-                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, array_merge(range(28, 39), range(71, 82))));
+                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')

@@ -11,6 +11,10 @@ class NaskahDefault extends Model
 {
     use HasFactory, LaraCache;
 
+    protected $casts = [
+        'kode_arsip_id' => 'array',
+    ];
+
     public static function cacheEntities(): array
     {
         return [

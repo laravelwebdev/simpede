@@ -8,9 +8,8 @@ use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Nova\Actions\AddHasManyModel;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NaskahDefault extends Resource
@@ -58,10 +57,11 @@ class NaskahDefault extends Resource
     public function fields(NovaRequest $request)
     {
         $kodeNaskahIds = KodeNaskah::cache()
-            ->get("all")
-            ->where("tata_naskah_id", $request->viaResourceId)
-            ->pluck("id")
+            ->get('all')
+            ->where('tata_naskah_id', $request->viaResourceId)
+            ->pluck('id')
             ->toArray();
+
         return [
             Select::make('Jenis Template', 'jenis')
                 ->sortable()
@@ -72,16 +72,16 @@ class NaskahDefault extends Resource
                 ->sortable()
                 ->rules('required')
                 ->displayUsingLabels()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kodeNaskahIds ), 'id', 'jenis')),
+                ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kodeNaskahIds), 'id', 'jenis')),
             Select::make('Derajat Naskah', 'derajat_naskah_id')
                 ->sortable()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'derajat')),
-            Select::make('Kode Arsip', 'kode_arsip_id')
+            MultiSelect::make('Kode Arsip', 'kode_arsip_id')
                 ->sortable()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                ->searchable()
-                ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', 'group', '', 'kode')),
+                ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
+                ->hideFromIndex(),
 
         ];
     }
@@ -141,6 +141,6 @@ class NaskahDefault extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=default-naskah';
+        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=naskah-default';
     }
 }

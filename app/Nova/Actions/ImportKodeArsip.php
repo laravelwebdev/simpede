@@ -44,7 +44,8 @@ class ImportKodeArsip extends Action
 
             $kodeArsip->save();
         });
-        KodeArsip::where('updated_at', null)->delete();
+        $ids  = KodeArsip::where('updated_at', null)->get()->pluck('id');
+        KodeArsip::destroy($ids);
         KodeArsip::cache()->enable();
         KodeArsip::cache()->update('all');
 

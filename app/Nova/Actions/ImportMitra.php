@@ -49,7 +49,8 @@ class ImportMitra extends Action
                 $mitra->save();
             }
         });
-        Mitra::where('updated_at', null)->delete();
+        $ids  = Mitra::where('updated_at', null)->get()->pluck('id');
+        Mitra::destroy($ids);
         Mitra::cache()->enable();
         Mitra::cache()->update('all');
 

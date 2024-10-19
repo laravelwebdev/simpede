@@ -124,7 +124,7 @@ class HonorKegiatan extends Model
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
                         $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id');
+                        $naskahkeluar->kode_arsip_id = $honor->sk_kode_arsip_id;
                         $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'SK '.$honor->objek_sk;
@@ -132,8 +132,9 @@ class HonorKegiatan extends Model
                         $naskahkeluar->save();
                         $honor->sk_naskah_keluar_id = $naskahkeluar->id;
                     } else {
-                        if ($honor->isDirty('tanggal_sk')) {
+                        if ($honor->isDirty(['tanggal_sk', 'sk_kode_arsip_id'])) {
                             $naskahkeluar = NaskahKeluar::where('id', $honor->sk_naskah_keluar_id)->first();
+                            $naskahkeluar->kode_arsip_id = $honor->sk_kode_arsip_id;
                             $naskahkeluar->tanggal = $honor->tanggal_sk;
                             $naskahkeluar->save();
                         }
@@ -148,7 +149,7 @@ class HonorKegiatan extends Model
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
                         $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                        $naskahkeluar->kode_arsip_id = $honor->kode_arsip_id;
+                        $naskahkeluar->kode_arsip_id = $honor->st_kode_arsip_id;
                         $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;
@@ -156,8 +157,9 @@ class HonorKegiatan extends Model
                         $naskahkeluar->save();
                         $honor->st_naskah_keluar_id = $naskahkeluar->id;
                     } else {
-                        if ($honor->isDirty('tanggal_st')) {
+                        if ($honor->isDirty(['tanggal_st', 'st_kode_arsip_id'])) {
                             $naskahkeluar = NaskahKeluar::where('id', $honor->st_naskah_keluar_id)->first();
+                            $naskahkeluar->kode_arsip_id = $honor->st_kode_arsip_id;
                             $naskahkeluar->tanggal = $honor->tanggal_st;
                             $naskahkeluar->save();
                         }

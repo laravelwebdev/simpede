@@ -102,7 +102,7 @@ class KerangkaAcuan extends Model
             ->first();
         $naskahkeluar->tanggal = $this->tanggal;
         $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id');
+        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
         $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
         $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
         $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;

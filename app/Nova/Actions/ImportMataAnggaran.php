@@ -62,8 +62,10 @@ class ImportMataAnggaran extends Action
                 $mataAnggaran->save();
             }
         });
-        MataAnggaran::where('updated_at', null)->delete();
-        KamusAnggaran::where('updated_at', null)->delete();
+        $idMataAnggarans = MataAnggaran::where('updated_at', null)->get()->pluck('id');
+        $idKamusAnggarans = KamusAnggaran::where('updated_at', null)->get()->pluck('id');
+        MataAnggaran::destroy($idMataAnggarans);
+        KamusAnggaran::destroy($idKamusAnggarans);
         MataAnggaran::cache()->enable();
         MataAnggaran::cache()->update('all');
         KamusAnggaran::cache()->enable();

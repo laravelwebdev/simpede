@@ -175,6 +175,22 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->onlyOnDetail(),
+                Select::make('Klasifikasi Arsip', 'sk_kode_arsip_id')
+                    ->searchable()
+                    ->hide()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->dependsOn(['generate_sk', 'tanggal_sk'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->generate_sk) {
+                            $default_naskah = NaskahDefault::cache()
+                                ->get("all")
+                                ->where("jenis", "sk")
+                                ->first();
+                            $field->rules('required')
+                                ->show()
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_sk, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
+                        }
+                    }),
                 Select::make('Kuasa Pengguna Anggaran', 'kpa_user_id')
                     ->searchable()
                     ->hide()
@@ -214,16 +230,20 @@ class HonorKegiatan extends Resource
                         }
                     })
                     ->hideFromIndex(),
-                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                Select::make('Klasifikasi Arsip', 'st_kode_arsip_id')
                     ->searchable()
                     ->hide()
                     ->hideFromIndex()
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->dependsOn(['generate_st', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
+                            $default_naskah = NaskahDefault::cache()
+                                ->get("all")
+                                ->where("jenis", "st")
+                                ->first();
                             $field->rules('required')
                                 ->show()
-                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st, array_merge(range(28, 39), range(71, 82))));
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
                         }
                     }),
                 Select::make('Kepala', 'kepala_user_id')

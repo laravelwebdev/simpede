@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('naskah_defaults', function (Blueprint $table) {
             $table->id();
             $table->string('jenis')->nullable();
-            $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
+            $table->text('kode_arsip_id')->nullable();
             $table->mediumInteger('jenis_naskah_id')->nullable()->unsigned();
             $table->mediumInteger('derajat_naskah_id')->nullable()->unsigned();
             $table->mediumInteger('tata_naskah_id')->nullable()->unsigned();

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
@@ -71,6 +72,10 @@ class DaftarKontrakMitra extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
+            Boolean::make('SBML', 'valid_sbml')
+                ->exceptOnForms(),
+            Boolean::make('Jumlah Kontrak', 'valid_jumlah_kontrak')
+                ->exceptOnForms(),
             HasMany::make('Daftar Honor Mitra'),
         ];
     }

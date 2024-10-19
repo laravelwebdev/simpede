@@ -56,7 +56,8 @@ class ImportDaftarHonorMitra extends Action
                 $daftarHonorMitra->save();
             }
         });
-        DaftarHonorMitra::where('updated_at', null)->delete();
+        $ids = DaftarHonorMitra::where('updated_at', null)->get()->pluck('id');
+        DaftarHonorMitra::destroy($ids);    
 
         return Action::message('File BOS sukses diimport!');
     }

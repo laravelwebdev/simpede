@@ -17,6 +17,8 @@ return new class extends Migration
             $table->mediumInteger('bast_naskah_keluar_id')->unsigned()->nullable();
             $table->smallInteger('jumlah_kegiatan')->unsigned()->nullable();
             $table->mediumInteger('nilai_kontrak')->unsigned()->nullable();
+            $table->boolean('valid_sbml')->nullable();
+            $table->boolean('valid_jumlah_kontrak')->nullable();
             $table->mediumInteger('mitra_id')->unsigned()->nullable();
             $table->mediumInteger('kontrak_mitra_id')->unsigned()->nullable();
             $table->mediumInteger('bast_mitra_id')->unsigned()->nullable();

@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
+use App\Nova\Lenses\RekapHonorMitra;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -130,7 +131,9 @@ class DaftarHonorMitra extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            RekapHonorMitra::make(11,2024,1)
+        ];
     }
 
     /**

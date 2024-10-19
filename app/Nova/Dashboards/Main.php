@@ -19,7 +19,7 @@ class Main extends Dashboard
      */
     public function name()
     {
-        return 'Selamat Datang';
+        return Helper::$role[session('role')];
     }
 
     /**

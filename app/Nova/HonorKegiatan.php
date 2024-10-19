@@ -80,13 +80,13 @@ class HonorKegiatan extends Resource
                     ->readOnly()
                     ->hideWhenUpdating(),
                 Date::make('Awal Pelaksanaan', 'awal')
-                    ->rules('required')
+                    ->rules('required', 'after_or_equal:tanggal_kak')
                     ->hideFromIndex()
                     ->readOnly()
                     ->hideWhenUpdating()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Date::make('Akhir Penyelesaian', 'akhir')
-                    ->rules('required')
+                    ->rules('required','after_or_equal:awal')
                     ->hideFromIndex()
                     ->readOnly()
                     ->hideWhenUpdating()

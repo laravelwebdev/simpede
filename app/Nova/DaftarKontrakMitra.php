@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
@@ -11,6 +13,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKontrakMitra extends Resource
 {
+    public static $displayInNavigation = false;
+    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar' ,'daftarHonorMitra'];
     /**
      * The model the resource corresponds to.
      *
@@ -42,7 +46,6 @@ class DaftarKontrakMitra extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -54,13 +57,13 @@ class DaftarKontrakMitra extends Resource
                 ->readOnly(),
             Text::make('Nama', fn () => Helper::getPropertyFromCollection($mitra, 'nama'))
                 ->readOnly(),
-            Text::make('Nomor Kontrak', 'nomor_kontrak')
+            BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly(),
-            Text::make('Nomor BAST', 'nomor_bast')
+            BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
-            Currency::make('Honor', 'honor')
+            Currency::make('Nilai Kontrak')
                 ->currency('IDR')
                 ->locale('id')
                 ->readOnly(),
@@ -68,13 +71,13 @@ class DaftarKontrakMitra extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
+            HasMany::make('Daftar Honor Mitra'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -85,7 +88,6 @@ class DaftarKontrakMitra extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -96,7 +98,6 @@ class DaftarKontrakMitra extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -107,7 +108,6 @@ class DaftarKontrakMitra extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

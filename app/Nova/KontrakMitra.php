@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\JenisKontrak;
+use App\Models\KodeArsip;
 use App\Nova\Actions\GenerateKontrakMitra;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -66,6 +67,14 @@ class KontrakMitra extends Resource
                 ->readonly()
                 ->exceptOnForms()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
+            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                ->searchable()
+                ->hideFromIndex()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->rules('required')
+                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, array_merge(range(28, 39), range(71, 82))));
+                }),
             Date::make('Tanggal SPK', 'tanggal_spk')
                 ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
@@ -83,16 +92,8 @@ class KontrakMitra extends Resource
                 ->searchable()
                 ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
-                }),
-            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                ->searchable()
-                ->hideFromIndex()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->rules('required')
-                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, array_merge(range(28, 39), range(71, 82))));
-                }),
+                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));                }),
+
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
@@ -139,6 +140,7 @@ class KontrakMitra extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
+        // BUG: seelsai nanti ubah hanya ppk
         if (Policy::make()->allowedFor('all')->get()) {
             $actions[] =
             GenerateKontrakMitra::make()

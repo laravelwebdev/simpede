@@ -2,7 +2,9 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\DaftarHonorMitra;
 use App\Models\DaftarKontrakMitra;
+use App\Models\HonorKegiatan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -29,33 +31,42 @@ class GenerateKontrakMitra extends Action
             return Action::danger('Lengkapi Keterangan Kontrak lebih dahulu sebelum menggenerate');
         }
         if ($model->jenis_honor === 'Kontrak Mitra Bulanan') {
-            $mitras = DB::table('daftar_honor_mitras')
-                ->selectRaw('mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak')
-                ->where('bulan', $model->bulan)
-                ->where('bulan', $model->tahun)
-                ->where('jenis', $model->jenis_kontrak)
-                ->groupBy('mitra_id')
-                ->get();
+            $honorKegiatanIds = HonorKegiatan::where('bulan', $model->bulan)
+                ->where('tahun', $model->tahun)
+                ->where('jenis_kontrak', $model->jenis_kontrak)
+                ->get()
+                ->pluck('id');
         }
         if ($model->jenis_honor === 'Kontrak Mitra AdHoc') {
-            $mitras = DB::table('daftar_honor_mitras')
-                ->selectRaw('mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak')
-                ->where('bulan', $model->honor_kegiatan_id)
-                ->groupBy('mitra_id')
-                ->get();
+            $honorKegiatanIds = $model->honor_kegiatan_id;
         }
+
+        $mitras = DB::table('daftar_honor_mitras')
+            ->selectRaw('mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak')
+            ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
+            ->groupBy('mitra_id')
+            ->get();
+
         DaftarKontrakMitra::where('kontrak_mitra_id', $model->id)->update(['updated_at' => null]);
         foreach ($mitras as $mitra) {
             $daftar_mitra = DaftarKontrakMitra::firstOrNew(
                 [
                     'mitra_id' => $mitra->mitra_id,
-                    'kontrak_mitra_id' => $mitra->kontrak_mitra_id,
+                    'kontrak_mitra_id' => $model->id,
                 ]
             );
             $daftar_mitra->jumlah_kegiatan = $mitra->jumlah_kegiatan;
             $daftar_mitra->nilai_kontrak = $mitra->nilai_kontrak;
+            $daftar_mitra->updated_at = now();
             $daftar_mitra->save();
-            // TODO: buat nomor d event DaftarKontrak, jika tanggal berubah di kontrak, supdate semua nomor, evant hapus lihat contoh di HOnorKegiatan
+            $daftar_honors = DaftarHonorMitra::where('mitra_id', $mitra->mitra_id)
+                ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
+                ->get();
+            foreach ($daftar_honors as $daftar_honor) {
+                $daftar_honor->daftar_kontrak_mitra_id = $daftar_mitra->id;
+                $daftar_honor->save();
+            }
+            
         }
         $model->status = 'selesai';
         $model->save();

@@ -209,4 +209,13 @@ class NaskahKeluar extends Resource
     {
         return [];
     }
+
+    public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->tanggal = null;
+        });
+    }
+
 }

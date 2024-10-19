@@ -3,9 +3,13 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Models\KodeArsip;
+use App\Nova\Actions\GenerateBastMitra;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -19,7 +23,7 @@ class BastMitra extends Resource
      */
     public static $model = \App\Models\BastMitra::class;
 
-    public static $with = ['kontrakMitra'];
+    public static $with = ['kontrakMitra', 'daftarKontrakMitra'];
 
     public static function label()
     {
@@ -59,6 +63,15 @@ class BastMitra extends Resource
                     return Helper::terbilangTanggal($tanggal);
                 })
                 ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
+            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                ->searchable()
+                ->hideFromIndex()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->rules('required')
+                    // TODO: coba arraymerge ini diset di defaultnaskahg
+                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, array_merge(range(28, 39), range(71, 82))));
+                }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
@@ -70,6 +83,7 @@ class BastMitra extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
+            HasMany::make('Daftar Kontrak Mitra'),
         ];
     }
 
@@ -114,6 +128,17 @@ class BastMitra extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+         // BUG: seelsai nanti ubah hanya ppk
+        if (Policy::make()->allowedFor('all')->get()) {
+            $actions[] =
+            GenerateBastMitra::make()
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Generate')
+                ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_bast')->nullable();
             $table->string('status', 20)->nullable();
+            $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
             $table->mediumInteger('kontrak_mitra_id')->nullable()->unsigned();
             $table->timestamps();

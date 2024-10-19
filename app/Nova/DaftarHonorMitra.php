@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use Laravel\Nova\Fields\Currency;
@@ -48,8 +49,9 @@ class DaftarHonorMitra extends Resource
     public function fields(NovaRequest $request)
     {
         $mitra = Helper::getMitraById($this->mitra_id);
-
-        return [
+        $kegiatan = HonorKegiatan::find($this->honor_kegiatan_id);
+        if ($request->viaResource === 'honor-kegiatans') {
+            return [
             Text::make('Nama', fn () => $mitra->nama)
                 ->onlyOnIndex(),
             Text::make('Golongan', fn () => '-')
@@ -74,6 +76,30 @@ class DaftarHonorMitra extends Resource
                 ->onlyOnIndex(),
             Text::make('Rekening', fn () => $mitra->rekening)
                 ->onlyOnIndex(),
+            ];
+        }
+
+        return [
+            Text::make('Kegiatan', fn () => $kegiatan->kegiatan)
+            ->onlyOnIndex(),
+            Number::make('Jumlah', 'volume')
+            ->onlyOnIndex(),
+            Currency::make('Harga Satuan', 'harga_satuan')
+            ->currency('IDR')
+            ->locale('id')
+            ->onlyOnIndex(),
+            Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
+            ->currency('IDR')
+            ->locale('id')
+            ->onlyOnIndex(),
+            Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            ->currency('IDR')
+            ->locale('id')
+            ->onlyOnIndex(),
+            Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            ->currency('IDR')
+            ->locale('id')
+            ->onlyOnIndex(),
         ];
     }
 
@@ -115,16 +141,18 @@ class DaftarHonorMitra extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $actions[] =
-                EditRekening::make('mitra')->onlyInline();
-        }
-        if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResourceId) {
-            $actions[] =
-                ImportDaftarHonorMitra::make($request->viaResourceId)
-                    ->standalone()
-                    ->confirmButtonText('Import');
-        }
+        if ($request->viaResource === 'honor-kegiatans') {
+            if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+                $actions[] =
+                    EditRekening::make('mitra')->onlyInline();
+            }
+            if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResourceId) {
+                $actions[] =
+                    ImportDaftarHonorMitra::make($request->viaResourceId)
+                        ->standalone()
+                        ->confirmButtonText('Import');
+            }
+        }       
 
         return $actions;
     }

@@ -193,6 +193,7 @@ class HonorKegiatan extends Resource
                     }),
                 Select::make('Kuasa Pengguna Anggaran', 'kpa_user_id')
                     ->searchable()
+                    ->hideFromIndex()
                     ->hide()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn(['tanggal_sk', 'generate_sk'], function (Select $field, NovaRequest $request, FormData $formData) {
@@ -248,6 +249,7 @@ class HonorKegiatan extends Resource
                     }),
                 Select::make('Kepala', 'kepala_user_id')
                     ->searchable()
+                    ->hideFromIndex()
                     ->hide()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn(['tanggal_st', 'generate_st'], function (Select $field, NovaRequest $request, FormData $formData) {

@@ -20,7 +20,7 @@ class RekapHonorMitra extends Lens
     private static $tahun;
     private static $jenis_kontrak;
 
-    public function __construct($bulan =11, $tahun=2024, $jenis_kontrak=1)
+    public function __construct($bulan = null, $tahun = null, $jenis_kontrak=null)
     {
         self::$bulan = $bulan;
         self::$tahun = $tahun;

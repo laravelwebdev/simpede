@@ -333,7 +333,7 @@ class HonorKegiatan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator,ppk,bendahara,ppspm,anggota')->get()) {
+        if (Policy::make()->allowedFor('all')->get()) {
             $actions[] =
                 Download::make('spj', 'Unduh SPJ')
                     ->showInline()

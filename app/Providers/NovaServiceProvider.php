@@ -8,6 +8,7 @@ use App\Nova\BastMitra;
 use App\Nova\DaftarHonorMitra;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
+use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
@@ -71,6 +72,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make(session('year'), [
                     MenuGroup::make('Kerangka Acuan', [
                         MenuItem::resource(KerangkaAcuan::class),
+                    ])->collapsable(),
+                    MenuGroup::make('Kegiatan', [
+                        MenuItem::resource(HonorKegiatan::class),
                     ])->collapsable(),
                     MenuGroup::make('Izin Keluar', [
                         MenuItem::resource(IzinKeluar::class),

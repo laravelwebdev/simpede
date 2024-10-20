@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class DaftarHonorMitraPolicy
+class HonorKegiatanPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -22,8 +22,8 @@ class DaftarHonorMitraPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('all')
-        ->get();
+            ->allowedFor('all')
+            ->get();
     }
 
     /**
@@ -34,17 +34,14 @@ class DaftarHonorMitraPolicy
         return false;
     }
 
-    public function replicates(): bool
-    {
-        return false;
-    }
-
     /**
      * Determine whether the user can update the model.
      */
     public function update(): bool
     {
-        return false;
+        return Policy::make()
+        ->allowedFor('koordinator,anggota')
+            ->get();
     }
 
     /**
@@ -52,9 +49,10 @@ class DaftarHonorMitraPolicy
      */
     public function delete(): bool
     {
-        return false;
+        return Policy::make()
+        ->allowedFor('koordinator,anggota')
+            ->get();
     }
-
 
     /**
      * Determine whether the user can replicate model.
@@ -64,10 +62,14 @@ class DaftarHonorMitraPolicy
         return false;
     }
 
+    /**
+     * Determine whether the user can replicate model.
+     */
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+        ->allowedFor('all')
             ->get();
     }
+
 }

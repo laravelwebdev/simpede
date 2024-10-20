@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class ArsipDokumenPolicy
+class KontrakMitraPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -13,7 +13,6 @@ class ArsipDokumenPolicy
     {
         return Policy::make()
             ->allowedFor('all')
-            ->andEqual(request()->is('resources/arsip-dokumens'), false)
             ->get();
     }
 
@@ -32,7 +31,9 @@ class ArsipDokumenPolicy
      */
     public function create(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('ppk')
+            ->get();
     }
 
     /**
@@ -41,7 +42,7 @@ class ArsipDokumenPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('ppk')
             ->get();
     }
 
@@ -51,21 +52,24 @@ class ArsipDokumenPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('ppk')
             ->get();
     }
+
     /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('ppk')
+            ->get();
     }
 
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('ppk')
             ->get();
     }
 }

@@ -17,6 +17,12 @@ class User extends Resource
 {
     use HasTabs;
 
+    public static function label()
+    {
+        return 'Pegawai';
+    }
+
+
     public static $with = ['unitKerja', 'pengelola'];
 
     /**

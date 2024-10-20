@@ -12,7 +12,7 @@ class KepkaMitraPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class KepkaMitraPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -52,27 +52,7 @@ class KepkaMitraPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
+           ->allowedFor('admin')
             ->get();
     }
 
@@ -86,10 +66,4 @@ class KepkaMitraPolicy
             ->get();
     }
 
-    public function addMitra(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
 }

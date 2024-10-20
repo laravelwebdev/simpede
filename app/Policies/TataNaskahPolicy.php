@@ -12,7 +12,7 @@ class TataNaskahPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class TataNaskahPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -57,50 +57,9 @@ class TataNaskahPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addKodeArsip(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addKodeNaskah(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addTemplate(): bool
     {
         return Policy::make()
             ->allowedFor('admin')

@@ -12,7 +12,7 @@ class PengelolaPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual(request()->is('resources/pengelolas'), false)
             ->get();
     }
@@ -23,7 +23,7 @@ class PengelolaPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -49,26 +49,6 @@ class PengelolaPolicy
      * Determine whether the user can delete the model.
      */
     public function delete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
     {
         return Policy::make()
             ->allowedFor('admin')

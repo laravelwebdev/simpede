@@ -62,7 +62,7 @@ class TataNaskah extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
             Tabs::make('Detail Naskah', [
-                HasMany::make('Kode Naskah'),
+                HasMany::make('Format Penomoran Naskah', 'kodeNaskah', KodeNaskah::class),
                 HasMany::make('Kode Arsip'),
                 HasMany::make('Derajat Naskah'),
                 HasMany::make('Naskah Default'),

@@ -12,7 +12,7 @@ class DerajatNaskahPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual(request()->is('resources/derajat-naskahs'), false)
             ->get();
     }
@@ -23,7 +23,7 @@ class DerajatNaskahPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -53,22 +53,6 @@ class DerajatNaskahPolicy
         return Policy::make()
             ->allowedFor('admin')
             ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return false;
     }
 
     /**

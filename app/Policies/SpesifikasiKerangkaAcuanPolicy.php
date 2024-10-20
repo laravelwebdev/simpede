@@ -56,22 +56,6 @@ class SpesifikasiKerangkaAcuanPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return false;
-    }
-
-    /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool

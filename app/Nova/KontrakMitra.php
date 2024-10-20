@@ -148,8 +148,7 @@ class KontrakMitra extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        // BUG: seelsai nanti ubah hanya ppk
-        if (Policy::make()->allowedFor('all')->get()) {
+        if (Policy::make()->allowedFor('ppk')->get()) {
             $actions[] =
             GenerateKontrakMitra::make()
                 ->showInline()

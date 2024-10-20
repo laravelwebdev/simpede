@@ -12,7 +12,7 @@ class UserPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class UserPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -56,25 +56,6 @@ class UserPolicy
             ->get();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
 
     /**
      * Determine whether the user can replicate model.

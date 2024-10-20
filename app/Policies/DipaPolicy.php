@@ -57,39 +57,12 @@ class DipaPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->get();
-    }
-
-    public function addMataAnggaran(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
             ->get();
     }
 }

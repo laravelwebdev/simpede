@@ -56,25 +56,6 @@ class HargaSatuanPolicy
             ->get();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
 
     /**
      * Determine whether the user can replicate the model.
@@ -86,10 +67,4 @@ class HargaSatuanPolicy
             ->get();
     }
 
-    public function addJenisKontrak(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
 }

@@ -56,25 +56,6 @@ class KerangkaAcuanPolicy
             ->get();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
-    }
 
     /**
      * Determine whether the user can replicate the model.

@@ -12,7 +12,7 @@ class KodeArsipPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual(request()->is('resources/kode-arsips'), false)
             ->get();
     }
@@ -23,7 +23,7 @@ class KodeArsipPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -54,23 +54,6 @@ class KodeArsipPolicy
             ->allowedFor('admin')
             ->get();
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return false;
-    }
-
     /**
      * Determine whether the user can replicate the model.
      */

@@ -12,7 +12,7 @@ class KodeNaskahPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual(request()->is('resources/kode-naskahs'), false)
             ->get();
     }
@@ -23,7 +23,7 @@ class KodeNaskahPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -56,22 +56,6 @@ class KodeNaskahPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return false;
-    }
-
-    /**
      * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
@@ -79,10 +63,4 @@ class KodeNaskahPolicy
         return false;
     }
 
-    public function addJenisNaskah(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
-    }
 }

@@ -12,8 +12,8 @@ class JenisNaskahPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
-            ->andEqual(request()->is('resources/jeni-naskahs'), false)
+            ->allowedFor('all')
+            ->andEqual(request()->is('resources/jenis-naskahs'), false)
             ->get();
     }
 
@@ -23,7 +23,7 @@ class JenisNaskahPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -53,22 +53,6 @@ class JenisNaskahPolicy
         return Policy::make()
             ->allowedFor('admin')
             ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(): bool
-    {
-        return false;
     }
 
     /**

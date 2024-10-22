@@ -22,8 +22,8 @@ class DaftarHonorMitraPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('all')
-        ->get();
+            ->allowedFor('all')
+            ->get();
     }
 
     /**
@@ -54,7 +54,6 @@ class DaftarHonorMitraPolicy
     {
         return false;
     }
-
 
     /**
      * Determine whether the user can replicate model.

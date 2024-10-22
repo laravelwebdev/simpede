@@ -52,7 +52,7 @@ class KepkaMitraPolicy
     public function delete(): bool
     {
         return Policy::make()
-           ->allowedFor('admin')
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -65,5 +65,4 @@ class KepkaMitraPolicy
             ->allowedFor('admin')
             ->get();
     }
-
 }

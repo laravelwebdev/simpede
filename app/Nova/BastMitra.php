@@ -55,7 +55,8 @@ class BastMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $akhir = $this->kontrakMitra ?  $this->kontrakMitra->akhir_kontrak : 'today';
+        $akhir = $this->kontrakMitra ? $this->kontrakMitra->akhir_kontrak : 'today';
+
         return [
             BelongsTo::make('Kontrak Mitra')
                 ->onlyOnIndex(),
@@ -70,11 +71,11 @@ class BastMitra extends Resource
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                 ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
                     $default_naskah = NaskahDefault::cache()
-                        ->get("all")
-                        ->where("jenis", "bast")
+                        ->get('all')
+                        ->where('jenis', 'bast')
                         ->first();
                     $field->rules('required')
-                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
+                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')

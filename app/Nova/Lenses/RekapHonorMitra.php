@@ -92,7 +92,7 @@ class RekapHonorMitra extends Lens
         return [
             JumlahKegiatan::make()->width('1/2')->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra'),
             JumlahMitra::make()->width('1/2')->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan'),
-         ];
+        ];
     }
 
     /**

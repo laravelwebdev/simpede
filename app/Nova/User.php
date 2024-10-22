@@ -22,7 +22,6 @@ class User extends Resource
         return 'Pegawai';
     }
 
-
     public static $with = ['unitKerja', 'pengelola'];
 
     /**

@@ -16,7 +16,7 @@ class TataNaskah extends Resource
 {
     use HasTabs;
 
-    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah' , 'naskahDefault'];
+    public static $with = ['kodeNaskah', 'kodeArsip', 'derajatNaskah', 'naskahDefault'];
 
     public static function label()
     {

@@ -62,9 +62,7 @@ class NaskahMasukPolicy
     public function replicate(): bool
     {
         return Policy::make()
-        ->allowedFor('all')
-        ->get();
+            ->allowedFor('all')
+            ->get();
     }
-
-
 }

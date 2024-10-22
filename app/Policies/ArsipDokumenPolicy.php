@@ -41,7 +41,7 @@ class ArsipDokumenPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota,arsiparis')
+            ->allowedFor('koordinator,anggota,arsiparis')
             ->get();
     }
 
@@ -51,9 +51,10 @@ class ArsipDokumenPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota,arsiparis')
+            ->allowedFor('koordinator,anggota,arsiparis')
             ->get();
     }
+
     /**
      * Determine whether the user can replicate the model.
      */

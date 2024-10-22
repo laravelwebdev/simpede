@@ -22,7 +22,7 @@ class NaskahKeluar extends Model
     protected static function booted(): void
     {
         static::saving(function (NaskahKeluar $naskah) {
-            if ($naskah->isDirty(['jenis_naskah_id', 'tanggal','kode_arsip_id', 'derajat_naskah_id','unit_kerja_id'])) {
+            if ($naskah->isDirty(['jenis_naskah_id', 'tanggal', 'kode_arsip_id', 'derajat_naskah_id', 'unit_kerja_id'])) {
                 $unit_kerja_id = $naskah->unit_kerja_id ?? Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal), 'unit_kerja_id');
                 $nomor = Helper::nomor($naskah->tanggal, $naskah->jenis_naskah_id, $unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat_naskah_id);
                 $naskah->nomor = $nomor['nomor'];

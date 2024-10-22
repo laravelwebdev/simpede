@@ -25,7 +25,7 @@ class DaftarKontrakMitra extends Model
 
     public function daftarHonorMitra(): HasMany
     {
-        return $this->hasMany(DaftarHonorMitra::class,);
+        return $this->hasMany(DaftarHonorMitra::class);
     }
 
     public function bastNaskahKeluar(): BelongsTo
@@ -33,11 +33,9 @@ class DaftarKontrakMitra extends Model
         return $this->belongsTo(NaskahKeluar::class, 'bast_naskah_keluar_id');
     }
 
-
-  
     protected static function booted(): void
     {
-        static::creating(function (DaftarKontrakMitra $daftar) {            
+        static::creating(function (DaftarKontrakMitra $daftar) {
             $daftar->status = 'dibuat';
             $kontrak = KontrakMitra::find($daftar->kontrak_mitra_id);
             $jenis_kontrak = Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak)->first(), 'jenis');
@@ -51,7 +49,7 @@ class DaftarKontrakMitra extends Model
             $naskahkeluar->kode_arsip_id = $kontrak->kode_arsip_id;
             $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
             $naskahkeluar->tujuan = Helper::getPropertyFromCollection(Helper::getMitraById($daftar->mitra_id), 'nama');
-            $naskahkeluar->perihal = 'PERJANJIAN KERJA MITRA STATISTIK PETUGAS '.strtoupper($jenis_kontrak).' BULAN '.strtoupper($bulan_kontrak). ' TAHUN '.$kontrak->tahun;            
+            $naskahkeluar->perihal = 'PERJANJIAN KERJA MITRA STATISTIK PETUGAS '.strtoupper($jenis_kontrak).' BULAN '.strtoupper($bulan_kontrak).' TAHUN '.$kontrak->tahun;
             $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $daftar->kontrak_naskah_keluar_id = $naskahkeluar->id;
@@ -62,11 +60,10 @@ class DaftarKontrakMitra extends Model
         });
 
         static::saving(function (DaftarKontrakMitra $daftar) {
-            if ($daftar->isDirty('bast_naskah_keluar_id') ) {
+            if ($daftar->isDirty('bast_naskah_keluar_id')) {
                 if (is_null($daftar->bast_naskah_keluar_id)) {
                     NaskahKeluar::destroy($daftar->getOriginal('bast_naskah_keluar_id'));
-                } 
-                
+                }
             }
         });
     }

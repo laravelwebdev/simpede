@@ -86,7 +86,7 @@ class HonorKegiatan extends Resource
                     ->hideWhenUpdating()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Date::make('Akhir Penyelesaian', 'akhir')
-                    ->rules('required','after_or_equal:awal')
+                    ->rules('required', 'after_or_equal:awal')
                     ->hideFromIndex()
                     ->readOnly()
                     ->hideWhenUpdating()
@@ -183,12 +183,12 @@ class HonorKegiatan extends Resource
                     ->dependsOn(['generate_sk', 'tanggal_sk'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_sk) {
                             $default_naskah = NaskahDefault::cache()
-                                ->get("all")
-                                ->where("jenis", "sk")
+                                ->get('all')
+                                ->where('jenis', 'sk')
                                 ->first();
                             $field->rules('required')
                                 ->show()
-                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_sk, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_sk, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
                         }
                     }),
                 Select::make('Kuasa Pengguna Anggaran', 'kpa_user_id')
@@ -239,12 +239,12 @@ class HonorKegiatan extends Resource
                     ->dependsOn(['generate_st', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $default_naskah = NaskahDefault::cache()
-                                ->get("all")
-                                ->where("jenis", "st")
+                                ->get('all')
+                                ->where('jenis', 'st')
                                 ->first();
                             $field->rules('required')
                                 ->show()
-                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st, Helper::getPropertyFromCollection($default_naskah, "kode_arsip_id")));
+                                ->options(Helper::setOptionsKodeArsip($formData->tanggal_st, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
                         }
                     }),
                 Select::make('Kepala', 'kepala_user_id')

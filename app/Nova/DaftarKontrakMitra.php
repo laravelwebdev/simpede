@@ -72,7 +72,7 @@ class DaftarKontrakMitra extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
-            Boolean::make('SBML', 'valid_sbml')
+            Boolean::make('Sesuai SBML', 'valid_sbml')
                 ->exceptOnForms(),
             Boolean::make('Jumlah Kontrak', 'valid_jumlah_kontrak')
                 ->exceptOnForms(),

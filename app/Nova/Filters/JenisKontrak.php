@@ -2,19 +2,12 @@
 
 namespace App\Nova\Filters;
 
-use App\Models\KodeArsip;
+use App\Helpers\Helper;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class GroupArsip extends Filter
+class JenisKontrak extends Filter
 {
-    /**
-     * The displayable name of the filter.
-     *
-     * @var string
-     */
-    public $name = 'Klasifikasi';
-
     /**
      * The filter's component.
      *
@@ -25,22 +18,24 @@ class GroupArsip extends Filter
     /**
      * Apply the filter to the given query.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where('group', $value);
+        return $query->where('jenis_kontrak_id', $value);
     }
 
     /**
      * Get the filter's available options.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function options(NovaRequest $request)
     {
-        return KodeArsip::cache()->get('all')->unique('group')->pluck('group', 'group');
+        return array_flip(Helper::setOptionJenisKontrak(now()));
     }
 }

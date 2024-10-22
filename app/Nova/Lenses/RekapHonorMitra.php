@@ -3,8 +3,8 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
-use App\Models\HonorKegiatan;
-use App\Models\KontrakMitra;
+use App\Nova\Filters\BulanKontrak;
+use App\Nova\Filters\JenisKontrak;
 use App\Nova\Metrics\JumlahKegiatan;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
@@ -16,17 +16,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class RekapHonorMitra extends Lens
 {
-    private static $bulan;
-    private static $tahun;
-    private static $jenis_kontrak;
-
-    public function __construct($bulan = null, $tahun = null, $jenis_kontrak=null)
-    {
-        self::$bulan = $bulan;
-        self::$tahun = $tahun;
-        self::$jenis_kontrak = $jenis_kontrak;
-    }
-
     public static $showPollingToggle = true;
 
     /**
@@ -44,25 +33,21 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        $honorKegiatanIds = HonorKegiatan::where('bulan', self::$bulan)
-            ->where('tahun', self::$tahun)
-            ->where('jenis_kontrak', self::$jenis_kontrak)
-            ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-            ->get()
-            ->pluck('id');
-        $sbml = Helper::getPropertyFromCollection(Helper::getJenisKontrakById(self::$jenis_kontrak), 'sbml');
-
-        return $request->withOrdering($request->withFilters(
+        return $request->withOrdering(
             $query->selectRaw(
-                'nik, nama, mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak, sum(volume * harga_satuan) < '.
-                  $sbml.
-                  ' as valid_sbml '
+                'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT jenis_kontrak_id) <=1 as valid_jumlah_kontrak, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak, sum(volume * harga_satuan) < sbml as valid_sbml '
             )
-                ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
+                ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
+                    $request->withFilters($query->select('id')->from('honor_kegiatans')
+                        ->where('tahun', session('year'))
+                        ->where('jenis_honor', 'Kontrak Mitra Bulanan')
+                    );
+                })
+                ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
+                ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
                 ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
-                ->groupBy(['mitra_id', 'nama', 'nik'])
-                ->orderBy('nilai_kontrak', 'desc')
-        ));
+                ->groupBy(['bulan','mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
+                ->orderBy('nilai_kontrak', 'desc'));
     }
 
     /**
@@ -73,8 +58,12 @@ class RekapHonorMitra extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('NIK', 'nik')
+            Text::make('Jenis Kontrak', 'jenis_kontrak_id')
+                ->displayUsing(fn ($value) => Helper::getPropertyFromCollection(Helper::getJenisKontrakById($value),'jenis'))
                 ->readOnly(),
+            Text::make('Bulan', 'bulan')
+                ->displayUsing(fn ($value) => Helper::$bulan[$value])
+                ->readOnly(),     
             Text::make('Nama', 'nama')
                 ->readOnly(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
@@ -83,7 +72,9 @@ class RekapHonorMitra extends Lens
                 ->currency('IDR')
                 ->locale('id')
                 ->readOnly(),
-            Boolean::make('SBML', 'valid_sbml')
+            Boolean::make('Sesuai SBML', 'valid_sbml')
+                ->exceptOnForms(),
+            Boolean::make('Jumlah Kontrak', 'valid_jumlah_kontrak')
                 ->exceptOnForms(),
 
         ];
@@ -113,7 +104,10 @@ class RekapHonorMitra extends Lens
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            JenisKontrak::make(),
+            BulanKontrak::make(),
+        ];
     }
 
     /**
@@ -123,7 +117,7 @@ class RekapHonorMitra extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return parent::actions($request);
+        return [];
     }
 
     /**

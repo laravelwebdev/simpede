@@ -2,19 +2,12 @@
 
 namespace App\Nova\Filters;
 
-use App\Models\KodeArsip;
+use App\Helpers\Helper;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class GroupArsip extends Filter
+class BulanKontrak extends Filter
 {
-    /**
-     * The displayable name of the filter.
-     *
-     * @var string
-     */
-    public $name = 'Klasifikasi';
-
     /**
      * The filter's component.
      *
@@ -31,7 +24,7 @@ class GroupArsip extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where('group', $value);
+        return $query->where('bulan', $value);
     }
 
     /**
@@ -41,6 +34,16 @@ class GroupArsip extends Filter
      */
     public function options(NovaRequest $request)
     {
-        return KodeArsip::cache()->get('all')->unique('group')->pluck('group', 'group');
+        return array_flip(Helper::$bulan);
     }
+
+    /**
+ * The default value of the filter.
+ *
+ * @var string
+ */
+public function default()
+{
+    return Date('m');
+}
 }

@@ -12,7 +12,7 @@ class HargaSatuanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class HargaSatuanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -56,7 +56,6 @@ class HargaSatuanPolicy
             ->get();
     }
 
-
     /**
      * Determine whether the user can replicate the model.
      */
@@ -66,5 +65,4 @@ class HargaSatuanPolicy
             ->allowedFor('admin')
             ->get();
     }
-
 }

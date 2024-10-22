@@ -30,9 +30,9 @@ return new class extends Migration
             $table->string('jenis_honor', 40)->nullable();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->string('jenis_kontrak', 40)->nullable();
             $table->string('kegiatan')->nullable();
             $table->string('status', 20)->nullable();
+            $table->mediumInteger('jenis_kontrak_id')->unsigned()->nullable();
             $table->mediumInteger('kamus_anggaran_id')->unsigned()->nullable();
             $table->mediumInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->mediumInteger('anggaran_kerangka_acuan_id')->unsigned()->nullable();

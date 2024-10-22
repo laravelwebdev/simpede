@@ -8,6 +8,7 @@ use App\Nova\BastMitra;
 use App\Nova\DaftarHonorMitra;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
+use App\Nova\HargaSatuan;
 use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
@@ -94,6 +95,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(TataNaskah::class),
                     MenuItem::resource(KepkaMitra::class),
                     MenuItem::resource(User::class),
+                    MenuItem::resource(HargaSatuan::class),
 
                 ])->icon('book-open'),
                 MenuSection::make('Administrasi', [

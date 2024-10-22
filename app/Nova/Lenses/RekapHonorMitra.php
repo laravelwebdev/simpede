@@ -36,6 +36,7 @@ class RekapHonorMitra extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering(
+            //BUGS: valid_jumlah_kontrak
             $query->selectRaw(
                 'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT jenis_kontrak_id) <=1 as valid_jumlah_kontrak, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak, sum(volume * harga_satuan) < sbml as valid_sbml '
             )

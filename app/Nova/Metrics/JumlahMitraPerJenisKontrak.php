@@ -4,11 +4,10 @@ namespace App\Nova\Metrics;
 
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
-use Laravel\Nova\Http\Requests\LensMetricRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\Partition;
 
-class JumlahKegiatan extends Value
+class JumlahMitraPerJenisKontrak extends Partition
 {
     /**
      * Get the displayable name of the metric.
@@ -17,7 +16,7 @@ class JumlahKegiatan extends Value
      */
     public function name()
     {
-        return 'Jumlah Kegiatan';
+        return 'Proporsi Jumlah Mitra';
     }
 
     /**
@@ -40,27 +39,34 @@ class JumlahKegiatan extends Value
                 json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
             )->pluck('App\\Nova\\Filters\\BulanKontrak')[1];
         }
-        $bulan_ini = DB::table('daftar_honor_mitras')
-            ->select('honor_kegiatans.id')
-            ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
+
+        $arr= DB::table('daftar_honor_mitras')
+            ->selectRaw('jenis, count(distinct(mitra_id)) as jumlah_mitra')
+            ->join(
+                'honor_kegiatans',
+                'honor_kegiatans.id',
+                '=',
+                'daftar_honor_mitras.honor_kegiatan_id'
+            )
+            ->join(
+                'jenis_kontraks',
+                'jenis_kontraks.id',
+                '=',
+                'honor_kegiatans.jenis_kontrak_id'
+            )
+            ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
             ->where('bulan', $filtered_bulan)
-            ->distinct('honor_kegiatans.id')
-            ->count();
-        $bulan_lalu = DB::table('daftar_honor_mitras')
-            ->select('honor_kegiatans.id')
-            ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
-            ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-            ->where('tahun', session('year'))
-            ->where('bulan', $filtered_bulan - 1)
-            ->distinct('honor_kegiatans.id')
-            ->count();
+            ->groupBy('jenis_kontrak_id')
+            ->pluck('jumlah_mitra', 'jenis')
+            ->toArray();
+        if (empty($arr)) {
+            $arr = ['Tidak Ada Data' => 0];
+        }
 
-        return $this->result($bulan_ini)
-            ->previous($bulan_lalu)
-            ->suffix('Kegiatan')
-            ->withoutSuffixInflection();
+        return $this
+            ->result($arr);
     }
 
     /**
@@ -71,5 +77,15 @@ class JumlahKegiatan extends Value
     public function cacheFor()
     {
         // return now()->addMinutes(5);
+    }
+
+    /**
+     * Get the URI key for the metric.
+     *
+     * @return string
+     */
+    public function uriKey()
+    {
+        return 'jumlah-mitra-per-jenis-kontrak';
     }
 }

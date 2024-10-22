@@ -7,6 +7,7 @@ use App\Nova\Filters\BulanKontrak;
 use App\Nova\Filters\JenisKontrak;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
+use App\Nova\Metrics\JumlahMitraPerJenisKontrak;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -90,8 +91,14 @@ class RekapHonorMitra extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            JumlahKegiatan::make()->width('1/2')->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra'),
-            JumlahMitra::make()->width('1/2')->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan'),
+            JumlahKegiatan::make()
+                ->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra')
+                ->refreshWhenFiltersChange(),
+            JumlahMitra::make()
+                ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan'),
+            JumlahMitraPerJenisKontrak::make()
+                ->help('Proporsi Jumlah mitra yang berkontrak menurut jenis kontrak')
+                ->refreshWhenFiltersChange(),
         ];
     }
 

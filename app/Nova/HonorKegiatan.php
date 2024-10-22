@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Models\JenisKontrak;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
+use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -120,7 +121,7 @@ class HonorKegiatan extends Resource
                     })
                     ->options(Helper::$bulan)
                     ->displayUsingLabels(),
-                Select::make('Jenis Kegiatan', 'jenis_kontrak')
+                Select::make('Jenis Kegiatan', 'jenis_kontrak_id')
                     ->hide()
                     ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
                         if ($form->jenis_honor === 'Kontrak Mitra Bulanan') {

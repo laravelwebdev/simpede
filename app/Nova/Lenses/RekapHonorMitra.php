@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Nova\Filters\BulanKontrak;
 use App\Nova\Filters\JenisKontrak;
 use App\Nova\Metrics\JumlahKegiatan;
+use App\Nova\Metrics\JumlahMitra;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -46,7 +47,8 @@ class RekapHonorMitra extends Lens
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
                 ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
-                ->groupBy(['bulan','mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
+                ->groupBy(['bulan', 'mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
+                ->orderBy('bulan', 'desc')
                 ->orderBy('nilai_kontrak', 'desc'));
     }
 
@@ -59,11 +61,11 @@ class RekapHonorMitra extends Lens
     {
         return [
             Text::make('Jenis Kontrak', 'jenis_kontrak_id')
-                ->displayUsing(fn ($value) => Helper::getPropertyFromCollection(Helper::getJenisKontrakById($value),'jenis'))
+                ->displayUsing(fn ($value) => Helper::getPropertyFromCollection(Helper::getJenisKontrakById($value), 'jenis'))
                 ->readOnly(),
             Text::make('Bulan', 'bulan')
                 ->displayUsing(fn ($value) => Helper::$bulan[$value])
-                ->readOnly(),     
+                ->readOnly(),
             Text::make('Nama', 'nama')
                 ->readOnly(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
@@ -88,13 +90,9 @@ class RekapHonorMitra extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            //TODO Jumlah kegiatan pakai value
-            JumlahKegiatan::make(),
-            //TODO Jumlah mitra pakai trends
-            JumlahKegiatan::make(),
-            // TODO honor per jenis kontrak pakai partition
-            JumlahKegiatan::make(),
-        ];
+            JumlahKegiatan::make()->width('1/2')->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra'),
+            JumlahMitra::make()->width('1/2')->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan'),
+         ];
     }
 
     /**

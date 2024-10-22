@@ -45,7 +45,6 @@ class KontrakMitra extends Model
                     $naskah_keluar->tanggal = $kontrak->tanggal_spk;
                     $naskah_keluar->save();
                 }
-
             }
         });
     }

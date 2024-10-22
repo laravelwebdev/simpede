@@ -6,12 +6,11 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
-use Laravel\Nova\Nova;
 
 class JumlahKegiatan extends Value
 {
     /**
-     * Get the displayable name of the metric
+     * Get the displayable name of the metric.
      *
      * @return string
      */
@@ -19,6 +18,7 @@ class JumlahKegiatan extends Value
     {
         return 'Jumlah Kegiatan Bulan '.Helper::$bulan[date('m')];
     }
+
     /**
      * Calculate the value of the metric.
      *
@@ -40,16 +40,15 @@ class JumlahKegiatan extends Value
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->where('bulan', date('m')-1)
+            ->where('bulan', date('m') - 1)
             ->distinct('honor_kegiatans.id')
             ->count();
+
         return $this->result($bulan_ini)
             ->previous($bulan_lalu)
             ->suffix('Kegiatan')
             ->withoutSuffixInflection();
-
     }
-
 
     /**
      * Determine the amount of time the results of the metric should be cached.

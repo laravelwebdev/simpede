@@ -57,19 +57,19 @@ class GenerateKontrakMitra extends Action
                 ]
             );
 
-            $daftarHonorIds = DaftarHonorMitra::where("mitra_id", $mitra->mitra_id)
+            $daftarHonorIds = DaftarHonorMitra::where('mitra_id', $mitra->mitra_id)
                 ->get()
-                ->pluck("honor_kegiatan_id");
-            $jumlah_kontrak = HonorKegiatan::whereIn("id", $daftarHonorIds)
-                ->distinct(["jenis_kontrak", "jenis_honor", "bulan", "tahun"])
+                ->pluck('honor_kegiatan_id');
+            $jumlah_kontrak = HonorKegiatan::whereIn('id', $daftarHonorIds)
+                ->distinct(['jenis_kontrak', 'jenis_honor', 'bulan', 'tahun'])
                 ->count();
-            if ($mitra->nilai_kontrak <= Helper::getPropertyFromCollection(Helper::getJenisKontrakById($model->jenis_kontrak), "sbml")) {
+            if ($mitra->nilai_kontrak <= Helper::getPropertyFromCollection(Helper::getJenisKontrakById($model->jenis_kontrak), 'sbml')) {
                 $daftar_mitra->valid_sbml = true;
             }
 
             if ($jumlah_kontrak <= 1) {
                 $daftar_mitra->valid_jumlah_kontrak = true;
-            }            
+            }
             $daftar_mitra->jumlah_kegiatan = $mitra->jumlah_kegiatan;
             $daftar_mitra->nilai_kontrak = $mitra->nilai_kontrak;
             $daftar_mitra->updated_at = now();
@@ -81,7 +81,6 @@ class GenerateKontrakMitra extends Action
                 $daftar_honor->daftar_kontrak_mitra_id = $daftar_mitra->id;
                 $daftar_honor->save();
             }
-            
         }
         $model->status = 'selesai';
         $model->save();

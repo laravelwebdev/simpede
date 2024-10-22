@@ -15,7 +15,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class DaftarKontrakMitra extends Resource
 {
     public static $displayInNavigation = false;
-    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar' ,'daftarHonorMitra'];
+    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra'];
     /**
      * The model the resource corresponds to.
      *

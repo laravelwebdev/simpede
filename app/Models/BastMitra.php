@@ -46,7 +46,6 @@ class BastMitra extends Model
                         $naskah_keluar->tanggal = $bast->tanggal_bast;
                         $naskah_keluar->save();
                     }
-
                 }
             });
         });

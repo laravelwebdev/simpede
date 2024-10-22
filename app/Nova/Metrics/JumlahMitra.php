@@ -11,7 +11,7 @@ use Laravel\Nova\Metrics\TrendResult;
 class JumlahMitra extends Trend
 {
     /**
-     * Get the displayable name of the metric
+     * Get the displayable name of the metric.
      *
      * @return string
      */

@@ -217,5 +217,4 @@ class NaskahKeluar extends Resource
             $model->tanggal = null;
         });
     }
-
 }

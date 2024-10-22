@@ -40,7 +40,7 @@ class HonorKegiatanPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 
@@ -50,7 +50,7 @@ class HonorKegiatanPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 
@@ -68,8 +68,7 @@ class HonorKegiatanPolicy
     public function runAction(): bool
     {
         return Policy::make()
-        ->allowedFor('all')
+            ->allowedFor('all')
             ->get();
     }
-
 }

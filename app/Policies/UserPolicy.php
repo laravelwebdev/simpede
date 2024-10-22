@@ -56,7 +56,6 @@ class UserPolicy
             ->get();
     }
 
-
     /**
      * Determine whether the user can replicate model.
      */

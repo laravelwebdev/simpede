@@ -62,5 +62,4 @@ class KodeNaskahPolicy
     {
         return false;
     }
-
 }

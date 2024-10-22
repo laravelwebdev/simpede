@@ -53,54 +53,54 @@ class DaftarHonorMitra extends Resource
         $kegiatan = HonorKegiatan::find($this->honor_kegiatan_id);
         if ($request->viaResource === 'honor-kegiatans') {
             return [
-            Text::make('Nama', fn () => $mitra->nama)
-                ->onlyOnIndex(),
-            Text::make('Golongan', fn () => '-')
-                ->onlyOnIndex(),
-            Number::make('Jumlah', 'volume')
-                ->onlyOnIndex(),
-            Currency::make('Harga Satuan', 'harga_satuan')
-                ->currency('IDR')
-                ->locale('id')
-                ->onlyOnIndex(),
-            Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
-                ->currency('IDR')
-                ->locale('id')
-                ->onlyOnIndex(),
-            Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
-                ->onlyOnIndex(),
-            Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
-                ->onlyOnIndex(),
-            Text::make('Rekening', fn () => $mitra->rekening)
-                ->onlyOnIndex(),
+                Text::make('Nama', fn () => $mitra->nama)
+                    ->onlyOnIndex(),
+                Text::make('Golongan', fn () => '-')
+                    ->onlyOnIndex(),
+                Number::make('Jumlah', 'volume')
+                    ->onlyOnIndex(),
+                Currency::make('Harga Satuan', 'harga_satuan')
+                    ->currency('IDR')
+                    ->locale('id')
+                    ->onlyOnIndex(),
+                Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
+                    ->currency('IDR')
+                    ->locale('id')
+                    ->onlyOnIndex(),
+                Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                    ->currency('IDR')
+                    ->locale('id')
+                    ->onlyOnIndex(),
+                Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                    ->currency('IDR')
+                    ->locale('id')
+                    ->onlyOnIndex(),
+                Text::make('Rekening', fn () => $mitra->rekening)
+                    ->onlyOnIndex(),
             ];
         }
 
         return [
             Text::make('Kegiatan', fn () => $kegiatan->kegiatan)
-            ->onlyOnIndex(),
+                ->onlyOnIndex(),
             Number::make('Jumlah', 'volume')
-            ->onlyOnIndex(),
+                ->onlyOnIndex(),
             Currency::make('Harga Satuan', 'harga_satuan')
-            ->currency('IDR')
-            ->locale('id')
-            ->onlyOnIndex(),
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
             Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
-            ->currency('IDR')
-            ->locale('id')
-            ->onlyOnIndex(),
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
             Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-            ->currency('IDR')
-            ->locale('id')
-            ->onlyOnIndex(),
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
             Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-            ->currency('IDR')
-            ->locale('id')
-           ->onlyOnIndex(),
+                ->currency('IDR')
+                ->locale('id')
+                ->onlyOnIndex(),
         ];
     }
 
@@ -133,7 +133,7 @@ class DaftarHonorMitra extends Resource
     {
         return [
             RekapHonorMitra::make(),
- 
+
         ];
     }
 
@@ -156,7 +156,7 @@ class DaftarHonorMitra extends Resource
                         ->standalone()
                         ->confirmButtonText('Import');
             }
-        }       
+        }
 
         return $actions;
     }

@@ -56,7 +56,6 @@ class BastMitraPolicy
             ->get();
     }
 
-
     /**
      * Determine whether the user can replicate the model.
      */

@@ -48,7 +48,6 @@ class DaftarKontrakMitraPolicy
         return false;
     }
 
-
     /**
      * Determine whether the user can replicate the model.
      */
@@ -60,7 +59,7 @@ class DaftarKontrakMitraPolicy
     public function runAction(): bool
     {
         return Policy::make()
-        ->allowedFor('ppk')
-        ->get();
+            ->allowedFor('ppk')
+            ->get();
     }
 }

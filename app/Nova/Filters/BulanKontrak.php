@@ -44,6 +44,6 @@ class BulanKontrak extends Filter
      */
     public function default()
     {
-        return Date('m');
+        return date('m');
     }
 }

@@ -47,8 +47,8 @@ class DaftarHonorPegawaiPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
-        ->get();
+            ->allowedFor('koordinator,anggota')
+            ->get();
     }
 
     /**
@@ -57,8 +57,8 @@ class DaftarHonorPegawaiPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
-        ->get();
+            ->allowedFor('koordinator,anggota')
+            ->get();
     }
 
     /**

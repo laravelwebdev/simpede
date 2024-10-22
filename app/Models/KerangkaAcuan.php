@@ -53,7 +53,7 @@ class KerangkaAcuan extends Model
             if ($kak->isDirty('dipa_id')) {
                 $kak->deleteOldAnggaran();
             }
-            if ($kak->isDirty(['tanggal', 'awal', 'akhir', 'kegiatan','dipa_id'])) {
+            if ($kak->isDirty(['tanggal', 'awal', 'akhir', 'kegiatan', 'dipa_id'])) {
                 $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
                 $honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->first();
                 $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;

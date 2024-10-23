@@ -28,20 +28,15 @@ class JumlahKegiatan extends Value
     public function calculate(NovaRequest $request)
     {
         $filtered_bulan = date('m');
+        $filtered_jenis = null;
         $queries = [];
-        parse_str(
-            parse_url(
-                request()->headers->get('referer'), PHP_URL_QUERY),
-            $queries
-        );
+
+        parse_str(parse_url(request()->headers->get('referer'), PHP_URL_QUERY), $queries);
 
         if (isset($queries['daftar-honor-mitras_filter'])) {
-            $filtered_bulan = collect(
-                json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
-            )->pluck('App\\Nova\\Filters\\BulanKontrak')[1];
-            $filtered_jenis = collect(
-                json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
-            )->pluck('App\\Nova\\Filters\\JenisKontrak')[1];
+            $filters = json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true), true);
+            $filtered_bulan = $filters['App\\Nova\\Filters\\BulanKontrak'][1] ?? $filtered_bulan;
+            $filtered_jenis = $filters['App\\Nova\\Filters\\JenisKontrak'][1] ?? null;
         }
         $bulan_ini = DB::table('daftar_honor_mitras')
             ->select('honor_kegiatans.id')

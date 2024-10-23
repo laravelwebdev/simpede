@@ -26,7 +26,7 @@ class JumlahMitraPerJenisKontrak extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = DB::table('daftar_honor_mitras')
             ->selectRaw('jenis, count(distinct(mitra_id)) as jumlah_mitra')
             ->join(
@@ -44,7 +44,7 @@ class JumlahMitraPerJenisKontrak extends Partition
             ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+            ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                 return $query->where('bulan', $filtered_bulan);
             })
             ->groupBy('jenis_kontrak_id')

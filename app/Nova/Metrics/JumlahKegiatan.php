@@ -26,17 +26,17 @@ class JumlahKegiatan extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
-        $filtered_jenis= Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
         $bulan_ini = DB::table('daftar_honor_mitras')
             ->select('honor_kegiatans.id')
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+            ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                 return $query->where('bulan', $filtered_bulan);
             })
-            ->when(!empty($filtered_jenis), function ($query) use ($filtered_jenis) {
+            ->when(! empty($filtered_jenis), function ($query) use ($filtered_jenis) {
                 return $query->where('jenis_kontrak_id', $filtered_jenis);
             })
             ->distinct('honor_kegiatans.id')
@@ -46,10 +46,10 @@ class JumlahKegiatan extends Value
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
-                return $query->where('bulan', $filtered_bulan-1);
+            ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                return $query->where('bulan', $filtered_bulan - 1);
             })
-            ->when(!empty($filtered_jenis), function ($query) use ($filtered_jenis) {
+            ->when(! empty($filtered_jenis), function ($query) use ($filtered_jenis) {
                 return $query->where('jenis_kontrak_id', $filtered_jenis);
             })
             ->distinct('honor_kegiatans.id')

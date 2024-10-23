@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\HonorKegiatan;
+use App\Models\User;
 
 class HonorKegiatanPolicy
 {
@@ -19,10 +21,11 @@ class HonorKegiatanPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear($honor->tahun)
             ->get();
     }
 
@@ -37,20 +40,22 @@ class HonorKegiatanPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
+            ->withYear($honor->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
+            ->withYear($honor->tahun)
             ->get();
     }
 
@@ -68,7 +73,7 @@ class HonorKegiatanPolicy
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->allowedFor('koordinator,anggota')
             ->get();
     }
 }

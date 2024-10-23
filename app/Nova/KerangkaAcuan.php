@@ -33,6 +33,16 @@ class KerangkaAcuan extends Resource
         return 'Kerangka Acuan Kerja';
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->whereYear('tanggal', session('year'));
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            return $query->where('unit_kerja_id',Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id );
+        }
+
+        return $query;
+    }
+
     /**
      * The model the resource corresponds to.
      *

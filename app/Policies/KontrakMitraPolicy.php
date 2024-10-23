@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\KontrakMitra;
+use App\Models\User;
 
 class KontrakMitraPolicy
 {
@@ -19,9 +21,10 @@ class KontrakMitraPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, KontrakMitra $kontrak): bool
     {
         return Policy::make()
+            ->withYear($kontrak->tahun)
             ->allowedFor('all')
             ->get();
     }
@@ -39,20 +42,22 @@ class KontrakMitraPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, KontrakMitra $kontrak): bool
     {
         return Policy::make()
             ->allowedFor('ppk')
+            ->withYear($kontrak->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, KontrakMitra $kontrak): bool
     {
         return Policy::make()
             ->allowedFor('ppk')
+            ->withYear($kontrak->tahun)
             ->get();
     }
 

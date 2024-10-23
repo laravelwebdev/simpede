@@ -2,34 +2,39 @@
 
 namespace App\Policies;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\KerangkaAcuan;
+use App\Models\User;
 
 class KerangkaAcuanPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->notAllowedFor('kepala,admin')
             ->get();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->notAllowedFor('kepala,admin')
+            ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(): bool
+    public function create(User $user): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
@@ -39,37 +44,36 @@ class KerangkaAcuanPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
+            ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
+            ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(): bool
+    public function replicate(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
-            ->get();
-    }
-
-    public function runAction(): bool
-    {
-        return Policy::make()
-            ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 }

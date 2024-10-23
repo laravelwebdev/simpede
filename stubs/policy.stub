@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use {{ namespacedModel }};
 use {{ namespacedUserModel }};
@@ -25,7 +26,7 @@ class {{ class }}
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
+            ->withYear(Helper::getYearFromDate(${{ modelVariable }}->tanggal))
             ->get();
     }
 
@@ -46,7 +47,7 @@ class {{ class }}
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
+            ->withYear(Helper::getYearFromDate(${{ modelVariable }}->tanggal))
             ->get();
     }
 
@@ -57,29 +58,7 @@ class {{ class }}
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
+            ->withYear(Helper::getYearFromDate(${{ modelVariable }}->tanggal))
             ->get();
     }
 
@@ -90,7 +69,7 @@ class {{ class }}
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear(${{ modelVariable }}->tahun)
+            ->withYear(Helper::getYearFromDate(${{ modelVariable }}->tanggal))
             ->get();
     }
 }

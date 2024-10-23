@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\BastMitra;
+use App\Models\User;
 
 class BastMitraPolicy
 {
@@ -19,9 +21,10 @@ class BastMitraPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, BastMitra $bast): bool
     {
         return Policy::make()
+            ->withYear($bast->tahun)
             ->allowedFor('all')
             ->get();
     }
@@ -39,20 +42,22 @@ class BastMitraPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, BastMitra $bast): bool
     {
         return Policy::make()
             ->allowedFor('ppk')
+            ->withYear($bast->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, BastMitra $bast): bool
     {
         return Policy::make()
             ->allowedFor('ppk')
+            ->withYear($bast->tahun)
             ->get();
     }
 

@@ -2,7 +2,10 @@
 
 namespace App\Policies;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\NaskahKeluar;
+use App\Models\User;
 
 class NaskahKeluarPolicy
 {
@@ -19,9 +22,10 @@ class NaskahKeluarPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, NaskahKeluar $naskahKeluar): bool
     {
         return Policy::make()
+            ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
             ->allowedFor('all')
             ->get();
     }
@@ -39,20 +43,22 @@ class NaskahKeluarPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, NaskahKeluar $naskahKeluar): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, NaskahKeluar $naskahKeluar): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
             ->get();
     }
 

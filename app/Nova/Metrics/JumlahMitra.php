@@ -27,6 +27,18 @@ class JumlahMitra extends Trend
      */
     public function calculate(NovaRequest $request)
     {
+        $queries = [];
+        parse_str(
+            parse_url(
+                request()->headers->get('referer'), PHP_URL_QUERY),
+            $queries
+        );
+
+        if (isset($queries['daftar-honor-mitras_filter'])) {
+            $filtered_jenis = collect(
+                json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
+            )->pluck('App\\Nova\\Filters\\JenisKontrak')[1];
+        }
         $arr = [];
         foreach (Helper::$bulan as $key => $value) {
             $arr[$value] = DB::table('daftar_honor_mitras')
@@ -40,6 +52,9 @@ class JumlahMitra extends Trend
                 ->where('jenis_honor', 'Kontrak Mitra Bulanan')
                 ->where('tahun', session('year'))
                 ->where('bulan', $key)
+                ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
+                    return $query->where('jenis_kontrak_id', $filtered_jenis);
+                })
                 ->distinct('mitra_id')
                 ->count();
         }

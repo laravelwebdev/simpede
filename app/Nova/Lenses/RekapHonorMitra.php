@@ -93,7 +93,8 @@ class RekapHonorMitra extends Lens
                 ->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra')
                 ->refreshWhenFiltersChange(),
             JumlahMitra::make()
-                ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan'),
+                ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan')
+                ->refreshWhenFiltersChange(),
             JumlahMitraPerJenisKontrak::make()
                 ->help('Proporsi Jumlah mitra yang berkontrak menurut jenis kontrak')
                 ->refreshWhenFiltersChange(),

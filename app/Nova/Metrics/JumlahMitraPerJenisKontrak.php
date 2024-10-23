@@ -38,6 +38,9 @@ class JumlahMitraPerJenisKontrak extends Partition
             $filtered_bulan = collect(
                 json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
             )->pluck('App\\Nova\\Filters\\BulanKontrak')[1];
+            $filtered_jenis = collect(
+                json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true))
+            )->pluck('App\\Nova\\Filters\\JenisKontrak')[1];
         }
 
         $arr= DB::table('daftar_honor_mitras')
@@ -58,6 +61,9 @@ class JumlahMitraPerJenisKontrak extends Partition
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
             ->where('bulan', $filtered_bulan)
+            ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
+                return $query->where('jenis_kontrak_id', $filtered_jenis);
+            })
             ->groupBy('jenis_kontrak_id')
             ->pluck('jumlah_mitra', 'jenis')
             ->toArray();

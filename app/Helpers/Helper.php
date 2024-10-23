@@ -365,6 +365,41 @@ class Helper
     }
 
     /**
+     * Mem-parsing filter dari URL yang diberikan.
+     *
+     * @param string $url URL yang akan di-parsing.
+     * @param string $filterUri URI filter yang akan dicari dalam query URL.
+     * @param string $filterKey Kunci filter yang akan diambil nilainya.
+     * 
+     * @return string Nilai filter yang ditemukan berdasarkan kunci filter yang diberikan.
+     */
+    public static function parseFilterFromUrl($url, $filterUri, $filterKey, $defaultValue = null)
+    {
+        $filterValue = $defaultValue ?? '';
+        $queries = [];
+        if ($url) {
+            $parsed_url = parse_url($url, PHP_URL_QUERY);
+        }
+
+        if ($parsed_url) {
+            parse_str($parsed_url, $queries);
+        }
+
+        if (isset($queries[$filterUri])) {
+            $filters = array_merge(
+                ...json_decode(
+                    base64_decode($queries[$filterUri], true),
+                    true
+                )
+            );
+
+            $filterValue= $filters[$filterKey];
+        }
+
+        return $filterValue;
+    }
+
+    /**
      * Membuat Nomor.
      *
      * @param  date  $tanggal  Tanggal
@@ -870,7 +905,6 @@ class Helper
      * Membuat option value select field Kode Arsip berdasarkan tanggal yang diberikan.
      *
      * @param  string  $tanggal
-     * @param  array  $filterId
      * @return array
      */
     public static function setOptionsKodeArsip($tanggal, array $filterId = [])

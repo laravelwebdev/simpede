@@ -34,7 +34,7 @@ class GenerateKontrakMitra extends Action
         if ($model->jenis_honor === 'Kontrak Mitra Bulanan') {
             $honorKegiatanIds = HonorKegiatan::where('bulan', $model->bulan)
                 ->where('tahun', $model->tahun)
-                ->where('jenis_kontrak', $model->jenis_kontrak)
+                ->where('jenis_kontrak_id', $model->jenis_kontrak_id)
                 ->get()
                 ->pluck('id');
         }
@@ -61,9 +61,9 @@ class GenerateKontrakMitra extends Action
                 ->get()
                 ->pluck('honor_kegiatan_id');
             $jumlah_kontrak = HonorKegiatan::whereIn('id', $daftarHonorIds)
-                ->distinct(['jenis_kontrak', 'jenis_honor', 'bulan', 'tahun'])
+                ->distinct(['jenis_kontrak_id', 'jenis_honor', 'bulan', 'tahun'])
                 ->count();
-            if ($mitra->nilai_kontrak <= Helper::getPropertyFromCollection(Helper::getJenisKontrakById($model->jenis_kontrak), 'sbml')) {
+            if ($mitra->nilai_kontrak <= Helper::getPropertyFromCollection(Helper::getJenisKontrakById($model->jenis_kontrak_id), 'sbml')) {
                 $daftar_mitra->valid_sbml = true;
             }
 

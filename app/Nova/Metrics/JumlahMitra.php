@@ -27,17 +27,7 @@ class JumlahMitra extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = date('m');
-        $filtered_jenis = null;
-        $queries = [];
-
-        parse_str(parse_url(request()->headers->get('referer'), PHP_URL_QUERY), $queries);
-
-        if (isset($queries['daftar-honor-mitras_filter'])) {
-            $filters = json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true), true);
-            $filtered_bulan = $filters['App\\Nova\\Filters\\BulanKontrak'][1] ?? $filtered_bulan;
-            $filtered_jenis = $filters['App\\Nova\\Filters\\JenisKontrak'][1] ?? null;
-        }
+        $filtered_jenis= Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
         $arr = [];
         foreach (Helper::$bulan as $key => $value) {
             $arr[$value] = DB::table('daftar_honor_mitras')
@@ -51,7 +41,7 @@ class JumlahMitra extends Trend
                 ->where('jenis_honor', 'Kontrak Mitra Bulanan')
                 ->where('tahun', session('year'))
                 ->where('bulan', $key)
-                ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
+                ->when(!empty($filtered_jenis), function ($query) use ($filtered_jenis) {
                     return $query->where('jenis_kontrak_id', $filtered_jenis);
                 })
                 ->distinct('mitra_id')
@@ -59,7 +49,7 @@ class JumlahMitra extends Trend
         }
 
         return (new TrendResult)->trend($arr)
-            ->result($arr[Helper::$bulan[$filtered_bulan]])
+            ->result($arr[Helper::$bulan[date('m')]])
             ->suffix('Mitra')
             ->withoutSuffixInflection();
     }

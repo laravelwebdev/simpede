@@ -11,7 +11,7 @@ class KontrakMitra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak', 'jenis_honor', 'honor_kegiatan_id'];
+    protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak_id', 'jenis_honor', 'honor_kegiatan_id'];
 
     protected $casts = [
         'awal_kontrak' => 'date',

@@ -50,7 +50,7 @@ class KontrakMitra extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'jenis_kontrak', 'jenis_honor',
+        'nama_kontrak', 'bulan', 'jenis_kontrak_id', 'jenis_honor',
     ];
 
     /**
@@ -69,7 +69,7 @@ class KontrakMitra extends Resource
                 ->readonly()
                 ->exceptOnForms()
                 ->displayUsing(fn ($bulan) => $bulan ? Helper::$bulan[$bulan] : null),
-            Text::make('Jenis Kegiatan', 'jenis_kontrak')
+            Text::make('Jenis Kegiatan', 'jenis_kontrak_id')
                 ->readonly()
                 ->exceptOnForms()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),

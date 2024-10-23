@@ -4,7 +4,6 @@ namespace App\Nova\Metrics;
 
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
-use Laravel\Nova\Http\Requests\LensMetricRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
@@ -27,24 +26,17 @@ class JumlahKegiatan extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = date('m');
-        $filtered_jenis = null;
-        $queries = [];
-
-        parse_str(parse_url(request()->headers->get('referer'), PHP_URL_QUERY), $queries);
-
-        if (isset($queries['daftar-honor-mitras_filter'])) {
-            $filters = json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true), true);
-            $filtered_bulan = $filters['App\\Nova\\Filters\\BulanKontrak'][1] ?? $filtered_bulan;
-            $filtered_jenis = $filters['App\\Nova\\Filters\\JenisKontrak'][1] ?? null;
-        }
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_jenis= Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
         $bulan_ini = DB::table('daftar_honor_mitras')
             ->select('honor_kegiatans.id')
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->where('bulan', $filtered_bulan)
-            ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
+            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                return $query->where('bulan', $filtered_bulan);
+            })
+            ->when(!empty($filtered_jenis), function ($query) use ($filtered_jenis) {
                 return $query->where('jenis_kontrak_id', $filtered_jenis);
             })
             ->distinct('honor_kegiatans.id')
@@ -54,8 +46,10 @@ class JumlahKegiatan extends Value
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->where('bulan', $filtered_bulan - 1)
-            ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
+            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                return $query->where('bulan', $filtered_bulan-1);
+            })
+            ->when(!empty($filtered_jenis), function ($query) use ($filtered_jenis) {
                 return $query->where('jenis_kontrak_id', $filtered_jenis);
             })
             ->distinct('honor_kegiatans.id')

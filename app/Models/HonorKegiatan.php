@@ -66,7 +66,7 @@ class HonorKegiatan extends Model
             }
             if ($honor->jenis_honor !== 'Kontrak Mitra Bulanan') {
                 $honor->bulan = null;
-                $honor->jenis_kontrak = null;
+                $honor->jenis_kontrak_id = null;
             }
             if ($honor->isDirty('tahun')) {
                 $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
@@ -90,12 +90,12 @@ class HonorKegiatan extends Model
                 if ($honor->jenis_honor === 'Kontrak Mitra Bulanan') {
                     $kontrak = KontrakMitra::firstOrNew(
                         [
-                            'jenis_kontrak' => $honor->jenis_kontrak,
+                            'jenis_kontrak_id' => $honor->jenis_kontrak_id,
                             'bulan' => $honor->bulan,
                             'tahun' => $honor->tahun,
                         ]
                     );
-                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak), 'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak_id), 'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
                     $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();

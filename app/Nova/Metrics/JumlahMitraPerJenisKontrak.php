@@ -26,19 +26,8 @@ class JumlahMitraPerJenisKontrak extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = date('m');
-        $filtered_jenis = null;
-        $queries = [];
-
-        parse_str(parse_url(request()->headers->get('referer'), PHP_URL_QUERY), $queries);
-
-        if (isset($queries['daftar-honor-mitras_filter'])) {
-            $filters = json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true), true);
-            $filtered_bulan = $filters['App\\Nova\\Filters\\BulanKontrak'][1] ?? $filtered_bulan;
-            $filtered_jenis = $filters['App\\Nova\\Filters\\JenisKontrak'][1] ?? null;
-        }
-
-        $arr= DB::table('daftar_honor_mitras')
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'),'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $arr = DB::table('daftar_honor_mitras')
             ->selectRaw('jenis, count(distinct(mitra_id)) as jumlah_mitra')
             ->join(
                 'honor_kegiatans',
@@ -55,9 +44,8 @@ class JumlahMitraPerJenisKontrak extends Partition
             ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
-            ->where('bulan', $filtered_bulan)
-            ->when(isset($filtered_jenis), function ($query) use ($filtered_jenis) {
-                return $query->where('jenis_kontrak_id', $filtered_jenis);
+            ->when(!empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                return $query->where('bulan', $filtered_bulan);
             })
             ->groupBy('jenis_kontrak_id')
             ->pluck('jumlah_mitra', 'jenis')

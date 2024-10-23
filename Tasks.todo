@@ -6,32 +6,20 @@ Daftar Auth key
 
 List Simpede
     ☐ Penamaan file. Untuk field file adalah nama asli + uuid
-    ✔ Kontrak mitra hanya ada 1 model, jenis d kolom sendiri, ada kol adhoc id @done(24-10-08 02:48)
     ☐ Semua nomor otomatis pembuatannya hanya bisa maksimal hari ini
     ☐ Perjalanan lebih dari 1 tujuan untuk akimodir tanggal spd beririsan. Action ttp lewat tambah mata anggaran, 
     ☐ Persediaaan beli: dibuat, diberi kode, dibayar, diterima
     ☐ Bon persediaan: dibuat, disetujui
     ☐ Kontrak, bast: dibuat, download: selesai
     ☐ Ubah honor : dibuat,  sampai level daftar mitra
-    ✔ Tahun honor survei tergantung thun dipa @done(24-10-08 02:48)
     Fitur pemeliharaan
         ☐ 1. Ada list barang BMN kode, nub, nama, perloehan, penghapusan, ada action cetak kk dengan batas tanggal. Akhir
         ☐ 2. Hasmany user dg tanggal
         ☐ 3. Hasmany pemeliharaan dg jenis sparepart/bbm dan servis
-    Fitur honor survei
-        ✔ 1. Ada pipihan adhoc di bulan @done(24-10-08 02:48)
-        ✔ 2. Ada pilihan jenid di jenis kontrak @done(24-10-08 02:48)
-        ☐ 3. Ada pilihan trmplate konteak yang digunakan
-        ✔ 4. Tambah pegawai sama dengan mitra, juga ada pilihan mendapat honor @done(24-10-08 02:48)
-    ☐ Pembuatan otomatis honor survey dll tergantung event anggaran, bukan kerangka acuan
-    ☐ Kolom tahun tergantung tanggal, bukan session
     ☐ Semua hasmany punya file prunable
     ☐ Semua hasmany punya boot feleting destroy semua child
     ☐ Ada tanda naskah yg autogenerate, tidak bisa didelete dan beberapa firld readonly, tampilkan hanya d index dan detail
     ☐ Integrasi reminder hymas, ad reminder ykegiatan dr koordinator juga 
-    ☐ Image optimizer pada izin keluar test
-    ☐ Dasboard rekap honor pakai lense, jdkan default, ada kol jlh keg, jlh honor, kesesuaian sbml dan apakah lebih dr 1 jenis kontrak
-    ✔ Jika lewat bulan otomatis d ubah saat membaut honor survei @done(24-10-08 02:49)
     Grand design fitur pengadaan
         Resource
         ☐ 1. Jenis pengadaan termasuk d dalamnyabkolom template dan batas atas anggaran

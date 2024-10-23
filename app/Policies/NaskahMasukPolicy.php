@@ -46,7 +46,7 @@ class NaskahMasukPolicy
     public function update(User $user, NaskahMasuk $naskahMasuk): bool
     {
         return Policy::make()
-        ->allowedFor('anggota,koordinator,kepala,arsiparis')
+            ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahMasuk->tanggal))
             ->get();
     }
@@ -57,7 +57,7 @@ class NaskahMasukPolicy
     public function delete(User $user, NaskahMasuk $naskahMasuk): bool
     {
         return Policy::make()
-        ->allowedFor('anggota,koordinator,kepala,arsiparis')
+            ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahMasuk->tanggal))
             ->get();
     }

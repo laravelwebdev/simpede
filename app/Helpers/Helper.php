@@ -367,10 +367,9 @@ class Helper
     /**
      * Mem-parsing filter dari URL yang diberikan.
      *
-     * @param string $url URL yang akan di-parsing.
-     * @param string $filterUri URI filter yang akan dicari dalam query URL.
-     * @param string $filterKey Kunci filter yang akan diambil nilainya.
-     * 
+     * @param  string  $url  URL yang akan di-parsing.
+     * @param  string  $filterUri  URI filter yang akan dicari dalam query URL.
+     * @param  string  $filterKey  Kunci filter yang akan diambil nilainya.
      * @return string Nilai filter yang ditemukan berdasarkan kunci filter yang diberikan.
      */
     public static function parseFilterFromUrl($url, $filterUri, $filterKey, $defaultValue = null)
@@ -393,7 +392,7 @@ class Helper
                 )
             );
 
-            $filterValue= $filters[$filterKey];
+            $filterValue = $filters[$filterKey];
         }
 
         return $filterValue;

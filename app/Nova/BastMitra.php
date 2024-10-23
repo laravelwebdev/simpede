@@ -35,6 +35,7 @@ class BastMitra extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $kontrakMitraIds = KontrakMitra::where('tahun', session('year'))->get()->pluck('id');
+
         return $query->whereIn('kontrak_mitra_id', $kontrakMitraIds);
     }
 

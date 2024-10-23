@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Helpers\Policy;
 use App\Models\User;
 use Carbon\Carbon;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
@@ -27,7 +26,6 @@ class IzinKeluar extends Resource
     {
         return 'Izin Keluar';
     }
-    
 
     /**
      * The model the resource corresponds to.

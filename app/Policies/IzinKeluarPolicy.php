@@ -24,25 +24,10 @@ class IzinKeluarPolicy
      */
     public function view(User $user, IzinKeluar $izinKeluar): bool
     {
-        if (Policy::make()->allowedFor('kepala')->get()) {
-            return Policy::make()
-                ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
-                ->get();
-        }
-        if (Policy::make()->allowedFor('koordinator')->get()) {
-            return Policy::make()
-                ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
-                ->andEqual($user->unit_kerja_id, $izinKeluar->user->unit_kerja_id)
-                ->get();
-        }
-        if (Policy::make()->allowedFor('anggota')->get()) {
-            return Policy::make()
-                ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
-                ->andEqual($user->id, $izinKeluar->user_id)
-                ->get();
-        }
-
-        return false;
+        return Policy::make()
+            ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
+            ->allowedFor('kepala,anggota,koordinator')
+            ->get();
     }
 
     /**
@@ -51,7 +36,7 @@ class IzinKeluarPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('kepala,anggota,koordinator')
+            ->allowedFor('anggota')
             ->get();
     }
 
@@ -61,6 +46,7 @@ class IzinKeluarPolicy
     public function update(User $user, IzinKeluar $izinKeluar): bool
     {
         return Policy::make()
+            ->allowedFor('anggota')
             ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
             ->andEqual($user->id, $izinKeluar->user_id)
             ->get();
@@ -72,28 +58,7 @@ class IzinKeluarPolicy
     public function delete(User $user, IzinKeluar $izinKeluar): bool
     {
         return Policy::make()
-            ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
-            ->andEqual($user->id, $izinKeluar->user_id)
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, IzinKeluar $izinKeluar): bool
-    {
-        return Policy::make()
-            ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
-            ->andEqual($user->id, $izinKeluar->user_id)
-            ->get();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, IzinKeluar $izinKeluar): bool
-    {
-        return Policy::make()
+            ->allowedFor('anggota')
             ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
             ->andEqual($user->id, $izinKeluar->user_id)
             ->get();
@@ -105,6 +70,7 @@ class IzinKeluarPolicy
     public function replicate(User $user, IzinKeluar $izinKeluar): bool
     {
         return Policy::make()
+            ->allowedFor('anggota')
             ->withYear(Helper::getYearFromDate($izinKeluar->tanggal))
             ->andEqual($user->id, $izinKeluar->user_id)
             ->get();

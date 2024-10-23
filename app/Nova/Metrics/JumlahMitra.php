@@ -27,6 +27,7 @@ class JumlahMitra extends Trend
      */
     public function calculate(NovaRequest $request)
     {
+        $filtered_bulan = date('m');
         $filtered_jenis = null;
         $queries = [];
 
@@ -34,6 +35,7 @@ class JumlahMitra extends Trend
 
         if (isset($queries['daftar-honor-mitras_filter'])) {
             $filters = json_decode(base64_decode($queries['daftar-honor-mitras_filter'], true), true);
+            $filtered_bulan = $filters['App\\Nova\\Filters\\BulanKontrak'][1] ?? $filtered_bulan;
             $filtered_jenis = $filters['App\\Nova\\Filters\\JenisKontrak'][1] ?? null;
         }
         $arr = [];
@@ -57,7 +59,7 @@ class JumlahMitra extends Trend
         }
 
         return (new TrendResult)->trend($arr)
-            ->result($arr[Helper::$bulan[date('m')]])
+            ->result($arr[Helper::$bulan[$filtered_bulan]])
             ->suffix('Mitra')
             ->withoutSuffixInflection();
     }

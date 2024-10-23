@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 
-class JumlahMitraPerJenisKontrak extends Partition
+class ProporsiMitraPerJenisKontrak extends Partition
 {
     /**
      * Get the displayable name of the metric.

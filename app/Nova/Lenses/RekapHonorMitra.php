@@ -7,7 +7,7 @@ use App\Nova\Filters\BulanKontrak;
 use App\Nova\Filters\JenisKontrak;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
-use App\Nova\Metrics\JumlahMitraPerJenisKontrak;
+use App\Nova\Metrics\KesesuaianSbml;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -49,8 +49,10 @@ class RekapHonorMitra extends Lens
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
                 ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->groupBy(['bulan', 'mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
+                ->orderBy('jenis_kontrak_id', 'asc')
                 ->orderBy('bulan', 'desc')
                 ->orderBy('nilai_kontrak', 'desc'));
+
     }
 
     /**
@@ -95,9 +97,10 @@ class RekapHonorMitra extends Lens
             JumlahMitra::make()
                 ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan')
                 ->refreshWhenFiltersChange(),
-            JumlahMitraPerJenisKontrak::make()
-                ->help('Proporsi Jumlah mitra yang berkontrak menurut jenis kontrak')
+            KesesuaianSbml::make()
+                ->help('Jumlah Kontrak dengan nilai tidak melebihi SBML')
                 ->refreshWhenFiltersChange(),
+
         ];
     }
 

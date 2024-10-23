@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KodeArsip;
+use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use Laravel\Nova\Fields\BelongsTo;
@@ -29,6 +30,12 @@ class BastMitra extends Resource
     public static function label()
     {
         return 'BAST Mitra';
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $kontrakMitraIds = KontrakMitra::where('tahun', session('year'))->get()->pluck('id');
+        return $query->whereIn('kontrak_mitra_id', $kontrakMitraIds);
     }
 
     /**

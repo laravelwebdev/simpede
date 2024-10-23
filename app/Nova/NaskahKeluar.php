@@ -31,6 +31,11 @@ class NaskahKeluar extends Resource
         return 'Naskah Keluar';
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->whereYear('tanggal', session('year'));
+    }
+
     /**
      * The model the resource corresponds to.
      *

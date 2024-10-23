@@ -44,6 +44,11 @@ class HonorKegiatan extends Resource
         return 'Honor Kegiatan';
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'));
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

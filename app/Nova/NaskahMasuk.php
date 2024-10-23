@@ -27,6 +27,11 @@ class NaskahMasuk extends Resource
         return 'Naskah Masuk';
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->whereYear('tanggal', session('year'));
+    }
+
     /**
      * The model the resource corresponds to.
      *

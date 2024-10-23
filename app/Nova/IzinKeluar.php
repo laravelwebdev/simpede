@@ -27,6 +27,7 @@ class IzinKeluar extends Resource
     {
         return 'Izin Keluar';
     }
+    
 
     /**
      * The model the resource corresponds to.
@@ -59,13 +60,7 @@ class IzinKeluar extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $users = User::cache()->get('all')->where('unit_kerja_id', $request->user()->unit_kerja_id)->pluck('id')->toArray();
-        if (Policy::make()->allowedFor('anggota')->get()) {
-            return $query->where('user_id', $request->user()->id);
-        }
-        if (Policy::make()->allowedFor('koordinator')->get()) {
-            return $query->whereIn('user_id', $users);
-        }
+        $query->whereYear('tanggal', session('year'));
     }
 
     /**

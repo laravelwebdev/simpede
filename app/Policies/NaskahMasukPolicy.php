@@ -36,7 +36,7 @@ class NaskahMasukPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->get();
     }
 
@@ -46,7 +46,7 @@ class NaskahMasukPolicy
     public function update(User $user, NaskahMasuk $naskahMasuk): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+        ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahMasuk->tanggal))
             ->get();
     }
@@ -57,7 +57,7 @@ class NaskahMasukPolicy
     public function delete(User $user, NaskahMasuk $naskahMasuk): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+        ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahMasuk->tanggal))
             ->get();
     }
@@ -68,7 +68,7 @@ class NaskahMasukPolicy
     public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->get();
     }
 }

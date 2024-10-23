@@ -32,6 +32,11 @@ class KontrakMitra extends Resource
         return 'Kontrak Mitra';
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'));
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

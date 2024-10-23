@@ -57,9 +57,9 @@ class User extends Resource
         return [
             Avatar::make('Avatar')->disableDownload()->disk('avatars')->prunable(),
             Panel::make('Akun', [
-                Text::make('Email')
+                Text::make('Username','email')
                     ->sortable()
-                    ->rules('required', 'email', 'max:254')
+                    ->rules('required', 'regex:/^[0-9A-Za-z.\-_]+$/u', 'max:254')
                     ->creationRules('unique:users,email')
                     ->updateRules('unique:users,email,{{resourceId}}'),
                 Password::make('Password')->onlyOnForms()

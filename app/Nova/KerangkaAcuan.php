@@ -205,18 +205,22 @@ class KerangkaAcuan extends Resource
                 ->help('Contoh : Pembayaran Honor......    Pembayaran Biaya Perjalanan Dinas dalam rangka...      Pengadaan Perlengkapan....'),
             Textarea::make('Latar Belakang', 'latar')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh : Kegiatan PLKUMKM merupakan salah satu kegiatan yang dilakukan oleh Badan Pusat Statistik dalam rangka mendukung penyediaan Data Statistik sesuai amanat Undang-Undang no 16 Tahun 1997. Agar kegiatan tersebut dapat berjalan dengan lancar dan tepat waktu diperlukan adanya penyediaan ATK Pelatihan Petugas PLKUMKM sebagai sarana penunjang kegiatan yang dilaksanakan.'),
             Textarea::make('Maksud', 'maksud')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh: Maksud dari pelaksanaan kegiatan ini adalah untuk menyediakan ATK Pelatihan Petugas PLKUMKM.')
                 ->default('Maksud dari pelaksanaan kegiatan ini adalah untuk '),
             Textarea::make('Tujuan', 'tujuan')
                 ->rules('required')
+                ->alwaysShow()
                 ->help('Contoh: Tujuan dari pelaksanaan kegiatan ini adalah tersedianya ATK Pelatihan Petugas PLKUMKM tepat waktu. Dengan ini diharapkan pelaksanaan PLKUMKM  dapat berjalan dengan lancar dan efektif.')
                 ->default('Tujuan dari pelaksanaan kegiatan ini adalah '),
             Textarea::make('Target/Sasaran', 'sasaran')
                 ->help('Contoh: Target/sasaran yang ingin dicapai terkait dengan pelaksanaan kegiatan ini adalah Kegiatan PLKUMKM dapat berjalan dengan lancar.')
                 ->rules('required')
+                ->alwaysShow()
                 ->default('Target/sasaran yang ingin dicapai terkait dengan pelaksanaan kegiatan ini adalah '),
             Text::make('Nama Survei/Kegiatan', 'kegiatan')
                 ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e248a8857a9d6fe22951d471df2e8e3",
+    "content-hash": "0b0356d2ac80aa5d244d9fccd1686728",
     "packages": [
         {
             "name": "brick/math",
@@ -1547,16 +1547,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.28.1",
+            "version": "v11.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c"
+                "reference": "425054512c362835ba9c0307561973c8eeac7385"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c",
-                "reference": "3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/425054512c362835ba9c0307561973c8eeac7385",
+                "reference": "425054512c362835ba9c0307561973c8eeac7385",
                 "shasum": ""
             },
             "require": {
@@ -1752,15 +1752,15 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-10-16T16:32:21+00:00"
+            "time": "2024-10-22T14:13:31+00:00"
         },
         {
             "name": "laravel/nova",
-            "version": "4.35.3",
+            "version": "4.35.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravelwebdev/admin-simpede.git",
-                "reference": "0a2a8c01c9cdef151b40bc666c58fc0f06dbc5ed"
+                "reference": "48608b899199bb14d6ddb41c3954c600c9e9e950"
             },
             "require": {
                 "brick/money": "^0.5|^0.6|^0.7|^0.8|^0.9",
@@ -1869,7 +1869,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2024-10-10T22:30:43+00:00"
+            "time": "2024-10-24T08:59:35+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -9124,12 +9124,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

@@ -61,13 +61,22 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->rules('required', 'gt:1')
                 ->min(1)
                 ->step(1),
-            Currency::make('Total', 'total_harga')
-                ->onlyOnIndex()
-                ->doNotSaveOnActionRelation(),
             Textarea::make('Spesifikasi')
                 ->rules('required')
                 ->alwaysShow()
                 ->placeholder('Mohon diisi secara detail dan spesifik'),
+        ];
+    }
+
+    public function fieldsforIndex(NovaRequest $request)
+    {
+        return [
+            Text::make('Rincian'),
+            Number::make('Volume'),
+            Text::make('Satuan'),
+            Currency::make('Harga Satuan'),
+            Currency::make('Total', 'total_harga'),
+            Textarea::make('Spesifikasi'),
         ];
     }
 

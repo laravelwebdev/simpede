@@ -28,6 +28,7 @@ class JumlahMitra extends Trend
     public function calculate(NovaRequest $request)
     {
         $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = [];
         foreach (Helper::$bulan as $key => $value) {
             $arr[$value] = DB::table('daftar_honor_mitras')
@@ -47,11 +48,15 @@ class JumlahMitra extends Trend
                 ->distinct('mitra_id')
                 ->count();
         }
+        if ($filtered_bulan == '') {
+            return (new TrendResult)->trend($arr);
+        } else {
+            return (new TrendResult)->trend($arr)
+                ->result($arr[Helper::$bulan[$filtered_bulan]])
+                ->suffix('Mitra')
+                ->withoutSuffixInflection();
+        }
 
-        return (new TrendResult)->trend($arr)
-            ->result($arr[Helper::$bulan[date('m')]])
-            ->suffix('Mitra')
-            ->withoutSuffixInflection();
     }
 
     /**

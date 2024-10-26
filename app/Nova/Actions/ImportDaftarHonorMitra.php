@@ -11,7 +11,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -36,11 +38,16 @@ class ImportDaftarHonorMitra extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $sheetName = Helper::getLastSheetName($fields->file);
         $honor = $this->model->first();
+        throw_if(
+            $honor->status == 'dibuat',
+            'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan diimport melalui menu Sunting'
+        );
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use ($honor, $fields) {
-            if (strlen($row['NIP Lama']) == 16) {
-                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
+        (new FastExcel)->sheet(2)->import($fields->file, function ($row) use ($honor, $fields) {
+            if (strlen($row['nip']) == 16) {
+                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['nip'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
                 $daftarHonorMitra = DaftarHonorMitra::firstOrNew(
                     [
                         'mitra_id' => $mitra_id,
@@ -48,11 +55,10 @@ class ImportDaftarHonorMitra extends Action
                     ]
                 );
 
-                $daftarHonorMitra->volume_realisasi = $row['Volume'] ?: 0;
-                $daftarHonorMitra->volume_target = $row['Volume'] ?: 0;
-                $daftarHonorMitra->status_realisasi = 'Selesai Sesuai Target';
-                $daftarHonorMitra->harga_satuan = $row['HargaSatuan'] ?: 0;
-                $daftarHonorMitra->persen_pajak = $row['PersentasePajak'] ?: 0;
+                $daftarHonorMitra->volume_realisasi = $fields->volume;
+                $daftarHonorMitra->volume_target = $fields->volume;
+                $daftarHonorMitra->harga_satuan = $fields->harga_satuan;
+                $daftarHonorMitra->persen_pajak = $fields->persen_pajak;
                 $daftarHonorMitra->updated_at = now();
 
                 $daftarHonorMitra->save();
@@ -60,8 +66,10 @@ class ImportDaftarHonorMitra extends Action
         });
         $ids = DaftarHonorMitra::where('updated_at', null)->get()->pluck('id');
         DaftarHonorMitra::destroy($ids);
+        $honor->sheet_name = $sheetName;
+        $honor->save();
 
-        return Action::message('File BOS sukses diimport!');
+        return Action::message('File BOS Sukses diimport!');
     }
 
     /**
@@ -74,6 +82,16 @@ class ImportDaftarHonorMitra extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
+            Number::make('Volume', 'volume')
+                ->step(0.01)
+                ->help('Default Volume Pekerjaan'),
+            Currency::make('Harga Satuan', 'harga_satuan')
+                ->currency('IDR')
+                ->locale('id')
+                ->help('Default Harga Satuan'),
+            Number::make('Persentase Pajak', 'persen_pajak')
+                ->step(0.01)
+                ->help('Default Persentase Pajak'),
             Select::make('Kepka Mitra', 'kepka_mitra_id')
                 ->rules('required')
                 ->options(Helper::setOptionKepkaMitra($this->model->first()->tahun)),

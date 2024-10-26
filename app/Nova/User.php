@@ -77,6 +77,11 @@ class User extends Resource
                     ->creationRules('unique:users,nip')
                     ->updateRules('unique:users,nip,{{resourceId}}')
                     ->rules('required', 'size:18'),
+                Text::make('NIP Lama', 'nip_lama')
+                    ->placeholder('NIP Lama')
+                    ->creationRules('unique:users,nip_lama')
+                    ->updateRules('unique:users,nip_lama,{{resourceId}}')
+                    ->rules('required', 'size:9'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),

@@ -9,6 +9,7 @@ use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
+use App\Nova\Actions\ExportTemplateBos;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
@@ -351,6 +352,12 @@ class HonorKegiatan extends Resource
                     ->showOnDetail()
                     ->exceptOnIndex()
                     ->confirmButtonText('Unduh');
+            $actions[] =
+            ExportTemplateBos::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex()
+                    ->confirmButtonText('Export');
             $actions[] =
                 Download::make('st', 'Unduh Surat Tugas')
                     ->showInline()

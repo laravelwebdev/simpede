@@ -42,7 +42,9 @@ class DaftarHonorMitraPolicy
      */
     public function update(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('koordinator,anggota')
+            ->get();
     }
 
     /**

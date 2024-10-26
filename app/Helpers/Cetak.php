@@ -261,7 +261,7 @@ class Cetak
             $honor = HonorKegiatan::where('id', $model_id)->first();
             throw_if(
                 $honor->status == 'dibuat',
-                'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Ubah'
+                'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Sunting'
             );
             throw_if(
                 $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),

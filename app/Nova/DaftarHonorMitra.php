@@ -55,25 +55,34 @@ class DaftarHonorMitra extends Resource
         $kegiatan = HonorKegiatan::find($this->honor_kegiatan_id);
         if ($request->viaResource === 'honor-kegiatans') {
             return [
+                Text::make('NIK', fn () => $mitra->nik)
+                    ->readonly(),
                 Text::make('Nama', fn () => $mitra->nama)
-                    ->onlyOnIndex(),
+                    ->readonly(),
                 Text::make('Golongan', fn () => '-')
                     ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
-                    ->onlyOnIndex(),
+                    ->rules('required', 'gt:0')
+                    ->step(0.01),
                 Number::make('Realisasi', 'volume_realisasi')
-                    ->onlyOnIndex(),
+                    ->rules('required', 'gt:0')
+                    ->step(0.01),
                 Status::make('Status', 'status_realisasi')
                     ->loadingWhen(['Loading'])
-                    ->failedWhen(['Selesai Tidak Sesuai Target']),
+                    ->failedWhen(['Selesai Tidak Sesuai Target'])
+                    ->onlyOnIndex(),
                 Currency::make('Harga Satuan', 'harga_satuan')
                     ->currency('IDR')
                     ->locale('id')
-                    ->onlyOnIndex(),
+                    ->step(1)
+                    ->rules('required', 'gt:0'),
                 Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                     ->currency('IDR')
                     ->locale('id')
                     ->onlyOnIndex(),
+                Number::make('Persentase Pajak', 'persen_pajak')
+                    ->onlyOnForms()
+                    ->step(0.01),
                 Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->currency('IDR')
                     ->locale('id')
@@ -161,8 +170,6 @@ class DaftarHonorMitra extends Resource
             if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
                 $actions[] =
                     EditRekening::make('mitra')->onlyInline();
-                $actions[] =
-                    EditTarget::make()->onlyInline();
             }
             if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResourceId) {
                 $actions[] =
@@ -174,4 +181,10 @@ class DaftarHonorMitra extends Resource
 
         return $actions;
     }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-mitra';
+    }
+
 }

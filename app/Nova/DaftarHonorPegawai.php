@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
@@ -51,15 +52,15 @@ class DaftarHonorPegawai extends Resource
                 ->rules('required')
                 ->searchable()
                 ->options(Helper::setOptionPengelola('anggota', Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj')))
-                ->creationRules('unique:daftar_honor_pegawais,user_id')
-                ->updateRules('unique:daftar_honor_pegawais,user_id,{{resourceId}}')
+                ->updateRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId)->ignore($this->id))
+                ->creationRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId))
                 ->onlyOnForms(),
             Text::make('Nama', fn () => $user->name)
                 ->exceptOnForms(),
             Text::make('Golongan', fn () => Helper::getDataPegawaiByUserId($user->id, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj'))->golongan)
                 ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
-                ->step(1)
+                ->step(0.01)
                 ->rules('nullable','bail','gt:0')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Currency::make('Harga Satuan', 'harga_satuan')
@@ -80,6 +81,7 @@ class DaftarHonorPegawai extends Resource
                 ->exceptOnForms(),
             Number::make('Persentase Pajak (%)', 'persen_pajak')
                 ->hide()
+                ->step(0.01)
                 ->dependsOn(['volume','user_id'], function (Number $field, NovaRequest $request, FormData $formData) {                        
                     if ($formData->volume <> null) {
                         $field->show();

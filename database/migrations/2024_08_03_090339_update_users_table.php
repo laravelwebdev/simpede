@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->after('id', function (Blueprint $table) {
                 $table->string('avatar')->nullable();
-                $table->string('nip', 30)->nullable();
+                $table->string('nip', 20)->nullable();
+                $table->string('nip_lama', 10)->nullable();
             });
             $table->after('nip', function (Blueprint $table) {
                 $table->string('rekening', 40)->nullable();

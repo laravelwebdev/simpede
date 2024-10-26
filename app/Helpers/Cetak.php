@@ -198,7 +198,7 @@ class Cetak
             'total_bruto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('bruto')),
             'total_pajak' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('pajak')),
             'total_netto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('netto')),
-            'total_volume' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('volume_realisasi')),
+            'total_volume' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('volume')),
             'ketua' => Helper::getPropertyFromCollection($koordinator, 'name'),
             'nipketua' => Helper::getPropertyFromCollection($koordinator, 'nip'),
             'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),

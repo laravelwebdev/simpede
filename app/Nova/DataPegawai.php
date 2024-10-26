@@ -63,6 +63,7 @@ class DataPegawai extends Resource
             Text::make('Jabatan')
                 ->rules('required'),
             BelongsTo::make('Unit Kerja')
+                ->noPeeking()
                 ->rules('required')
                 ->filterable(),
         ];

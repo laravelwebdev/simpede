@@ -59,9 +59,11 @@ class DaftarKontrakMitra extends Resource
             Text::make('Nama', fn () => Helper::getPropertyFromCollection($mitra, 'nama'))
                 ->readOnly(),
             BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
-                ->readOnly(),
+                ->readOnly()
+                ->noPeeking(),
             BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\NaskahKeluar')
-                ->readOnly(),
+                ->readOnly()
+                ->noPeeking(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak')

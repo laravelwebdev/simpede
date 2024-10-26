@@ -79,7 +79,8 @@ class KerangkaAcuan extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', 'tanggal', [
-                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar'),
+                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
+                    ->noPeeking(),
                 Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
@@ -199,6 +200,7 @@ class KerangkaAcuan extends Resource
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
+                ->noPeeking()
                 ->onlyOnDetail(),
             Text::make('Rincian', 'rincian')
                 ->rules('required')

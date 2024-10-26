@@ -79,6 +79,7 @@ class HonorKegiatan extends Resource
                     ->rules('required')
                     ->sortable()
                     ->readOnly()
+                    ->noPeeking()
                     ->hideWhenUpdating(),
                 Text::make('Nama Kegiatan', 'kegiatan')
                     ->rules('required')
@@ -180,6 +181,7 @@ class HonorKegiatan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->noPeeking()
                     ->onlyOnDetail(),
                 Select::make('Klasifikasi Arsip', 'sk_kode_arsip_id')
                     ->searchable()
@@ -225,6 +227,7 @@ class HonorKegiatan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->noPeeking()
                     ->onlyOnDetail(),
 
                 Text::make('Uraian Tugas', 'uraian_tugas')

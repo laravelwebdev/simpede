@@ -67,7 +67,8 @@ class BastMitra extends Resource
 
         return [
             BelongsTo::make('Kontrak Mitra')
-                ->onlyOnIndex(),
+                ->onlyOnIndex()
+                ->noPeeking(),
             Date::make('Tanggal BAST', 'tanggal_bast')
                 ->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);

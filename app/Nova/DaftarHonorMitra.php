@@ -6,10 +6,12 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
+use App\Nova\Actions\EditTarget;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use App\Nova\Lenses\RekapHonorMitra;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -57,21 +59,26 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
                 Text::make('Golongan', fn () => '-')
                     ->onlyOnIndex(),
-                Number::make('Jumlah', 'volume')
+                Number::make('Target', 'volume_target')
                     ->onlyOnIndex(),
+                Number::make('Realisasi', 'volume_realisasi')
+                    ->onlyOnIndex(),
+                Status::make('Status', 'status_realisasi')
+                    ->loadingWhen(['Loading'])
+                    ->failedWhen(['Selesai Tidak Sesuai Target']),
                 Currency::make('Harga Satuan', 'harga_satuan')
                     ->currency('IDR')
                     ->locale('id')
                     ->onlyOnIndex(),
-                Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
+                Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                     ->currency('IDR')
                     ->locale('id')
                     ->onlyOnIndex(),
-                Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->currency('IDR')
                     ->locale('id')
                     ->onlyOnIndex(),
-                Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->currency('IDR')
                     ->locale('id')
                     ->onlyOnIndex(),
@@ -83,21 +90,26 @@ class DaftarHonorMitra extends Resource
         return [
             Text::make('Kegiatan', fn () => $kegiatan->kegiatan)
                 ->onlyOnIndex(),
-            Number::make('Jumlah', 'volume')
+            Number::make('Target', 'volume_target')
                 ->onlyOnIndex(),
+            Number::make('Realisasi', 'volume_realisasi')
+                ->onlyOnIndex(),
+            Status::make('Status', 'status_realisasi')
+                ->loadingWhen(['Loading'])
+                ->failedWhen(['Selesai Tidak Sesuai Target']),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
+            Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
-            Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->currency('IDR')
                 ->locale('id')
                 ->onlyOnIndex(),
@@ -149,6 +161,8 @@ class DaftarHonorMitra extends Resource
             if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
                 $actions[] =
                     EditRekening::make('mitra')->onlyInline();
+                $actions[] =
+                    EditTarget::make()->onlyInline();
             }
             if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResourceId) {
                 $actions[] =

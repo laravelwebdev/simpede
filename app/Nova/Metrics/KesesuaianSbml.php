@@ -30,7 +30,7 @@ class KesesuaianSbml extends Partition
             ->from(
                 DB::table('daftar_honor_mitras')
                     ->selectRaw(
-                        'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak, sum(volume * harga_satuan) < sbml as valid_sbml '
+                        'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml '
                     )
                     ->whereIn('honor_kegiatan_id', function ($query) use ($filtered_bulan, $filtered_jenis) {
                         $query

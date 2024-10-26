@@ -43,7 +43,7 @@ class GenerateKontrakMitra extends Action
         }
 
         $mitras = DB::table('daftar_honor_mitras')
-            ->selectRaw('mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak')
+            ->selectRaw('mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak')
             ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
             ->groupBy('mitra_id')
             ->get();

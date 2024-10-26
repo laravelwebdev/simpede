@@ -673,8 +673,8 @@ class Helper
             $item['golongan'] = '-';
             $item['nip'] = '-';
             $item['jabatan'] = 'Mitra Statistik';
-            $item['bruto'] = $item['volume'] * $item['harga_satuan'];
-            $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
+            $item['bruto'] = $item['volume_realisasi'] * $item['harga_satuan'];
+            $item['pajak'] = round($item['volume_realisasi'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             unset($item['mitra_id']);
             unset($item['id']);

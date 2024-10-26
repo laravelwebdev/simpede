@@ -48,7 +48,9 @@ class ImportDaftarHonorMitra extends Action
                     ]
                 );
 
-                $daftarHonorMitra->volume = $row['Volume'] ?: 0;
+                $daftarHonorMitra->volume_realisasi = $row['Volume'] ?: 0;
+                $daftarHonorMitra->volume_target = $row['Volume'] ?: 0;
+                $daftarHonorMitra->status_realisasi = 'Selesai Sesuai Target';
                 $daftarHonorMitra->harga_satuan = $row['HargaSatuan'] ?: 0;
                 $daftarHonorMitra->persen_pajak = $row['PersentasePajak'] ?: 0;
                 $daftarHonorMitra->updated_at = now();

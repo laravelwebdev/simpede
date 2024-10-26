@@ -37,7 +37,7 @@ class RekapHonorMitra extends Lens
     {
         return $request->withOrdering(
             $query->selectRaw(
-                'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume * harga_satuan) as nilai_kontrak, sum(volume * harga_satuan) < sbml as valid_sbml '
+                'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml '
             )
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
                     $request->withFilters($query->select('id')->from('honor_kegiatans')

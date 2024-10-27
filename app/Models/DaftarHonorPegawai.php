@@ -15,7 +15,7 @@ class DaftarHonorPegawai extends Model
             if ($honor->isDirty()) {
                 HonorKegiatan::find($honor->honor_kegiatan_id)->update(['status' => 'dibuat']);
             }
-            if (!$honor->volume) {
+            if (! $honor->volume) {
                 $honor->harga_satuan = null;
                 $honor->persen_pajak = null;
             }

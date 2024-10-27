@@ -33,15 +33,15 @@ class JumlahMitra extends Trend
         $query = DB::table('daftar_honor_mitras')
             ->select(DB::raw('bulan, COUNT(DISTINCT mitra_id) as mitra_count'))
             ->join(
-            'honor_kegiatans',
-            'honor_kegiatans.id',
-            '=',
-            'daftar_honor_mitras.honor_kegiatan_id'
+                'honor_kegiatans',
+                'honor_kegiatans.id',
+                '=',
+                'daftar_honor_mitras.honor_kegiatan_id'
             )
             ->where('jenis_honor', 'Kontrak Mitra Bulanan')
             ->where('tahun', session('year'))
             ->when(! empty($filtered_jenis), function ($query) use ($filtered_jenis) {
-            return $query->where('jenis_kontrak_id', $filtered_jenis);
+                return $query->where('jenis_kontrak_id', $filtered_jenis);
             })
             ->groupBy('bulan')
             ->get();
@@ -57,7 +57,6 @@ class JumlahMitra extends Trend
                 ->suffix('Mitra')
                 ->withoutSuffixInflection();
         }
-
     }
 
     /**

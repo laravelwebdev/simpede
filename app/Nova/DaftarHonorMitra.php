@@ -4,9 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
-use App\Nova\Actions\EditTarget;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use App\Nova\Lenses\RekapHonorMitra;
 use Laravel\Nova\Fields\Currency;
@@ -183,5 +181,4 @@ class DaftarHonorMitra extends Resource
     {
         return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-mitra';
     }
-
 }

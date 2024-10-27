@@ -16,7 +16,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorPegawai extends Resource
 {
-
     public static $displayInNavigation = false;
 
     /**
@@ -45,6 +44,7 @@ class DaftarHonorPegawai extends Resource
     public function fields(NovaRequest $request)
     {
         $user = Helper::getPegawaiByUserId($this->user_id);
+
         return [
             Select::make('Nama Pegawai', 'user_id')
                 ->rules('required')
@@ -59,18 +59,17 @@ class DaftarHonorPegawai extends Resource
                 ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
                 ->step(0.01)
-                ->rules('nullable','bail','gt:0')
+                ->rules('nullable', 'bail', 'gt:0')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->currency('IDR')
                 ->locale('id')
                 ->hide()
-                ->dependsOn(['volume'], function (Number $field, NovaRequest $request, FormData $formData) {                        
-                    if ($formData->volume <> null) {
+                ->dependsOn(['volume'], function (Number $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->volume != null) {
                         $field->show();
-                        $field->rules('required','gt:0');                      
+                        $field->rules('required', 'gt:0');
                     }
-                    
                 })
                 ->step(1),
             Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
@@ -80,14 +79,12 @@ class DaftarHonorPegawai extends Resource
             Number::make('Persentase Pajak (%)', 'persen_pajak')
                 ->hide()
                 ->step(0.01)
-                ->dependsOn(['volume','user_id'], function (Number $field, NovaRequest $request, FormData $formData) {                        
-                    if ($formData->volume <> null) {
+                ->dependsOn(['volume', 'user_id'], function (Number $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->volume != null) {
                         $field->show();
                         $field->rules('required');
                         $field->setvalue(Helper::$pajakgolongan[Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($formData->user_id, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj')), 'golongan') ?? 'I/a']);
-                    
                     }
-                    
                 })->onlyOnForms(),
             Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->currency('IDR')

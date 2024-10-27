@@ -23,8 +23,8 @@ class DaftarHonorMitra extends Model
                 HonorKegiatan::find($honor->honor_kegiatan_id)->update(['status' => 'dibuat']);
             }
             if ($honor->volume_realisasi != $honor->volume_target) {
-                $honor->status_realisasi = $honor->volume_realisasi < $honor->volume_target 
-                ? 'Selesai Tidak Sesuai Target' 
+                $honor->status_realisasi = $honor->volume_realisasi < $honor->volume_target
+                ? 'Selesai Tidak Sesuai Target'
                 : 'Selesai Melebihi Target';
             } else {
                 $honor->status_realisasi = 'Selesai Sesuai Target';

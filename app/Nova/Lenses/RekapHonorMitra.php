@@ -52,7 +52,6 @@ class RekapHonorMitra extends Lens
                 ->orderBy('jenis_kontrak_id', 'asc')
                 ->orderBy('bulan', 'desc')
                 ->orderBy('nilai_kontrak', 'desc'));
-
     }
 
     /**

@@ -37,7 +37,7 @@ class ExportTemplateBos extends Action
         $sheetCollection = Helper::makeCollectionForExportOnSheet($model->id, $model->tangal_spj, 1);
         if (in_array($satuan, ['OB', 'BULAN', '0B'])) {
             $sheetCollection = Helper::makeCollectionForExportOnSheet($model->id, $model->tangal_spj, 1, $fields->awal, $fields->akhir);
-        } 
+        }
         $filename = $fields->filename.'.xlsx';
         $sheets = new SheetCollection([
             'Template' => $sheetCollection,
@@ -57,7 +57,6 @@ class ExportTemplateBos extends Action
      */
     public function fields(NovaRequest $request)
     {
-
         return [
             Select::make('Bulan Awal', 'awal')
                 ->options(Helper::$bulan)

@@ -30,23 +30,24 @@ class JumlahMitra extends Trend
         $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = [];
+        $query = DB::table('daftar_honor_mitras')
+            ->select(DB::raw('bulan, COUNT(DISTINCT mitra_id) as mitra_count'))
+            ->join(
+            'honor_kegiatans',
+            'honor_kegiatans.id',
+            '=',
+            'daftar_honor_mitras.honor_kegiatan_id'
+            )
+            ->where('jenis_honor', 'Kontrak Mitra Bulanan')
+            ->where('tahun', session('year'))
+            ->when(! empty($filtered_jenis), function ($query) use ($filtered_jenis) {
+            return $query->where('jenis_kontrak_id', $filtered_jenis);
+            })
+            ->groupBy('bulan')
+            ->get();
+
         foreach (Helper::$bulan as $key => $value) {
-            $arr[$value] = DB::table('daftar_honor_mitras')
-                ->select('mitra_id')
-                ->join(
-                    'honor_kegiatans',
-                    'honor_kegiatans.id',
-                    '=',
-                    'daftar_honor_mitras.honor_kegiatan_id'
-                )
-                ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-                ->where('tahun', session('year'))
-                ->where('bulan', $key)
-                ->when(! empty($filtered_jenis), function ($query) use ($filtered_jenis) {
-                    return $query->where('jenis_kontrak_id', $filtered_jenis);
-                })
-                ->distinct('mitra_id')
-                ->count();
+            $arr[$value] = $query->firstWhere('bulan', $key)->mitra_count ?? 0;
         }
         if ($filtered_bulan == '') {
             return (new TrendResult)->trend($arr);

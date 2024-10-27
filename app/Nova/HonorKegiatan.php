@@ -10,6 +10,8 @@ use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
+use App\Nova\Metrics\HelperHonorKegiatan;
+use DigitalCreative\NovaWelcomeCard\WelcomeCard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
@@ -314,7 +316,10 @@ class HonorKegiatan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+          HelperHonorKegiatan::make()
+          ->width('full'),
+        ];
     }
 
     /**
@@ -354,10 +359,10 @@ class HonorKegiatan extends Resource
                     ->confirmButtonText('Unduh');
             $actions[] =
             ExportTemplateBos::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex()
-                    ->confirmButtonText('Export');
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Export');
             $actions[] =
                 Download::make('st', 'Unduh Surat Tugas')
                     ->showInline()

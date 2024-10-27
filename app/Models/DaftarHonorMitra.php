@@ -11,6 +11,11 @@ class DaftarHonorMitra extends Model
 
     protected $fillable = ['mitra_id', 'honor_kegiatan_id'];
 
+    public function honorKegiatan()
+    {
+        return $this->belongsTo(HonorKegiatan::class, 'honor_kegiatan_id');
+    }
+
     protected static function booted(): void
     {
         static::saving(function (DaftarHonorMitra $honor) {

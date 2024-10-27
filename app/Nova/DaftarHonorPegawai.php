@@ -16,7 +16,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorPegawai extends Resource
 {
-    public static $perPageViaRelationship = 10;
 
     public static $displayInNavigation = false;
 
@@ -46,7 +45,6 @@ class DaftarHonorPegawai extends Resource
     public function fields(NovaRequest $request)
     {
         $user = Helper::getPegawaiByUserId($this->user_id);
-
         return [
             Select::make('Nama Pegawai', 'user_id')
                 ->rules('required')

@@ -17,9 +17,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorMitra extends Resource
 {
-    public static $perPageViaRelationship = 10;
-
     public static $displayInNavigation = false;
+    public static $with = ['honorKegiatan'];
 
     /**
      * The model the resource corresponds to.
@@ -52,15 +51,13 @@ class DaftarHonorMitra extends Resource
     public function fields(NovaRequest $request)
     {
         $mitra = Helper::getMitraById($this->mitra_id);
-        $kegiatan = HonorKegiatan::find($this->honor_kegiatan_id);
+        $kegiatan = $this->honorKegiatan;
         if ($request->viaResource === 'honor-kegiatans') {
             return [
                 Text::make('NIK', fn () => $mitra->nik)
                     ->readonly(),
                 Text::make('Nama', fn () => $mitra->nama)
                     ->readonly(),
-                Text::make('Golongan', fn () => '-')
-                    ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
                     ->rules('required', 'gt:0')
                     ->step(0.01),

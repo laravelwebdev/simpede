@@ -77,7 +77,6 @@ class KesesuaianSbml extends Partition
             }
 
             return ['Tidak Ada Data' => 0];
-
         });
 
         return $this

@@ -11,7 +11,6 @@ use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
 use App\Nova\Metrics\HelperHonorKegiatan;
-use DigitalCreative\NovaWelcomeCard\WelcomeCard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
@@ -317,8 +316,8 @@ class HonorKegiatan extends Resource
     public function cards(NovaRequest $request)
     {
         return [
-          HelperHonorKegiatan::make()
-          ->width('full'),
+            HelperHonorKegiatan::make()
+                ->width('full'),
         ];
     }
 

@@ -810,67 +810,66 @@ class Helper
             ->toArray();
     }
 
-    public static function makeCollectionForExportOnSheet($honor_kegiatan_id, $tanggal, $sheet_no = 1, $awal ='', $akhir = '')
+    public static function makeCollectionForExportOnSheet($honor_kegiatan_id, $tanggal, $sheet_no = 1, $awal = '', $akhir = '')
     {
         // TODO: ada OB selain bulanan harus diisi bulan awal dan akhir
         if ($sheet_no === 1) {
             return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
-            ->reject(function ($item) {
-                return $item['netto'] == 0;
-            })
-            ->flatten()
-            ->transform(function ($item, $index) use ($awal, $akhir){
-                $item['NIP Lama'] = $item['nip_lama'];
-                $item['TanggalAwal'] = '';
-                $item['TanggalAkhir'] = '';
-                $item['BulanMulai'] = $awal;
-                $item['BulanSelesai'] = $akhir;
-                $item['Volume'] = $item['volume'];
-                $item['HargaSatuan'] = $item['harga_satuan'];
-                $item['PersentasePajak'] = $item['persen_pajak'];
-                $item['Pajak'] = '';
-                unset($item['nip_lama']);
-                unset($item['volume']);
-                unset($item['harga_satuan']);
-                unset($item['persen_pajak']);
-                unset($item['bruto']);
-                unset($item['nama']);
-                unset($item['nip']);
-                unset($item['jabatan']);
-                unset($item['rekening']);
-                unset($item['golongan']);
-                unset($item['bruto']);
-                unset($item['pajak']);
-                unset($item['netto']);
+                ->reject(function ($item) {
+                    return $item['netto'] == 0;
+                })
+                ->flatten()
+                ->transform(function ($item, $index) use ($awal, $akhir) {
+                    $item['NIP Lama'] = $item['nip_lama'];
+                    $item['TanggalAwal'] = '';
+                    $item['TanggalAkhir'] = '';
+                    $item['BulanMulai'] = $awal;
+                    $item['BulanSelesai'] = $akhir;
+                    $item['Volume'] = $item['volume'];
+                    $item['HargaSatuan'] = $item['harga_satuan'];
+                    $item['PersentasePajak'] = $item['persen_pajak'];
+                    $item['Pajak'] = '';
+                    unset($item['nip_lama']);
+                    unset($item['volume']);
+                    unset($item['harga_satuan']);
+                    unset($item['persen_pajak']);
+                    unset($item['bruto']);
+                    unset($item['nama']);
+                    unset($item['nip']);
+                    unset($item['jabatan']);
+                    unset($item['rekening']);
+                    unset($item['golongan']);
+                    unset($item['bruto']);
+                    unset($item['pajak']);
+                    unset($item['netto']);
 
-                return $item;
-            }); 
+                    return $item;
+                });
+        } else {
+            return self::makeBaseListMitra($honor_kegiatan_id)
+                ->reject(function ($item) {
+                    return $item['netto'] == 0;
+                })
+                ->flatten()
+                ->transform(function ($item, $index) {
+                    $item['nip'] = $item['nip_lama'];
+                    $item['nama'] = $item['nama'];
+                    unset($item['nip_lama']);
+                    unset($item['volume']);
+                    unset($item['harga_satuan']);
+                    unset($item['persen_pajak']);
+                    unset($item['bruto']);
+                    unset($item['jabatan']);
+                    unset($item['rekening']);
+                    unset($item['golongan']);
+                    unset($item['bruto']);
+                    unset($item['pajak']);
+                    unset($item['netto']);
+
+                    return $item;
+                });
         }
-else {
-    return self::makeBaseListMitra($honor_kegiatan_id)
-    ->reject(function ($item) {
-        return $item['netto'] == 0;
-    })
-    ->flatten()
-    ->transform(function ($item, $index) {
-        $item['nip'] = $item['nip_lama'];
-        $item['nama'] = $item['nama'];
-        unset($item['nip_lama']);
-        unset($item['volume']);
-        unset($item['harga_satuan']);
-        unset($item['persen_pajak']);
-        unset($item['bruto']);
-        unset($item['jabatan']);
-        unset($item['rekening']);
-        unset($item['golongan']);
-        unset($item['bruto']);
-        unset($item['pajak']);
-        unset($item['netto']);
-
-        return $item;
-    }); 
-}
-}
+    }
 
     /**
      * Make Surat Keterangan (SK) for both Mitra and Pegawai.

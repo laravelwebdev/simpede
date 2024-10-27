@@ -12,6 +12,7 @@ class HelperHonorKegiatan extends Table
     {
         return 'Tata Cara Penggunaan Import dan Upload Menggunakan FIle BOS';
     }
+
     /**
      * Calculate the value of the metric.
      *

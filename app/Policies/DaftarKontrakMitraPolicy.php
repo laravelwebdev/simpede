@@ -12,7 +12,7 @@ class DaftarKontrakMitraPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('ppk,koordinator,kepala')
+            ->allowedFor('all')
             ->get();
     }
 

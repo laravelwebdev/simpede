@@ -34,9 +34,7 @@ class KontrakMitraPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('ppk')
-            ->get();
+        return false;
     }
 
     /**
@@ -66,9 +64,7 @@ class KontrakMitraPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('ppk')
-            ->get();
+        return false;
     }
 
     public function runAction(): bool

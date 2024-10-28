@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\Actions\Download;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
@@ -10,6 +13,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKontrakMitra extends Resource
@@ -119,6 +123,20 @@ class DaftarKontrakMitra extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('ppk')->get()) {
+            $actions[] =
+                Download::make('kontrak', 'Unduh Kontrak')
+                    ->showInline()
+                    ->showOnDetail()
+                    ->confirmButtonText('Unduh');                
+            $actions[] =
+                Download::make('bast', 'Unduh BAST')
+                    ->showInline()
+                    ->showOnDetail()
+                    ->confirmButtonText('Unduh');
+        }
+
+        return $actions;
     }
 }

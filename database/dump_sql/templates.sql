@@ -14,7 +14,9 @@ INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_a
 (4, 'Template SPJ', 'spj', 'd2z8X186YFymCM29dPa84LH7rTrqljrmfhmyc7C4.docx', '2024-09-08 08:13:31', '2024-09-08 09:41:00'),
 (5, 'Template SK Petugas', 'sk', 'JmHXF4rvAMCnZQg6zx8jjfvZAygCsh0hpZcRcSJd.docx', '2024-10-19 08:47:00', '2024-10-19 08:47:00'),
 (6, 'Template Surat Tugas', 'st', '6ALNH1DPbuAbXP3t3muIDuCOQ7Wjqd1WTR9zqXlS.docx', '2024-10-19 08:47:26', '2024-10-19 08:47:26'),
-(7, 'Template Surat Tugas dengan Lampiran', 'st', 'uYxj7Ir0cAiOBnrQ9EPEi5fqHuStnbVSHOhFijjl.docx', '2024-10-19 08:47:48', '2024-10-19 08:47:48');
+(7, 'Template Surat Tugas dengan Lampiran', 'st', 'uYxj7Ir0cAiOBnrQ9EPEi5fqHuStnbVSHOhFijjl.docx', '2024-10-19 08:47:48', '2024-10-19 08:47:48'),
+(8, 'Kontrak Bulanan Mitra', 'kontrak', 'NMkRjA9CIjEGH6Otv1VdnDL1dt2tQFY4dXm0W8Sg.docx', '2024-10-28 20:24:49', '2024-10-28 20:24:49'),
+(9, 'BAST Kontrak Bulanan Mitra', 'bast', 'm3yoHzM7gYlvy2F6KDKSlFtyeYNe36eqKLh8FoYU.docx', '2024-10-28 21:31:58', '2024-10-28 21:31:58');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

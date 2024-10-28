@@ -3,10 +3,13 @@
 namespace App\Helpers;
 
 use App\Models\AnggaranKerangkaAcuan;
+use App\Models\BastMitra;
+use App\Models\DaftarKontrakMitra;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
 use App\Models\KamusAnggaran;
 use App\Models\KerangkaAcuan;
+use App\Models\KontrakMitra;
 use App\Models\NaskahKeluar;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
@@ -39,7 +42,7 @@ class Cetak
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
                 $innerXml = self::getModifiedInnerXml($template);
-                $mainXml = preg_replace('/<\/w:body>/', '<w:p><w:r><w:br w:type="page" /><w:lastRenderedPageBreak/></w:r></w:p>'.$innerXml.'</w:body>', $mainXml);
+                $mainXml = preg_replace('/<\/w:body>/', ''.$innerXml.'</w:body>', $mainXml);
             }
         }
 
@@ -78,6 +81,14 @@ class Cetak
         if ($jenis === 'sk') {
             $templateProcessor->cloneRowAndSetValues('sk_no', $data['daftar_petugas']);
             unset($data['daftar_petugas']);
+        }
+        if ($jenis === 'kontrak') {
+            $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
+            unset($data['daftar_honor']);
+        }
+        if ($jenis === 'bast') {
+            $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
+            unset($data['daftar_honor']);
         }
         if ($jenis === 'spj') {
             $templateProcessor->cloneRowAndSetValues('spj_no', $data['daftar_honor_mitra']);
@@ -185,7 +196,7 @@ class Cetak
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
             'detail' => $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail,
-            'bulan' => $data->bulan == '13' ? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) : Helper::terbilangBulan($data->bulan),
+            'bulan' => $data->jenis_honor !== 'Kontrak Mitra Bulanan' ? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) : Helper::terbilangBulan($data->bulan),
             'mak' => $data->mak,
             'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
             'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),
@@ -245,6 +256,68 @@ class Cetak
         ];
     }
 
+    public static function kontrak($id)
+    {
+        $data = DaftarKontrakMitra::where('id', '=', $id)->first();
+        $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
+        $ppk = Helper::getPegawaiByUserId($kontrak->ppk_user_id);
+        $mitra = Helper::getMitraById($data->mitra_id);
+        $bulan = Helper::$bulan[$kontrak->bulan];
+        $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
+
+        return [
+            'bulan' => $bulan,
+            'tahun' => $kontrak->tahun,
+            'ubulan' => strtoupper($bulan),
+            'no_spk' => NaskahKeluar::find($data->kontrak_naskah_keluar_id)->nomor,
+            'hari' => Helper::terbilangHari($kontrak->tanggal_spk),
+            'terbilangtanggal' => Helper::terbilangTanggal($kontrak->tanggal_spk, 'l'),
+            'ppk' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($ppk, 'name')),
+            'nama' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($mitra, 'nama')),
+            'jenis' => $jenis_kontrak,
+            'ujenis' => strtoupper($jenis_kontrak),
+            'alamat' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($mitra, 'alamat')),
+            'awal' => Helper::terbilangTanggal($kontrak->awal_kontrak),
+            'akhir' => Helper::terbilangTanggal($kontrak->akhir_kontrak),
+            'honor' => Helper::formatRupiah((float) $data->nilai_kontrak),
+            'terbilanghonor' => Helper::terbilang($data->nilai_kontrak, 'uw', 'rupiah'),
+            'tanggal_spk' => Helper::terbilangTanggal($kontrak->tanggal_spk),
+            'no_hsks' => Helper::getPropertyFromCollection(Helper::getLatestHargaSatuan($kontrak->tanggal_spk), 'nomor'),
+            'daftar_honor' => Helper::makeKontrakMitra($id),
+        ];
+    }
+
+    public static function bast($id)
+    {
+        $data = DaftarKontrakMitra::where('id', '=', $id)->first();
+        $bast = BastMitra::find($data->bast_mitra_id);
+        $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
+        $ppk = Helper::getPegawaiByUserId($bast->ppk_user_id);
+        $mitra = Helper::getMitraById($data->mitra_id);
+        $bulan = Helper::$bulan[$kontrak->bulan];
+        $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
+
+        return [
+            'bulan' => $bulan,
+            'tahun' => $kontrak->tahun,
+            'ubulan' => strtoupper($bulan),
+            'no_bast' => NaskahKeluar::find($data->bast_naskah_keluar_id)->nomor,
+            'no_spk' => NaskahKeluar::find($data->kontrak_naskah_keluar_id)->nomor,
+            'tanggal_spk' => Helper::terbilangTanggal($kontrak->tanggal_spk),
+            'hari' => Helper::terbilangHari($bast->tanggal_bast),
+            'terbilangtanggal' => Helper::terbilangTanggal($bast->tanggal_bast, 'l'),
+            'ppk' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($ppk, 'name')),
+            'nipppk' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($ppk, 'nip')),
+            'nama' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($mitra, 'nama')),
+            'nik' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($mitra, 'nik')),
+            'jenis' => $jenis_kontrak,
+            'ujenis' => strtoupper($jenis_kontrak),
+            'alamat' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($mitra, 'alamat')),
+            'tanggal_bast' => Helper::terbilangTanggal($kontrak->tanggal_spk),
+            'daftar_honor' => Helper::makeKontrakMitra($id),
+        ];
+    }
+
     public static function validate($jenis, $model_id)
     {
         if ($jenis === 'kak') {
@@ -267,6 +340,20 @@ class Cetak
                 $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),
                 'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK'
             );
+            if ($jenis === 'kontrak') {
+                $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
+                throw_if(
+                    is_null($kontrak->kontrak_naskah_keluar_id),
+                    'Mohon Generate Kontrak terlebih dahulu sebelum mencetak!'
+                );
+            }
+            if ($jenis === 'bast') {
+                $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
+                throw_if(
+                    is_null($kontrak->bast_naskah_keluar_id),
+                    'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
+                );
+            }
         }
     }
 }

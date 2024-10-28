@@ -680,11 +680,11 @@ class Helper
     public static function formatMitra($mitra)
     {
         $mitra->transform(function ($item, $index) {
-            $mitra = Helper::getMitraById($item['mitra_id']);
+            $mitra = self::getMitraById($item['mitra_id']);
             $item['nip'] = '-';
-            $item['nama'] = Helper::getPropertyFromCollection($mitra, 'nama');
-            $item['nip_lama'] = Helper::getPropertyFromCollection($mitra, 'nik');
-            $item['rekening'] = Helper::getPropertyFromCollection($mitra, 'rekening');
+            $item['nama'] = self::getPropertyFromCollection($mitra, 'nama');
+            $item['nip_lama'] = self::getPropertyFromCollection($mitra, 'nik');
+            $item['rekening'] = self::getPropertyFromCollection($mitra, 'rekening');
             $item['golongan'] = '-';
             $item['jabatan'] = 'Mitra Statistik';
             $item['volume'] = $item['volume_realisasi'];
@@ -717,13 +717,13 @@ class Helper
     public static function formatPegawai($pegawai, $tanggal_spj)
     {
         $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
-            $pegawai = Helper::getPegawaiByUserId($item['user_id']);
-            $item['nama'] = Helper::getPropertyFromCollection($pegawai, 'name');
-            $item['nip'] = Helper::getPropertyFromCollection($pegawai, 'nip');
-            $item['nip_lama'] = Helper::getPropertyFromCollection($pegawai, 'nip_lama');
-            $item['jabatan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
-            $item['rekening'] = Helper::getPropertyFromCollection($pegawai, 'rekening');
-            $item['golongan'] = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
+            $pegawai = self::getPegawaiByUserId($item['user_id']);
+            $item['nama'] = self::getPropertyFromCollection($pegawai, 'name');
+            $item['nip'] = self::getPropertyFromCollection($pegawai, 'nip');
+            $item['nip_lama'] = self::getPropertyFromCollection($pegawai, 'nip_lama');
+            $item['jabatan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
+            $item['rekening'] = self::getPropertyFromCollection($pegawai, 'rekening');
+            $item['golongan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
@@ -890,6 +890,28 @@ class Helper
             ->toArray();
     }
 
+    public static function makeKontrakMitra($kontrak_mitra_id)
+    {
+        return DaftarHonorMitra::where('daftar_kontrak_mitra_id', $kontrak_mitra_id)->get()
+            ->transform(function ($item, $index) {
+                $honor_kegiatan = HonorKegiatan::find($item['honor_kegiatan_id']);
+                $item['spek_no'] = $index + 1;
+                $item['spek_kegiatan'] = self::getPropertyFromCollection($honor_kegiatan, 'kegiatan');
+                $item['spek_mak'] = self::getPropertyFromCollection($honor_kegiatan, 'mak');
+                $item['spek_vol'] = $item['volume_target'];
+                $item['spek_vol_target'] = $item['volume_target'];
+                $item['spek_vol_realisasi'] = $item['volume_realisasi'];
+                $item['spek_selesai'] = $item['status_realisasi'];
+                $item['spek_satuan'] = self::getPropertyFromCollection($honor_kegiatan, 'satuan');
+                $item['spek_akhir'] = self::terbilangTanggal(self::getPropertyFromCollection($honor_kegiatan, 'akhir'));
+                $item['spek_total'] = self::formatUang($item['volume_target'] * $item['harga_satuan']);
+
+                return $item;
+            })
+            ->toArray();
+    }
+
+
     /**
      * Get property from collection.
      *
@@ -960,7 +982,18 @@ class Helper
      */
     public static function getLatestHargaSatuanId($tanggal)
     {
-        return self::getPropertyFromCollection(HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
+        return self::getPropertyFromCollection(self::getLatestHargaSatuan($tanggal), 'id');
+    }
+
+    /**
+     * Mengambil harga satuan terbaru berdasarkan tanggal yang diberikan.
+     *
+     * @param string $tanggal Tanggal untuk memfilter data harga satuan.
+     * @return HargaSatuan|null Objek HargaSatuan terbaru atau null jika tidak ditemukan.
+     */
+    public static function getLatestHargaSatuan($tanggal)
+    {
+        return HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**

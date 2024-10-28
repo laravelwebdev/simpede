@@ -70,6 +70,7 @@ class GenerateKontrakMitra extends Action
             if ($jumlah_kontrak <= 1) {
                 $daftar_mitra->valid_jumlah_kontrak = true;
             }
+            
             $daftar_mitra->jumlah_kegiatan = $mitra->jumlah_kegiatan;
             $daftar_mitra->nilai_kontrak = $mitra->nilai_kontrak;
             $daftar_mitra->updated_at = now();

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 use App\Models\BastMitra;
+use App\Models\KontrakMitra;
 use App\Models\User;
 
 class BastMitraPolicy
@@ -24,7 +25,7 @@ class BastMitraPolicy
     public function view(User $user, BastMitra $bast): bool
     {
         return Policy::make()
-            ->withYear($bast->tahun)
+            ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
             ->allowedFor('all')
             ->get();
     }
@@ -44,7 +45,7 @@ class BastMitraPolicy
     {
         return Policy::make()
             ->allowedFor('ppk')
-            ->withYear($bast->tahun)
+            ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
             ->get();
     }
 
@@ -55,7 +56,7 @@ class BastMitraPolicy
     {
         return Policy::make()
             ->allowedFor('ppk')
-            ->withYear($bast->tahun)
+            ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
             ->get();
     }
 

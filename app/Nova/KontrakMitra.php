@@ -108,7 +108,7 @@ class KontrakMitra extends Resource
                 }),
 
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat'])
+                ->loadingWhen(['dibuat', 'diubah'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
             HasMany::make('Daftar Kontrak Mitra'),

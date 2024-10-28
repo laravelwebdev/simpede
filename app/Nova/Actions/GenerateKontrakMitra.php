@@ -83,7 +83,7 @@ class GenerateKontrakMitra extends Action
                 $daftar_honor->save();
             }
         }
-        $model->status = 'selesai';
+        $model->status = 'digenerate';
         $model->save();
         $ids = DaftarKontrakMitra::where('updated_at', null)->get()->pluck('id');
         DaftarKontrakMitra::destroy($ids);

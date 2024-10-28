@@ -91,7 +91,7 @@ class KerangkaAcuan extends Resource
                 ->filterable(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
-                ->failedWhen(['gagal']),
+                ->failedWhen(['outdated']),
         ];
     }
 

@@ -66,5 +66,11 @@ class DaftarKontrakMitra extends Model
                 }
             }
         });
+
+        static::updating(function (DaftarKontrakMitra $daftar) {
+            if ($daftar->isDirty()) {
+                $daftar->status = $daftar->status === 'dibuat' ? 'diubah' : 'outdated';
+            }
+        });
     }
 }

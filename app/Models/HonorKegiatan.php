@@ -13,8 +13,6 @@ class HonorKegiatan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status'];
-
     protected $casts = [
         'tanggal_spj' => 'date',
         'tanggal_sk' => 'date',
@@ -96,7 +94,6 @@ class HonorKegiatan extends Model
                         ]
                     );
                     $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak_id), 'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
-                    $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
                     $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
@@ -110,7 +107,6 @@ class HonorKegiatan extends Model
                     );
                     $kontrak->nama_kontrak = 'Kontrak '.$honor->kegiatan;
                     $kontrak->tahun = $honor->tahun;
-                    $kontrak->status = 'dibuat';
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = $honor->awal;
                     $kontrak->akhir_kontrak = $honor->akhir;

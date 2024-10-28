@@ -70,8 +70,10 @@ class Cetak
         if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
-            unset($data['anggaran'], $data['spesifikasi']);
-            KerangkaAcuan::where('id', $id)->update(['status' => 'selesai']);
+            unset($data['anggaran'], $data['spesifikasi']);        
+            $kerangkaAcuan = KerangkaAcuan::find($id);
+            $kerangkaAcuan->status = 'dicetak';
+            $kerangkaAcuan->save();
         }
         if ($jenis === 'st') {
             $templateProcessor->cloneRowAndSetValues('st_no', $data['daftar_petugas']);
@@ -104,7 +106,9 @@ class Cetak
             }
 
             unset($data['daftar_honor_mitra']);
-            HonorKegiatan::where('id', $id)->update(['status' => 'selesai']);
+            $honorKegiatan = HonorKegiatan::find($id);
+            $honorKegiatan->status = 'dicetak';
+            $honorKegiatan->save();
         }
         $templateProcessor->setValues($data);
 

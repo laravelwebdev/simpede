@@ -15,7 +15,7 @@ class KerangkaAcuanPolicy
     public function viewAny(User $user): bool
     {
         return Policy::make()
-            ->notAllowedFor('kepala,admin')
+            ->notAllowedFor('admin')
             ->get();
     }
 
@@ -24,10 +24,16 @@ class KerangkaAcuanPolicy
      */
     public function view(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
+        if (session('role') === 'koordinator' || session('role') === 'anggota') {
+            return Policy::make()
+                ->allowedFor('koordinator,anggota')
+                ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+                ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+                ->get();
+        }
         return Policy::make()
-            ->notAllowedFor('kepala,admin')
+            ->notAllowedFor('admin')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
-            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
@@ -76,4 +82,13 @@ class KerangkaAcuanPolicy
             ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
+
+    public function runAction(User $user, KerangkaAcuan $kerangkaAcuan): bool
+    {
+        return Policy::make()
+            ->allowedFor('koordinator,anggota,ppk')
+            ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->get();
+    }
+
 }

@@ -26,6 +26,9 @@ class KontrakMitra extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (KontrakMitra $kontrak) {
+            $kontrak->status = 'dibuat';
+        });
         static::saved(function (KontrakMitra $kontrak) {
             $bast = BastMitra::firstOrNew(['kontrak_mitra_id' => $kontrak->id]);
             $bast->save();
@@ -45,6 +48,9 @@ class KontrakMitra extends Model
                     $naskah_keluar->tanggal = $kontrak->tanggal_spk;
                     $naskah_keluar->save();
                 }
+            }
+            if ($kontrak->isDirty()) {
+                $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
             }
         });
     }

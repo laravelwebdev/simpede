@@ -13,7 +13,9 @@ class DaftarHonorPegawai extends Model
     {
         static::saving(function (DaftarHonorPegawai $honor) {
             if ($honor->isDirty()) {
-                HonorKegiatan::find($honor->honor_kegiatan_id)->update(['status' => 'dibuat']);
+                $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
+                $honorKegiatan->status = 'outdated';
+                $honorKegiatan->save();
             }
             if (! $honor->volume) {
                 $honor->harga_satuan = null;
@@ -21,7 +23,9 @@ class DaftarHonorPegawai extends Model
             }
         });
         static::deleting(function (DaftarHonorPegawai $honor) {
-            HonorKegiatan::find($honor->honor_kegiatan_id)->update(['status' => 'dibuat']);
+            $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
+            $honorKegiatan->status = 'outdated';
+            $honorKegiatan->save();
         });
     }
 }

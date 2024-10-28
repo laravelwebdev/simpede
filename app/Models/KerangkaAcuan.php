@@ -14,8 +14,6 @@ class KerangkaAcuan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status'];
-
     protected $casts = [
         'tanggal' => 'date',
         'awal' => 'date',
@@ -45,10 +43,14 @@ class KerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::creating(function (KerangkaAcuan $kak) {
+            $kak->status = 'dibuat';
             $kak->createNaskahKeluar();
         });
 
         static::updating(function (KerangkaAcuan $kak) {
+            if ($kak->isDirty()) {
+                $kak->status = $kak->status === 'dibuat' ? 'diubah' : 'outdated';
+            }
             $kak->updateNaskahKeluar();
             if ($kak->isDirty('dipa_id')) {
                 $kak->deleteOldAnggaran();
@@ -81,9 +83,6 @@ class KerangkaAcuan extends Model
         static::saving(function (KerangkaAcuan $kak) {
             $kak->setDefaultValues();
             $kak->setKoordinatorUnitKerja();
-            if ($kak->isDirty()) {
-                $kak->status = 'dibuat';
-            }
         });
     }
 

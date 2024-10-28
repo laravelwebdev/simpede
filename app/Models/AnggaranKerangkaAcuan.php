@@ -47,11 +47,15 @@ class AnggaranKerangkaAcuan extends Model
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
             $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
             HonorKegiatan::destroy($id);
-            KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
+            $kerangkaAcuan = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+            $kerangkaAcuan->status = 'outdated';
+            $kerangkaAcuan->save();
         });
         static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
             if ($anggaranKak->isDirty()) {
-                KerangkaAcuan::find($anggaranKak->kerangka_acuan_id)->update(['status' => 'dibuat']);
+                $kerangkaAcuan = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                $kerangkaAcuan->status = 'outdated';
+                $kerangkaAcuan->save();
             }
         });
         static::updated(function (AnggaranKerangkaAcuan $anggaranKak) {

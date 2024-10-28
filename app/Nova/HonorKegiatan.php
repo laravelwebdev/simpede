@@ -272,8 +272,8 @@ class HonorKegiatan extends Resource
                     }),
             ]),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat', 'import', 'diubah'])
-                ->failedWhen(['gagal'])->onlyOnIndex(),
+                ->loadingWhen(['dibuat', 'diubah'])
+                ->failedWhen(['outdated'])->onlyOnIndex(),
 
             Panel::make('Penanda Tangan', [
                 Select::make('Pembuat Daftar', 'koordinator_user_id')

@@ -59,9 +59,6 @@ class HonorKegiatan extends Model
     protected static function booted(): void
     {
         static::saving(function (HonorKegiatan $honor) {
-            if ($honor->isDirty()) {
-                $honor->status = 'diubah';
-            }
             if ($honor->jenis_honor !== 'Kontrak Mitra Bulanan') {
                 $honor->bulan = null;
                 $honor->jenis_kontrak_id = null;
@@ -170,6 +167,11 @@ class HonorKegiatan extends Model
         });
         static::creating(function (HonorKegiatan $honor) {
             $honor->status = 'dibuat';
+        });
+        static::updating(function (HonorKegiatan $honor) {
+            if (! (count($honor->getDirty()) === 1 && $honor->isDirty('status'))) {
+                $honor->status = $honor->status === 'dibuat' ? 'diubah' : 'outdated';
+            }
         });
     }
 }

@@ -23,6 +23,9 @@ class DaftarHonorMitra extends Model
                 $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
                 $honorKegiatan->status = 'outdated';
                 $honorKegiatan->save();
+                $daftarKontrak = DaftarKontrakMitra::find($honor->daftar_kontrak_mitra_id);
+                $daftarKontrak->status = 'outdated';
+                $daftarKontrak->save();
             }
             if ($honor->volume_realisasi != $honor->volume_target) {
                 $honor->status_realisasi = $honor->volume_realisasi < $honor->volume_target

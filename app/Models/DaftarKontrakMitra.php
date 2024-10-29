@@ -68,7 +68,7 @@ class DaftarKontrakMitra extends Model
         });
 
         static::updating(function (DaftarKontrakMitra $daftar) {
-            if ($daftar->isDirty()) {
+            if (!(count($daftar->getDirty()) === 1 && $daftar->isDirty('status'))) {
                 $daftar->status = $daftar->status === 'dibuat' ? 'diubah' : 'outdated';
             }
         });

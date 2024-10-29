@@ -49,7 +49,7 @@ class KontrakMitra extends Model
                     $naskah_keluar->save();
                 }
             }
-            if ($kontrak->isDirty()) {
+            if (!(count($kontrak->getDirty()) === 1 && $kontrak->isDirty('status'))) {
                 $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
             }
         });

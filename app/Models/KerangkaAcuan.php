@@ -48,7 +48,7 @@ class KerangkaAcuan extends Model
         });
 
         static::updating(function (KerangkaAcuan $kak) {
-            if ($kak->isDirty()) {
+            if (!(count($kak->getDirty()) === 1 && $kak->isDirty('status'))) {
                 $kak->status = $kak->status === 'dibuat' ? 'diubah' : 'outdated';
             }
             $kak->updateNaskahKeluar();

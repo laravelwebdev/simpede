@@ -70,7 +70,7 @@ class Cetak
         if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
-            unset($data['anggaran'], $data['spesifikasi']);        
+            unset($data['anggaran'], $data['spesifikasi']);
             $kerangkaAcuan = KerangkaAcuan::find($id);
             $kerangkaAcuan->status = 'dicetak';
             $kerangkaAcuan->save();
@@ -344,23 +344,42 @@ class Cetak
                 'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Sunting'
             );
             throw_if(
+                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
+                'Belum ada data mitra/pegawai pada daftar ini.'
+            );
+            throw_if(
                 $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),
                 'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK'
             );
-            if ($jenis === 'kontrak') {
-                $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
-                throw_if(
-                    is_null($kontrak->kontrak_naskah_keluar_id),
-                    'Mohon Generate Kontrak terlebih dahulu sebelum mencetak!'
-                );
-            }
-            if ($jenis === 'bast') {
-                $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
-                throw_if(
-                    is_null($kontrak->bast_naskah_keluar_id),
-                    'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
-                );
-            }
         }
+        if ($jenis === 'st') {
+            $honor = HonorKegiatan::where('id', $model_id)->first();
+            throw_if(
+                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
+                'Belum ada data mitra/pegawai pada daftar ini.'
+            );
+        }
+        if ($jenis === 'sk') {
+            $honor = HonorKegiatan::where('id', $model_id)->first();
+            throw_if(
+                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
+                'Belum ada data mitra/pegawai pada daftar ini.'
+            );
+        }
+        if ($jenis === 'kontrak') {
+            $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
+            throw_if(
+                is_null($kontrak->kontrak_naskah_keluar_id),
+                'Mohon Generate Kontrak terlebih dahulu sebelum mencetak!'
+            );
+        }
+        if ($jenis === 'bast') {
+            $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
+            throw_if(
+                is_null($kontrak->bast_naskah_keluar_id),
+                'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
+            );
+        }
+
     }
 }

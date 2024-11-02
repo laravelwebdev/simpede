@@ -47,9 +47,6 @@ class BastMitra extends Model
                         $naskah_keluar->save();
                     }
                 }
-                if (!(count($bast->getDirty()) === 1 && $bast->isDirty('status'))) {
-                    $bast->status = $bast->status === 'dibuat' ? 'diubah' : 'outdated';
-                }
             });
         });
     }

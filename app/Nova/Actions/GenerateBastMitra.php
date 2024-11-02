@@ -53,6 +53,9 @@ class GenerateBastMitra extends Action
                 $naskahkeluar->save();
                 $daftar_kontrak->bast_naskah_keluar_id = $naskahkeluar->id;
             }
+            if ($daftar_kontrak->status_bast === 'outdated') {
+                $daftar_kontrak->status_bast = 'diupdate';
+            }
             $daftar_kontrak->save();
         }
         $model->status = 'digenerate';

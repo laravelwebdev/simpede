@@ -9,7 +9,7 @@ class DaftarHonorMitra extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mitra_id', 'honor_kegiatan_id'];
+    protected $fillable = ['mitra_id', 'honor_kegiatan_id', 'daftar_kontrak_mitra_id'];
 
     public function honorKegiatan()
     {
@@ -25,7 +25,8 @@ class DaftarHonorMitra extends Model
                 $honorKegiatan->save();
                 $daftarKontrak = DaftarKontrakMitra::find($honor->daftar_kontrak_mitra_id);
                 if ($daftarKontrak) {
-                    $daftarKontrak->status = 'outdated';
+                    $daftarKontrak->status_kontrak = 'outdated';
+                    $daftarKontrak->status_bast = 'outdated';
                     $daftarKontrak->save();
                 }
             }
@@ -39,6 +40,7 @@ class DaftarHonorMitra extends Model
         });
         static::deleting(function (DaftarHonorMitra $honor) {
             $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
+            $honorKegiatan->status = 'outdated';
             $honorKegiatan->status = 'outdated';
             $honorKegiatan->save();
         });

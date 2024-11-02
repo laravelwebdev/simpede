@@ -164,6 +164,8 @@ class HonorKegiatan extends Model
             NaskahKeluar::destroy([$honor->sk_naskah_keluar_id, $honor->st_naskah_keluar_id]);
             $DaftarHonorMitraIds = DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->pluck('id');
             DaftarHonorMitra::destroy($DaftarHonorMitraIds);
+            $DaftarHonorPegawaiIds = DaftarHonorPegawai::where('honor_kegiatan_id', $honor->id)->pluck('id');
+            DaftarHonorPegawai::destroy($DaftarHonorPegawaiIds);
         });
         static::creating(function (HonorKegiatan $honor) {
             $honor->status = 'dibuat';

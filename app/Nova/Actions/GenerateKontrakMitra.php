@@ -67,21 +67,21 @@ class GenerateKontrakMitra extends Action
                 $daftar_mitra->valid_sbml = true;
             }
 
+            if ($daftar_mitra->status_kontrak === 'outdated') {
+                $daftar_mitra->status_kontrak = 'diupdate';
+            }
+
             if ($jumlah_kontrak <= 1) {
                 $daftar_mitra->valid_jumlah_kontrak = true;
             }
-            
+
             $daftar_mitra->jumlah_kegiatan = $mitra->jumlah_kegiatan;
             $daftar_mitra->nilai_kontrak = $mitra->nilai_kontrak;
             $daftar_mitra->updated_at = now();
             $daftar_mitra->save();
-            $daftar_honors = DaftarHonorMitra::where('mitra_id', $mitra->mitra_id)
+            DaftarHonorMitra::where('mitra_id', $mitra->mitra_id)
                 ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
-                ->get();
-            foreach ($daftar_honors as $daftar_honor) {
-                $daftar_honor->daftar_kontrak_mitra_id = $daftar_mitra->id;
-                $daftar_honor->save();
-            }
+                ->update(['daftar_kontrak_mitra_id' => $daftar_mitra->id]);
         }
         $model->status = 'digenerate';
         $model->save();

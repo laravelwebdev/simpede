@@ -22,7 +22,8 @@ return new class extends Migration
             $table->mediumInteger('mitra_id')->unsigned()->nullable();
             $table->mediumInteger('kontrak_mitra_id')->unsigned()->nullable();
             $table->mediumInteger('bast_mitra_id')->unsigned()->nullable();
-            $table->string('status', 20)->nullable();
+            $table->string('status_kontrak', 20)->nullable();
+            $table->string('status_bast', 20)->nullable();
             $table->timestamps();
         });
     }

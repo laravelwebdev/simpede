@@ -13,13 +13,14 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKontrakMitra extends Resource
 {
     public static $displayInNavigation = false;
+
     public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -59,7 +60,7 @@ class DaftarKontrakMitra extends Resource
 
         return [
             Text::make('NIK', fn () => Helper::getPropertyFromCollection($mitra, 'nik'))
-                ->readOnly(),
+                ->readOnly()->hideFromIndex(),
             Text::make('Nama', fn () => Helper::getPropertyFromCollection($mitra, 'nama'))
                 ->readOnly(),
             BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
@@ -74,8 +75,12 @@ class DaftarKontrakMitra extends Resource
                 ->currency('IDR')
                 ->locale('id')
                 ->readOnly(),
-            Status::make('Status', 'status')
-                ->loadingWhen(['dibuat'])
+            Status::make('Kontrak', 'status_kontrak')
+                ->loadingWhen(['dibuat', 'diupdate'])
+                ->failedWhen(['outdated'])
+                ->onlyOnIndex(),
+            Status::make('BAST', 'status_bast')
+                ->loadingWhen(['dibuat', 'diupdate'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
             Boolean::make('Sesuai SBML', 'valid_sbml')
@@ -129,7 +134,7 @@ class DaftarKontrakMitra extends Resource
                 Download::make('kontrak', 'Unduh Kontrak')
                     ->showInline()
                     ->showOnDetail()
-                    ->confirmButtonText('Unduh');                
+                    ->confirmButtonText('Unduh');
             $actions[] =
                 Download::make('bast', 'Unduh BAST')
                     ->showInline()

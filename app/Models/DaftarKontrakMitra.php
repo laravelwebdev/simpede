@@ -36,7 +36,7 @@ class DaftarKontrakMitra extends Model
     protected static function booted(): void
     {
         static::creating(function (DaftarKontrakMitra $daftar) {
-            $daftar->status = 'dibuat';
+            $daftar->status_kontrak = 'dibuat';
             $kontrak = KontrakMitra::find($daftar->kontrak_mitra_id);
             $jenis_kontrak = Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first(), 'jenis');
             $bulan_kontrak = Helper::$bulan[$kontrak->bulan];
@@ -67,10 +67,5 @@ class DaftarKontrakMitra extends Model
             }
         });
 
-        static::updating(function (DaftarKontrakMitra $daftar) {
-            if (!(count($daftar->getDirty()) === 1 && $daftar->isDirty('status'))) {
-                $daftar->status = $daftar->status === 'dibuat' ? 'diubah' : 'outdated';
-            }
-        });
     }
 }

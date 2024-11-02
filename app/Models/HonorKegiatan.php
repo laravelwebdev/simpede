@@ -13,6 +13,10 @@ class HonorKegiatan extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'status',
+    ];
+
     protected $casts = [
         'tanggal_spj' => 'date',
         'tanggal_sk' => 'date',
@@ -171,9 +175,7 @@ class HonorKegiatan extends Model
             $honor->status = 'dibuat';
         });
         static::updating(function (HonorKegiatan $honor) {
-            if (! (count($honor->getDirty()) === 1 && $honor->isDirty('status'))) {
-                $honor->status = $honor->status === 'dibuat' ? 'diubah' : 'outdated';
-            }
+            $honor->status = $honor->status === 'dibuat' ? 'diubah' : 'outdated';
         });
     }
 }

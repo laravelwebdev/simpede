@@ -65,24 +65,30 @@ class DaftarKontrakMitra extends Resource
                 ->readOnly(),
             BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly()
-                ->noPeeking(),
+                ->hideFromIndex($request->viaResource == 'bast-mitras')
+                ->hideFromDetail($request->viaResource == 'bast-mitras'),
             BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly()
-                ->noPeeking(),
+                ->hideFromIndex($request->viaResource == 'kontrak-mitras')
+                ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak')
                 ->currency('IDR')
                 ->locale('id')
                 ->readOnly(),
-            Status::make('Kontrak', 'status_kontrak')
+            Status::make('Status', 'status_kontrak')
                 ->loadingWhen(['dibuat', 'diupdate'])
                 ->failedWhen(['outdated'])
-                ->onlyOnIndex(),
-            Status::make('BAST', 'status_bast')
+                ->onlyOnIndex()
+                ->hideFromIndex($request->viaResource == 'bast-mitras')
+                ->hideFromDetail($request->viaResource == 'bast-mitras'),
+            Status::make('Status', 'status_bast')
                 ->loadingWhen(['dibuat', 'diupdate'])
                 ->failedWhen(['outdated'])
-                ->onlyOnIndex(),
+                ->onlyOnIndex()
+                ->hideFromIndex($request->viaResource == 'kontrak-mitras')
+                ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Boolean::make('Sesuai SBML', 'valid_sbml')
                 ->exceptOnForms(),
             Boolean::make('Jumlah Kontrak', 'valid_jumlah_kontrak')

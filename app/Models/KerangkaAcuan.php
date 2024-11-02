@@ -14,6 +14,8 @@ class KerangkaAcuan extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['status'];
+
     protected $casts = [
         'tanggal' => 'date',
         'awal' => 'date',
@@ -48,9 +50,7 @@ class KerangkaAcuan extends Model
         });
 
         static::updating(function (KerangkaAcuan $kak) {
-            if (!(count($kak->getDirty()) === 1 && $kak->isDirty('status'))) {
-                $kak->status = $kak->status === 'dibuat' ? 'diubah' : 'outdated';
-            }
+            $kak->status = $kak->status === 'dibuat' ? 'diubah' : 'outdated';
             $kak->updateNaskahKeluar();
             if ($kak->isDirty('dipa_id')) {
                 $kak->deleteOldAnggaran();

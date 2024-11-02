@@ -83,8 +83,7 @@ class GenerateKontrakMitra extends Action
                 ->whereIn('honor_kegiatan_id', $honorKegiatanIds)
                 ->update(['daftar_kontrak_mitra_id' => $daftar_mitra->id]);
         }
-        $model->status = 'digenerate';
-        $model->save();
+        $model->update(['status' => 'digenerate']);
         $ids = DaftarKontrakMitra::where('updated_at', null)->get()->pluck('id');
         DaftarKontrakMitra::destroy($ids);
 

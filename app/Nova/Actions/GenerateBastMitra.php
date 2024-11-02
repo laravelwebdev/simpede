@@ -58,8 +58,7 @@ class GenerateBastMitra extends Action
             }
             $daftar_kontrak->save();
         }
-        $model->status = 'digenerate';
-        $model->save();
+        $model->update(['status' => 'digenerate']);
 
         return Action::message('BAST Sukses Digenerate');
     }

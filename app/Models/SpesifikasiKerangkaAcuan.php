@@ -14,15 +14,13 @@ class SpesifikasiKerangkaAcuan extends Model
         static::saving(function (SpesifikasiKerangkaAcuan $spesifikasi) {
             $spesifikasi->total_harga = $spesifikasi->volume * $spesifikasi->harga_satuan;
             if ($spesifikasi->isDirty()) {
-                $kerangkaAcuan = KerangkaAcuan::find($spesifikasi->kerangka_acuan_id);
-                $kerangkaAcuan->status = 'outdated';
-                $kerangkaAcuan->save();
+                KerangkaAcuan::where('id', $spesifikasi->kerangka_acuan_id)
+                    ->update(['status' => 'outdated']);
             }
         });
         static::deleting(function (SpesifikasiKerangkaAcuan $spesifikasi) {
-            $kerangkaAcuan = KerangkaAcuan::find($spesifikasi->kerangka_acuan_id);
-            $kerangkaAcuan->status = 'outdated';
-            $kerangkaAcuan->save();
+            KerangkaAcuan::where('id', $spesifikasi->kerangka_acuan_id)
+                ->update(['status' => 'outdated']);
         });
     }
 }

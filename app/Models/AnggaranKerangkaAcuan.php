@@ -45,17 +45,13 @@ class AnggaranKerangkaAcuan extends Model
             }
         });
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
-            $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
-            HonorKegiatan::destroy($id);
-            $kerangkaAcuan = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
-            $kerangkaAcuan->status = 'outdated';
-            $kerangkaAcuan->save();
+            $ids = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
+            HonorKegiatan::destroy($ids);
+            KerangkaAcuan::where('id', $anggaranKak->kerangka_acuan_id)->update(['status' => 'outdated']);
         });
         static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
             if ($anggaranKak->isDirty()) {
-                $kerangkaAcuan = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
-                $kerangkaAcuan->status = 'outdated';
-                $kerangkaAcuan->save();
+                KerangkaAcuan::where('id', $anggaranKak->kerangka_acuan_id)->update(['status' => 'outdated']);
             }
         });
         static::updated(function (AnggaranKerangkaAcuan $anggaranKak) {

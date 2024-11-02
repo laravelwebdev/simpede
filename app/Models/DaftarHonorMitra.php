@@ -20,14 +20,14 @@ class DaftarHonorMitra extends Model
     {
         static::saving(function (DaftarHonorMitra $honor) {
             if ($honor->isDirty()) {
-                $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
-                $honorKegiatan->status = 'outdated';
-                $honorKegiatan->save();
+                HonorKegiatan::where('id', $honor->honor_kegiatan_id)
+                    ->update(['status' => 'outdated']);
                 $daftarKontrak = DaftarKontrakMitra::find($honor->daftar_kontrak_mitra_id);
                 if ($daftarKontrak) {
-                    $daftarKontrak->status_kontrak = 'outdated';
-                    $daftarKontrak->status_bast = 'outdated';
-                    $daftarKontrak->save();
+                    $daftarKontrak->update([
+                        'status_kontrak' => 'outdated',
+                        'status_bast' => 'outdated'
+                    ]);
                 }
             }
             if ($honor->volume_realisasi != $honor->volume_target) {
@@ -39,10 +39,8 @@ class DaftarHonorMitra extends Model
             }
         });
         static::deleting(function (DaftarHonorMitra $honor) {
-            $honorKegiatan = HonorKegiatan::find($honor->honor_kegiatan_id);
-            $honorKegiatan->status = 'outdated';
-            $honorKegiatan->status = 'outdated';
-            $honorKegiatan->save();
+            HonorKegiatan::where('id', $honor->honor_kegiatan_id)
+            ->update(['status' => 'outdated']);
         });
     }
 }

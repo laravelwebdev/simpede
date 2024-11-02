@@ -41,6 +41,7 @@ class KontrakMitra extends Model
         });
 
         static::updating(function (KontrakMitra $kontrak) {
+            DaftarKontrakMitra::where('kontrak_mitra_id', $kontrak->id)->update(['status_kontrak' => 'outdated']);
             if ($kontrak->isDirty('tanggal_spk')) {
                 $daftar_kontraks = DaftarKontrakMitra::where('kontrak_mitra_id', $kontrak->id)->get();
                 foreach ($daftar_kontraks as $daftar_kontrak) {
@@ -49,9 +50,7 @@ class KontrakMitra extends Model
                     $naskah_keluar->save();
                 }
             }
-            if (!(count($kontrak->getDirty()) === 1 && $kontrak->isDirty('status'))) {
-                $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
-            }
+            $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
         });
     }
 }

@@ -73,7 +73,7 @@ class HonorKegiatanPolicy
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota,ppk')
             ->get();
     }
 }

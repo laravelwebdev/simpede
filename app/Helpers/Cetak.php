@@ -71,9 +71,7 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
             unset($data['anggaran'], $data['spesifikasi']);
-            $kerangkaAcuan = KerangkaAcuan::find($id);
-            $kerangkaAcuan->status = 'dicetak';
-            $kerangkaAcuan->save();
+            KerangkaAcuan::where('id', $id)->update(['status' => 'dicetak']);
         }
         if ($jenis === 'st') {
             $templateProcessor->cloneRowAndSetValues('st_no', $data['daftar_petugas']);
@@ -87,9 +85,7 @@ class Cetak
         if ($jenis === 'kontrak') {
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
             unset($data['daftar_honor']);
-            $kontrak = DaftarKontrakMitra::find($id);
-            $kontrak->status = 'dicetak';
-            $kontrak->save();
+            KontrakMitra::where('id', $id)->update(['status' => 'dicetak']);
         }
         if ($jenis === 'bast') {
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
@@ -109,9 +105,7 @@ class Cetak
             }
 
             unset($data['daftar_honor_mitra']);
-            $honorKegiatan = HonorKegiatan::find($id);
-            $honorKegiatan->status = 'dicetak';
-            $honorKegiatan->save();
+            HonorKegiatan::where('id', $id)->update(['status' => 'dicetak']);
         }
         $templateProcessor->setValues($data);
 

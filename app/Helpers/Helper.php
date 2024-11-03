@@ -42,8 +42,10 @@ class Helper
     ];
 
     public static $template = [
-        'bast' => 'BAST',
-        'kontrak' => 'Kontrak',
+        'bastp' => 'BAST Persediaan',
+        'bon' => 'Bon Persediaan',
+        'bast' => 'BAST Mitra',
+        'kontrak' => 'Kontrak Mitra',
         'import' => 'Import',
         'kak' => 'Kerangka Acuan',
         'spj' => 'SPJ',
@@ -572,13 +574,39 @@ class Helper
     /**
      * Memeriksa apakah akun honor berubah dari $mak_old menjadi $mak_new.
      *
-     * @param  string  $mak_old  Maksimal akun sebelumnya
-     * @param  string  $mak_new  Maksimal akun setelahnya
+     * @param  string  $mak_old  akun sebelumnya
+     * @param  string  $mak_new  akun setelahnya
      * @return bool
      */
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
+    }
+
+    /**
+     * Memeriksa apakah kode akun merupakan akun persediaan.
+     *
+     * @param string $mak Kode akun yang akan diperiksa.
+     * @return bool Mengembalikan true jika kode akun merupakan akun persediaan, sebaliknya false.
+     */
+    public static function isAkunPersediaan(string $mak): bool
+    {
+        return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
+    }
+
+    /**
+     * Memeriksa apakah akun persediaan telah berubah.
+     *
+     * Fungsi ini membandingkan dua nilai akun persediaan dan menentukan apakah
+     * ada perubahan antara nilai lama dan nilai baru.
+     *
+     * @param string $mak_old Nilai akun persediaan lama.
+     * @param string $mak_new Nilai akun persediaan baru.
+     * @return bool Mengembalikan true jika akun persediaan berubah, sebaliknya false.
+     */
+    public static function isAkunPersediaanChanged($mak_old, $mak_new)
+    {
+        return (self::isAkunPersediaan($mak_old) && ! self::isAkunPersediaan($mak_new)) || (self::isAkunPersediaan($mak_old) && self::isAkunPersediaan($mak_new) && $mak_old != $mak_new);
     }
 
     /**

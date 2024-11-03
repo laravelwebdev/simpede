@@ -18,8 +18,8 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
@@ -80,14 +80,15 @@ class HonorKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('Tanggal KAK', 'tanggal_kak'),
-            Panel::make('Keterangan SPJ', [
+            Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()
-                    ->noPeeking()
                     ->hideWhenUpdating(),
+                Date::make('Tanggal KAK', 'tanggal_kak')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->sortable(),
+            Panel::make('Keterangan SPJ', [
                 Text::make('Nama Kegiatan', 'kegiatan')
                     ->rules('required')
                     ->sortable()
@@ -188,7 +189,6 @@ class HonorKegiatan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
-                    ->noPeeking()
                     ->onlyOnDetail(),
                 Select::make('Klasifikasi Arsip', 'sk_kode_arsip_id')
                     ->searchable()
@@ -234,7 +234,6 @@ class HonorKegiatan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
                 BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
-                    ->noPeeking()
                     ->onlyOnDetail(),
 
                 Text::make('Uraian Tugas', 'uraian_tugas')

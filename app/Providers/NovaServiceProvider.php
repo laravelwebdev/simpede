@@ -18,6 +18,7 @@ use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\MasterPersediaan;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
+use App\Nova\PembelianPersediaan;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -89,6 +90,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(NaskahMasuk::class),
                         MenuItem::resource(NaskahKeluar::class),
                     ])->collapsable(),
+                    MenuGroup::make('Persediaan', [
+                        MenuItem::resource(PembelianPersediaan::class),
+                    ])->collapsable(),
 
                 ]),
                 MenuSection::make('Referensi', [
@@ -109,7 +113,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
         Nova::withBreadcrumbs();
         Nova::showUnreadCountInNotificationCenter();
-        
+
         // Nova::style('custom-fields-css', resource_path('css/app.css'));
         // Nova::withoutGlobalSearch();
         // Nova::withoutNotificationCenter();

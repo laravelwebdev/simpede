@@ -136,16 +136,20 @@ class DaftarKontrakMitra extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('ppk')->get()) {
-            $actions[] =
-                Download::make('kontrak', 'Unduh Kontrak')
-                    ->showInline()
-                    ->showOnDetail()
-                    ->confirmButtonText('Unduh');
-            $actions[] =
-                Download::make('bast', 'Unduh BAST')
-                    ->showInline()
-                    ->showOnDetail()
-                    ->confirmButtonText('Unduh');
+            if ($request->viaResource == 'bast-mitras') {
+                $actions[] =
+                    Download::make('bast', 'Unduh BAST')
+                        ->showInline()
+                        ->showOnDetail()
+                        ->confirmButtonText('Unduh');
+            }
+            if ($request->viaResource == 'kontrak-mitras') {
+                $actions[] =
+                    Download::make('kontrak', 'Unduh Kontrak')
+                        ->showInline()
+                        ->showOnDetail()
+                        ->confirmButtonText('Unduh');
+            }
         }
 
         return $actions;

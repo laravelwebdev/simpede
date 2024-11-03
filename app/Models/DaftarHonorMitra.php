@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\Nova;
+use Laravel\Nova\URL;
 
 class DaftarHonorMitra extends Model
 {
@@ -26,9 +30,23 @@ class DaftarHonorMitra extends Model
                 if ($daftarKontrak) {
                     $daftarKontrak->update([
                         'status_kontrak' => 'outdated',
-                        'status_bast' => 'outdated'
+                        'status_bast' => 'outdated',
                     ]);
                 }
+                KontrakMitra::where('id', $daftarKontrak->kontrak_mitra_id)
+                    ->where('status', 'digenerate')
+                    ->update(['status' => 'outdated']);
+                BastMitra::where('kontrak_mitra_id', $daftarKontrak->kontrak_mitra_id)
+                    ->where('status', 'digenerate')
+                    ->update(['status' => 'outdated']);
+                $ppk = Helper::getPegawaiByUserId(KontrakMitra::find($daftarKontrak->kontrak_mitra_id)->ppk_user_id);
+                $ppk->notify(
+                    NovaNotification::make()
+                        ->message('Terdapat perubahan pada kontrak mitra!')
+                        ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\KontrakMitra::uriKey()))
+                        ->icon('exclamation')
+                        ->type('error')
+                );
             }
             if ($honor->volume_realisasi != $honor->volume_target) {
                 $honor->status_realisasi = $honor->volume_realisasi < $honor->volume_target
@@ -40,7 +58,7 @@ class DaftarHonorMitra extends Model
         });
         static::deleting(function (DaftarHonorMitra $honor) {
             HonorKegiatan::where('id', $honor->honor_kegiatan_id)
-            ->update(['status' => 'outdated']);
+                ->update(['status' => 'outdated']);
         });
     }
 }

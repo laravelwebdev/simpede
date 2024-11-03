@@ -85,7 +85,7 @@ class Cetak
         if ($jenis === 'kontrak') {
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
             unset($data['daftar_honor']);
-            KontrakMitra::where('id', $id)->update(['status' => 'dicetak']);
+            DaftarKontrakMitra::where('id', $id)->where('status_kontrak', '!=', 'outdated')->update(['status_kontrak' => 'dicetak']);
         }
         if ($jenis === 'bast') {
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);

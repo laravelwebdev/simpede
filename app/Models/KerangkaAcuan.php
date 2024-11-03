@@ -68,6 +68,7 @@ class KerangkaAcuan extends Model
                 $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
                 $honor->awal = $kak->awal;
                 $honor->akhir = $kak->akhir;
+                $honor->status = 'outdated';
                 $honor->save();
             }
         });

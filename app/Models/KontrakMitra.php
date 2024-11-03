@@ -6,6 +6,9 @@ use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\Nova;
+use Laravel\Nova\URL;
 
 class KontrakMitra extends Model
 {
@@ -50,7 +53,10 @@ class KontrakMitra extends Model
                     $naskah_keluar->save();
                 }
             }
-            $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
+            if ($kontrak->isDirty()) {
+                $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
+            }
+            
         });
     }
 }

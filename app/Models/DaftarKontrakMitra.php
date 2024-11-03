@@ -37,6 +37,7 @@ class DaftarKontrakMitra extends Model
     {
         static::creating(function (DaftarKontrakMitra $daftar) {
             $daftar->status_kontrak = 'dibuat';
+            $daftar->status_bast = 'dibuat';
             $kontrak = KontrakMitra::find($daftar->kontrak_mitra_id);
             $jenis_kontrak = Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first(), 'jenis');
             $bulan_kontrak = Helper::$bulan[$kontrak->bulan];

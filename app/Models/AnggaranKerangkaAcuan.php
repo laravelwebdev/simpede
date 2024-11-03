@@ -13,10 +13,11 @@ class AnggaranKerangkaAcuan extends Model
     protected static function booted(): void
     {
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
-            if (Helper::isAkunHonor($anggaranKak->mak)) {
+            if ($anggaranKak->isDirty() && Helper::isAkunHonor($anggaranKak->mak)) {
                 if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $honor->mak = $anggaranKak->mak;
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
+                    $honor->status = 'outdated';
                     $honor->save();
                 } else {
                     $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);

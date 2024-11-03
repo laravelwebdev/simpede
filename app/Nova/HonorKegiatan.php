@@ -48,7 +48,12 @@ class HonorKegiatan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'));
+        $query->where('tahun', session('year'));
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+        }
+
+        return $query;
     }
 
     /**

@@ -34,11 +34,6 @@ class DaftarHonorPegawaiPolicy
             ->get();
     }
 
-    public function replicates(): bool
-    {
-        return false;
-    }
-
     /**
      * Determine whether the user can update the model.
      */

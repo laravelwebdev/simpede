@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class DaftarHonorMitraPolicy
+class MasterPersediaanPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -12,7 +12,7 @@ class DaftarHonorMitraPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->allowedFor('bmn')
             ->get();
     }
 
@@ -21,7 +21,9 @@ class DaftarHonorMitraPolicy
      */
     public function view(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('bmn')
+            ->get();
     }
 
     /**
@@ -29,7 +31,9 @@ class DaftarHonorMitraPolicy
      */
     public function create(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('bmn')
+            ->get();
     }
 
     /**
@@ -38,7 +42,7 @@ class DaftarHonorMitraPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('bmn')
             ->get();
     }
 
@@ -47,21 +51,18 @@ class DaftarHonorMitraPolicy
      */
     public function delete(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('bmn')
+            ->get();
     }
 
     /**
-     * Determine whether the user can replicate model.
+     * Determine whether the user can replicate the model.
      */
     public function replicate(): bool
     {
-        return false;
-    }
-
-    public function runAction(): bool
-    {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('bmn')
             ->get();
     }
 }

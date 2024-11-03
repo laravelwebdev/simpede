@@ -15,6 +15,7 @@ use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\RekapHonorMitra;
+use App\Nova\MasterPersediaan;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
 use App\Nova\TataNaskah;
@@ -96,6 +97,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KepkaMitra::class),
                     MenuItem::resource(User::class),
                     MenuItem::resource(HargaSatuan::class),
+                    MenuItem::resource(MasterPersediaan::class),
 
                 ])->icon('book-open'),
                 MenuSection::make('Administrasi', [

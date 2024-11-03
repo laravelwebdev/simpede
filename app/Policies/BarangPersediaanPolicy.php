@@ -4,15 +4,14 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class DaftarHonorMitraPolicy
-{
+class BarangPersediaanPolicy{
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->allowedFor('koordinator,anggota,bmn')
             ->get();
     }
 
@@ -21,7 +20,9 @@ class DaftarHonorMitraPolicy
      */
     public function view(): bool
     {
-        return false;
+        return Policy::make()
+        ->allowedFor('koordinator,anggota,bmn')
+        ->get();
     }
 
     /**
@@ -29,7 +30,9 @@ class DaftarHonorMitraPolicy
      */
     public function create(): bool
     {
-        return false;
+        return Policy::make()
+        ->allowedFor('koordinator,anggota,bmn')
+        ->get();
     }
 
     /**
@@ -38,7 +41,7 @@ class DaftarHonorMitraPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota,bmn')
             ->get();
     }
 
@@ -47,7 +50,9 @@ class DaftarHonorMitraPolicy
      */
     public function delete(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('koordinator,anggota,bmn')
+            ->get();
     }
 
     /**
@@ -55,13 +60,15 @@ class DaftarHonorMitraPolicy
      */
     public function replicate(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('koordinator,anggota,bmn')
+            ->get();
     }
 
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota')
+            ->allowedFor('koordinator,anggota,bmn')
             ->get();
     }
 }

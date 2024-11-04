@@ -586,7 +586,7 @@ class Helper
     /**
      * Memeriksa apakah kode akun merupakan akun persediaan.
      *
-     * @param string $mak Kode akun yang akan diperiksa.
+     * @param  string  $mak  Kode akun yang akan diperiksa.
      * @return bool Mengembalikan true jika kode akun merupakan akun persediaan, sebaliknya false.
      */
     public static function isAkunPersediaan(string $mak): bool
@@ -600,8 +600,8 @@ class Helper
      * Fungsi ini membandingkan dua nilai akun persediaan dan menentukan apakah
      * ada perubahan antara nilai lama dan nilai baru.
      *
-     * @param string $mak_old Nilai akun persediaan lama.
-     * @param string $mak_new Nilai akun persediaan baru.
+     * @param  string  $mak_old  Nilai akun persediaan lama.
+     * @param  string  $mak_new  Nilai akun persediaan baru.
      * @return bool Mengembalikan true jika akun persediaan berubah, sebaliknya false.
      */
     public static function isAkunPersediaanChanged($mak_old, $mak_new)
@@ -938,7 +938,6 @@ class Helper
             ->toArray();
     }
 
-
     /**
      * Get property from collection.
      *
@@ -1015,7 +1014,7 @@ class Helper
     /**
      * Mengambil harga satuan terbaru berdasarkan tanggal yang diberikan.
      *
-     * @param string $tanggal Tanggal untuk memfilter data harga satuan.
+     * @param  string  $tanggal  Tanggal untuk memfilter data harga satuan.
      * @return HargaSatuan|null Objek HargaSatuan terbaru atau null jika tidak ditemukan.
      */
     public static function getLatestHargaSatuan($tanggal)

@@ -10,7 +10,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class DataPegawai extends Model
 {
-    use  LaraCache;
+    use LaraCache;
 
     protected $casts = [
         'tanggal' => 'date',

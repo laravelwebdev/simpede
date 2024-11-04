@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('master_persediaans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode',20)->nullable()->unique();
+            $table->string('kode', 20)->nullable()->unique();
             $table->string('barang')->nullable();
-            $table->string('satuan',20)->nullable();
+            $table->string('satuan', 20)->nullable();
             $table->timestamps();
         });
     }

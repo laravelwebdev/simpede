@@ -374,6 +374,5 @@ class Cetak
                 'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
             );
         }
-
     }
 }

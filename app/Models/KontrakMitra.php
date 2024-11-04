@@ -50,7 +50,6 @@ class KontrakMitra extends Model
             if ($kontrak->isDirty()) {
                 $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
             }
-
         });
     }
 }

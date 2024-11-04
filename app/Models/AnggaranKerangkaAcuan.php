@@ -56,7 +56,6 @@ class AnggaranKerangkaAcuan extends Model
                     $pembelian->save();
                 }
             }
-
         });
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
             $ids = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();

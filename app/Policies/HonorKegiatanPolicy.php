@@ -52,10 +52,10 @@ class HonorKegiatanPolicy
     public function update(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
-        ->withYear($honor->tahun)
-        ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
-        ->get();
+            ->allowedFor('koordinator,anggota')
+            ->withYear($honor->tahun)
+            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->get();
     }
 
     /**
@@ -64,10 +64,10 @@ class HonorKegiatanPolicy
     public function delete(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota')
-        ->withYear($honor->tahun)
-        ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
-        ->get();
+            ->allowedFor('koordinator,anggota')
+            ->withYear($honor->tahun)
+            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->get();
     }
 
     /**

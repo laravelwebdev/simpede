@@ -31,6 +31,7 @@ class KerangkaAcuanPolicy
                 ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
                 ->get();
         }
+
         return Policy::make()
             ->notAllowedFor('admin')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
@@ -90,5 +91,4 @@ class KerangkaAcuanPolicy
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
             ->get();
     }
-
 }

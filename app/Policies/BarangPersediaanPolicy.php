@@ -4,7 +4,8 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class BarangPersediaanPolicy{
+class BarangPersediaanPolicy
+{
     /**
      * Determine whether the user can view any models.
      */
@@ -21,8 +22,8 @@ class BarangPersediaanPolicy{
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota,bmn')
-        ->get();
+            ->allowedFor('koordinator,anggota,bmn')
+            ->get();
     }
 
     /**
@@ -31,8 +32,8 @@ class BarangPersediaanPolicy{
     public function create(): bool
     {
         return Policy::make()
-        ->allowedFor('koordinator,anggota,bmn')
-        ->get();
+            ->allowedFor('koordinator,anggota,bmn')
+            ->get();
     }
 
     /**

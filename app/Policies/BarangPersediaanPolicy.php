@@ -11,8 +11,9 @@ class BarangPersediaanPolicy
      */
     public function viewAny(): bool
     {
+        //BUG: sementara ada ppk
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
@@ -22,7 +23,7 @@ class BarangPersediaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
@@ -32,7 +33,7 @@ class BarangPersediaanPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
@@ -42,7 +43,7 @@ class BarangPersediaanPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
@@ -52,7 +53,7 @@ class BarangPersediaanPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
@@ -62,14 +63,14 @@ class BarangPersediaanPolicy
     public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn')
+            ->allowedFor('koordinator,anggota,bmn,ppk')
             ->get();
     }
 }

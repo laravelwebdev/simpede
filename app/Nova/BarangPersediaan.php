@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class BarangPersediaan extends Resource
@@ -44,6 +46,12 @@ class BarangPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Nama Barang', 'barang'),
+            Number::make('Volume')
+                ->step(0.01)
+                ->rules('required', 'gt:0')->min(0),
+            Text::make('Satuan', 'satuan'),
+
 
         ];
     }
@@ -90,5 +98,15 @@ class BarangPersediaan extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/pembelian-persediaans/'.$request->viaResourceId;
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/resources/pembelian-persediaans/'.$request->viaResourceId;
     }
 }

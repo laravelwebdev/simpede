@@ -28,7 +28,7 @@ class PembelianPersediaan extends Model
 
     public function daftarBarangPersediaans(): MorphMany
     {
-        return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable')->chaperone();
+        return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable');
     }
 
     protected static function booted(): void

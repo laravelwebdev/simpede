@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SpesifikasiKerangkaAcuan extends Model
 {
-    use HasFactory;
-
     protected static function booted(): void
     {
         static::saving(function (SpesifikasiKerangkaAcuan $spesifikasi) {

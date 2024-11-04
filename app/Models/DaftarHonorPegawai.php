@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DaftarHonorPegawai extends Model
 {
-    use HasFactory;
-
     protected static function booted(): void
     {
         static::saving(function (DaftarHonorPegawai $honor) {
@@ -23,7 +20,7 @@ class DaftarHonorPegawai extends Model
         });
         static::deleting(function (DaftarHonorPegawai $honor) {
             HonorKegiatan::where('id', $honor->honor_kegiatan_id)
-            ->update(['status' => 'outdated']);
+                ->update(['status' => 'outdated']);
         });
     }
 }

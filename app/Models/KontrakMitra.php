@@ -3,17 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Nova\Notifications\NovaNotification;
-use Laravel\Nova\Nova;
-use Laravel\Nova\URL;
 
 class KontrakMitra extends Model
 {
-    use HasFactory;
-
     protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak_id', 'jenis_honor', 'honor_kegiatan_id'];
 
     protected $casts = [
@@ -56,7 +50,7 @@ class KontrakMitra extends Model
             if ($kontrak->isDirty()) {
                 $kontrak->status = $kontrak->status === 'dibuat' ? 'diubah' : 'outdated';
             }
-            
+
         });
     }
 }

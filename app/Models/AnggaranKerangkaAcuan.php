@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AnggaranKerangkaAcuan extends Model
 {
-    use HasFactory;
-
     protected static function booted(): void
     {
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
@@ -50,7 +47,7 @@ class AnggaranKerangkaAcuan extends Model
                     $pembelian->save();
                 } else {
                     $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
-                    $pembelian = new PembelianPersediaan();
+                    $pembelian = new PembelianPersediaan;
                     $pembelian->kerangka_acuan_id = $kak->id;
                     $pembelian->tanggal_kak = $kak->tanggal;
                     $pembelian->anggaran_kerangka_acuan_id = $anggaranKak->id;
@@ -59,7 +56,7 @@ class AnggaranKerangkaAcuan extends Model
                     $pembelian->save();
                 }
             }
-                
+
         });
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
             $ids = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();

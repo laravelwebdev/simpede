@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,8 +10,6 @@ use Illuminate\Support\Carbon;
 
 class HonorKegiatan extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'status',
     ];

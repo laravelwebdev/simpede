@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class JenisKontrak extends Model
 {
-    use HasFactory, LaraCache;
+    use LaraCache;
 
     public static function cacheEntities(): array
     {

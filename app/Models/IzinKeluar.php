@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +13,6 @@ use Laravel\Nova\URL;
 
 class IzinKeluar extends Model
 {
-    use HasFactory;
-
     protected $casts = [
         'tanggal' => 'date',
     ];

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\Nova;
@@ -11,8 +10,6 @@ use Laravel\Nova\URL;
 
 class DaftarHonorMitra extends Model
 {
-    use HasFactory;
-
     protected $fillable = ['mitra_id', 'honor_kegiatan_id', 'daftar_kontrak_mitra_id'];
 
     public function honorKegiatan()

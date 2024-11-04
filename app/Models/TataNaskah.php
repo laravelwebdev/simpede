@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
@@ -10,7 +9,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class TataNaskah extends Model
 {
-    use HasFactory, LaraCache;
+    use LaraCache;
 
     protected $casts = [
         'tanggal' => 'date',

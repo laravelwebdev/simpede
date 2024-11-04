@@ -840,7 +840,6 @@ class Helper
 
     public static function makeCollectionForExportOnSheet($honor_kegiatan_id, $tanggal, $sheet_no = 1, $awal = '', $akhir = '')
     {
-        // TODO: ada OB selain bulanan harus diisi bulan awal dan akhir
         if ($sheet_no === 1) {
             return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
                 ->reject(function ($item) {

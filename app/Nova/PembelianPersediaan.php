@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -148,7 +150,18 @@ class PembelianPersediaan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('bmn')->get()) {
+            $actions[] =
+            ImportBarangFromSpesifikasiKerangkaAcuan::make()
+                ->confirmButtonText('Import')
+                ->confirmText('Menggunakan Fitur Import akan menghapus data yang sebelumnya telah ada. Anda Yakin?')
+                ->showInline()
+                // ->size('7xl')
+                ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 
     public static function indexQuery(NovaRequest $request, $query)

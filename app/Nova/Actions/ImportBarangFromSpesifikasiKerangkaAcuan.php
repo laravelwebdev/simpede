@@ -33,11 +33,18 @@ class ImportBarangFromSpesifikasiKerangkaAcuan extends Action
         BarangPersediaan::where('barang_persediaanable_id', $model->id)
             ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
             ->delete();
-        $speks =SpesifikasiKerangkaAcuan::where
-        $barang = New BarangPersediaan;
-
-        $barang->barang_persediaanable_id = $model->id;
-        $barang->barang_persediaanable_type = 'App\Models\PembelianPersediaan';
+        $speks =SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model->kerangka_acuan_id)->get();
+        foreach ($speks as $spek) {
+            $barang = New BarangPersediaan;
+            $barang->barang = $spek->rincian;
+            $barang->satuan = $spek->satuan;
+            $barang->volume = $spek->volume;
+            $barang->harga_satuan = $spek->harga_satuan;
+            $barang->total_harga = $spek->total_harga;
+            $barang->barang_persediaanable_id = $model->id;
+            $barang->barang_persediaanable_type = 'App\Models\PembelianPersediaan';
+            $barang->save();
+        }
 
         return Action::message('Barang sukses diimport!');
     }

@@ -63,4 +63,11 @@ class PembelianPersediaanPolicy
             ->allowedFor('bmn,ppk')
             ->get();
     }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('bmn,ppk')
+            ->get();
+    }
 }

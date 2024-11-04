@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -9,6 +10,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class BarangPersediaan extends Resource
 {
     public static $displayInNavigation = false;
+
+    public static $with = ['masterPersediaan'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -40,18 +44,37 @@ class BarangPersediaan extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nama Barang', 'barang'),
+            Text::make('Nama Barang', 'barang')
+                ->readonly(),
+            Text::make('Satuan', 'satuan')
+                ->readonly(),
+            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                ->withSubtitles()
+                ->searchable()
+                ->onlyOnForms()
+                ->rules('required'),
+            Text::make('Kode Barang Detail', 'masterPersediaan.kode')
+                ->onlyOnIndex()
+                ->copyable(),
+            Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
+                ->displayUsing(fn($value) => substr($value, 0, 10))
+                ->onlyOnIndex()
+                ->copyable(),
             Number::make('Volume')
                 ->step(0.01)
                 ->rules('required', 'gt:0')->min(0),
-            Text::make('Satuan', 'satuan'),
-
+            Number::make('Harga Satuan')
+                ->step(1)
+                ->rules('required', 'gt:0')->min(0),
+            Number::make('Total Harga')
+                ->step(1)
+                ->exceptOnForms()
+                ->rules('required', 'gt:0')->min(0),
 
         ];
     }
@@ -59,7 +82,6 @@ class BarangPersediaan extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -70,7 +92,6 @@ class BarangPersediaan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -81,7 +102,6 @@ class BarangPersediaan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -92,7 +112,6 @@ class BarangPersediaan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

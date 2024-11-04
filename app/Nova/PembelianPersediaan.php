@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
@@ -16,7 +17,7 @@ use Laravel\Nova\Panel;
 
 class PembelianPersediaan extends Resource
 {
-    public static $with = ['kakNaskahKeluar', 'bastNaskahKeluar', 'kerangkaAcuan.naskahKeluar'];
+    public static $with = ['bastNaskahKeluar', 'kerangkaAcuan.naskahKeluar', 'daftarBarangPersediaans'];
 
     /**
      * The model the resource corresponds to.
@@ -83,6 +84,7 @@ class PembelianPersediaan extends Resource
                     ->rules('nullable', 'bail', 'after_or_equal:tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
     }
 
@@ -90,7 +92,7 @@ class PembelianPersediaan extends Resource
     {
         return [
             Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
-                BelongsTo::make('Nomor KAK', 'kakNaskahKeluar', 'App\Nova\naskahKeluar'),
+                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
                 Date::make('Tanggal BAST', 'tanggal_kak')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
@@ -102,7 +104,9 @@ class PembelianPersediaan extends Resource
             Date::make('Tanggal Buku', 'tanggal_buku')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Rincian'),
-            Status::make('Status'),
+            Status::make('Status', 'status')
+                ->loadingWhen(['dibuat', 'diubah'])
+                ->failedWhen(['outdated']),
 
         ];
     }
@@ -151,5 +155,4 @@ class PembelianPersediaan extends Resource
     {
         $query->whereYear('tanggal_kak', session('year'));
     }
-
 }

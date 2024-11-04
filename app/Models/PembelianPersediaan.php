@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class PembelianPersediaan extends Model
 {
     use HasFactory;
+
     protected $fillable = ['status'];
 
     protected $casts = [
@@ -17,9 +19,9 @@ class PembelianPersediaan extends Model
         'tanggal_kak' => 'date',
     ];
 
-    public function kakNaskahKeluar(): BelongsTo
+    public function kerangkaAcuan(): BelongsTo
     {
-        return $this->belongsTo(NaskahKeluar::class, 'kak_naskah_keluar_id');
+        return $this->belongsTo(KerangkaAcuan::class, 'kerangka_acuan_id');
     }
 
     public function bastNaskahKeluar(): BelongsTo
@@ -27,4 +29,15 @@ class PembelianPersediaan extends Model
         return $this->belongsTo(NaskahKeluar::class, 'bast_naskah_keluar_id');
     }
 
+    public function daftarBarangPersediaans(): MorphMany
+    {
+        return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable')->chaperone();
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (PembelianPersediaan $pembelian) {
+            $pembelian->status = 'dibuat';
+        });
+    }
 }

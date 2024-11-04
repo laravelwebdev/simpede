@@ -70,6 +70,12 @@ class KerangkaAcuan extends Model
                 $honor->akhir = $kak->akhir;
                 $honor->status = 'outdated';
                 $honor->save();
+
+                $pembelian = PembelianPersediaan::where('kerangka_acuan_id', $kak->id)->first();
+                $pembelian->tanggal_kak = $kak->tanggal;
+                $pembelian->rincian = $kak->rincian;
+                $pembelian->status = 'outdated';
+                $pembelian->save();
             }
         });
 

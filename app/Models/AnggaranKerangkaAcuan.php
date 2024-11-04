@@ -45,7 +45,19 @@ class AnggaranKerangkaAcuan extends Model
                 }
             }
             if ($anggaranKak->isDirty() && Helper::isAkunPersediaan($anggaranKak->mak)) {
-
+                if ($pembelian = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
+                    $pembelian->status = 'outdated';
+                    $pembelian->save();
+                } else {
+                    $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                    $pembelian = new PembelianPersediaan();
+                    $pembelian->kerangka_acuan_id = $kak->id;
+                    $pembelian->tanggal_kak = $kak->tanggal;
+                    $pembelian->anggaran_kerangka_acuan_id = $anggaranKak->id;
+                    $pembelian->rincian = $kak->rincian;
+                    $pembelian->status = 'outdated';
+                    $pembelian->save();
+                }
             }
                 
         });
@@ -63,6 +75,10 @@ class AnggaranKerangkaAcuan extends Model
             if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
                 $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
                 HonorKegiatan::destroy($id);
+            }
+            if (Helper::isAkunPersediaanChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
+                $id = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
+                PembelianPersediaan::destroy($id);
             }
         });
     }

@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -15,6 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -108,7 +110,7 @@ class PembelianPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Rincian'),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat', 'diubah'])
+                ->loadingWhen(['dibuat', 'diterima'])
                 ->failedWhen(['outdated']),
 
         ];
@@ -160,13 +162,29 @@ class PembelianPersediaan extends Resource
                 ->showInline()
                 // ->size('7xl')
                 ->exceptOnIndex();
-                $actions[] =
+            $actions[] =
             SetStatus::make()
-                    ->confirmButtonText('Ubah Status')
-                    ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda Yakin Ingin mengubah status menjadi diterima?')
-                    ->onlyOnDetail()
-                    ->setStatus('diterima');
+                ->confirmButtonText('Ubah Status')
+                ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda yakin ingin mengubah status menjadi diterima?')
+                ->onlyOnDetail()
+                ->setName('Terima Barang')
+                ->setStatus('diterima');
+        }
+        if (Policy::make()->allowedFor('bmn')->get()) {
+            $actions[] =
+            SetStatus::make()
+                ->confirmButtonText('Ubah Status')
+                ->confirmText('Pastikan semua barang sudah diberi kode. Apakah Anda yakin ingin mengubah status menjadi selesai?')
+                ->onlyOnDetail()
+                ->setName('Terima Barang')
+                ->setStatus('selesai')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
 
+                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null;
+                });
         }
 
         return $actions;

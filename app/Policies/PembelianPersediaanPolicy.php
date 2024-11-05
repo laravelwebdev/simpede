@@ -40,7 +40,7 @@ class PembelianPersediaanPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('pbj')
+            ->allowedFor('bmn')
             ->get();
     }
 

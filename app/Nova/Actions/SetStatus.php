@@ -13,15 +13,22 @@ class SetStatus extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    protected $name = 'Set Status';
-
     protected $status;
     protected $statusField;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     public function setStatus($status, $statusField = 'status')
     {
         $this->status = $status;
         $this->statusField = $statusField;
+
+        return $this;
     }
 
     /**

@@ -21,6 +21,18 @@ class BarangPersediaan extends Model
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
 
             }
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
+                PembelianPersediaan::where('id' , $persediaan->barang_persediaanable_id)
+                ->where('status', '!=' , 'dibuat')
+                ->update(['status' => 'outdated']);
+            }
+        });
+
+        static::deleting(function (BarangPersediaan $persediaan) {
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan') {
+                PembelianPersediaan::where('id' , $persediaan->barang_persediaanable_id)
+                ->update(['status' => 'outdated']);
+            }
         });
     }
 }

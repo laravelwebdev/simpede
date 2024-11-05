@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
+use App\Nova\Metrics\HelperPembelianPersediaan;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -110,7 +111,7 @@ class PembelianPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Rincian'),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat', 'diterima'])
+                ->loadingWhen(['dibuat', 'diterima', 'berkode'])
                 ->failedWhen(['outdated']),
 
         ];
@@ -123,7 +124,10 @@ class PembelianPersediaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            HelperPembelianPersediaan::make()
+            ->width('full'),
+        ];
     }
 
     /**
@@ -174,16 +178,16 @@ class PembelianPersediaan extends Resource
             $actions[] =
             SetStatus::make()
                 ->confirmButtonText('Ubah Status')
-                ->confirmText('Pastikan semua barang sudah diberi kode. Apakah Anda yakin ingin mengubah status menjadi selesai?')
+                ->confirmText('Pastikan semua barang sudah diberi kode. Apakah Anda yakin ingin mengubah status menjadi berkode?')
                 ->onlyOnDetail()
-                ->setName('Terima Barang')
-                ->setStatus('selesai')
+                ->setName('Tandai Telah Diberi Kode')
+                ->setStatus('berkode')
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;
                     }
 
-                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null;
+                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null && $this->resource->status === 'diterima';
                 });
         }
 

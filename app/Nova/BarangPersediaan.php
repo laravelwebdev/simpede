@@ -46,6 +46,22 @@ class BarangPersediaan extends Resource
      *
      * @return array
      */
+    public function fieldsforIndex(NovaRequest $request)
+    {
+        return [
+            Text::make('Nama Barang', 'barang'),
+            Text::make('Kode Barang Detail', 'masterPersediaan.kode')
+                ->copyable(),
+            Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
+                ->displayUsing(fn ($value) => substr($value, 0, 10))
+                ->copyable(),
+            Number::make('Volume'),
+            Number::make('Harga Satuan'),
+            Number::make('Total Harga'),
+
+        ];
+    }
+
     public function fields(NovaRequest $request)
     {
         return [
@@ -62,7 +78,7 @@ class BarangPersediaan extends Resource
                 ->onlyOnIndex()
                 ->copyable(),
             Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
-                ->displayUsing(fn($value) => substr($value, 0, 10))
+                ->displayUsing(fn ($value) => substr($value, 0, 10))
                 ->onlyOnIndex()
                 ->copyable(),
             Number::make('Volume')
@@ -77,6 +93,22 @@ class BarangPersediaan extends Resource
                 ->rules('required', 'gt:0')->min(0),
 
         ];
+    }
+
+    public function fieldsforCreate(NovaRequest $request)
+    {
+        $fields = [];
+        $fields[] =
+            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                ->withSubtitles()
+                ->searchable()
+                ->rules('required');
+        $fields[] =
+            Number::make('Volume')
+                ->step(0.01)
+                ->rules('required', 'gt:0')->min(0);
+
+        return $fields;
     }
 
     /**
@@ -121,11 +153,11 @@ class BarangPersediaan extends Resource
 
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/pembelian-persediaans/'.$request->viaResourceId;
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
-        return '/resources/pembelian-persediaans/'.$request->viaResourceId;
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
+use App\Nova\Actions\SetStatus;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -151,7 +152,7 @@ class PembelianPersediaan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('bmn')->get()) {
+        if (Policy::make()->allowedFor('pbj')->get()) {
             $actions[] =
             ImportBarangFromSpesifikasiKerangkaAcuan::make()
                 ->confirmButtonText('Import')
@@ -159,6 +160,13 @@ class PembelianPersediaan extends Resource
                 ->showInline()
                 // ->size('7xl')
                 ->exceptOnIndex();
+                $actions[] =
+            SetStatus::make()
+                    ->confirmButtonText('Ubah Status')
+                    ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda Yakin Ingin mengubah status menjadi diterima?')
+                    ->onlyOnDetail()
+                    ->setStatus('diterima');
+
         }
 
         return $actions;

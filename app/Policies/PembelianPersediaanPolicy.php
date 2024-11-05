@@ -12,7 +12,7 @@ class PembelianPersediaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk')
+            ->allowedFor('bmn,ppk,pbj')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class PembelianPersediaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk')
+            ->allowedFor('bmn,ppk,pbj')
             ->get();
     }
 
@@ -40,7 +40,7 @@ class PembelianPersediaanPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk')
+            ->allowedFor('pbj')
             ->get();
     }
 
@@ -50,7 +50,7 @@ class PembelianPersediaanPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk')
+            ->allowedFor('bmn,ppk,pbj')
             ->get();
     }
 
@@ -59,15 +59,13 @@ class PembelianPersediaanPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('bmn,ppk')
-            ->get();
+        return false;
     }
 
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk')
+            ->allowedFor('bmn,ppk,pbj')
             ->get();
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class BarangPersediaanPolicy
 {
@@ -29,9 +31,17 @@ class BarangPersediaanPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn,pbj')
-            ->get();
+        return Nova::whenServing(function (NovaRequest $request){
+           if ($request->viaResource =='pembelian-persediaans') {
+               return Policy::make()
+                   ->allowedFor('pbj')
+                   ->get();
+           }
+           return Policy::make()
+               ->allowedFor('koordinator,anggota,bmn,pbj')
+               ->get();
+        });
+
     }
 
     /**

@@ -98,25 +98,31 @@ class BarangPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         $fields = [];
-        if (Policy::make()
-            ->notAllowedFor('pbj')
-            ->get()) {
-            $fields[] =
-                BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
-                    ->withSubtitles()
-                    ->searchable()
-                    ->rules('required');
-        }
         if ($request->viaResource == 'pembelian-persediaans') {
+            if (Policy::make()
+                ->notAllowedFor('pbj')
+                ->get()) {
+                $fields[] =
+                    BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                        ->withSubtitles()
+                        ->searchable()
+                        ->rules('required');
+            }
             if (Policy::make()
                 ->allowedFor('pbj,bmn')
                 ->get()) {
                 $fields[] =
                     Text::make('Nama Barang', 'barang')
-                        ->rules('required');
+                        ->rules('required')
+                        ->readonly(Policy::make()
+                        ->allowedFor('bmn')
+                        ->get());
                 $fields[] =
                     Text::make('Satuan', 'satuan')
-                        ->rules('required');
+                        ->rules('required')
+                        ->readonly(Policy::make()
+                        ->allowedFor('bmn')
+                        ->get());
             }
             if (Policy::make()
                 ->allowedFor('pbj')

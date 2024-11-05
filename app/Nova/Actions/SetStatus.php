@@ -40,6 +40,7 @@ class SetStatus extends Action
     {
         $model = $models->first();
         $model->query()->update([$this->statusField => $this->status]);
+        return $model;
 
     }
 

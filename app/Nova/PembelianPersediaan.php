@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\BarangPersediaan;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Metrics\HelperPembelianPersediaan;
@@ -172,7 +173,12 @@ class PembelianPersediaan extends Resource
                 ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda yakin ingin mengubah status menjadi diterima?')
                 ->onlyOnDetail()
                 ->setName('Terima Barang')
-                ->setStatus('diterima');
+                ->setStatus('diterima')
+                ->then(function ($model) {
+                    BarangPersediaan::where('pembelian_persediaanable_id', $model->id)
+                    ->where('pembelian_persediaanable_type', 'App\Models\PembelianPersediaan')
+                    ->update(['tanggal_transaksi' => $model->tanggal_buku]);
+                });
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

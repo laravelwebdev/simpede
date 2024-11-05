@@ -119,6 +119,6 @@ class KodeNaskah extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/tata-naskahs/'.$request->viaResourceId.'#Detail%20Naskah=kode-naskah';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail%20Naskah=kode-naskah';
     }
 }

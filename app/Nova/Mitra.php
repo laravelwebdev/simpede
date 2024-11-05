@@ -134,6 +134,6 @@ class Mitra extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kepka-mitras/'.$request->viaResourceId;
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

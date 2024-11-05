@@ -31,8 +31,6 @@ class BarangPersediaanPolicy
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota,bmn,pbj')
-            //BUG: nanti tamabh or 
-            ->andEqual(str_contains(request()->fullUrl(),'pembelian-persediaans'), true)
             ->get();
     }
 

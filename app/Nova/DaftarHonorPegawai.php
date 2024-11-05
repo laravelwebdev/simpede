@@ -62,8 +62,7 @@ class DaftarHonorPegawai extends Resource
                 ->rules('nullable', 'bail', 'gt:0')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Currency::make('Harga Satuan', 'harga_satuan')
-                ->currency('IDR')
-                ->locale('id')
+
                 ->hide()
                 ->dependsOn(['volume'], function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->volume != null) {
@@ -73,8 +72,7 @@ class DaftarHonorPegawai extends Resource
                 })
                 ->step(1),
             Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
-                ->currency('IDR')
-                ->locale('id')
+
                 ->exceptOnForms(),
             Number::make('Persentase Pajak (%)', 'persen_pajak')
                 ->hide()
@@ -87,12 +85,10 @@ class DaftarHonorPegawai extends Resource
                     }
                 })->onlyOnForms(),
             Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
+
                 ->exceptOnForms(),
             Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
+
                 ->exceptOnForms(),
             Text::make('Rekening', fn () => $user->rekening)
                 ->exceptOnForms(),
@@ -154,11 +150,11 @@ class DaftarHonorPegawai extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
     }
 
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
-        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
     }
 }

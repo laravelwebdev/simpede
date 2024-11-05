@@ -73,8 +73,7 @@ class RekapHonorMitra extends Lens
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak', 'nilai_kontrak')
-                ->currency('IDR')
-                ->locale('id')
+
                 ->readOnly(),
             Boolean::make('Sesuai SBML', 'valid_sbml')
                 ->exceptOnForms(),

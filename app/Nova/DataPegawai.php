@@ -127,6 +127,6 @@ class DataPegawai extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/users/'.$request->viaResourceId.'#Detail=data-pegawai';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=data-pegawai';
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -55,58 +57,81 @@ class BarangPersediaan extends Resource
             Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
                 ->displayUsing(fn ($value) => substr($value, 0, 10))
                 ->copyable(),
-            Number::make('Volume'),
-            Number::make('Harga Satuan'),
-            Number::make('Total Harga'),
+            Text::make('Volume')
+                ->displayUsing(fn ($value) => $value.' '.$this->satuan),
+            Currency::make('Harga Satuan'),
+            Currency::make('Total Harga'),
 
         ];
     }
+
+    // public function fields(NovaRequest $request)
+    // {
+    //     return [
+    //         Text::make('Nama Barang', 'barang')
+    //             ->readonly(),
+    //         Text::make('Satuan', 'satuan')
+    //             ->readonly(),
+    //         BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+    //             ->withSubtitles()
+    //             ->searchable()
+    //             ->onlyOnForms()
+    //             ->rules('required'),
+    //         Text::make('Kode Barang Detail', 'masterPersediaan.kode')
+    //             ->onlyOnIndex()
+    //             ->copyable(),
+    //         Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
+    //             ->displayUsing(fn ($value) => substr($value, 0, 10))
+    //             ->onlyOnIndex()
+    //             ->copyable(),
+    //         Number::make('Volume')
+    //             ->step(0.01)
+    //             ->rules('required', 'gt:0')->min(0),
+    //         Currency::make('Harga Satuan')
+
+    //             ->step(1)
+    //             ->rules('required', 'gt:0'),
+
+    //     ];
+    // }
 
     public function fields(NovaRequest $request)
     {
-        return [
-            Text::make('Nama Barang', 'barang')
-                ->readonly(),
-            Text::make('Satuan', 'satuan')
-                ->readonly(),
-            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
-                ->withSubtitles()
-                ->searchable()
-                ->onlyOnForms()
-                ->rules('required'),
-            Text::make('Kode Barang Detail', 'masterPersediaan.kode')
-                ->onlyOnIndex()
-                ->copyable(),
-            Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
-                ->displayUsing(fn ($value) => substr($value, 0, 10))
-                ->onlyOnIndex()
-                ->copyable(),
-            Number::make('Volume')
-                ->step(0.01)
-                ->rules('required', 'gt:0')->min(0),
-            Number::make('Harga Satuan')
-                ->step(1)
-                ->rules('required', 'gt:0')->min(0),
-            Number::make('Total Harga')
-                ->step(1)
-                ->exceptOnForms()
-                ->rules('required', 'gt:0')->min(0),
-
-        ];
-    }
-
-    public function fieldsforCreate(NovaRequest $request)
-    {
         $fields = [];
-        $fields[] =
-            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
-                ->withSubtitles()
-                ->searchable()
-                ->rules('required');
-        $fields[] =
-            Number::make('Volume')
-                ->step(0.01)
-                ->rules('required', 'gt:0')->min(0);
+        if (Policy::make()
+            ->notAllowedFor('pbj')
+            ->get()) {
+            $fields[] =
+                BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                    ->withSubtitles()
+                    ->searchable()
+                    ->rules('required');
+        }
+        if ($request->viaResource == 'pembelian-persediaans') {
+            if (Policy::make()
+                ->allowedFor('pbj,bmn')
+                ->get()) {
+                $fields[] =
+                    Text::make('Nama Barang', 'barang')
+                        ->rules('required');
+                $fields[] =
+                    Text::make('Satuan', 'satuan')
+                        ->rules('required');
+            }
+            if (Policy::make()
+                ->allowedFor('pbj')
+                ->get()) {
+                $fields[] =
+                    Number::make('Volume')
+                        ->step(0.01)
+                        ->rules('required', 'gt:0')->min(0);
+                $fields[] =
+                    Number::make('Harga Satuan')
+                        ->step(1)
+                        ->rules('required', 'gt:0')->min(0);
+            }
+
+        }
 
         return $fields;
     }

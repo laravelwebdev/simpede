@@ -137,6 +137,6 @@ class JenisNaskah extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kode-naskahs/'.$request->viaResourceId;
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

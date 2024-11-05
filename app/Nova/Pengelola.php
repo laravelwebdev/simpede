@@ -130,6 +130,6 @@ class Pengelola extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/users/'.$request->viaResourceId.'#Detail=pengelola';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=pengelola';
     }
 }

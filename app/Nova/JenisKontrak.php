@@ -111,6 +111,6 @@ class JenisKontrak extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/harga-satuans/'.$request->viaResourceId;
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

@@ -86,8 +86,7 @@ class ImportDaftarHonorMitra extends Action
                 ->step(0.01)
                 ->help('Default Volume Pekerjaan'),
             Currency::make('Harga Satuan', 'harga_satuan')
-                ->currency('IDR')
-                ->locale('id')
+
                 ->help('Default Harga Satuan'),
             Number::make('Persentase Pajak', 'persen_pajak')
                 ->step(0.01)

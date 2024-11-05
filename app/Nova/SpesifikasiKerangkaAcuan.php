@@ -59,7 +59,7 @@ class SpesifikasiKerangkaAcuan extends Resource
             Text::make('Satuan')
                 ->rules('required'),
             Currency::make('Harga Satuan')
-                ->rules('required', 'gt:1')
+                ->rules('required', 'gt:0')
                 ->min(1)
                 ->step(1),
             Textarea::make('Spesifikasi')
@@ -136,6 +136,6 @@ class SpesifikasiKerangkaAcuan extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId.'#Detail=spesifikasi';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=spesifikasi';
     }
 }

@@ -74,8 +74,7 @@ class DaftarKontrakMitra extends Resource
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak')
-                ->currency('IDR')
-                ->locale('id')
+
                 ->readOnly(),
             Status::make('Status', 'status_kontrak')
                 ->loadingWhen(['dibuat', 'diupdate'])

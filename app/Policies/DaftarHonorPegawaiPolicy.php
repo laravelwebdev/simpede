@@ -31,7 +31,6 @@ class DaftarHonorPegawaiPolicy
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
-            ->andEqual(str_contains(request()->fullUrl(),'honor-kegiatans'), true)
             ->get();
     }
 

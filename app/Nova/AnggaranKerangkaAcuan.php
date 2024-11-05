@@ -124,6 +124,6 @@ class AnggaranKerangkaAcuan extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/kerangka-acuans/'.$request->viaResourceId.'#Detail=anggaran';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=anggaran';
     }
 }

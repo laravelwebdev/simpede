@@ -16,6 +16,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class DaftarHonorMitra extends Resource
 {
     public static $displayInNavigation = false;
+
     public static $with = ['honorKegiatan'];
 
     /**
@@ -67,24 +68,20 @@ class DaftarHonorMitra extends Resource
                     ->failedWhen(['Selesai Tidak Sesuai Target'])
                     ->onlyOnIndex(),
                 Currency::make('Harga Satuan', 'harga_satuan')
-                    ->currency('IDR')
-                    ->locale('id')
+
                     ->step(1)
                     ->rules('required', 'gt:0'),
                 Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
-                    ->currency('IDR')
-                    ->locale('id')
+
                     ->onlyOnIndex(),
                 Number::make('Persentase Pajak', 'persen_pajak')
                     ->onlyOnForms()
                     ->step(0.01),
                 Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                    ->currency('IDR')
-                    ->locale('id')
+
                     ->onlyOnIndex(),
                 Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                    ->currency('IDR')
-                    ->locale('id')
+
                     ->onlyOnIndex(),
                 Text::make('Rekening', fn () => $mitra->rekening)
                     ->onlyOnIndex(),
@@ -102,20 +99,16 @@ class DaftarHonorMitra extends Resource
                 ->loadingWhen(['Loading'])
                 ->failedWhen(['Selesai Tidak Sesuai Target']),
             Currency::make('Harga Satuan', 'harga_satuan')
-                ->currency('IDR')
-                ->locale('id')
+
                 ->onlyOnIndex(),
             Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
-                ->currency('IDR')
-                ->locale('id')
+
                 ->onlyOnIndex(),
             Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
+
                 ->onlyOnIndex(),
             Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-                ->currency('IDR')
-                ->locale('id')
+
                 ->onlyOnIndex(),
         ];
     }
@@ -179,6 +172,6 @@ class DaftarHonorMitra extends Resource
 
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/honor-kegiatans/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-mitra';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-mitra';
     }
 }

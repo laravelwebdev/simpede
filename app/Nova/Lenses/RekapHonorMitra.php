@@ -45,9 +45,9 @@ class RekapHonorMitra extends Lens
                         ->where('jenis_honor', 'Kontrak Mitra Bulanan')
                     );
                 })
+                ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
-                ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->groupBy(['bulan', 'mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
                 ->orderBy('jenis_kontrak_id', 'asc')
                 ->orderBy('bulan', 'desc')
@@ -69,11 +69,11 @@ class RekapHonorMitra extends Lens
                 ->displayUsing(fn ($value) => Helper::$bulan[$value])
                 ->readOnly(),
             Text::make('Nama', 'nama')
+                ->sortable()
                 ->readOnly(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak', 'nilai_kontrak')
-
                 ->readOnly(),
             Boolean::make('Sesuai SBML', 'valid_sbml')
                 ->exceptOnForms(),

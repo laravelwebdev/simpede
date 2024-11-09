@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMasterPersediaan;
+use App\Nova\Lenses\RekapBarangPersediaan;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -90,7 +91,9 @@ class MasterPersediaan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            RekapBarangPersediaan::make(),
+        ];
     }
 
     /**

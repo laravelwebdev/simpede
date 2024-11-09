@@ -58,7 +58,7 @@ class BarangPersediaan extends Model
         });
 
         static::deleting(function (BarangPersediaan $persediaan) {
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan') {
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' || $persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan') {
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->update(['status' => 'outdated']);
             }

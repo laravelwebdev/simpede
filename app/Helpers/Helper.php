@@ -221,7 +221,6 @@ class Helper
                 'SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'
             )
             ->where('master_persediaan_id', $id)
-            // ->whereNotNull('tanggal_transaksi')
             ->groupBy('master_persediaan_id')
             ->first();
         return $stok ? $stok->stok : 0;

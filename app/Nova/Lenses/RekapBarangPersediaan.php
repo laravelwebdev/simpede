@@ -2,15 +2,10 @@
 
 namespace App\Nova\Lenses;
 
-use App\Helpers\Helper;
-use App\Nova\Filters\BulanKontrak;
-use App\Nova\Filters\JenisKontrak;
-use App\Nova\Metrics\JumlahKegiatan;
-use App\Nova\Metrics\JumlahMitra;
-use App\Nova\Metrics\KesesuaianSbml;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Number;
+use App\Nova\Metrics\PembukuanBarangPersediaan;
+use App\Nova\Metrics\StatusPembelianPersediaan;
+use App\Nova\Metrics\StatusPermintaanPersediaan;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -18,6 +13,11 @@ use Laravel\Nova\Lenses\Lens;
 
 class RekapBarangPersediaan extends Lens
 {
+    public function name()
+    {
+        return 'Barang Persediaan';
+    }
+
     public static $showPollingToggle = true;
 
     /**
@@ -25,7 +25,7 @@ class RekapBarangPersediaan extends Lens
      *
      * @var array
      */
-    public static $search = ['barang', 'kode'];
+    public static $search = ['kode', 'barang'];
 
     /**
      * Get the query builder / paginator for the lens.
@@ -35,23 +35,33 @@ class RekapBarangPersediaan extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withOrdering(
-            $query->selectRaw(
-                'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml '
-            )
-                ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
-                    $request->withFilters($query->select('id')->from('honor_kegiatans')
-                        ->where('tahun', session('year'))
-                        ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-                    );
-                })
-                ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
-                ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
-                ->join('mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
-                ->groupBy(['bulan', 'mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id'])
-                ->orderBy('jenis_kontrak_id', 'asc')
-                ->orderBy('bulan', 'desc')
-                ->orderBy('nilai_kontrak', 'desc'));
+        return $request->withOrdering($request->withFilters(
+            $query->select(self::columns())
+                ->whereNotNull('tanggal_transaksi')
+                ->havingRaw('stok > 0')
+                ->join(
+                    'barang_persediaans',
+                    'master_persediaans.id',
+                    '=',
+                    'barang_persediaans.master_persediaan_id'
+                )
+                ->groupBy('master_persediaan_id')
+        ));
+    }
+
+    /**
+     * Get the columns that should be selected.
+     *
+     * @return array
+     */
+    protected static function columns()
+    {
+        return [
+            'master_persediaans.kode',
+            'master_persediaans.satuan',
+            'master_persediaans.barang',
+            DB::raw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'),
+        ];
     }
 
     /**
@@ -62,21 +72,13 @@ class RekapBarangPersediaan extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis Kontrak', 'jenis_kontrak_id')
-                ->displayUsing(fn ($value) => Helper::getPropertyFromCollection(Helper::getJenisKontrakById($value), 'jenis'))
+            Text::make('Kode')
+                ->sortable()
                 ->readOnly(),
-            Text::make('Bulan', 'bulan')
-                ->displayUsing(fn ($value) => Helper::$bulan[$value])
+            Text::make('Barang')
+                ->sortable()
                 ->readOnly(),
-            Text::make('Nama', 'nama')
-                ->readOnly(),
-            Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
-                ->readOnly(),
-            Currency::make('Nilai Kontrak', 'nilai_kontrak')
-
-                ->readOnly(),
-            Boolean::make('Sesuai SBML', 'valid_sbml')
-                ->exceptOnForms(),
+            Text::make('stok', fn () => $this->stok.' '.$this->satuan),
 
         ];
     }
@@ -89,16 +91,9 @@ class RekapBarangPersediaan extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            JumlahKegiatan::make()
-                ->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra')
-                ->refreshWhenFiltersChange(),
-            JumlahMitra::make()
-                ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan')
-                ->refreshWhenFiltersChange(),
-            KesesuaianSbml::make()
-                ->help('Jumlah Kontrak dengan nilai tidak melebihi SBML')
-                ->refreshWhenFiltersChange(),
-
+            PembukuanBarangPersediaan::make(),
+            StatusPembelianPersediaan::make(),
+            StatusPermintaanPersediaan::make(),
         ];
     }
 
@@ -110,8 +105,6 @@ class RekapBarangPersediaan extends Lens
     public function filters(NovaRequest $request)
     {
         return [
-            JenisKontrak::make(),
-            BulanKontrak::make(),
         ];
     }
 
@@ -132,6 +125,6 @@ class RekapBarangPersediaan extends Lens
      */
     public function uriKey()
     {
-        return 'rekap-honor-mitra';
+        return 'rekap-barang-persediaan';
     }
 }

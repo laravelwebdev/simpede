@@ -27,8 +27,8 @@ class JumlahMitra extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\Nova\Filters\JenisKontrak');
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = [];
         $query = DB::table('daftar_honor_mitras')
             ->select(DB::raw('bulan, COUNT(DISTINCT mitra_id) as mitra_count'))

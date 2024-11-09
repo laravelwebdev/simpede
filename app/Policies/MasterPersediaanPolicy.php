@@ -12,7 +12,7 @@ class MasterPersediaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn')
+            ->allowedFor('all')
             ->get();
     }
 

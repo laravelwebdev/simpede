@@ -149,10 +149,10 @@ class BarangPersediaan extends Resource
             Number::make('Jumlah', 'volume')
                 ->step(1)
                 ->rules('required', 'gt:0');
-                $fields[] =
+            $fields[] =
             Number::make('Harga Satuan')
-                    ->step(1)
-                    ->rules('required', 'gt:0')->min(0);
+            ->step(1)
+            ->rules('required', 'gt:0')->min(0);
         }
 
         if ($request->viaResource == 'persediaan-keluars') {
@@ -203,7 +203,9 @@ class BarangPersediaan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+
+        ];
     }
 
     /**

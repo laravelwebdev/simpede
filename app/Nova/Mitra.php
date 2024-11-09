@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
+use App\Nova\Lenses\RekapHonorMitra;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
@@ -102,7 +103,9 @@ class Mitra extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            RekapHonorMitra::make(),
+        ];
     }
 
     /**

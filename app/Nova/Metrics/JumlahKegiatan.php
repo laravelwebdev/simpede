@@ -26,8 +26,8 @@ class JumlahKegiatan extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
-        $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\JenisKontrak');
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\Nova\Filters\JenisKontrak');
         $bulan_ini = DB::table('daftar_honor_mitras')
             ->select('honor_kegiatans.id')
             ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')

@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Models\Pengelola;
-use App\Nova\PersediaanKeluar;
-use App\Nova\PersediaanMasuk;
 use App\Nova\BastMitra;
 use App\Nova\DaftarHonorMitra;
 use App\Nova\Dashboards\Main;
@@ -16,12 +14,16 @@ use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KontrakMitra;
+use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\MasterPersediaan;
+use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
 use App\Nova\PembelianPersediaan;
 use App\Nova\PermintaanPersediaan;
+use App\Nova\PersediaanKeluar;
+use App\Nova\PersediaanMasuk;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -73,7 +75,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::dashboard(Main::class)->icon('user'),
                 MenuSection::make('Monitoring', [
-                    MenuItem::lens(DaftarHonorMitra::class, RekapHonorMitra::class),
+                    MenuItem::lens(Mitra::class, RekapHonorMitra::class),
+                    MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                 ])->icon('chart-bar'),
                 MenuSection::make(session('year'), [
                     MenuGroup::make('Kerangka Acuan', [

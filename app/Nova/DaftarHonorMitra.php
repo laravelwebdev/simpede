@@ -141,7 +141,7 @@ class DaftarHonorMitra extends Resource
     public function lenses(NovaRequest $request)
     {
         return [
-            RekapHonorMitra::make(),
+           
 
         ];
     }

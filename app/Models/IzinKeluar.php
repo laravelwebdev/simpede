@@ -34,7 +34,7 @@ class IzinKeluar extends Model
             $izin->user_id = Auth::user()->id;
         });
         // static::created(function (IzinKeluar $izin) {
-        //     if (Policy::make()->allowedFor('kepala')) {
+        //     if (in_array(Auth::user()->id, Helper::getUsersByPengelola('kepala', $izin->tanggal)->pluck('id')->toArray())) {
         //         $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
         //         foreach ($users as $user) {
         //             $user->notify(
@@ -45,8 +45,8 @@ class IzinKeluar extends Model
         //                     ->type('info')
         //             );
         //         }
-        //     }
-        //     if (Policy::make()->allowedFor('koordinator')) {
+        //     } else
+        //     if (in_array(Auth::user()->id, Helper::getUsersByPengelola('koordinator', $izin->tanggal)->pluck('id')->toArray())) {
         //         $users = Helper::getUsersByPengelola('kepala', $izin->tanggal);
         //         foreach ($users as $user) {
         //             $user->notify(
@@ -58,7 +58,8 @@ class IzinKeluar extends Model
         //             );
         //         }
         //     }
-        //     if (Policy::make()->allowedFor('anggota')) {
+        //     else
+        //     if (in_array(Auth::user()->id, Helper::getUsersByPengelola('anggota', $izin->tanggal)->pluck('id')->toArray())) {
         //         $users = Helper::getUsersByPengelola('koordinator', $izin->tanggal);
         //         foreach ($users as $user) {
         //             $user->notify(

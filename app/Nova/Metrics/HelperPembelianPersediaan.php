@@ -45,7 +45,7 @@ class HelperPembelianPersediaan extends Table
                 ->icon('check-circle')
                 ->iconClass('text-green-500')
                 ->title('5.Pencetakan BAST oleh Pengelola BMN')
-                ->subtitle('Pengelola BMN melakukan pencetakan BAST melalui aksi Cetak BAST Persediaan.'),
+                ->subtitle('Pengelola BMN melakukan pencetakan BAST melalui aksi Cetak BAST Persediaan. Barang Pesediaan hanya akan tercatat dalam saldo masuk apabila BAST telah dicetak.'),
         ];
     }
 

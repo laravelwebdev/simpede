@@ -48,6 +48,7 @@ class NaskahKeluarPolicy
         return Policy::make()
             ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
+            ->andNotEqual($naskahKeluar->generate, 'A')
             ->get();
     }
 
@@ -59,16 +60,18 @@ class NaskahKeluarPolicy
         return Policy::make()
             ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
+            ->andNotEqual($naskahKeluar->generate, 'A')
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(): bool
+    public function replicate(User $user, NaskahKeluar $naskahKeluar): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,kepala,arsiparis')
+            ->andNotEqual($naskahKeluar->generate, 'A')
             ->get();
     }
 }

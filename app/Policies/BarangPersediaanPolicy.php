@@ -14,7 +14,7 @@ class BarangPersediaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn,pbj')
+            ->allowedFor('koordinator,anggota,bmn,pbj,ppk')
             ->get();
     }
 
@@ -60,7 +60,7 @@ class BarangPersediaanPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn,pbj')
+            ->allowedFor('koordinator,anggota,pbj')
             ->get();
     }
 
@@ -70,7 +70,7 @@ class BarangPersediaanPolicy
     public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,bmn,pbj')
+            ->allowedFor('koordinator,anggota,pbj')
             ->get();
     }
 

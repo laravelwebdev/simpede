@@ -107,13 +107,6 @@ class NaskahKeluar extends Resource
             ])->sortable(),
             Text::make('Tujuan'),
             Text::make('Perihal', 'perihal'),
-            Select::make('Jenis Naskah', 'jenis_naskah_id')
-                ->rules('required')
-                ->searchable()
-                ->displayUsingLabels()
-                ->filterable()
-                ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),
-
             Stack::make('Pengiriman/Tanggal', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),

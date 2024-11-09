@@ -15,6 +15,7 @@ use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
+use App\Models\MasterPersediaan;
 use App\Models\MataAnggaran;
 use App\Models\Mitra;
 use App\Models\NaskahKeluar;
@@ -547,6 +548,17 @@ class Helper
     }
 
     /**
+     * Mengambil data MasterPersediaan berdasarkan ID.
+     *
+     * @param int $id ID dari MasterPersediaan yang ingin diambil.
+     * @return mixed Data MasterPersediaan yang sesuai dengan ID yang diberikan, atau null jika tidak ditemukan.
+     */
+    public static function getMasterPersediaanById($id)
+    {
+        return MasterPersediaan::cache()->get('all')->where('id', $id)->first();
+    }
+
+    /**
      * Mengambil jenis kontrak berdasarkan ID.
      *
      * Metode ini mengambil semua catatan dari cache Mitra dan memfilter
@@ -692,6 +704,21 @@ class Helper
         $spek->transform(function ($item, $index) {
             $item['anggaran_no'] = $index + 1;
             $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
+
+            return $item;
+        });
+
+        return $spek->toArray();
+    }
+
+    public static function formatBastp($bastp)
+    {
+        $spek = collect($bastp);
+        $spek->transform(function ($item, $index) {
+            $item['no'] = $index + 1;
+            $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
+            $item['total_harga'] = self::formatRupiah($item['total_harga']);
+            $item['kode'] = self::getPropertyFromCollection(self::getMasterPersediaanById($item['master_persediaan_id']), 'kode');
 
             return $item;
         });

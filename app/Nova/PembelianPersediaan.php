@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\BarangPersediaan;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Metrics\HelperPembelianPersediaan;
@@ -112,7 +113,7 @@ class PembelianPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Rincian'),
             Status::make('Status', 'status')
-                ->loadingWhen(['dibuat', 'diterima', 'berkode'])
+                ->loadingWhen(['dibuat', 'diterima'])
                 ->failedWhen(['outdated']),
 
         ];
@@ -174,9 +175,10 @@ class PembelianPersediaan extends Resource
                 ->onlyOnDetail()
                 ->setName('Terima Barang')
                 ->setStatus('diterima')
-                ->then(function ($model) {
-                    BarangPersediaan::where('pembelian_persediaanable_id', $model->id)
-                    ->where('pembelian_persediaanable_type', 'App\Models\PembelianPersediaan')
+                ->then(function ($models) {
+                    $model = $models->first();
+                    BarangPersediaan::where('barang_persediaanable_id', $model->id)
+                    ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
                     ->update(['tanggal_transaksi' => $model->tanggal_buku]);
                 });
         }
@@ -195,6 +197,12 @@ class PembelianPersediaan extends Resource
 
                     return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null && $this->resource->status === 'diterima';
                 });
+                    $actions[] =
+                    Download::make('bastp', 'Unduh BAST')
+                            ->showInline()
+                            ->showOnDetail()
+                            ->exceptOnIndex()
+                            ->confirmButtonText('Unduh');
         }
 
         return $actions;

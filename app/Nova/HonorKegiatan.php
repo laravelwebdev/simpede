@@ -355,7 +355,7 @@ class HonorKegiatan extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('all')->get()) {
             $actions[] =
-                Download::make('spj', 'Unduh SPJ')
+            Download::make('spj', 'Unduh SPJ')
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex()

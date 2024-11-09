@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\AnggaranKerangkaAcuan;
+use App\Models\BarangPersediaan;
 use App\Models\BastMitra;
 use App\Models\DaftarKontrakMitra;
 use App\Models\Dipa;
@@ -11,6 +12,7 @@ use App\Models\KamusAnggaran;
 use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
 use App\Models\NaskahKeluar;
+use App\Models\PembelianPersediaan;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
@@ -77,6 +79,13 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('st_no', $data['daftar_petugas']);
             $templateProcessor->cloneRowAndSetValues('kepada', $data['daftar_petugas']);
             unset($data['daftar_petugas']);
+        }
+        if ($jenis === 'bastp') {
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatBastp($data['daftar_barang']));
+            unset($data['daftar_barang']);
+            $pembelian = PembelianPersediaan::where('id', $id);
+            $pembelian->update(['status' => 'dicetak']);
+            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->update(['tanggal_transaksi' => $pembelian->first()->tanggal_buku]);
         }
         if ($jenis === 'sk') {
             $templateProcessor->cloneRowAndSetValues('sk_no', $data['daftar_petugas']);
@@ -319,6 +328,24 @@ class Cetak
         ];
     }
 
+    public static function bastp($id)
+    {
+        $data = PembelianPersediaan::find($id);
+        $bmn = Helper::getPegawaiByUserId($data->pbmn_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
+
+        return [
+            'no_bast' => NaskahKeluar::find($data->bast_naskah_keluar_id)->nomor,
+            'hari' => Helper::terbilangHari($data->tanggal_bast),
+            'terbilangtanggal' => Helper::terbilangTanggal($data->tanggal_bast, 'l'),
+            'bmn' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
+            'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
+            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->get()->toArray(),
+        ];
+    }
+
+    
+
     public static function validate($jenis, $model_id)
     {
         if ($jenis === 'kak') {
@@ -372,6 +399,18 @@ class Cetak
             throw_if(
                 is_null($kontrak->bast_naskah_keluar_id),
                 'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
+            );
+        }
+
+        if ($jenis === 'bastp') {
+            $bastp = PembelianPersediaan::where('id', $model_id)->first();
+            throw_if(
+                !in_array($bastp->status, ['berkode', 'dicetak']),
+                'Hanya yang berstatus berkode atau dicetak yang dapat dicetak ulang.'
+            );
+            throw_if(
+                empty($bastp->tanggal_buku),
+                'Lengkapi terlebih dahulu tanggal buku dan tanggal BAST pada daftar yang akan dicetak.'
             );
         }
     }

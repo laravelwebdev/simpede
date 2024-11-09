@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangPersediaan extends Model
-{    
+{
     public function masterPersediaan(): BelongsTo
     {
         return $this->belongsTo(MasterPersediaan::class);
@@ -16,22 +16,26 @@ class BarangPersediaan extends Model
     {
         static::saving(function (BarangPersediaan $persediaan) {
             $persediaan->total_harga = $persediaan->volume * $persediaan->harga_satuan;
-            if (!empty($persediaan->masterPersediaan)) {
+            if (! empty($persediaan->masterPersediaan)) {
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
 
             }
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
-                PembelianPersediaan::where('id' , $persediaan->barang_persediaanable_id)
-                ->where('status', '!=' , 'dibuat')
-                ->update(['status' => 'outdated']);
+                if ($persediaan->isClean('master_persediaan_id')) 
+                PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                    ->where('status', 'diterima')
+                    ->update(['status' => 'outdated']);
+                PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                    ->where('status', 'berkode')
+                    ->update(['status' => 'diterima']);
             }
         });
 
         static::deleting(function (BarangPersediaan $persediaan) {
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan') {
-                PembelianPersediaan::where('id' , $persediaan->barang_persediaanable_id)
-                ->update(['status' => 'outdated']);
+                PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                    ->update(['status' => 'outdated']);
             }
         });
     }

@@ -356,10 +356,10 @@ class HonorKegiatan extends Resource
         if (Policy::make()->allowedFor('all')->get()) {
             $actions[] =
             Download::make('spj', 'Unduh SPJ')
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex()
-                    ->confirmButtonText('Unduh');
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Unduh');
             $actions[] =
             ExportTemplateBos::make()
                 ->showInline()

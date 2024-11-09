@@ -3,16 +3,12 @@
 namespace App\Nova\Actions;
 
 use App\Models\BarangPersediaan;
-use App\Models\Mitra;
 use App\Models\SpesifikasiKerangkaAcuan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ImportBarangFromSpesifikasiKerangkaAcuan extends Action
@@ -33,9 +29,9 @@ class ImportBarangFromSpesifikasiKerangkaAcuan extends Action
         BarangPersediaan::where('barang_persediaanable_id', $model->id)
             ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
             ->delete();
-        $speks =SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model->kerangka_acuan_id)->get();
+        $speks = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model->kerangka_acuan_id)->get();
         foreach ($speks as $spek) {
-            $barang = New BarangPersediaan;
+            $barang = new BarangPersediaan;
             $barang->barang = $spek->rincian;
             $barang->satuan = $spek->satuan;
             $barang->volume = $spek->volume;

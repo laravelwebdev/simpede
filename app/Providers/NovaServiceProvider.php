@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Helpers\Helper;
 use App\Models\Pengelola;
 use App\Nova\BastMitra;
-use App\Nova\DaftarHonorMitra;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
 use App\Nova\HargaSatuan;

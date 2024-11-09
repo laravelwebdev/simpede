@@ -117,7 +117,6 @@ class BarangPersediaan extends Resource
                         ->step(1)
                         ->rules('required', 'gt:0')->min(0);
             }
-
         }
 
         if ($request->viaResource == 'permintaan-persediaans') {
@@ -151,8 +150,8 @@ class BarangPersediaan extends Resource
                 ->rules('required', 'gt:0');
             $fields[] =
             Number::make('Harga Satuan')
-            ->step(1)
-            ->rules('required', 'gt:0')->min(0);
+                ->step(1)
+                ->rules('required', 'gt:0')->min(0);
         }
 
         if ($request->viaResource == 'persediaan-keluars') {

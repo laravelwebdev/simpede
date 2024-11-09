@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\PermintaanPersediaan;
-use App\Models\PersediaanKeluar;
-use App\Models\PersediaanMasuk;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangPersediaan extends Model
 {
     protected $fillable = [
-        'tanggal_transaksi'
+        'tanggal_transaksi',
     ];
 
     protected $casts = [
@@ -30,13 +27,13 @@ class BarangPersediaan extends Model
             if (! empty($persediaan->masterPersediaan)) {
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
-
             }
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
-                if ($persediaan->isClean('master_persediaan_id')) 
-                PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
-                    ->where('status', 'diterima')
-                    ->update(['status' => 'outdated']);
+                if ($persediaan->isClean('master_persediaan_id')) {
+                    PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                        ->where('status', 'diterima')
+                        ->update(['status' => 'outdated']);
+                }
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'berkode')
                     ->update(['status' => 'diterima']);
@@ -46,7 +43,6 @@ class BarangPersediaan extends Model
                 PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'dicetak')
                     ->update(['status' => 'outdated']);
-                
             }
             if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanKeluar' && $persediaan->isDirty()) {
                 $persediaan->tanggal_transaksi = PersediaanKeluar::find($persediaan->barang_persediaanable_id)->tanggal_buku;

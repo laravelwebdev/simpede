@@ -31,7 +31,7 @@ class MasterPersediaan extends Resource
 
     public function subtitle()
     {
-        return $this->barang . ' (' . $this->satuan . ')';
+        return $this->barang.' ('.$this->satuan.')';
     }
 
     /**

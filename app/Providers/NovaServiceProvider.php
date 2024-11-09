@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Models\Pengelola;
+use App\Nova\PersediaanKeluar;
+use App\Nova\PersediaanMasuk;
 use App\Nova\BastMitra;
 use App\Nova\DaftarHonorMitra;
 use App\Nova\Dashboards\Main;
@@ -93,7 +95,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ])->collapsable(),
                     MenuGroup::make('Persediaan', [
                         MenuItem::resource(PembelianPersediaan::class),
+                        // MenuItem::resource(PersediaanMasuk::class),
                         MenuItem::resource(PermintaanPersediaan::class),
+                        MenuItem::resource(PersediaanKeluar::class),
                     ])->collapsable(),
 
                 ]),

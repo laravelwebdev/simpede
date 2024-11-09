@@ -3,11 +3,21 @@
 namespace App\Models;
 
 use App\Models\PermintaanPersediaan;
+use App\Models\PersediaanKeluar;
+use App\Models\PersediaanMasuk;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangPersediaan extends Model
 {
+    protected $fillable = [
+        'tanggal_transaksi'
+    ];
+
+    protected $casts = [
+        'tanggal_transaksi' => 'date',
+    ];
+
     public function masterPersediaan(): BelongsTo
     {
         return $this->belongsTo(MasterPersediaan::class);
@@ -36,6 +46,14 @@ class BarangPersediaan extends Model
                 PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'dicetak')
                     ->update(['status' => 'outdated']);
+                
+            }
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanKeluar' && $persediaan->isDirty()) {
+                $persediaan->tanggal_transaksi = PersediaanKeluar::find($persediaan->barang_persediaanable_id)->tanggal_buku;
+            }
+
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanMasuk' && $persediaan->isDirty()) {
+                $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
         });
 

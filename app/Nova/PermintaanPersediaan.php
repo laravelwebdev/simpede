@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
+use App\Nova\Metrics\HelperPermintaanPersediaan;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphMany;
@@ -107,7 +108,10 @@ class PermintaanPersediaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            HelperPermintaanPersediaan::make()
+                ->width('full'),
+        ];
     }
 
     /**

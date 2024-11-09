@@ -78,9 +78,6 @@ class PermintaanPersediaanPolicy
      */
     public function replicate(User $user, PermintaanPersediaan $permintaan): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->andEqual($permintaan->user_id, $user->id)
-            ->get();
+        return false;
     }
 }

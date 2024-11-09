@@ -43,6 +43,17 @@ class BarangPersediaanPolicy
                     ->get();
             }
 
+            if ($request->viaResource == 'persediaan-keluars' || str_contains(request()->url(), 'persediaan-keluars')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+            if ($request->viaResource == 'persediaan-masuks' || str_contains(request()->url(), 'persediaan-masuks')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+
             return false;
         });
 
@@ -64,6 +75,18 @@ class BarangPersediaanPolicy
                     ->allowedFor('koordinator,anggota,bmn')
                     ->get();
             }
+            if ($request->viaResource == 'persediaan-keluars' || str_contains(request()->url(), 'persediaan-keluars')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+            if ($request->viaResource == 'persediaan-masuks' || str_contains(request()->url(), 'persediaan-masuks')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+
+
 
             return false;
         });
@@ -85,6 +108,18 @@ class BarangPersediaanPolicy
                     ->allowedFor('koordinator,anggota,bmn')
                     ->get();
             }
+            if ($request->viaResource == 'persediaan-keluars' || str_contains(request()->url(), 'persediaan-keluars')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+            if ($request->viaResource == 'persediaan-masuks' || str_contains(request()->url(), 'persediaan-masuks')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+
+
 
             return false;
         });
@@ -106,6 +141,18 @@ class BarangPersediaanPolicy
                     ->allowedFor('koordinator,anggota,bmn')
                     ->get();
             }
+            if ($request->viaResource == 'persediaan-keluars' || str_contains(request()->url(), 'persediaan-keluars')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+            if ($request->viaResource == 'persediaan-masuks' || str_contains(request()->url(), 'persediaan-masuks')) {
+                return Policy::make()
+                    ->allowedFor('bmn')
+                    ->get();
+            }
+
+
 
             return false;
         });

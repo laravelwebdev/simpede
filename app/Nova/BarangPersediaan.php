@@ -133,7 +133,25 @@ class BarangPersediaan extends Resource
                     $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
                     $field
                         ->help('Stok tersedia '.$stok)
-                        ->rules('required', 'gt:0','lte:'.$stok);
+                        ->rules('required', 'gt:0', 'lte:'.$stok);
+                });
+        }
+
+        if ($request->viaResource == 'persediaan-keluars' || $request->viaResource == 'persediaan-masuks') {
+            $fields[] =
+            Select::make('Barang', 'master_persediaan_id')
+                ->options(Helper::setOptionBarangPersediaan())
+                ->searchable()
+                ->displayUsingLabels()
+                ->rules('required');
+            $fields[] =
+            Number::make('Jumlah', 'volume')
+                ->step(0.01)
+                ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
+                    $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
+                    $field
+                        ->help('Stok tersedia '.$stok)
+                        ->rules('required', 'gt:0', 'lte:'.$stok);
                 });
         }
 
@@ -188,5 +206,18 @@ class BarangPersediaan extends Resource
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
         return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
+    }
+
+    /**
+     * Handle any post-validation processing.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        if (($request->viaResource == 'persediaan-keluars' || $request->viaResource == 'permintaan-persediaans') && $request->volume > Helper::cekStokPersediaan($request->master_persediaan_id)) {
+            $validator->errors()->add('volume', 'Jumlah melebihi stok yang tersedia');
+        }
     }
 }

@@ -109,7 +109,7 @@ class BarangPersediaan extends Resource
                 ->get()) {
                 $fields[] =
                     Number::make('Volume')
-                        ->step(0.01)
+                        ->step(1)
                         ->rules('required', 'gt:0')->min(0);
                 $fields[] =
                     Number::make('Harga Satuan')
@@ -121,14 +121,14 @@ class BarangPersediaan extends Resource
 
         if ($request->viaResource == 'permintaan-persediaans') {
             $fields[] =
-            Select::make('Barang', 'master_persediaan_id')
+            Select::make('Satuan - Barang', 'master_persediaan_id')
                 ->options(Helper::setOptionBarangPersediaan())
                 ->searchable()
                 ->displayUsingLabels()
                 ->rules('required');
             $fields[] =
             Number::make('Jumlah', 'volume')
-                ->step(0.01)
+                ->step(1)
                 ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
                     $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
                     $field
@@ -137,7 +137,7 @@ class BarangPersediaan extends Resource
                 });
         }
 
-        if ($request->viaResource == 'persediaan-keluars' || $request->viaResource == 'persediaan-masuks') {
+        if ($request->viaResource == 'persediaan-masuks') {
             $fields[] =
             Select::make('Barang', 'master_persediaan_id')
                 ->options(Helper::setOptionBarangPersediaan())
@@ -146,7 +146,24 @@ class BarangPersediaan extends Resource
                 ->rules('required');
             $fields[] =
             Number::make('Jumlah', 'volume')
-                ->step(0.01)
+                ->step(1)
+                ->rules('required', 'gt:0');
+                $fields[] =
+            Number::make('Harga Satuan')
+                    ->step(1)
+                    ->rules('required', 'gt:0')->min(0);
+        }
+
+        if ($request->viaResource == 'persediaan-keluars') {
+            $fields[] =
+            Select::make('Satuan - Barang', 'master_persediaan_id')
+                ->options(Helper::setOptionBarangPersediaan())
+                ->searchable()
+                ->displayUsingLabels()
+                ->rules('required');
+            $fields[] =
+            Number::make('Jumlah', 'volume')
+                ->step(1)
                 ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
                     $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
                     $field

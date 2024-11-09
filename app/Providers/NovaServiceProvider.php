@@ -95,7 +95,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ])->collapsable(),
                     MenuGroup::make('Persediaan', [
                         MenuItem::resource(PembelianPersediaan::class),
-                        // MenuItem::resource(PersediaanMasuk::class),
+                        MenuItem::resource(PersediaanMasuk::class),
                         MenuItem::resource(PermintaanPersediaan::class),
                         MenuItem::resource(PersediaanKeluar::class),
                     ])->collapsable(),

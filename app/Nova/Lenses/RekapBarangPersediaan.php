@@ -16,7 +16,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
 
-class RekapHonorMitra extends Lens
+class RekapBarangPersediaan extends Lens
 {
     public static $showPollingToggle = true;
 
@@ -25,7 +25,7 @@ class RekapHonorMitra extends Lens
      *
      * @var array
      */
-    public static $search = ['nama'];
+    public static $search = ['barang', 'kode'];
 
     /**
      * Get the query builder / paginator for the lens.

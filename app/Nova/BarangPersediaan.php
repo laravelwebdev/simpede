@@ -80,12 +80,13 @@ class BarangPersediaan extends Resource
         $fields = [];
         if ($request->viaResource == 'pembelian-persediaans') {
             if (Policy::make()
-                ->notAllowedFor('pbj')
+                ->allowedFor('bmn')
                 ->get()) {
                 $fields[] =
                     BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
                         ->withSubtitles()
                         ->searchable()
+                        ->showCreateRelationButton()
                         ->rules('required');
             }
             if (Policy::make()
@@ -139,10 +140,10 @@ class BarangPersediaan extends Resource
 
         if ($request->viaResource == 'persediaan-masuks') {
             $fields[] =
-            Select::make('Barang', 'master_persediaan_id')
-                ->options(Helper::setOptionBarangPersediaan())
+            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                ->withSubtitles()
                 ->searchable()
-                ->displayUsingLabels()
+                ->showCreateRelationButton()
                 ->rules('required');
             $fields[] =
             Number::make('Jumlah', 'volume')

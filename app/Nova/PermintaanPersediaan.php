@@ -28,7 +28,7 @@ class PermintaanPersediaan extends Resource
 
     public static function label()
     {
-        return 'Permintaan Persediaan';
+        return 'Bon Permintaan';
     }
 
     /**

@@ -67,7 +67,7 @@ class BarangPersediaanPolicy
         return Nova::whenServing(function (NovaRequest $request) {
             if ($request->viaResource == 'pembelian-persediaans' || str_contains(request()->url(), 'pembelian-persediaans')) {
                 return Policy::make()
-                    ->allowedFor('pbj')
+                    ->allowedFor('pbj,bmn')
                     ->get();
             }
             if ($request->viaResource == 'permintaan-persediaans' || str_contains(request()->url(), 'permintaan-persediaans')) {
@@ -130,32 +130,7 @@ class BarangPersediaanPolicy
      */
     public function replicate(): bool
     {
-        return Nova::whenServing(function (NovaRequest $request) {
-            if ($request->viaResource == 'pembelian-persediaans' || str_contains(request()->url(), 'pembelian-persediaans')) {
-                return Policy::make()
-                    ->allowedFor('pbj')
-                    ->get();
-            }
-            if ($request->viaResource == 'permintaan-persediaans' || str_contains(request()->url(), 'permintaan-persediaans')) {
-                return Policy::make()
-                    ->allowedFor('koordinator,anggota,bmn')
-                    ->get();
-            }
-            if ($request->viaResource == 'persediaan-keluars' || str_contains(request()->url(), 'persediaan-keluars')) {
-                return Policy::make()
-                    ->allowedFor('bmn')
-                    ->get();
-            }
-            if ($request->viaResource == 'persediaan-masuks' || str_contains(request()->url(), 'persediaan-masuks')) {
-                return Policy::make()
-                    ->allowedFor('bmn')
-                    ->get();
-            }
-
-
-
             return false;
-        });
     }
 
     public function runAction(): bool

@@ -32,15 +32,11 @@ class DaftarHonorPegawai extends Resource
      */
     public static $title = 'id';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'nip', 'nama',
-    ];
-
+    public static function searchable()
+    {
+        return false;
+    }
+    
     public function fields(NovaRequest $request)
     {
         $user = Helper::getPegawaiByUserId($this->user_id);

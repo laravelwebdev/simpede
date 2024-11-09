@@ -32,14 +32,10 @@ class DaftarHonorMitra extends Resource
      */
     public static $title = 'id';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'nik', 'nama',
-    ];
+    public static function searchable()
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.

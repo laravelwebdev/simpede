@@ -44,7 +44,8 @@ class BarangPersediaan extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'masterPersediaan.kode',
+        'masterPersediaan.barang',
     ];
 
     /**

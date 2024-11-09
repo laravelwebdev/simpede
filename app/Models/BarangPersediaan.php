@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\PermintaanPersediaan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -29,6 +30,12 @@ class BarangPersediaan extends Model
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'berkode')
                     ->update(['status' => 'diterima']);
+            }
+
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan' && $persediaan->isDirty()) {
+                PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                    ->where('status', 'dicetak')
+                    ->update(['status' => 'outdated']);
             }
         });
 

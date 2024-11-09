@@ -19,6 +19,7 @@ use App\Nova\MasterPersediaan;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
 use App\Nova\PembelianPersediaan;
+use App\Nova\PermintaanPersediaan;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -92,6 +93,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ])->collapsable(),
                     MenuGroup::make('Persediaan', [
                         MenuItem::resource(PembelianPersediaan::class),
+                        MenuItem::resource(PermintaanPersediaan::class),
                     ])->collapsable(),
 
                 ]),

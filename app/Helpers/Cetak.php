@@ -13,6 +13,7 @@ use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
 use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
+use App\Models\PermintaanPersediaan;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
@@ -81,11 +82,18 @@ class Cetak
             unset($data['daftar_petugas']);
         }
         if ($jenis === 'bastp') {
-            $templateProcessor->cloneRowAndSetValues('no', Helper::formatBastp($data['daftar_barang']));
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatBarangPersediaan($data['daftar_barang']));
             unset($data['daftar_barang']);
             $pembelian = PembelianPersediaan::where('id', $id);
             $pembelian->update(['status' => 'dicetak']);
             BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->update(['tanggal_transaksi' => $pembelian->first()->tanggal_buku]);
+        }
+        if ($jenis === 'bon') {
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatBarangPersediaan($data['daftar_barang']));
+            unset($data['daftar_barang']);
+            $permintaan = PermintaanPersediaan::where('id', $id);
+            $permintaan->update(['status' => 'dicetak']);
+            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->update(['tanggal_transaksi' => $permintaan->first()->tanggal_persetujuan]);
         }
         if ($jenis === 'sk') {
             $templateProcessor->cloneRowAndSetValues('sk_no', $data['daftar_petugas']);
@@ -344,6 +352,27 @@ class Cetak
         ];
     }
 
+    public static function bon($id)
+    {
+        $data = PermintaanPersediaan::find($id);
+        $bmn = Helper::getPegawaiByUserId($data->pbmn_user_id);
+        $pembuat = Helper::getPegawaiByUserId($data->user_id);
+        $tim_id = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_permintaan), 'unit_kerja_id');
+
+        return [
+            'tim' =>Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $tim_id)->first(), 'unit'),
+            'kegiatan' => $data->kegiatan,
+            'keterangan' => $data->keterangan,
+            'tanggal_permintaan' => Helper::terbilangTanggal($data->tanggal_permintaan),
+            'tanggal_persetujuan' => Helper::terbilangTanggal($data->tanggal_persetujuan),
+            'nama' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($pembuat, 'name')),
+            'nip' => Helper::getPropertyFromCollection($pembuat, 'nip'),
+            'bmn' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
+            'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
+            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->get()->toArray(),
+        ];
+    }
+
     
 
     public static function validate($jenis, $model_id)
@@ -411,6 +440,14 @@ class Cetak
             throw_if(
                 empty($bastp->tanggal_buku),
                 'Lengkapi terlebih dahulu tanggal buku dan tanggal BAST pada daftar yang akan dicetak.'
+            );
+        }
+
+        if ($jenis === 'bon') {
+            $permintaan = PermintaanPersediaan::where('id', $model_id)->first();
+            throw_if(
+                empty($permintaan->pbmn_user_id),
+                'Lengkapi terlebih dahulu tanggal persetujuan dan Pengelola Persediaan yang menyetujui pada daftar yang akan dicetak.'
             );
         }
     }

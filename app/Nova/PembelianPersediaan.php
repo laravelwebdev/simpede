@@ -71,7 +71,7 @@ class PembelianPersediaan extends Resource
             Panel::make('Keterangan Serah Terima Barang', [
                 Date::make('Tanggal BAST', 'tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak'),
+                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak' ,'before_or_equal:today'),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
@@ -174,13 +174,7 @@ class PembelianPersediaan extends Resource
                 ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda yakin ingin mengubah status menjadi diterima?')
                 ->onlyOnDetail()
                 ->setName('Terima Barang')
-                ->setStatus('diterima')
-                ->then(function ($models) {
-                    $model = $models->first();
-                    BarangPersediaan::where('barang_persediaanable_id', $model->id)
-                    ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
-                    ->update(['tanggal_transaksi' => $model->tanggal_buku]);
-                });
+                ->setStatus('diterima');
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

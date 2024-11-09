@@ -26,6 +26,7 @@ use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use OpenSpout\Reader\XLSX\Reader;
@@ -211,6 +212,20 @@ class Helper
     public static function formatRupiah($angka)
     {
         return 'Rp.'.self::formatUang($angka);
+    }
+
+    public static function cekStokPersediaan($id)
+    {
+        $stok = DB::table('barang_persediaans')
+            ->selectRaw(
+                'SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'
+            )
+            ->where('master_persediaan_id', $id)
+            // ->whereNotNull('tanggal_transaksi')
+            ->groupBy('master_persediaan_id')
+            ->first();
+        return $stok ? $stok->stok : 0;
+
     }
 
     /**
@@ -550,7 +565,7 @@ class Helper
     /**
      * Mengambil data MasterPersediaan berdasarkan ID.
      *
-     * @param int $id ID dari MasterPersediaan yang ingin diambil.
+     * @param  int  $id  ID dari MasterPersediaan yang ingin diambil.
      * @return mixed Data MasterPersediaan yang sesuai dengan ID yang diberikan, atau null jika tidak ditemukan.
      */
     public static function getMasterPersediaanById($id)
@@ -711,7 +726,7 @@ class Helper
         return $spek->toArray();
     }
 
-    public static function formatBastp($bastp)
+    public static function formatBarangPersediaan($bastp)
     {
         $spek = collect($bastp);
         $spek->transform(function ($item, $index) {
@@ -1190,5 +1205,10 @@ class Helper
     public static function setOptionKepkaMitra($tahun)
     {
         return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');
+    }
+
+    public static function setOptionBarangPersediaan()
+    {
+        return self::setOptions(MasterPersediaan::cache()->get('all'), 'id', 'barang', 'satuan');
     }
 }

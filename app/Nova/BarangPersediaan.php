@@ -2,10 +2,14 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -65,41 +69,11 @@ class BarangPersediaan extends Resource
                 ->copyable(),
             Text::make('Volume')
                 ->displayUsing(fn ($value) => $value.' '.$this->satuan),
-            Currency::make('Harga Satuan'),
-            Currency::make('Total Harga'),
+            Currency::make('Harga Satuan')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
+            Currency::make('Total Harga')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
 
         ];
     }
-
-    // public function fields(NovaRequest $request)
-    // {
-    //     return [
-    //         Text::make('Nama Barang', 'barang')
-    //             ->readonly(),
-    //         Text::make('Satuan', 'satuan')
-    //             ->readonly(),
-    //         BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
-    //             ->withSubtitles()
-    //             ->searchable()
-    //             ->onlyOnForms()
-    //             ->rules('required'),
-    //         Text::make('Kode Barang Detail', 'masterPersediaan.kode')
-    //             ->onlyOnIndex()
-    //             ->copyable(),
-    //         Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
-    //             ->displayUsing(fn ($value) => substr($value, 0, 10))
-    //             ->onlyOnIndex()
-    //             ->copyable(),
-    //         Number::make('Volume')
-    //             ->step(0.01)
-    //             ->rules('required', 'gt:0')->min(0),
-    //         Currency::make('Harga Satuan')
-
-    //             ->step(1)
-    //             ->rules('required', 'gt:0'),
-
-    //     ];
-    // }
 
     public function fields(NovaRequest $request)
     {
@@ -121,14 +95,14 @@ class BarangPersediaan extends Resource
                     Text::make('Nama Barang', 'barang')
                         ->rules('required')
                         ->readonly(Policy::make()
-                        ->allowedFor('bmn')
-                        ->get());
+                            ->allowedFor('bmn')
+                            ->get());
                 $fields[] =
                     Text::make('Satuan', 'satuan')
                         ->rules('required')
                         ->readonly(Policy::make()
-                        ->allowedFor('bmn')
-                        ->get());
+                            ->allowedFor('bmn')
+                            ->get());
             }
             if (Policy::make()
                 ->allowedFor('pbj')
@@ -143,6 +117,24 @@ class BarangPersediaan extends Resource
                         ->rules('required', 'gt:0')->min(0);
             }
 
+        }
+
+        if ($request->viaResource == 'permintaan-persediaans') {
+            $fields[] =
+            Select::make('Barang', 'master_persediaan_id')
+                ->options(Helper::setOptionBarangPersediaan())
+                ->searchable()
+                ->displayUsingLabels()
+                ->rules('required');
+            $fields[] =
+            Number::make('Jumlah', 'volume')
+                ->step(0.01)
+                ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
+                    $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
+                    $field
+                        ->help('Stok tersedia '.$stok)
+                        ->rules('required', 'gt:0','lte:'.$stok);
+                });
         }
 
         return $fields;

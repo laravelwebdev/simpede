@@ -17,6 +17,11 @@ class DaftarHonorMitra extends Model
         return $this->belongsTo(HonorKegiatan::class, 'honor_kegiatan_id');
     }
 
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class);
+    }
+
     protected static function booted(): void
     {
         static::saving(function (DaftarHonorMitra $honor) {

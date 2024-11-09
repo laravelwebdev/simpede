@@ -33,7 +33,12 @@ class Mitra extends Resource
      *
      * @var string
      */
-    public static $title = 'nik';
+    public static $title = 'nama';
+
+    public function subtitle()
+    {
+        return $this->nik;
+    }
 
     /**
      * The columns that should be searched.
@@ -55,9 +60,11 @@ class Mitra extends Resource
             Text::make('NIK', 'nik')
                 ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)->ignore($this->id))
                 ->sortable()
+                ->showWhenPeeking()
                 ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)),
             Text::make('Nama', 'nama')
                 ->sortable()
+                ->showWhenPeeking()
                 ->rules('required'),
             Email::make('Email', 'email')
                 ->sortable()
@@ -69,8 +76,9 @@ class Mitra extends Resource
             Text::make('Alamat', 'alamat')
                 ->sortable()
                 ->rules('required'),
-            Text::make('NPWP'),
-            Text::make('Rekening', 'rekening')
+            Text::make('NPWP')->showWhenPeeking(),
+            
+            Text::make('Rekening', 'rekening')->showWhenPeeking()
                 ->sortable()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];

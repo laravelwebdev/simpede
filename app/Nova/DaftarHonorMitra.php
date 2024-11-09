@@ -2,10 +2,10 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
@@ -16,7 +16,7 @@ class DaftarHonorMitra extends Resource
 {
     public static $displayInNavigation = false;
 
-    public static $with = ['honorKegiatan'];
+    public static $with = ['honorKegiatan', 'mitra'];
 
     /**
      * The model the resource corresponds to.
@@ -32,10 +32,8 @@ class DaftarHonorMitra extends Resource
      */
     public static $title = 'id';
 
-    public static function searchable()
-    {
-        return false;
-    }
+    public static $search =
+        ['mitra.nama', 'mitra.nik'];
 
     /**
      * Get the fields displayed by the resource.
@@ -44,14 +42,11 @@ class DaftarHonorMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $mitra = Helper::getMitraById($this->mitra_id);
         $kegiatan = $this->honorKegiatan;
         if ($request->viaResource === 'honor-kegiatans') {
             return [
-                Text::make('NIK', fn () => $mitra->nik)
-                    ->readonly(),
-                Text::make('Nama', fn () => $mitra->nama)
-                    ->readonly(),
+                BelongsTo::make('Mitra', 'mitra', Mitra::class)
+                    ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
                     ->rules('required', 'gt:0')
                     ->step(0.01),
@@ -78,7 +73,7 @@ class DaftarHonorMitra extends Resource
                 Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
 
                     ->onlyOnIndex(),
-                Text::make('Rekening', fn () => $mitra->rekening)
+                Text::make('Rekening', 'mitra.rekening')
                     ->onlyOnIndex(),
             ];
         }

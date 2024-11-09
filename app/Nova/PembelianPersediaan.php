@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\BarangPersediaan;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
@@ -71,7 +70,7 @@ class PembelianPersediaan extends Resource
             Panel::make('Keterangan Serah Terima Barang', [
                 Date::make('Tanggal BAST', 'tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak' ,'before_or_equal:today'),
+                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today'),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
@@ -128,7 +127,7 @@ class PembelianPersediaan extends Resource
     {
         return [
             HelperPembelianPersediaan::make()
-            ->width('full'),
+                ->width('full'),
         ];
     }
 
@@ -191,12 +190,12 @@ class PembelianPersediaan extends Resource
 
                     return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null && $this->resource->status === 'diterima';
                 });
-                    $actions[] =
-                    Download::make('bastp', 'Unduh BAST')
-                            ->showInline()
-                            ->showOnDetail()
-                            ->exceptOnIndex()
-                            ->confirmButtonText('Unduh');
+            $actions[] =
+            Download::make('bastp', 'Unduh BAST')
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Unduh');
         }
 
         return $actions;

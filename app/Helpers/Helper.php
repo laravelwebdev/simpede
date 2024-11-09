@@ -223,8 +223,8 @@ class Helper
             ->where('master_persediaan_id', $id)
             ->groupBy('master_persediaan_id')
             ->first();
-        return $stok ? $stok->stok : 0;
 
+        return $stok ? $stok->stok : 0;
     }
 
     /**

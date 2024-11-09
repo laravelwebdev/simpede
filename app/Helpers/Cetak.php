@@ -360,7 +360,7 @@ class Cetak
         $tim_id = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_permintaan), 'unit_kerja_id');
 
         return [
-            'tim' =>Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $tim_id)->first(), 'unit'),
+            'tim' => Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $tim_id)->first(), 'unit'),
             'kegiatan' => $data->kegiatan,
             'keterangan' => $data->keterangan,
             'tanggal_permintaan' => Helper::terbilangTanggal($data->tanggal_permintaan),
@@ -372,8 +372,6 @@ class Cetak
             'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->get()->toArray(),
         ];
     }
-
-    
 
     public static function validate($jenis, $model_id)
     {
@@ -434,7 +432,7 @@ class Cetak
         if ($jenis === 'bastp') {
             $bastp = PembelianPersediaan::where('id', $model_id)->first();
             throw_if(
-                !in_array($bastp->status, ['berkode', 'dicetak']),
+                ! in_array($bastp->status, ['berkode', 'dicetak']),
                 'Hanya yang berstatus berkode atau dicetak yang dapat dicetak ulang.'
             );
             throw_if(

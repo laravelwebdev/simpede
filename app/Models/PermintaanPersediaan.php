@@ -43,7 +43,6 @@ class PermintaanPersediaan extends Model
             }
         });
 
-
         static::deleting(function (PermintaanPersediaan $permintaan) {
             $permintaan->daftarBarangPersediaans->each->delete();
         });

@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
-use App\Nova\Lenses\RekapHonorMitra;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
@@ -141,7 +140,6 @@ class DaftarHonorMitra extends Resource
     public function lenses(NovaRequest $request)
     {
         return [
-           
 
         ];
     }

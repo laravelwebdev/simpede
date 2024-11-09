@@ -53,13 +53,13 @@ class PersediaanKeluar extends Resource
                 ->rules('required', 'max:40'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->sortable()
-                ->displayUsing(fn($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
             Text::make('Rincian', 'rincian')
                 ->rules('required'),
             Date::make('Tanggal Buku', 'tanggal_buku')
                 ->sortable()
-                ->displayUsing(fn($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required', 'after_or_equal:tanggal_dokumen'),
 
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),

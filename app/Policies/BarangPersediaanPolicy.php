@@ -56,7 +56,6 @@ class BarangPersediaanPolicy
 
             return false;
         });
-
     }
 
     /**
@@ -85,8 +84,6 @@ class BarangPersediaanPolicy
                     ->allowedFor('bmn')
                     ->get();
             }
-
-
 
             return false;
         });
@@ -119,8 +116,6 @@ class BarangPersediaanPolicy
                     ->get();
             }
 
-
-
             return false;
         });
     }
@@ -130,7 +125,7 @@ class BarangPersediaanPolicy
      */
     public function replicate(): bool
     {
-            return false;
+        return false;
     }
 
     public function runAction(): bool

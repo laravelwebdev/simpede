@@ -38,6 +38,11 @@ class User extends Resource
      */
     public static $title = 'name';
 
+    public function subtitle()
+    {
+        return 'NIP. '.$this->nip;
+    }
+
     /**
      * The columns that should be searched.
      *

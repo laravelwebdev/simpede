@@ -63,7 +63,7 @@ class Pengelola extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Deaktivasi', 'inactive')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('nullable', 'bai', 'before_or_equal:today', function ($attribute, $value, $fail) {
+                ->rules('nullable', 'bail', 'before_or_equal:today', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {
                         return $fail('Tanggal harus di tahun yang telah dipilih');
                     }

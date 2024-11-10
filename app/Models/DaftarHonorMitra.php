@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\Nova;
 use Laravel\Nova\URL;
@@ -12,12 +13,12 @@ class DaftarHonorMitra extends Model
 {
     protected $fillable = ['mitra_id', 'honor_kegiatan_id', 'daftar_kontrak_mitra_id'];
 
-    public function honorKegiatan()
+    public function honorKegiatan():BelongsTo
     {
         return $this->belongsTo(HonorKegiatan::class, 'honor_kegiatan_id');
     }
 
-    public function mitra()
+    public function mitra():BelongsTo
     {
         return $this->belongsTo(Mitra::class);
     }

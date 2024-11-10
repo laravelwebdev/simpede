@@ -45,7 +45,6 @@ class PermintaanPersediaan extends Resource
      * @var array
      */
 
-    //BUG: belum ditentukan
     public static $search = [
         'user.name',
     ];

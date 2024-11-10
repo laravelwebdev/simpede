@@ -10,7 +10,7 @@ class MataAnggaran extends Model
 {
     use LaraCache;
 
-    protected $fillable = ['mak', 'dipa_id'];
+    protected $fillable = ['coa_id', 'dipa_id'];
 
     public static function cacheEntities(): array
     {

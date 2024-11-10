@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('mak')->nullable();
             $table->string('detail')->nullable();
-            $table->string('satuan', 40)->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

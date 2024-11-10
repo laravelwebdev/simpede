@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('barang', 80)->nullable();
             $table->string('satuan', 20)->nullable();
             $table->mediumInteger('volume')->nullable()->unsigned();
-            $table->mediumInteger('harga_satuan')->nullable()->unsigned();
-            $table->mediumInteger('total_harga')->nullable()->unsigned();
+            $table->integer('harga_satuan')->nullable()->unsigned();
+            $table->integer('total_harga')->nullable()->unsigned();
             $table->date('tanggal_transaksi')->nullable();
             $table->mediumInteger('master_persediaan_id')->unsigned()->nullable();
             $table->integer('barang_persediaanable_id')->nullable();

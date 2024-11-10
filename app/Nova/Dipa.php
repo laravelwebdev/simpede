@@ -4,7 +4,9 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\ImportKamusAnggaran;
 use App\Nova\Actions\ImportMataAnggaran;
+use App\Nova\Metrics\HelperImportAnggaran;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
@@ -75,7 +77,16 @@ class Dipa extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+
+        $cards = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $cards[] =
+               HelperImportAnggaran::make()
+                   ->width('full');
+        }
+
+        return $cards;
+
     }
 
     /**
@@ -108,10 +119,15 @@ class Dipa extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('admin')->get()) {
             $actions[] =
-                ImportMataAnggaran::make()
+                ImportKamusAnggaran::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();
+            $actions[] =
+                ImportMataAnggaran::make()
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex();
         }
 
         return $actions;

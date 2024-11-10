@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Models\HonorKegiatan;
 use App\Nova\Actions\EditRekening;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
@@ -16,6 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorPegawai extends Resource
 {
+    public static $with = ['user'];
     public static $displayInNavigation = false;
 
     /**
@@ -32,15 +34,12 @@ class DaftarHonorPegawai extends Resource
      */
     public static $title = 'id';
 
-    public static function searchable()
-    {
-        return false;
-    }
-    
+    public static $search = [
+        'user.name',
+        'user.nip',
+    ];
     public function fields(NovaRequest $request)
     {
-        $user = Helper::getPegawaiByUserId($this->user_id);
-
         return [
             Select::make('Nama Pegawai', 'user_id')
                 ->rules('required')
@@ -49,10 +48,8 @@ class DaftarHonorPegawai extends Resource
                 ->updateRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId))
                 ->onlyOnForms(),
-            Text::make('Nama', fn () => $user->name)
-                ->exceptOnForms(),
-            Text::make('Golongan', fn () => Helper::getDataPegawaiByUserId($user->id, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj'))->golongan)
-                ->exceptOnForms(),
+            BelongsTo::make('Nama Pegawai', 'user', 'App\Nova\User')
+                ->exceptOnForms(),  
             Number::make('Jumlah', 'volume')
                 ->step(0.01)
                 ->rules('nullable', 'bail', 'gt:0')
@@ -86,7 +83,7 @@ class DaftarHonorPegawai extends Resource
             Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
 
                 ->exceptOnForms(),
-            Text::make('Rekening', fn () => $user->rekening)
+            Text::make('Rekening', 'user.rekening')
                 ->exceptOnForms(),
 
         ];

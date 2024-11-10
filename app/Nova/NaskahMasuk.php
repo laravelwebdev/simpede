@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
@@ -17,6 +18,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NaskahMasuk extends Resource
 {
+    public static $with = ['jenisNaskah'];
+
     /**
      * Get the label for the resource.
      *
@@ -76,6 +79,8 @@ class NaskahMasuk extends Resource
                 ->rules('required'),
             Text::make('Pengirim')->rules('required'),
             Text::make('Perihal', 'perihal')->rules('required'),
+            BelongsTo::make('Jenis Naskah')
+                ->exceptOnForms(),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
@@ -110,6 +115,7 @@ class NaskahMasuk extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
+                ->onlyOnForms()
                 ->displayUsingLabels()
                 ->filterable()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all'), 'id', 'jenis')),

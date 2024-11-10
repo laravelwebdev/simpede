@@ -20,6 +20,11 @@ class DaftarKontrakMitra extends Model
         return $this->belongsTo(NaskahKeluar::class, 'kontrak_naskah_keluar_id');
     }
 
+    public function mitra(): BelongsTo
+    {
+        return $this->belongsTo(Mitra::class,);
+    }
+
     public function daftarHonorMitra(): HasMany
     {
         return $this->hasMany(DaftarHonorMitra::class);

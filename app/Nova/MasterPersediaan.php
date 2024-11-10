@@ -27,12 +27,17 @@ class MasterPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'kode';
+
+    public function title()
+    {
+        return $this->barang;
+    }
 
     public function subtitle()
     {
-        return $this->barang.' ('.$this->satuan.')';
+        return $this->kode.' ('.$this->satuan.')';
     }
+
 
     /**
      * The columns that should be searched.

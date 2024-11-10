@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class DaftarHonorMitraPolicy
 {
@@ -37,9 +39,15 @@ class DaftarHonorMitraPolicy
      */
     public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return Nova::whenServing(function (NovaRequest $request) {
+            if ($request->viaResource == 'honor-kegiatans') {
+                return Policy::make()
+                    ->allowedFor('koordinator,anggota')
+                    ->get();
+            }
+            
+            return false;
+        });
     }
 
     /**

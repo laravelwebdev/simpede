@@ -19,7 +19,7 @@ class DaftarKontrakMitra extends Resource
 {
     public static $displayInNavigation = false;
 
-    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra'];
+    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra', 'mitra'];
 
     /**
      * The model the resource corresponds to.
@@ -38,7 +38,7 @@ class DaftarKontrakMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'mitra.nama';
 
     /**
      * The columns that should be searched.
@@ -46,7 +46,8 @@ class DaftarKontrakMitra extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'mitra.nama',
+        'mitra.nik',
     ];
 
     /**
@@ -56,13 +57,9 @@ class DaftarKontrakMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $mitra = Helper::getMitraById($this->mitra_id);
-
         return [
-            Text::make('NIK', fn () => Helper::getPropertyFromCollection($mitra, 'nik'))
-                ->readOnly()->hideFromIndex(),
-            Text::make('Nama', fn () => Helper::getPropertyFromCollection($mitra, 'nama'))
-                ->readOnly(),
+            BelongsTo::make('Mitra')
+                ->exceptOnForms(),
             BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly()
                 ->hideFromIndex($request->viaResource == 'bast-mitras')

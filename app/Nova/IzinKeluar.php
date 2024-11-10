@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Carbon\Carbon;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -67,9 +68,8 @@ class IzinKeluar extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Pegawai', 'user_id')
-                ->exceptOnForms()
-                ->displayUsing(fn ($user_id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($user_id), 'name')),
+            BelongsTo::make('Pegawai', 'user', User::class)
+                ->exceptOnForms(),
             Date::make('Tanggal Keluar', 'tanggal')
                 ->sortable()
                 ->rules('required', function ($attribute, $value, $fail) {

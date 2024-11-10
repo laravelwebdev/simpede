@@ -84,7 +84,7 @@ class BarangPersediaan extends Resource
                 ->allowedFor('bmn')
                 ->get()) {
                 $fields[] =
-                    BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+                    BelongsTo::make('Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
                         ->withSubtitles()
                         ->searchable()
                         ->showCreateRelationButton()
@@ -140,7 +140,7 @@ class BarangPersediaan extends Resource
 
         if ($request->viaResource == 'persediaan-masuks') {
             $fields[] =
-            BelongsTo::make('Kode Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
+            BelongsTo::make('Barang', 'masterPersediaan', 'App\Nova\MasterPersediaan')
                 ->withSubtitles()
                 ->searchable()
                 ->showCreateRelationButton()

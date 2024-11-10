@@ -25,7 +25,7 @@ class BastMitra extends Resource
      */
     public static $model = \App\Models\BastMitra::class;
 
-    public static $with = ['kontrakMitra', 'daftarKontrakMitra'];
+    public static $with = ['kontrakMitra', 'daftarKontrakMitra', 'ppk'];
 
     public static function label()
     {
@@ -58,7 +58,6 @@ class BastMitra extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -88,10 +87,13 @@ class BastMitra extends Resource
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
+                ->onlyOnForms()
                 ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                 }),
+            BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                ->exceptOnForms(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
@@ -103,7 +105,6 @@ class BastMitra extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -114,7 +115,6 @@ class BastMitra extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -125,7 +125,6 @@ class BastMitra extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -136,7 +135,6 @@ class BastMitra extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

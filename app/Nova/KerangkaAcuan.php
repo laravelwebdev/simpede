@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\SearchableText;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
@@ -26,7 +27,7 @@ class KerangkaAcuan extends Resource
 {
     use HasTabs;
 
-    public static $with = ['naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
+    public static $with = ['unitKerja','naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
 
     public static function label()
     {
@@ -61,13 +62,14 @@ class KerangkaAcuan extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
      */
-    public static $search = [
-        'tanggal', 'rincian',
-    ];
+    public static function searchableColumns()
+    {
+        return ['tanggal', new SearchableText('rincian')];
+    }
 
     /**
      * Get the fields displayed by the resource on index page.
@@ -84,9 +86,7 @@ class KerangkaAcuan extends Resource
             ])->sortable(),
             Text::make('Rincian'),
             Text::make('Kegiatan'),
-            Select::make('Unit Kerja', 'unit_kerja_id')
-                ->options(Helper::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit'))
-                ->displayUsingLabels()
+            BelongsTo::make('Unit Kerja')
                 ->filterable(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])

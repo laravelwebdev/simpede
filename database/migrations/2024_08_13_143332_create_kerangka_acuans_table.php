@@ -31,6 +31,7 @@ return new class extends Migration
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
             $table->mediumInteger('koordinator_user_id')->nullable()->unsigned();
+            $table->fullText('rincian');
             $table->timestamps();
         });
     }

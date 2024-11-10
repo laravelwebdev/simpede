@@ -8,6 +8,7 @@ use App\Models\JenisKontrak;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
@@ -25,7 +26,7 @@ class KontrakMitra extends Resource
      */
     public static $model = \App\Models\KontrakMitra::class;
 
-    public static $with = ['daftarKontrakMitra'];
+    public static $with = ['daftarKontrakMitra', 'jenisKontrak'];
 
     public static function label()
     {
@@ -69,11 +70,8 @@ class KontrakMitra extends Resource
                 ->readonly()
                 ->exceptOnForms()
                 ->displayUsing(fn ($bulan) => $bulan ? Helper::$bulan[$bulan] : null),
-            Text::make('Jenis Kegiatan', 'jenis_kontrak_id')
-                ->readonly()
-                ->exceptOnForms()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
-
+            BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                ->exceptOnForms(),
             Date::make('Tanggal SPK', 'tanggal_spk')
                 ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);

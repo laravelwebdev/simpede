@@ -19,6 +19,12 @@ class BastMitra extends Model
         return $this->belongsTo(KontrakMitra::class);
     }
 
+    public function ppk(): BelongsTo
+    {
+        return $this->belongsTo(User::class ,'ppk_user_id');
+    }
+
+
     public function daftarKontrakMitra(): HasMany
     {
         return $this->hasMany(DaftarKontrakMitra::class);

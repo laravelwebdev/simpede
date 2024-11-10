@@ -8,12 +8,14 @@ use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\KodeNaskah;
 use App\Nova\Actions\AddHasManyModel;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NaskahDefault extends Resource
 {
+    public static $with = ['jenisNaskah', 'derajatNaskah'];
     /**
      * Get the label for the resource.
      *
@@ -68,13 +70,23 @@ class NaskahDefault extends Resource
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options(Helper::$template),
+            BelongsTo::make('Jenis Naskah')
+                ->sortable()
+                ->exceptOnForms(),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->sortable()
+                ->searchable()
                 ->rules('required')
+                ->onlyOnForms()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kodeNaskahIds), 'id', 'jenis')),
+            BelongsTo::make('Derajat Naskah')
+                ->sortable()
+                ->exceptOnForms(),
             Select::make('Derajat Naskah', 'derajat_naskah_id')
                 ->sortable()
+                ->searchable()
+                ->onlyOnForms()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'derajat')),
             MultiSelect::make('Kode Arsip', 'kode_arsip_id')

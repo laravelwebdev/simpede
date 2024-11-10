@@ -502,7 +502,7 @@ class Helper
     {
         $usersIdByPengelola = Pengelola::cache()
             ->get('all')
-            ->where('role', 'anggota')
+            ->where('role', $role)
             ->where('active', '<', $tanggal)
             ->reject(function ($item) use ($tanggal) {
                 return $item['inactive'] && $item['inactive'] < $tanggal;
@@ -643,7 +643,7 @@ class Helper
     public static function getCollectionDetailAkun($mak)
     {
         return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak) {
-            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37;
+            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37 && !empty($item->satuan);
         });
     }
 

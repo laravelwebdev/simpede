@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\JenisKontrak;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
@@ -18,6 +17,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
@@ -32,7 +32,7 @@ class HonorKegiatan extends Resource
 {
     use HasTabs;
 
-    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai'];
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai', 'jenisKontrak'];
 
     /**
      * The model the resource corresponds to.
@@ -80,13 +80,15 @@ class HonorKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('Tanggal KAK', 'tanggal_kak'),
             Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
-                Date::make('Tanggal KAK', 'tanggal_kak')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                Date::make('Tanggal KAK', 'tanggal_kak')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Panel::make('Keterangan SPJ', [
                 Text::make('Nama Kegiatan', 'kegiatan')
@@ -145,7 +147,9 @@ class HonorKegiatan extends Resource
                                 ->rules('required');
                         }
                     })
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kode)->first(), 'jenis')),
+                    ->onlyOnForms(),
+                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                    ->exceptOnForms(),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
                     ->rules('required')

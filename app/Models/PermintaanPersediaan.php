@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Notifications\NovaNotification;
@@ -22,6 +23,17 @@ class PermintaanPersediaan extends Model
     {
         return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function pbmn(): BelongsTo
+    {
+        return $this->belongsTo(User::class ,'pbmn_user_id');
+    }
+
 
     protected static function booted(): void
     {

@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphMany;
@@ -17,7 +18,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PermintaanPersediaan extends Resource
 {
-    public static $with = ['daftarBarangPersediaans'];
+    public static $with = ['daftarBarangPersediaans', 'user', 'pbmn'];
 
     /**
      * The model the resource corresponds to.
@@ -75,8 +76,7 @@ class PermintaanPersediaan extends Resource
                 ->readonly(Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
-            Text::make('Pembuat', 'user_id')
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+            BelongsTo::make('Pemohon', 'user', 'App\Nova\User')
                 ->exceptOnForms(),
             Date::make('Tanggal Persetujuan', 'tanggal_persetujuan')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
@@ -84,8 +84,14 @@ class PermintaanPersediaan extends Resource
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
+            BelongsTo::make('Pengelola Persediaan', 'pbmn', 'App\Nova\User')
+                ->exceptOnForms()
+                ->canSee(fn () => Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
             Select::make('Pengelola Persediaan', 'pbmn_user_id')
                 ->searchable()
+                ->onlyOnForms()
                 ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal_persetujuan', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)))

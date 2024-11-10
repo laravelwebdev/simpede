@@ -22,7 +22,7 @@ class UnitKerjaPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 

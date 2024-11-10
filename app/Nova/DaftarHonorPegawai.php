@@ -32,7 +32,7 @@ class DaftarHonorPegawai extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'user.name';
 
     public static $search = [
         'user.name',

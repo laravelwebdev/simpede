@@ -36,7 +36,7 @@ class BarangPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'masterPersediaan.barang';
 
     /**
      * The columns that should be searched.

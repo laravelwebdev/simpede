@@ -43,7 +43,7 @@ class PembelianPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'rincian';
 
     /**
      * The columns that should be searched.

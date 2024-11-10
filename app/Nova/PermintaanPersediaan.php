@@ -37,7 +37,7 @@ class PermintaanPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'user.name';
 
     /**
      * The columns that should be searched.
@@ -47,7 +47,7 @@ class PermintaanPersediaan extends Resource
 
     //BUG: belum ditentukan
     public static $search = [
-        'id',
+        'user.name',
     ];
 
     /**

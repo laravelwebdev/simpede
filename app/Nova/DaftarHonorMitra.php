@@ -30,7 +30,7 @@ class DaftarHonorMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'mitra.nama';
 
     public static $search =
         ['mitra.nama', 'mitra.nik'];

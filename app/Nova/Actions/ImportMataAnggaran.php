@@ -92,7 +92,7 @@ class ImportMataAnggaran extends Action
                 ->rules('required')
                 ->default('054.01'),
             Boolean::make('Update Data RPD', 'update_rpd'),
-            Heading::make('File import diambil dari unduhan data mentah penganggaran mon sakti'),
+            Heading::make('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
         ];
     }
 }

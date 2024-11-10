@@ -502,11 +502,10 @@ class Helper
     {
         $usersIdByPengelola = Pengelola::cache()
             ->get('all')
-            ->where('role', $role)
-            ->where('active', '<=', $tanggal)
-            ->where(function ($query) use ($tanggal) {
-                return $query->where('inactive', '>', $tanggal)
-                    ->orWhereNull('inactive');
+            ->where('role', 'anggota')
+            ->where('active', '<', $tanggal)
+            ->reject(function ($item) use ($tanggal) {
+                return $item['inactive'] && $item['inactive'] < $tanggal;
             })
             ->pluck('user_id')
             ->toArray();

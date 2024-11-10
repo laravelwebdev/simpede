@@ -4,15 +4,22 @@ namespace App\Models;
 
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AnggaranKerangkaAcuan extends Model
 {
+    public function mataAnggaran(): BelongsTo
+    {
+        return $this->belongsTo(MataAnggaran::class);
+    }
+
     protected static function booted(): void
     {
+        
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
-            if ($anggaranKak->isDirty() && Helper::isAkunHonor($anggaranKak->mak)) {
+            if ($anggaranKak->isDirty() && Helper::isAkunHonor($anggaranKak->mata_anggaran_id)) {
                 if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
-                    $honor->mak = $anggaranKak->mak;
+                    $honor->mata_anggaran_id = $anggaranKak->mata_anggaran_id;
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->status = 'outdated';
                     $honor->save();
@@ -24,7 +31,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
-                    $honor->mak = $anggaranKak->mak;
+                    $honor->mata_anggaran_id = $anggaranKak->mata_anggaran_id;
                     $honor->anggaran_kerangka_acuan_id = $anggaranKak->id;
                     $honor->perkiraan_anggaran = $anggaranKak->perkiraan;
                     $honor->kegiatan = $kak->kegiatan;
@@ -41,7 +48,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->save();
                 }
             }
-            if ($anggaranKak->isDirty() && Helper::isAkunPersediaan($anggaranKak->mak)) {
+            if ($anggaranKak->isDirty() && Helper::isAkunPersediaan($anggaranKak->mata_anggaran_id)) {
                 if ($pembelian = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $pembelian->status = 'outdated';
                     $pembelian->save();
@@ -68,11 +75,11 @@ class AnggaranKerangkaAcuan extends Model
             }
         });
         static::updated(function (AnggaranKerangkaAcuan $anggaranKak) {
-            if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
+            if (Helper::isAkunHonorChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
                 $id = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
                 HonorKegiatan::destroy($id);
             }
-            if (Helper::isAkunPersediaanChanged($anggaranKak->getOriginal('mak'), $anggaranKak->mak)) {
+            if (Helper::isAkunPersediaanChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
                 $id = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
                 PembelianPersediaan::destroy($id);
             }

@@ -2,18 +2,20 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
 use App\Models\KerangkaAcuan;
 use App\Nova\Actions\AddHasManyModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AnggaranKerangkaAcuan extends Resource
 {
+    public static $with = ['mataAnggaran'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -41,7 +43,7 @@ class AnggaranKerangkaAcuan extends Resource
      * @var array
      */
     public static $search = [
-        'mak',
+        'mataAnggaran.mak',
     ];
 
     /**
@@ -53,12 +55,15 @@ class AnggaranKerangkaAcuan extends Resource
     {
         return [
             Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
-            Select::make('MAK', 'mak')
-                ->updateRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
-                ->creationRules('required', Rule::unique('anggaran_kerangka_acuans', 'mak')->where('kerangka_acuan_id', $request->viaResourceId))
+            BelongsTo::make('Mata Anggaran')
                 ->searchable()
-                ->dependsOn('kerangka_acuan_id', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionsMataAnggaran(KerangkaAcuan::find($formData->kerangka_acuan_id)->dipa_id));
+                ->updateRules('required', Rule::unique('anggaran_kerangka_acuans', 'mata_anggaran_id')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))
+                ->creationRules('required', Rule::unique('anggaran_kerangka_acuans', 'mata_anggaran_id')->where('kerangka_acuan_id', $request->viaResourceId))
+                ->withSubtitles()
+                ->dependsOn('kerangka_acuan_id', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        return $query->where('dipa_id', KerangkaAcuan::find($formData->kerangka_acuan_id)->dipa_id);
+                    });
                 }),
 
             Currency::make('Perkiraan Digunakan ', 'perkiraan')
@@ -109,7 +114,7 @@ class AnggaranKerangkaAcuan extends Resource
         return [
             AddHasManyModel::make('AnggaranKerangkaAcuan', 'KerangkaAcuan', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
-                // ->size('7xl')
+                ->size('5xl')
                 ->standalone()
                 ->onlyOnIndex()
                 ->addFields($this->fields($request)),

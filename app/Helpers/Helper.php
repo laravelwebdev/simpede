@@ -585,14 +585,20 @@ class Helper
         return JenisKontrak::cache()->get('all')->where('id', $id)->first();
     }
 
+    public static function getMataAnggaranById($id)
+    {
+        return MataAnggaran::cache()->get('all')->where('id', $id)->first();
+    }
+
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
      *
      * @param  json anggaran $spek
      * @return int
      */
-    public static function isAkunHonor(string $mak): bool
+    public static function isAkunHonor($mata_anggaran_id): bool
     {
+        $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
         return $mak == in_array(substr($mak, -6), self::$akun_honor);
     }
 
@@ -715,6 +721,7 @@ class Helper
     {
         $spek = collect($anggaran);
         $spek->transform(function ($item, $index) {
+            $item['mak'] = self::getPropertyFromCollection(self::getMataAnggaranById($item['mata_anggaran_id']), 'mak')."\r\n".self::getPropertyFromCollection(self::getMataAnggaranById($item['mata_anggaran_id']), 'uraian');
             $item['anggaran_no'] = $index + 1;
             $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
 
@@ -962,9 +969,10 @@ class Helper
         return DaftarHonorMitra::where('daftar_kontrak_mitra_id', $kontrak_mitra_id)->get()
             ->transform(function ($item, $index) {
                 $honor_kegiatan = HonorKegiatan::find($item['honor_kegiatan_id']);
+                $mata_anggaran = Helper::getMataAnggaranById($honor_kegiatan->mata_anggaran_id);
                 $item['spek_no'] = $index + 1;
                 $item['spek_kegiatan'] = self::getPropertyFromCollection($honor_kegiatan, 'kegiatan');
-                $item['spek_mak'] = self::getPropertyFromCollection($honor_kegiatan, 'mak');
+                $item['spek_mak'] = self::getPropertyFromCollection($mata_anggaran, 'mak');
                 $item['spek_vol'] = $item['volume_target'];
                 $item['spek_vol_target'] = $item['volume_target'];
                 $item['spek_vol_realisasi'] = $item['volume_realisasi'];

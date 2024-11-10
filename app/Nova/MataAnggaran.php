@@ -28,7 +28,13 @@ class MataAnggaran extends Resource
      *
      * @var string
      */
-    public static $title = 'mak';
+    public static $title = 'uraian';
+
+    public function subtitle()
+    {
+        return $this->mak;
+    }
+
 
     /**
      * The columns that should be searched.
@@ -36,7 +42,7 @@ class MataAnggaran extends Resource
      * @var array
      */
     public static $search = [
-        'mak',
+        'mak', 'uraian',
     ];
 
     /**
@@ -51,7 +57,10 @@ class MataAnggaran extends Resource
                 ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId)->ignore($this->id))
                 ->sortable()
                 ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId))
-                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX'),
+                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
+                ->showWhenPeeking(),
+            Text::make('Detil Anggaran', 'uraian')
+                ->rules('required'),
 
         ];
     }

@@ -157,22 +157,23 @@ class HonorKegiatan extends Resource
             ]),
 
             Panel::make('Keterangan Anggaran', [
-                Text::make('MAK', 'mak')
-                    ->readonly()
-                    ->hideFromIndex(),
-                Select::make('Detail', 'kamus_anggaran_id')
-                    ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
-                        $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'id', 'detail'));
-                    })
-                    ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $kode)->first(), 'detail')),
-                Text::make('Satuan Pembayaran', 'satuan')
-                    ->rules('required')
-                    ->hideFromIndex()
-                    ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
-                    ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
-                        $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
-                    }),
+                //TODO: tanpa belongs to
+                // Text::make('MAK', 'mak')
+                //     ->readonly()
+                //     ->hideFromIndex(),
+                // Select::make('Detail', 'kamus_anggaran_id')
+                //     ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
+                //         $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'id', 'detail'));
+                //     })
+                //     ->hideFromIndex()
+                //     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $kode)->first(), 'detail')),
+                // Text::make('Satuan Pembayaran', 'satuan')
+                //     ->rules('required')
+                //     ->hideFromIndex()
+                //     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
+                //     ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
+                //         $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
+                //     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
                     ->showOnIndex(fn () => session('role') == 'ppk')

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('anggaran_kerangka_acuans', function (Blueprint $table) {
-            $table->id();
-            $table->string('mak', 40)->nullable();
+            $table->id();           
             $table->integer('perkiraan')->nullable()->unsigned();
+            $table->mediumInteger('mata_anggaran_id')->unsigned()->nullable();
             $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });

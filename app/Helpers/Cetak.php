@@ -205,7 +205,7 @@ class Cetak
     public static function spj($id)
     {
         $data = HonorKegiatan::find($id);
-        $kamus = KamusAnggaran::cache()->get('all')->where('id', $data->kamus_anggaran_id)->first();
+        $mataanggaran = Helper::getMataAnggaranById($data->mata_anggaran_id);
         $koordinator = Helper::getPegawaiByUserId($data->koordinator_user_id);
         $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
         $bendahara = Helper::getPegawaiByUserId($data->bendahara_user_id);
@@ -213,9 +213,9 @@ class Cetak
         return [
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
-            'detail' => $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail,
+            'detail' => Helper::getPropertyFromCollection($mataanggaran, 'uraian'),
             'bulan' => $data->jenis_honor !== 'Kontrak Mitra Bulanan' ? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) : Helper::terbilangBulan($data->bulan),
-            'mak' => $data->mak,
+            'mak' => Helper::getPropertyFromCollection($mataanggaran, 'mak'),
             'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
             'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),
             'ro' => Helper::getDetailAnggaran($data->mak, 'ro'),
@@ -307,7 +307,7 @@ class Cetak
 
     public static function bast($id)
     {
-        $data = DaftarKontrakMitra::where('id', '=', $id)->first();
+        $data = DaftarKontrakMitra::where('id', $id)->first();
         $bast = BastMitra::find($data->bast_mitra_id);
         $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
         $ppk = Helper::getPegawaiByUserId($bast->ppk_user_id);

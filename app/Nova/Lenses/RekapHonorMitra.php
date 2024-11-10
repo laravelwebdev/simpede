@@ -18,6 +18,11 @@ use Laravel\Nova\Lenses\Lens;
 
 class RekapHonorMitra extends Lens
 {
+    public function name()
+    {
+        return 'Honor Mitra';
+    }
+
     public static $showPollingToggle = true;
 
     /**

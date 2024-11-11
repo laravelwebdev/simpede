@@ -36,6 +36,11 @@ class KodeArsip extends Resource
      */
     public static $title = 'detail';
 
+    public function subtitle()
+    {
+        return $this->kode;
+    }
+
     /**
      * The columns that should be searched.
      *

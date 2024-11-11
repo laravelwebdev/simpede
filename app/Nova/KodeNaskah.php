@@ -37,6 +37,11 @@ class KodeNaskah extends Resource
      */
     public static $title = 'kategori';
 
+    public function subtitle()
+    {
+        return 'Format Penomoran: '.$this->format;
+    }
+
     /**
      * The columns that should be searched.
      *

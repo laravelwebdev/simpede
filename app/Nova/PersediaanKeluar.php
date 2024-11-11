@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
 
 class PersediaanKeluar extends Resource
 {
@@ -31,15 +32,23 @@ class PersediaanKeluar extends Resource
      */
     public static $title = 'nomor_dokumen';
 
+    public function subtitle()
+    {
+        return 'Rincian: '.$this->rincian;
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'nomor_dokumen',
-        'rincian',
-    ];
+    public static function searchableColumns()
+    {
+        return [
+            'nomor_dokumen',
+            New SearchableText('rincian'),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.

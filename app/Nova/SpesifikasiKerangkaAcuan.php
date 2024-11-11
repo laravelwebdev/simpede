@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Hidden;
@@ -32,6 +33,11 @@ class SpesifikasiKerangkaAcuan extends Resource
      * @var string
      */
     public static $title = 'rincian';
+
+    public function subtitle()
+    {
+        return 'Volume: '.$this->volume.' '.$this->satuan.' | Harga Satuan: '. Helper::formatRupiah($this->harga_satuan);
+    }
 
     /**
      * The columns that should be searched.

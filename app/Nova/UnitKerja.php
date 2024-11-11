@@ -31,6 +31,11 @@ class UnitKerja extends Resource
      */
     public static $title = 'unit';
 
+    public function subtitle()
+    {
+        return $this->kode;
+    }
+
     /**
      * The columns that should be searched.
      *

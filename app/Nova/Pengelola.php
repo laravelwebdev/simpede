@@ -11,6 +11,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Pengelola extends Resource
 {
+    public static $with = ['user'];
+
     /**
      * Get the label for the resource.
      *
@@ -35,7 +37,15 @@ class Pengelola extends Resource
      *
      * @var string
      */
-    public static $title = 'role';
+    public function title()
+    {
+        return Helper::$role[$this->role];
+    }
+
+    public function subtitle()
+    {
+        return $this->user->name;
+    }
 
     /**
      * The columns that should be searched.

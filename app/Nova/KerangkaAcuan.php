@@ -61,6 +61,11 @@ class KerangkaAcuan extends Resource
         return $this->naskahKeluar->nomor;
     }
 
+    public function subtitle()
+    {
+        return $this->rincian;
+    }
+
     /**
      * Get the searchable columns for the resource.
      *

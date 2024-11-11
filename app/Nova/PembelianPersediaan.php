@@ -45,6 +45,11 @@ class PembelianPersediaan extends Resource
      */
     public static $title = 'rincian';
 
+    public function subtitle()
+    {
+        return 'Status: '.$this->status;
+    }
+
     /**
      * The columns that should be searched.
      *

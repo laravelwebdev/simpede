@@ -9,6 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArsipDokumen extends Resource
 {
+    public  static $with = ['kerangkaAcuan'];
     /**
      * Get the label for the resource.
      *
@@ -35,6 +36,11 @@ class ArsipDokumen extends Resource
      */
     public static $title = 'slug';
 
+    public function subtitle()
+    {
+        return $this->kerangkaAcuan->rincian;
+    }
+
     /**
      * The columns that should be searched.
      *
@@ -42,6 +48,7 @@ class ArsipDokumen extends Resource
      */
     public static $search = [
         'slug',
+        'kerangkaAcuan.rincian'
     ];
 
     /**

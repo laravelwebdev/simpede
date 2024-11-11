@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('tanggal_dokumen')->nullable();
             $table->string('rincian')->nullable();
             $table->date('tanggal_buku')->nullable();
+            $table->fullText('rincian')->nullable();
             $table->timestamps();
         });
     }

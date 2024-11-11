@@ -18,6 +18,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\SearchableText;
 
 class NaskahKeluar extends Resource
 {
@@ -48,16 +49,25 @@ class NaskahKeluar extends Resource
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public function title()
+    {
+        return $this->nomor;
+    }
+
+    public function subtitle()
+    {
+        return $this->perihal;
+    }
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'nomor', 'tanggal', 'perihal', 'tujuan',
-    ];
+    public static function searchableColumns()
+    {
+        return ['tanggal', new SearchableText('perihal'), 'nomor', 'tujuan'];
+    }
 
     /**
      * Get the fields displayed by the resource.

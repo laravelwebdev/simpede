@@ -16,6 +16,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class NaskahDefault extends Resource
 {
     public static $with = ['jenisNaskah', 'derajatNaskah'];
+
     /**
      * Get the label for the resource.
      *
@@ -42,14 +43,10 @@ class NaskahDefault extends Resource
      */
     public static $title = 'jenis';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'jenis',
-    ];
+    public static function searchable()
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.

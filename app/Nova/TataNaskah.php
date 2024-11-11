@@ -37,6 +37,11 @@ class TataNaskah extends Resource
      */
     public static $title = 'nomor';
 
+    public function subtitle()
+    {
+        return 'Tanggal: ' . Helper::terbilangTanggal($this->tanggal);
+    }
+
     /**
      * The columns that should be searched.
      *

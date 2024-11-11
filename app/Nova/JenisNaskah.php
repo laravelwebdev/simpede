@@ -39,7 +39,7 @@ class JenisNaskah extends Resource
 
     public function subtitle()
     {
-        return $this->format;
+        return 'Format Penomoran: '.$this->format;
     }
 
     /**

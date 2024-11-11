@@ -58,7 +58,7 @@ class HonorKegiatan extends Resource
 
     public function subtitle()
     {
-        return $this->judul_spj;
+        return 'Status: '.$this->status;
     }
 
     /**

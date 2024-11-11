@@ -33,9 +33,13 @@ class HonorKegiatan extends Model
 
     public function jenisKontrak(): BelongsTo
     {
-        return $this->belongsTo(JenisKontrak::class,);
+        return $this->belongsTo(JenisKontrak::class);
     }
 
+    public function mataAnggaran(): BelongsTo
+    {
+        return $this->belongsTo(MataAnggaran::class);
+    }
 
     public function skNaskahKeluar(): BelongsTo
     {

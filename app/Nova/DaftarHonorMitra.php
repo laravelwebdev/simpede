@@ -45,7 +45,7 @@ class DaftarHonorMitra extends Resource
         $kegiatan = $this->honorKegiatan;
         if ($request->viaResource === 'honor-kegiatans') {
             return [
-                BelongsTo::make('Mitra', 'mitra', Mitra::class)
+                BelongsTo::make('Mitra')
                     ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
                     ->rules('required', 'gt:0')

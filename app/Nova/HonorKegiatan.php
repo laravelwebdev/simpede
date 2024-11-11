@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
+use App\Models\MataAnggaran;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
@@ -32,7 +33,7 @@ class HonorKegiatan extends Resource
 {
     use HasTabs;
 
-    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai', 'jenisKontrak'];
+    public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai', 'jenisKontrak', 'mataAnggaran'];
 
     /**
      * The model the resource corresponds to.
@@ -157,23 +158,17 @@ class HonorKegiatan extends Resource
             ]),
 
             Panel::make('Keterangan Anggaran', [
-                //TODO: tanpa belongs to
-                // Text::make('MAK', 'mak')
-                //     ->readonly()
-                //     ->hideFromIndex(),
-                // Select::make('Detail', 'kamus_anggaran_id')
-                //     ->dependsOn('mak', function (Select $field, NovaRequest $request, FormData $form) {
-                //         $field->options(Helper::setOptions(Helper::getCollectionDetailAkun($form->mak), 'id', 'detail'));
-                //     })
-                //     ->hideFromIndex()
-                //     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $kode)->first(), 'detail')),
-                // Text::make('Satuan Pembayaran', 'satuan')
-                //     ->rules('required')
-                //     ->hideFromIndex()
-                //     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
-                //     ->dependsOn('kamus_anggaran_id', function (Text $field, NovaRequest $request, FormData $formData) {
-                //         $field->setValue(Helper::getPropertyFromCollection(KamusAnggaran::cache()->get('all')->where('id', $formData->kamus_anggaran_id)->first(), 'satuan'));
-                //     }),
+                Text::make('MAK', 'mataAnggaran.mak')
+                    ->readonly(),
+                BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+                    ->readonly(),
+                Text::make('Satuan Pembayaran', 'satuan')
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
+                    ->dependsOn('mataAnggaran', function (Text $field, NovaRequest $request, FormData $formData) {
+                        $field->setValue(Helper::getPropertyFromCollection(Helper::getMataAnggaranById($formData->mataAnggaran), 'satuan'));
+                    }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
                     ->showOnIndex(fn () => session('role') == 'ppk')

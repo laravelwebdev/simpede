@@ -206,6 +206,7 @@ class Cetak
     {
         $data = HonorKegiatan::find($id);
         $mataanggaran = Helper::getMataAnggaranById($data->mata_anggaran_id);
+        $mak = Helper::getPropertyFromCollection($mataanggaran, 'mak');
         $koordinator = Helper::getPegawaiByUserId($data->koordinator_user_id);
         $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
         $bendahara = Helper::getPegawaiByUserId($data->bendahara_user_id);
@@ -215,13 +216,13 @@ class Cetak
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
             'detail' => Helper::getPropertyFromCollection($mataanggaran, 'uraian'),
             'bulan' => $data->jenis_honor !== 'Kontrak Mitra Bulanan' ? Helper::terbilangTanggal($data->awal).' - '.Helper::terbilangTanggal($data->akhir) : Helper::terbilangBulan($data->bulan),
-            'mak' => Helper::getPropertyFromCollection($mataanggaran, 'mak'),
-            'kegiatan' => Helper::getDetailAnggaran($data->mak, 'kegiatan'),
-            'kro' => Helper::getDetailAnggaran($data->mak, 'kro'),
-            'ro' => Helper::getDetailAnggaran($data->mak, 'ro'),
-            'komponen' => Helper::getDetailAnggaran($data->mak, 'komponen'),
-            'sub' => Helper::getDetailAnggaran($data->mak, 'sub'),
-            'akun' => Helper::getDetailAnggaran($data->mak, 'akun'),
+            'mak' => $mak,
+            'kegiatan' => Helper::getDetailAnggaran($mak, 'kegiatan'),
+            'kro' => Helper::getDetailAnggaran($mak, 'kro'),
+            'ro' => Helper::getDetailAnggaran($mak, 'ro'),
+            'komponen' => Helper::getDetailAnggaran($mak, 'komponen'),
+            'sub' => Helper::getDetailAnggaran($mak, 'sub'),
+            'akun' => Helper::getDetailAnggaran($mak, 'akun'),
             'daftar_honor_mitra' => Helper::makeSpjMitraAndPegawai($id, $data->tanggal_spj),
             'satuan' => $data->satuan,
             'total_bruto' => Helper::formatUang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('bruto')),

@@ -34,16 +34,19 @@ class DataPegawai extends Resource
      *
      * @var string
      */
-    public static $title = 'user_id';
+    public static $title = 'user.name';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    public function subtitle()
+    {
+        return $this->user->nip;
+    }
+
     public static $search = [
-        'user_id',
+        'golongan',
+        'jabatan',
+        'unitKerja.unit'
     ];
+
 
     /**
      * Get the fields displayed by the resource.

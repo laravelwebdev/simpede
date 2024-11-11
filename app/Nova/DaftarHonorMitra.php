@@ -32,6 +32,11 @@ class DaftarHonorMitra extends Resource
      */
     public static $title = 'mitra.nama';
 
+    public function subtitle()
+    {
+        return 'Kegiatan: '.$this->honorKegiatan->kegiatan;
+    }
+
     public static $search =
         ['mitra.nama', 'mitra.nik'];
 

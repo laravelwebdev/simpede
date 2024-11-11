@@ -38,6 +38,11 @@ class BarangPersediaan extends Resource
      */
     public static $title = 'masterPersediaan.barang';
 
+    public function subtitle()
+    {
+        return 'Kode: '.$this->masterPersediaan->kode.' Satuan: '.$this->masterPersediaan->satuan;
+    }
+
     /**
      * The columns that should be searched.
      *

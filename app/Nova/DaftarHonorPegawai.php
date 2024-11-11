@@ -17,7 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorPegawai extends Resource
 {
-    public static $with = ['user'];
+    public static $with = ['user' , 'honorKegiatan'];
     public static $displayInNavigation = false;
 
     /**
@@ -33,6 +33,12 @@ class DaftarHonorPegawai extends Resource
      * @var string
      */
     public static $title = 'user.name';
+
+    public function subtitle()
+    {
+        return 'Kegiatan: '.$this->honorKegiatan->kegiatan;
+    }
+
 
     public static $search = [
         'user.name',

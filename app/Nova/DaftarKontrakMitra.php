@@ -19,7 +19,7 @@ class DaftarKontrakMitra extends Resource
 {
     public static $displayInNavigation = false;
 
-    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra', 'mitra'];
+    public static $with = ['kontrakNaskahKeluar', 'bastNaskahKeluar', 'daftarHonorMitra', 'mitra', 'kontrakMitra'];
 
     /**
      * The model the resource corresponds to.
@@ -39,6 +39,11 @@ class DaftarKontrakMitra extends Resource
      * @var string
      */
     public static $title = 'mitra.nama';
+
+    public function subtitle()
+    {
+        return $this->KontrakMitra->nama_kontrak.': '.Helper::formatRupiah($this->nilai_kontrak);
+    }
 
     /**
      * The columns that should be searched.
@@ -71,7 +76,6 @@ class DaftarKontrakMitra extends Resource
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly(),
             Currency::make('Nilai Kontrak')
-
                 ->readOnly(),
             Status::make('Status', 'status_kontrak')
                 ->loadingWhen(['dibuat', 'diupdate'])

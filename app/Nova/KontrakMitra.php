@@ -45,13 +45,20 @@ class KontrakMitra extends Resource
      */
     public static $title = 'nama_kontrak';
 
+    
+    public function subtitle()
+    {
+        return 'Tanggal SPK: '.Helper::terbilangTanggal($this->tanggal_spk);
+    }
+
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'jenis_kontrak_id', 'jenis_honor',
+        'nama_kontrak', 'bulan', 'tanggal_spk',
     ];
 
     /**

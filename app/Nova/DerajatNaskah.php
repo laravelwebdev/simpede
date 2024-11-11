@@ -29,6 +29,11 @@ class DerajatNaskah extends Resource
      */
     public static $title = 'derajat';
 
+    public function subtitle()
+    {
+        return 'Kode: '.$this->kode;
+    }
+
     /**
      * The columns that should be searched.
      *

@@ -37,6 +37,10 @@ class Dipa extends Resource
      */
     public static $title = 'nomor';
 
+    public function subtitle()
+    {
+        return 'Tahun: ' . $this->tahun;
+    }
     /**
      * The columns that should be searched.
      *

@@ -46,13 +46,19 @@ class BastMitra extends Resource
      */
     public static $title = 'kontrakMitra.nama_kontrak';
 
+    public function subtitle()
+    {
+        return 'Tanggal BAST: '.Helper::terbilangTanggal($this->tanggal_bast);
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id',
+        'kontrakMitra.nama_kontrak',
+        'tanggal_bast',
     ];
 
     /**

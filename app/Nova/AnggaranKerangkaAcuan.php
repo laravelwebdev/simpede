@@ -27,7 +27,7 @@ class AnggaranKerangkaAcuan extends Resource
 
     public static function label()
     {
-        return 'Anggaran';
+        return 'Anggaran KAK';
     }
 
     /**
@@ -35,7 +35,12 @@ class AnggaranKerangkaAcuan extends Resource
      *
      * @var string
      */
-    public static $title = 'mak';
+    public static $title = 'mataAnggaran.mak';
+
+    public function subtitle()
+    {
+        return $this->mataAnggaran->uraian;
+    }
 
     /**
      * The columns that should be searched.
@@ -44,6 +49,7 @@ class AnggaranKerangkaAcuan extends Resource
      */
     public static $search = [
         'mataAnggaran.mak',
+        'mataAnggaran.uraian',
     ];
 
     /**

@@ -19,6 +19,11 @@ class DataPegawai extends Model
     /**
      * Get the unit kerja that owns the user.
      */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class);

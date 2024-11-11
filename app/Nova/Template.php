@@ -32,7 +32,12 @@ class Template extends Resource
      *
      * @var string
      */
-    public static $title = 'slug';
+    public static $title = 'nama';
+
+    public function subtitle()
+    {
+        return Helper::$template[$this->jenis];
+    }
 
     /**
      * The columns that should be searched.
@@ -40,7 +45,7 @@ class Template extends Resource
      * @var array
      */
     public static $search = [
-        'slug',
+        'nama', 'jenis',
     ];
 
     /**

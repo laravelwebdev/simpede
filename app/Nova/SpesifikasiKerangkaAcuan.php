@@ -23,7 +23,7 @@ class SpesifikasiKerangkaAcuan extends Resource
 
     public static function label()
     {
-        return 'Spesifikasi';
+        return 'Spesifikasi KAK';
     }
 
     /**

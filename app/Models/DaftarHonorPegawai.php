@@ -12,6 +12,11 @@ class DaftarHonorPegawai extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function honorKegiatan():BelongsTo
+    {
+        return $this->belongsTo(HonorKegiatan::class);
+    }
+
     protected static function booted(): void
     {
         static::saving(function (DaftarHonorPegawai $honor) {

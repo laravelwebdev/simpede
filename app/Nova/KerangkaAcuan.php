@@ -68,7 +68,7 @@ class KerangkaAcuan extends Resource
      */
     public static function searchableColumns()
     {
-        return ['tanggal', new SearchableText('rincian')];
+        return ['tanggal', new SearchableText('rincian'), 'status'];
     }
 
     /**

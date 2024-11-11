@@ -58,6 +58,7 @@ class BastMitra extends Resource
      */
     public static $search = [
         'kontrakMitra.nama_kontrak',
+        'status',
         'tanggal_bast',
     ];
 

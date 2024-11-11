@@ -52,6 +52,7 @@ class PembelianPersediaan extends Resource
      */
     public static $search = [
         'rincian',
+        'status',
     ];
 
     /**

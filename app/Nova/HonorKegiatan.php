@@ -47,6 +47,29 @@ class HonorKegiatan extends Resource
         return 'Honor Kegiatan';
     }
 
+
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'kegiatan';
+
+    public function subtitle()
+    {
+        return $this->judul_spj;
+    }
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'judul_spj', 'bulan' ,'status',
+    ];
+
     public static function indexQuery(NovaRequest $request, $query)
     {
         $query->where('tahun', session('year'));
@@ -56,22 +79,6 @@ class HonorKegiatan extends Resource
 
         return $query;
     }
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'kegiatan';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'judul_spj', 'bulan',
-    ];
 
     /**
      * Get the fields displayed by the resource.

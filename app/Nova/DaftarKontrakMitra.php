@@ -53,6 +53,8 @@ class DaftarKontrakMitra extends Resource
     public static $search = [
         'mitra.nama',
         'mitra.nik',
+        'status_kontrak',
+        'status_bast',
     ];
 
     /**

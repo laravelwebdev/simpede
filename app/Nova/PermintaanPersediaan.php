@@ -47,6 +47,7 @@ class PermintaanPersediaan extends Resource
 
     public static $search = [
         'user.name',
+        'status',
     ];
 
     /**

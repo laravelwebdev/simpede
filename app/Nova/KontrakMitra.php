@@ -58,7 +58,7 @@ class KontrakMitra extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'tanggal_spk',
+        'nama_kontrak', 'bulan', 'tanggal_spk','status',
     ];
 
     /**

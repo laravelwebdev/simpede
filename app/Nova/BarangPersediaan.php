@@ -4,6 +4,14 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\PembelianPersediaan;
+use App\Models\PermintaanPersediaan;
+use App\Models\PersediaanKeluar;
+use App\Models\PersediaanMasuk;
+use App\Nova\PembelianPersediaan as NovaPembelianPersediaan;
+use App\Nova\PermintaanPersediaan as NovaPermintaanPersediaan;
+use App\Nova\PersediaanKeluar as NovaPersediaanKeluar;
+use App\Nova\PersediaanMasuk as NovaPersediaanMasuk;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Field;
@@ -12,12 +20,13 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableMorphToRelation;
 
 class BarangPersediaan extends Resource
 {
     public static $displayInNavigation = false;
 
-    public static $with = ['masterPersediaan'];
+    public static $with = ['masterPersediaan', 'barangPersediaanable'];
 
     /**
      * The model the resource corresponds to.
@@ -40,18 +49,23 @@ class BarangPersediaan extends Resource
 
     public function subtitle()
     {
-        return 'Kode: '.$this->masterPersediaan->kode.' Satuan: '.$this->masterPersediaan->satuan;
+        return match ($this->barangPersediaanable::class) {
+            PembelianPersediaan::class => $this->barangPersediaanable->rincian,
+            PersediaanMasuk::class => $this->barangPersediaanable->rincian,
+            PersediaanKeluar::class => $this->barangPersediaanable->rincian,
+            PermintaanPersediaan::class => $this->barangPersediaanable->kegiatan,
+        };
     }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'masterPersediaan.kode',
-        'masterPersediaan.barang',
-    ];
+    public static function searchableColumns()
+    {
+        return ['masterPersediaan.kode', 'masterPersediaan.barang',
+            new SearchableMorphToRelation('barangPersediaanable', 'rincian', [NovaPembelianPersediaan::class]),
+            new SearchableMorphToRelation('barangPersediaanable', 'rincian', [NovaPersediaanMasuk::class]),
+            new SearchableMorphToRelation('barangPersediaanable', 'rincian', [NovaPersediaanKeluar::class]),
+            new SearchableMorphToRelation('barangPersediaanable', 'kegiatan', [NovaPermintaanPersediaan::class]),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.

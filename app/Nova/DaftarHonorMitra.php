@@ -71,6 +71,7 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
                 Number::make('Persentase Pajak', 'persen_pajak')
                     ->onlyOnForms()
+                    ->rules('nullable', 'bail', 'gte:0', 'lte:100')
                     ->step(0.01),
                 Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
 

@@ -37,7 +37,7 @@ class PermintaanPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public static $title = 'kegiatan';
 
     public function subtitle()
     {

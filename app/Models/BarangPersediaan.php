@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class BarangPersediaan extends Model
 {
@@ -18,6 +19,11 @@ class BarangPersediaan extends Model
     public function masterPersediaan(): BelongsTo
     {
         return $this->belongsTo(MasterPersediaan::class);
+    }
+
+    public function barangPersediaanable():MorphTo
+    {
+        return $this->morphTo();
     }
 
     protected static function booted(): void

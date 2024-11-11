@@ -23,6 +23,12 @@ class Dipa extends Model
         return $this->hasMany(MataAnggaran::class);
     }
 
+    public function targetSerapanAnggaran(): HasMany
+    {
+        return $this->hasMany(TargetSerapanAnggaran::class);
+    }
+
+
     /**
      * Get the daftar kamus anggaran.
      */
@@ -54,6 +60,19 @@ class Dipa extends Model
             MataAnggaran::destroy($mataAnggaranIds);
             MataAnggaran::cache()->enable();
             MataAnggaran::cache()->update('all');
+            $targetIds = TargetSerapanAnggaran::where('dipa_id', $dipa->id)->pluck('id');
+            TargetSerapanAnggaran::cache()->disable();
+            TargetSerapanAnggaran::destroy($targetIds);
+            TargetSerapanAnggaran::cache()->enable();
+            TargetSerapanAnggaran::cache()->update('all');
+        });
+        static::created(function (Dipa $dipa) {
+            for ($bulan = 1; $bulan <= 12; $bulan++) {
+            $target = new TargetSerapanAnggaran();
+            $target->dipa_id = $dipa->id;
+            $target->bulan = $bulan;
+            $target->save();
+            }
         });
     }
 }

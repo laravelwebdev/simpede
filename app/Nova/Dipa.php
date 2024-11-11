@@ -13,15 +13,18 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use ShuvroRoy\NovaTabs\Tabs;
+use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class Dipa extends Resource
 {
+    use HasTabs;
     public static function label()
     {
         return 'DIPA';
     }
 
-    public static $with = ['mataAnggaran'];
+    public static $with = ['mataAnggaran', 'targetSerapanAnggaran'];
 
     /**
      * The model the resource corresponds to.
@@ -71,7 +74,10 @@ class Dipa extends Resource
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
-            HasMany::make('Mata Anggaran'),
+            Tabs::make('Anggaran dan Target Serapan', [
+                HasMany::make('Mata Anggaran'),
+                HasMany::make('Target Serapan Anggaran'),
+            ]),
         ];
     }
 

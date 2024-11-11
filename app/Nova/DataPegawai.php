@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
+use Carbon\Unit;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
@@ -38,13 +39,14 @@ class DataPegawai extends Resource
 
     public function subtitle()
     {
-        return $this->user->nip;
+        return 'Golongan: '.$this->golongan.', Jabatan: '.$this->jabatan. ', Unit Kerja: '.$this->unitKerja->unit. '(Sejak: '.Helper::terbilangTanggal($this->tanggal).')';
     }
 
     public static $search = [
         'golongan',
         'jabatan',
-        'unitKerja.unit'
+        'unitKerja.unit',
+        'user.name',
     ];
 
 

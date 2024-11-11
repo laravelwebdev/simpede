@@ -44,7 +44,7 @@ class Pengelola extends Resource
 
     public function subtitle()
     {
-        return $this->user->name;
+        return $this->role;
     }
 
     /**
@@ -53,7 +53,7 @@ class Pengelola extends Resource
      * @var array
      */
     public static $search = [
-        'role',
+        'user.name',
     ];
 
     /**

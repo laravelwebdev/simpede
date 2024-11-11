@@ -33,13 +33,18 @@ class KepkaMitra extends Resource
      */
     public static $title = 'nomor';
 
+    public function subtitle()
+    {
+        return 'Tahun: ' . $this->tahun;
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'nomor',
+        'nomor', 'tahun',
     ];
 
     /**

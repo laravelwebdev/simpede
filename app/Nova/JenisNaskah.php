@@ -37,6 +37,11 @@ class JenisNaskah extends Resource
      */
     public static $title = 'jenis';
 
+    public function subtitle()
+    {
+        return $this->format;
+    }
+
     /**
      * The columns that should be searched.
      *

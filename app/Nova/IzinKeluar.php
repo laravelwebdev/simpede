@@ -38,7 +38,12 @@ class IzinKeluar extends Resource
      *
      * @var string
      */
-    public static $title = 'kegiatan';
+    public static $title = 'user.name';
+    
+    public function subtitle()
+    {
+        return 'Tanggal: '.Helper::terbilangTanggal($this->tanggal). ' Kegiatan: '.$this->kegiatan;
+    }
 
     /**
      * The columns that should be searched.
@@ -46,7 +51,7 @@ class IzinKeluar extends Resource
      * @var array
      */
     public static $search = [
-        'kegiatan',
+        'kegiatan', 'tanggal', 'user.name',
     ];
 
     /**

@@ -12,7 +12,7 @@ class JenisKontrakPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual(request()->is('resources/jenis-kontraks'), false)
             ->get();
     }

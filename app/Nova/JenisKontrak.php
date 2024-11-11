@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
@@ -30,13 +31,18 @@ class JenisKontrak extends Resource
      */
     public static $title = 'jenis';
 
+    public function subtitle()
+    {
+        return 'Batas maksimal: ' . Helper::formatRupiah($this->sbml);
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'jenis',
+        'jenis', 'sbml',
     ];
 
     /**

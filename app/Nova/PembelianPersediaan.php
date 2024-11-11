@@ -74,28 +74,40 @@ class PembelianPersediaan extends Resource
                     ->rules('required'),
             ]),
             Panel::make('Keterangan Serah Terima Barang', [
-                Date::make('Tanggal BAST', 'tanggal_bast')
+                Date::make('Tanggal BAST/Nota', 'tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today'),
+                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today')
+                    ->readonly(fn () => Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
-                    }),
+                    })
+                    ->readonly(fn () => Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
                 Select::make('Pengelola Persediaan', 'pbmn_user_id')
                     ->rules('required')
                     ->searchable()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));
-                    }),
+                    }) 
+                    ->canSee(fn () => Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
             ]),
             Panel::make('Keterangan Pembukuan', [
                 Date::make('Tanggal Buku', 'tanggal_buku')
-                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_bast')
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                    ->rules('required', 'after_or_equal:tanggal_bast')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->canSee(fn () => Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
@@ -179,7 +191,14 @@ class PembelianPersediaan extends Resource
                 ->confirmText('Pastikan daftar barang yang diterima sudah sesuai baik jumlah, jenis, dan harganya. Apakah Anda yakin ingin mengubah status menjadi diterima?')
                 ->onlyOnDetail()
                 ->setName('Terima Barang')
-                ->setStatus('diterima');
+                ->setStatus('diterima')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null;
+                });;
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

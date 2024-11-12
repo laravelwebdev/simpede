@@ -35,7 +35,7 @@ class RekapBarangPersediaan extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withOrdering($request->withFilters(
+        return $request->withoutTableOrderPrefix()->withOrdering($request->withFilters(
             $query->select(self::columns())
                 ->whereNotNull('tanggal_transaksi')
                 ->havingRaw('stok > 0')
@@ -78,7 +78,10 @@ class RekapBarangPersediaan extends Lens
             Text::make('Barang')
                 ->sortable()
                 ->readOnly(),
-            Text::make('stok', fn () => $this->stok.' '.$this->satuan),
+            Text::make('stok', 'stok', function ($value) {
+                return $value.' '.$this->satuan;
+            })
+                ->sortable(),
 
         ];
     }

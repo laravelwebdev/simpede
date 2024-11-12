@@ -35,7 +35,6 @@ class MataAnggaran extends Resource
         return $this->mak;
     }
 
-
     /**
      * The columns that should be searched.
      *

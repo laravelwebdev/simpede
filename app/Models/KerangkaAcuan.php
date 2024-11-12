@@ -29,7 +29,6 @@ class KerangkaAcuan extends Model
         return $this->belongsTo(UnitKerja::class);
     }
 
-
     public function arsipDokumen(): HasMany
     {
         return $this->hasMany(ArsipDokumen::class);

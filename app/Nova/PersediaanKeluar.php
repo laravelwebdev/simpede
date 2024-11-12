@@ -46,7 +46,7 @@ class PersediaanKeluar extends Resource
     {
         return [
             'nomor_dokumen',
-            New SearchableText('rincian'),
+            new SearchableText('rincian'),
         ];
     }
 

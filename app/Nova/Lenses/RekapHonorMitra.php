@@ -3,8 +3,6 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
-use App\Nova\Filters\BulanKontrak;
-use App\Nova\Filters\JenisKontrak;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
@@ -41,12 +39,12 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withoutTableOrderPrefix()->withOrdering(        
-            $query->select('bulan', 'jenis_kontrak_id', 'nama',  'mitra_id')
+        return $request->withoutTableOrderPrefix()->withOrdering(
+            $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
                 ->addSelect([
-                    'jumlah_kegiatan' => fn($query) => $query->selectRaw('count(DISTINCT honor_kegiatan_id)'),
-                    'nilai_kontrak' => fn($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan)'),
-                    'valid_sbml' => fn($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml')
+                    'jumlah_kegiatan' => fn ($query) => $query->selectRaw('count(DISTINCT honor_kegiatan_id)'),
+                    'nilai_kontrak' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan)'),
+                    'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
                     $request->withFilters($query->select('id')->from('honor_kegiatans')

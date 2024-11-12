@@ -599,6 +599,7 @@ class Helper
     public static function isAkunHonor($mata_anggaran_id): bool
     {
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
+
         return $mak == in_array(substr($mak, -6), self::$akun_honor);
     }
 
@@ -649,7 +650,7 @@ class Helper
     public static function getCollectionDetailAkun($mak)
     {
         return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak) {
-            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37 && !empty($item->satuan);
+            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37 && ! empty($item->satuan);
         });
     }
 

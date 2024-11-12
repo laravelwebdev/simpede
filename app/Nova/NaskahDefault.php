@@ -11,7 +11,6 @@ use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\GlobalSearch;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NaskahDefault extends Resource
@@ -49,7 +48,7 @@ class NaskahDefault extends Resource
         return false;
     }
 
-    public static $globallySearchable = false;         
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.

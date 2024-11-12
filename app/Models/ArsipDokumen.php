@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ArsipDokumen extends Model
 {
-
     public function kerangkaAcuan(): BelongsTo
     {
         return $this->belongsTo(KerangkaAcuan::class);
     }
-
-
 }

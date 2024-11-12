@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('target_serapan_anggarans', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('bulan')->unsigned()->nullable();
-            $table->decimal('belanja51',5)->nullable()->unsigned();
-            $table->decimal('belanja52',5)->nullable()->unsigned();
-            $table->decimal('belanja53',5)->nullable()->unsigned();
-            $table->decimal('belanja54',5)->nullable()->unsigned();
-            $table->decimal('belanja55',5)->nullable()->unsigned();
-            $table->decimal('belanja56',5)->nullable()->unsigned();
-            $table->decimal('belanja57',5)->nullable()->unsigned();
-            $table->decimal('belanja58',5)->nullable()->unsigned();
+            $table->decimal('belanja51', 5)->nullable()->unsigned();
+            $table->decimal('belanja52', 5)->nullable()->unsigned();
+            $table->decimal('belanja53', 5)->nullable()->unsigned();
+            $table->decimal('belanja54', 5)->nullable()->unsigned();
+            $table->decimal('belanja55', 5)->nullable()->unsigned();
+            $table->decimal('belanja56', 5)->nullable()->unsigned();
+            $table->decimal('belanja57', 5)->nullable()->unsigned();
+            $table->decimal('belanja58', 5)->nullable()->unsigned();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

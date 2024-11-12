@@ -79,7 +79,7 @@ class KontrakMitra extends Resource
                 Text::make('Nama Kontrak', 'nama_kontrak')
                     ->readonly(),
                 Select::make('Bulan Kontrak', 'bulan')
-                ->options(Helper::$bulan)
+                    ->options(Helper::$bulan)
                     ->readonly()
                     ->sortable()
                     ->filterable()

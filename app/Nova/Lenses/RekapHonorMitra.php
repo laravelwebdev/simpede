@@ -11,6 +11,7 @@ use App\Nova\Metrics\KesesuaianSbml;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -40,10 +41,13 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withOrdering(
-            $query->selectRaw(
-                'bulan,jenis_kontrak_id, nama,  mitra_id, count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml '
-            )
+        return $request->withoutTableOrderPrefix()->withOrdering(        
+            $query->select('bulan', 'jenis_kontrak_id', 'nama',  'mitra_id')
+                ->addSelect([
+                    'jumlah_kegiatan' => fn($query) => $query->selectRaw('count(DISTINCT honor_kegiatan_id)'),
+                    'nilai_kontrak' => fn($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan)'),
+                    'valid_sbml' => fn($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml')
+                ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
                     $request->withFilters($query->select('id')->from('honor_kegiatans')
                         ->where('tahun', session('year'))
@@ -67,21 +71,30 @@ class RekapHonorMitra extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis Kontrak', 'jenis_kontrak_id')
-                ->displayUsing(fn ($value) => Helper::getPropertyFromCollection(Helper::getJenisKontrakById($value), 'jenis'))
+            Select::make('Jenis Kontrak', 'jenis_kontrak_id')
+                ->displayUsingLabels()
+                ->sortable()
+                ->options(Helper::setOptionJenisKontrak(now()))
+                ->filterable()
                 ->readOnly(),
-            Text::make('Bulan', 'bulan')
-                ->displayUsing(fn ($value) => Helper::$bulan[$value])
+            Select::make('Bulan', 'bulan')
+                ->displayUsingLabels()
+                ->sortable()
+                ->options(Helper::$bulan)
+                ->filterable()
                 ->readOnly(),
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->readOnly(),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
-                ->readOnly(),
+                ->readOnly()
+                ->sortable(),
             Currency::make('Nilai Kontrak', 'nilai_kontrak')
-                ->readOnly(),
+                ->readOnly()
+                ->sortable(),
             Boolean::make('Sesuai SBML', 'valid_sbml')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->sortable(),
 
         ];
     }
@@ -115,8 +128,6 @@ class RekapHonorMitra extends Lens
     public function filters(NovaRequest $request)
     {
         return [
-            JenisKontrak::make(),
-            BulanKontrak::make(),
         ];
     }
 

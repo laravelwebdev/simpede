@@ -10,12 +10,14 @@ use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class KontrakMitra extends Resource
 {
@@ -69,7 +71,8 @@ class KontrakMitra extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis Kontrak/Honor', 'jenis_honor')
+            Panel::make('Keterangan Kontrak', [
+                Text::make('Jenis Kontrak/Honor', 'jenis_honor')
                 ->readonly(),
             Text::make('Nama Kontrak', 'nama_kontrak')
                 ->readonly(),
@@ -83,7 +86,6 @@ class KontrakMitra extends Resource
                 ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                     return Helper::terbilangTanggal($tanggal);
                 }),
-
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->searchable()
                 ->hideFromIndex()
@@ -116,6 +118,14 @@ class KontrakMitra extends Resource
                 ->loadingWhen(['dibuat', 'diubah'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex(),
+            ]),
+            Panel::make('Arsip', [
+                File::make('File')
+                ->disk('arsip')
+                ->rules('mimes:pdf')
+                ->acceptedTypes('.pdf')
+                ->prunable(),
+            ]),            
             HasMany::make('Daftar Kontrak Mitra'),
         ];
     }

@@ -20,8 +20,9 @@ return new class extends Migration
             $table->date('tanggal_spk')->nullable();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->mediumInteger('jenis_kontrak_id')->nullable()->unsigned();
+            $table->string('file')->nullable();            
             $table->string('status', 20)->nullable();
+            $table->mediumInteger('jenis_kontrak_id')->nullable()->unsigned();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
             $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('honor_kegiatan_id')->nullable()->unsigned();

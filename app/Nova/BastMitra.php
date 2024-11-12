@@ -10,11 +10,13 @@ use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class BastMitra extends Resource
 {
@@ -72,39 +74,49 @@ class BastMitra extends Resource
         $akhir = $this->kontrakMitra ? $this->kontrakMitra->akhir_kontrak : 'today';
 
         return [
-            BelongsTo::make('Kontrak Mitra')
-                ->onlyOnIndex(),
-            Date::make('Tanggal BAST', 'tanggal_bast')
-                ->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                })
-                ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
-            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                ->searchable()
-                ->hideFromIndex()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
-                    $default_naskah = NaskahDefault::cache()
-                        ->get('all')
-                        ->where('jenis', 'bast')
-                        ->first();
-                    $field->rules('required')
-                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
-                }),
-            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                ->rules('required')
-                ->searchable()
-                ->onlyOnForms()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
-                }),
-            BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
-                ->exceptOnForms(),
-            Status::make('Status', 'status')
-                ->loadingWhen(['dibuat'])
-                ->failedWhen(['outdated'])
-                ->onlyOnIndex(),
+            Panel::make('Keterangan BAST', [
+                BelongsTo::make('Kontrak Mitra')
+                    ->onlyOnIndex(),
+                Date::make('Tanggal BAST', 'tanggal_bast')
+                    ->displayUsing(function ($tanggal) {
+                        return Helper::terbilangTanggal($tanggal);
+                    })
+                    ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
+                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $default_naskah = NaskahDefault::cache()
+                            ->get('all')
+                            ->where('jenis', 'bast')
+                            ->first();
+                        $field->rules('required')
+                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
+                    }),
+                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->onlyOnForms()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
+                    }),
+                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                    ->exceptOnForms(),
+                Status::make('Status', 'status')
+                    ->loadingWhen(['dibuat'])
+                    ->failedWhen(['outdated'])
+                    ->onlyOnIndex(),
+            ]),
+            Panel::make('Arsip', [
+                File::make('File')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->prunable(),
+            ]),
+
             HasMany::make('Daftar Kontrak Mitra'),
         ];
     }

@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
+use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
@@ -78,8 +79,8 @@ class PembelianPersediaan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today')
                     ->readonly(fn () => Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                        ->allowedFor('bmn')
+                        ->get()),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
@@ -88,26 +89,26 @@ class PembelianPersediaan extends Resource
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     })
                     ->readonly(fn () => Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                        ->allowedFor('bmn')
+                        ->get()),
                 Select::make('Pengelola Persediaan', 'pbmn_user_id')
                     ->rules('required')
                     ->searchable()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));
-                    }) 
+                    })
                     ->canSee(fn () => Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                        ->allowedFor('bmn')
+                        ->get()),
             ]),
             Panel::make('Keterangan Pembukuan', [
                 Date::make('Tanggal Buku', 'tanggal_buku')
                     ->rules('required', 'after_or_equal:tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->canSee(fn () => Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                        ->allowedFor('bmn')
+                        ->get()),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
@@ -127,6 +128,8 @@ class PembelianPersediaan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Date::make('Tanggal Buku', 'tanggal_buku')
+                ->sortable()
+                ->filterable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Rincian'),
             Status::make('Status', 'status')
@@ -156,7 +159,9 @@ class PembelianPersediaan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('pembelian_persediaans'),
+        ];
     }
 
     /**
@@ -198,7 +203,7 @@ class PembelianPersediaan extends Resource
                     }
 
                     return $this->resource instanceof Model && $this->resource->tanggal_bast !== null;
-                });;
+                });
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

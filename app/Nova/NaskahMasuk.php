@@ -78,6 +78,7 @@ class NaskahMasuk extends Resource
         return [
             Date::make('Tanggal Naskah', 'tanggal')
                 ->sortable()
+                ->filterable()
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required', 'before_or_equal:today', function ($attribute, $value, $fail) {
@@ -86,10 +87,13 @@ class NaskahMasuk extends Resource
                     }
                 }),
             Text::make('Nomor')
-                ->rules('required'),
+                ->rules('required')
+                ->sortable(),
             Text::make('Pengirim')->rules('required'),
             Text::make('Perihal', 'perihal')->rules('required'),
             BelongsTo::make('Jenis Naskah')
+                ->sortable()
+                ->filterable()
                 ->exceptOnForms(),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')

@@ -35,7 +35,7 @@ class KepkaMitra extends Resource
 
     public function subtitle()
     {
-        return 'Tahun: ' . $this->tahun;
+        return 'Tahun: '.$this->tahun;
     }
 
     /**
@@ -60,6 +60,7 @@ class KepkaMitra extends Resource
                 ->rules('required'),
             Select::make('Tahun', 'tahun')
                 ->options(Helper::setOptionTahunDipa())
+                ->sortable()
                 ->rules('required'),
             HasMany::make('Mitra'),
         ];

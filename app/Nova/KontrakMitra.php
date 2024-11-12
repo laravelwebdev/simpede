@@ -4,10 +4,10 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\JenisKontrak;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
+use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -47,12 +47,10 @@ class KontrakMitra extends Resource
      */
     public static $title = 'nama_kontrak';
 
-    
     public function subtitle()
     {
         return 'Tanggal SPK: '.Helper::terbilangTanggal($this->tanggal_spk);
     }
-
 
     /**
      * The columns that should be searched.
@@ -60,7 +58,7 @@ class KontrakMitra extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'tanggal_spk','status',
+        'nama_kontrak', 'bulan', 'tanggal_spk', 'status',
     ];
 
     /**
@@ -72,60 +70,75 @@ class KontrakMitra extends Resource
     {
         return [
             Panel::make('Keterangan Kontrak', [
-                Text::make('Jenis Kontrak/Honor', 'jenis_honor')
-                ->readonly(),
-            Text::make('Nama Kontrak', 'nama_kontrak')
-                ->readonly(),
-            Text::make('Bulan Kontrak', 'bulan')
-                ->readonly()
-                ->exceptOnForms()
-                ->displayUsing(fn ($bulan) => $bulan ? Helper::$bulan[$bulan] : null),
-            BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
-                ->exceptOnForms(),
-            Date::make('Tanggal SPK', 'tanggal_spk')
-                ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                }),
-            Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                ->searchable()
-                ->hideFromIndex()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
-                    $default_naskah = NaskahDefault::cache()
-                        ->get('all')
-                        ->where('jenis', 'kontrak')
-                        ->first();
-                    $field->rules('required')
-                        ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
-                }),
-            Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')
-                ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                })->hideFromIndex(),
-            Date::make('Tanggal Selesai Kontrak', 'akhir_kontrak')
-                ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
-                    return Helper::terbilangTanggal($tanggal);
-                })->hideFromIndex(),
-            Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                ->rules('required')
-                ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
-                }),
+                Select::make('Jenis Kontrak/Honor', 'jenis_honor')
+                    ->options(Helper::$jenis_honor)
+                    ->displayUsingLabels()
+                    ->sortable()
+                    ->filterable()
+                    ->readonly(),
+                Text::make('Nama Kontrak', 'nama_kontrak')
+                    ->readonly(),
+                Select::make('Bulan Kontrak', 'bulan')
+                ->options(Helper::$bulan)
+                    ->readonly()
+                    ->sortable()
+                    ->filterable()
+                    ->exceptOnForms()
+                    ->displayUsingLabels(),
+                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                    ->filterable()
+                    ->sortable()
+                    ->exceptOnForms(),
+                Date::make('Tanggal SPK', 'tanggal_spk')
+                    ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
+                        return Helper::terbilangTanggal($tanggal);
+                    })
+                    ->filterable()
+                    ->sortable(),
+                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $default_naskah = NaskahDefault::cache()
+                            ->get('all')
+                            ->where('jenis', 'kontrak')
+                            ->first();
+                        $field->rules('required')
+                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
+                    }),
+                Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')
+                    ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
+                        return Helper::terbilangTanggal($tanggal);
+                    })->hideFromIndex(),
+                Date::make('Tanggal Selesai Kontrak', 'akhir_kontrak')
+                    ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
+                        return Helper::terbilangTanggal($tanggal);
+                    })->hideFromIndex(),
+                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                    ->exceptOnForms()
+                    ->sortable(),
+                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->onlyOnForms()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
+                    }),
 
-            Status::make('Status', 'status')
-                ->loadingWhen(['dibuat', 'diubah'])
-                ->failedWhen(['outdated'])
-                ->onlyOnIndex(),
+                Status::make('Status', 'status')
+                    ->loadingWhen(['dibuat', 'diubah'])
+                    ->failedWhen(['outdated'])
+                    ->onlyOnIndex(),
             ]),
             Panel::make('Arsip', [
                 File::make('File')
-                ->disk('arsip')
-                ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf')
-                ->prunable(),
-            ]),            
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->prunable(),
+            ]),
             HasMany::make('Daftar Kontrak Mitra'),
         ];
     }
@@ -147,7 +160,9 @@ class KontrakMitra extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('kontrak_mitras'),
+        ];
     }
 
     /**

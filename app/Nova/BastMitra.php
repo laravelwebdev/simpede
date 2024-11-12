@@ -8,6 +8,7 @@ use App\Models\KodeArsip;
 use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
+use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -81,6 +82,8 @@ class BastMitra extends Resource
                     ->displayUsing(function ($tanggal) {
                         return Helper::terbilangTanggal($tanggal);
                     })
+                    ->sortable()
+                    ->filterable()
                     ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
@@ -103,6 +106,8 @@ class BastMitra extends Resource
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     }),
                 BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                    ->sortable()
+                    ->filterable()
                     ->exceptOnForms(),
                 Status::make('Status', 'status')
                     ->loadingWhen(['dibuat'])
@@ -138,7 +143,9 @@ class BastMitra extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('bast_mitras'),
+        ];
     }
 
     /**

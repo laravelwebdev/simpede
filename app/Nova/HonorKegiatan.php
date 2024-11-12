@@ -4,12 +4,11 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\KamusAnggaran;
 use App\Models\KodeArsip;
-use App\Models\MataAnggaran;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
+use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperHonorKegiatan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -47,8 +46,6 @@ class HonorKegiatan extends Resource
         return 'Honor Kegiatan';
     }
 
-
-
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -67,7 +64,7 @@ class HonorKegiatan extends Resource
      * @var array
      */
     public static $search = [
-        'judul_spj', 'bulan' ,'status',
+        'judul_spj', 'bulan', 'status', 'mataAnggaran.mak',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)
@@ -129,6 +126,8 @@ class HonorKegiatan extends Resource
                 Select::make('Jenis Kontrak/Honor', 'jenis_honor')
                     ->rules('required')
                     ->options(Helper::$jenis_honor)
+                    ->sortable()
+                    ->filterable()
                     ->displayUsingLabels(),
                 Select::make('Bulan Kontrak', 'bulan')
                     ->hide()
@@ -144,7 +143,9 @@ class HonorKegiatan extends Resource
                         }
                     })
                     ->options(Helper::$bulan)
-                    ->displayUsingLabels(),
+                    ->displayUsingLabels()
+                    ->sortable()
+                    ->filterable(),
                 Select::make('Jenis Kegiatan', 'jenis_kontrak_id')
                     ->hide()
                     ->dependsOn(['tanggal_kak', 'jenis_honor'], function (Select $field, NovaRequest $request, FormData $form) {
@@ -157,6 +158,8 @@ class HonorKegiatan extends Resource
                     })
                     ->onlyOnForms(),
                 BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                    ->sortable()
+                    ->filterable()
                     ->exceptOnForms(),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
@@ -168,6 +171,7 @@ class HonorKegiatan extends Resource
                 Text::make('MAK', 'mataAnggaran.mak')
                     ->readonly(),
                 BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+                    ->hideFromIndex()
                     ->readonly(),
                 Text::make('Satuan Pembayaran', 'satuan')
                     ->rules('required')
@@ -339,7 +343,9 @@ class HonorKegiatan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('honor_kegiatans'),
+        ];
     }
 
     /**

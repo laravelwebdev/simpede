@@ -63,6 +63,7 @@ class Template extends Resource
                 ->sortable()
                 ->rules('required')
                 ->displayUsingLabels()
+                ->filterable()
                 ->options(Helper::$template),
             File::make('File')
                 ->disk('templates')

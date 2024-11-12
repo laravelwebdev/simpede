@@ -117,16 +117,18 @@ class NaskahKeluar extends Resource
             ])->sortable(),
             Text::make('Tujuan'),
             Text::make('Perihal', 'perihal'),
-            Stack::make('Pengiriman/Tanggal', [
+            Stack::make('Pengiriman/Tanggal','tanggal_kirim', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),
                 Date::make('Tanggal Kirim', 'tanggal_kirim')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ]),
+            ])->sortable(),
             Badge::make('Pembuatan', 'generate')->map([
                 'M' => 'info',
                 'A' => 'success',
-            ]),
+            ])
+                ->sortable()
+                ->filterable(),
             $this->signed ?
             URL::make('Arsip', fn () => Storage::disk('naskah')
                 ->url($this->signed))

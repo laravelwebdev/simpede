@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Models\Dipa;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
+use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -143,7 +144,9 @@ class KerangkaAcuan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('kerangka_acuans'),   
+        ];
     }
 
     /**

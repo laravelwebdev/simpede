@@ -74,6 +74,8 @@ class IzinKeluar extends Resource
     {
         return [
             BelongsTo::make('Pegawai', 'user', User::class)
+                ->filterable()
+                ->sortable()
                 ->exceptOnForms(),
             Date::make('Tanggal Keluar', 'tanggal')
                 ->sortable()
@@ -89,13 +91,15 @@ class IzinKeluar extends Resource
             Text::make('Kegiatan')
                 ->rules('required'),
             Panel::make('Jam Kembali', [
-                Time::make('Jam Kembali', 'kembali'),
+                Time::make('Jam Kembali', 'kembali')
+                ->sortable(),
                 AdvancedImage::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->croppable()
                     ->quality(60)
                     ->convert('webp')
-                    ->prunable(),
+                    ->prunable()
+                    ->sortable(),
             ]),
 
         ];

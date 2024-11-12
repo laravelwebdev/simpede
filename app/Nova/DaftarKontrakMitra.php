@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
+use App\Nova\Filters\StatusFilter;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -66,19 +67,24 @@ class DaftarKontrakMitra extends Resource
     {
         return [
             BelongsTo::make('Mitra')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->sortable(),
             BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly()
+                ->sortable()
                 ->hideFromIndex($request->viaResource == 'bast-mitras')
                 ->hideFromDetail($request->viaResource == 'bast-mitras'),
             BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->readOnly()
+                ->sortable()
                 ->hideFromIndex($request->viaResource == 'kontrak-mitras')
                 ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
-                ->readOnly(),
+                ->readOnly()
+                ->sortable(),
             Currency::make('Nilai Kontrak')
-                ->readOnly(),
+                ->readOnly()
+                ->sortable(),
             Status::make('Status', 'status_kontrak')
                 ->loadingWhen(['dibuat', 'diupdate'])
                 ->failedWhen(['outdated'])
@@ -92,9 +98,11 @@ class DaftarKontrakMitra extends Resource
                 ->hideFromIndex($request->viaResource == 'kontrak-mitras')
                 ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Boolean::make('Sesuai SBML', 'valid_sbml')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->filterable(),
             Boolean::make('Jumlah Kontrak', 'valid_jumlah_kontrak')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->filterable(),
             HasMany::make('Daftar Honor Mitra'),
         ];
     }
@@ -116,7 +124,16 @@ class DaftarKontrakMitra extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        $filters = [];
+        if ($request->viaResource == 'bast-mitras') {
+            $filters[] =  StatusFilter::make('daftar_kontrak_mitras', 'status_bast');
+        }
+        if ($request->viaResource == 'kontrak-mitras') {
+            $filters[] =  StatusFilter::make('daftar_kontrak_mitras', 'status_kontrak');
+        }
+
+        return $filters;
+
     }
 
     /**

@@ -54,9 +54,11 @@ class UnitKerja extends Resource
     {
         return [
             Text::make('Kode')
+                ->sortable()
                 ->help('Kode Unit Kerja untuk ditampilkan di nomor surat')
                 ->rules('required'),
             Text::make('Unit')
+                ->sortable()
                 ->help('Nama Unit Kerja')
                 ->rules('required'),
         ];

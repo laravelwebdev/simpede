@@ -27,6 +27,12 @@ class KontrakMitra extends Model
         return $this->belongsTo(JenisKontrak::class);
     }
 
+    public function ppk(): BelongsTo
+    {
+        return $this->belongsTo(User::class ,'ppk_user_id');
+    }
+
+
     protected static function booted(): void
     {
         static::creating(function (KontrakMitra $kontrak) {

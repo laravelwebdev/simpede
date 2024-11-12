@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
+use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -49,7 +50,6 @@ class PermintaanPersediaan extends Resource
      *
      * @var array
      */
-
     public static $search = [
         'user.name',
         'status',
@@ -65,6 +65,7 @@ class PermintaanPersediaan extends Resource
         return [
             Date::make('Tanggal Permintaan', 'tanggal_permintaan')
                 ->sortable()
+                ->filterable()
                 ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                 ->rules('required', 'before_or_equal:today')
                 ->readonly(Policy::make()
@@ -82,15 +83,20 @@ class PermintaanPersediaan extends Resource
                     ->allowedFor('bmn')
                     ->get()),
             BelongsTo::make('Pemohon', 'user', 'App\Nova\User')
+                ->sortable()
+                ->filterable()
                 ->exceptOnForms(),
             Date::make('Tanggal Persetujuan', 'tanggal_persetujuan')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->sortable()
+                ->filterable()
                 ->rules('nullable', 'bail', 'after_or_equal:tanggal_permintaan')
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
             BelongsTo::make('Pengelola Persediaan', 'pbmn', 'App\Nova\User')
                 ->exceptOnForms()
+                ->sortable()
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
@@ -132,7 +138,9 @@ class PermintaanPersediaan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('permintaan_persediaans'),
+        ];
     }
 
     /**

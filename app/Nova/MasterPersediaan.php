@@ -27,7 +27,6 @@ class MasterPersediaan extends Resource
      *
      * @var string
      */
-
     public function title()
     {
         return $this->barang;
@@ -37,7 +36,6 @@ class MasterPersediaan extends Resource
     {
         return $this->kode.' ('.$this->satuan.')';
     }
-
 
     /**
      * The columns that should be searched.

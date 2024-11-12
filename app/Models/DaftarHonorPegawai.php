@@ -12,7 +12,7 @@ class DaftarHonorPegawai extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function honorKegiatan():BelongsTo
+    public function honorKegiatan(): BelongsTo
     {
         return $this->belongsTo(HonorKegiatan::class);
     }

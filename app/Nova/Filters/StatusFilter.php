@@ -56,7 +56,7 @@ class StatusFilter extends Filter
             ->distinct()
             ->pluck($this->column, $this->column)
             ->mapWithKeys(function ($item, $key) {
-            return [strtoupper($key) => $item];
+                return [strtoupper($key) => $item];
             });
     }
 

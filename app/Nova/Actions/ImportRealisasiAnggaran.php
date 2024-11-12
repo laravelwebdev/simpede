@@ -44,7 +44,6 @@ class ImportRealisasiAnggaran extends Action
             $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
             $realisasiAnggaran->updated_at = now();
             $realisasiAnggaran->save();
-
         });
         RealisasiAnggaran::where('updated_at', null)->delete();
 

@@ -45,7 +45,7 @@ class DaftarHonorMitraPolicy
                     ->allowedFor('koordinator,anggota')
                     ->get();
             }
-            
+
             return false;
         });
     }

@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKontrakMitra extends Resource
@@ -126,14 +125,13 @@ class DaftarKontrakMitra extends Resource
     {
         $filters = [];
         if ($request->viaResource == 'bast-mitras') {
-            $filters[] =  StatusFilter::make('daftar_kontrak_mitras', 'status_bast');
+            $filters[] = StatusFilter::make('daftar_kontrak_mitras', 'status_bast');
         }
         if ($request->viaResource == 'kontrak-mitras') {
-            $filters[] =  StatusFilter::make('daftar_kontrak_mitras', 'status_kontrak');
+            $filters[] = StatusFilter::make('daftar_kontrak_mitras', 'status_kontrak');
         }
 
         return $filters;
-
     }
 
     /**

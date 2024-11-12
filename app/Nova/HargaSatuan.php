@@ -33,7 +33,7 @@ class HargaSatuan extends Resource
 
     public function subtitle()
     {
-        return 'Tanggal: ' . Helper::terbilangTanggal($this->tanggal);
+        return 'Tanggal: '.Helper::terbilangTanggal($this->tanggal);
     }
 
     /**

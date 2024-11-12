@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NaskahMasuk extends Model
 {
-    public function jenisNaskah() : BelongsTo
+    public function jenisNaskah(): BelongsTo
     {
-        return $this->belongsTo(JenisNaskah::class);        
+        return $this->belongsTo(JenisNaskah::class);
     }
-    
+
     protected $casts = [
         'tanggal' => 'date',
     ];

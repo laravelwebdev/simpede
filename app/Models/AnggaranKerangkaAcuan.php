@@ -15,7 +15,6 @@ class AnggaranKerangkaAcuan extends Model
 
     protected static function booted(): void
     {
-        
         static::saved(function (AnggaranKerangkaAcuan $anggaranKak) {
             if ($anggaranKak->isDirty() && Helper::isAkunHonor($anggaranKak->mata_anggaran_id)) {
                 if ($honor = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {

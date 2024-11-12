@@ -46,9 +46,10 @@ class PersediaanMasuk extends Resource
     {
         return [
             'nomor_dokumen',
-            New SearchableText('rincian'),
+            new SearchableText('rincian'),
         ];
     }
+
     /**
      * Get the fields displayed by the resource.
      *

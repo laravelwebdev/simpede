@@ -27,7 +27,7 @@ class DaftarKontrakMitra extends Model
 
     public function mitra(): BelongsTo
     {
-        return $this->belongsTo(Mitra::class,);
+        return $this->belongsTo(Mitra::class);
     }
 
     public function daftarHonorMitra(): HasMany

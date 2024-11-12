@@ -21,7 +21,7 @@ class BarangPersediaan extends Model
         return $this->belongsTo(MasterPersediaan::class);
     }
 
-    public function barangPersediaanable():MorphTo
+    public function barangPersediaanable(): MorphTo
     {
         return $this->morphTo();
     }

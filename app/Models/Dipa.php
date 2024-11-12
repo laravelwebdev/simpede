@@ -28,7 +28,6 @@ class Dipa extends Model
         return $this->hasMany(TargetSerapanAnggaran::class);
     }
 
-
     /**
      * Get the daftar kamus anggaran.
      */
@@ -68,10 +67,10 @@ class Dipa extends Model
         });
         static::created(function (Dipa $dipa) {
             for ($bulan = 1; $bulan <= 12; $bulan++) {
-            $target = new TargetSerapanAnggaran();
-            $target->dipa_id = $dipa->id;
-            $target->bulan = $bulan;
-            $target->save();
+                $target = new TargetSerapanAnggaran();
+                $target->dipa_id = $dipa->id;
+                $target->bulan = $bulan;
+                $target->save();
             }
         });
     }

@@ -36,7 +36,7 @@ class SpesifikasiKerangkaAcuan extends Resource
 
     public function subtitle()
     {
-        return 'Volume: '.$this->volume.' '.$this->satuan.' | Harga Satuan: '. Helper::formatRupiah($this->harga_satuan);
+        return 'Volume: '.$this->volume.' '.$this->satuan.' | Harga Satuan: '.Helper::formatRupiah($this->harga_satuan);
     }
 
     /**

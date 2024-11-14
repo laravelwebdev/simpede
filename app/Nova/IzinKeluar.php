@@ -39,10 +39,10 @@ class IzinKeluar extends Resource
      * @var string
      */
     public static $title = 'user.name';
-    
+
     public function subtitle()
     {
-        return 'Tanggal: '.Helper::terbilangTanggal($this->tanggal). ' Kegiatan: '.$this->kegiatan;
+        return 'Tanggal: '.Helper::terbilangTanggal($this->tanggal).' Kegiatan: '.$this->kegiatan;
     }
 
     /**
@@ -92,7 +92,7 @@ class IzinKeluar extends Resource
                 ->rules('required'),
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali')
-                ->sortable(),
+                    ->sortable(),
                 AdvancedImage::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->croppable()

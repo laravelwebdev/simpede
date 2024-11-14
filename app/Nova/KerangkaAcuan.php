@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
-use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
@@ -28,7 +27,7 @@ class KerangkaAcuan extends Resource
 {
     use HasTabs;
 
-    public static $with = ['unitKerja','naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
+    public static $with = ['unitKerja', 'naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
 
     public static function label()
     {
@@ -145,7 +144,7 @@ class KerangkaAcuan extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            StatusFilter::make('kerangka_acuans'),   
+            StatusFilter::make('kerangka_acuans'),
         ];
     }
 

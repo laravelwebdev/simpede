@@ -33,7 +33,7 @@ class JenisKontrak extends Resource
 
     public function subtitle()
     {
-        return 'Batas maksimal: ' . Helper::formatRupiah($this->sbml);
+        return 'Batas maksimal: '.Helper::formatRupiah($this->sbml);
     }
 
     /**

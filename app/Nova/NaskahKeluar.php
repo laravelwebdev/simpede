@@ -117,7 +117,7 @@ class NaskahKeluar extends Resource
             ])->sortable(),
             Text::make('Tujuan'),
             Text::make('Perihal', 'perihal'),
-            Stack::make('Pengiriman/Tanggal','tanggal_kirim', [
+            Stack::make('Pengiriman/Tanggal', 'tanggal_kirim', [
                 Line::make('Pengiriman', 'pengiriman')
                     ->asHeading(),
                 Date::make('Tanggal Kirim', 'tanggal_kirim')

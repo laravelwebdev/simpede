@@ -31,9 +31,8 @@ class PermintaanPersediaan extends Model
 
     public function pbmn(): BelongsTo
     {
-        return $this->belongsTo(User::class ,'pbmn_user_id');
+        return $this->belongsTo(User::class, 'pbmn_user_id');
     }
-
 
     protected static function booted(): void
     {

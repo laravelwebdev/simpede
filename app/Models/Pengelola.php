@@ -9,12 +9,11 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class Pengelola extends Model
 {
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    
+
     use LaraCache;
 
     protected $casts = [

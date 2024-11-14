@@ -13,12 +13,12 @@ class DaftarHonorMitra extends Model
 {
     protected $fillable = ['mitra_id', 'honor_kegiatan_id', 'daftar_kontrak_mitra_id'];
 
-    public function honorKegiatan():BelongsTo
+    public function honorKegiatan(): BelongsTo
     {
         return $this->belongsTo(HonorKegiatan::class, 'honor_kegiatan_id');
     }
 
-    public function mitra():BelongsTo
+    public function mitra(): BelongsTo
     {
         return $this->belongsTo(Mitra::class);
     }

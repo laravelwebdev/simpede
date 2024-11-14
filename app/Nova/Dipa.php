@@ -19,6 +19,7 @@ use ShuvroRoy\NovaTabs\Traits\HasTabs;
 class Dipa extends Resource
 {
     use HasTabs;
+
     public static function label()
     {
         return 'DIPA';
@@ -42,7 +43,7 @@ class Dipa extends Resource
 
     public function subtitle()
     {
-        return 'Tahun: ' . $this->tahun;
+        return 'Tahun: '.$this->tahun;
     }
     /**
      * The columns that should be searched.
@@ -88,7 +89,6 @@ class Dipa extends Resource
      */
     public function cards(NovaRequest $request)
     {
-
         $cards = [];
         if (Policy::make()->allowedFor('admin')->get()) {
             $cards[] =
@@ -97,7 +97,6 @@ class Dipa extends Resource
         }
 
         return $cards;
-
     }
 
     /**

@@ -28,7 +28,6 @@ class Dipa extends Model
         return $this->hasMany(TargetSerapanAnggaran::class);
     }
 
-
     /**
      * Get the daftar kamus anggaran.
      */

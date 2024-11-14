@@ -9,7 +9,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArsipDokumen extends Resource
 {
-    public  static $with = ['kerangkaAcuan'];
+    public static $with = ['kerangkaAcuan'];
+
     /**
      * Get the label for the resource.
      *
@@ -48,7 +49,7 @@ class ArsipDokumen extends Resource
      */
     public static $search = [
         'slug',
-        'kerangkaAcuan.rincian'
+        'kerangkaAcuan.rincian',
     ];
 
     /**

@@ -17,7 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarHonorPegawai extends Resource
 {
-    public static $with = ['user' , 'honorKegiatan'];
+    public static $with = ['user', 'honorKegiatan'];
     public static $displayInNavigation = false;
 
     /**
@@ -39,11 +39,11 @@ class DaftarHonorPegawai extends Resource
         return 'Kegiatan: '.$this->honorKegiatan->kegiatan;
     }
 
-
     public static $search = [
         'user.name',
         'user.nip',
     ];
+
     public function fields(NovaRequest $request)
     {
         return [
@@ -55,7 +55,7 @@ class DaftarHonorPegawai extends Resource
                 ->creationRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId))
                 ->onlyOnForms(),
             BelongsTo::make('Nama Pegawai', 'user', 'App\Nova\User')
-                ->exceptOnForms(),  
+                ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
                 ->step(0.01)
                 ->rules('nullable', 'bail', 'gt:0')

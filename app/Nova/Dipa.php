@@ -10,6 +10,7 @@ use App\Nova\Actions\ImportRealisasiAnggaran;
 use App\Nova\Metrics\HelperImportAnggaran;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -25,7 +26,7 @@ class Dipa extends Resource
         return 'DIPA';
     }
 
-    public static $with = ['mataAnggaran', 'targetSerapanAnggaran'];
+    public static $with = ['mataAnggaran', 'jenisBelanja'];
 
     /**
      * The model the resource corresponds to.
@@ -72,13 +73,21 @@ class Dipa extends Resource
             Text::make('Nomor', 'nomor')
                 ->sortable()
                 ->rules('required'),
-            Date::make('Tanggal', 'tanggal')
+            Date::make('Tanggal DIPA', 'tanggal')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
+            Number::make('Revisi Ke', 'revisi')
+                ->exceptOnForms(),
+            Date::make('Tanggal Revisi', 'tanggal_revisi')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->exceptOnForms(),
+            Date::make('Tanggal Data realisasi', 'tanggal_realisasi')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->exceptOnForms(),
             Tabs::make('Anggaran dan Target Serapan', [
                 HasMany::make('Mata Anggaran'),
-                HasMany::make('Target Serapan Anggaran'),
+                HasMany::make('Jenis Belanja'),
             ]),
         ];
     }

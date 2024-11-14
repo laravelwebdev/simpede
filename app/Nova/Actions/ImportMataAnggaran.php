@@ -2,16 +2,18 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\JenisBelanja;
 use App\Models\MataAnggaran;
-use App\Models\TargetSerapanAnggaran;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -74,24 +76,25 @@ class ImportMataAnggaran extends Action
         MataAnggaran::cache()->enable();
         MataAnggaran::cache()->update('all');
         $jenis_belanjas = MataAnggaran::cache()->get('all')->unique('jenis_belanja')->pluck('jenis_belanja');
-        TargetSerapanAnggaran::cache()->disable();
-        TargetSerapanAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
-        foreach ($jenis_belanjas as $jenis_belanja){
-            foreach (range(1, 12) as $bulan) {
-                $targetSerapan = TargetSerapanAnggaran::firstOrNew(
-                    [
-                        'dipa_id' => $model->id,
-                        'jenis_belanja' => $jenis_belanja,
-                        'bulan' => $bulan
-                    ]
-                );
-                $targetSerapan->updated_at = now();
-                $targetSerapan->save();
-            }
+        JenisBelanja::cache()->disable();
+        JenisBelanja::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        foreach ($jenis_belanjas as $jenis_belanja) {
+            $jenisBelanja = JenisBelanja::firstOrNew(
+                [
+                    'kode' => $jenis_belanja,
+                    'dipa_id' => $model->id,
+                ]
+            );
+            $jenisBelanja->updated_at = now();
+            $jenisBelanja->save();
         }
-        TargetSerapanAnggaran::where('updated_at', null)->delete();
-        TargetSerapanAnggaran::cache()->enable();
-        TargetSerapanAnggaran::cache()->update('all');
+        JenisBelanja::where('updated_at', null)->delete();
+        JenisBelanja::cache()->enable();
+        JenisBelanja::cache()->update('all');
+
+        $model->revisi = $fields->revisi;
+        $model->tanggal_revisi = $fields->tanggal_revisi;
+        $model->save();
 
         return Action::message('Mata Anggaran sukses diimport!');
     }
@@ -104,14 +107,20 @@ class ImportMataAnggaran extends Action
     public function fields(NovaRequest $request)
     {
         return [
+            Heading::make('<p class="text-red-500">Pastikan Sebelumnya telah melakukan Import POK dari Satu DJA</p>')->asHtml(),
             File::make('File')
                 ->rules('required', 'mimes:csv')
                 ->acceptedTypes('.csv')->help('Data akan diperbaharui dengan data baru'),
             Text::make('Kode Satker/Kementrian', 'kode')
                 ->rules('required')
                 ->default('054.01'),
+            Number::make('Revisi ke- ' , 'revisi')
+                ->rules('required', 'gt:0')
+                ->step(1),
+            Date::make('Tanggal Revisi', 'tanggal_revisi')
+                ->rules('required'),
             Boolean::make('Update Data RPD', 'update_rpd')
-            ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap awal triwulan'),
+                ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap awal triwulan'),
             Heading::make('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
         ];
     }

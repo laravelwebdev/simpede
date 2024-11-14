@@ -13,6 +13,8 @@ class Dipa extends Model
 
     protected $casts = [
         'tanggal' => 'date',
+        'tanggal_revisi' => 'date',
+        'tanggal_realisasi' => 'date',
     ];
 
     /**
@@ -23,9 +25,9 @@ class Dipa extends Model
         return $this->hasMany(MataAnggaran::class);
     }
 
-    public function targetSerapanAnggaran(): HasMany
+    public function jenisBelanja(): HasMany
     {
-        return $this->hasMany(TargetSerapanAnggaran::class);
+        return $this->hasMany(JenisBelanja::class);
     }
 
     /**
@@ -59,11 +61,11 @@ class Dipa extends Model
             MataAnggaran::destroy($mataAnggaranIds);
             MataAnggaran::cache()->enable();
             MataAnggaran::cache()->update('all');
-            $targetIds = TargetSerapanAnggaran::where('dipa_id', $dipa->id)->pluck('id');
-            TargetSerapanAnggaran::cache()->disable();
-            TargetSerapanAnggaran::destroy($targetIds);
-            TargetSerapanAnggaran::cache()->enable();
-            TargetSerapanAnggaran::cache()->update('all');
+            $jenisIds = JenisBelanja::where('dipa_id', $dipa->id)->pluck('id');
+            JenisBelanja::cache()->disable();
+            JenisBelanja::destroy($jenisIds);
+            JenisBelanja::cache()->enable();
+            JenisBelanja::cache()->update('all');
         });
     }
 }

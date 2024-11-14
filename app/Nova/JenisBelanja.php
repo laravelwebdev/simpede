@@ -3,37 +3,35 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class TargetSerapanAnggaran extends Resource
+class JenisBelanja extends Resource
 {
-
-    public static $with = ['jenisBelanja'];
-
-    public static $globalSearchResults = 12;
+    public static $displayInNavigation = false;
+    public static $with = ['dipa', 'targetSerapanAnggaran'];
 
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TargetSerapanAnggaran>
+     * @var class-string<\App\Models\JenisBelanja>
      */
-    public static $model = \App\Models\TargetSerapanAnggaran::class;
+    public static $model = \App\Models\JenisBelanja::class;
 
     public static function label()
     {
-        return 'Target Serapan Anggaran';
+        return 'Jenis Belanja';
     }
 
     public function title()
     {
-        return Helper::$bulan[$this->bulan];
+        return Helper::$jenis_belanja[$this->kode];
     }
 
     public function subtitle()
     {
-        return 'Target: '.$this->nilai. '%';
+        return 'Kode Belanja: '.$this->kode;
     }
 
     /**
@@ -42,8 +40,9 @@ class TargetSerapanAnggaran extends Resource
      * @var array
      */
     public static $search = [
-        'jenisBelanja.kode',
+        'kode',
     ];
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -52,19 +51,10 @@ class TargetSerapanAnggaran extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Bulan', 'bulan')
-                ->readonly()
-                ->filterable()
-                ->options(Helper::$bulan)
-                ->displayUsingLabels(),
-            Number::make('Target(%)', 'nilai')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja'),
-
+            Text::make('Kode Jenis Belanja', 'kode')
+                ->readonly(),
+            Text::make('Jenis Belanja', fn ($value) => Helper::$jenis_belanja[$value->kode]),
+            HasMany::make('Target Serapan Anggaran'),
         ];
     }
 
@@ -107,20 +97,8 @@ class TargetSerapanAnggaran extends Resource
     {
         return [];
     }
-
-    /**
-     * Return the location to redirect the user after update.
-     *
-     * @param  \Laravel\Nova\Resource  $resource
-     * @return \Laravel\Nova\URL|string
-     */
-    public static function redirectAfterUpdate(NovaRequest $request, $resource)
-    {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Anggaran%20dan%20Target%20Serapan=target-serapan-anggaran';
-    }
-
     public static $indexDefaultOrder = [
-        'bulan' => 'asc',
+        'kode' => 'asc',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)

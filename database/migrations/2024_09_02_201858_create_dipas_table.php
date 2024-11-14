@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nomor', 40)->nullable();
             $table->date('tanggal')->nullable();
+            $table->tinyInteger('revisi')->nullable()->unsigned();
+            $table->date('tanggal_revisi')->nullable();
+            $table->date('tanggal_realisasi')->nullable();
             $table->string('tahun', 4)->unique()->nullable();
             $table->timestamps();
         });

@@ -12,10 +12,13 @@ use Laravel\Nova\Query\Search\SearchableText;
 
 class RealisasiAnggaran extends Resource
 {
+    public static $displayInNavigation = false;
+
     public static function label()
     {
         return 'Realisasi Anggaran';
     }
+
     /**
      * The model the resource corresponds to.
      *
@@ -28,7 +31,7 @@ class RealisasiAnggaran extends Resource
      *
      * @var string
      */
-   public function title()
+    public function title()
     {
         return 'SPM Nomor: '.$this->nomor_spp;
     }
@@ -107,7 +110,7 @@ class RealisasiAnggaran extends Resource
     public function lenses(NovaRequest $request)
     {
         return [
-            new LensesRealisasiAnggaran(),
+            new LensesRealisasiAnggaran,
         ];
     }
 

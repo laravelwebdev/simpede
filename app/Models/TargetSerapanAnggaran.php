@@ -4,18 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class TargetSerapanAnggaran extends Model
 {
     use LaraCache;
-
-    protected $fillable = [
-        'dipa_id',
-        'jenis_belanja',
-        'bulan',
-    ];
 
     public static function cacheEntities(): array
     {
@@ -27,8 +22,8 @@ class TargetSerapanAnggaran extends Model
         ];
     }
 
-    public function dipa(): BelongsTo
+    public function jenisBelanja(): BelongsTo
     {
-        return $this->belongsTo(Dipa::class);
+        return $this->belongsTo(JenisBelanja::class);
     }
 }

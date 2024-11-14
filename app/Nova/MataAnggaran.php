@@ -2,13 +2,17 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
+use App\Nova\Actions\ImportRealisasiAnggaran;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class MataAnggaran extends Resource
 {
+    public static $with = ['realisasiAnggaran'];
+
     public static function label()
     {
         return 'Mata Anggaran Kegiatan';
@@ -101,14 +105,24 @@ class MataAnggaran extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions[] =
             AddHasManyModel::make('MataAnggaran', 'Dipa', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
-                // ->size('7xl')
+            // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request)),
-        ];
+                ->addFields($this->fields($request));
+            $actions[] =
+                ImportRealisasiAnggaran::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+
+        return $actions;
+
     }
 
     /**

@@ -56,62 +56,19 @@ class TargetSerapanAnggaran extends Resource
                 ->readonly()
                 ->options(Helper::$bulan)
                 ->displayUsingLabels(),
+            Select::make('Jenis Belanja', 'jenis_belanja')
+                ->sortable()
+                ->readonly()
+                ->options(Helper::$jenis_belanja)
+                ->displayUsingLabels(),
             Number::make('Belanja Pegawai (51)', 'belanja51')
                 ->rules('gte:0', 'lte:100')
                 ->step(0.01)
                 ->min(0)
                 ->max(100)
                 ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja pegawai'),
-            Number::make('Belanja Barang dan Jasa (52)', 'belanja52')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja barang dan jasa'),
-            Number::make('Belanja Modal (53)', 'belanja53')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja modal'),
-            Number::make('Belanja Bunga Utang (54)', 'belanja54')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja bunga utang'),
-            Number::make('Belanja Subsidi (55)', 'belanja55')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja subsidi'),
-            Number::make('Belanja Hibah (56)', 'belanja56')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja hibah'),
-            Number::make('Belanja Bantuan Sosial (57)', 'belanja57')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja bantuan sosial'),
-            Number::make('Belanja Lainnya (58)', 'belanja58')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja lainnya'),
+                ->help('Persentase (%) dari total belanja'),
+
         ];
     }
 

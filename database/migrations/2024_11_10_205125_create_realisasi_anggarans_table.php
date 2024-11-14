@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('uraian', 20)->nullable();
             $table->smallInteger('coa_id')->nullable()->unsigned();
             $table->integer('nilai')->nullable();
-            $table->mediumInteger('dipa_id')->nullable()->unsigned();
+            $table->mediumInteger('mata_anggaran_id')->nullable()->unsigned();
             $table->fullText('uraian')->nullable();
             $table->timestamps();
         });

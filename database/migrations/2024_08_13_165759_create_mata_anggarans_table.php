@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('mak', 40)->nullable();
             $table->smallInteger('coa_id')->nullable()->unsigned();
             $table->string('uraian', 255)->nullable();
+            $table->string('jenis_belanja', 2)->nullable();
             $table->mediumInteger('volume')->nullable()->unsigned();
             $table->string('satuan', 20)->nullable();
             $table->integer('harga_satuan')->nullable()->unsigned();

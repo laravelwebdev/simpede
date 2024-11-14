@@ -27,7 +27,7 @@ class ImportRealisasiAnggaran extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        RealisasiAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        RealisasiAnggaran::where('mata_anggaran_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model) {
             $array_coa = explode('.', $row['KODE COA']);
             $coa_id = end($array_coa);
@@ -35,7 +35,7 @@ class ImportRealisasiAnggaran extends Action
                 [
                     'coa_id' => $coa_id,
                     'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
-                    'dipa_id' => $model->id,
+                    'mata_anggaran_id' => $model->id,
                 ]
             );
             $realisasiAnggaran->tanggal_sp2d = $row['TANGGAL SP2D'];

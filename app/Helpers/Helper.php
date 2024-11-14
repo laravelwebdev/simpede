@@ -33,6 +33,17 @@ use OpenSpout\Reader\XLSX\Reader;
 
 class Helper
 {
+    public static $jenis_belanja = [
+        '51' => 'Belanja Pegawai (51)',
+        '52' => 'Belanja Barang dan Jasa (52)',
+        '53' => 'Belanja Modal (53)',
+        '54' => 'Belanja Bunga Utang (54)',
+        '55' => 'Belanja Subsidi (55)',
+        '56' => 'Belanja Hibah (56)',
+        '57' => 'Belanja Bantuan Sosial (57)',
+        '58' => 'Belanja Lainnya (58)',
+    ];
+
     public static $akun_persediaan = [
         '521811',
         '521813',

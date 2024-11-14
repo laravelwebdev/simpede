@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportKamusAnggaran;
 use App\Nova\Actions\ImportMataAnggaran;
-use App\Nova\Actions\ImportRealisasiAnggaran;
 use App\Nova\Metrics\HelperImportAnggaran;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
@@ -45,6 +44,7 @@ class Dipa extends Resource
     {
         return 'Tahun: '.$this->tahun;
     }
+
     /**
      * The columns that should be searched.
      *
@@ -135,11 +135,6 @@ class Dipa extends Resource
                     ->exceptOnIndex();
             $actions[] =
                 ImportMataAnggaran::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-            $actions[] =
-                ImportRealisasiAnggaran::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();

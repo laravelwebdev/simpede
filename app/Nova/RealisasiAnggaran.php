@@ -2,15 +2,20 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
+use App\Helpers\Helper;
+use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
 
 class RealisasiAnggaran extends Resource
 {
+    public static function label()
+    {
+        return 'Realisasi Anggaran';
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -23,33 +28,39 @@ class RealisasiAnggaran extends Resource
      *
      * @var string
      */
-    public static $title = 'nomor_sp2d';
+   public function title()
+    {
+        return 'SPM Nomor: '.$this->nomor_spp;
+    }
+
+    public function subtitle()
+    {
+        return $this->uraian;
+    }
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'nomor_sp2d', 'uraian'
-    ];
+    public static function searchableColumns()
+    {
+        return ['tanggal_sp2d', 'nomor_sp2d', 'nomor_spp', new SearchableText('uraian')];
+    }
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
-
             Date::make('Tanggal SP2D', 'tanggal_sp2d')
                 ->sortable()
-                ->rules('required', 'date'),
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
-            Text::make('Nomor SPP', 'nomor_spp')
+            Text::make('Nomor SPM', 'nomor_spp')
                 ->sortable()
                 ->rules('required', 'max:10'),
 
@@ -61,14 +72,9 @@ class RealisasiAnggaran extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Number::make('COA ID', 'coa_id')
+            Currency::make('Nilai', 'nilai')
                 ->sortable()
                 ->rules('required', 'integer'),
-
-            Number::make('Nilai', 'nilai')
-                ->sortable()
-                ->rules('required', 'integer'),
-
 
         ];
     }
@@ -76,7 +82,6 @@ class RealisasiAnggaran extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -87,7 +92,6 @@ class RealisasiAnggaran extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -98,20 +102,18 @@ class RealisasiAnggaran extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
     {
         return [
-            new \App\Nova\Lenses\SerapanAnggaranLens,
+            new LensesRealisasiAnggaran(),
         ];
     }
 
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

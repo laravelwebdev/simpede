@@ -9,6 +9,13 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TargetSerapanAnggaran extends Resource
 {
+    public static $with = ['dipa'];
+
+    public static $sort = [
+        'bulan' => 'asc',
+        'jenis_belanja' => 'asc',
+    ];
+
     /**
      * The model the resource corresponds to.
      *
@@ -26,10 +33,7 @@ class TargetSerapanAnggaran extends Resource
         return Helper::$bulan[$this->bulan];
     }
 
-    public function subtitle()
-    {
-        return '51 :'.Helper::formatUang($this->belanja51).' | 52 :'.Helper::formatUang($this->belanja52).' | 53 :'.Helper::formatUang($this->belanja53).' | 57 :'.Helper::formatUang($this->belanja57);
-    }
+    public static $globallySearchable = false;
 
     public static $displayInNavigation = false;
 
@@ -38,11 +42,11 @@ class TargetSerapanAnggaran extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'bulan',
-    ];
+    public static function searchable()
+    {
+        return false;
+    }
 
-    //TODO: 1. auto buat saat dipa created, auto delete saat dipa didelete, hanya bisa diedit admin
     /**
      * Get the fields displayed by the resource.
      *
@@ -52,13 +56,13 @@ class TargetSerapanAnggaran extends Resource
     {
         return [
             Select::make('Bulan', 'bulan')
-                ->sortable()
                 ->readonly()
+                ->filterable()
                 ->options(Helper::$bulan)
                 ->displayUsingLabels(),
             Select::make('Jenis Belanja', 'jenis_belanja')
-                ->sortable()
                 ->readonly()
+                ->filterable()
                 ->options(Helper::$jenis_belanja)
                 ->displayUsingLabels(),
             Number::make('Target(%)', 'nilai')
@@ -121,5 +125,20 @@ class TargetSerapanAnggaran extends Resource
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
         return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Anggaran%20dan%20Target%20Serapan=target-serapan-anggaran';
+    }
+
+    public static $indexDefaultOrder = [
+        'jenis_belanja' => 'asc',
+    ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+
+            return $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));
+        }
+
+        return $query;
     }
 }

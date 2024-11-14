@@ -11,6 +11,12 @@ class TargetSerapanAnggaran extends Model
 {
     use LaraCache;
 
+    protected $fillable = [
+        'dipa_id',
+        'jenis_belanja',
+        'bulan',
+    ];
+
     public static function cacheEntities(): array
     {
         return [

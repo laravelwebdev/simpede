@@ -596,9 +596,9 @@ class Helper
         return JenisKontrak::cache()->get('all')->where('id', $id)->first();
     }
 
-    public static function getMataAnggaranById($id)
+    public static function getMataAnggaranByCoa($coa)
     {
-        return MataAnggaran::cache()->get('all')->where('id', $id)->first();
+        return MataAnggaran::cache()->get('all')->where('coa_id', $coa)->first();
     }
 
     /**

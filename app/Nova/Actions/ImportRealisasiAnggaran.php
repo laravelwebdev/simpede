@@ -2,6 +2,8 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
+use App\Models\MataAnggaran;
 use App\Models\RealisasiAnggaran;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -26,16 +28,21 @@ class ImportRealisasiAnggaran extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $model = $models->first();        
-        RealisasiAnggaran::where('mata_anggaran_id', $mata_anggaran->id)->update(['updated_at' => null]);
-        (new FastExcel)->import($fields->file, function ($row) use ($mata_anggaran) {
+        $model = $models->first();
+        RealisasiAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        $mataAnggarans = MataAnggaran::cache()
+        ->get("all")
+        ->pluck("id", "coa_id")
+        ->all();;
+        (new FastExcel)->import($fields->file, function ($row) use ($model, $mataAnggarans) {
             $array_coa = explode('.', $row['KODE COA']);
             $coa_id = end($array_coa);
+            $mak_id = $mataAnggarans[(int) $coa_id];
             $realisasiAnggaran = RealisasiAnggaran::firstOrNew(
                 [
-                    'coa_id' => $coa_id,
                     'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
-                    'mata_anggaran_id' => $mata_anggaran->id,
+                    'mata_anggaran_id' => $mak_id,
+                    'dipa_id' => $model->id,
                 ]
             );
             $realisasiAnggaran->tanggal_sp2d = $row['TANGGAL SP2D'];
@@ -61,7 +68,7 @@ class ImportRealisasiAnggaran extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Pilih Tanggal dari 1 Januari - 31 Desember). Selanjutnya Hapus baris di atas header kolom agar header ada di baris pertama'),
+            Heading::make('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Kosongkan Pilihan Tanggal). Selanjutnya Hapus baris di atas header kolom agar header ada di baris pertama'),
         ];
     }
 }

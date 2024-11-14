@@ -76,7 +76,19 @@ class ImportMataAnggaran extends Action
         $jenis_belanjas = MataAnggaran::cache()->get('all')->unique('jenis_belanja')->pluck('jenis_belanja');
         TargetSerapanAnggaran::cache()->disable();
         TargetSerapanAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
-
+        foreach ($jenis_belanjas as $jenis_belanja){
+            foreach (range(1, 12) as $bulan) {
+                $targetSerapan = TargetSerapanAnggaran::firstOrNew(
+                    [
+                        'dipa_id' => $model->id,
+                        'jenis_belanja' => $jenis_belanja,
+                        'bulan' => $bulan
+                    ]
+                );
+                $targetSerapan->updated_at = now();
+                $targetSerapan->save();
+            }
+        }
         TargetSerapanAnggaran::where('updated_at', null)->delete();
         TargetSerapanAnggaran::cache()->enable();
         TargetSerapanAnggaran::cache()->update('all');
@@ -98,7 +110,8 @@ class ImportMataAnggaran extends Action
             Text::make('Kode Satker/Kementrian', 'kode')
                 ->rules('required')
                 ->default('054.01'),
-            Boolean::make('Update Data RPD', 'update_rpd'),
+            Boolean::make('Update Data RPD', 'update_rpd')
+            ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap awal triwulan'),
             Heading::make('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
         ];
     }

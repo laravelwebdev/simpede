@@ -61,7 +61,7 @@ class TargetSerapanAnggaran extends Resource
                 ->readonly()
                 ->options(Helper::$jenis_belanja)
                 ->displayUsingLabels(),
-            Number::make('Belanja Pegawai (51)', 'belanja51')
+            Number::make('Target(%)', 'nilai')
                 ->rules('gte:0', 'lte:100')
                 ->step(0.01)
                 ->min(0)

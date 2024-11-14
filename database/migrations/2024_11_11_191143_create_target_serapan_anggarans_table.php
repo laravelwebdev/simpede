@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->tinyInteger('bulan')->unsigned()->nullable();
             $table->string('jenis_belanja', 2)->nullable();
+            $table->decimal('nilai', 5)->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

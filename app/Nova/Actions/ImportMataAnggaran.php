@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Models\MataAnggaran;
+use App\Models\TargetSerapanAnggaran;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -72,6 +73,13 @@ class ImportMataAnggaran extends Action
         MataAnggaran::where('updated_at', null)->delete();
         MataAnggaran::cache()->enable();
         MataAnggaran::cache()->update('all');
+        $jenis_belanjas = MataAnggaran::cache()->get('all')->unique('jenis_belanja')->pluck('jenis_belanja');
+        TargetSerapanAnggaran::cache()->disable();
+        TargetSerapanAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+
+        TargetSerapanAnggaran::where('updated_at', null)->delete();
+        TargetSerapanAnggaran::cache()->enable();
+        TargetSerapanAnggaran::cache()->update('all');
 
         return Action::message('Mata Anggaran sukses diimport!');
     }

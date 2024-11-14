@@ -114,13 +114,7 @@ class MataAnggaran extends Resource
                 ->standalone()
                 ->onlyOnIndex()
                 ->addFields($this->fields($request));
-        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) 
-            $actions[] =
-                ImportRealisasiAnggaran::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        
+   
 
         return $actions;
 

@@ -45,6 +45,7 @@ class ImportMitra extends Action
                 $mitra->alamat = $row['Alamat Detail'];
                 $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tanggal Lahir (dd/mm/yyyy)']);
                 $mitra->npwp = $row['NPWP'];
+                $mitra->updated_at = now();
 
                 $mitra->save();
             }

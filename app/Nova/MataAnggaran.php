@@ -106,7 +106,7 @@ class MataAnggaran extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) 
             $actions[] =
             AddHasManyModel::make('MataAnggaran', 'Dipa', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
@@ -114,12 +114,13 @@ class MataAnggaran extends Resource
                 ->standalone()
                 ->onlyOnIndex()
                 ->addFields($this->fields($request));
+        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) 
             $actions[] =
                 ImportRealisasiAnggaran::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();
-        }
+        
 
         return $actions;
 

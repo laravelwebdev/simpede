@@ -23,6 +23,7 @@ use App\Nova\PembelianPersediaan;
 use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
+use App\Nova\RealisasiAnggaran;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -100,6 +101,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(PersediaanMasuk::class),
                         MenuItem::resource(PermintaanPersediaan::class),
                         MenuItem::resource(PersediaanKeluar::class),
+                        MenuItem::resource(RealisasiAnggaran::class),
                     ])->collapsable(),
 
                 ]),

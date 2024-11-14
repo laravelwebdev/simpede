@@ -71,6 +71,14 @@ class Dipa extends Model
             $target = new TargetSerapanAnggaran();
             $target->dipa_id = $dipa->id;
             $target->bulan = $bulan;
+            $target->belanja51 = 0;
+            $target->belanja52 = 0;
+            $target->belanja53 = 0;
+            $target->belanja54 = 0;
+            $target->belanja55 = 0;
+            $target->belanja56 = 0;
+            $target->belanja57 = 0;
+            $target->belanja58 = 0;            
             $target->save();
             }
         });

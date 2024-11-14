@@ -34,12 +34,12 @@ class ImportRealisasiAnggaran extends Action
             $realisasiAnggaran = RealisasiAnggaran::firstOrNew(
                 [
                     'coa_id' => $coa_id,
+                    'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
                     'dipa_id' => $model->id,
                 ]
             );
             $realisasiAnggaran->tanggal_sp2d = $row['TANGGAL SP2D'];
             $realisasiAnggaran->nomor_spp = str_replace("'", '', $row['NO SPP']);
-            $realisasiAnggaran->nomor_sp2d = str_replace("'", '', $row['NO SP2D']);
             $realisasiAnggaran->uraian = $row['URAIAN'];
             $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
             $realisasiAnggaran->updated_at = now();

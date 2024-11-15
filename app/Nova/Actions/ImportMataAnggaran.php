@@ -114,7 +114,7 @@ class ImportMataAnggaran extends Action
             Text::make('Kode Satker/Kementrian', 'kode')
                 ->rules('required')
                 ->default('054.01'),
-            Number::make('Revisi ke- ' , 'revisi')
+            Number::make('Revisi ke- ', 'revisi')
                 ->rules('required', 'gt:0')
                 ->step(1),
             Date::make('Tanggal Revisi', 'tanggal_revisi')

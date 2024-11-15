@@ -695,9 +695,7 @@ class Helper
             'akun' => '('.Str::substr($mak, 29, 6).') ',
 
         ];
-        $kamus = KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak, $length, $level) {
-            return Str::of($item->mak)->startsWith(Str::substr($mak, 0, $length[$level])) && Str::of($item->mak)->length == $length[$level];
-        })->first();
+        $kamus = KamusAnggaran::cache()->get($level)->first();
         $detail = $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;
@@ -1190,6 +1188,20 @@ class Helper
     public static function setOptionTemplate($jenis)
     {
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
+    }
+
+    public static function setOptionsRo($dipa_id)
+    {
+        return KamusAnggaran::cache()
+            ->get('ro')
+            ->where('dipa_id', $dipa_id)
+            ->pluck('detail', 'mak')
+            ->mapWithKeys(function ($item, $key) {
+                return [
+                    substr($key, 10, 12) => $item,
+                ];
+            })
+            ->toArray();
     }
 
     /**

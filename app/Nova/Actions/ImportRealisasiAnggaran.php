@@ -2,12 +2,10 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Models\MataAnggaran;
 use App\Models\RealisasiAnggaran;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
@@ -32,9 +30,9 @@ class ImportRealisasiAnggaran extends Action
         $model = $models->first();
         RealisasiAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $mataAnggarans = MataAnggaran::cache()
-        ->get("all")
-        ->pluck("id", "coa_id")
-        ->all();
+            ->get('all')
+            ->pluck('id', 'coa_id')
+            ->all();
         (new FastExcel)->import($fields->file, function ($row) use ($model, $mataAnggarans) {
             $array_coa = explode('.', $row['KODE COA']);
             $coa_id = end($array_coa);
@@ -52,7 +50,6 @@ class ImportRealisasiAnggaran extends Action
             $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
             $realisasiAnggaran->updated_at = now();
             $realisasiAnggaran->save();
-
         });
         RealisasiAnggaran::where('updated_at', null)->delete();
         $model->tanggal_realisasi = RealisasiAnggaran::max('tanggal_sp2d');

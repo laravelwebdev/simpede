@@ -11,7 +11,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class JenisBelanja extends Model
 {
     use LaraCache;
-    protected  $fillable = ['kode', 'dipa_id'];
+    protected $fillable = ['kode', 'dipa_id'];
 
     public static function cacheEntities(): array
     {
@@ -27,7 +27,6 @@ class JenisBelanja extends Model
     {
         return $this->belongsTo(Dipa::class);
     }
-
 
     public function targetSerapanAnggaran(): HasMany
     {
@@ -45,7 +44,7 @@ class JenisBelanja extends Model
         });
         static::created(function (JenisBelanja $jenis) {
             foreach (range(1, 12) as $bulan) {
-                $targetSerapan = New TargetSerapanAnggaran();
+                $targetSerapan = new TargetSerapanAnggaran();
                 $targetSerapan->jenis_belanja_id = $jenis->id;
                 $targetSerapan->bulan = $bulan;
                 $targetSerapan->nilai = 100;

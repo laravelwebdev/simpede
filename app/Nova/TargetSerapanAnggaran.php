@@ -9,7 +9,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TargetSerapanAnggaran extends Resource
 {
-
     public static $with = ['jenisBelanja'];
 
     public static $globalSearchResults = 12;
@@ -33,7 +32,7 @@ class TargetSerapanAnggaran extends Resource
 
     public function subtitle()
     {
-        return 'Target: '.$this->nilai. '%';
+        return 'Target: '.$this->nilai.'%';
     }
 
     /**
@@ -44,6 +43,7 @@ class TargetSerapanAnggaran extends Resource
     public static $search = [
         'jenisBelanja.kode',
     ];
+
     /**
      * Get the fields displayed by the resource.
      *

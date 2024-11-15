@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Nova\Lenses\SerapanAnggaran;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
@@ -31,7 +30,6 @@ class MataAnggaran extends Model
     {
         return $this->hasMany(RealisasiAnggaran::class);
     }
-
 
     protected static function booted(): void
     {

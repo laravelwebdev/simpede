@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jenis_belanjas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 2)->nullable();            
+            $table->string('kode', 2)->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

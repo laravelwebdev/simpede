@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
+use SLASH2NL\NovaBackButton\NovaBackButton;
 
 class RealisasiAnggaran extends Resource
 {
@@ -91,7 +92,8 @@ class RealisasiAnggaran extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+        ];
     }
 
     /**
@@ -112,7 +114,7 @@ class RealisasiAnggaran extends Resource
     public function lenses(NovaRequest $request)
     {
         return [
-            new LensesRealisasiAnggaran,
+            LensesRealisasiAnggaran::make(),
         ];
     }
 

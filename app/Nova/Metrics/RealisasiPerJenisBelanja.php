@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Cards;
+namespace App\Nova\Metrics;
 
 use App\Helpers\Helper;
 use App\Models\Dipa;

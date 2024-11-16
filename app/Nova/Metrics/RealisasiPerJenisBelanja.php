@@ -7,6 +7,7 @@ use App\Models\Dipa;
 use App\Models\JenisBelanja;
 use App\Models\TargetSerapanAnggaran;
 use Illuminate\Support\Facades\DB;
+use Laravel\Nova\Nova;
 use Whitespacecode\TableCard\Table\Cell;
 use Whitespacecode\TableCard\Table\Row;
 use Whitespacecode\TableCard\TableCard;
@@ -16,6 +17,12 @@ class RealisasiPerJenisBelanja extends TableCard
     public function __construct()
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Selisih']);
+        $this->viewAll([
+            'label' => "Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan",
+            'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', //URL to navigate when the link is clicked
+            'position' => 'top', //(Possible values `top` - `bottom`)
+            'style' => 'button', //(Possible values `link` - `button`)
+        ]);
 
         $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');
         $dipaId = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;

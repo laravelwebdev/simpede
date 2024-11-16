@@ -5,12 +5,15 @@ namespace App\Nova\Lenses;
 use App\Helpers\Helper;
 use App\Models\Dipa;
 use App\Nova\Filters\RoFilter;
+use App\Nova\Metrics\SerapanAnggaran;
+use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
+use Laravel\Nova\Nova;
 
 class RealisasiAnggaran extends Lens
 {
@@ -23,6 +26,7 @@ class RealisasiAnggaran extends Lens
 
     public function name()
     {
+
         return 'Realisasi SP2D per '.Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->tanggal_realisasi);
     }
 
@@ -39,6 +43,7 @@ class RealisasiAnggaran extends Lens
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
                 'mak, 
+                mata_anggaran_id,
                 mata_anggarans.uraian as item, 
                 total, 
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 
@@ -78,15 +83,32 @@ class RealisasiAnggaran extends Lens
                 Line::make('Akun', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
-
             ]),
             Number::make('Total', 'total')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-            Number::make('% Realisasi', 'persen')->filterable(),
+            Number::make('% Realisasi', 'persen'),
             Number::make('Sisa', 'sisa')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
+            Url::make('Detail', function () {
+                $filter = base64_encode(
+                    json_encode(
+                        [
+                            [
+                                'Hidden:mata_anggaran_id' => $this->mata_anggaran_id,
+                            ],
+                        ],
+                        true
+                    )
+                );
+
+                return Nova::path().'/resources/realisasi-anggarans?realisasi-anggarans_filter='.$filter;
+            })
+                ->label('Lihat')
+                ->clickable()
+                ->canSee(fn () => $this->realisasi > 0)
+                ->sameTab(),
 
         ];
     }
@@ -98,7 +120,11 @@ class RealisasiAnggaran extends Lens
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            SerapanAnggaran::make()->refreshWhenFiltersChange(),
+            SerapanAnggaran::make('WA'),
+            SerapanAnggaran::make('GG'),
+        ];
     }
 
     /**
@@ -120,7 +146,9 @@ class RealisasiAnggaran extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return parent::actions($request);
+        return [
+
+        ];
     }
 
     /**

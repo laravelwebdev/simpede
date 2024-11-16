@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b0356d2ac80aa5d244d9fccd1686728",
+    "content-hash": "717a2e46a738e5ae5e7d98895d4fc0a1",
     "packages": [
         {
             "name": "brick/math",
@@ -1460,6 +1460,54 @@
                 }
             ],
             "time": "2024-06-13T01:25:09+00:00"
+        },
+        {
+            "name": "inspheric/nova-url-field",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inspheric/nova-url-field.git",
+                "reference": "a4f0a795e9fd195b01602bf05c10c317895b151c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inspheric/nova-url-field/zipball/a4f0a795e9fd195b01602bf05c10c317895b151c",
+                "reference": "a4f0a795e9fd195b01602bf05c10c317895b151c",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inspheric\\Fields\\UrlFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inspheric\\Fields\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova URL field.",
+            "keywords": [
+                "field",
+                "laravel",
+                "nova",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/inspheric/nova-url-field/issues",
+                "source": "https://github.com/inspheric/nova-url-field/tree/v2.0.2"
+            },
+            "time": "2022-11-28T12:08:56+00:00"
         },
         {
             "name": "intervention/image",
@@ -9124,12 +9172,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

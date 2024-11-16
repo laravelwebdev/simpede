@@ -18,6 +18,7 @@
         "php": "^8.2",
         "ctessier/nova-advanced-image-field": "^2.1",
         "digital-creative/nova-welcome-card": "^0.0.2",
+        "inspheric/nova-url-field": "^2.0",
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",

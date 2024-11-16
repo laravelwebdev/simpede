@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -59,6 +60,7 @@ class RealisasiAnggaran extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('Mata Anggaran', 'mata_anggaran_id')->filterable(),
             Date::make('Tanggal SP2D', 'tanggal_sp2d')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),

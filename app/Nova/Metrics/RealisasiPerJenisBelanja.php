@@ -18,39 +18,44 @@ class RealisasiPerJenisBelanja extends TableCard
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Selisih']);
 
         $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');
-        $dipaId = Dipa::cache()->get("all")->where("tahun", session('year'))->first()->id;
-        $bulan = date("m");
+        $dipaId = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
+        $bulan = date('m');
 
-        $datas = DB::table("mata_anggarans")
-            ->selectRaw("jenis_belanja, SUM(nilai) as realisasi")
-            ->rightJoin("jenis_belanjas", "jenis_belanjas.kode", "=", "mata_anggarans.jenis_belanja")
-            ->leftJoin("realisasi_anggarans", "realisasi_anggarans.mata_anggaran_id", "=", "mata_anggarans.id")
-            ->where("mata_anggarans.dipa_id", $dipaId)
-            ->whereMonth("tanggal_sp2d", "<=", $bulan)
-            ->orWhereNull("tanggal_sp2d")
-            ->groupBy("jenis_belanja")
-            ->orderBy("jenis_belanja")
+        $datas = DB::table('mata_anggarans')
+            ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')
+            ->join('jenis_belanjas', function ($join) use ($dipaId) {
+                $join->on('jenis_belanjas.kode', '=', 'mata_anggarans.jenis_belanja')
+                    ->where('jenis_belanjas.dipa_id', $dipaId);
+            })
+            ->leftJoin('realisasi_anggarans', function ($join) use ($dipaId) {
+                $join->on('realisasi_anggarans.mata_anggaran_id', '=', 'mata_anggarans.id')
+                    ->where('realisasi_anggarans.dipa_id', $dipaId);
+            })
+            ->whereMonth('tanggal_sp2d', '<=', $bulan)
+            ->orWhereNull('tanggal_sp2d')
+            ->groupBy('jenis_belanja')
+            ->orderBy('jenis_belanja')
             ->get()
             ->transform(function ($item) use ($dipaId, $bulan) {
-            $targetSerapan = TargetSerapanAnggaran::cache()->get("all")
-                ->where("bulan", $bulan)
-                ->where("jenis_belanja_id", JenisBelanja::cache()->get("all")
-                ->where("kode", $item->jenis_belanja)
-                ->where("dipa_id", $dipaId)
-                ->first()->id)
-                ->first()->nilai;
+                $targetSerapan = TargetSerapanAnggaran::cache()->get('all')
+                    ->where('bulan', $bulan)
+                    ->where('jenis_belanja_id', JenisBelanja::cache()->get('all')
+                        ->where('kode', $item->jenis_belanja)
+                        ->where('dipa_id', $dipaId)
+                        ->first()->id)
+                    ->first()->nilai;
 
-            $total = DB::table("mata_anggarans")
-                ->where("jenis_belanja", $item->jenis_belanja)
-                ->where("dipa_id", $dipaId)
-                ->sum("total");
+                $total = DB::table('mata_anggarans')
+                    ->where('jenis_belanja', $item->jenis_belanja)
+                    ->where('dipa_id', $dipaId)
+                    ->sum('total');
 
-            $item->target = round(($total / 100) * $targetSerapan, 0);
-            $item->realisasi = $item->realisasi ?? 0;
-            $item->selisih = $item->realisasi - $item->target;
-            $item->jenis_belanja = Helper::$jenis_belanja[$item->jenis_belanja];
+                $item->target = round(($total / 100) * $targetSerapan, 0);
+                $item->realisasi = $item->realisasi ?? 0;
+                $item->selisih = $item->realisasi - $item->target;
+                $item->jenis_belanja = Helper::$jenis_belanja[$item->jenis_belanja];
 
-            return $item;
+                return $item;
             });
 
         $this->header($header->map(function ($value) {

@@ -3,6 +3,7 @@
 namespace App\Nova\Metrics;
 
 use App\Helpers\Helper;
+use App\Models\Dipa;
 use App\Models\MataAnggaran;
 use App\Models\RealisasiAnggaran;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -35,26 +36,29 @@ class SerapanAnggaran extends Progress
      */
     public function calculate(NovaRequest $request)
     {
+        $dipa_id = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
         $filtered_ro = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\RoFilter');
-        return is_null($this->program ) ? $this->sum($request, RealisasiAnggaran::class, function ($query) use ($filtered_ro) {
+        return is_null($this->program ) ? $this->sum($request, RealisasiAnggaran::class, function ($query) use ($filtered_ro, $dipa_id) {
             return !empty($filtered_ro) ? $query->whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")
+            ->where('realisasi_anggarans.dipa_id', $dipa_id)
             ->join(
                 "mata_anggarans",
                 "realisasi_anggarans.mata_anggaran_id",
                 "=",
                 "mata_anggarans.id"
               )
-            :$query;
-        }, column: 'nilai', target: !empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->sum('total') :MataAnggaran::sum('total'))
-        : $this->sum($request, RealisasiAnggaran::class, function ($query) {
+            :$query->where('dipa_id', $dipa_id);
+        }, column: 'nilai', target: !empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum('total') : MataAnggaran::where('dipa_id', $dipa_id)->sum('total'))
+        : $this->sum($request, RealisasiAnggaran::class, function ($query) use ($dipa_id) {
             return $query->whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")
+            ->where('realisasi_anggarans.dipa_id', $dipa_id)
             ->join(
               "mata_anggarans",
               "realisasi_anggarans.mata_anggaran_id",
               "=",
               "mata_anggarans.id"
             );
-        }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->sum('total'));
+        }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->where('dipa_id', $dipa_id)->sum('total'));
     }
 
     /**

@@ -94,9 +94,12 @@ class RekapBarangPersediaan extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            PembukuanBarangPersediaan::make(),
-            StatusPembelianPersediaan::make(),
-            StatusPermintaanPersediaan::make(),
+            PembukuanBarangPersediaan::make()
+                ->help('Proporsi Barang Persediaan berdasarkan penentuan tanggal bukunya'),
+            StatusPembelianPersediaan::make()
+                ->help('Daftar Pembelian Barang Persediaan berdasarkan statusnya'),
+            StatusPermintaanPersediaan::make()
+                ->help('Daftar Permintaan Barang Persediaan berdasarkan statusnya'),
         ];
     }
 

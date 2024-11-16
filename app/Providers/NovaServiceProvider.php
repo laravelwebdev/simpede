@@ -13,7 +13,6 @@ use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KontrakMitra;
-use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\MasterPersediaan;
@@ -78,7 +77,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Monitoring', [
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
-                    MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                    MenuGroup::make('Anggaran', [
+                        MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                    ])->collapsable(),
+
                 ])->icon('chart-bar'),
                 MenuSection::make(session('year'), [
                     MenuGroup::make('Kerangka Acuan', [

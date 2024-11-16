@@ -22,7 +22,7 @@ class KesesuaianSbml extends Partition
     public function calculate(NovaRequest $request)
     {
         $filtered_jenis = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'Select:jenis_kontrak_id');
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'Select:bulan', date('m'));
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
         $arr = DB::query()
             ->selectRaw(
                 'sum(if(valid_sbml=1,1,0)) as sesuai, sum(if(valid_sbml=0,1,0)) as tidak, count(valid_sbml) as total'

@@ -4,6 +4,7 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
 use App\Models\Dipa;
+use App\Nova\Filters\BulanFilter;
 use App\Nova\Filters\RoFilter;
 use App\Nova\Metrics\RealisasiPerJenisBelanja;
 use App\Nova\Metrics\SerapanAnggaran;
@@ -18,7 +19,7 @@ use Laravel\Nova\Nova;
 
 class RealisasiAnggaran extends Lens
 {
-    /**
+     /**
      * The columns that should be searched.
      *
      * @var array
@@ -40,6 +41,7 @@ class RealisasiAnggaran extends Lens
     public static function query(LensRequest $request, $query)
     {
         $dipa_id = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
@@ -51,13 +53,17 @@ class RealisasiAnggaran extends Lens
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE round(100*sum(nilai)/total,2) END as persen, 
                 CASE WHEN SUM(nilai) IS NULL THEN total ELSE  total- SUM(nilai) END as sisa'
             )
-                ->rightJoin(
-                    'mata_anggarans',
-                    'realisasi_anggarans.mata_anggaran_id',
-                    '=',
-                    'mata_anggarans.id'
-                )
+     
+                ->rightJoin('mata_anggarans', function ($join) use ($filtered_bulan) {
+                    $join->on('realisasi_anggarans.mata_anggaran_id',
+                        '=',
+                        'mata_anggarans.id')
+                        ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                            return $query->whereMonth('tanggal_sp2d', '<=', $filtered_bulan);
+                        });
+                })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
+
                 ->groupBy('mak')
                 ->groupBy('mata_anggaran_id')
                 ->groupBy('mata_anggarans.uraian')
@@ -123,8 +129,8 @@ class RealisasiAnggaran extends Lens
     {
         return [
             SerapanAnggaran::make()->refreshWhenFiltersChange(),
-            SerapanAnggaran::make('WA'),
-            SerapanAnggaran::make('GG'),
+            SerapanAnggaran::make('WA')->refreshWhenFiltersChange(),
+            SerapanAnggaran::make('GG')->refreshWhenFiltersChange(),
             RealisasiPerJenisBelanja::make(),
         ];
     }
@@ -137,6 +143,7 @@ class RealisasiAnggaran extends Lens
     public function filters(NovaRequest $request)
     {
         return [
+            BulanFilter::make(),
             RoFilter::make(),
         ];
     }

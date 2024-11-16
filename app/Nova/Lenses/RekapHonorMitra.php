@@ -3,6 +3,7 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
+use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
@@ -39,6 +40,7 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
+        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
                 ->addSelect([
@@ -46,9 +48,12 @@ class RekapHonorMitra extends Lens
                     'nilai_kontrak' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan)'),
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
-                ->whereIn('honor_kegiatan_id', function ($query) use ($request) {
+                ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
                     $request->withFilters($query->select('id')->from('honor_kegiatans')
                         ->where('tahun', session('year'))
+                        ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                            return $query->where('bulan',  $filtered_bulan);
+                        })
                         ->where('jenis_honor', 'Kontrak Mitra Bulanan')
                     );
                 })
@@ -79,7 +84,6 @@ class RekapHonorMitra extends Lens
                 ->displayUsingLabels()
                 ->sortable()
                 ->options(Helper::$bulan)
-                ->filterable()
                 ->readOnly(),
             Text::make('Nama', 'nama')
                 ->sortable()
@@ -126,6 +130,7 @@ class RekapHonorMitra extends Lens
     public function filters(NovaRequest $request)
     {
         return [
+            BulanFilter::make(),
         ];
     }
 

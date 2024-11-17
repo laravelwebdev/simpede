@@ -55,18 +55,18 @@ class ImportMataAnggaran extends Action
             $mataAnggaran->total = $row['TOTAL'];
             $mataAnggaran->blokir = $row['NILAI_BLOKIR'];
             if ($fields->update_rpd) {
-                $mataAnggaran->rpd_januari = $row['POK_NILAI_1'];
-                $mataAnggaran->rpd_februari = $row['POK_NILAI_2'];
-                $mataAnggaran->rpd_maret = $row['POK_NILAI_3'];
-                $mataAnggaran->rpd_april = $row['POK_NILAI_4'];
-                $mataAnggaran->rpd_mei = $row['POK_NILAI_5'];
-                $mataAnggaran->rpd_juni = $row['POK_NILAI_6'];
-                $mataAnggaran->rpd_juli = $row['POK_NILAI_7'];
-                $mataAnggaran->rpd_agustus = $row['POK_NILAI_8'];
-                $mataAnggaran->rpd_september = $row['POK_NILAI_9'];
-                $mataAnggaran->rpd_oktober = $row['POK_NILAI_10'];
-                $mataAnggaran->rpd_november = $row['POK_NILAI_11'];
-                $mataAnggaran->rpd_desember = $row['POK_NILAI_12'];
+                $mataAnggaran->rpd_1 = $row['POK_NILAI_1'];
+                $mataAnggaran->rpd_2 = $row['POK_NILAI_2'];
+                $mataAnggaran->rpd_3 = $row['POK_NILAI_3'];
+                $mataAnggaran->rpd_4 = $row['POK_NILAI_4'];
+                $mataAnggaran->rpd_5 = $row['POK_NILAI_5'];
+                $mataAnggaran->rpd_6 = $row['POK_NILAI_6'];
+                $mataAnggaran->rpd_7 = $row['POK_NILAI_7'];
+                $mataAnggaran->rpd_8 = $row['POK_NILAI_8'];
+                $mataAnggaran->rpd_9 = $row['POK_NILAI_9'];
+                $mataAnggaran->rpd_10 = $row['POK_NILAI_10'];
+                $mataAnggaran->rpd_11 = $row['POK_NILAI_11'];
+                $mataAnggaran->rpd_12 = $row['POK_NILAI_12'];
             }
 
             $mataAnggaran->updated_at = now();

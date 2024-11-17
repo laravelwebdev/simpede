@@ -15,6 +15,7 @@ use App\Nova\KerangkaAcuan;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
+use App\Nova\Lenses\RencanaPenarikanDana;
 use App\Nova\MasterPersediaan;
 use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
@@ -79,6 +80,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuGroup::make('Anggaran', [
                         MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
                     ])->collapsable(),
 
                 ])->icon('chart-bar'),

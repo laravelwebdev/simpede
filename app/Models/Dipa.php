@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Nova\Metrics\SerapanAnggaran;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
@@ -66,6 +67,8 @@ class Dipa extends Model
             JenisBelanja::destroy($jenisIds);
             JenisBelanja::cache()->enable();
             JenisBelanja::cache()->update('all');
+            $realisasiIds = RealisasiAnggaran::where('dipa_id', $dipa->id)->pluck('id');
+            RealisasiAnggaran::destroy($realisasiIds);
         });
     }
 }

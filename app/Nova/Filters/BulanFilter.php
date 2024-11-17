@@ -8,6 +8,19 @@ use Laravel\Nova\Filters\Filter;
 
 class BulanFilter extends Filter
 {
+    protected bool $embedded;
+    protected $column;
+    protected bool $isdate;
+    protected $default;
+
+    public function __construct($embedded = true, $column = 'bulan', $isdate = false, $default = 'cm')
+    {
+        $this->column = $column;
+        $this->isdate = $isdate;
+        $this->embedded = $embedded;
+        $this->default = $default;
+    }
+
     public $name = 'Bulan';
 
     /**
@@ -19,10 +32,15 @@ class BulanFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        // Filter diterapkan di query Lens, jadi di sini tidak perlu melakukan apa-apa
-        return $query;
-    }
+        if ($this->embedded) {
+            return $query;
+        }
 
+        return $this->isdate 
+            ? $query->whereMonth($this->column, $value) 
+            : $query->where($this->column, $value);
+    }
+    
     /**
      * Get the filter's available options.
      *
@@ -36,6 +54,6 @@ class BulanFilter extends Filter
 
     public function default()
     {
-        return date('m');
+        return $this->default == 'cm' ? date('m') : $this->default;
     }
 }

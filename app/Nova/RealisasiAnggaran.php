@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Filters\BulanFilter;
 use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
+use App\Nova\Lenses\RencanaPenarikanDana;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
@@ -103,7 +105,8 @@ class RealisasiAnggaran extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+        ];
     }
 
     /**
@@ -115,6 +118,7 @@ class RealisasiAnggaran extends Resource
     {
         return [
             LensesRealisasiAnggaran::make(),
+            RencanaPenarikanDana::make(),
         ];
     }
 

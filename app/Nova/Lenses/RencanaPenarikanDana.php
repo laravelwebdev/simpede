@@ -7,6 +7,7 @@ use App\Models\Dipa;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Filters\RoFilter;
 use App\Nova\Metrics\RealisasiPerJenisBelanja;
+use App\Nova\Metrics\RencanaPenarikanPerJenisBelanja;
 use App\Nova\Metrics\SerapanAnggaran;
 use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Line;
@@ -17,21 +18,22 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
 use Laravel\Nova\Nova;
 
-class RealisasiAnggaran extends Lens
+class RencanaPenarikanDana extends Lens
 {
-     /**
+    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'mak'
+        'mak',
     ];
+    
 
     public function name()
     {
 
-        return 'Realisasi SP2D per '.Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->tanggal_realisasi);
+        return 'Monitoring RPD';
     }
 
     /**
@@ -44,32 +46,29 @@ class RealisasiAnggaran extends Lens
     {
         $dipa_id = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
-
+        $filtered_bulan = $filtered_bulan ?: date('m');
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
                 'mak, 
                 mata_anggaran_id,
                 mata_anggarans.uraian as item, 
-                total, 
+                rpd_'.$filtered_bulan.' as target, 
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 
-                CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE round(100*sum(nilai)/total,2) END as persen, 
-                CASE WHEN SUM(nilai) IS NULL THEN total ELSE  total- SUM(nilai) END as sisa'
+                CASE WHEN SUM(nilai) IS NULL THEN  rpd_'.$filtered_bulan.' ELSE   rpd_'.$filtered_bulan.' - SUM(nilai) END as deviasi'
             )
-     
+
                 ->rightJoin('mata_anggarans', function ($join) use ($filtered_bulan) {
                     $join->on('realisasi_anggarans.mata_anggaran_id',
                         '=',
                         'mata_anggarans.id')
-                        ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
-                            return $query->whereMonth('tanggal_sp2d', '<=', $filtered_bulan);
-                        });
+                        ->whereMonth('tanggal_sp2d',  $filtered_bulan);
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
 
                 ->groupBy('mak')
                 ->groupBy('mata_anggaran_id')
                 ->groupBy('item')
-                ->groupBy('total')
+                ->groupBy('target')
                 ->orderBy('mak')
                 ->orderBy('mata_anggaran_id'), 'realisasi_anggarans')));
     }
@@ -93,32 +92,12 @@ class RealisasiAnggaran extends Lens
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
             ]),
-            Number::make('Total', 'total')
+            Number::make('Target', 'target')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-            Number::make('% Realisasi', 'persen'),
-            Number::make('Sisa', 'sisa')
+            Number::make('Deviasi', 'deviasi')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-            Url::make('Detail', function () {
-                $filter = base64_encode(
-                    json_encode(
-                        [
-                            [
-                                'Hidden:mata_anggaran_id' => $this->mata_anggaran_id,
-                            ],
-                        ],
-                        true
-                    )
-                );
-
-                return Nova::path().'/resources/realisasi-anggarans?realisasi-anggarans_filter='.$filter;
-            })
-                ->label('Lihat')
-                ->clickable()
-                ->canSee(fn () => $this->realisasi > 0)
-                ->sameTab(),
-
         ];
     }
 
@@ -130,16 +109,7 @@ class RealisasiAnggaran extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            SerapanAnggaran::make()
-                ->help('Persentase total kumulatif serapan anggaran berdasarkan Rincian Output dan bulan realisasi')
-                ->refreshWhenFiltersChange(),
-            SerapanAnggaran::make('WA')
-                ->help('Persentase total kumulatif serapan anggaran Dukman berdasarkan bulan realisasi')
-                ->refreshWhenFiltersChange(),
-            SerapanAnggaran::make('GG')
-            ->help('Persentase total kumulatif serapan anggaran PPIS berdasarkan bulan realisasi')
-                ->refreshWhenFiltersChange(),
-            RealisasiPerJenisBelanja::make(),
+            RencanaPenarikanPerJenisBelanja::make(),
         ];
     }
 
@@ -175,6 +145,6 @@ class RealisasiAnggaran extends Lens
      */
     public function uriKey()
     {
-        return 'realisasi-anggaran';
+        return 'rencana-penarikan-dana';
     }
 }

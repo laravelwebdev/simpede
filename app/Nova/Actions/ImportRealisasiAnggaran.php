@@ -31,6 +31,7 @@ class ImportRealisasiAnggaran extends Action
         RealisasiAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $mataAnggarans = MataAnggaran::cache()
             ->get('all')
+            ->where('dipa_id', $model->id)
             ->pluck('id', 'coa_id')
             ->all();
         (new FastExcel)->import($fields->file, function ($row) use ($model, $mataAnggarans) {

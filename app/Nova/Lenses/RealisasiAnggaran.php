@@ -12,6 +12,7 @@ use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
@@ -19,13 +20,13 @@ use Laravel\Nova\Nova;
 
 class RealisasiAnggaran extends Lens
 {
-     /**
+    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'mak'
+        'mak',
     ];
 
     public function name()
@@ -48,14 +49,15 @@ class RealisasiAnggaran extends Lens
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
                 'mak, 
-                mata_anggaran_id,
                 mata_anggarans.uraian as item, 
                 total, 
+                blokir,
+                ordered,
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE round(100*sum(nilai)/total,2) END as persen, 
-                CASE WHEN SUM(nilai) IS NULL THEN total ELSE  total- SUM(nilai) END as sisa'
+                CASE WHEN SUM(nilai) IS NULL THEN total-blokir ELSE  total- SUM(nilai)-blokir END as sisa'
             )
-     
+
                 ->rightJoin('mata_anggarans', function ($join) use ($filtered_bulan) {
                     $join->on('realisasi_anggarans.mata_anggaran_id',
                         '=',
@@ -67,11 +69,14 @@ class RealisasiAnggaran extends Lens
                 ->where('mata_anggarans.dipa_id', $dipa_id)
 
                 ->groupBy('mak')
-                ->groupBy('mata_anggaran_id')
                 ->groupBy('item')
+                ->groupBy('blokir')
                 ->groupBy('total')
+                ->groupBy('ordered')
                 ->orderBy('mak')
-                ->orderBy('mata_anggaran_id'), 'realisasi_anggarans')));
+                ->orderBy('ordered'),
+                'realisasi_anggarans')
+            ));
     }
 
     /**
@@ -93,11 +98,14 @@ class RealisasiAnggaran extends Lens
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
             ]),
+            Text::make('COA', 'coa_id'),
             Number::make('Total', 'total')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('% Realisasi', 'persen'),
+            Number::make('Blokir', 'blokir')
+                ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Sisa', 'sisa')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Url::make('Detail', function () {
@@ -137,7 +145,7 @@ class RealisasiAnggaran extends Lens
                 ->help('Persentase total kumulatif serapan anggaran Dukman berdasarkan bulan realisasi')
                 ->refreshWhenFiltersChange(),
             SerapanAnggaran::make('GG')
-            ->help('Persentase total kumulatif serapan anggaran PPIS berdasarkan bulan realisasi')
+                ->help('Persentase total kumulatif serapan anggaran PPIS berdasarkan bulan realisasi')
                 ->refreshWhenFiltersChange(),
             RealisasiPerJenisBelanja::make(),
         ];

@@ -6,17 +6,13 @@ use App\Helpers\Helper;
 use App\Models\Dipa;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Filters\RoFilter;
-use App\Nova\Metrics\RealisasiPerJenisBelanja;
 use App\Nova\Metrics\RencanaPenarikanPerJenisBelanja;
-use App\Nova\Metrics\SerapanAnggaran;
-use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
-use Laravel\Nova\Nova;
 
 class RencanaPenarikanDana extends Lens
 {
@@ -28,7 +24,6 @@ class RencanaPenarikanDana extends Lens
     public static $search = [
         'mak',
     ];
-    
 
     public function name()
     {
@@ -47,10 +42,11 @@ class RencanaPenarikanDana extends Lens
         $dipa_id = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
         $filtered_bulan = $filtered_bulan ?: date('m');
+
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
                 'mak, 
-                mata_anggaran_id,
+                ordered,
                 mata_anggarans.uraian as item, 
                 rpd_'.$filtered_bulan.' as target, 
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 
@@ -61,16 +57,18 @@ class RencanaPenarikanDana extends Lens
                     $join->on('realisasi_anggarans.mata_anggaran_id',
                         '=',
                         'mata_anggarans.id')
-                        ->whereMonth('tanggal_sp2d',  $filtered_bulan);
+
+                        ->whereMonth('tanggal_sp2d', $filtered_bulan);
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
 
                 ->groupBy('mak')
-                ->groupBy('mata_anggaran_id')
+                ->groupBy('ordered')
                 ->groupBy('item')
                 ->groupBy('target')
                 ->orderBy('mak')
-                ->orderBy('mata_anggaran_id'), 'realisasi_anggarans')));
+                ->orderBy('ordered'), 'realisasi_anggarans')
+        ));
     }
 
     /**
@@ -97,6 +95,7 @@ class RencanaPenarikanDana extends Lens
             Number::make('Realisasi', 'realisasi')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Deviasi', 'deviasi')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
         ];
     }

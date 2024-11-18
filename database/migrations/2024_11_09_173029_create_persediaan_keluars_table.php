@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('persediaan_keluars', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_dokumen', 40)->nullable();
+            $table->mediumInteger('naskah_keluar_id')->nullable()->unsigned();
             $table->date('tanggal_dokumen')->nullable();
             $table->string('rincian')->nullable();
             $table->date('tanggal_buku')->nullable();

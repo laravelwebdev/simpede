@@ -379,6 +379,11 @@ class Helper
         return $tanggal->format('Y');
     }
 
+    public static function getMonthFromDate($tanggal)
+    {
+        return $tanggal->format('m');
+    }
+
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *
@@ -454,7 +459,9 @@ class Helper
     {
         $replaces = [];
         $tahun = self::getYearFromDate($tanggal);
+        $bulan = self::getMonthFromDate($tanggal);
         $replaces['<tahun>'] = $tahun;
+        $replaces['<bulan>'] = $bulan;
 
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
         $kode_naskah_id = self::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');

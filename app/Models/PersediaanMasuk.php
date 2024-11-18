@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class PersediaanMasuk extends Model
@@ -15,6 +16,11 @@ class PersediaanMasuk extends Model
     public function daftarBarangPersediaans(): MorphMany
     {
         return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable');
+    }
+
+    public function naskahMasuk(): BelongsTo
+    {
+        return $this->belongsTo(NaskahMasuk::class);
     }
 
     protected static function booted(): void

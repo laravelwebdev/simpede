@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nomor')->unique()->nullable();
             $table->date('tanggal')->nullable();
-            $table->string('pengirim', 10)->nullable();
+            $table->string('pengirim')->nullable();
             $table->text('perihal')->nullable();
             $table->string('arsip')->nullable();
             $table->mediumInteger('jenis_naskah_id')->nullable()->unsigned();

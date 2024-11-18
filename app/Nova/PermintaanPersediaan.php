@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -19,7 +20,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PermintaanPersediaan extends Resource
 {
-    public static $with = ['daftarBarangPersediaans', 'user', 'pbmn'];
+    public static $with = ['daftarBarangPersediaans', 'user', 'pbmn', 'naskahKeluar'];
 
     /**
      * The model the resource corresponds to.
@@ -63,14 +64,19 @@ class PermintaanPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Tanggal Permintaan', 'tanggal_permintaan')
-                ->sortable()
-                ->filterable()
-                ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
-                ->rules('required', 'before_or_equal:today')
-                ->readonly(Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+            Stack::make('Nomor/tanggal', 'tanggal_permintaan', [
+                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->exceptOnForms(),
+                Date::make('Tanggal Permintaan', 'tanggal_permintaan')
+                    ->sortable()
+                    ->filterable()
+                    ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                    ->rules('required', 'before_or_equal:today')
+                    ->readonly(Policy::make()
+                        ->allowedFor('bmn')
+                        ->get()),
+            ]),
+
             Text::make('Untuk Kegiatan', 'kegiatan')
                 ->rules('required')
                 ->readonly(Policy::make()

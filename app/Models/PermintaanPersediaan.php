@@ -14,6 +14,7 @@ use Laravel\Nova\URL;
 class PermintaanPersediaan extends Model
 {
     protected $fillable = ['status'];
+
     protected $casts = [
         'tanggal_permintaan' => 'date',
         'tanggal_persetujuan' => 'date',
@@ -32,6 +33,11 @@ class PermintaanPersediaan extends Model
     public function pbmn(): BelongsTo
     {
         return $this->belongsTo(User::class, 'pbmn_user_id');
+    }
+
+    public function naskahKeluar(): BelongsTo
+    {
+        return $this->belongsTo(NaskahKeluar::class);
     }
 
     protected static function booted(): void
@@ -54,8 +60,33 @@ class PermintaanPersediaan extends Model
             }
         });
 
+        static::saving(function (PermintaanPersediaan $permintaan) {
+            if ($permintaan->naskah_keluar_id === null) {
+                $default_naskah = NaskahDefault::cache()->get('all')
+                    ->where('jenis', 'bon')
+                    ->first();
+                $naskahkeluar = new NaskahKeluar;
+                $naskahkeluar->tanggal = $permintaan->tanggal_permintaan;
+                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
+                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->tujuan = 'Pengelola Barang Persediaan';
+                $naskahkeluar->perihal = 'Bon Permintaan Persediaan '.$permintaan->rincian;
+                $naskahkeluar->generate = 'A';
+                $naskahkeluar->save();
+                $permintaan->naskah_keluar_id = $naskahkeluar->id;
+            } else {
+                if ($permintaan->isDirty(['tanggal_permintaan'])) {
+                    $naskahkeluar = NaskahKeluar::where('id', $permintaan->naskah_keluar_id)->first();
+                    $naskahkeluar->tanggal = $permintaan->tanggal_permintaan;
+                    $naskahkeluar->save();
+                }
+            }
+        });
+
         static::deleting(function (PermintaanPersediaan $permintaan) {
             $permintaan->daftarBarangPersediaans->each->delete();
+            NaskahKeluar::destroy($permintaan->naskah_keluar_id);
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
@@ -11,7 +12,7 @@ use Laravel\Nova\Query\Search\SearchableText;
 
 class PersediaanKeluar extends Resource
 {
-    public static $with = ['daftarBarangPersediaans'];
+    public static $with = ['daftarBarangPersediaans', 'naskahKeluar'];
 
     /**
      * The model the resource corresponds to.
@@ -45,7 +46,7 @@ class PersediaanKeluar extends Resource
     public static function searchableColumns()
     {
         return [
-            'nomor_dokumen',
+            'naskahKeluar.nomor',
             new SearchableText('rincian'),
         ];
     }
@@ -58,8 +59,10 @@ class PersediaanKeluar extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nomor Dokumen', 'nomor_dokumen')
-                ->rules('required', 'max:40'),
+            BelongsTo::make('Nomor Naskah Keluar', 'naskahKeluar', 'App\Nova\NaskahKeluar')
+                ->searchable()
+                ->withSubtitles()
+                ->rules('required'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

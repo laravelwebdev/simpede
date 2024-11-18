@@ -230,13 +230,7 @@
                 background-position: right;
             }
 
-            @media screen and (max-width: 1080px) {
-                .container {
-                    grid-gap: 5rem;
-                }
-            }
-
-            @media screen and (max-width: 1024px) {
+            @media screen and (max-width: 1330px) {
                 form {
                     width: 290px;
                 }
@@ -251,7 +245,7 @@
                 }
             }
 
-            @media screen and (max-width: 900px) {
+            @media screen and (max-width: 1080px) {
                 .container {
                     grid-template-columns: 1fr;
                 }
@@ -287,7 +281,7 @@
             <div class="login-content">
                 <div class="blockquote">
                     <h1>
-                        <svg width="120%" viewBox="0 0 210 39" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="360px" viewBox="0 0 210 39" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <radialGradient cx="-4.619%" cy="6.646%" fx="-4.619%" fy="6.646%" r="101.342%" gradientTransform="matrix(.8299 .53351 -.5579 .79363 .03 .038)" id="a">
                                     <stop stop-color="#00FFB4" offset="0%"></stop>

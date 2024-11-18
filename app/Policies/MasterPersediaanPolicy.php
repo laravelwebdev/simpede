@@ -22,7 +22,7 @@ class MasterPersediaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn')
+            ->allowedFor('all')
             ->get();
     }
 

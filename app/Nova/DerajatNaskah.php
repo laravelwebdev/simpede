@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -95,14 +96,18 @@ class DerajatNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions[] =
             AddHasManyModel::make('DerajatNaskah', 'TataNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
-                // ->size('7xl')
+            // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request)),
-        ];
+                ->addFields($this->fields($request));
+        }
+
+        return $actions;
     }
 
     /**

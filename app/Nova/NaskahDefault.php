@@ -69,9 +69,6 @@ class NaskahDefault extends Resource
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options(Helper::$template),
-            BelongsTo::make('Jenis Naskah')
-                ->sortable()
-                ->exceptOnForms(),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->sortable()
                 ->searchable()
@@ -79,15 +76,58 @@ class NaskahDefault extends Resource
                 ->onlyOnForms()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(JenisNaskah::cache()->get('all')->whereIn('kode_naskah_id', $kodeNaskahIds), 'id', 'jenis')),
-            BelongsTo::make('Derajat Naskah')
-                ->sortable()
-                ->exceptOnForms(),
             Select::make('Derajat Naskah', 'derajat_naskah_id')
                 ->sortable()
                 ->searchable()
                 ->onlyOnForms()
                 ->displayUsingLabels()
                 ->options(Helper::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'derajat')),
+            MultiSelect::make('Kode Arsip', 'kode_arsip_id')
+                ->sortable()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
+                ->hideFromIndex(),
+
+        ];
+    }
+
+    public function fieldsforIndex(NovaRequest $request)
+    {
+        return [
+            Select::make('Jenis Template', 'jenis')
+                ->sortable()
+                ->rules('required')
+                ->displayUsingLabels()
+                ->options(Helper::$template),
+            BelongsTo::make('Jenis Naskah')
+                ->sortable()
+                ->exceptOnForms(),
+            BelongsTo::make('Derajat Naskah')
+                ->sortable()
+                ->exceptOnForms(),
+            MultiSelect::make('Kode Arsip', 'kode_arsip_id')
+                ->sortable()
+                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
+                ->hideFromIndex(),
+
+        ];
+    }
+
+    public function fieldsforDetail(NovaRequest $request)
+    {
+        return [
+            Select::make('Jenis Template', 'jenis')
+                ->sortable()
+                ->rules('required')
+                ->displayUsingLabels()
+                ->options(Helper::$template),
+            BelongsTo::make('Jenis Naskah')
+                ->sortable()
+                ->exceptOnForms(),
+            BelongsTo::make('Derajat Naskah')
+                ->sortable()
+                ->exceptOnForms(),
             MultiSelect::make('Kode Arsip', 'kode_arsip_id')
                 ->sortable()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))

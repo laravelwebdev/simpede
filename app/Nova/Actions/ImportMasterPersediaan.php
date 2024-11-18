@@ -28,7 +28,6 @@ class ImportMasterPersediaan extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $model = $models->first();
         MasterPersediaan::cache()->disable();
         MasterPersediaan::query()->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) {

@@ -16,6 +16,7 @@ use App\Nova\KontrakMitra;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
+use App\Nova\MasterBarangPemeliharaan;
 use App\Nova\MasterPersediaan;
 use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
@@ -118,6 +119,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(User::class),
                     MenuItem::resource(HargaSatuan::class),
                     MenuItem::resource(MasterPersediaan::class),
+                    MenuItem::resource(MasterBarangPemeliharaan::class),
+
 
                 ])->icon('book-open'),
                 MenuSection::make('Administrasi', [

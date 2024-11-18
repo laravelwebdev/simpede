@@ -2,9 +2,11 @@
 
 namespace App\Nova\Lenses;
 
+use App\Nova\Filters\Keberadaan;
 use App\Nova\Metrics\PembukuanBarangPersediaan;
 use App\Nova\Metrics\StatusPembelianPersediaan;
 use App\Nova\Metrics\StatusPermintaanPersediaan;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
@@ -35,17 +37,24 @@ class RekapBarangPersediaan extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withoutTableOrderPrefix()->withOrdering($request->withFilters(
-            $query->select(self::columns())
-                ->whereNotNull('tanggal_transaksi')
-                ->havingRaw('stok > 0')
-                ->join(
-                    'barang_persediaans',
-                    'master_persediaans.id',
-                    '=',
-                    'barang_persediaans.master_persediaan_id'
-                )
-                ->groupBy('master_persediaan_id')
+        $displayed = DB::table('barang_persediaans')
+                   ->select('master_persediaan_id')
+                   ->distinct()
+                   ->whereYear('tanggal_transaksi', session('year'));
+        return $request->withOrdering($request->withFilters(
+            $query->fromSub(fn ($query) => 
+            $query->from('master_persediaans')->select(self::columns())
+                ->join('barang_persediaans', function ($join) {
+                    $join->on('master_persediaans.id',
+                        '=',
+                        'barang_persediaans.master_persediaan_id')
+                        ->whereNotNull('tanggal_transaksi');
+                })
+                ->groupBy('master_persediaans.id')
+                ->joinSub($displayed, 'displayed', function (JoinClause $join) {
+                    $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
+                })
+            ,'master_persediaans')
         ));
     }
 
@@ -57,6 +66,7 @@ class RekapBarangPersediaan extends Lens
     protected static function columns()
     {
         return [
+            'master_persediaans.id',
             'master_persediaans.kode',
             'master_persediaans.satuan',
             'master_persediaans.barang',
@@ -72,6 +82,7 @@ class RekapBarangPersediaan extends Lens
     public function fields(NovaRequest $request)
     {
         return [
+            // ID::make()->sortable(),
             Text::make('Kode')
                 ->sortable()
                 ->readOnly(),
@@ -111,6 +122,7 @@ class RekapBarangPersediaan extends Lens
     public function filters(NovaRequest $request)
     {
         return [
+            Keberadaan::make('Stok', 'stok'),
         ];
     }
 
@@ -121,7 +133,9 @@ class RekapBarangPersediaan extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+
+        ];
     }
 
     /**

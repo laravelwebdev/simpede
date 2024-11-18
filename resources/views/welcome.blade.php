@@ -155,7 +155,7 @@
                 padding-top: 15px;
                 z-index: 1;
                 top: -87px;
-                left: -47px;
+                left: -100px;
                 margin-left: 150px;
                 padding-left: 12px;
             }
@@ -169,7 +169,7 @@
                 padding-top: 15px;
                 z-index: 2;
                 top: -45px;
-                left: -15px;
+                left: -70px;
                 margin-left: 150px;
                 padding-left: 12px;
             }

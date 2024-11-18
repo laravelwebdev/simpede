@@ -360,6 +360,7 @@ class Cetak
         $tim_id = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_permintaan), 'unit_kerja_id');
 
         return [
+            'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tim' => Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $tim_id)->first(), 'unit'),
             'kegiatan' => $data->kegiatan,
             'keterangan' => $data->keterangan,

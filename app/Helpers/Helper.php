@@ -64,6 +64,7 @@ class Helper
         'spj' => 'SPJ',
         'sk' => 'Surat Keputusan',
         'st' => 'Surat Tugas',
+        'kk_persediaan' => 'Kartu Kendali Persediaan',
     ];
 
     public static $jenis_honor = [
@@ -225,13 +226,16 @@ class Helper
         return 'Rp.'.self::formatUang($angka);
     }
 
-    public static function cekStokPersediaan($id)
+    public static function cekStokPersediaan($id , $tanggal = null)
     {
         $stok = DB::table('barang_persediaans')
             ->selectRaw(
                 'SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'
             )
             ->where('master_persediaan_id', $id)
+            ->when($tanggal, function ($query, $tanggal) {
+                return $query->where('tanggal_transaksi', '<=', $tanggal);
+            })
             ->groupBy('master_persediaan_id')
             ->first();
 

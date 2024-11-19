@@ -32,12 +32,12 @@ class MasterBarangPemeliharaan extends Resource
      */
     public function title()
     {
-        return $this->nama_barang.' - '.$this->merk.'-'.$this->nopol;
+        return $this->nama_barang. ' Pemegang: '.$this->user->name;
     }
 
     public function subtitle()
     {
-        return 'Kode: '.$this->kode_barang. ' NUP: '.$this->nup;
+        return 'Kode: '.$this->kode_barang. ' NUP: '.$this->nup.' Merk:'.$this->merk.' Nopol:'.$this->nopol.' Kondisi:'.$this->kondisi.' Lokasi:'.$this->lokasi;
     }
 
     /**

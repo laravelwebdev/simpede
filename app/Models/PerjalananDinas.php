@@ -45,7 +45,7 @@ class PerjalananDinas extends Model
 
     protected static function booted(): void
     {
-        //TODO: belum selesai, perlu jenis arsip
+        //TODO: belum selesai, perlu jenis arsip, isdirty tanggal dan jenis arsip
         static::updating(function (PerjalananDinas $perjalanan) {
             if ($perjalanan->naskah_keluar_id === null) {
                 $default_naskah = NaskahDefault::cache()->get('all')

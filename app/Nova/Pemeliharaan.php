@@ -115,6 +115,7 @@ class Pemeliharaan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->join('kerangka_acuans', 'kerangka_acuans.id', '=', 'pemeliharaans.kerangka_acuan_id')->whereYear('kerangka_acuans.tanggal', session('year'));
+        //TODO: perlu tambah tanggal_kak
+        // return $query->join('kerangka_acuans', 'pemeliharaans.kerangka_acuan_id', '=', 'kerangka_acuans.id')->whereYear('kerangka_acuans.tanggal', session('year'));
     }
 }

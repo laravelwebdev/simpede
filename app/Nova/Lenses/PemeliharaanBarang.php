@@ -12,6 +12,11 @@ use Laravel\Nova\Lenses\Lens;
 
 class PemeliharaanBarang extends Lens
 {
+    public function name()
+    {
+        return 'Pemeliharaan BMN';
+    }
+
     /**
      * The columns that should be searched.
      *
@@ -31,8 +36,8 @@ class PemeliharaanBarang extends Lens
     {
         return $request->withOrdering($request->withFilters(
             $query->orderBy('kode_barang', 'asc')
-            ->orderBy('nup', 'asc')
-            
+                ->orderBy('nup', 'asc')
+
         ));
     }
 

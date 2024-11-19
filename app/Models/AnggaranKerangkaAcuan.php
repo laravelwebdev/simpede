@@ -62,10 +62,28 @@ class AnggaranKerangkaAcuan extends Model
                     $pembelian->save();
                 }
             }
+
+            if ($anggaranKak->isDirty() && Helper::isAkunPemeliharaan($anggaranKak->mata_anggaran_id)) {
+                if ($pemeliharaan = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
+                    $pemeliharaan->rincian = $kak->rincian;
+                    $pemeliharaan->save();
+                } else {
+                    $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                    $pemeliharaan = new Pemeliharaan;
+                    $pemeliharaan->kerangka_acuan_id = $kak->id;
+                    $pemeliharaan->anggaran_kerangka_acuan_id = $anggaranKak->id;
+                    $pemeliharaan->rincian = $kak->rincian;
+                    $pemeliharaan->save();
+                }
+            }
         });
         static::deleting(function (AnggaranKerangkaAcuan $anggaranKak) {
             $ids = HonorKegiatan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
             HonorKegiatan::destroy($ids);
+            $ids = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
+            PembelianPersediaan::destroy($ids);
+            $ids = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
+            Pemeliharaan::destroy($ids);
             KerangkaAcuan::where('id', $anggaranKak->kerangka_acuan_id)->update(['status' => 'outdated']);
         });
         static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
@@ -81,6 +99,11 @@ class AnggaranKerangkaAcuan extends Model
             if (Helper::isAkunPersediaanChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
                 $id = PembelianPersediaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
                 PembelianPersediaan::destroy($id);
+            }
+
+            if (Helper::isAkunPemeliharaanChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
+                $id = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
+                Pemeliharaan::destroy($id);
             }
         });
     }

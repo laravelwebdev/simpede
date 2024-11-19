@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\PembelianPersediaan;
+use App\Models\Pemeliharaan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -57,7 +59,7 @@ class KerangkaAcuan extends Model
             if ($kak->isDirty('dipa_id')) {
                 $kak->deleteOldAnggaran();
             }
-            if ($kak->isDirty(['tanggal', 'awal', 'akhir', 'kegiatan', 'dipa_id'])) {
+            if ($kak->isDirty(['tanggal', 'awal', 'akhir', 'kegiatan', 'dipa_id', 'rincian'])) {
                 $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
                 $honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->first();
                 $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
@@ -77,6 +79,10 @@ class KerangkaAcuan extends Model
                 $pembelian->tanggal_kak = $kak->tanggal;
                 $pembelian->rincian = $kak->rincian;
                 $pembelian->status = 'outdated';
+                $pembelian->save();
+
+                $pembelian = Pemeliharaan::where('kerangka_acuan_id', $kak->id)->first();
+                $pembelian->rincian = $kak->rincian;
                 $pembelian->save();
             }
         });

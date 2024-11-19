@@ -54,6 +54,11 @@ class Helper
         '521831',
     ];
 
+    public static $akun_pemeliharaan = [
+        '523111',
+        '523121',
+    ];
+
     public static $template = [
         'bastp' => 'BAST Persediaan',
         'bon' => 'Bon Persediaan',
@@ -226,7 +231,7 @@ class Helper
         return 'Rp.'.self::formatUang($angka);
     }
 
-    public static function cekStokPersediaan($id , $tanggal = null)
+    public static function cekStokPersediaan($id, $tanggal = null)
     {
         $stok = DB::table('barang_persediaans')
             ->selectRaw(
@@ -607,7 +612,6 @@ class Helper
         return JenisKontrak::cache()->get('all')->where('id', $id)->first();
     }
 
-
     public static function getMataAnggaranById($id)
     {
         return MataAnggaran::cache()->get('all')->where('coa_id', $id)->first();
@@ -644,9 +648,18 @@ class Helper
      * @param  string  $mak  Kode akun yang akan diperiksa.
      * @return bool Mengembalikan true jika kode akun merupakan akun persediaan, sebaliknya false.
      */
-    public static function isAkunPersediaan(string $mak): bool
+    public static function isAkunPersediaan(string $mata_anggaran_id): bool
     {
+        $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
+
         return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
+    }
+
+    public static function isAkunPemeliharaan(string $mata_anggaran_id): bool
+    {
+        $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
+
+        return $mak == in_array(substr($mak, -6), self::$akun_pemeliharaan);
     }
 
     /**
@@ -664,17 +677,9 @@ class Helper
         return (self::isAkunPersediaan($mak_old) && ! self::isAkunPersediaan($mak_new)) || (self::isAkunPersediaan($mak_old) && self::isAkunPersediaan($mak_new) && $mak_old != $mak_new);
     }
 
-    /**
-     * Mengambil detail akun.
-     *
-     * @param  string  $mak
-     * @return collection
-     */
-    public static function getCollectionDetailAkun($mak)
+    public static function isAkunPemeliharaanChanged($mak_old, $mak_new)
     {
-        return KamusAnggaran::cache()->get('all')->filter(function ($item, $key) use ($mak) {
-            return Str::of($item->mak)->startsWith($mak) && Str::of($item->mak)->length > 37 && ! empty($item->satuan);
-        });
+        return (self::isAkunPemeliharaan($mak_old) && ! self::isAkunPemeliharaan($mak_new)) || (self::isAkunPemeliharaan($mak_old) && self::isAkunPemeliharaan($mak_new) && $mak_old != $mak_new);
     }
 
     /**

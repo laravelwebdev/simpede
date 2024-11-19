@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pemeliharaans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_kak')->nullable();
             $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->mediumInteger('anggaran_kerangka_acuan_id')->nullable()->unsigned();
             $table->string('rincian')->nullable();

@@ -71,9 +71,28 @@ class AnggaranKerangkaAcuan extends Model
                     $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                     $pemeliharaan = new Pemeliharaan;
                     $pemeliharaan->kerangka_acuan_id = $kak->id;
+                    $pemeliharaan->tanggal_kak = $kak->tanggal;
                     $pemeliharaan->anggaran_kerangka_acuan_id = $anggaranKak->id;
                     $pemeliharaan->rincian = $kak->rincian;
                     $pemeliharaan->save();
+                }
+            }
+
+            if ($anggaranKak->isDirty() && Helper::isAkunPerjalanan($anggaranKak->mata_anggaran_id)) {
+                if ($perjalanan = PerjalananDinas::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
+                    $perjalanan->uraian = $kak->rincian;
+                    $perjalanan->tanggal_berangkat = $kak->awal;
+                    $perjalanan->tanggal_kembali = $kak->akhir;
+                    $perjalanan->save();
+                } else {
+                    $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                    $perjalanan = new PerjalananDinas;
+                    $perjalanan->kerangka_acuan_id = $kak->id;
+                    $perjalanan->tanggal_berangkat = $kak->awal;
+                    $perjalanan->tanggal_kembali = $kak->akhir;
+                    $perjalanan->anggaran_kerangka_acuan_id = $anggaranKak->id;
+                    $perjalanan->uraian = $kak->rincian;
+                    $perjalanan->save();
                 }
             }
         });
@@ -84,6 +103,8 @@ class AnggaranKerangkaAcuan extends Model
             PembelianPersediaan::destroy($ids);
             $ids = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
             Pemeliharaan::destroy($ids);
+            $ids = PerjalananDinas::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id')->toArray();
+            PerjalananDinas::destroy($ids);
             KerangkaAcuan::where('id', $anggaranKak->kerangka_acuan_id)->update(['status' => 'outdated']);
         });
         static::saving(function (AnggaranKerangkaAcuan $anggaranKak) {
@@ -104,6 +125,11 @@ class AnggaranKerangkaAcuan extends Model
             if (Helper::isAkunPemeliharaanChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
                 $id = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
                 Pemeliharaan::destroy($id);
+            }
+
+            if (Helper::isAkunPerjalananChanged($anggaranKak->getOriginal('mata_anggaran_id'), $anggaranKak->mata_anggaran_id)) {
+                $id = PerjalananDinas::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->pluck('id');
+                PerjalananDinas::destroy($id);
             }
         });
     }

@@ -81,9 +81,17 @@ class KerangkaAcuan extends Model
                 $pembelian->status = 'outdated';
                 $pembelian->save();
 
-                $pembelian = Pemeliharaan::where('kerangka_acuan_id', $kak->id)->first();
-                $pembelian->rincian = $kak->rincian;
-                $pembelian->save();
+                $pemeliharaan = Pemeliharaan::where('kerangka_acuan_id', $kak->id)->first();
+                $pemeliharaan->tanggal_kak = $kak->tanggal;
+                $pemeliharaan->rincian = $kak->rincian;
+                $pemeliharaan->save();
+
+
+                $perjalanan = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->first();
+                $perjalanan->tanggal_berangkat = $kak->awal;
+                $perjalanan->tanggal_kembali = $kak->akhir;
+                $perjalanan->uraian = $kak->rincian;
+                $perjalanan->save();
             }
         });
 

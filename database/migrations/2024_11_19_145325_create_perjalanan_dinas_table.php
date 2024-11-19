@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_spd')->nullable();
             $table->date('tanggal_st')->nullable();
+            $table->date('tanggal_berangkat')->nullable();
+            $table->date('tanggal_kembali')->nullable();
             $table->string('uraian')->nullable();
             $table->mediumInteger('spd_naskah_keluar_id')->nullable();
             $table->mediumInteger('st_naskah_keluar_id')->nullable();

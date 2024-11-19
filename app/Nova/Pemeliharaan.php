@@ -59,7 +59,7 @@ class Pemeliharaan extends Resource
             Stack::make('Kerangka Acuan/Tanggal', 'kerangkaAcuan.tanggal', [
                 BelongsTo::make('Kerangka Acuan')
                     ->readonly(),
-                Date::make('Naskah Keluar', 'kerangkaAcuan.tanggal')
+                Date::make('Tanggal KAK', 'tanggal_kak')
                     ->readonly()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
@@ -115,7 +115,6 @@ class Pemeliharaan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        //TODO: perlu tambah tanggal_kak
-        // return $query->join('kerangka_acuans', 'pemeliharaans.kerangka_acuan_id', '=', 'kerangka_acuans.id')->whereYear('kerangka_acuans.tanggal', session('year'));
+        return $query->whereYear('tanggal_kak', session('year'));
     }
 }

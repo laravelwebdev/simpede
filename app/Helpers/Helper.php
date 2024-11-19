@@ -645,6 +645,12 @@ class Helper
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
     }
 
+    public static function isAkunPerjalananChanged($mak_old, $mak_new)
+    {
+        return (self::isAkunPerjalanan($mak_old) && ! self::isAkunPerjalanan($mak_new)) || (self::isAkunPerjalanan($mak_old) && self::isAkunPerjalanan($mak_new) && $mak_old != $mak_new);
+    }
+
+
     /**
      * Memeriksa apakah kode akun merupakan akun persediaan.
      *
@@ -656,6 +662,13 @@ class Helper
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
 
         return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
+    }
+
+    public static function isAkunPerjalanan(string $mata_anggaran_id): bool
+    {
+        $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
+
+        return $mak == in_array(substr($mak, -6), self::$akun_perjalanan);
     }
 
     public static function isAkunPemeliharaan(string $mata_anggaran_id): bool

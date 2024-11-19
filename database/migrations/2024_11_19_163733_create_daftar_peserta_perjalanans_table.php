@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('asal', 80)->nullable();
             $table->string('tujuan', 80)->nullable();
             $table->mediumInteger('ppk_user_id')->nullable();
-            $table->mediumInteger('perjalanan_id')->nullable();
+            $table->mediumInteger('perjalanan_dinas_id')->nullable();
             $table->mediumInteger('user_id')->nullable();
             $table->mediumInteger('bendahara_user_id')->nullable();
             $table->timestamps();

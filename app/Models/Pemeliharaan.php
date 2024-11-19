@@ -12,6 +12,10 @@ use Laravel\Nova\URL;
 
 class Pemeliharaan extends Model
 {
+    protected $casts = [
+        'tanggal_kak' => 'date',
+    ];
+
     protected $fillable = ['status'];
 
     public function kerangkaAcuan(): BelongsTo

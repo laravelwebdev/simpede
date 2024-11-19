@@ -148,7 +148,9 @@ class MasterBarangPemeliharaan extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin,kasubbag,bmn')){
-            $actions [] = ImportMasterBarangPemeliharaan::make()->standalone();
+            $actions [] = ImportMasterBarangPemeliharaan::make()
+                ->standalone()
+                ->onlyOnIndex();
         }
 
         return $actions;

@@ -12,7 +12,7 @@ class MasterBarangPemeliharaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,anggota,kasubbag,bmn,kepala')
+            ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class MasterBarangPemeliharaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,anggota,kasubbag,bmn,kepala')
+            ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
             ->get();
     }
 

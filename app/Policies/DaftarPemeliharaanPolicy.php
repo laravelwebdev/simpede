@@ -14,7 +14,7 @@ class DaftarPemeliharaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator,anggota')
+            ->allowedFor('kasubbag,koordinator,anggota,bmn')
             ->get();
     }
 
@@ -24,7 +24,7 @@ class DaftarPemeliharaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator,anggota')
+            ->allowedFor('kasubbag,koordinator,anggota,bmn')
             ->get();
     }
 
@@ -34,7 +34,7 @@ class DaftarPemeliharaanPolicy
     public function create(): bool
     {
         return Nova::whenServing(function (NovaRequest $request) {
-            if ($request->viaResource == 'pemeliharaans' || str_contains(request()->url(), 'pemeliharaans')) {
+            if ($request->viaResource == 'pemeliharaans' || str_contains(request()->url(), '/pemeliharaans')) {
                 return true;
             }
 
@@ -62,7 +62,7 @@ class DaftarPemeliharaanPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator,anggota')
+            ->allowedFor('kasubbag,koordinator,anggota,bmn')
             ->get();
     }
 

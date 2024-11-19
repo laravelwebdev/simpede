@@ -22,6 +22,7 @@ use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
 use App\Nova\PembelianPersediaan;
+use App\Nova\Pemeliharaan;
 use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
@@ -109,6 +110,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(PermintaanPersediaan::class),
                         MenuItem::resource(PersediaanKeluar::class),
                         MenuItem::resource(RealisasiAnggaran::class),
+                    ])->collapsable(),
+                    MenuGroup::make('Pemeliharaan BMN', [
+                        MenuItem::resource(Pemeliharaan::class),
                     ])->collapsable(),
 
                 ]),

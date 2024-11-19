@@ -20,23 +20,7 @@ return new class extends Migration
             $table->mediumInteger('st_naskah_keluar_id')->nullable();
             $table->mediumInteger('anggaran_kerangka_acuan_id')->nullable();
             $table->mediumInteger('kerangka_acuan_id')->nullable();
-            $table->timestamps();
- 
-
-
-            $table->id();
-            $table->text('spesifikasi')->nullable();
-            $table->string('angkutan',20)->nullable();
-            $table->date('tanggal_berangkat')->nullable();
-            $table->date('tanggal_kembali')->nullable();
-            $table->string('asal', 80)->nullable();
-            $table->string('tujuan', 80)->nullable();
-            $table->mediumInteger('ppk_user_id')->nullable();
-            $table->mediumInteger('perjalanan_id')->nullable();
-            $table->mediumInteger('user_id')->nullable();
-            $table->mediumInteger('bendahara_user_id')->nullable();
-            $table->timestamps();
- 
+            $table->timestamps(); 
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -12,7 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class MasterBarangPemeliharaan extends Resource
 {
-    public static $with = ['user'];
+    public static $with = ['user', 'daftarPemeliharaan'];
     /**
      * The model the resource corresponds to.
      *
@@ -32,7 +33,7 @@ class MasterBarangPemeliharaan extends Resource
      */
     public function title()
     {
-        return $this->nama_barang. ' Pemegang: '.$this->user->name;
+        return $this->nama_barang;
     }
 
     public function subtitle()
@@ -46,7 +47,7 @@ class MasterBarangPemeliharaan extends Resource
      * @var array
      */
     public static $search = [
-        'kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'kondisi', 'lokasi'
+        'kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'kondisi', 'lokasi', 'user.name'
     ];
 
     /**
@@ -60,17 +61,22 @@ class MasterBarangPemeliharaan extends Resource
         return [
             Text::make('Kode Barang')
                 ->sortable()
+                ->showWhenPeeking()
                 ->readonly(),
             Number::make('NUP')
                 ->sortable()
+                ->showWhenPeeking()
                 ->step(1)
                 ->readonly(),
             Text::make('Nama Barang')
                 ->sortable()
+                ->showWhenPeeking()
                 ->readonly(),
             Text::make('Merk')
+            ->showWhenPeeking()
                 ->readonly(),
             Text::make('Nopol')
+            ->showWhenPeeking()
                 ->readonly(),
             Select::make('Kondisi')
                 ->options([
@@ -79,15 +85,19 @@ class MasterBarangPemeliharaan extends Resource
                 ])
                 ->displayUsingLabels()
                 ->sortable()
+                ->showWhenPeeking()
                 ->filterable()
                 ->readonly(),
             Text::make('Lokasi')
                 ->sortable()
+                ->showWhenPeeking()
                 ->readonly(),
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->sortable()
+                ->showWhenPeeking()
                 ->searchable()
                 ->withSubtitles(),
+            HasMany::make('Daftar Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
             
         ];
     }

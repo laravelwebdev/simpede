@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
@@ -26,5 +27,18 @@ class MasterBarangPemeliharaan extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function daftarPemeliharaan():HasMany
+    {
+        return $this->hasMany(DaftarPemeliharaan::class);
+    }
+
+
+    protected static function booted(): void
+    {
+        static::deleting(function (MasterBarangPemeliharaan $barang) {
+                $barang->daftarPemeliharaan->each->delete();
+        });
     }
 }

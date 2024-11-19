@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
@@ -12,7 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Pemeliharaan extends Resource
 {
-    public static $with = ['kerangkaAcuan', 'kerangkaAcuan.naskahKeluar'];
+    public static $with = ['kerangkaAcuan', 'kerangkaAcuan.naskahKeluar', 'daftarPemeliharaan'];
 
     /**
      * The model the resource corresponds to.
@@ -67,6 +68,7 @@ class Pemeliharaan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
+            HasMany::make('Barang Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
 
         ];
     }

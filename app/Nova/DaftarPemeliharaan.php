@@ -56,7 +56,6 @@ class DaftarPemeliharaan extends Resource
     {
         return [
             BelongsTo::make('Objek Pemeliharaan', 'masterBarangPemeliharaan', 'App\Nova\MasterBarangPemeliharaan')
-                ->sortable()
                 ->searchable()
                 ->withSubtitles()
                 ->rules('required'),
@@ -116,5 +115,15 @@ class DaftarPemeliharaan extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+    
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

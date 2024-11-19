@@ -19,4 +19,19 @@ class DaftarPemeliharaan extends Model
     {
         return $this->belongsTo(Pemeliharaan::class);
     }
+
+    protected static function booted(): void
+    {
+        static::created(function (DaftarPemeliharaan $daftar) {
+            $daftar->pemeliharaan->update([
+                'status' => 'selesai',
+            ]);
+        });
+        static::deleted(function (DaftarPemeliharaan $daftar) {
+            if ($daftar->count() === 0)
+            $daftar->pemeliharaan->update([
+                'status' => 'outdated',
+            ]);
+        });
+    }
 }

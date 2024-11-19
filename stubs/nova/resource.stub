@@ -25,6 +25,10 @@ class {{ class }} extends Resource
      */
     public static $title = 'id';
 
+    public function subtitle(){
+        return $this->id;
+    }
+
     /**
      * The columns that should be searched.
      *

@@ -69,7 +69,8 @@ class Helper
         'spj' => 'SPJ',
         'sk' => 'Surat Keputusan',
         'st' => 'Surat Tugas',
-        'kk_persediaan' => 'Kartu Kendali Persediaan',
+        'karken_persediaan' => 'Kartu Kendali Persediaan',
+        'karken_pemeliharaan' => 'Kartu Kendali Pemeliharaan',
     ];
 
     public static $jenis_honor = [

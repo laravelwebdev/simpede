@@ -126,4 +126,8 @@ class DaftarPemeliharaan extends Resource
     {
         return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->whereYear('tanggal', session('year'));
+    }
 }

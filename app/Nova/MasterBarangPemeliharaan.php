@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
+use App\Nova\Lenses\PemeliharaanBarang;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
@@ -132,7 +133,9 @@ class MasterBarangPemeliharaan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            PemeliharaanBarang::make(),
+        ];
     }
 
     /**

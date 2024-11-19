@@ -56,10 +56,10 @@ class Pemeliharaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Stack::make('Kerangka Acuan/Tanggal', 'kerangkaAcuan.tanggal',[
+            Stack::make('Kerangka Acuan/Tanggal', 'kerangkaAcuan.tanggal', [
                 BelongsTo::make('Kerangka Acuan')
                     ->readonly(),
-               Date::make('Naskah Keluar', 'kerangkaAcuan.tanggal')
+                Date::make('Naskah Keluar', 'kerangkaAcuan.tanggal')
                     ->readonly()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
@@ -111,5 +111,10 @@ class Pemeliharaan extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->join('kerangka_acuans', 'kerangka_acuans.id', '=', 'pemeliharaans.kerangka_acuan_id')->whereYear('kerangka_acuans.tanggal', session('year'));
     }
 }

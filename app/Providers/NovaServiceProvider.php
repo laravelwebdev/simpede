@@ -13,6 +13,7 @@ use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KontrakMitra;
+use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
@@ -80,6 +81,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Monitoring', [
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
+                    MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class),
                     MenuGroup::make('Anggaran', [
                         MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
@@ -124,7 +126,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(HargaSatuan::class),
                     MenuItem::resource(MasterPersediaan::class),
                     MenuItem::resource(MasterBarangPemeliharaan::class),
-
 
                 ])->icon('book-open'),
                 MenuSection::make('Administrasi', [

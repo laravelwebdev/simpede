@@ -13,15 +13,9 @@ class DaftarPemeliharaanPolicy
      */
     public function viewAny(): bool
     {
-        return Nova::whenServing(function (NovaRequest $request) {
-            if ($request->viaResource == 'pemeliharaans' || str_contains(request()->url(), '/pemeliharaans')) {
-                return Policy::make()
-                    ->allowedFor('kasubbag,koordinator,anggota,bmn')
-                    ->get();
-            }
-
-            return false;
-        });
+        return Policy::make()
+            ->allowedFor('kasubbag,koordinator,anggota,bmn')
+            ->get();
 
     }
 

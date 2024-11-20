@@ -44,6 +44,12 @@ class Helper
         '58' => 'Belanja Lainnya (58)',
     ];
 
+    public static $jenis_angkutan = [
+        'Angkutan Umum' => 'Angkutan Umum',
+        'Kendaraan Dinas' => 'Kendaraan Dinas',
+        'Lainnya' => 'Lainnya',
+    ];
+
     public static $akun_persediaan = [
         '521811',
         '521813',

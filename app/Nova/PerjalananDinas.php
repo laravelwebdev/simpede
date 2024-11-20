@@ -109,10 +109,10 @@ class PerjalananDinas extends Resource
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->readonly(),
+               ,
             Date::make('Tanggal Kembali', 'tanggal_kembali')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->readonly(),
+               ,
 
         ];
     }

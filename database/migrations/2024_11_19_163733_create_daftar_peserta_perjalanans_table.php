@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('daftar_peserta_perjalanans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_kuitansi')->nullable();
             $table->text('spesifikasi')->nullable();
             $table->string('angkutan',20)->nullable();
             $table->date('tanggal_berangkat')->nullable();

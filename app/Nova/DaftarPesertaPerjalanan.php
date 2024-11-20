@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Actions\Download;
 use App\Nova\Repeater\SpesifikasiPerjalananDinas;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
@@ -62,10 +63,10 @@ class DaftarPesertaPerjalanan extends Resource
                 ->updateRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)),
             Text::make('Berangkat Dari:', 'asal')
-            ->default('Hulu Sungai Tengah')
+                ->default('Hulu Sungai Tengah')
                 ->rules('required'),
             Text::make('Tujuan:', 'tujuan')
-            ->default('Banjarbaru')
+                ->default('Banjarbaru')
                 ->rules('required'),
             Select::make('Angkutan')
                 ->rules('required')
@@ -74,7 +75,7 @@ class DaftarPesertaPerjalanan extends Resource
             Repeater::make('Item Biaya', 'spesifikasi')->repeatables([
                 SpesifikasiPerjalananDinas::make()
                     ->confirmRemoval(),
-            ]),
+            ])->rules('required'),
 
             Panel::make('Keterangan Kuitansi', [
                 Date::make('Tanggal Kuitansi', 'tanggal_kuitansi')
@@ -87,6 +88,7 @@ class DaftarPesertaPerjalanan extends Resource
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
+                        ->rules('required')
                             ->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
 
                     }),
@@ -96,7 +98,8 @@ class DaftarPesertaPerjalanan extends Resource
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
-                            ->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)));
+                            ->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)))
+                            ->rules('required');
 
                     }),
             ]),
@@ -140,7 +143,18 @@ class DaftarPesertaPerjalanan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            Download::make('pernyataan_kendaraan', 'Unduh Pernyataan Kendaraan')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex(),
+            Download::make('kuitansi', 'Unduh Kuitansi Perjalanan')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex(),
+        ];
     }
 
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
@@ -152,5 +166,4 @@ class DaftarPesertaPerjalanan extends Resource
     {
         return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
-
 }

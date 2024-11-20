@@ -6,12 +6,14 @@ use App\Models\AnggaranKerangkaAcuan;
 use App\Models\BarangPersediaan;
 use App\Models\BastMitra;
 use App\Models\DaftarKontrakMitra;
+use App\Models\DaftarPesertaPerjalanan;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
 use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
 use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
+use App\Models\PerjalananDinas;
 use App\Models\PermintaanPersediaan;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
@@ -107,6 +109,12 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
             unset($data['daftar_honor']);
         }
+
+        if ($jenis === 'kuitansi') {
+            $templateProcessor->cloneRowAndSetValues('item', $data['item_biaya']);
+            unset($data['item_biaya']);
+        }
+
         if ($jenis === 'spj') {
             $templateProcessor->cloneRowAndSetValues('spj_no', $data['daftar_honor_mitra']);
             $detailAnggarans = ['kegiatan', 'kro', 'ro', 'komponen', 'sub', 'akun', 'detail'];
@@ -194,6 +202,62 @@ class Cetak
             'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
         ];
     }
+
+    public static function pernyataan_kendaraan($id)
+    {
+        $data = DaftarPesertaPerjalanan::find($id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+        $data_user = Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_kuitansi);
+        $perjalanan = $data->perjalananDinas;
+
+        return [
+            'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'pangkat' => Helper::getPropertyFromCollection($data_user, 'pangkat'),
+            'golongan' => Helper::getPropertyFromCollection($data_user, 'golongan'),
+            'jabatan' => Helper::getPropertyFromCollection($data_user, 'jabatan'),
+            'berangkat' => Helper::terbilangTanggal($data->tanggal_berangkat),
+            'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
+            'uraian' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
+        ];
+    }
+
+    public static function kuitansi($id)
+    {
+        $data = DaftarPesertaPerjalanan::find($id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+        $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
+        $bendahara = Helper::getPegawaiByUserId($data->bendahara_user_id);
+        $data_user = Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_kuitansi);
+        $perjalanan = PerjalananDinas::find($data->perjalanan_dinas_id);
+        $item_biaya = Helper::formatBiayaSpd($data->spesifikasi);
+        $itemdengannilai = Helper::addTotalBiayaSpd($data->spesifikasi);
+
+        return [
+            'nomor' => $perjalanan->spdNaskahKeluar->nomor,
+            'tanggal' => Helper::terbilangTanggal($perjalanan->tanggal_spd),
+            'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
+            'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
+            'bendahara' => Helper::getPropertyFromCollection($bendahara, 'name'),
+            'nipbendahara' => Helper::getPropertyFromCollection($bendahara, 'nip'),
+            'pangkat' => Helper::getPropertyFromCollection($data_user, 'pangkat'),
+            'golongan' => Helper::getPropertyFromCollection($data_user, 'golongan'),
+            'berangkat' => Helper::terbilangTanggal($data->tanggal_berangkat),
+            'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
+            'uraian' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
+            'asal' => $data->asal,
+            'tujuan' => $data->tujuan,
+            'waktu' => Helper::jangkaWaktuHariKalender($data->tanggal_berangkat, $data->tanggal_kembali),
+            'biaya_total' => Helper::formatRupiah(Helper::sumSpek($itemdengannilai, 'nilai')),
+            'tahun' => Helper::getYearFromDate($perjalanan->tanggal_spd),
+            'mak' => Helper::getMataAnggaranById($perjalanan->anggaranKerangkaAcuan->mataAnggaran->id)->mak,
+            'item_biaya' => $item_biaya,
+            'biaya_terbilang' => Helper::terbilang(Helper::sumSpek($itemdengannilai, 'nilai'), 'uw', ' rupiah'),
+        ];
+    }
+
 
     /**
      * Format nilai SPJ.

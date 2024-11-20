@@ -623,7 +623,7 @@ class Helper
 
     public static function getMataAnggaranById($id)
     {
-        return MataAnggaran::cache()->get('all')->where('coa_id', $id)->first();
+        return MataAnggaran::cache()->get('all')->where('id', $id)->first();
     }
 
     /**
@@ -759,6 +759,57 @@ class Helper
 
         return $spek->toArray();
     }
+
+        /**
+     * Format tampilan spesifikasi.
+     *
+     * @param  array  $spesifikasi
+     * @return array
+     */
+    public static function formatBiayaSpd($item)
+    {
+        $speks = collect($item)
+        ->transform(function ($item) {
+          return $item = $item["fields"];
+        })
+        ->transform(function ($item) {
+          $item["nilai"] = Helper::formatRupiah($item["jumlah"] * $item["harga_satuan"]);
+        $item["harga_satuan"] = Helper::formatRupiah($item["harga_satuan"]);
+
+          return $item;
+        });
+
+        return $speks->toArray();
+    }
+
+    public static function addTotalBiayaSpd($item)
+    {
+        $speks = collect($item)
+        ->transform(function ($item) {
+          return $item = $item["fields"];
+        })
+        ->transform(function ($item) {
+          $item["nilai"] = $item["jumlah"] * $item["harga_satuan"];
+          return $item;
+        });
+
+        return $speks;
+    }
+
+        /**
+     * Menghitung jumlah nilai spesifikasi.
+     *
+     * @param  array  $spesifikasi
+     * @return float
+     */
+    public static function sumSpek($spesifikasi, $column)
+    {
+        // $speks= json_decode($spesifikasi,true);
+        $spek = collect($spesifikasi);
+
+        return $spek->sum($column);
+    }
+    
 
     /**
      * Format tampilan anggaran.

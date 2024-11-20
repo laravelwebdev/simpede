@@ -4,16 +4,17 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Actions\Download;
-use App\Nova\Repeater\SpesifikasiPerjalananDinas;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarPesertaPerjalanan extends Resource
 {
@@ -62,20 +63,30 @@ class DaftarPesertaPerjalanan extends Resource
                 ->withSubtitles()
                 ->updateRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)),
-            Text::make('Berangkat Dari:', 'asal')
+            Text::make('Asal', 'asal')
                 ->default('Hulu Sungai Tengah')
                 ->rules('required'),
-            Text::make('Tujuan:', 'tujuan')
+            Text::make('Tujuan', 'tujuan')
                 ->default('Banjarbaru')
                 ->rules('required'),
             Select::make('Angkutan')
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),
-            Repeater::make('Item Biaya', 'spesifikasi')->repeatables([
-                SpesifikasiPerjalananDinas::make()
-                    ->confirmRemoval(),
-            ])->rules('required'),
+            SimpleRepeatable::make('Item Biaya', 'spesifikasi', [
+                Text::make('Item', 'item')
+                    ->help('Misal: Uang Harian, Penginapan, Transportasi, dll')
+                    ->rules('required'),
+                Number::make('Jumlah', 'jumlah')
+                    ->step(1)
+                    ->rules('required', 'integer', 'gt:0'),
+                Text::make('Satuan', 'satuan')
+                    ->help('Misal: O-H, malam, O-P, dll')
+                    ->rules('required'),
+                Currency::make('Harga Satuan', 'harga_satuan')
+                    ->step(1)
+                    ->rules('required', 'integer', 'gt:0'),
+            ]),
 
             Panel::make('Keterangan Kuitansi', [
                 Date::make('Tanggal Kuitansi', 'tanggal_kuitansi')
@@ -88,7 +99,7 @@ class DaftarPesertaPerjalanan extends Resource
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
-                        ->rules('required')
+                            ->rules('required')
                             ->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
 
                     }),

@@ -656,7 +656,6 @@ class Helper
         return (self::isAkunPerjalanan($mak_old) && ! self::isAkunPerjalanan($mak_new)) || (self::isAkunPerjalanan($mak_old) && self::isAkunPerjalanan($mak_new) && $mak_old != $mak_new);
     }
 
-
     /**
      * Memeriksa apakah kode akun merupakan akun persediaan.
      *
@@ -760,7 +759,7 @@ class Helper
         return $spek->toArray();
     }
 
-        /**
+    /**
      * Format tampilan spesifikasi.
      *
      * @param  array  $spesifikasi
@@ -769,15 +768,12 @@ class Helper
     public static function formatBiayaSpd($item)
     {
         $speks = collect($item)
-        ->transform(function ($item) {
-          return $item = $item["fields"];
-        })
-        ->transform(function ($item) {
-          $item["nilai"] = Helper::formatRupiah($item["jumlah"] * $item["harga_satuan"]);
-        $item["harga_satuan"] = Helper::formatRupiah($item["harga_satuan"]);
+            ->transform(function ($item) {
+                $item['nilai'] = Helper::formatRupiah($item['jumlah'] * $item['harga_satuan']);
+                $item['harga_satuan'] = Helper::formatRupiah($item['harga_satuan']);
 
-          return $item;
-        });
+                return $item;
+            });
 
         return $speks->toArray();
     }
@@ -785,18 +781,16 @@ class Helper
     public static function addTotalBiayaSpd($item)
     {
         $speks = collect($item)
-        ->transform(function ($item) {
-          return $item = $item["fields"];
-        })
-        ->transform(function ($item) {
-          $item["nilai"] = $item["jumlah"] * $item["harga_satuan"];
-          return $item;
-        });
+            ->transform(function ($item) {
+                $item['nilai'] = $item['jumlah'] * $item['harga_satuan'];
+
+                return $item;
+            });
 
         return $speks;
     }
 
-        /**
+    /**
      * Menghitung jumlah nilai spesifikasi.
      *
      * @param  array  $spesifikasi
@@ -809,7 +803,6 @@ class Helper
 
         return $spek->sum($column);
     }
-    
 
     /**
      * Format tampilan anggaran.

@@ -85,4 +85,11 @@ class DaftarPesertaPerjalananPolicy
             ->allowedFor('anggota,koordinator,ppk')
             ->get();
     }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('anggota,koordinator,ppk')
+            ->get();
+    }
 }

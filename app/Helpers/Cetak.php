@@ -46,7 +46,7 @@ class Cetak
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
                 $innerXml = self::getModifiedInnerXml($template);
-                 $mainXml = preg_replace('/<\/w:body>/', '<w:br w:type="page" />'.$innerXml.'</w:body>', $mainXml);
+                $mainXml = preg_replace('/<\/w:body>/', ''.$innerXml.'</w:body>', $mainXml);
             }
         }
 

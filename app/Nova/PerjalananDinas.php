@@ -5,9 +5,12 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class PerjalananDinas extends Resource
 {
@@ -29,7 +32,6 @@ class PerjalananDinas extends Resource
     {
         return 'Perjalanan Dinas';
     }
-
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -76,15 +78,35 @@ class PerjalananDinas extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Uraian', 'uraian')
-            ->rules('required'),
-            Date::make('Tanggal SPD', 'tanggal_spd')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required', 'before_or_equal:tanggal_berangkat', 'after_or_equal:tanggal_st', 'before_or_equal:today')
-                ->onlyOnForms(),
-            Date::make('Tanggal Surat Tugas', 'tanggal_st')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required', 'before_or_equal:tanggal_berangkat','before_or_equal:today')
-                ->onlyOnForms(),
+                ->rules('required'),
+            Panel::make('Surat Perjalanan Dinas', [
+                Date::make('Tanggal SPD', 'tanggal_spd')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'after_or_equal:tanggal_st', 'before_or_equal:today')
+                    ->onlyOnForms(),
+                Select::make('Klasifikasi Arsip SPD', 'spd_kode_arsip_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->rules('required')
+                    ->dependsOn(['tanggal_spd'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_spd));
+                    }),
+            ]),
+            Panel::make('Surat Tugas', [
+                Date::make('Tanggal Surat Tugas', 'tanggal_st')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today')
+                    ->onlyOnForms(),
+                Select::make('Klasifikasi Arsip ST', 'st_kode_arsip_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->rules('required')
+                    ->dependsOn(['tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                    }),
+            ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->readonly(),

@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('uraian')->nullable();
             $table->mediumInteger('spd_naskah_keluar_id')->nullable();
             $table->mediumInteger('st_naskah_keluar_id')->nullable();
+            $table->mediumInteger('spd_kode_arsip_id')->nullable();
+            $table->mediumInteger('st_kode_arsip_id')->nullable();
             $table->mediumInteger('anggaran_kerangka_acuan_id')->nullable();
             $table->mediumInteger('kerangka_acuan_id')->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

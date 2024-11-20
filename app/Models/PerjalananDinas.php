@@ -47,24 +47,48 @@ class PerjalananDinas extends Model
     {
         //TODO: belum selesai, perlu jenis arsip, isdirty tanggal dan jenis arsip
         static::updating(function (PerjalananDinas $perjalanan) {
-            if ($perjalanan->naskah_keluar_id === null) {
+            if ($perjalanan->st_naskah_keluar_id === null) {
                 $default_naskah = NaskahDefault::cache()->get('all')
-                    ->where('jenis', 'bon')
+                    ->where('jenis', 'st')
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
-                $naskahkeluar->tanggal = $perjalanan->tanggal_perjalanan;
+                $naskahkeluar->tanggal = $perjalanan->tanggal_st;
                 $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
+                $naskahkeluar->kode_arsip_id = $perjalanan->st_kode_arsip_id;
                 $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
-                $naskahkeluar->tujuan = 'Pengelola Barang Persediaan';
-                $naskahkeluar->perihal = 'Bon Permintaan Persediaan '.$perjalanan->rincian;
+                $naskahkeluar->tujuan = 'Pelaksana Perjalanan Dinas';
+                $naskahkeluar->perihal = 'Surat Tugas '.$perjalanan->uraian;
                 $naskahkeluar->generate = 'A';
                 $naskahkeluar->save();
-                $perjalanan->naskah_keluar_id = $naskahkeluar->id;
+                $perjalanan->st_naskah_keluar_id = $naskahkeluar->id;
             } else {
-                if ($perjalanan->isDirty(['tanggal_perjalanan'])) {
-                    $naskahkeluar = NaskahKeluar::where('id', $perjalanan->naskah_keluar_id)->first();
-                    $naskahkeluar->tanggal = $perjalanan->tanggal_perjalanan;
+                if ($perjalanan->isDirty(['tanggal_perjalanan', 'st_kode_arsip_id'])) {
+                    $naskahkeluar = NaskahKeluar::where('id', $perjalanan->st_naskah_keluar_id)->first();
+                    $naskahkeluar->tanggal = $perjalanan->tanggal_st;
+                    $naskahkeluar->kode_arsip_id = $perjalanan->st_kode_arsip_id;
+                    $naskahkeluar->save();
+                }
+            }
+
+            if ($perjalanan->spd_naskah_keluar_id === null) {
+                $default_naskah = NaskahDefault::cache()->get('all')
+                    ->where('jenis', 'st')
+                    ->first();
+                $naskahkeluar = new NaskahKeluar;
+                $naskahkeluar->tanggal = $perjalanan->tanggal_spd;
+                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                $naskahkeluar->kode_arsip_id = $perjalanan->spd_kode_arsip_id;
+                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->tujuan = 'Pelaksana Perjalanan Dinas';
+                $naskahkeluar->perihal = 'SPPD '.$perjalanan->uraian;
+                $naskahkeluar->generate = 'A';
+                $naskahkeluar->save();
+                $perjalanan->spd_naskah_keluar_id = $naskahkeluar->id;
+            } else {
+                if ($perjalanan->isDirty(['tanggal_perjalanan', 'spd_kode_arsip_id'])) {
+                    $naskahkeluar = NaskahKeluar::where('id', $perjalanan->spd_naskah_keluar_id)->first();
+                    $naskahkeluar->tanggal = $perjalanan->tanggal_spd;
+                    $naskahkeluar->kode_arsip_id = $perjalanan->spd_kode_arsip_id;
                     $naskahkeluar->save();
                 }
             }

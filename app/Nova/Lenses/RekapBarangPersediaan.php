@@ -38,12 +38,12 @@ class RekapBarangPersediaan extends Lens
     public static function query(LensRequest $request, $query)
     {
         $displayed = DB::table('barang_persediaans')
-                   ->select('master_persediaan_id')
-                   ->distinct()
-                   ->whereYear('tanggal_transaksi', session('year'));
+            ->select('master_persediaan_id')
+            ->distinct()
+            ->whereYear('tanggal_transaksi', session('year'));
+
         return $request->withOrdering($request->withFilters(
-            $query->fromSub(fn ($query) => 
-            $query->from('master_persediaans')->select(self::columns())
+            $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
                 ->join('barang_persediaans', function ($join) {
                     $join->on('master_persediaans.id',
                         '=',
@@ -53,8 +53,7 @@ class RekapBarangPersediaan extends Lens
                 ->groupBy('master_persediaans.id')
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
-                })
-            ,'master_persediaans')
+                }), 'master_persediaans')
         ));
     }
 

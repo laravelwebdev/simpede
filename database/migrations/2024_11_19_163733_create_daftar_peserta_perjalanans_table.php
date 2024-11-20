@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_kuitansi')->nullable();
             $table->text('spesifikasi')->nullable();
-            $table->string('angkutan',20)->nullable();
+            $table->string('angkutan', 20)->nullable();
             $table->date('tanggal_berangkat')->nullable();
             $table->date('tanggal_kembali')->nullable();
             $table->string('asal', 80)->nullable();

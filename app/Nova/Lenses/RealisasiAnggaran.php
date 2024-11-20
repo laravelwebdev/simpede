@@ -31,7 +31,6 @@ class RealisasiAnggaran extends Lens
 
     public function name()
     {
-
         return 'Realisasi SP2D per '.Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->tanggal_realisasi);
     }
 
@@ -76,7 +75,7 @@ class RealisasiAnggaran extends Lens
                 ->orderBy('mak')
                 ->orderBy('ordered'),
                 'realisasi_anggarans')
-            ));
+        ));
     }
 
     /**

@@ -39,7 +39,7 @@ class MasterBarangPemeliharaan extends Resource
 
     public function subtitle()
     {
-        return 'Kode: '.$this->kode_barang. ' NUP: '.$this->nup.' Merk:'.$this->merk.' Nopol:'.$this->nopol.' Kondisi:'.$this->kondisi.' Lokasi:'.$this->lokasi;
+        return 'Kode: '.$this->kode_barang.' NUP: '.$this->nup.' Merk:'.$this->merk.' Nopol:'.$this->nopol.' Kondisi:'.$this->kondisi.' Lokasi:'.$this->lokasi;
     }
 
     /**
@@ -48,7 +48,7 @@ class MasterBarangPemeliharaan extends Resource
      * @var array
      */
     public static $search = [
-        'kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'kondisi', 'lokasi', 'user.name'
+        'kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'kondisi', 'lokasi', 'user.name',
     ];
 
     /**
@@ -74,10 +74,10 @@ class MasterBarangPemeliharaan extends Resource
                 ->showWhenPeeking()
                 ->readonly(),
             Text::make('Merk')
-            ->showWhenPeeking()
+                ->showWhenPeeking()
                 ->readonly(),
             Text::make('Nopol')
-            ->showWhenPeeking()
+                ->showWhenPeeking()
                 ->readonly(),
             Select::make('Kondisi')
                 ->options([
@@ -99,7 +99,7 @@ class MasterBarangPemeliharaan extends Resource
                 ->searchable()
                 ->withSubtitles(),
             HasMany::make('Daftar Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
-            
+
         ];
     }
 
@@ -147,7 +147,7 @@ class MasterBarangPemeliharaan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin,kasubbag,bmn')){
+        if (Policy::make()->allowedFor('admin,kasubbag,bmn')) {
             $actions [] = ImportMasterBarangPemeliharaan::make()
                 ->standalone()
                 ->onlyOnIndex();

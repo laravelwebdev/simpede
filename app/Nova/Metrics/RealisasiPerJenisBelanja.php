@@ -18,7 +18,7 @@ class RealisasiPerJenisBelanja extends TableCard
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Selisih']);
         $this->viewAll([
-            'label' => "Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan",
+            'label' => 'Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan',
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', //URL to navigate when the link is clicked
             'position' => 'top', //(Possible values `top` - `bottom`)
             'style' => 'button', //(Possible values `link` - `button`)
@@ -79,6 +79,5 @@ class RealisasiPerJenisBelanja extends TableCard
                 Cell::make(Helper::formatUang($data->selisih))->class('text-right'),
             );
         })->toArray());
-
     }
 }

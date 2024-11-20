@@ -10,6 +10,7 @@ class DaftarPemeliharaan extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
     public function masterBarangPemeliharaan(): BelongsTo
     {
         return $this->belongsTo(MasterBarangPemeliharaan::class);
@@ -28,10 +29,11 @@ class DaftarPemeliharaan extends Model
             ]);
         });
         static::deleted(function (DaftarPemeliharaan $daftar) {
-            if ($daftar->count() === 0)
-            $daftar->pemeliharaan->update([
-                'status' => 'outdated',
-            ]);
+            if ($daftar->count() === 0) {
+                $daftar->pemeliharaan->update([
+                    'status' => 'outdated',
+                ]);
+            }
         });
     }
 }

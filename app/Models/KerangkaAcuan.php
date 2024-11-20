@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
-use App\Models\PembelianPersediaan;
-use App\Models\Pemeliharaan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -85,7 +83,6 @@ class KerangkaAcuan extends Model
                 $pemeliharaan->tanggal_kak = $kak->tanggal;
                 $pemeliharaan->rincian = $kak->rincian;
                 $pemeliharaan->save();
-
 
                 $perjalanan = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->first();
                 $perjalanan->tanggal_berangkat = $kak->awal;

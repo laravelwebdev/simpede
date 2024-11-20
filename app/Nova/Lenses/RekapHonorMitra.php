@@ -41,6 +41,7 @@ class RekapHonorMitra extends Lens
     public static function query(LensRequest $request, $query)
     {
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
+
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
                 ->addSelect([
@@ -52,7 +53,7 @@ class RekapHonorMitra extends Lens
                     $request->withFilters($query->select('id')->from('honor_kegiatans')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
-                            return $query->where('bulan',  $filtered_bulan);
+                            return $query->where('bulan', $filtered_bulan);
                         })
                         ->where('jenis_honor', 'Kontrak Mitra Bulanan')
                     );

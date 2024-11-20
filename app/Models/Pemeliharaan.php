@@ -32,7 +32,6 @@ class Pemeliharaan extends Model
     {
         static::creating(function (Pemeliharaan $pemeliharaan) {
             $pemeliharaan->status = 'dibuat';
-           
         });
         static::created(function (Pemeliharaan $pemeliharaan) {
             User::find(Auth::user()->id)->notify(
@@ -44,7 +43,7 @@ class Pemeliharaan extends Model
             );
         });
         static::deleting(function (Pemeliharaan $pemeliharaan) {
-                $pemeliharaan->daftarPemeliharaan->each->delete();
+            $pemeliharaan->daftarPemeliharaan->each->delete();
         });
     }
 }

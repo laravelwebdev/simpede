@@ -18,7 +18,7 @@ class PersediaanKeluar extends Model
         return $this->morphMany(BarangPersediaan::class, 'barang_persediaanable');
     }
 
-    public function naskahKeluar():BelongsTo
+    public function naskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class);
     }

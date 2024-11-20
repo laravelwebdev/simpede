@@ -16,7 +16,6 @@ class DaftarPemeliharaanPolicy
         return Policy::make()
             ->allowedFor('kasubbag,koordinator,anggota,bmn')
             ->get();
-
     }
 
     /**

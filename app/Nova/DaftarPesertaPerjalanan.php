@@ -4,9 +4,11 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Repeater\SpesifikasiPerjalananDinas;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -57,17 +59,23 @@ class DaftarPesertaPerjalanan extends Resource
             BelongsTo::make('Nama', 'user', User::class)
                 ->searchable()
                 ->withSubtitles()
-                ->rules('required'),
+                ->updateRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)->ignore($this->id))
+                ->creationRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)),
             Text::make('Berangkat Dari:', 'asal')
+            ->default('Hulu Sungai Tengah')
                 ->rules('required'),
             Text::make('Tujuan:', 'tujuan')
+            ->default('Banjarbaru')
                 ->rules('required'),
             Select::make('Angkutan')
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),
-            SpesifikasiPerjalananDinas::make('Spesifikasi', 'spesifikasi')
-                ->confirmRemoval(),
+            Repeater::make('Item Biaya', 'spesifikasi')->repeatables([
+                SpesifikasiPerjalananDinas::make()
+                    ->confirmRemoval(),
+            ]),
+
             Panel::make('Keterangan Kuitansi', [
                 Date::make('Tanggal Kuitansi', 'tanggal_kuitansi')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
@@ -134,4 +142,15 @@ class DaftarPesertaPerjalanan extends Resource
     {
         return [];
     }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
+    }
+
 }

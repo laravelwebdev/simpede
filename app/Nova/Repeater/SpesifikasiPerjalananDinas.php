@@ -10,6 +10,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SpesifikasiPerjalananDinas extends Repeatable
 {
+    public static function label()
+    {
+        return 'Item';
+    }
+
     /**
      * Get the fields displayed by the repeatable.
      *
@@ -25,6 +30,7 @@ class SpesifikasiPerjalananDinas extends Repeatable
                 ->step(1)
                 ->rules('required', 'integer', 'gt:0'),
             Text::make('Satuan', 'satuan')
+                ->help('Misal: O-H, malam, O-P, dll')
                 ->rules('required'),
             Currency::make('Harga Satuan', 'harga_satuan')
                 ->step(1)

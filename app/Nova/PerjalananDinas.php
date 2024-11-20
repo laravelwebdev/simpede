@@ -3,9 +3,11 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\KodeArsip;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
@@ -69,12 +71,12 @@ class PerjalananDinas extends Resource
             ]),
             Stack::make('Nomor/Tanggal SPPD', 'tanggal_spd', [
                 BelongsTo::make('Nomor:', 'spdNaskahKeluar', 'App\Nova\NaskahKeluar'),
-                Date::make('Tanggal:', 'spd.naskahKeluar.tangggal')
+                Date::make('Tanggal:', 'tanggal_spd')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Stack::make('Nomor/Tanggal Surat Tugas', 'tanggal_st', [
                 BelongsTo::make('Nomor:', 'stNaskahKeluar', 'App\Nova\NaskahKeluar'),
-                Date::make('Tanggal:', 'st.naskahKeluar.tangggal')
+                Date::make('Tanggal:', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Uraian', 'uraian')
@@ -108,11 +110,10 @@ class PerjalananDinas extends Resource
                     }),
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-               ,
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Kembali', 'tanggal_kembali')
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-               ,
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 
         ];
     }

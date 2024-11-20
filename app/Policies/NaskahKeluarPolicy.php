@@ -48,7 +48,6 @@ class NaskahKeluarPolicy
         return Policy::make()
             ->allowedFor('anggota,koordinator,kepala,arsiparis')
             ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
-            ->andNotEqual($naskahKeluar->generate, 'A')
             ->get();
     }
 

@@ -34,7 +34,7 @@ class ImportRealisasiAnggaran extends Action
             ->where('dipa_id', $model->id)
             ->pluck('id', 'coa_id')
             ->all();
-        (new FastExcel)->import($fields->file, function ($row) use ($model, $mataAnggarans) {
+        (new FastExcel)->startRow(2)->import($fields->file, function ($row) use ($model, $mataAnggarans) {
             $array_coa = explode('.', $row['KODE COA']);
             $coa_id = end($array_coa);
             $mak_id = $mataAnggarans[(int) $coa_id];
@@ -70,7 +70,7 @@ class ImportRealisasiAnggaran extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Kosongkan Pilihan Tanggal). Selanjutnya Hapus baris di atas header kolom agar header ada di baris pertama'),
+            Heading::make('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Kosongkan Pilihan Tanggal).'),
         ];
     }
 }

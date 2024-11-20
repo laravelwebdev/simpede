@@ -65,4 +65,9 @@ class DipaPolicy
             ->allowedFor('admin')
             ->get();
     }
+
+    public function runAction(): bool
+    {
+        return Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get();
+    }
 }

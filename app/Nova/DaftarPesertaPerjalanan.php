@@ -156,13 +156,11 @@ class DaftarPesertaPerjalanan extends Resource
             Download::make('pernyataan_kendaraan', 'Unduh Pernyataan Kendaraan')
                 ->showInline()
                 ->showOnDetail()
-                ->confirmButtonText('Unduh')
-                ->exceptOnIndex(),
+                ->confirmButtonText('Unduh'),
             Download::make('kuitansi', 'Unduh Kuitansi Perjalanan')
                 ->showInline()
                 ->showOnDetail()
-                ->confirmButtonText('Unduh')
-                ->exceptOnIndex(),
+                ->confirmButtonText('Unduh'),
         ];
     }
 

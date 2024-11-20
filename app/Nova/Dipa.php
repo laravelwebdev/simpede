@@ -151,10 +151,10 @@ class Dipa extends Resource
         }
         if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
             $actions[] =
-                    ImportRealisasiAnggaran::make()
-                        ->showInline()
-                        ->showOnDetail()
-                        ->exceptOnIndex();
+                ImportRealisasiAnggaran::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
         }
 
         return $actions;

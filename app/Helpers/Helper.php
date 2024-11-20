@@ -77,7 +77,7 @@ class Helper
         'st' => 'Surat Tugas',
         'karken_persediaan' => 'Kartu Kendali Persediaan',
         'karken_pemeliharaan' => 'Kartu Kendali Pemeliharaan',
-        'dpr' => 'Daftar Pengeluaran Riil',
+        'kuitansi' => 'Kuitansi Perjalanan Dinas',
         'pernyataan_kendaraan' => 'Pernyataan Tidak Menggunakan Kendaraan Dinas',
     ];
 

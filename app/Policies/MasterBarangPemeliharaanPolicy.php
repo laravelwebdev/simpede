@@ -40,7 +40,7 @@ class MasterBarangPemeliharaanPolicy
     public function update(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,kasubbag,bmn')
+            ->allowedFor('admin,kasubbag,bmn')
             ->get();
     }
 
@@ -50,7 +50,7 @@ class MasterBarangPemeliharaanPolicy
     public function delete(): bool
     {
         return Policy::make()
-        ->allowedFor('admin,kasubbag,bmn')
+            ->allowedFor('admin,kasubbag,bmn')
             ->get();
     }
 

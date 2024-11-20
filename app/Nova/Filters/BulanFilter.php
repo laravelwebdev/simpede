@@ -36,11 +36,11 @@ class BulanFilter extends Filter
             return $query;
         }
 
-        return $this->isdate 
-            ? $query->whereMonth($this->column, $value) 
+        return $this->isdate
+            ? $query->whereMonth($this->column, $value)
             : $query->where($this->column, $value);
     }
-    
+
     /**
      * Get the filter's available options.
      *
@@ -49,7 +49,6 @@ class BulanFilter extends Filter
     public function options(Request $request)
     {
         return array_flip(Helper::$bulan);
-
     }
 
     public function default()

@@ -258,7 +258,6 @@ class Cetak
         ];
     }
 
-
     /**
      * Format nilai SPJ.
      *

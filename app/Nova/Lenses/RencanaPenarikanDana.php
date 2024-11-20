@@ -27,7 +27,6 @@ class RencanaPenarikanDana extends Lens
 
     public function name()
     {
-
         return 'Monitoring RPD';
     }
 

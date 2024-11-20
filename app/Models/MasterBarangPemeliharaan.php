@@ -29,16 +29,15 @@ class MasterBarangPemeliharaan extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function daftarPemeliharaan():HasMany
+    public function daftarPemeliharaan(): HasMany
     {
         return $this->hasMany(DaftarPemeliharaan::class);
     }
 
-
     protected static function booted(): void
     {
         static::deleting(function (MasterBarangPemeliharaan $barang) {
-                $barang->daftarPemeliharaan->each->delete();
+            $barang->daftarPemeliharaan->each->delete();
         });
     }
 }

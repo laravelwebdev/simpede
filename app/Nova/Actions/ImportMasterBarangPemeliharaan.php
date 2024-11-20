@@ -2,12 +2,10 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Models\MasterBarangPemeliharaan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
@@ -32,27 +30,25 @@ class ImportMasterBarangPemeliharaan extends Action
         MasterBarangPemeliharaan::query()->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) {
             if (
-                !empty($row['Kode Barang']) && 
-                !empty($row['No PSP']) &&
+                ! empty($row['Kode Barang']) &&
+                ! empty($row['No PSP']) &&
                 ($row['Kondisi'] == 'Baik' || $row['Kondisi'] == 'Rusak Ringan') &&
                 substr($row['Kode Barang'], 0, 7) != '6010102'
-            ) 
-            {             
+            ) {
+                $MasterBarangPemeliharaan = MasterBarangPemeliharaan::firstOrNew(
+                    [
+                        'kode_barang' => $row['Kode Barang'],
+                        'nup' => $row['NUP'],
+                    ]
+                );
+                $MasterBarangPemeliharaan->nama_barang = $row['Nama Barang'];
+                $MasterBarangPemeliharaan->merk = $row['Nama'];
+                $MasterBarangPemeliharaan->nopol = $row['No Polisi'];
+                $MasterBarangPemeliharaan->kondisi = $row['Kondisi'];
+                $MasterBarangPemeliharaan->lokasi = $row['Lokasi Ruang'];
+                $MasterBarangPemeliharaan->updated_at = now();
 
-            $MasterBarangPemeliharaan = MasterBarangPemeliharaan::firstOrNew(
-                [
-                    'kode_barang' => $row['Kode Barang'],
-                    'nup' => $row['NUP'],
-                ]
-            );
-            $MasterBarangPemeliharaan->nama_barang = $row['Nama Barang'];
-            $MasterBarangPemeliharaan->merk = $row['Nama'];
-            $MasterBarangPemeliharaan->nopol = $row['No Polisi'];
-            $MasterBarangPemeliharaan->kondisi = $row['Kondisi'];
-            $MasterBarangPemeliharaan->lokasi = $row['Lokasi Ruang'];
-            $MasterBarangPemeliharaan->updated_at = now();
-
-            $MasterBarangPemeliharaan->save();
+                $MasterBarangPemeliharaan->save();
             }
         });
         $ids = MasterBarangPemeliharaan::where('updated_at', null)->get()->pluck('id');

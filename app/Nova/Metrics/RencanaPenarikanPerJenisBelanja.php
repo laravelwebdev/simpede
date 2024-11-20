@@ -4,8 +4,6 @@ namespace App\Nova\Metrics;
 
 use App\Helpers\Helper;
 use App\Models\Dipa;
-use App\Models\JenisBelanja;
-use App\Models\TargetSerapanAnggaran;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
 use Whitespacecode\TableCard\Table\Cell;
@@ -44,7 +42,6 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
             ->orderBy('jenis_belanja')
             ->get()
             ->transform(function ($item) use ($dipaId, $bulan) {
-
                 $item->target = DB::table('mata_anggarans')
                     ->where('jenis_belanja', $item->jenis_belanja)
                     ->where('dipa_id', $dipaId)
@@ -72,6 +69,5 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
                 Cell::make($data->persen)->class('text-right'),
             );
         })->toArray());
-
     }
 }

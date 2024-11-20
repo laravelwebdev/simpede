@@ -39,7 +39,7 @@ class ImportMataAnggaran extends Action
         MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);
         $index = 0;
-        foreach($collections as $row) {
+        foreach ($collections as $row) {
             $mataAnggaran = MataAnggaran::firstOrNew(
                 [
                     'coa_id' => $row['CONS_ITEM'],
@@ -71,8 +71,8 @@ class ImportMataAnggaran extends Action
                 $mataAnggaran->rpd_12 = $row['POK_NILAI_12'];
             }
 
-            $mataAnggaran->updated_at = now();    
-            $index++;        
+            $mataAnggaran->updated_at = now();
+            $index++;
             $mataAnggaran->ordered = $index;
             $mataAnggaran->save();
         }

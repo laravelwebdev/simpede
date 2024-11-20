@@ -119,7 +119,7 @@ class KodeNaskah extends Resource
         }
 
         return $actions;
-           }
+    }
 
     /**
      * Return the location to redirect the user after update.

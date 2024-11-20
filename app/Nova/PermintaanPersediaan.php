@@ -68,18 +68,18 @@ class PermintaanPersediaan extends Resource
                 BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\NaskahKeluar')
                     ->exceptOnForms(),
                 Date::make('Tanggal', 'naskahKeluar.tanggal')
-                    ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                    ->displayUsing(fn ($value) => Helper::terbilangTanggal($value)),
             ]),
             Date::make('Tanggal Permintaan', 'tanggal_permintaan')
-            ->sortable()
-            ->filterable()
-            ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
-            ->rules('required', 'before_or_equal:today')
-            ->onlyOnForms()
-            ->default(now())
-            ->readonly(Policy::make()
-                ->allowedFor('bmn')
-                ->get()),
+                ->sortable()
+                ->filterable()
+                ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                ->rules('required', 'before_or_equal:today')
+                ->onlyOnForms()
+                ->default(now())
+                ->readonly(Policy::make()
+                    ->allowedFor('bmn')
+                    ->get()),
 
             Text::make('Untuk Kegiatan', 'kegiatan')
                 ->rules('required')

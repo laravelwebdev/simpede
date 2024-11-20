@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\Pengelola;
 use App\Nova\BastMitra;
 use App\Nova\Dashboards\Main;
@@ -82,7 +83,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Monitoring', [
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
-                    MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class),
+                    MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
+                        ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
+                        ->get()),
                     MenuGroup::make('Anggaran', [
                         MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),

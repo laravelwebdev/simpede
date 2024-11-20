@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Repeater\SpesifikasiPerjalananDinas;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -65,6 +66,8 @@ class DaftarPesertaPerjalanan extends Resource
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),
+            SpesifikasiPerjalananDinas::make('Spesifikasi', 'spesifikasi')
+                ->confirmRemoval(),
             Panel::make('Keterangan Kuitansi', [
                 Date::make('Tanggal Kuitansi', 'tanggal_kuitansi')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

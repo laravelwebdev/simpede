@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('rincian')->nullable();
             $table->date('tanggal_kak')->nullable();
+            $table->date('tanggal_nota')->nullable();
             $table->date('tanggal_bast')->nullable();
             $table->date('tanggal_buku')->nullable();
             $table->string('status', 20)->nullable();

@@ -60,9 +60,5 @@ class TestSeeder extends Seeder
         Template::cache()->updateAll();
         UnitKerja::cache()->updateAll();
         User::cache()->updateAll();
-
-
-
-
     }
 }

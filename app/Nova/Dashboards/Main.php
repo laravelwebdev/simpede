@@ -19,7 +19,7 @@ class Main extends Dashboard
      */
     public function name()
     {
-        return Helper::$role[session('role')];
+        return 'Beranda';
     }
 
     /**
@@ -29,12 +29,16 @@ class Main extends Dashboard
      */
     public function cards()
     {
+        $values = array_map(function ($key) {
+            return Helper::$role[$key];
+        }, session('role'));
+
         return [
             GreeterCard::make()
                 ->user(name: Auth::user()->name, title: Auth::user()->email)
                 ->message(text: __('Welcome Back!'))
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
-                ->verified(text: Helper::$role[session('role')])
+                ->verified(text: implode(', ', $values))
                 ->width('1/2'),
             GreeterCard::make()
                 ->user(name: 'Quotes of the day', title: Inspiring::show())

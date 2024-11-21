@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
@@ -39,10 +41,11 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user1, User $user2): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->orEqual($user1->id, $user2->id)
             ->get();
     }
 

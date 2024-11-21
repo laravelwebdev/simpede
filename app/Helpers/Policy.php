@@ -16,6 +16,11 @@ class Policy
         return new static;
     }
 
+    private static function hasAccess($roles): bool
+    {
+        return !empty(array_intersect($roles, session('role')));
+    }
+
     public function get(): bool
     {
         return $this->allowed;
@@ -23,7 +28,7 @@ class Policy
 
     public function allowedFor(string $roles = 'all'): self
     {
-        $this->allowed = $roles === 'all' || in_array(session('role'), explode(',', $roles));
+        $this->allowed = $roles === 'all' || self::hasAccess(explode(',', $roles), session('role'));
 
         return $this;
     }

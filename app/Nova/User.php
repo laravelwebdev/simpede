@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\HasMany;
@@ -66,7 +67,8 @@ class User extends Resource
                     ->sortable()
                     ->rules('required', 'regex:/^[0-9A-Za-z.\-_]+$/u', 'max:254')
                     ->creationRules('unique:users,email')
-                    ->updateRules('unique:users,email,{{resourceId}}'),
+                    ->updateRules('unique:users,email,{{resourceId}}')
+                    ->readonly(Policy::make()->notAllowedFor('admin')->get()),
                 Password::make('Password')->onlyOnForms()
                     ->creationRules('required', Rules\Password::defaults(), 'confirmed')
                     ->updateRules('nullable', Rules\Password::defaults(), 'confirmed'),

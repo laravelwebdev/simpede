@@ -62,20 +62,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
-            $roles = Pengelola::cache()->get('all')->where('user_id', $request->user()->id)->whereNull('inactive')->pluck('role', 'role')->toArray();
-            foreach ($roles as $key => $value) {
-                $menu->prepend(
-                    MenuItem::externalLink(
-                        Helper::$role[$key],
-                        route('changerole', [
-                            'role' => $key,
-                        ])
-                    )
-                );
-            }
-
-            return $menu;
-        });
+            return $menu
+                ->prepend(MenuItem::link('My Profile', '/resources/users/'.$request->user()->getKey()));
+            });
 
         Nova::mainMenu(function (Request $request) {
             return [

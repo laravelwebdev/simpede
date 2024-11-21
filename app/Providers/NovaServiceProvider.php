@@ -63,7 +63,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
-                ->prepend(MenuItem::link('My Profile', '/resources/users/'.$request->user()->getKey()));
+                ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()));
             });
 
         Nova::mainMenu(function (Request $request) {

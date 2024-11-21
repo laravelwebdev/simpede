@@ -33,7 +33,7 @@ class KodeNaskah extends Model
             JenisNaskah::cache()->disable();
             JenisNaskah::destroy($jenisNaskahIds);
             JenisNaskah::cache()->enable();
-            JenisNaskah::cache()->update('all');
+            JenisNaskah::cache()->updateAll();
         });
     }
 }

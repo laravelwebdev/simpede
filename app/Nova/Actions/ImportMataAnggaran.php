@@ -78,7 +78,7 @@ class ImportMataAnggaran extends Action
         }
         MataAnggaran::where('updated_at', null)->delete();
         MataAnggaran::cache()->enable();
-        MataAnggaran::cache()->update('all');
+        MataAnggaran::cache()->updateAll();
         $jenis_belanjas = MataAnggaran::cache()->get('all')->unique('jenis_belanja')->pluck('jenis_belanja');
         JenisBelanja::cache()->disable();
         JenisBelanja::where('dipa_id', $model->id)->update(['updated_at' => null]);
@@ -94,7 +94,7 @@ class ImportMataAnggaran extends Action
         }
         JenisBelanja::where('updated_at', null)->delete();
         JenisBelanja::cache()->enable();
-        JenisBelanja::cache()->update('all');
+        JenisBelanja::cache()->updateAll();
 
         $model->revisi = $fields->revisi;
         $model->tanggal_revisi = $fields->tanggal_revisi;

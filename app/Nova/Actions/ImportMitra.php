@@ -53,7 +53,7 @@ class ImportMitra extends Action
         $ids = Mitra::where('updated_at', null)->get()->pluck('id');
         Mitra::destroy($ids);
         Mitra::cache()->enable();
-        Mitra::cache()->update('all');
+        Mitra::cache()->updateAll();
 
         return Action::message('Mitra sukses diimport!');
     }

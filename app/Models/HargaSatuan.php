@@ -40,7 +40,7 @@ class HargaSatuan extends Model
             JenisKontrak::cache()->disable();
             JenisKontrak::destroy($jenisKontrakIds);
             JenisKontrak::cache()->enable();
-            JenisKontrak::cache()->update('all');
+            JenisKontrak::cache()->updateAll();
         });
     }
 }

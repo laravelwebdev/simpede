@@ -54,7 +54,7 @@ class ImportMasterBarangPemeliharaan extends Action
         $ids = MasterBarangPemeliharaan::where('updated_at', null)->get()->pluck('id');
         MasterBarangPemeliharaan::destroy($ids);
         MasterBarangPemeliharaan::cache()->enable();
-        MasterBarangPemeliharaan::cache()->update('all');
+        MasterBarangPemeliharaan::cache()->updateAll();
 
         return Action::message('Master Barang Pemeliharaan sukses diimport!');
     }

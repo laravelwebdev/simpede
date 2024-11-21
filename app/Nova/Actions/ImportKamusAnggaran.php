@@ -49,7 +49,7 @@ class ImportKamusAnggaran extends Action
         });
         KamusAnggaran::where('updated_at', null)->delete();
         KamusAnggaran::cache()->enable();
-        KamusAnggaran::cache()->update('all');
+        KamusAnggaran::cache()->updateAll();
 
         return Action::message('Kamus Anggaran sukses diimport!');
     }

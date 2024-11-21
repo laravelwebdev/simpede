@@ -33,7 +33,7 @@ class KepkaMitra extends Model
             Mitra::cache()->disable();
             Mitra::destroy($mitraIds);
             Mitra::cache()->enable();
-            Mitra::cache()->update('all');
+            Mitra::cache()->updateAll();
         });
     }
 }

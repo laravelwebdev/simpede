@@ -55,22 +55,22 @@ class TataNaskah extends Model
             KodeArsip::cache()->disable();
             KodeArsip::destroy($kodeArsipIds);
             KodeArsip::cache()->enable();
-            KodeArsip::cache()->update('all');
+            KodeArsip::cache()->updateAll();
             $derajatnaskahIds = DerajatNaskah::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
             DerajatNaskah::cache()->disable();
             DerajatNaskah::destroy($derajatnaskahIds);
             DerajatNaskah::cache()->enable();
-            DerajatNaskah::cache()->update('all');
+            DerajatNaskah::cache()->updateAll();
             $kodenaskahIds = KodeNaskah::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
             KodeNaskah::cache()->disable();
             KodeNaskah::destroy($kodenaskahIds);
             KodeNaskah::cache()->enable();
-            KodeNaskah::cache()->update('all');
+            KodeNaskah::cache()->updateAll();
             $naskahDefaultIds = NaskahDefault::where('tata_naskah_id', $tata_naskah->id)->pluck('id');
             NaskahDefault::cache()->disable();
             NaskahDefault::destroy($naskahDefaultIds);
             NaskahDefault::cache()->enable();
-            NaskahDefault::cache()->update('all');
+            NaskahDefault::cache()->updateAll();
         });
     }
 }

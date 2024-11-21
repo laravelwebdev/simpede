@@ -91,12 +91,12 @@ class User extends Authenticatable
             Pengelola::cache()->disable();
             Pengelola::destroy($pengelolaIds);
             Pengelola::cache()->enable();
-            Pengelola::cache()->update('all');
+            Pengelola::cache()->updateAll();
             $dataPegawaiIds = DataPegawai::where('user_id', $user->id)->pluck('id');
             DataPegawai::cache()->disable();
             DataPegawai::destroy($dataPegawaiIds);
             DataPegawai::cache()->enable();
-            DataPegawai::cache()->update('all');
+            DataPegawai::cache()->updateAll();
         });
     }
 }

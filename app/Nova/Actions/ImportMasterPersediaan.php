@@ -45,7 +45,7 @@ class ImportMasterPersediaan extends Action
         $ids = MasterPersediaan::where('updated_at', null)->get()->pluck('id');
         MasterPersediaan::destroy($ids);
         MasterPersediaan::cache()->enable();
-        MasterPersediaan::cache()->update('all');
+        MasterPersediaan::cache()->updateAll();
 
         return Action::message('Master Persediaan sukses diimport!');
     }

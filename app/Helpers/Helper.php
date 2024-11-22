@@ -118,18 +118,18 @@ class Helper
     ];
 
     public static $role = [
+        'admin' => 'Administrator',
         'kepala' => 'Kepala',
+        'kpa' => 'Kuasa Pengguna Anggaran',
+        'kasubbag' => 'Kasubbag Umum',
+        'koordinator' => 'Ketua Tim',
+        'ppspm' => 'Pejabat PSPM',
         'ppk' => 'Pejabat Pembuat Komitmen',
         'bendahara' => 'Bendahara',
-        'ppspm' => 'Pejabat PSPM',
         'pbj' => 'Pejabat PBJ',
         'bmn' => 'Pengelola BMN',
-        'admin' => 'Administrator',
-        'kpa' => 'Kuasa Pengguna Anggaran',
-        'koordinator' => 'Ketua Tim',
-        'anggota' => 'Pegawai',
-        'kasubbag' => 'Kasubbag Umum',
         'arsiparis' => 'Arsiparis',
+        'anggota' => 'Pegawai',
     ];
 
     public static $golongan = [

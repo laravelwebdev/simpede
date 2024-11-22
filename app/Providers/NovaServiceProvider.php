@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\Pengelola;
 use App\Nova\BastMitra;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
@@ -64,11 +62,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()));
-            });
+        });
 
         Nova::mainMenu(function (Request $request) {
             return [
-                MenuSection::dashboard(Main::class)->icon('user'),
+                MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Monitoring', [
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),

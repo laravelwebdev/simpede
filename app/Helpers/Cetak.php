@@ -6,11 +6,13 @@ use App\Models\AnggaranKerangkaAcuan;
 use App\Models\BarangPersediaan;
 use App\Models\BastMitra;
 use App\Models\DaftarKontrakMitra;
+use App\Models\DaftarPemeliharaan;
 use App\Models\DaftarPesertaPerjalanan;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
 use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
+use App\Models\MasterBarangPemeliharaan;
 use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
 use App\Models\PerjalananDinas;
@@ -113,6 +115,10 @@ class Cetak
         if ($jenis === 'kuitansi') {
             $templateProcessor->cloneRowAndSetValues('item', $data['item_biaya']);
             unset($data['item_biaya']);
+        }
+        if ($jenis === 'karken_pemeliharaan') {
+            $templateProcessor->cloneRowAndSetValues('no', $data['daftar_pemeliharaan']);
+            unset($data['daftar_pemeliharaan']);
         }
 
         if ($jenis === 'spj') {
@@ -219,6 +225,23 @@ class Cetak
             'berangkat' => Helper::terbilangTanggal($data->tanggal_berangkat),
             'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
             'uraian' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
+        ];
+    }
+
+    public static function karken_pemeliharaan($id)
+    {
+        $data = MasterBarangPemeliharaan::find($id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+
+        return [
+            'tanggal_cetak' => Helper::terbilangTanggal(now()),
+            'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'barang' => $data->nama_barang,
+            'kode_barang' => $data->kode_barang,
+            'nup' => $data->nup,
+            'tahun' => session('year'),
+            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('master_barang_pemeliharaan_id', $id)->get()->toArray(),
         ];
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Nova\Lenses;
 
+use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -111,7 +113,16 @@ class PemeliharaanBarang extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('kasubbag,bmn')) {
+            $actions[] =
+            Download::make('karken_pemeliharaan', 'Unduh Kartu kendali Pemeliharaan')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh');
+        }
+
+        return $actions;
     }
 
     /**

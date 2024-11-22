@@ -33,6 +33,7 @@ class Policy
         return $this;
     }
 
+    //TODO: salah
     public function notAllowedFor(string $roles = 'all'): self
     {
         $this->allowed = ! $this->allowedFor($roles)->allowed;

@@ -79,7 +79,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ])->collapsable(),
 
                 ])->icon('chart-bar'),
-                MenuSection::make(session('year'), [
+                MenuSection::make('Tahun ' .session('year'), [
                     MenuGroup::make('Kerangka Acuan', [
                         MenuItem::resource(KerangkaAcuan::class),
                     ])->collapsable(),

@@ -84,7 +84,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KerangkaAcuan::class),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
-
+                    MenuItem::resource(Pemeliharaan::class),
+                    MenuItem::resource(PerjalananDinas::class),
                     MenuGroup::make('Kontrak', [
                         MenuItem::resource(KontrakMitra::class),
                         MenuItem::resource(BastMitra::class),
@@ -100,8 +101,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(PersediaanKeluar::class),
                         MenuItem::resource(RealisasiAnggaran::class),
                     ])->collapsable(),
-                    MenuItem::resource(Pemeliharaan::class),
-                    MenuItem::resource(PerjalananDinas::class),
+
                 ]),
                 MenuSection::make('Referensi', [
                     MenuItem::resource(TataNaskah::class),

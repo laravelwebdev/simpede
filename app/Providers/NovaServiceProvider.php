@@ -81,15 +81,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 ])->icon('chart-bar'),
                 MenuSection::make('Manajemen', [
-                    MenuGroup::make('Kerangka Acuan', [
-                        MenuItem::resource(KerangkaAcuan::class),
-                    ])->collapsable(),
-                    MenuGroup::make('Kegiatan', [
-                        MenuItem::resource(HonorKegiatan::class),
-                    ])->collapsable(),
-                    MenuGroup::make('Izin Keluar', [
-                        MenuItem::resource(IzinKeluar::class),
-                    ])->collapsable(),
+                    MenuItem::resource(KerangkaAcuan::class),
+                    MenuItem::resource(HonorKegiatan::class),
+                    MenuItem::resource(IzinKeluar::class),
+
                     MenuGroup::make('Kontrak', [
                         MenuItem::resource(KontrakMitra::class),
                         MenuItem::resource(BastMitra::class),
@@ -105,13 +100,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(PersediaanKeluar::class),
                         MenuItem::resource(RealisasiAnggaran::class),
                     ])->collapsable(),
-                    MenuGroup::make('Pemeliharaan BMN', [
-                        MenuItem::resource(Pemeliharaan::class),
-                    ])->collapsable(),
-                    MenuGroup::make('Perjalanan Dinas', [
-                        MenuItem::resource(PerjalananDinas::class),
-                    ])->collapsable(),
-
+                    MenuItem::resource(Pemeliharaan::class),
+                    MenuItem::resource(PerjalananDinas::class),
                 ]),
                 MenuSection::make('Referensi', [
                     MenuItem::resource(TataNaskah::class),

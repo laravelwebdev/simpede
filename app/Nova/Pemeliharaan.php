@@ -24,7 +24,7 @@ class Pemeliharaan extends Resource
 
     public static function label()
     {
-        return 'Pemeliharaan';
+        return 'Pemeliharaan BMN';
     }
 
     /**

@@ -48,6 +48,7 @@ class RealisasiAnggaran extends Lens
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(
                 'mak, 
+                mata_anggarans.id as id_mata_anggaran,
                 mata_anggarans.uraian as item, 
                 total, 
                 blokir,
@@ -69,6 +70,7 @@ class RealisasiAnggaran extends Lens
 
                 ->groupBy('mak')
                 ->groupBy('item')
+                ->groupBy('id_mata_anggaran')
                 ->groupBy('blokir')
                 ->groupBy('total')
                 ->groupBy('ordered')
@@ -107,13 +109,12 @@ class RealisasiAnggaran extends Lens
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Sisa', 'sisa')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-                //BUG: errror
             Url::make('Detail', function () {
                 $filter = base64_encode(
                     json_encode(
                         [
                             [
-                                'Hidden:mata_anggaran_id' => $this->mata_anggaran_id,
+                                'Hidden:mata_anggaran_id' => $this->id_mata_anggaran,
                             ],
                         ],
                         true

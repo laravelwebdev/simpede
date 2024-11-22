@@ -33,10 +33,9 @@ class Policy
         return $this;
     }
 
-    //TODO: salah
     public function notAllowedFor(string $roles = 'all'): self
     {
-        $this->allowed = ! $this->allowedFor($roles)->allowed;
+        $this->allowed = $roles !== 'all' && self::hasAccess(array_diff(array_keys(Helper::$role),explode(',', $roles)), session('role'));
 
         return $this;
     }

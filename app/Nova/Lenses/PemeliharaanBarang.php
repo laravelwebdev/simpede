@@ -119,6 +119,7 @@ class PemeliharaanBarang extends Lens
             Download::make('karken_pemeliharaan', 'Unduh Kartu kendali Pemeliharaan')
                 ->showInline()
                 ->showOnDetail()
+                ->withTanggal()
                 ->confirmButtonText('Unduh');
         }
 

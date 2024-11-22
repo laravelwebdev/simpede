@@ -33,7 +33,7 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models, $filename, $template_id)
+    public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null)
     {
         $mainTemplate = null;
         $mainXml = '';
@@ -41,7 +41,7 @@ class Cetak
         foreach ($models as $index => $model) {
             self::validate($jenis, $model->id);
 
-            $template = self::getTemplate($jenis, $model->id, $template_id);
+            $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal);
 
             if ($index === 0) {
                 $mainTemplate = $template;
@@ -69,10 +69,10 @@ class Cetak
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
      * @return TemplateProcessor
      */
-    public static function getTemplate(string $jenis, $id, $template_id)
+    public static function getTemplate(string $jenis, $id, $template_id, $tanggal)
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
-        $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
+        $tanggal ? $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id, $tanggal) : $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
         if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
@@ -117,7 +117,7 @@ class Cetak
             unset($data['item_biaya']);
         }
         if ($jenis === 'karken_pemeliharaan') {
-            $templateProcessor->cloneRowAndSetValues('no', $data['daftar_pemeliharaan']);
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPemeliharaan($data['daftar_pemeliharaan']));
             unset($data['daftar_pemeliharaan']);
         }
 
@@ -228,20 +228,21 @@ class Cetak
         ];
     }
 
-    public static function karken_pemeliharaan($id)
+    public static function karken_pemeliharaan($id, $tanggal)
     {
         $data = MasterBarangPemeliharaan::find($id);
         $user = Helper::getPegawaiByUserId($data->user_id);
-
-        return [
-            'tanggal_cetak' => Helper::terbilangTanggal(now()),
+        $tanggal = Helper::createDateFromString($tanggal);
+            return [
+            'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
             'nip' => Helper::getPropertyFromCollection($user, 'nip'),
             'barang' => $data->nama_barang,
             'kode_barang' => $data->kode_barang,
             'nup' => $data->nup,
             'tahun' => session('year'),
-            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('master_barang_pemeliharaan_id', $id)->get()->toArray(),
+            //BUG: error
+            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=',$tanggal)->where('master_barang_pemeliharaan_id', $id)->get()->toArray(),
         ];
     }
 

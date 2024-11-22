@@ -64,11 +64,11 @@ class AnggaranKerangkaAcuan extends Model
             }
 
             if ($anggaranKak->isDirty() && Helper::isAkunPemeliharaan($anggaranKak->mata_anggaran_id)) {
+                $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                 if ($pemeliharaan = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $pemeliharaan->rincian = $kak->rincian;
                     $pemeliharaan->save();
-                } else {
-                    $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
+                } else {                   
                     $pemeliharaan = new Pemeliharaan;
                     $pemeliharaan->kerangka_acuan_id = $kak->id;
                     $pemeliharaan->tanggal_kak = $kak->tanggal;
@@ -79,13 +79,13 @@ class AnggaranKerangkaAcuan extends Model
             }
 
             if ($anggaranKak->isDirty() && Helper::isAkunPerjalanan($anggaranKak->mata_anggaran_id)) {
+                $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                 if ($perjalanan = PerjalananDinas::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $perjalanan->uraian = $kak->rincian;
                     $perjalanan->tanggal_berangkat = $kak->awal;
                     $perjalanan->tanggal_kembali = $kak->akhir;
                     $perjalanan->save();
                 } else {
-                    $kak = KerangkaAcuan::find($anggaranKak->kerangka_acuan_id);
                     $perjalanan = new PerjalananDinas;
                     $perjalanan->kerangka_acuan_id = $kak->id;
                     $perjalanan->tanggal_berangkat = $kak->awal;

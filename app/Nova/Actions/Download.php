@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -21,10 +22,19 @@ class Download extends Action
 
     protected $title;
 
+    protected bool $withTanggal = false;
+
     public function __construct($jenis, $title = 'Unduh')
     {
         $this->jenis = $jenis;
         $this->title = $title;
+    }
+
+    public function withTanggal()
+    {
+        $this->withTanggal = true;
+
+        return $this;
     }
 
     public function name()
@@ -39,7 +49,7 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template);
+        $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template, $fields->tanggal);
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
@@ -53,15 +63,24 @@ class Download extends Action
      */
     public function fields(NovaRequest $request)
     {
-        return [
-            Text::make('Nama File', 'filename')
-                ->rules('required', 'alpha_dash:ascii')
-                ->help('tanpa extensi file')
-                ->default(fn () => uniqid()),
-            Select::make('Template')
-                ->rules('required')
-                ->displayUsingLabels()
-                ->options(Helper::setOptionTemplate($this->jenis)),
+        $fields = [ 
+        Text::make('Nama File', 'filename')
+            ->rules('required', 'alpha_dash:ascii')
+            ->help('tanpa extensi file')
+            ->default(fn () => uniqid()),
+        Select::make('Template')
+            ->rules('required')
+            ->displayUsingLabels()
+            ->options(Helper::setOptionTemplate($this->jenis)),
         ];
+
+        if ($this->withTanggal) {
+            $fields[] = Date::make('Tanggal', 'tanggal')
+                ->rules('required', 'date', 'before_or_equal:today')
+                ->default(now());
+        }
+
+        return $fields;
+
     }
 }

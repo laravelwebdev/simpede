@@ -425,7 +425,7 @@ class Helper
             return null;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay()->format('Y-m-d H:i:s');
+        return Carbon::createFromFormat('Y-m-d', $tanggal)->endOfDay();
     }
 
     /**
@@ -837,6 +837,22 @@ class Helper
         });
 
         return $spek->toArray();
+    }
+
+    public static function formatDaftarPemeliharaan($daftar)
+    {
+        $spek = collect($daftar);
+        $spek->transform(function ($item, $index) {
+            $item['no'] = $index + 1;
+            $item['biaya'] = self::formatRupiah($item['biaya']);
+            $item['tanggal'] = self::terbilangTanggal($item['tanggal']);
+
+            return $item;
+        });
+
+        $arrayspek = $spek->toArray();
+
+        return empty($arrayspek) ? [['no' => 1, 'tanggal' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
     }
 
     /**

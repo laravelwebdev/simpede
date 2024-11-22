@@ -1853,7 +1853,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravelwebdev/admin-simpede.git",
-                "reference": "928f4e27840f7f325a030ecc394d3244aa7d0915"
+                "reference": "f7c65903b252a13c0cad8274304d22f97ac59d15"
             },
             "require": {
                 "brick/money": "^0.5|^0.6|^0.7|^0.8|^0.9|^0.10",
@@ -1962,7 +1962,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2024-11-22T23:03:04+00:00"
+            "time": "2024-11-22T23:35:46+00:00"
         },
         {
             "name": "laravel/prompts",

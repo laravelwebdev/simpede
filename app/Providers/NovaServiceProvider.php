@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Policy;
+use App\Nova\DaftarSp2d;
 use App\Nova\BastMitra;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
@@ -113,15 +114,22 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 ]),
                 MenuSection::make('Referensi', [
-                    MenuItem::resource(Dipa::class),
                     MenuItem::resource(TataNaskah::class),
                     MenuItem::resource(KepkaMitra::class),
-                    MenuItem::resource(User::class),
                     MenuItem::resource(HargaSatuan::class),
                     MenuItem::resource(MasterPersediaan::class),
                     MenuItem::resource(MasterBarangPemeliharaan::class),
 
                 ])->icon('book-open'),
+                MenuSection::make('Kepegawaian', [
+                    MenuItem::resource(User::class),
+                ])->icon('user-group'),
+
+                MenuSection::make('Anggaran', [
+                    MenuItem::resource(Dipa::class),
+                    MenuItem::resource(DaftarSp2d::class),
+                ])->icon('currency-dollar'),
+
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(UnitKerja::class),
                     MenuItem::resource(Template::class),

@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\DaftarSp2d;
 use App\Models\MataAnggaran;
 use App\Models\RealisasiAnggaran;
 use Illuminate\Bus\Queueable;
@@ -29,6 +30,7 @@ class ImportRealisasiAnggaran extends Action
     {
         $model = $models->first();
         RealisasiAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        DaftarSp2d::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $mataAnggarans = MataAnggaran::cache()
             ->get('all')
             ->where('dipa_id', $model->id)
@@ -51,8 +53,20 @@ class ImportRealisasiAnggaran extends Action
             $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
             $realisasiAnggaran->updated_at = now();
             $realisasiAnggaran->save();
+            $daftarsp2d = DaftarSp2d::firstOrNew(
+                [
+                    'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
+                    'dipa_id' => $model->id,
+                ]
+            );
+            $daftarsp2d->tanggal_sp2d = $row['TANGGAL SP2D'];
+            $daftarsp2d->nomor_spp = str_replace("'", '', $row['NO SPP']);
+            $daftarsp2d->uraian = $row['URAIAN'];
+            $daftarsp2d->updated_at = now();
+            $daftarsp2d->save();
         });
         RealisasiAnggaran::where('updated_at', null)->delete();
+        DaftarSp2d::where('updated_at', null)->delete();
         $model->tanggal_realisasi = RealisasiAnggaran::max('tanggal_sp2d');
         $model->save();
 

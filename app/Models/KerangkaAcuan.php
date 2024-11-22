@@ -157,8 +157,6 @@ class KerangkaAcuan extends Model
         $slugs = [
             'Kerangka Acuan Kerja',
             'Form Permintaan',
-            'SPM',
-            'SP2D',
             'Surat Setoran Pajak',
             'SPJ',
             'Mutasi Rekening',

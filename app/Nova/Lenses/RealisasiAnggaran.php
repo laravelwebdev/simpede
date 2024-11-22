@@ -107,6 +107,7 @@ class RealisasiAnggaran extends Lens
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Sisa', 'sisa')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
+                //BUG: errror
             Url::make('Detail', function () {
                 $filter = base64_encode(
                     json_encode(

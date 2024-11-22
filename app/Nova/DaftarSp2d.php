@@ -3,30 +3,25 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
-use App\Nova\Lenses\RencanaPenarikanDana;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
 
-class RealisasiAnggaran extends Resource
+class DaftarSp2d extends Resource
 {
-    public static $displayInNavigation = false;
-
-    public static function label()
-    {
-        return 'Realisasi Anggaran';
-    }
-
     /**
      * The model the resource corresponds to.
      *
-     * @var string
+     * @var class-string<\App\Models\DaftarSp2d>
      */
-    public static $model = \App\Models\RealisasiAnggaran::class;
+    public static $model = \App\Models\DaftarSp2d::class;
+
+    public static function label()
+    {
+        return 'Daftar SP2D';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -61,27 +56,35 @@ class RealisasiAnggaran extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('Mata Anggaran', 'mata_anggaran_id')->filterable(),
             Date::make('Tanggal SP2D', 'tanggal_sp2d')
                 ->sortable()
+                ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
             Text::make('Nomor SPP', 'nomor_spp')
                 ->sortable()
-                ->rules('required', 'max:10'),
+                ->readonly(),
 
             Text::make('Nomor SP2D', 'nomor_sp2d')
                 ->sortable()
-                ->rules('required', 'max:20'),
+                ->readonly(),
 
             Text::make('Uraian', 'uraian')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->readonly(),
 
-            Currency::make('Nilai', 'nilai')
-                ->sortable()
-                ->rules('required', 'integer'),
-
+            File::make('Arsip SPM', 'arsip_spm')
+                ->disk('arsip')
+                ->rules('mimes:pdf')
+                ->acceptedTypes('.pdf')
+                ->creationRules('required')
+                ->prunable(),
+            File::make('Arsip SP2D', 'arsip_sp2d')
+                ->disk('arsip')
+                ->rules('mimes:pdf')
+                ->acceptedTypes('.pdf')
+                ->creationRules('required')
+                ->prunable(),
         ];
     }
 
@@ -92,8 +95,7 @@ class RealisasiAnggaran extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -103,8 +105,7 @@ class RealisasiAnggaran extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -114,10 +115,7 @@ class RealisasiAnggaran extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [
-            LensesRealisasiAnggaran::make(),
-            RencanaPenarikanDana::make(),
-        ];
+        return [];
     }
 
     /**

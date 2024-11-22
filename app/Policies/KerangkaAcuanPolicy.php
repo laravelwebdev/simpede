@@ -24,7 +24,7 @@ class KerangkaAcuanPolicy
      */
     public function view(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
-        if (session('role') === 'koordinator' || session('role') === 'anggota') {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return Policy::make()
                 ->allowedFor('koordinator,anggota')
                 ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))

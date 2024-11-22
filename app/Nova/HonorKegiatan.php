@@ -182,7 +182,7 @@ class HonorKegiatan extends Resource
                     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
-                    ->showOnIndex(fn () => session('role') == 'ppk')
+                    ->showOnIndex(fn () => Policy::make()->allowedFor('ppk')->get())
                     ->readOnly(),
             ]),
 

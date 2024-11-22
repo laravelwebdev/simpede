@@ -24,7 +24,7 @@ class HonorKegiatanPolicy
      */
     public function view(User $user, HonorKegiatan $honor): bool
     {
-        if (session('role') === 'koordinator' || session('role') === 'anggota') {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return Policy::make()
                 ->allowedFor('koordinator,anggota')
                 ->withYear($honor->tahun)

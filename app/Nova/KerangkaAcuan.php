@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
@@ -27,7 +28,7 @@ class KerangkaAcuan extends Resource
 {
     use HasTabs;
 
-    public static $with = ['unitKerja', 'naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan'];
+    public static $with = ['unitKerja', 'naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan', 'daftarSp2d'];
 
     public static function label()
     {
@@ -96,6 +97,8 @@ class KerangkaAcuan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
+            BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
+
         ];
     }
 
@@ -107,6 +110,7 @@ class KerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('ID'),
             new Panel('Keterangan Umum', $this->utamaFields()),
             new Panel('Keterangan Pengadaan', $this->pengadaanFields()),
             new Panel('Penanda Tangan', $this->pengelolaFields()),
@@ -117,6 +121,10 @@ class KerangkaAcuan extends Resource
                     ->displayUsingLabels()
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
+            ]),
+            Panel::make('SPP', [
+                BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
+                    ->exceptOnForms(),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),

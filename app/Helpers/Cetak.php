@@ -233,7 +233,8 @@ class Cetak
         $data = MasterBarangPemeliharaan::find($id);
         $user = Helper::getPegawaiByUserId($data->user_id);
         $tanggal = Helper::createDateFromString($tanggal);
-            return [
+
+        return [
             'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
             'nip' => Helper::getPropertyFromCollection($user, 'nip'),
@@ -241,8 +242,25 @@ class Cetak
             'kode_barang' => $data->kode_barang,
             'nup' => $data->nup,
             'tahun' => session('year'),
-            //BUG: error
-            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=',$tanggal)->where('master_barang_pemeliharaan_id', $id)->get()->toArray(),
+            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=', $tanggal)->where('master_barang_pemeliharaan_id', $id)->get(),
+        ];
+    }
+
+    public static function karken_persediaan($id, $tanggal)
+    {
+        $data = BarangPersediaan::find($id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+        $tanggal = Helper::createDateFromString($tanggal);
+
+        return [
+            'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
+            'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'barang' => $data->nama_barang,
+            'kode_barang' => $data->kode_barang,
+            'nup' => $data->nup,
+            'tahun' => session('year'),
+            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=', $tanggal)->where('master_barang_pemeliharaan_id', $id)->get(),
         ];
     }
 

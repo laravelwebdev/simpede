@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
+use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
 use App\Nova\Filters\StatusFilter;
@@ -182,6 +183,7 @@ class HonorKegiatan extends Resource
                     }),
                 Text::make('Tim Kerja', 'unit_kerja_id')
                     ->onlyOnIndex()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $id)->first(), 'unit'))
                     ->showOnIndex(fn () => Policy::make()->allowedFor('ppk')->get())
                     ->readOnly(),
             ]),

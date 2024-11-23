@@ -839,20 +839,19 @@ class Helper
         return $spek->toArray();
     }
 
-    public static function formatDaftarPemeliharaan($daftar)
+    public static function formatDaftarPemeliharaan($spek)
     {
-        $spek = collect($daftar);
         $spek->transform(function ($item, $index) {
             $item['no'] = $index + 1;
             $item['biaya'] = self::formatRupiah($item['biaya']);
-            $item['tanggal'] = self::terbilangTanggal($item['tanggal']);
+            $item['tanggal_pemeliharaan'] = self::terbilangTanggal($item['tanggal']);
 
             return $item;
         });
 
         $arrayspek = $spek->toArray();
 
-        return empty($arrayspek) ? [['no' => 1, 'tanggal' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
+        return empty($arrayspek) ? [['no' => 1, 'tanggal_pemeliharaan' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
     }
 
     /**

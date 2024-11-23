@@ -149,7 +149,7 @@ class BarangPersediaan extends Resource
             $fields[] =
             Number::make('Jumlah', 'volume')
                 ->step(1)
-                ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
+                ->dependsOn(['master_persediaan_id'], function (Number $field, NovaRequest $request, FormData $form) {
                     $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
                     $field
                         ->help('Stok tersedia '.$stok)
@@ -184,7 +184,7 @@ class BarangPersediaan extends Resource
             $fields[] =
             Number::make('Jumlah', 'volume')
                 ->step(1)
-                ->dependsOn(['master_persediaan_id'], function (Field $field, NovaRequest $request, FormData $form) {
+                ->dependsOn(['master_persediaan_id'], function (Number $field, NovaRequest $request, FormData $form) {
                     $stok = Helper::cekStokPersediaan($form->master_persediaan_id);
                     $field
                         ->help('Stok tersedia '.$stok)

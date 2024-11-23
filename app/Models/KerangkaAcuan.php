@@ -29,6 +29,12 @@ class KerangkaAcuan extends Model
         return $this->belongsTo(UnitKerja::class);
     }
 
+    public function daftarSp2d(): BelongsTo
+    {
+        return $this->belongsTo(DaftarSp2d::class);
+    }
+
+
     public function arsipDokumen(): HasMany
     {
         return $this->hasMany(ArsipDokumen::class);

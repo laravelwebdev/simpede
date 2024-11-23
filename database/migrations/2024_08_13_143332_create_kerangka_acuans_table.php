@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('awal')->nullable();
             $table->date('akhir')->nullable();
             $table->string('status', 20)->nullable();
+            $table->mediumInteger('daftar_sp2d_id')->unsigned()->nullable();
             $table->mediumInteger('naskah_keluar_id')->unsigned()->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();

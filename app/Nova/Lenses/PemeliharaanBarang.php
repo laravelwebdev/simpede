@@ -120,6 +120,7 @@ class PemeliharaanBarang extends Lens
                 ->showInline()
                 ->showOnDetail()
                 ->withTanggal()
+                ->withOptionPengelola('bmn')
                 ->confirmButtonText('Unduh');
         }
 

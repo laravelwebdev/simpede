@@ -5,12 +5,15 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
 
 class DaftarSp2d extends Resource
 {
+    public static $with = ['kerangkaAcuan'];
     /**
      * The model the resource corresponds to.
      *
@@ -67,12 +70,13 @@ class DaftarSp2d extends Resource
 
             Text::make('Nomor SP2D', 'nomor_sp2d')
                 ->sortable()
+                ->copyable()
                 ->readonly(),
 
             Text::make('Uraian', 'uraian')
                 ->sortable()
                 ->readonly(),
-
+            Panel::make('Arsip', [
             File::make('Arsip SPM', 'arsip_spm')
                 ->disk('arsip')
                 ->rules('mimes:pdf')
@@ -85,6 +89,8 @@ class DaftarSp2d extends Resource
                 ->acceptedTypes('.pdf')
                 ->creationRules('required')
                 ->prunable(),
+            ]),
+            HasMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
         ];
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -24,6 +25,10 @@ class Download extends Action
 
     protected bool $withTanggal = false;
 
+    protected bool $withOptionPengelola = false;
+
+    protected string $role;
+
     public function __construct($jenis, $title = 'Unduh')
     {
         $this->jenis = $jenis;
@@ -33,6 +38,14 @@ class Download extends Action
     public function withTanggal()
     {
         $this->withTanggal = true;
+
+        return $this;
+    }
+
+    public function withOptionPengelola($role)
+    {
+        $this->withOptionPengelola = true;
+        $this->role = $role;
 
         return $this;
     }
@@ -70,7 +83,6 @@ class Download extends Action
             ->default(fn () => uniqid()),
         Select::make('Template')
             ->rules('required')
-            ->displayUsingLabels()
             ->options(Helper::setOptionTemplate($this->jenis)),
         ];
 
@@ -78,6 +90,14 @@ class Download extends Action
             $fields[] = Date::make('Tanggal', 'tanggal')
                 ->rules('required', 'date', 'before_or_equal:today')
                 ->default(now());
+        }
+
+        if ($this->withOptionPengelola) {
+            $fields[] = Select::make('Pengelola')
+                ->rules('required')
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionPengelola($this->role, $form->tanggal));
+                });
         }
 
         return $fields;

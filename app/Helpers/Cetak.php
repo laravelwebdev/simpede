@@ -13,6 +13,7 @@ use App\Models\HonorKegiatan;
 use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
 use App\Models\MasterBarangPemeliharaan;
+use App\Models\MasterPersediaan;
 use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
 use App\Models\PerjalananDinas;
@@ -33,7 +34,7 @@ class Cetak
      * @param  string  $filename
      * @return string
      */
-    public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null)
+    public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
         $mainTemplate = null;
         $mainXml = '';
@@ -41,7 +42,7 @@ class Cetak
         foreach ($models as $index => $model) {
             self::validate($jenis, $model->id);
 
-            $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal);
+            $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
 
             if ($index === 0) {
                 $mainTemplate = $template;
@@ -69,10 +70,14 @@ class Cetak
      * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
      * @return TemplateProcessor
      */
-    public static function getTemplate(string $jenis, $id, $template_id, $tanggal)
+    public static function getTemplate(string $jenis, $id, $template_id, $tanggal, $pengelola)
     {
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
-        $tanggal ? $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id, $tanggal) : $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
+        if ($tanggal || $pengelola) {
+            $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id, $tanggal, $pengelola);
+        } else {
+            $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
+        }
         if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));
             $templateProcessor->cloneRowAndSetValues('spek_no', Helper::formatSpek($data['spesifikasi']));
@@ -119,6 +124,11 @@ class Cetak
         if ($jenis === 'karken_pemeliharaan') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPemeliharaan($data['daftar_pemeliharaan']));
             unset($data['daftar_pemeliharaan']);
+        }
+
+        if ($jenis === 'karken_persediaan') {
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPersediaan($id, $data['daftar_persediaan']));
+            unset($data['daftar_persediaan']);
         }
 
         if ($jenis === 'spj') {
@@ -228,16 +238,16 @@ class Cetak
         ];
     }
 
-    public static function karken_pemeliharaan($id, $tanggal)
+    public static function karken_pemeliharaan($id, $tanggal, $pengelola)
     {
         $data = MasterBarangPemeliharaan::find($id);
-        $user = Helper::getPegawaiByUserId($data->user_id);
+        $user = Helper::getPegawaiByUserId($pengelola);
         $tanggal = Helper::createDateFromString($tanggal);
 
         return [
             'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
-            'nama' => Helper::getPropertyFromCollection($user, 'name'),
-            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'bmn' => Helper::getPropertyFromCollection($user, 'name'),
+            'nipbmn' => Helper::getPropertyFromCollection($user, 'nip'),
             'barang' => $data->nama_barang,
             'kode_barang' => $data->kode_barang,
             'nup' => $data->nup,
@@ -246,21 +256,26 @@ class Cetak
         ];
     }
 
-    public static function karken_persediaan($id, $tanggal)
+    public static function karken_persediaan($id, $tanggal, $pengelola)
     {
-        $data = BarangPersediaan::find($id);
-        $user = Helper::getPegawaiByUserId($data->user_id);
+        $data = MasterPersediaan::find($id);
+        $user = Helper::getPegawaiByUserId($pengelola);
         $tanggal = Helper::createDateFromString($tanggal);
 
         return [
-            'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
-            'nama' => Helper::getPropertyFromCollection($user, 'name'),
-            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
-            'barang' => $data->nama_barang,
-            'kode_barang' => $data->kode_barang,
-            'nup' => $data->nup,
+            'tanggal' => Helper::terbilangTanggal($tanggal),
+            'bmn' => Helper::getPropertyFromCollection($user, 'name'),
+            'nipbmn' => Helper::getPropertyFromCollection($user, 'nip'),
+            'barang' => $data->barang,
+            'kode' => $data->kode,
+            'satuan' => $data->satuan,
             'tahun' => session('year'),
-            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=', $tanggal)->where('master_barang_pemeliharaan_id', $id)->get(),
+            'daftar_persediaan' => BarangPersediaan::whereYear("tanggal_transaksi", session('year'))
+            ->where("tanggal_transaksi", "<=", $tanggal)
+            ->where("master_persediaan_id", $id)
+            ->with("barangPersediaanable")
+            ->orderBy("tanggal_transaksi", "asc") 
+            ->get(),
         ];
     }
 

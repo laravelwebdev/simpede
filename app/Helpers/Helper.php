@@ -769,8 +769,8 @@ class Helper
     {
         $speks = collect($item)
             ->transform(function ($item) {
-                $item['nilai'] = Helper::formatRupiah($item['jumlah'] * $item['harga_satuan']);
-                $item['harga_satuan'] = Helper::formatRupiah($item['harga_satuan']);
+                $item['nilai'] = self::formatRupiah($item['jumlah'] * $item['harga_satuan']);
+                $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
 
                 return $item;
             });
@@ -852,6 +852,74 @@ class Helper
         $arrayspek = $spek->toArray();
 
         return empty($arrayspek) ? [['no' => 1, 'tanggal_pemeliharaan' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
+    }
+
+    public static function formatDaftarPersediaan($id, $spek)
+    {
+        $stok = self::cekStokPersediaan($id, (session('year') - 1).'-12-31');
+        $spek->transform(function ($item, $index) use (&$stok) {
+            // Menambahkan nomor urut
+            $item['no'] = $index + 1;
+
+            // Mengubah tanggal transaksi menjadi tanggal buku
+            $item['tanggal_buku'] = self::terbilangTanggal(
+                $item['tanggal_transaksi']
+            );
+
+            // Mengambil nomor dokumen berdasarkan tipe barang persediaan
+            $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
+                "App\Models\PembelianPersediaan" => $item->barangPersediaanable
+                  ->bastNaskahKeluar->nomor,
+                "App\Models\PermintaanPersediaan" => $item->barangPersediaanable
+                  ->naskahKeluar->nomor,
+                "App\Models\PersediaanMasuk" => $item->barangPersediaanable
+                  ->nomor_dokumen,
+                "App\Models\PersediaanKeluar" => $item->barangPersediaanable
+                  ->nomor_dokumen
+            };
+
+            // Mengambil uraian berdasarkan tipe barang persediaan
+            $item['uraian'] = match (get_class($item->barangPersediaanable)) {
+                "App\Models\PembelianPersediaan" => $item->barangPersediaanable
+                  ->rincian,
+                "App\Models\PermintaanPersediaan" => 'Permintaan Persediaan oleh '.
+                  $item->barangPersediaanable->user->name.
+                  ' untuk '.
+                  $item->barangPersediaanable->kegiatan,
+                "App\Models\PersediaanMasuk" => $item->barangPersediaanable->rincian,
+                "App\Models\PersediaanKeluar" => $item->barangPersediaanable->rincian
+            };
+
+            // Menghitung volume masuk dan keluar
+            $item['masuk'] = match (get_class($item->barangPersediaanable)) {
+                "App\Models\PembelianPersediaan" => $item->volume,
+                "App\Models\PersediaanMasuk" => $item->volume,
+                default => '-'
+            };
+
+            $item['keluar'] = match (get_class($item->barangPersediaanable)) {
+                "App\Models\PermintaanPersediaan" => $item->volume,
+                "App\Models\PersediaanKeluar" => $item->volume,
+                default => '-'
+            };
+
+            // Menghitung sisa stok
+            $item['sisa'] = match (get_class($item->barangPersediaanable)) {
+                "App\Models\PembelianPersediaan", "App\Models\PersediaanMasuk" => $stok +
+                  $item['volume'],
+                "App\Models\PermintaanPersediaan",
+                "App\Models\PersediaanKeluar" => $stok - $item['volume']
+            };
+
+            // Memperbarui stok
+            $stok = $item['sisa'];
+            unset($item->barangPersediaanable);
+            return $item;
+        });
+        
+        $arrayspek =  $spek->toArray();
+
+        return empty($arrayspek) ? [['no' => 1, 'nomor_dokumen' => '-', 'tanggal_buku' => '-', 'uraian' => '-', 'masuk' => '-', 'keluar' => '-', 'sisa' => '-']] : $arrayspek;
     }
 
     /**
@@ -1077,7 +1145,7 @@ class Helper
         return DaftarHonorMitra::where('daftar_kontrak_mitra_id', $kontrak_mitra_id)->get()
             ->transform(function ($item, $index) {
                 $honor_kegiatan = HonorKegiatan::find($item['honor_kegiatan_id']);
-                $mata_anggaran = Helper::getMataAnggaranById($honor_kegiatan->mata_anggaran_id);
+                $mata_anggaran = self::getMataAnggaranById($honor_kegiatan->mata_anggaran_id);
                 $item['spek_no'] = $index + 1;
                 $item['spek_kegiatan'] = self::getPropertyFromCollection($honor_kegiatan, 'kegiatan');
                 $item['spek_mak'] = self::getPropertyFromCollection($mata_anggaran, 'mak');

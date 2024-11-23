@@ -83,11 +83,13 @@ class BastMitra extends Resource
                         return Helper::terbilangTanggal($tanggal);
                     })
                     ->sortable()
+                    ->readonly(Policy::make()->notAllowedFor('ppk')->get())
                     ->filterable()
                     ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()
+                    ->readonly(Policy::make()->notAllowedFor('ppk')->get())
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $default_naskah = NaskahDefault::cache()
@@ -100,6 +102,7 @@ class BastMitra extends Resource
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
+                    ->readonly(Policy::make()->notAllowedFor('ppk')->get())
                     ->onlyOnForms()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {

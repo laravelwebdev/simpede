@@ -43,7 +43,7 @@ class KontrakMitraPolicy
     public function update(User $user, KontrakMitra $kontrak): bool
     {
         return Policy::make()
-            ->allowedFor('ppk')
+            ->allowedFor('ppk,arsiparis')
             ->withYear($kontrak->tahun)
             ->get();
     }

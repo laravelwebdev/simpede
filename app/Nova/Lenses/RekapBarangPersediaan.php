@@ -2,6 +2,8 @@
 
 namespace App\Nova\Lenses;
 
+use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use App\Nova\Filters\Keberadaan;
 use App\Nova\Metrics\PembukuanBarangPersediaan;
 use App\Nova\Metrics\StatusPembelianPersediaan;
@@ -132,9 +134,18 @@ class RekapBarangPersediaan extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('kasubbag,bmn')) {
+            $actions[] =
+            Download::make('karken_persediaan', 'Unduh Kartu kendali Persediaan')
+                ->showInline()
+                ->showOnDetail()
+                ->withTanggal()
+                ->withOptionPengelola('bmn')
+                ->confirmButtonText('Unduh');
+        }
 
-        ];
+        return $actions;
     }
 
     /**

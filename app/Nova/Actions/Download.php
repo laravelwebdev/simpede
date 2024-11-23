@@ -62,7 +62,7 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template, $fields->tanggal);
+        $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template, $fields->tanggal, $fields->pengelola);
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,

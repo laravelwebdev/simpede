@@ -33,7 +33,7 @@ class DaftarSp2d extends Resource
      */
     public function title()
     {
-        return 'SPP Nomor: '.$this->nomor_spp;
+        return $this->nomor_spp;
     }
 
     public function subtitle()

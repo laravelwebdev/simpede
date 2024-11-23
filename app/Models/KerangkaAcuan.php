@@ -11,7 +11,7 @@ use Laravel\Nova\Nova;
 
 class KerangkaAcuan extends Model
 {
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'daftar_sp2d_id'];
 
     protected $casts = [
         'tanggal' => 'date',

@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
+use App\Models\DaftarSp2d;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
@@ -914,10 +915,11 @@ class Helper
             // Memperbarui stok
             $stok = $item['sisa'];
             unset($item->barangPersediaanable);
+
             return $item;
         });
-        
-        $arrayspek =  $spek->toArray();
+
+        $arrayspek = $spek->toArray();
 
         return empty($arrayspek) ? [['no' => 1, 'nomor_dokumen' => '-', 'tanggal_buku' => '-', 'uraian' => '-', 'masuk' => '-', 'keluar' => '-', 'sisa' => '-']] : $arrayspek;
     }
@@ -1285,6 +1287,24 @@ class Helper
         }
 
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
+    }
+
+    public static function setOptionsNomorSpp($kerangka_acuan_id, $dipa_id)
+    {
+        $options = DaftarSp2d::where('dipa_id', $dipa_id)
+            ->whereIn('nomor_spp', function ($query) use ($kerangka_acuan_id) {
+                $query->select('nomor_spp')
+                    ->from('realisasi_anggarans')
+                    ->whereIn('mata_anggaran_id', function ($subQuery) use ($kerangka_acuan_id) {
+                        $subQuery->select('mata_anggaran_id')
+                            ->from('anggaran_kerangka_acuans')
+                            ->where('kerangka_acuan_id', $kerangka_acuan_id);
+                    });
+            })
+            ->pluck('nomor_spp', 'id')
+            ->toArray();
+
+        return $options;
     }
 
     /**

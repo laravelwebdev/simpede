@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
+use App\Nova\Actions\AttachSpm;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
@@ -182,6 +183,15 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
+        if (Policy::make()->allowedFor('arsiparis,ppspm')->get()) {
+            $actions[] =
+            AttachSpm::make($this->model())
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Tambahkan SPM')
+                ->exceptOnIndex();
+        }
+
 
         return $actions;
     }

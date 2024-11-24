@@ -77,7 +77,7 @@ class DaftarSp2d extends Resource
                 ->sortable()
                 ->readonly(),
             Panel::make('Arsip', [
-            File::make('Arsip SPM', 'arsip_spm')
+            File::make('Arsip', 'arsip_spm')
                 ->disk('arsip')
                 ->rules('mimes:pdf')
                 ->acceptedTypes('.pdf')

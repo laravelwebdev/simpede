@@ -5,11 +5,14 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportRekapPresensi;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class RewardPegawai extends Resource
 {
@@ -62,8 +65,8 @@ class RewardPegawai extends Resource
                 ->searchable()
                 ->filterable()
                 ->displayUsingLabels()
-                ->creationRules('unique:reward_pegawais,bulan')
-                ->updateRules('unique:reward_pegawais,bulan,{{resourceId}}'),
+                ->updateRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))->ignore($this->id))
+                ->creationRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))),
             BelongsTo::make('Employee of The Month', 'user', 'App\Nova\User')
                 ->exceptOnForms(),
             BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
@@ -71,6 +74,15 @@ class RewardPegawai extends Resource
             Status::make('Status')
                 ->loadingWhen(['dibuat','dinilai','diimport'])
                 ->failedWhen(['outdated']),
+                Panel::make('Arsip', [
+                    File::make('Arsip Kertas Kerja', 'arsip')
+                        ->disk('arsip')
+                        ->rules('mimes:pdf')
+                        ->acceptedTypes('.pdf')
+                        ->hideWhenCreating()
+                        ->updateRules('required')
+                        ->prunable(),
+                    ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];
     }

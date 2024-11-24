@@ -82,6 +82,7 @@ class DaftarPenilaianReward extends Resource
                 ->exceptOnForms(),
             Number::make('Total Nilai', 'nilai_total')
                 ->exceptOnForms(),
+                
         ];
     }
 

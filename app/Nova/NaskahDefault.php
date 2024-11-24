@@ -66,6 +66,7 @@ class NaskahDefault extends Resource
         return [
             Select::make('Jenis Template', 'jenis')
                 ->sortable()
+                ->searchable()
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options(Helper::$template),
@@ -97,6 +98,7 @@ class NaskahDefault extends Resource
             Select::make('Jenis Template', 'jenis')
                 ->sortable()
                 ->rules('required')
+                ->searchable()
                 ->displayUsingLabels()
                 ->options(Helper::$template),
             BelongsTo::make('Jenis Naskah')
@@ -119,6 +121,7 @@ class NaskahDefault extends Resource
         return [
             Select::make('Jenis Template', 'jenis')
                 ->sortable()
+                ->searchable()
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options(Helper::$template),

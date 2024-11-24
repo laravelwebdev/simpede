@@ -66,6 +66,7 @@ class Dipa extends Resource
         return [
             Select::make('Tahun', 'tahun')
                 ->sortable()
+                ->searchable()
                 ->rules('required')
                 ->options(Helper::setOptionTahunDipa())
                 ->creationRules('unique:dipas,tahun')

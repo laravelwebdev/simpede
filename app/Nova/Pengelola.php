@@ -66,6 +66,7 @@ class Pengelola extends Resource
         return [
             Select::make('Role')
                 ->options(Helper::$role)
+                ->searchable()
                 ->displayUsingLabels()
                 ->rules('required'),
             Date::make('Tanggal Aktivasi', 'active')

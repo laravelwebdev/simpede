@@ -54,6 +54,7 @@ class TargetSerapanAnggaran extends Resource
         return [
             Select::make('Bulan', 'bulan')
                 ->readonly()
+                ->searchable()
                 ->filterable()
                 ->options(Helper::$bulan)
                 ->displayUsingLabels(),

@@ -70,6 +70,7 @@ class DaftarPesertaPerjalanan extends Resource
                 ->default('Banjarbaru')
                 ->rules('required'),
             Select::make('Angkutan')
+                ->searchable()
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),

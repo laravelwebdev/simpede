@@ -3,40 +3,35 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Template extends Resource
+class RewardPegawai extends Resource
 {
-    /**
-     * Get the label for the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return 'Template';
-    }
-
+    public static $with = ['user'];
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Template>
+     * @var class-string<\App\Models\RewardPegawai>
      */
-    public static $model = \App\Models\Template::class;
+    public static $model = \App\Models\RewardPegawai::class;
+
+    public static function label()
+    {
+        return 'Reward Pegawai';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nama';
+    public function title(){
+        return Helper::$bulan[$this->bulan] . ' ' . $this->tahun;
+    }
 
-    public function subtitle()
-    {
-        return Helper::$template[$this->jenis];
+    public function subtitle(){
+        return $this->user->name;
     }
 
     /**
@@ -45,39 +40,30 @@ class Template extends Resource
      * @var array
      */
     public static $search = [
-        'nama', 'jenis',
+        'user.name', 'bulan', 'tahun'
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Nama Template', 'nama')
-                ->sortable()
-                ->rules('required'),
-            Select::make('Jenis Template', 'jenis')
-                ->sortable()
+            Select::make('Bulan')
+                ->options(Helper::$bulan)
                 ->searchable()
-                ->rules('required')
                 ->displayUsingLabels()
-                ->filterable()
-                ->options(Helper::$template),
-            File::make('File')
-                ->disk('templates')
-                ->rules('mimes:xlsx,pdf,docx')
-                ->acceptedTypes('.pdf,.docx,.xlsx')
-                ->creationRules('required')
-                ->prunable(),
+                ->sortable(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -88,6 +74,7 @@ class Template extends Resource
     /**
      * Get the filters available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -98,6 +85,7 @@ class Template extends Resource
     /**
      * Get the lenses available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -108,10 +96,16 @@ class Template extends Resource
     /**
      * Get the actions available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'));
     }
 }

@@ -48,6 +48,7 @@ class AttachSpm extends Action
         return [
             Select::make('Nomor SPP', 'nomor_spp')
                 ->options(Helper::setOptionsNomorSpp($this->model->id, $this->model->dipa_id))
+                ->searchable()
                 ->rules('required'),
         ];
     }

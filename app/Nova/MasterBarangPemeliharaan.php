@@ -88,6 +88,7 @@ class MasterBarangPemeliharaan extends Resource
                 ->displayUsingLabels()
                 ->sortable()
                 ->showWhenPeeking()
+                ->searchable()
                 ->filterable()
                 ->readonly(),
             Text::make('Lokasi')

@@ -93,6 +93,7 @@ class ImportDaftarHonorMitra extends Action
                 ->help('Default Persentase Pajak'),
             Select::make('Kepka Mitra', 'kepka_mitra_id')
                 ->rules('required')
+                ->searchable()
                 ->options(Helper::setOptionKepkaMitra($this->model->first()->tahun)),
         ];
     }

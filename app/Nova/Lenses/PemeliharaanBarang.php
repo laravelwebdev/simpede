@@ -73,7 +73,7 @@ class PemeliharaanBarang extends Lens
                     'Rusak Ringan' => 'Rusak Ringan',
                 ])
                 ->displayUsingLabels()
-
+                ->searchable()
                 ->filterable()
                 ->readonly(),
             Text::make('Lokasi')

@@ -95,6 +95,7 @@ class Download extends Action
         if ($this->withOptionPengelola) {
             $fields[] = Select::make('Pengelola')
                 ->rules('required')
+                ->searchable()
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionPengelola($this->role, $form->tanggal));
                 });

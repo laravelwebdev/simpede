@@ -61,6 +61,7 @@ class KepkaMitra extends Resource
             Select::make('Tahun', 'tahun')
                 ->options(Helper::setOptionTahunDipa())
                 ->sortable()
+                ->searchable()
                 ->rules('required'),
             HasMany::make('Mitra'),
         ];

@@ -78,12 +78,14 @@ class RekapHonorMitra extends Lens
             Select::make('Jenis Kontrak', 'jenis_kontrak_id')
                 ->displayUsingLabels()
                 ->sortable()
+                ->searchable()
                 ->options(Helper::setOptionJenisKontrak(now()))
                 ->filterable()
                 ->readOnly(),
             Select::make('Bulan', 'bulan')
                 ->displayUsingLabels()
                 ->sortable()
+                ->searchable()
                 ->options(Helper::$bulan)
                 ->readOnly(),
             Text::make('Nama', 'nama')

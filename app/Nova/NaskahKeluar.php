@@ -143,6 +143,7 @@ class NaskahKeluar extends Resource
         return [
             Select::make('Derajat Kerahasiaan', 'derajat_naskah_id')
                 ->rules('required')
+                ->searchable()
                 ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(DerajatNaskah::cache()->get('all')->where('id', $kode)->first(), 'derajat'))
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsDerajatNaskah($form->tanggal));

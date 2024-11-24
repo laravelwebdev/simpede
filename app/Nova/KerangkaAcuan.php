@@ -278,6 +278,7 @@ class KerangkaAcuan extends Resource
                     'Penyedia' => 'Penyedia',
                     'Non Pengadaan' => 'Non Pengadaan
                 ', ])
+                ->searchable()
                 ->rules('required'),
             Select::make('Metode Pengadaan', 'metode')
                 ->options([
@@ -289,6 +290,7 @@ class KerangkaAcuan extends Resource
                     'E-Purchasing' => 'E-Purchasing',
                 ])
                 ->hide()
+                ->searchable()
                 ->dependsOn('jenis', function (Select $field, NovaRequest $request, FormData $formData) {
                     if ($formData->jenis === 'Penyedia') {
                         $field->show()->rules('required');

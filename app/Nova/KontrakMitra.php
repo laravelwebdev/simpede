@@ -75,6 +75,7 @@ class KontrakMitra extends Resource
                     ->displayUsingLabels()
                     ->sortable()
                     ->filterable()
+                    ->searchable()
                     ->readonly(),
                 Text::make('Nama Kontrak', 'nama_kontrak')
                     ->readonly(),
@@ -82,6 +83,7 @@ class KontrakMitra extends Resource
                     ->options(Helper::$bulan)
                     ->readonly()
                     ->sortable()
+                    ->searchable()
                     ->filterable()
                     ->exceptOnForms()
                     ->displayUsingLabels(),

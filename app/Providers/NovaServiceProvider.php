@@ -29,6 +29,7 @@ use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
 use App\Nova\RealisasiAnggaran;
+use App\Nova\RewardPegawai;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -113,6 +114,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('book-open'),
                 MenuSection::make('Kepegawaian', [
                     MenuItem::resource(User::class),
+                    MenuItem::resource(RewardPegawai::class),
                 ])->icon('user-group'),
 
                 MenuSection::make('Anggaran', [

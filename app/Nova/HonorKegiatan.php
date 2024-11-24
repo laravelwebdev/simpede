@@ -128,6 +128,7 @@ class HonorKegiatan extends Resource
                     ->rules('required')
                     ->options(Helper::$jenis_honor)
                     ->sortable()
+                    ->searchable()
                     ->filterable()
                     ->displayUsingLabels(),
                 Select::make('Bulan Kontrak', 'bulan')
@@ -146,6 +147,7 @@ class HonorKegiatan extends Resource
                     ->options(Helper::$bulan)
                     ->displayUsingLabels()
                     ->sortable()
+                    ->searchable()
                     ->filterable(),
                 Select::make('Jenis Kegiatan', 'jenis_kontrak_id')
                     ->hide()
@@ -157,6 +159,7 @@ class HonorKegiatan extends Resource
                                 ->rules('required');
                         }
                     })
+                    ->searchable()
                     ->onlyOnForms(),
                 BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
                     ->sortable()

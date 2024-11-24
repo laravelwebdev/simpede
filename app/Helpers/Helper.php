@@ -73,13 +73,16 @@ class Helper
         'kontrak' => 'Kontrak Mitra',
         'import' => 'Import',
         'kak' => 'Kerangka Acuan',
-        'spj' => 'SPJ',
-        'sk' => 'Surat Keputusan',
+        'spj' => 'SPJ Honor Mitra',
+        'sk' => 'Surat Keputusan Petugas',
         'st' => 'Surat Tugas',
         'karken_persediaan' => 'Kartu Kendali Persediaan',
         'karken_pemeliharaan' => 'Kartu Kendali Pemeliharaan',
         'kuitansi' => 'Kuitansi Perjalanan Dinas',
         'pernyataan_kendaraan' => 'Pernyataan Tidak Menggunakan Kendaraan Dinas',
+        'kertas_kerja_reward' => 'Kertas Kerja Employee Of The Month',
+        'sertifikat_reward' => 'Sertifikat Employee Of The Month',
+        'sk_reward' => 'Surat Keputusan Employee Of The Month',
     ];
 
     public static $jenis_honor = [
@@ -1316,6 +1319,24 @@ class Helper
     public static function setOptionsMataAnggaran($dipa_id)
     {
         return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
+    }
+
+    public static function setOptionsPemenang($reward_pegawai_id)
+    {
+        return User::whereIn("id", function ($query) use ($reward_pegawai_id) {
+            $query
+              ->select("user_id")
+              ->from("daftar_penilaian_rewards")
+              ->where("reward_pegawai_id", $reward_pegawai_id)
+              ->where("nilai_total", ">=", function ($subQuery) use ($reward_pegawai_id) {
+                $subQuery
+                  ->select(DB::raw("MAX(nilai_total)"))
+                  ->from("daftar_penilaian_rewards")
+                  ->where("reward_pegawai_id", $reward_pegawai_id);
+              });
+          })
+            ->pluck("name", "id")
+            ->toArray();
     }
 
     /**

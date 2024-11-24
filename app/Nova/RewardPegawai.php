@@ -5,18 +5,22 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportRekapPresensi;
+use App\Nova\Actions\SetStatus;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 class RewardPegawai extends Resource
 {
-    public static $with = ['user' , 'skNaskahKeluar', 'sertifikatNaskahKeluar', 'daftarPenilaianReward'];
+    public static $with = ['user', 'skNaskahKeluar', 'sertifikatNaskahKeluar', 'daftarPenilaianReward'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -34,11 +38,13 @@ class RewardPegawai extends Resource
      *
      * @var string
      */
-    public function title(){
-        return Helper::$bulan[$this->bulan] . ' ' . $this->tahun;
+    public function title()
+    {
+        return Helper::$bulan[$this->bulan].' '.$this->tahun;
     }
 
-    public function subtitle(){
+    public function subtitle()
+    {
         return $this->user->name;
     }
 
@@ -48,13 +54,12 @@ class RewardPegawai extends Resource
      * @var array
      */
     public static $search = [
-        'user.name', 'bulan', 'tahun'
+        'user.name', 'bulan', 'tahun',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -72,17 +77,17 @@ class RewardPegawai extends Resource
             BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
                 ->exceptOnForms(),
             Status::make('Status')
-                ->loadingWhen(['dibuat','dinilai','diimport'])
+                ->loadingWhen(['dibuat', 'dinilai', 'diimport'])
                 ->failedWhen(['outdated']),
-                Panel::make('Arsip', [
-                    File::make('Arsip Kertas Kerja', 'arsip')
-                        ->disk('arsip')
-                        ->rules('mimes:pdf')
-                        ->acceptedTypes('.pdf')
-                        ->hideWhenCreating()
-                        ->updateRules('required')
-                        ->prunable(),
-                    ]),
+            Panel::make('Arsip', [
+                File::make('Arsip Kertas Kerja', 'arsip')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->hideWhenCreating()
+                    ->updateRules('required')
+                    ->prunable(),
+            ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];
     }
@@ -90,7 +95,6 @@ class RewardPegawai extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -101,7 +105,6 @@ class RewardPegawai extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -112,7 +115,6 @@ class RewardPegawai extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -123,18 +125,43 @@ class RewardPegawai extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('kasubbag')->get())
-        $actions[] = ImportRekapPresensi::make()
-        ->confirmButtonText('Import')
-        ->showInline()
-        ->exceptOnIndex();
-        //TODO: action tandai selesai dinilai jika tidak ada lagi nilai beban dan kinerja yang 0
+        if (Policy::make()->allowedFor('kasubbag')->get()) {
+            $actions[] = ImportRekapPresensi::make()
+                ->confirmButtonText('Import')
+                ->showInline()
+                ->exceptOnIndex();
+            $actions[] =
+            SetStatus::make()
+                ->confirmButtonText('Ubah Status')
+                ->confirmText('Pastikan seluruh pegawai telah lengkap diinput penilaiannya')
+                ->onlyOnDetail()
+                ->setName('Finalkan Penilaian')
+                ->setStatus('dinilai')
+                ->withTanggal('tanggal_penilaian');
+        }
+
+        if (Policy::make()->allowedFor('kepala')->get()) {
+            $actions[] =
+            SetStatus::make()
+                ->confirmButtonText('Ubah Status')
+                ->confirmText('Setelah ditetapkan, penilaian tidak bisa diubah lagi')
+                ->onlyOnDetail()
+                ->setName('Tetapkan Pemenang')
+                ->setStatus('ditetapka')
+                ->withTanggal('tanggal_penetapan')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->status === 'dinilai';
+                });
+        }
 
         return $actions;
     }

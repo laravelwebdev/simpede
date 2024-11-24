@@ -5,9 +5,9 @@ namespace App\Nova\Actions;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Date;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SetStatus extends Action
@@ -17,6 +17,7 @@ class SetStatus extends Action
     protected $status;
     protected bool $withTanggal = false;
     protected $statusField;
+    protected $column;
 
     public function setName($name)
     {
@@ -25,9 +26,10 @@ class SetStatus extends Action
         return $this;
     }
 
-    public function withTanggal()
+    public function withTanggal($column)
     {
         $this->withTanggal = true;
+        $this->column = $column;
 
         return $this;
     }
@@ -48,7 +50,11 @@ class SetStatus extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        $model->query()->update([$this->statusField => $this->status]);
+        $model->update([$this->statusField => $this->status]);
+        if ($this->withTanggal) {
+            $model->{$this->column} = $fields->tanggal;
+            $model->save();
+        }
     }
 
     /**

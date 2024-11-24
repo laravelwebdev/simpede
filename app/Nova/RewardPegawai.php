@@ -3,12 +3,17 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportRekapPresensi;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class RewardPegawai extends Resource
 {
-    public static $with = ['user'];
+    public static $with = ['user' , 'skNaskahKeluar', 'sertifikatNaskahKeluar', 'daftarPenilaianReward'];
     /**
      * The model the resource corresponds to.
      *
@@ -55,8 +60,18 @@ class RewardPegawai extends Resource
             Select::make('Bulan')
                 ->options(Helper::$bulan)
                 ->searchable()
+                ->filterable()
                 ->displayUsingLabels()
-                ->sortable(),
+                ->creationRules('unique:reward_pegawais,bulan')
+                ->updateRules('unique:reward_pegawais,bulan,{{resourceId}}'),
+            BelongsTo::make('Employee of The Month', 'user', 'App\Nova\User')
+                ->exceptOnForms(),
+            BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
+                ->exceptOnForms(),
+            Status::make('Status')
+                ->loadingWhen(['dibuat','dinilai','diimport'])
+                ->failedWhen(['outdated']),
+            HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];
     }
 
@@ -101,11 +116,18 @@ class RewardPegawai extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('kasubbag')->get())
+        $actions[] = ImportRekapPresensi::make()
+        ->confirmButtonText('Import')
+        ->onlyOnDetail();
+        //TODO: action tandai selesai dinilai jika tidak ada lagi nilai beban dan kinerja yang 0
+
+        return $actions;
     }
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'));
+        return $query->where('tahun', session('year'))->orderBy('bulan', 'desc');
     }
 }

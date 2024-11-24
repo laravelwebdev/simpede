@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\RewardPegawai;
+use App\Models\User;
 
 class RewardPegawaiPolicy
 {
@@ -40,22 +42,24 @@ class RewardPegawaiPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, RewardPegawai $reward): bool
     {
         return Policy::make()
             ->allowedFor('kasubbag')
             ->withYear(session('year'))
+            ->andNotEqual($reward->status, 'ditetapkan')
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, RewardPegawai $reward): bool
     {
         return Policy::make()
             ->allowedFor('kasubbag')
             ->withYear(session('year'))
+            ->andNotEqual($reward->status, 'ditetapkan')
             ->get();
     }
 

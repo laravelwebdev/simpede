@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
+            $table->date('tanggal_penilaian')->nullable();
+            $table->date('tanggal_penetapan')->nullable();
             $table->mediumInteger('user_id')->nullable()->unsigned();
+            $table->mediumInteger('sk_naskah_keluar_id')->nullable()->unsigned();
+            $table->mediumInteger('sertifikat_naskah_keluar_id')->nullable()->unsigned();
             $table->string('status', 20)->nullable();
             $table->timestamps();
         });

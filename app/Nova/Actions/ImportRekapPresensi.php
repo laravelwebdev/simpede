@@ -21,7 +21,7 @@ class ImportRekapPresensi extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Impor Mitra';
+    public $name = 'Impor Rekap Presensi BOS';
 
     /**
      * Perform the action on the given models.

@@ -132,7 +132,8 @@ class RewardPegawai extends Resource
         if (Policy::make()->allowedFor('kasubbag')->get())
         $actions[] = ImportRekapPresensi::make()
         ->confirmButtonText('Import')
-        ->onlyOnDetail();
+        ->showInline()
+        ->exceptOnIndex();
         //TODO: action tandai selesai dinilai jika tidak ada lagi nilai beban dan kinerja yang 0
 
         return $actions;

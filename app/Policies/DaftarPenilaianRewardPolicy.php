@@ -3,6 +3,9 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\DaftarPenilaianReward;
+use App\Models\RewardPegawai;
+use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
@@ -45,10 +48,12 @@ class DaftarPenilaianRewardPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, DaftarPenilaianReward $daftar): bool
     {
+        $status = RewardPegawai::find($daftar->reward_pegawai_id)->status;
         return Policy::make()
             ->allowedFor('kasubbag')
+            ->andNotEqual($status, 'ditetapkan')
             ->get();
     }
 

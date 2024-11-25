@@ -136,6 +136,7 @@ class DaftarPenilaianReward extends Resource
         'nilai_kinerja' => 'desc',
         'nilai_disiplin' => 'desc',
         'nilai_beban' => 'desc',
+        'jumlah_butir' => 'desc',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)

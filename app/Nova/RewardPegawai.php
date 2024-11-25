@@ -4,9 +4,11 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportRekapPresensi;
 use App\Nova\Actions\SetStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
@@ -16,6 +18,7 @@ use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Orion\NovaGreeter\GreeterCard;
 
 class RewardPegawai extends Resource
 {
@@ -99,7 +102,26 @@ class RewardPegawai extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            GreeterCard::make()
+                ->user('Bobot: 60%')
+                ->message(text: 'Skor Kinerja')
+                ->avatar(url: Storage::disk('images')->url('trophy.svg'))
+                ->verified(text: 'Dihitung dari Nilai SKP Bulanan')
+                ->width('1/3'),
+            GreeterCard::make()
+                ->user('Bobot: 20%')
+                ->message(text: 'Skor Kedisiplinan')
+                ->avatar(url: Storage::disk('images')->url('clock.svg'))
+                ->verified(text: 'Dihitung dari ketepatan waktu melakukan presensi')
+                ->width('1/3'),
+            GreeterCard::make()
+                ->user('Bobot: 20%')
+                ->message(text: 'Skor Beban Kerja')
+                ->avatar(url: Storage::disk('images')->url('beban.svg'))
+                ->verified(text: 'Dihitung dari butir jumlah SKP bulanan')
+                ->width('1/3'),
+        ];
     }
 
     /**
@@ -141,8 +163,7 @@ class RewardPegawai extends Resource
                 ->confirmText('Pastikan seluruh pegawai telah lengkap diinput penilaiannya')
                 ->onlyOnDetail()
                 ->setName('Finalkan Penilaian')
-                ->setStatus('dinilai')
-                ->withTanggal('tanggal_penilaian');
+                ->setStatus('dinilai');
         }
 
         if (Policy::make()->allowedFor('kepala')->get()) {
@@ -152,14 +173,57 @@ class RewardPegawai extends Resource
                 ->confirmText('Setelah ditetapkan, penilaian tidak bisa diubah lagi')
                 ->onlyOnDetail()
                 ->setName('Tetapkan Pemenang')
-                ->setStatus('ditetapka')
+                ->setStatus('ditetapkan')
+                ->withUser('user_id', $this->model()->id)
                 ->withTanggal('tanggal_penetapan')
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;
                     }
 
-                    return $this->resource instanceof Model && $this->resource->status === 'dinilai';
+                    return $this->resource instanceof Model && ($this->resource->status === 'dinilai' || $this->resource->status === 'ditetapkan');
+                });
+        }
+        $actions = [];
+        if (Policy::make()->allowedFor('kasubbag,kepala')->get()) {
+            $actions[] =
+            Download::make('kertas_kerja_reward', 'Unduh Kertas Kerja')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->status === 'ditetapkan';
+                });
+            $actions[] =
+            Download::make('sk_reward', 'Unduh SK')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->status === 'ditetapkan';
+                });
+            $actions[] =
+            Download::make('sertifikat_reward', 'Unduh Sertifikat')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->status === 'ditetapkan';
                 });
         }
 

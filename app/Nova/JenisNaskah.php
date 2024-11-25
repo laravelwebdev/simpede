@@ -61,8 +61,6 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')
                 ->rules('required'),
-            Text::make('Format Penomoran', 'format')
-                ->help('Kosongkan Jika format penomoran mengikuti format berdasarkan kategori naskah'),
             File::make('Template')
                 ->disk('template_naskah')
                 ->rules('mimes:docx')

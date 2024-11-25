@@ -7,6 +7,7 @@ use App\Models\BarangPersediaan;
 use App\Models\BastMitra;
 use App\Models\DaftarKontrakMitra;
 use App\Models\DaftarPemeliharaan;
+use App\Models\DaftarPenilaianReward;
 use App\Models\DaftarPesertaPerjalanan;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
@@ -18,6 +19,7 @@ use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
 use App\Models\PerjalananDinas;
 use App\Models\PermintaanPersediaan;
+use App\Models\RewardPegawai;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
@@ -124,6 +126,11 @@ class Cetak
         if ($jenis === 'karken_pemeliharaan') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPemeliharaan($data['daftar_pemeliharaan']));
             unset($data['daftar_pemeliharaan']);
+        }
+
+        if ($jenis === 'kertas_kerja_reward') {
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPenilaian($data['daftar_penilaian']));
+            unset($data['daftar_penilaian']);
         }
 
         if ($jenis === 'karken_persediaan') {
@@ -270,12 +277,12 @@ class Cetak
             'kode' => $data->kode,
             'satuan' => $data->satuan,
             'tahun' => session('year'),
-            'daftar_persediaan' => BarangPersediaan::whereYear("tanggal_transaksi", session('year'))
-            ->where("tanggal_transaksi", "<=", $tanggal)
-            ->where("master_persediaan_id", $id)
-            ->with("barangPersediaanable")
-            ->orderBy("tanggal_transaksi", "asc") 
-            ->get(),
+            'daftar_persediaan' => BarangPersediaan::whereYear('tanggal_transaksi', session('year'))
+                ->where('tanggal_transaksi', '<=', $tanggal)
+                ->where('master_persediaan_id', $id)
+                ->with('barangPersediaanable')
+                ->orderBy('tanggal_transaksi', 'asc')
+                ->get(),
         ];
     }
 
@@ -373,6 +380,62 @@ class Cetak
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
             'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
             'daftar_petugas' => Helper::makeStMitraAndPegawai($id, $data->tanggal_st),
+        ];
+    }
+
+    public static function sertifikat_reward($id)
+    {
+        $data = RewardPegawai::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+
+        return [
+            'nomor' => NaskahKeluar::find($data->sertifikat_naskah_keluar_id)->nomor,
+            'nama' => $user->name,
+            'tahun' => $data->tahun,
+            'bulan' => Helper::$bulan[$data->bulan],
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
+        ];
+    }
+
+    public static function sk_reward($id)
+    {
+        $data = RewardPegawai::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+
+        return [
+            'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,
+            'nama' => $user->name,
+            'nip' => $user->nip,
+            'tahun' => $data->tahun,
+            'golongan' => Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_penetapan), 'golongan'),
+            'bulan' => Helper::$bulan[$data->bulan],
+            'ubulan' => strtoupper(Helper::$bulan[$data->bulan]),
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
+            'kepala' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
+
+        ];
+    }
+
+    public static function kertas_kerja_reward($id)
+    {
+        $data = RewardPegawai::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+
+        return [
+            'tahun' => $data->tahun,
+            'nama_pemenang' => $user->name,
+            'skor' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->max('nilai_total'),
+            'ubulan' => strtoupper(Helper::$bulan[$data->bulan]),
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
+            'daftar_penilaian' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->where('user_id','!=', $data->kepala_user_id)->get(),
+
         ];
     }
 

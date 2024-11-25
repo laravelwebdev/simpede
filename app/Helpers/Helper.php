@@ -520,7 +520,7 @@ class Helper
         }
 
         $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
-        $format = self::getPropertyFromCollection($jenis_naskah, 'format') ?? self::getPropertyFromCollection($kode_naskah, 'format');
+        $format = self::getPropertyFromCollection($kode_naskah, 'format');
         $nomor = strtr($format, $replaces);
 
         return [
@@ -856,6 +856,20 @@ class Helper
         $arrayspek = $spek->toArray();
 
         return empty($arrayspek) ? [['no' => 1, 'tanggal_pemeliharaan' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
+    }
+
+    public static function formatDaftarPenilaian($spek)
+    {
+        $spek->transform(function ($item, $index) {
+            $pegawai = self::getPegawaiByUserId($item['user_id']);
+            $item['no'] = $index + 1;
+            $item['nama'] = $pegawai->name;
+            $item['nip'] = $pegawai->nip;
+
+            return $item;
+        });
+
+        return $spek->toArray();
     }
 
     public static function formatDaftarPersediaan($id, $spek)
@@ -1323,19 +1337,19 @@ class Helper
 
     public static function setOptionsPemenang($reward_pegawai_id)
     {
-        return User::whereIn("id", function ($query) use ($reward_pegawai_id) {
+        return User::whereIn('id', function ($query) use ($reward_pegawai_id) {
             $query
-              ->select("user_id")
-              ->from("daftar_penilaian_rewards")
-              ->where("reward_pegawai_id", $reward_pegawai_id)
-              ->where("nilai_total", ">=", function ($subQuery) use ($reward_pegawai_id) {
-                $subQuery
-                  ->select(DB::raw("MAX(nilai_total)"))
-                  ->from("daftar_penilaian_rewards")
-                  ->where("reward_pegawai_id", $reward_pegawai_id);
-              });
-          })
-            ->pluck("name", "id")
+                ->select('user_id')
+                ->from('daftar_penilaian_rewards')
+                ->where('reward_pegawai_id', $reward_pegawai_id)
+                ->where('nilai_total', '>=', function ($subQuery) use ($reward_pegawai_id) {
+                    $subQuery
+                        ->select(DB::raw('MAX(nilai_total)'))
+                        ->from('daftar_penilaian_rewards')
+                        ->where('reward_pegawai_id', $reward_pegawai_id);
+                });
+        })
+            ->pluck('name', 'id')
             ->toArray();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
@@ -82,12 +83,24 @@ class DaftarSp2d extends Resource
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
                     ->prunable(),
                 File::make('Arsip SP2D', 'arsip_sp2d')
                     ->disk('arsip')
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
                     ->prunable(),
             ]),
             HasMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),

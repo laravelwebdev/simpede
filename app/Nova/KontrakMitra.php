@@ -146,6 +146,12 @@ class KontrakMitra extends Resource
                     ->disk('arsip')
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
                     ->prunable(),
             ]),
             HasMany::make('Daftar Kontrak Mitra'),

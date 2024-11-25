@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -65,6 +66,12 @@ class ArsipDokumen extends Resource
                 ->rules('mimes:xlsx,pdf,docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->creationRules('required')
+                ->path(session('year').'/'.static::uriKey())
+                ->storeAs(function (Request $request) {
+                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->file->getClientOriginalExtension();
+                    return $originalName.'_'.uniqid().'.'.$extension;
+                })
                 ->prunable(),
         ];
     }

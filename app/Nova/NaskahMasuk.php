@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -107,6 +108,12 @@ class NaskahMasuk extends Resource
                 ->rules('mimes:pdf')
                 ->acceptedTypes('.pdf')
                 ->creationRules('required')
+                ->path(session('year').'/'.static::uriKey())
+                ->storeAs(function (Request $request) {
+                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->file->getClientOriginalExtension();
+                    return $originalName.'_'.uniqid().'.'.$extension;
+                })
                 ->prunable(),
         ];
     }

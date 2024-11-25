@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
@@ -172,11 +173,23 @@ class NaskahKeluar extends Resource
                 ->disk('naskah')
                 ->rules('mimes:docx')
                 ->acceptedTypes('.docx')
+                ->path(session('year').'/'.static::uriKey().'/draft')
+                ->storeAs(function (Request $request) {
+                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->file->getClientOriginalExtension();
+                    return $originalName.'_'.uniqid().'.'.$extension;
+                })
                 ->prunable(),
             File::make('Signed')
                 ->disk('naskah')
                 ->rules('mimes:pdf')
                 ->acceptedTypes('.pdf')
+                ->path(session('year').'/'.static::uriKey().'/signed')
+                ->storeAs(function (Request $request) {
+                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->file->getClientOriginalExtension();
+                    return $originalName.'_'.uniqid().'.'.$extension;
+                })
                 ->prunable(),
         ];
     }

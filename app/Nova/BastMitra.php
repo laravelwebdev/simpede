@@ -9,6 +9,7 @@ use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use App\Nova\Filters\StatusFilter;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -120,6 +121,12 @@ class BastMitra extends Resource
             Panel::make('Arsip', [
                 File::make('File')
                     ->disk('arsip')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->prunable(),

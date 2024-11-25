@@ -89,6 +89,12 @@ class RewardPegawai extends Resource
                     ->acceptedTypes('.pdf')
                     ->hideWhenCreating()
                     ->updateRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
                     ->prunable(),
             ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),

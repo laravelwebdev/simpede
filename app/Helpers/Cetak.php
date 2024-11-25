@@ -434,7 +434,7 @@ class Cetak
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
             'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
-            'daftar_penilaian' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->where('user_id','!=', $data->kepala_user_id)->get(),
+            'daftar_penilaian' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->where('user_id', '!=', $data->kepala_user_id)->get(),
 
         ];
     }

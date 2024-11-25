@@ -51,8 +51,8 @@ class KerangkaAcuanPolicy
             }
 
             return Policy::make()
-                    ->allowedFor('koordinator,anggota')
-                    ->get();
+                ->allowedFor('koordinator,anggota')
+                ->get();
         });
     }
 

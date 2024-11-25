@@ -65,21 +65,18 @@ class SetStatus extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-    
+
         if ($this->withTanggal) {
             $model->{$this->column} = $fields->tanggal;
             $model->kepala_user_id = $fields->kepala;
-            
         }
         if ($this->withUser) {
             $model->{$this->userColumn} = $fields->user;
-            
         }
         if ($this->withUser || $this->withTanggal) {
             $model->save();
         }
         $model->update([$this->statusField => $this->status]);
-        
     }
 
     /**
@@ -92,20 +89,20 @@ class SetStatus extends Action
         $fields = [];
         if ($this->withUser) {
             $fields[] = Select::make('Employee of the Month', 'user')
-                    ->options(Helper::setOptionsPemenang($this->parent_id))
-                    ->searchable()
-                    ->rules('required');
+                ->options(Helper::setOptionsPemenang($this->parent_id))
+                ->searchable()
+                ->rules('required');
         }
         if ($this->withTanggal) {
             $fields[] = Date::make('Tanggal')
-                    ->default(now())
-                    ->rules('required', 'before_or_equal:today');
+                ->default(now())
+                ->rules('required', 'before_or_equal:today');
             $fields[] = Select::make('Kepala')
-                    ->searchable()
-                    ->rules('required')
-                    ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
-                        $field->options(Helper::setOptionPengelola('kepala', $form->tanggal));
-                    });
+                ->searchable()
+                ->rules('required')
+                ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                    $field->options(Helper::setOptionPengelola('kepala', $form->tanggal));
+                });
         }
 
         return $fields;

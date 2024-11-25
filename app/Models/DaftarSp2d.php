@@ -12,7 +12,7 @@ class DaftarSp2d extends Model
     ];
     protected $fillable = ['dipa_id', 'nomor_sp2d'];
 
-    public function kerangkaAcuan():HasMany
+    public function kerangkaAcuan(): HasMany
     {
         return $this->hasMany(KerangkaAcuan::class);
     }

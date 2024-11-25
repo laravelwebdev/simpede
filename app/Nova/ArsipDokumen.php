@@ -131,6 +131,7 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen';
+        //TODO: Redirect to the detail of the parent resource dan tambahkan link unduh di index
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen'  : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }
 }

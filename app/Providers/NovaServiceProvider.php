@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Helpers\Policy;
-use App\Nova\DaftarSp2d;
 use App\Nova\BastMitra;
+use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
 use App\Nova\HargaSatuan;

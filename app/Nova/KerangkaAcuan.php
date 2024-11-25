@@ -192,7 +192,6 @@ class KerangkaAcuan extends Resource
                 ->exceptOnIndex();
         }
 
-
         return $actions;
     }
 

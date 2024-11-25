@@ -14,7 +14,6 @@ use App\Nova\PersediaanKeluar as NovaPersediaanKeluar;
 use App\Nova\PersediaanMasuk as NovaPersediaanMasuk;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;

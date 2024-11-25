@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
-use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
 use App\Nova\Lenses\PemeliharaanBarang;
 use Laravel\Nova\Fields\BelongsTo;
@@ -154,6 +153,7 @@ class MasterBarangPemeliharaan extends Resource
                 ->standalone()
                 ->onlyOnIndex();
         }
+
         return $actions;
     }
 }

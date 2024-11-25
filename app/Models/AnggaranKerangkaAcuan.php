@@ -68,7 +68,7 @@ class AnggaranKerangkaAcuan extends Model
                 if ($pemeliharaan = Pemeliharaan::where('anggaran_kerangka_acuan_id', $anggaranKak->id)->first()) {
                     $pemeliharaan->rincian = $kak->rincian;
                     $pemeliharaan->save();
-                } else {                   
+                } else {
                     $pemeliharaan = new Pemeliharaan;
                     $pemeliharaan->kerangka_acuan_id = $kak->id;
                     $pemeliharaan->tanggal_kak = $kak->tanggal;

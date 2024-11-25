@@ -77,18 +77,18 @@ class DaftarSp2d extends Resource
                 ->sortable()
                 ->readonly(),
             Panel::make('Arsip', [
-            File::make('Arsip', 'arsip_spm')
-                ->disk('arsip')
-                ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf')
-                ->creationRules('required')
-                ->prunable(),
-            File::make('Arsip SP2D', 'arsip_sp2d')
-                ->disk('arsip')
-                ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf')
-                ->creationRules('required')
-                ->prunable(),
+                File::make('Arsip', 'arsip_spm')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->creationRules('required')
+                    ->prunable(),
+                File::make('Arsip SP2D', 'arsip_sp2d')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->creationRules('required')
+                    ->prunable(),
             ]),
             HasMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
         ];

@@ -33,8 +33,8 @@ class DaftarPenilaianRewardPolicy
     public function view(): bool
     {
         return Policy::make()
-        ->allowedFor('all')
-        ->get();
+            ->allowedFor('all')
+            ->get();
     }
 
     /**
@@ -51,6 +51,7 @@ class DaftarPenilaianRewardPolicy
     public function update(User $user, DaftarPenilaianReward $daftar): bool
     {
         $status = RewardPegawai::find($daftar->reward_pegawai_id)->status;
+
         return Policy::make()
             ->allowedFor('kasubbag')
             ->andNotEqual($status, 'ditetapkan')

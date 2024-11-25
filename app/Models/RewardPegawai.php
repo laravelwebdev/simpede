@@ -38,8 +38,8 @@ class RewardPegawai extends Model
     {
         static::creating(function (RewardPegawai $reward) {
             $reward->status = 'dibuat';
-        });   
-     
+        });
+
         static::deleting(function (RewardPegawai $reward) {
             $reward->daftarPenilaianReward->each->delete();
             NaskahKeluar::destroy([$reward->sk_naskah_keluar_id, $reward->sertifikat_naskah_keluar_id]);
@@ -47,7 +47,7 @@ class RewardPegawai extends Model
         static::saving(function (RewardPegawai $reward) {
             $reward->tahun = session('year');
             if ($reward->status === 'ditetapkan') {
-                if ($reward->sk_naskah_keluar_id === null) {                
+                if ($reward->sk_naskah_keluar_id === null) {
                     $default_naskah = NaskahDefault::cache()->get('all')
                         ->where('jenis', 'sk_reward')
                         ->first();
@@ -57,7 +57,7 @@ class RewardPegawai extends Model
                     $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
                     $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                     $naskahkeluar->tujuan = 'Employee of the month';
-                    $naskahkeluar->perihal = 'SK Employee of The Month Bulan ' . Helper::$bulan[$reward->bulan];
+                    $naskahkeluar->perihal = 'SK Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
                     $naskahkeluar->generate = 'A';
                     $naskahkeluar->save();
                     $reward->sk_naskah_keluar_id = $naskahkeluar->id;
@@ -68,7 +68,7 @@ class RewardPegawai extends Model
                         $naskahkeluar->save();
                     }
                 }
-                if ($reward->sertifikat_naskah_keluar_id === null) {                
+                if ($reward->sertifikat_naskah_keluar_id === null) {
                     $default_naskah = NaskahDefault::cache()->get('all')
                         ->where('jenis', 'sertifikat_reward')
                         ->first();
@@ -78,7 +78,7 @@ class RewardPegawai extends Model
                     $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
                     $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                     $naskahkeluar->tujuan = 'Employee of the month';
-                    $naskahkeluar->perihal = 'Sertifikat Employee of The Month Bulan ' . Helper::$bulan[$reward->bulan];
+                    $naskahkeluar->perihal = 'Sertifikat Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
                     $naskahkeluar->generate = 'A';
                     $naskahkeluar->save();
                     $reward->sertifikat_naskah_keluar_id = $naskahkeluar->id;
@@ -90,9 +90,6 @@ class RewardPegawai extends Model
                     }
                 }
             }
-
-
         });
     }
-
 }

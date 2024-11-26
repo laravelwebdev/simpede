@@ -17,7 +17,16 @@ INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_a
 (7, 'Template Surat Tugas dengan Lampiran', 'st', 'uYxj7Ir0cAiOBnrQ9EPEi5fqHuStnbVSHOhFijjl.docx', '2024-10-19 08:47:48', '2024-10-19 08:47:48'),
 (8, 'Kontrak Bulanan Mitra', 'kontrak', 'NMkRjA9CIjEGH6Otv1VdnDL1dt2tQFY4dXm0W8Sg.docx', '2024-10-28 20:24:49', '2024-10-28 20:24:49'),
 (9, 'BAST Kontrak Bulanan Mitra', 'bast', 'm3yoHzM7gYlvy2F6KDKSlFtyeYNe36eqKLh8FoYU.docx', '2024-10-28 21:31:58', '2024-10-28 21:31:58'),
-(10, 'Template Import Master Persediaan', 'import', 'zUCmuLwHj8P0d50lunRAYlQGESuUTwaECHs7hvEx.xlsx', '2024-11-03 10:55:29', '2024-11-03 10:55:29');
+(10, 'Template Import Master Persediaan', 'import', 'zUCmuLwHj8P0d50lunRAYlQGESuUTwaECHs7hvEx.xlsx', '2024-11-03 10:55:29', '2024-11-03 10:55:29'),
+(11, 'Template BAST Barang Persediaan', 'bastp', '8XlIOq9mjiZWYRhQE22KUkPKRDLzZDOdqtjoJiyy.docx', '2024-11-03 16:27:42', '2024-11-03 16:27:42'),
+(12, 'Template Bon Persediaan', 'bon', 'kA4gjL7ih9kVU5CNpew9noR35RJpPuPq8rgPvZ3B.docx', '2024-11-03 16:28:07', '2024-11-03 16:28:07'),
+(13, 'Template Kartu Kendali Persediaan', 'karken_persediaan', 'WRk2WCqEB8uhrnEtQ2OuvYltRDl9WZQrspUiyZri.docx', '2024-11-18 21:03:15', '2024-11-20 17:27:45'),
+(14, 'Template Pernyataan Tidak Menggunakan Kendaraan Dinas', 'pernyataan_kendaraan', 'IytKaQ2YJMPd8YVXfG43ERNVkrYOukleAZGYia5S.docx', '2024-11-20 17:31:39', '2024-11-20 17:34:16'),
+(15, 'Template Kuitansi Perjalanan Dinas', 'kuitansi', 'TBluazR6HO1B8zlWt3HR1mQKsgQ412EcSXrQpgVM.docx', '2024-11-20 17:35:55', '2024-11-20 20:18:21'),
+(16, 'Template Kartu Kendali Pemeliharaan BMN', 'karken_pemeliharaan', 'PK9c7nZ68UmuwNid1q5LtP9Jz981J1FwKr9YEcvE.docx', '2024-11-20 17:37:31', '2024-11-20 17:37:31'),
+(17, 'Template Kertas Kerja Employee Of The Month', 'kertas_kerja_reward', '1KOF4WgsSMoKmH8EKUkqBzVgkSvTrNwm9krFHRg9.docx', '2024-11-25 19:08:14', '2024-11-25 19:08:14'),
+(18, 'Template Sertifikat Employee Of The Month', 'sertifikat_reward', 'HnihTnXjdITBB6z8etWmegpEOjyXAjcfVWZIWWR3.docx', '2024-11-25 19:08:41', '2024-11-25 19:08:41'),
+(19, 'Template  Surat Keputusan Employee Of The Month', 'sk_reward', 'GqIcQlspcqsXSx9tOZTxM89X12EMCXU623jgebF7.docx', '2024-11-25 19:09:01', '2024-11-25 19:09:01');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

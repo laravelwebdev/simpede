@@ -8,6 +8,8 @@ use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
 use App\Nova\Filters\StatusFilter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
@@ -16,6 +18,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -153,6 +156,12 @@ class KontrakMitra extends Resource
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
+                    $this->file ?
+                    URL::make('Arsip', fn () => Storage::disk('naskah')
+                        ->url($this->file))
+                        ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                        :
+                    Text::make('Arsip', fn () => '—')->onlyOnIndex(),
             ]),
             HasMany::make('Daftar Kontrak Mitra'),
         ];

@@ -115,6 +115,12 @@ class NaskahMasuk extends Resource
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
+                $this->arsip ?
+                URL::make('Arsip', fn () => Storage::disk('naskah')
+                    ->url($this->arsip))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
         ];
     }
 

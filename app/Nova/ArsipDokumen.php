@@ -4,8 +4,10 @@ namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArsipDokumen extends Resource
@@ -73,6 +75,12 @@ class ArsipDokumen extends Resource
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
+                $this->file ?
+                URL::make('Arsip', fn () => Storage::disk('naskah')
+                    ->url($this->file))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
         ];
     }
 
@@ -131,7 +139,6 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        //TODO: Redirect to the detail of the parent resource dan tambahkan link unduh di index
         return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen'  : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }
 }

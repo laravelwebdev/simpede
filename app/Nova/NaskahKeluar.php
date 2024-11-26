@@ -191,6 +191,12 @@ class NaskahKeluar extends Resource
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
+                $this->signed ?
+                URL::make('Arsip', fn () => Storage::disk('naskah')
+                    ->url($this->signed))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
         ];
     }
 

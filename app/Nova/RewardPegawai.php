@@ -8,6 +8,7 @@ use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportRekapPresensi;
 use App\Nova\Actions\SetStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
@@ -15,6 +16,8 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -96,6 +99,12 @@ class RewardPegawai extends Resource
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
+                    $this->arsip ?
+                    URL::make('Arsip', fn () => Storage::disk('naskah')
+                        ->url($this->arsip))
+                        ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                        :
+                    Text::make('Arsip', fn () => '—')->onlyOnIndex(),
             ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];

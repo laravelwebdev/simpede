@@ -117,6 +117,6 @@ class JenisKontrak extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId  : '/'.'resources'.'/'.'harga-satuans'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'harga-satuans'.'/';
     }
 }

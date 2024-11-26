@@ -140,6 +140,6 @@ class JenisNaskah extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId  : '/'.'resources'.'/'.'tata-naskahs'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'tata-naskahs'.'/';
     }
 }

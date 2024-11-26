@@ -72,15 +72,16 @@ class ArsipDokumen extends Resource
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
                     $extension = $request->file->getClientOriginalExtension();
+
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
-                $this->file ?
-                URL::make('Arsip', fn () => Storage::disk('naskah')
-                    ->url($this->file))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
-                    :
-                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+            $this->file ?
+            URL::make('Arsip', fn () => Storage::disk('naskah')
+                ->url($this->file))
+                ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                :
+            Text::make('Arsip', fn () => '—')->onlyOnIndex(),
         ];
     }
 
@@ -139,6 +140,6 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen'  : '/'.'resources'.'/'.'kerangka-acuans'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen' : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }
 }

@@ -117,7 +117,7 @@ class TargetSerapanAnggaran extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Anggaran%20dan%20Target%20Serapan=target-serapan-anggaran'  : '/'.'resources'.'/'.'dipas'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Anggaran%20dan%20Target%20Serapan=target-serapan-anggaran' : '/'.'resources'.'/'.'dipas'.'/';
     }
 
     public static $indexDefaultOrder = [

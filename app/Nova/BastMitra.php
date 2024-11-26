@@ -128,17 +128,18 @@ class BastMitra extends Resource
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
                         $extension = $request->file->getClientOriginalExtension();
+
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->prunable(),
-                    $this->file ?
-                    URL::make('Arsip', fn () => Storage::disk('naskah')
-                        ->url($this->file))
-                        ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
-                        :
-                    Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+                $this->file ?
+                URL::make('Arsip', fn () => Storage::disk('naskah')
+                    ->url($this->file))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
             ]),
 
             HasMany::make('Daftar Kontrak Mitra'),

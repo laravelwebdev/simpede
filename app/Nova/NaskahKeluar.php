@@ -177,6 +177,7 @@ class NaskahKeluar extends Resource
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
                     $extension = $request->file->getClientOriginalExtension();
+
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
@@ -188,15 +189,16 @@ class NaskahKeluar extends Resource
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
                     $extension = $request->file->getClientOriginalExtension();
+
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
-                $this->signed ?
-                URL::make('Arsip', fn () => Storage::disk('naskah')
-                    ->url($this->signed))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
-                    :
-                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+            $this->signed ?
+            URL::make('Arsip', fn () => Storage::disk('naskah')
+                ->url($this->signed))
+                ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                :
+            Text::make('Arsip', fn () => '—')->onlyOnIndex(),
         ];
     }
 

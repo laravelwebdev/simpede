@@ -118,6 +118,6 @@ class DerajatNaskah extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail%20Naskah=derajat-naskah';
-    }
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail%20Naskah=derajat-naskah'  : '/'.'resources'.'/'.'tata-naskahs'.'/';
+     }
 }

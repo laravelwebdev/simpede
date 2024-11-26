@@ -142,6 +142,6 @@ class SpesifikasiKerangkaAcuan extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=spesifikasi';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=spesifikasi'  : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }
 }

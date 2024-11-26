@@ -41,6 +41,6 @@ class RoFilter extends Filter
      */
     public function options(NovaRequest $request)
     {
-        return array_flip(Helper::setOptionsRo(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id));
+        return array_flip(Helper::setOptionsRo(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(),'id')));
     }
 }

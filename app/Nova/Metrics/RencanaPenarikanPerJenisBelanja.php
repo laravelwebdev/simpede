@@ -23,7 +23,7 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
         ]);
 
         $this->title('Monitoring Rencana Penarikan Dana');
-        $dipaId = Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id;
+        $dipaId  = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(),'id');
         $bulan = date('m');
 
         $datas = DB::table('mata_anggarans')

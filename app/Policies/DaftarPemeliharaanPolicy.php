@@ -23,9 +23,7 @@ class DaftarPemeliharaanPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('kasubbag,koordinator,anggota,bmn')
-            ->get();
+        return false;
     }
 
     /**

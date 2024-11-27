@@ -124,7 +124,7 @@ class ImportMataAnggaran extends Action
             Date::make('Tanggal Revisi', 'tanggal_revisi')
                 ->rules('required'),
             Boolean::make('Revisi RPD Triwulanan?', 'update_rpd')
-                ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap awal triwulan'),
+                ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap triwulan'),
             Heading::make('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
         ];
     }

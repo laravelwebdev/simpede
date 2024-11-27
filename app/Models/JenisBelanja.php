@@ -37,7 +37,7 @@ class JenisBelanja extends Model
     protected static function booted(): void
     {
         static::deleting(function (JenisBelanja $jenis) {
-            $targetIds = TargetSerapanAnggaran::where('jenis_belanja_id', $dipa->id)->pluck('id');
+            $targetIds = TargetSerapanAnggaran::where('jenis_belanja_id', $jenis->id)->pluck('id');
             TargetSerapanAnggaran::cache()->disable();
             TargetSerapanAnggaran::destroy($targetIds);
             TargetSerapanAnggaran::cache()->enable();

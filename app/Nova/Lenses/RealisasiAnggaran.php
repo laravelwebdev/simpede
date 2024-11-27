@@ -31,7 +31,7 @@ class RealisasiAnggaran extends Lens
 
     public function name()
     {
-        $tanggal = Helper::getPropertyFromCollection(Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()), 'tanggal_realisasi');
+        $tanggal = Helper::terbilangTanggal(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'tanggal_realisasi'));
         return $tanggal ? 'Realisasi SP2D per '.Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->tanggal_realisasi) : 'Realisasi SP2D';
     }
 

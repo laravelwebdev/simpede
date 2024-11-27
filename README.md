@@ -36,7 +36,7 @@ Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:
 
 Rekomendasi shared hosting murah: 
 <p><a href="https://niagahoster.co.id?REFERRALCODE=NH8UMUMHSEQ5" target="_blank">
-https://www.cuponation.co.id/images/fit-in/256x/images/n/niagahoster.png
+<img src="https://www.cuponation.co.id/images/fit-in/256x/images/n/niagahoster.png">
 </a></p>
 
 - Buat database.

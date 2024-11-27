@@ -14,7 +14,7 @@ class KontrakMitraPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
+            ->notAllowedFor('admin')
             ->get();
     }
 
@@ -25,7 +25,7 @@ class KontrakMitraPolicy
     {
         return Policy::make()
             ->withYear($kontrak->tahun)
-            ->allowedFor('all')
+            ->notAllowedFor('admin')
             ->get();
     }
 

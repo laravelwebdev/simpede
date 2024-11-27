@@ -51,7 +51,7 @@ class ImportKamusAnggaran extends Action
         KamusAnggaran::cache()->enable();
         KamusAnggaran::cache()->updateAll();
 
-        return Action::message('Kamus Anggaran sukses diimport!');
+        return Action::message('POK Satu DJA sukses diimport!');
     }
 
     /**

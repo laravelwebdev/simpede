@@ -107,7 +107,7 @@ class MasterPersediaan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('bmn')->get()) {
+        if (Policy::make()->allowedFor('admin,bmn')->get()) {
             $actions[] =
             ImportMasterPersediaan::make()
                 ->standalone()

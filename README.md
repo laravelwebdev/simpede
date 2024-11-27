@@ -70,7 +70,7 @@ Rekomendasi shared hosting murah:
     ```
 - Update dependencies (gunakan composer2):
     ```bash
-    composer2 update
+    composer2 update --no-dev
     ```
 - Rename file .env.example menjadi .env dan edit variabel berikut:
     * `APP_URL`: URL website.

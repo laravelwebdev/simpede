@@ -77,7 +77,7 @@ class ArsipDokumen extends Resource
                 })
                 ->prunable(),
             $this->file ?
-            URL::make('Arsip', fn () => Storage::disk('naskah')
+            URL::make('Arsip', fn () => Storage::disk('arsip')
                 ->url($this->file))
                 ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                 :

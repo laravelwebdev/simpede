@@ -94,7 +94,7 @@ class DaftarSp2d extends Resource
                     })
                     ->prunable(),
                 $this->arsip_spm ?
-                URL::make('Arsip SPM', fn () => Storage::disk('naskah')
+                URL::make('Arsip SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_spm))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
@@ -114,7 +114,7 @@ class DaftarSp2d extends Resource
                     })
                     ->prunable(),
                 $this->arsip_sp2d ?
-                URL::make('Arsip SP2D', fn () => Storage::disk('naskah')
+                URL::make('Arsip SP2D', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sp2d))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :

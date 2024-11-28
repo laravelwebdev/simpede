@@ -46,6 +46,7 @@ class MataAnggaran extends Resource
     public static $search = [
         'mak', 'uraian',
     ];
+//TODO: BUAT SERACHABLE TEXT
 
     /**
      * Get the fields displayed by the resource.

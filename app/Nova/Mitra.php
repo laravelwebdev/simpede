@@ -60,7 +60,7 @@ class Mitra extends Resource
         return [
             Text::make('NIK', 'nik')
                 ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)->ignore($this->id))
-                ->onlyOnCreating()
+                ->showOnCreating()
                 ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)),
             Text::make('Nama', 'nama')
                 ->sortable()

@@ -210,7 +210,10 @@ class Helper
 
     public static function formatTelepon($telepon)
     {
-        return "https://wa.me/{$telepon}";
+        $wa = str_replace('+62 08', '628', $telepon);
+        $wa = str_replace('+62 ', '62', $wa);
+        $wa = str_replace('-', '', $wa);
+        return "https://wa.me/{$wa}";
     }
 
     /**

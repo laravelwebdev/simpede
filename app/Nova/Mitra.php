@@ -60,7 +60,7 @@ class Mitra extends Resource
         return [
             Text::make('NIK', 'nik')
                 ->updateRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)->ignore($this->id))
-                ->showOnCreating()
+                ->hideWhenUpdating()
                 ->onlyOnForms()
                 ->creationRules('required', 'min:16', 'max:16', Rule::unique('mitras', 'nik')->where('kepka_mitra_id', $request->viaResourceId)),
             Text::make('Nama', 'nama')
@@ -80,11 +80,24 @@ class Mitra extends Resource
             Text::make('NPWP')->showWhenPeeking(),
             Text::make('Telepon')
                 ->onlyOnForms(),
-            URL::make('Telepon', fn () => Helper::formatTelepon($this->telepon))
-                ->displayUsing(fn () => $this->telepon)
-                ->exceptOnForms(),
             Text::make('Rekening', 'rekening')->showWhenPeeking()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
+        ];
+    }
+
+    public function fieldsforIndex(NovaRequest $request)
+    {
+        return [
+            Text::make('Nama', 'nama')
+                ->sortable(),
+            Email::make('Email', 'email')
+                ->sortable(),
+            Date::make('Tanggal Lahir', 'tanggal_lahir')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            Text::make('NPWP'),
+            URL::make('Telepon', fn () => Helper::formatTelepon($this->telepon))
+                ->displayUsing(fn () => $this->telepon),
+            Text::make('Rekening', 'rekening'),
         ];
     }
 

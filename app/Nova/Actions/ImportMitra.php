@@ -35,7 +35,7 @@ class ImportMitra extends Action
             if ($row['Status Seleksi (1=Terpilih, 2=Tidak Terpilih)'] == 'Diterima') {
                 $mitra = Mitra::firstOrNew(
                     [
-                        'nik' => $row['NIK'],
+                        'email' => $row['Email'],
                         'kepka_mitra_id' => $model->id,
                     ]
                 );

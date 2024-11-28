@@ -32,7 +32,7 @@ class ImportMitra extends Action
         Mitra::cache()->disable();
         Mitra::where('kepka_mitra_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model) {
-            if ($row['Status Seleksi (1=Terpilih, 2=Tidak Terpilih)'] == 1) {
+            if ($row['Status Seleksi (1=Terpilih, 2=Tidak Terpilih)'] == 'Diterima') {
                 $mitra = Mitra::firstOrNew(
                     [
                         'nik' => $row['NIK'],

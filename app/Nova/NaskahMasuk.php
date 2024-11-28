@@ -110,8 +110,8 @@ class NaskahMasuk extends Resource
                 ->creationRules('required')
                 ->path(session('year').'/'.static::uriKey())
                 ->storeAs(function (Request $request) {
-                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $extension = $request->file->getClientOriginalExtension();
+                    $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->arsip->getClientOriginalExtension();
 
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })

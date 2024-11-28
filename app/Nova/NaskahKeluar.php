@@ -175,8 +175,8 @@ class NaskahKeluar extends Resource
                 ->acceptedTypes('.docx')
                 ->path(session('year').'/'.static::uriKey().'/draft')
                 ->storeAs(function (Request $request) {
-                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $extension = $request->file->getClientOriginalExtension();
+                    $originalName = pathinfo($request->draft->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->draft->getClientOriginalExtension();
 
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
@@ -187,8 +187,8 @@ class NaskahKeluar extends Resource
                 ->acceptedTypes('.pdf')
                 ->path(session('year').'/'.static::uriKey().'/signed')
                 ->storeAs(function (Request $request) {
-                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $extension = $request->file->getClientOriginalExtension();
+                    $originalName = pathinfo($request->signed->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $request->signed->getClientOriginalExtension();
 
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })

@@ -87,8 +87,8 @@ class DaftarSp2d extends Resource
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->file->getClientOriginalExtension();
+                        $originalName = pathinfo($request->arsip_spm->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip_spm->getClientOriginalExtension();
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
@@ -107,8 +107,8 @@ class DaftarSp2d extends Resource
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->file->getClientOriginalExtension();
+                        $originalName = pathinfo($request->arsip_sp2d->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip_sp2d->getClientOriginalExtension();
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })

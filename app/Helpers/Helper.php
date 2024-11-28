@@ -208,6 +208,11 @@ class Helper
         return $name;
     }
 
+    public static function formatTelepon($telepon)
+    {
+        return "https://wa.me/{$telepon}";
+    }
+
     /**
      * Mengubah tanggal ke nama hari.
      *

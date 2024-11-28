@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Mitra extends Resource
@@ -77,7 +78,10 @@ class Mitra extends Resource
                 ->hideFromIndex()
                 ->rules('required'),
             Text::make('NPWP')->showWhenPeeking(),
-            Text::make('Telepon')->showWhenPeeking(),
+            Text::make('Telepon')
+                ->onlyOnForms(),
+            URL::make('Telepon', fn ($telepon) =>Helper::formatTelepon($telepon))
+                ->exceptOnForms(),
             Text::make('Rekening', 'rekening')->showWhenPeeking()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];

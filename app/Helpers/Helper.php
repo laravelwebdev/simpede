@@ -290,6 +290,11 @@ class Helper
         return number_format($angka, 0, ',', '.');
     }
 
+    public static function asterikNik($nik)
+    {
+        return substr($nik, 0, 4) . str_repeat('*', 10) . substr($nik, 14);
+    }
+
     /**
      * Generate jangka waktu.
      *

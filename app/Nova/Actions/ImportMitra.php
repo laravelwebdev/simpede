@@ -40,10 +40,10 @@ class ImportMitra extends Action
                     ]
                 );
 
-                $mitra->nama = $row['Nama'];
-                $mitra->email = $row['Email'];
+                $mitra->nama = $row['Nama Lengkap'];
                 $mitra->alamat = $row['Alamat Detail'];
-                $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tanggal Lahir (dd/mm/yyyy)']);
+                $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tgl lahir']);
+                $mitra->telepon = $row['No Telp'];
                 $mitra->npwp = $row['NPWP'];
                 $mitra->updated_at = now();
 

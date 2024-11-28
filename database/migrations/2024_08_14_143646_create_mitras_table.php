@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('rekening', 40)->nullable();
             $table->string('npwp', 40)->nullable();
             $table->string('email', 80)->nullable();
+            $table->string('telepon', 30)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->mediumInteger('kepka_mitra_id')->nullable()->unsigned();
             $table->timestamps();

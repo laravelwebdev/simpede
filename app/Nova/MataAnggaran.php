@@ -7,6 +7,7 @@ use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
 
 class MataAnggaran extends Resource
 {
@@ -38,14 +39,15 @@ class MataAnggaran extends Resource
         return $this->mak;
     }
 
-    /**
-     * The columns that should be searched.
+     /**
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
      */
-    public static $search = [
-        'mak', 'uraian',
-    ];
+    public static function searchableColumns()
+    {
+        return ['mak', new SearchableText('uraian')];
+    }
 
     /**
      * Get the fields displayed by the resource.

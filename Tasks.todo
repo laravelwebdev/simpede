@@ -5,21 +5,7 @@ Daftar Auth key
     "password": "ltzgXfPs3l1pPFSimukD4E1tvYFF64GlEP8WrL7qEfymhYFUoD"
 
 List Simpede
-    ☐ Penamaan file. Untuk field file adalah nama asli + uuid
-    ☐ Semua nomor otomatis pembuatannya hanya bisa maksimal hari ini
-    ☐ Perjalanan lebih dari 1 tujuan untuk akimodir tanggal spd beririsan. Action ttp lewat tambah mata anggaran, 
-    ☐ Persediaaan beli: dibuat, diberi kode, dibayar, diterima
-    ☐ Bon persediaan: dibuat, disetujui
-    ☐ Kontrak, bast: dibuat, download: selesai
-    ☐ Ubah honor : dibuat,  sampai level daftar mitra
-    Fitur pemeliharaan
-        ☐ 1. Ada list barang BMN kode, nub, nama, perloehan, penghapusan, ada action cetak kk dengan batas tanggal. Akhir
-        ☐ 2. Hasmany user dg tanggal
-        ☐ 3. Hasmany pemeliharaan dg jenis sparepart/bbm dan servis
-    ☐ Semua hasmany punya file prunable
-    ☐ Semua hasmany punya boot feleting destroy semua child
-    ☐ Ada tanda naskah yg autogenerate, tidak bisa didelete dan beberapa firld readonly, tampilkan hanya d index dan detail
-    ☐ Integrasi reminder hymas, ad reminder ykegiatan dr koordinator juga 
+    ☐ Integrasi reminder hymas, ad reminder kegiatan dr koordinator juga 
     Grand design fitur pengadaan
         Resource
         ☐ 1. Jenis pengadaan termasuk d dalamnyabkolom template dan batas atas anggaran

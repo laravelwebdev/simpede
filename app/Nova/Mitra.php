@@ -74,12 +74,11 @@ class Mitra extends Resource
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Alamat', 'alamat')
-                ->sortable()
+                ->hideFromIndex()
                 ->rules('required'),
             Text::make('NPWP')->showWhenPeeking(),
             Text::make('Telepon')->showWhenPeeking(),
             Text::make('Rekening', 'rekening')->showWhenPeeking()
-                ->sortable()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
         ];
     }

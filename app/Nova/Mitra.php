@@ -80,8 +80,8 @@ class Mitra extends Resource
             Text::make('NPWP')->showWhenPeeking(),
             Text::make('Telepon')
                 ->onlyOnForms(),
-            URL::make('Telepon', fn ($telepon) => Helper::formatTelepon($telepon))
-                ->displayUsing(fn ($telepon) => $telepon)
+            URL::make('Telepon', fn () => Helper::formatTelepon($this->telepon))
+                ->displayUsing(fn () => $this->telepon)
                 ->exceptOnForms(),
             Text::make('Rekening', 'rekening')->showWhenPeeking()
                 ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),

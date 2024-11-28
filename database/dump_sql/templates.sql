@@ -26,7 +26,8 @@ INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_a
 (16, 'Template Kartu Kendali Pemeliharaan BMN', 'karken_pemeliharaan', 'PK9c7nZ68UmuwNid1q5LtP9Jz981J1FwKr9YEcvE.docx', '2024-11-20 17:37:31', '2024-11-20 17:37:31'),
 (17, 'Template Kertas Kerja Employee Of The Month', 'kertas_kerja_reward', '1KOF4WgsSMoKmH8EKUkqBzVgkSvTrNwm9krFHRg9.docx', '2024-11-25 19:08:14', '2024-11-25 19:08:14'),
 (18, 'Template Sertifikat Employee Of The Month', 'sertifikat_reward', 'HnihTnXjdITBB6z8etWmegpEOjyXAjcfVWZIWWR3.docx', '2024-11-25 19:08:41', '2024-11-25 19:08:41'),
-(19, 'Template  Surat Keputusan Employee Of The Month', 'sk_reward', 'GqIcQlspcqsXSx9tOZTxM89X12EMCXU623jgebF7.docx', '2024-11-25 19:09:01', '2024-11-25 19:09:01');
+(19, 'Template  Surat Keputusan Employee Of The Month', 'sk_reward', 'GqIcQlspcqsXSx9tOZTxM89X12EMCXU623jgebF7.docx', '2024-11-25 19:09:01', '2024-11-25 19:09:01'),
+(20, 'Template Import NIK Mitra', 'import', 'DCxKlHfNoJ9SXMseOLJY7VtNR6XPxrtf9jVVnI2k.xlsx', '2024-11-29 06:02:12', '2024-11-29 06:02:12');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

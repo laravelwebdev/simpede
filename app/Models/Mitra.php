@@ -10,7 +10,7 @@ class Mitra extends Model
 {
     use LaraCache;
 
-    protected $fillable = ['email', 'kepka_mitra_id'];
+    protected $fillable = ['email', 'kepka_mitra_id', 'nik', 'updated_at'];
 
     protected $casts = [
         'tanggal_lahir' => 'date',

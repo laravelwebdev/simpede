@@ -32,17 +32,7 @@ class ImportNikMitra extends Action
         Mitra::cache()->disable();
         Mitra::where('kepka_mitra_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model) {
-            $mitra = Mitra::firstOrNew(
-                [
-                    'email' => $row['Email'],
-                    'kepka_mitra_id' => $model->id,
-                ]
-            );
-
-            $mitra->nik = $row['NIK'];
-            $mitra->updated_at = now();
-
-            $mitra->save();
+            Mitra::where('kepka_mitra_id', $model->id)->where('email', $row['Email'])->update(['updated_at' => now(), 'nik' => $row['NIK']]);
         });
         $ids = Mitra::where('updated_at', null)->get()->pluck('id');
         Mitra::destroy($ids);

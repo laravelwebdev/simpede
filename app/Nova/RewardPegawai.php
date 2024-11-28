@@ -101,7 +101,7 @@ class RewardPegawai extends Resource
                     })
                     ->prunable(),
                 $this->arsip ?
-                URL::make('Arsip', fn () => Storage::disk('naskah')
+                URL::make('Arsip', fn () => Storage::disk('arsip')
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :

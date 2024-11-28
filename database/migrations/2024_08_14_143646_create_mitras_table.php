@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mitras', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
-            $table->string('nama');
+            $table->string('nik')->nullable();
+            $table->string('nama')->nullable();
             $table->string('alamat')->nullable();
             $table->string('rekening', 40)->nullable();
             $table->string('npwp', 40)->nullable();

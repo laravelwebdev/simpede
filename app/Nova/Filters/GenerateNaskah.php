@@ -49,7 +49,7 @@ class GenerateNaskah extends Filter
 
     public function default()
     {
-        return 'A';
+        return 'M';
     }
 
     public function key()

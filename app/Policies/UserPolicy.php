@@ -53,9 +53,7 @@ class UserPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**

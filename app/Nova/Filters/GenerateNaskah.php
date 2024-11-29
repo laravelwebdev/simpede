@@ -6,14 +6,14 @@ use App\Models\KodeArsip;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class GroupArsip extends Filter
+class GenerateNaskah extends Filter
 {
     /**
      * The displayable name of the filter.
      *
      * @var string
      */
-    public $name = 'Klasifikasi';
+    public $name = 'Generate Naskah';
 
     /**
      * The filter's component.
@@ -31,7 +31,7 @@ class GroupArsip extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where('group', $value);
+        return $query->where('generate', $value);
     }
 
     /**
@@ -41,11 +41,19 @@ class GroupArsip extends Filter
      */
     public function options(NovaRequest $request)
     {
-        return KodeArsip::cache()->get('all')->unique('group')->pluck('group', 'group');
+        return [
+            'Otomatis' => 'A',
+            'Manual' => 'M',
+        ];
+    }
+
+    public function default()
+    {
+        return 'A';
     }
 
     public function key()
     {
-        return 'group-arsip';
+        return 'generate-naskah';
     }
 }

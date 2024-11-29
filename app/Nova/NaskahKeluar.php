@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use App\Nova\Filters\GenerateNaskah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
@@ -128,8 +129,7 @@ class NaskahKeluar extends Resource
                 'M' => 'info',
                 'A' => 'success',
             ])
-                ->sortable()
-                ->filterable(),
+                ->sortable(),
             $this->signed ?
             URL::make('Arsip', fn () => Storage::disk('naskah')
                 ->url($this->signed))
@@ -213,7 +213,9 @@ class NaskahKeluar extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            GenerateNaskah::make(),
+        ];
     }
 
     /**

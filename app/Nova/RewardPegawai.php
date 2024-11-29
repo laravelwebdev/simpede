@@ -86,7 +86,7 @@ class RewardPegawai extends Resource
                 ->loadingWhen(['dibuat', 'dinilai', 'diimport'])
                 ->failedWhen(['outdated']),
             Panel::make('Arsip', [
-                File::make('Arsip Kertas Kerja', 'arsip')
+                File::make('Arsip Kertas Kerja', 'arsip_kertas_kerja')
                     ->disk('arsip')
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
@@ -100,12 +100,52 @@ class RewardPegawai extends Resource
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
-                $this->arsip ?
-                URL::make('Arsip', fn () => Storage::disk('arsip')
-                    ->url($this->arsip))
+                $this->arsip_kertas_kerja ?
+                URL::make('Kertas', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_kertas_kerja))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
-                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+                Text::make('Kertas', fn () => '—')->onlyOnIndex(),
+                File::make('Arsip SK', 'arsip_sk')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->hideWhenCreating()
+                    ->updateRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->prunable(),
+                $this->arsip_sk ?
+                URL::make('SK', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_sk))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('SK', fn () => '—')->onlyOnIndex(),
+                File::make('Arsip Sertifikat', 'arsip_sertifikat')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->hideWhenCreating()
+                    ->updateRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->prunable(),
+                $this->arsip_sertifikat ?
+                URL::make('Sertifikat', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_sertifikat))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Sertifikat', fn () => '—')->onlyOnIndex(),
             ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];

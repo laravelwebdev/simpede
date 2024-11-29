@@ -21,7 +21,9 @@ return new class extends Migration
             $table->mediumInteger('sk_naskah_keluar_id')->nullable()->unsigned();
             $table->mediumInteger('sertifikat_naskah_keluar_id')->nullable()->unsigned();
             $table->string('status', 20)->nullable();
-            $table->string('arsip')->nullable();
+            $table->string('arsip_kertas_kerja')->nullable();
+            $table->string('arsip_sk')->nullable();
+            $table->string('arsip_sertifikat')->nullable();
             $table->timestamps();
         });
     }

@@ -7,8 +7,11 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
@@ -16,7 +19,9 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class PermintaanPersediaan extends Resource
 {
@@ -124,6 +129,28 @@ class PermintaanPersediaan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
+            Panel::make('Arsip', [
+                File::make('Arsip', 'arsip')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->hideWhenCreating()
+                    ->updateRules('required')
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->prunable(),
+                $this->arsip ?
+                URL::make('Arsip', fn () => Storage::disk('arsip')
+                    ->url($this->arsip))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    :
+                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+            ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
     }

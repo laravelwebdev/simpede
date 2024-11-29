@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kegiatan')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('status', 20)->nullable();
+            $table->string('arsip')->nullable();
             $table->mediumInteger('pbmn_user_id')->unsigned()->nullable();
             $table->mediumInteger('user_id')->unsigned()->nullable();
             $table->timestamps();

@@ -148,7 +148,7 @@ class MasterBarangPemeliharaan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin,kasubbag,bmn')) {
+        if (Policy::make()->allowedFor('admin,kasubbag,bmn')->get()) {
             $actions [] = ImportMasterBarangPemeliharaan::make()
                 ->standalone()
                 ->onlyOnIndex();

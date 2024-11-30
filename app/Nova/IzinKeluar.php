@@ -101,8 +101,11 @@ class IzinKeluar extends Resource
                     ->quality(60)
                     ->convert('webp')
                     ->prunable()
+                    ->hideFromIndex()
                     ->hideWhenCreating()
                     ->sortable(),
+                Text::make('Bukti Dukung', fn() => $this->bukti ? 'Ada' : 'Tidak Ada')
+                    ->onlyOnIndex(),
             ]),
 
         ];

@@ -129,7 +129,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('lock-open'),
 
                 MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs-simpede.office6307.my.id/'),
+                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs-simpede.office6307.my.id/')
+                        ->openInNewTab(),
                 ])
                     ->icon('light-bulb'),
             ];

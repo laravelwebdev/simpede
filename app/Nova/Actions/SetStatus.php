@@ -77,6 +77,8 @@ class SetStatus extends Action
             $model->save();
         }
         $model->update([$this->statusField => $this->status]);
+
+        return $models;
     }
 
     /**

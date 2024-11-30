@@ -10,6 +10,7 @@ use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -21,7 +22,10 @@ use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
+use Laravel\Nova\URL;
 
 class PembelianPersediaan extends Resource
 {
@@ -203,7 +207,21 @@ class PembelianPersediaan extends Resource
                     }
 
                     return $this->resource instanceof Model && $this->resource->tanggal_bast !== null;
+                })
+                ->then(function ($models) {
+                    $model = $models->first();
+                    $users = Helper::getUsersByPengelola('bmn', $model->tanggal_nota);
+                    foreach ($users as $user) {
+                        $user->notify(
+                            NovaNotification::make()
+                                ->message('Terdapat Barang Persediaan yang harus diberi kode barang')
+                                ->action('Lihat', URL::remote(Nova::path().'/resources/'.\App\Nova\PembelianPersediaan::uriKey().'/'.$model->id))
+                                ->icon('information-circle')
+                                ->type('info')
+                        );
+                    }
                 });
+ 
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

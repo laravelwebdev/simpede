@@ -10,7 +10,6 @@ use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -79,11 +78,17 @@ class PembelianPersediaan extends Resource
                     ->rules('required'),
             ]),
             Panel::make('Keterangan Serah Terima Barang', [
-                Date::make('Tanggal BAST/Nota', 'tanggal_bast')
+                Date::make('Tanggal Nota', 'tanggal_nota')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today')
                     ->readonly(fn () => Policy::make()
                         ->allowedFor('bmn')
+                        ->get()),
+                Date::make('Tanggal BAST', 'tanggal_bast')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->rules('nullable', 'bail', 'after_or_equal:tanggal_nota', 'before_or_equal:today')
+                    ->readonly(fn () => Policy::make()
+                        ->allowedFor('pbj')
                         ->get()),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
@@ -221,7 +226,7 @@ class PembelianPersediaan extends Resource
                         );
                     }
                 });
- 
+
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =

@@ -157,14 +157,17 @@ class DaftarPesertaPerjalanan extends Resource
             Download::make('sppd', 'Unduh Surat Tugas dan SPPD')
                 ->showInline()
                 ->showOnDetail()
+                ->exceptOnIndex()
                 ->confirmButtonText('Unduh'),
             Download::make('pernyataan_kendaraan', 'Unduh Pernyataan Kendaraan')
                 ->showInline()
                 ->showOnDetail()
+                ->exceptOnIndex()
                 ->confirmButtonText('Unduh'),
             Download::make('kuitansi', 'Unduh Kuitansi Perjalanan')
                 ->showInline()
                 ->showOnDetail()
+                ->exceptOnIndex()
                 ->confirmButtonText('Unduh'),
         ];
     }

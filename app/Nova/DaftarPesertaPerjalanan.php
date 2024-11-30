@@ -154,6 +154,10 @@ class DaftarPesertaPerjalanan extends Resource
     public function actions(NovaRequest $request)
     {
         return [
+            Download::make('sppd', 'Unduh Surat Tugas dan SPPD')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh'),
             Download::make('pernyataan_kendaraan', 'Unduh Pernyataan Kendaraan')
                 ->showInline()
                 ->showOnDetail()

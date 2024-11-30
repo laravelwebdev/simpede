@@ -245,6 +245,42 @@ class Cetak
         ];
     }
 
+    public static function sppd($id)
+    {
+        $data = DaftarPesertaPerjalanan::find($id);
+        $user = Helper::getPegawaiByUserId($data->user_id);
+        $data_user = Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_kuitansi);
+        $perjalanan = $data->perjalananDinas;
+        $kepala = Helper::getPegawaiByUserId($perjalanan->kepala_user_id);
+        $ppk = Helper::getPegawaiByUserId($perjalanan->ppk_user_id);
+
+        return [
+            'no_st' => NaskahKeluar::find($perjalanan->st_naskah_keluar_id)->nomor,
+            'uraian_spd' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
+            'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nip' => Helper::getPropertyFromCollection($user, 'nip'),
+            'berangkat' => Helper::terbilangTanggal($data->tanggal_berangkat),
+            'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
+            'tanggal_st' => Helper::terbilangTanggal($perjalanan->tanggal_st),
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
+            'no_spd' => NaskahKeluar::find($perjalanan->spd_naskah_keluar_id)->nomor,
+            'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
+            'pangkat' => Helper::getPropertyFromCollection($data_user, 'pangkat'),
+            'golongan' => Helper::getPropertyFromCollection($data_user, 'golongan'),
+            'jabatan' => Helper::getPropertyFromCollection($data_user, 'jabatan'),
+            'angkutan' => $data->angkutan,
+            'asal' => $data->asal,
+            'tujuan' => $data->tujuan,
+            'waktu' => Helper::jangkaWaktuHariKalender($data->tanggal_berangkat, $data->tanggal_kembali),
+            'berangkat' => Helper::terbilangTanggal($data->tanggal_berangkat),
+            'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
+            'mak' => Helper::getMataAnggaranById($perjalanan->anggaranKerangkaAcuan->mataAnggaran->id)->mak,
+            'tanggal_spd' => Helper::terbilangTanggal($perjalanan->tanggal_spd),
+            'nipppk' => Helper::getPropertyFromCollection($ppk, 'nip'),
+        ];
+    }
+
     public static function karken_pemeliharaan($id, $tanggal, $pengelola)
     {
         $data = MasterBarangPemeliharaan::find($id);

@@ -83,6 +83,7 @@ class Helper
         'kertas_kerja_reward' => 'Kertas Kerja Employee Of The Month',
         'sertifikat_reward' => 'Sertifikat Employee Of The Month',
         'sk_reward' => 'Surat Keputusan Employee Of The Month',
+        'sppd' => 'Surat Tugas dan SPPD',
     ];
 
     public static $jenis_honor = [

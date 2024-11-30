@@ -92,13 +92,15 @@ class IzinKeluar extends Resource
                 ->rules('required'),
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali')
-                    ->sortable(),
+                    ->sortable()
+                    ->updateRules('required', 'after_or_equal:keluar'),
                 AdvancedImage::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->croppable()
                     ->quality(60)
                     ->convert('webp')
                     ->prunable()
+                    ->updateRules('nullable', 'bail', 'required')
                     ->sortable(),
             ]),
 

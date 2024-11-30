@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Actions\Download;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
@@ -12,6 +13,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
@@ -163,6 +165,13 @@ class DaftarPesertaPerjalanan extends Resource
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && ($this->resource->angkutan !== 'Kendaraan Dinas');
+                })
                 ->confirmButtonText('Unduh'),
             Download::make('kuitansi', 'Unduh Kuitansi Perjalanan')
                 ->showInline()

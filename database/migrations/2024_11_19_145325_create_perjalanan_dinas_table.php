@@ -18,12 +18,14 @@ return new class extends Migration
             $table->date('tanggal_berangkat')->nullable();
             $table->date('tanggal_kembali')->nullable();
             $table->string('uraian')->nullable();
-            $table->mediumInteger('spd_naskah_keluar_id')->nullable();
-            $table->mediumInteger('st_naskah_keluar_id')->nullable();
-            $table->mediumInteger('spd_kode_arsip_id')->nullable();
-            $table->mediumInteger('st_kode_arsip_id')->nullable();
-            $table->mediumInteger('anggaran_kerangka_acuan_id')->nullable();
-            $table->mediumInteger('kerangka_acuan_id')->nullable();
+            $table->mediumInteger('spd_naskah_keluar_id')->nullable()->unsigned();
+            $table->mediumInteger('st_naskah_keluar_id')->nullable()->unsigned();
+            $table->mediumInteger('spd_kode_arsip_id')->nullable()->unsigned();
+            $table->mediumInteger('st_kode_arsip_id')->nullable()->unsigned();
+            $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('kepala_user_id')->nullable()->unsigned();
+            $table->mediumInteger('anggaran_kerangka_acuan_id')->nullable()->unsigned();
+            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

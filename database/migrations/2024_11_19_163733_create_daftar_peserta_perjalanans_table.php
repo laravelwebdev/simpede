@@ -20,10 +20,10 @@ return new class extends Migration
             $table->date('tanggal_kembali')->nullable();
             $table->string('asal', 80)->nullable();
             $table->string('tujuan', 80)->nullable();
-            $table->mediumInteger('ppk_user_id')->nullable();
-            $table->mediumInteger('perjalanan_dinas_id')->nullable();
-            $table->mediumInteger('user_id')->nullable();
-            $table->mediumInteger('bendahara_user_id')->nullable();
+            $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('perjalanan_dinas_id')->nullable()->unsigned();
+            $table->mediumInteger('user_id')->nullable()->unsigned();
+            $table->mediumInteger('bendahara_user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

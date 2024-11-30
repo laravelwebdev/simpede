@@ -38,6 +38,17 @@ class PerjalananDinas extends Model
         return $this->belongsTo(KerangkaAcuan::class);
     }
 
+    public function ppk(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'ppk_user_id');
+    }
+
+    public function kepala(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'kepala_user_id');
+    }
+
+
     public function daftarPesertaPerjalanan(): HasMany
     {
         return $this->hasMany(DaftarPesertaPerjalanan::class, 'perjalanan_dinas_id');

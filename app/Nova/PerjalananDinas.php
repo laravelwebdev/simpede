@@ -16,7 +16,7 @@ use Laravel\Nova\Panel;
 
 class PerjalananDinas extends Resource
 {
-    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'anggaranKerangkaAcuan', 'kerangkaAcuan', 'daftarPesertaPerjalanan'];
+    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'anggaranKerangkaAcuan', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala'];
 
     /**
      * The model the resource corresponds to.
@@ -81,6 +81,28 @@ class PerjalananDinas extends Resource
             ])->sortable(),
             Text::make('Uraian', 'uraian')
                 ->rules('required'),
+            Panel::make('Surat Tugas', [
+                Date::make('Tanggal Surat Tugas', 'tanggal_st')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today')
+                    ->onlyOnForms(),
+                Select::make('Klasifikasi Arsip ST', 'st_kode_arsip_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->rules('required')
+                    ->dependsOn(['tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                    }),
+                Select::make('Penanda Tangan', 'kepala_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal_st', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
+                    }),
+            ]),
             Panel::make('Surat Perjalanan Dinas', [
                 Date::make('Tanggal SPD', 'tanggal_spd')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
@@ -94,19 +116,13 @@ class PerjalananDinas extends Resource
                     ->dependsOn(['tanggal_spd'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionsKodeArsip($formData->tanggal_spd));
                     }),
-            ]),
-            Panel::make('Surat Tugas', [
-                Date::make('Tanggal Surat Tugas', 'tanggal_st')
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today')
-                    ->onlyOnForms(),
-                Select::make('Klasifikasi Arsip ST', 'st_kode_arsip_id')
+                Select::make('Penanda Tangan', 'ppk_user_id')
+                    ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                    ->rules('required')
-                    ->dependsOn(['tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal_spd', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spd)));
                     }),
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')

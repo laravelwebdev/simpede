@@ -135,7 +135,6 @@ class PermintaanPersediaan extends Resource
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->hideWhenCreating()
-                    ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);

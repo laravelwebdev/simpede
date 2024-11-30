@@ -127,6 +127,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Template::class),
 
                 ])->icon('lock-open'),
+
+                MenuSection::make('Panduan')
+                    ->path('https://docs-simpede.office6307.my.id')
+                    ->icon('light-bulb'),
             ];
         });
         Nova::withBreadcrumbs();

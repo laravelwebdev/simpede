@@ -69,14 +69,14 @@ class PerjalananDinas extends Resource
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
-            Stack::make('Nomor/Tanggal SPPD', 'tanggal_spd', [
-                BelongsTo::make('Nomor:', 'spdNaskahKeluar', 'App\Nova\NaskahKeluar'),
-                Date::make('Tanggal:', 'tanggal_spd')
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
             Stack::make('Nomor/Tanggal Surat Tugas', 'tanggal_st', [
                 BelongsTo::make('Nomor:', 'stNaskahKeluar', 'App\Nova\NaskahKeluar'),
                 Date::make('Tanggal:', 'tanggal_st')
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->sortable(),
+            Stack::make('Nomor/Tanggal SPPD', 'tanggal_spd', [
+                BelongsTo::make('Nomor:', 'spdNaskahKeluar', 'App\Nova\NaskahKeluar'),
+                Date::make('Tanggal:', 'tanggal_spd')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Uraian', 'uraian')

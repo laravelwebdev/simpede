@@ -126,8 +126,10 @@ class PerjalananDinas extends Resource
                     }),
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')
+                ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Kembali', 'tanggal_kembali')
+                ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 

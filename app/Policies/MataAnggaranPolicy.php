@@ -12,7 +12,7 @@ class MataAnggaranPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk,anggota')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class MataAnggaranPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk,anggota')
             ->get();
     }
 
@@ -60,5 +60,12 @@ class MataAnggaranPolicy
     public function replicate(): bool
     {
         return false;
+    }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('admin,koordinator,ppk,anggota')
+            ->get();
     }
 }

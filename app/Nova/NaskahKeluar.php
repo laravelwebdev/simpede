@@ -180,6 +180,7 @@ class NaskahKeluar extends Resource
 
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
+                ->hideWhenCreating()
                 ->prunable(),
             File::make('Signed')
                 ->disk('naskah')
@@ -192,6 +193,7 @@ class NaskahKeluar extends Resource
 
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
+                ->hideWhenCreating()
                 ->prunable(),
         ];
     }

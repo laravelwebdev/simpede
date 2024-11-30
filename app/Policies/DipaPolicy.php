@@ -12,7 +12,7 @@ class DipaPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk,anggota')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class DipaPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,koordinator,ppk')
+            ->allowedFor('admin,koordinator,ppk,anggota')
             ->get();
     }
 

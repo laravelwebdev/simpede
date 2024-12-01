@@ -113,9 +113,15 @@ class BarangPersediaan extends Resource
                 ->get()) {
                 $fields[] =
                     Text::make('Nama Barang', 'barang')
+                        ->readonly(fn () => Policy::make()
+                            ->allowedFor('bmn')
+                            ->get())
                         ->rules('required');
                 $fields[] =
                     Text::make('Satuan', 'satuan')
+                        ->readonly(fn () => Policy::make()
+                            ->allowedFor('bmn')
+                            ->get())
                         ->rules('required');
             }
             if (Policy::make()

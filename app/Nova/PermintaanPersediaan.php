@@ -95,6 +95,7 @@ class PermintaanPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->sortable()
                 ->filterable()
+                ->hideWhenCreating()
                 ->rules('nullable', 'bail', 'after_or_equal:tanggal_permintaan')
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
@@ -108,6 +109,7 @@ class PermintaanPersediaan extends Resource
             Select::make('Pengelola Persediaan', 'pbmn_user_id')
                 ->searchable()
                 ->onlyOnForms()
+                ->hideWhenCreating()
                 ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                 ->dependsOn('tanggal_persetujuan', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)))

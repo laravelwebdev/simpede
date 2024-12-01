@@ -76,14 +76,14 @@ class BarangPersediaan extends Resource
         return [
             Text::make('Nama Barang', 'barang'),
             Text::make('Kode Barang Detail', 'masterPersediaan.kode')
-                ->hideFromIndex(Policy::make()
-                    ->notAllowedFor('bmn')
+                ->hideFromIndex(!Policy::make()
+                    ->allowedFor('bmn')
                     ->get())
                 ->copyable(),
             Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
                 ->displayUsing(fn ($value) => substr($value, 0, 10))
-                ->hideFromIndex(Policy::make()
-                    ->notAllowedFor('ppk,bmn')
+                ->hideFromIndex(!Policy::make()
+                    ->allowedFor('ppk,bmn')
                     ->get())
                 ->copyable(),
             Text::make('Volume')

@@ -14,8 +14,8 @@ class BastMitraPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->notAllowedFor('admin')
+        return !Policy::make()
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -26,7 +26,6 @@ class BastMitraPolicy
     {
         return Policy::make()
             ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
-            ->notAllowedFor('admin')
             ->get();
     }
 

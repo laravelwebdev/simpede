@@ -13,8 +13,8 @@ class RewardPegawaiPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->notAllowedFor('admin')
+        return !Policy::make()
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -24,7 +24,6 @@ class RewardPegawaiPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->notAllowedFor('admin')
             ->withYear(session('year'))
             ->get();
     }

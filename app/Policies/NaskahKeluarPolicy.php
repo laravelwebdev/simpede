@@ -14,8 +14,8 @@ class NaskahKeluarPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->notAllowedFor('admin')
+        return !Policy::make()
+            ->allowedFor('admin')
             ->get();
     }
 
@@ -26,7 +26,6 @@ class NaskahKeluarPolicy
     {
         return Policy::make()
             ->withYear(Helper::getYearFromDate($naskahKeluar->tanggal))
-            ->notAllowedFor('admin')
             ->get();
     }
 

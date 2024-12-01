@@ -202,7 +202,7 @@ class PermintaanPersediaan extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $query->whereYear('tanggal_permintaan', session('year'));
-        if (Policy::make()->notAllowedFor('bmn')->get()) {
+        if (!Policy::make()->allowedFor('bmn')->get()) {
             $query->where('user_id', $request->user()->id);
         }
     }

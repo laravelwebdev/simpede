@@ -16,7 +16,7 @@ class BarangPersediaanPolicy
         return Nova::whenServing(function (NovaRequest $request) {
             if ($request->viaResource == 'pembelian-persediaans' || str_contains(request()->url(), 'pembelian-persediaans')) {
                 return Policy::make()
-                    ->allowedFor('pbj')
+                    ->allowedFor('pbj,bmn')
                     ->get();
             }
             if ($request->viaResource == 'permintaan-persediaans' || str_contains(request()->url(), 'permintaan-persediaans')) {

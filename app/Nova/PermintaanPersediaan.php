@@ -81,22 +81,12 @@ class PermintaanPersediaan extends Resource
                 ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                 ->rules('required', 'before_or_equal:today')
                 ->onlyOnForms()
-                ->default(now())
-                ->readonly(Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
-
+                ->default(now()),
             Text::make('Untuk Kegiatan', 'kegiatan')
-                ->rules('required')
-                ->readonly(Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                ->rules('required'),
             Textarea::make('Catatan', 'keterangan')
                 ->rules('required')
-                ->alwaysShow()
-                ->readonly(Policy::make()
-                    ->allowedFor('bmn')
-                    ->get()),
+                ->alwaysShow(),
             BelongsTo::make('Pemohon', 'user', 'App\Nova\User')
                 ->sortable()
                 ->filterable()

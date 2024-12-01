@@ -91,14 +91,13 @@ class PembelianPersediaan extends Resource
                         ->allowedFor('pbj')
                         ->get()),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                    ->rules('required')
                     ->searchable()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     })
                     ->readonly(fn () => Policy::make()
-                        ->allowedFor('bmn')
+                        ->allowedFor('pbj')
                         ->get()),
                 Select::make('Pengelola Persediaan', 'pbmn_user_id')
                     ->rules('required')

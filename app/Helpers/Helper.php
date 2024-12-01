@@ -905,9 +905,9 @@ class Helper
                 "App\Models\PermintaanPersediaan" => $item->barangPersediaanable
                   ->naskahKeluar->nomor,
                 "App\Models\PersediaanMasuk" => $item->barangPersediaanable
-                  ->nomor_dokumen,
+                  ->naskahMasuk->nomor,
                 "App\Models\PersediaanKeluar" => $item->barangPersediaanable
-                  ->nomor_dokumen
+                  ->naskahKeluar->nomor,
             };
 
             // Mengambil uraian berdasarkan tipe barang persediaan

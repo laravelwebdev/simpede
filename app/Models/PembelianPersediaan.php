@@ -15,6 +15,7 @@ class PembelianPersediaan extends Model
         'tanggal_bast' => 'date',
         'tanggal_buku' => 'date',
         'tanggal_kak' => 'date',
+        'tanggal_nota' => 'date',
     ];
 
     public function kerangkaAcuan(): BelongsTo

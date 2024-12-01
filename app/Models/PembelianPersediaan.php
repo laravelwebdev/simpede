@@ -42,7 +42,7 @@ class PembelianPersediaan extends Model
             NaskahKeluar::destroy($pembelian->bast_naskah_keluar_id);
         });
         static::updating(function (PembelianPersediaan $pembelian) {
-            if ($pembelian->bast_naskah_keluar_id === null) {
+            if ($pembelian->bast_naskah_keluar_id === null && $pembelian->isDirty(['tanggal_bast'])) {
                 $default_naskah = NaskahDefault::cache()->get('all')
                     ->where('jenis', 'bastp')
                     ->first();

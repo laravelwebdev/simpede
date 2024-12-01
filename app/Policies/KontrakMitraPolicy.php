@@ -24,6 +24,7 @@ class KontrakMitraPolicy
     public function view(User $user, KontrakMitra $kontrak): bool
     {
         return Policy::make()
+            ->allowedFor('all')
             ->withYear($kontrak->tahun)
             ->get();
     }

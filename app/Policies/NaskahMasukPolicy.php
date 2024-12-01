@@ -25,6 +25,7 @@ class NaskahMasukPolicy
     public function view(User $user, NaskahMasuk $naskahMasuk): bool
     {
         return Policy::make()
+            ->allowedFor('all')
             ->withYear(Helper::getYearFromDate($naskahMasuk->tanggal))
             ->get();
     }

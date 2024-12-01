@@ -24,6 +24,7 @@ class RewardPegawaiPolicy
     public function view(): bool
     {
         return Policy::make()
+            ->allowedFor('all')
             ->withYear(session('year'))
             ->get();
     }

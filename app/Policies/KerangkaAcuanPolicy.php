@@ -16,7 +16,7 @@ class KerangkaAcuanPolicy
      */
     public function viewAny(User $user): bool
     {
-        return !Policy::make()
+        return ! Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -35,6 +35,7 @@ class KerangkaAcuanPolicy
         }
 
         return Policy::make()
+            ->allowedFor('all')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
             ->get();
     }

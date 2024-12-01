@@ -25,6 +25,7 @@ class BastMitraPolicy
     public function view(User $user, BastMitra $bast): bool
     {
         return Policy::make()
+            ->allowedFor('all')
             ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
             ->get();
     }

@@ -87,6 +87,9 @@ class PembelianPersediaan extends Resource
                 Date::make('Tanggal BAST', 'tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->rules('nullable', 'bail', 'after_or_equal:tanggal_nota', 'before_or_equal:today')
+                    ->canSee(fn () => Policy::make()
+                        ->allowedFor('bmn')
+                        ->get())
                     ->readonly(fn () => Policy::make()
                         ->allowedFor('pbj')
                         ->get()),
@@ -96,6 +99,9 @@ class PembelianPersediaan extends Resource
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     })
+                    ->canSee(fn () => Policy::make()
+                        ->allowedFor('bmn')
+                        ->get())
                     ->readonly(fn () => Policy::make()
                         ->allowedFor('pbj')
                         ->get()),

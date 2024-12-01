@@ -216,7 +216,7 @@ class PembelianPersediaan extends Resource
                         return true;
                     }
 
-                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null;
+                    return $this->resource instanceof Model && $this->resource->tanggal_nota !== null;
                 })
                 ->then(function ($models) {
                     $model = $models->first();

@@ -63,7 +63,7 @@ class PersediaanMasuk extends Resource
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
-                ->modalSize('7xl')
+                ->modalSize('5xl')
                 ->rules('required'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->sortable()

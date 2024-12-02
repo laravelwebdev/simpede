@@ -132,7 +132,7 @@ class Helper
         'ppk' => 'Pejabat Pembuat Komitmen',
         'bendahara' => 'Bendahara',
         'pbj' => 'Pejabat PBJ',
-        'bmn' => 'Pengelola BMN',
+        'bmn' => 'Pengelola BMN dan Persediaan',
         'arsiparis' => 'Arsiparis',
         'anggota' => 'Pegawai',
     ];

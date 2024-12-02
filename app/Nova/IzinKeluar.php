@@ -94,7 +94,7 @@ class IzinKeluar extends Resource
                 Time::make('Jam Kembali', 'kembali')
                     ->sortable()
                     ->hideWhenCreating()
-                    ->updateRules('nullable', 'bail','after_or_equal:keluar'),
+                    ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
                 AdvancedImage::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->croppable()
@@ -104,7 +104,7 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->hideWhenCreating()
                     ->sortable(),
-                Text::make('Bukti Dukung', fn() => $this->bukti ? 'Ada' : 'Tidak Ada')
+                Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),
 

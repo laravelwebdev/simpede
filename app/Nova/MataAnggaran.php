@@ -39,7 +39,7 @@ class MataAnggaran extends Resource
         return $this->mak;
     }
 
-     /**
+    /**
      * Get the searchable columns for the resource.
      *
      * @return array

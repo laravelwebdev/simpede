@@ -214,6 +214,7 @@ class Helper
         $wa = str_replace('+62 08', '628', $telepon);
         $wa = str_replace('+62 ', '62', $wa);
         $wa = str_replace('-', '', $wa);
+
         return "https://wa.me/{$wa}";
     }
 
@@ -293,7 +294,7 @@ class Helper
 
     public static function asterikNik($nik)
     {
-        return substr($nik, 0, 4) . str_repeat('*', 10) . substr($nik, 14);
+        return substr($nik, 0, 4).str_repeat('*', 10).substr($nik, 14);
     }
 
     /**

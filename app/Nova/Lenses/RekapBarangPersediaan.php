@@ -52,7 +52,7 @@ class RekapBarangPersediaan extends Lens
                         'barang_persediaans.master_persediaan_id')
                         ->whereNotNull('tanggal_transaksi');
                 })
-                ->groupBy('master_persediaans.id','master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
+                ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
                 }), 'master_persediaans')

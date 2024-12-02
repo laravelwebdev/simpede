@@ -32,6 +32,7 @@ class RealisasiAnggaran extends Lens
     public function name()
     {
         $tanggal = Helper::terbilangTanggal(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'tanggal_realisasi'));
+
         return $tanggal ? 'Realisasi SP2D per '.Helper::terbilangTanggal(Dipa::cache()->get('all')->where('tahun', session('year'))->first()->tanggal_realisasi) : 'Realisasi SP2D';
     }
 
@@ -43,7 +44,7 @@ class RealisasiAnggaran extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        $dipa_id = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(),'id');
+        $dipa_id = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withOrdering($request->withFilters(

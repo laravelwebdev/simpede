@@ -11,7 +11,7 @@ class DaftarSp2dPolicy
      */
     public function viewAny(): bool
     {
-        return !Policy::make()
+        return ! Policy::make()
             ->allowedFor('admin')
             ->get();
     }
@@ -21,7 +21,7 @@ class DaftarSp2dPolicy
      */
     public function view(): bool
     {
-        return !Policy::make()
+        return ! Policy::make()
             ->allowedFor('admin')
             ->get();
     }

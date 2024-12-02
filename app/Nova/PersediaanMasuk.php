@@ -62,6 +62,7 @@ class PersediaanMasuk extends Resource
             BelongsTo::make('Nomor Naskah Masuk', 'naskahMasuk', 'App\Nova\NaskahMasuk')
                 ->searchable()
                 ->withSubtitles()
+                ->showCreateRelationButton()
                 ->rules('required'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->sortable()

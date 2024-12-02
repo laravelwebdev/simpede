@@ -62,6 +62,7 @@ class PersediaanKeluar extends Resource
             BelongsTo::make('Nomor Naskah Keluar', 'naskahKeluar', 'App\Nova\NaskahKeluar')
                 ->searchable()
                 ->withSubtitles()
+                ->showCreateRelationButton()
                 ->rules('required'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->sortable()

@@ -306,9 +306,14 @@ class Helper
      */
     public static function jangkaWaktuHariKalender($awal, $akhir)
     {
+        return self::jangkaWaktu($awal, $akhir).' Kalender';
+    }
+
+    public static function jangkaWaktu($awal, $akhir)
+    {
         $selisih = $awal->diff($akhir)->format('%a') + 1;
 
-        return $selisih.' ( '.self::terbilang($selisih).') Hari Kalender';
+        return $selisih.' ( '.self::terbilang($selisih).') Hari';
     }
 
     /**

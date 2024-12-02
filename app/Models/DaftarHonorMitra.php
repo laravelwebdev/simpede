@@ -50,7 +50,6 @@ class DaftarHonorMitra extends Model
                             ->type('error')
                     );
                 }
-
             }
             if ($honor->volume_realisasi != $honor->volume_target) {
                 $honor->status_realisasi = $honor->volume_realisasi < $honor->volume_target

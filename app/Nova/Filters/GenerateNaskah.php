@@ -2,7 +2,6 @@
 
 namespace App\Nova\Filters;
 
-use App\Models\KodeArsip;
 use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 

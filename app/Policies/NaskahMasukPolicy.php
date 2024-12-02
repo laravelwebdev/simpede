@@ -14,7 +14,7 @@ class NaskahMasukPolicy
      */
     public function viewAny(): bool
     {
-        return !Policy::make()
+        return ! Policy::make()
             ->allowedFor('admin')
             ->get();
     }

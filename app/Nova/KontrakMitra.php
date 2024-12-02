@@ -98,13 +98,13 @@ class KontrakMitra extends Resource
                     ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                         return Helper::terbilangTanggal($tanggal);
                     })
-                    ->readonly(!Policy::make()->allowedFor('ppk')->get())
+                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->filterable()
                     ->sortable(),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()
-                    ->readonly(!Policy::make()->allowedFor('ppk')->get())
+                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $default_naskah = NaskahDefault::cache()
@@ -118,13 +118,13 @@ class KontrakMitra extends Resource
                     ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
                         return Helper::terbilangTanggal($tanggal);
                     })
-                    ->readonly(!Policy::make()->allowedFor('ppk')->get())
+                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->hideFromIndex(),
                 Date::make('Tanggal Selesai Kontrak', 'akhir_kontrak')
                     ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
                         return Helper::terbilangTanggal($tanggal);
                     })
-                    ->readonly(!Policy::make()->allowedFor('ppk')->get())
+                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->hideFromIndex(),
                 BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
                     ->exceptOnForms()
@@ -132,7 +132,7 @@ class KontrakMitra extends Resource
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
-                    ->readonly(!Policy::make()->allowedFor('ppk')->get())
+                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->onlyOnForms()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {

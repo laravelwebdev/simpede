@@ -68,7 +68,7 @@ class User extends Resource
                     ->rules('required', 'regex:/^[0-9A-Za-z.\-_]+$/u', 'max:254')
                     ->creationRules('unique:users,email')
                     ->updateRules('unique:users,email,{{resourceId}}')
-                    ->readonly(!Policy::make()->allowedFor('admin')->get()),
+                    ->readonly(! Policy::make()->allowedFor('admin')->get()),
                 Password::make('Password')
                     ->onlyOnForms()
                     ->creationRules('required', Rules\Password::defaults(), 'confirmed')

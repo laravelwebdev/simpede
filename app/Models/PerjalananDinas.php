@@ -48,7 +48,6 @@ class PerjalananDinas extends Model
         return $this->belongsTo(User::class, 'kepala_user_id');
     }
 
-
     public function daftarPesertaPerjalanan(): HasMany
     {
         return $this->hasMany(DaftarPesertaPerjalanan::class, 'perjalanan_dinas_id');

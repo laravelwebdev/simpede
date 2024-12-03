@@ -34,7 +34,7 @@ class BarangPersediaan extends Model
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
             }
-            //BUG: error
+            //BUG: error update tanggal buku hanya saat dicetak
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
                 if ($persediaan->isClean('master_persediaan_id')) {
                     PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
@@ -62,7 +62,7 @@ class BarangPersediaan extends Model
                 $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
         });
-
+        //BUG:  error harus dipisah pembelian dan permintaan
         static::deleting(function (BarangPersediaan $persediaan) {
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' || $persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan') {
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)

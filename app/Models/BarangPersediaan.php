@@ -34,7 +34,9 @@ class BarangPersediaan extends Model
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
             }
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) { //BUG: error                if ($persediaan->isClean('master_persediaan_id')) {
+            //BUG: error
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
+                if ($persediaan->isClean('master_persediaan_id')) {
                     PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                         ->where('status', 'diterima')
                         ->update(['status' => 'outdated']);

@@ -57,6 +57,10 @@ class BarangPersediaan extends Model
             if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanMasuk' && $persediaan->isDirty()) {
                 $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
+
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
+                $persediaan->tanggal_transaksi = PembelianPersediaan::find($persediaan->barang_persediaanable_id)->tanggal_buku;
+            }
         });
 
         static::deleting(function (BarangPersediaan $persediaan) {

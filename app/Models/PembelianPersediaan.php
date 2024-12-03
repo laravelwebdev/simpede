@@ -64,6 +64,11 @@ class PembelianPersediaan extends Model
                     $naskahkeluar->save();
                 }
             }
+            if ($pembelian->isDirty('tanggal_buku')) {
+                BarangPersediaan::where('barang_persediaanable_id', $pembelian->id)
+                    ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
+                    ->update(['tanggal_transaksi' => $pembelian->tanggal_buku]);
+            }
         });
     }
 }

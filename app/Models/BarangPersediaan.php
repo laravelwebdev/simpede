@@ -34,8 +34,7 @@ class BarangPersediaan extends Model
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
             }
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
-                if ($persediaan->isClean('master_persediaan_id')) {
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) { //BUG: error                if ($persediaan->isClean('master_persediaan_id')) {
                     PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                         ->where('status', 'diterima')
                         ->update(['status' => 'outdated']);
@@ -43,6 +42,9 @@ class BarangPersediaan extends Model
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'berkode')
                     ->update(['status' => 'diterima']);
+                if ($persediaan->isDirty('master_persediaan_id')) {
+                    $persediaan->tanggal_transaksi = PembelianPersediaan::find($persediaan->barang_persediaanable_id)->tanggal_buku;
+                }
             }
 
             if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan' && $persediaan->isDirty()) {
@@ -56,10 +58,6 @@ class BarangPersediaan extends Model
 
             if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanMasuk' && $persediaan->isDirty()) {
                 $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
-            }
-
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
-                $persediaan->tanggal_transaksi = PembelianPersediaan::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
         });
 

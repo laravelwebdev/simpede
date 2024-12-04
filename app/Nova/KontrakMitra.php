@@ -95,7 +95,7 @@ class KontrakMitra extends Resource
                     ->sortable()
                     ->exceptOnForms(),
                 Date::make('Tanggal SPK', 'tanggal_spk')
-                    ->rules('required', 'before_or_equal:today')->displayUsing(function ($tanggal) {
+                    ->rules('required', 'before_or_equal:awal_kontrak', 'before_or_equal:today')->displayUsing(function ($tanggal) {
                         return Helper::terbilangTanggal($tanggal);
                     })
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())

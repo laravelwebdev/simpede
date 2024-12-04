@@ -44,9 +44,6 @@ class BarangPersediaan extends Model
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'berkode')
                     ->update(['status' => 'diterima']);
-                if ($persediaan->isDirty('master_persediaan_id')) {
-                    $persediaan->tanggal_transaksi = PembelianPersediaan::find($persediaan->barang_persediaanable_id)->tanggal_buku;
-                }
             }
 
             if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan' && $persediaan->isDirty()) {
@@ -62,10 +59,13 @@ class BarangPersediaan extends Model
                 $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
         });
-        //BUG:  error harus dipisah pembelian dan permintaan
         static::deleting(function (BarangPersediaan $persediaan) {
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' || $persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan') {
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan') {
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
+                    ->update(['status' => 'outdated']);
+            }
+            if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan') {
+                PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->update(['status' => 'outdated']);
             }
         });

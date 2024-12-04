@@ -64,12 +64,6 @@ class PembelianPersediaan extends Model
                     $naskahkeluar->save();
                 }
             }
-            //BUG: update saat cetak saja
-            if ($pembelian->isDirty('tanggal_buku')) {
-                BarangPersediaan::where('barang_persediaanable_id', $pembelian->id)
-                    ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
-                    ->update(['tanggal_transaksi' => $pembelian->tanggal_buku]);
-            }
         });
     }
 }

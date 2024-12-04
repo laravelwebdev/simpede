@@ -237,6 +237,7 @@ class PembelianPersediaan extends Resource
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()
+                ->confirmText('Sebelum mengunduh, pastikan semua barang persediaan telah diberi kode')
                 ->confirmButtonText('Unduh');
         }
 

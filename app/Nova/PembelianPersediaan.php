@@ -233,7 +233,7 @@ class PembelianPersediaan extends Resource
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =
-            Download::make('bastp', 'Unduh BAST')
+            Download::make('bastp', 'Unduh Pernyataan Penerimaan')
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()

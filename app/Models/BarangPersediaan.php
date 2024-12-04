@@ -34,7 +34,7 @@ class BarangPersediaan extends Model
                 $persediaan->barang = $persediaan->masterPersediaan->barang;
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
             }
-            //BUG: error update tanggal buku hanya saat dicetak
+          
             if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
                 if ($persediaan->isClean('master_persediaan_id')) {
                     PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)

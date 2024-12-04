@@ -78,6 +78,8 @@ class PembelianPersediaan extends Resource
                     ->rules('required'),
             ]),
             Panel::make('Keterangan Serah Terima Barang', [
+                BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\naskahKeluar')
+                    ->onlyOnDetail(),
                 Date::make('Tanggal Nota', 'tanggal_nota')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->rules('nullable', 'bail', 'after_or_equal:tanggal_kak', 'before_or_equal:today')

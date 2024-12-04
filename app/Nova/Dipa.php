@@ -138,7 +138,7 @@ class Dipa extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
+        if (Policy::make()->allowedFor('admin,ppk')->get()) {
             $actions[] =
                 ImportKamusAnggaran::make()
                     ->showInline()

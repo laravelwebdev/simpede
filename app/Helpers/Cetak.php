@@ -652,8 +652,8 @@ class Cetak
         if ($jenis === 'bastp') {
             $bastp = PembelianPersediaan::where('id', $model_id)->first();
             throw_if(
-                ! in_array($bastp->status, ['berkode', 'dicetak']),
-                'Hanya yang berstatus berkode atau dicetak yang dapat dicetak ulang.'
+                ! in_array($bastp->status, ['diterima', 'dicetak']),
+                'Hanya yang berstatus diterima atau dicetak yang dapat dicetak ulang.'
             );
             throw_if(
                 empty($bastp->tanggal_buku),

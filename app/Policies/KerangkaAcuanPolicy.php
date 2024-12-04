@@ -26,14 +26,6 @@ class KerangkaAcuanPolicy
      */
     public function view(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            return Policy::make()
-                ->allowedFor('koordinator,anggota')
-                ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
-                ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
-                ->get();
-        }
-
         return Policy::make()
             ->allowedFor('all')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))

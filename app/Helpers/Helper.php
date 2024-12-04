@@ -67,7 +67,7 @@ class Helper
     ];
 
     public static $template = [
-        'bastp' => 'BAST Persediaan',
+        'bastp' => 'Pernyataan Penerimaan Persediaan',
         'bon' => 'Bon Persediaan',
         'bast' => 'BAST Mitra',
         'kontrak' => 'Kontrak Mitra',

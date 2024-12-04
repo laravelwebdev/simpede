@@ -92,6 +92,7 @@ class DaftarSp2d extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_spm ?
                 URL::make('Arsip SPM', fn () => Storage::disk('arsip')
@@ -112,6 +113,7 @@ class DaftarSp2d extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_sp2d ?
                 URL::make('Arsip SP2D', fn () => Storage::disk('arsip')

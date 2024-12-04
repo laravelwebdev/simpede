@@ -99,6 +99,7 @@ class RewardPegawai extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_kertas_kerja ?
                 URL::make('Kertas', fn () => Storage::disk('arsip')
@@ -119,6 +120,7 @@ class RewardPegawai extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_sk ?
                 URL::make('SK', fn () => Storage::disk('arsip')
@@ -139,6 +141,7 @@ class RewardPegawai extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_sertifikat ?
                 URL::make('Sertifikat', fn () => Storage::disk('arsip')

@@ -133,6 +133,7 @@ class BastMitra extends Resource
                     })
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
                     ->prunable(),
                 $this->file ?
                 URL::make('Arsip', fn () => Storage::disk('arsip')

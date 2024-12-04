@@ -156,6 +156,7 @@ class KontrakMitra extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
                     ->prunable(),
                 $this->file ?
                 URL::make('Arsip', fn () => Storage::disk('arsip')

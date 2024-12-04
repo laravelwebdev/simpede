@@ -42,7 +42,7 @@ class BarangPersediaan extends Model
                         ->update(['status' => 'outdated']);
                 }
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
-                    ->where('status', 'berkode')
+                    ->where('status', 'dicetak')
                     ->update(['status' => 'diterima']);
             }
 

@@ -234,20 +234,6 @@ class PembelianPersediaan extends Resource
         }
         if (Policy::make()->allowedFor('bmn')->get()) {
             $actions[] =
-            SetStatus::make()
-                ->confirmButtonText('Ubah Status')
-                ->confirmText('Pastikan semua barang sudah diberi kode. Apakah Anda yakin ingin mengubah status menjadi berkode?')
-                ->onlyOnDetail()
-                ->setName('Tandai Telah Diberi Kode')
-                ->setStatus('berkode')
-                ->canSee(function ($request) {
-                    if ($request instanceof ActionRequest) {
-                        return true;
-                    }
-
-                    return $this->resource instanceof Model && $this->resource->tanggal_bast !== null && $this->resource->tanggal_buku !== null && $this->resource->status === 'diterima';
-                });
-            $actions[] =
             Download::make('bastp', 'Unduh BAST')
                 ->showInline()
                 ->showOnDetail()

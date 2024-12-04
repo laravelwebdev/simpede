@@ -202,7 +202,6 @@ class PembelianPersediaan extends Resource
                 ->confirmButtonText('Import')
                 ->confirmText('Menggunakan Fitur Import akan menghapus data yang sebelumnya telah ada. Anda Yakin?')
                 ->showInline()
-                // ->size('7xl')
                 ->exceptOnIndex();
             $actions[] =
             SetStatus::make()

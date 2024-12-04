@@ -73,6 +73,10 @@ class PembelianPersediaan extends Resource
     {
         return [
             Hidden::make('Tanggal KAK', 'tanggal_kak'),
+            Panel::make('Kerangka Acuan Kerja', [
+                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+                    ->onlyOnDetail(),
+            ]),
             Panel::make('Keterangan', [
                 Text::make('Rincian')
                     ->rules('required'),
@@ -135,7 +139,7 @@ class PembelianPersediaan extends Resource
         return [
             Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
-                Date::make('Tanggal BAST', 'tanggal_kak')
+                Date::make('Tanggal KAK', 'tanggal_kak')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Stack::make('Nomor/Tanggal BAST', 'tanggal_bast', [

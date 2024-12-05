@@ -5,6 +5,7 @@ namespace App\Nova\Lenses;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;

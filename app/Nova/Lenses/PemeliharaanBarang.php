@@ -42,7 +42,7 @@ class PemeliharaanBarang extends Lens
     {
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')
-                ->where('tahun',session('year'))
+                ->where('tahun', session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
                 ->groupBy('kode_barang')
@@ -60,7 +60,7 @@ class PemeliharaanBarang extends Lens
         ));
     }
 
-        /**
+    /**
      * Get the columns that should be selected.
      *
      * @return array
@@ -75,8 +75,8 @@ class PemeliharaanBarang extends Lens
             'master_barang_pemeliharaans.merk',
             'master_barang_pemeliharaans.nopol',
             'master_barang_pemeliharaans.kondisi',
-            'master_barang_pemeliharaans.lokasi',   
-            DB::raw('count(daftar_pemeliharaans.master_barang_pemeliharaan_id) as jumlah'),         
+            'master_barang_pemeliharaans.lokasi',
+            DB::raw('count(daftar_pemeliharaans.master_barang_pemeliharaan_id) as jumlah'),
         ];
     }
 
@@ -115,7 +115,7 @@ class PemeliharaanBarang extends Lens
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->searchable()
                 ->withSubtitles(),
-            Number::make('Jumlah Pemeliharaan', 'jumlah')
+            Number::make('Jumlah Pemeliharaan', 'jumlah'),
         ];
     }
 
@@ -169,8 +169,6 @@ class PemeliharaanBarang extends Lens
             ->where('master_barang_pemeliharaans.tahun', session('year'))
             ->count('daftar_pemeliharaans.master_barang_pemeliharaan_id');
     }
-
-
 
     /**
      * Get the filters available for the lens.

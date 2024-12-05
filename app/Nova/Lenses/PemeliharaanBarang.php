@@ -4,6 +4,7 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -37,7 +38,9 @@ class PemeliharaanBarang extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->where('tahun',session('year'))->select(self::columns())->orderBy('kode_barang', 'asc')
+            $query->where('tahun',session('year'))
+                ->select(self::columns())
+                ->orderBy('kode_barang', 'asc')
                 ->orderBy('nup', 'asc')
 
         ));
@@ -58,8 +61,7 @@ class PemeliharaanBarang extends Lens
             'master_barang_pemeliharaans.merk',
             'master_barang_pemeliharaans.nopol',
             'master_barang_pemeliharaans.kondisi',
-            'master_barang_pemeliharaans.lokasi',
-            
+            'master_barang_pemeliharaans.lokasi',            
         ];
     }
 

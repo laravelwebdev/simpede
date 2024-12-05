@@ -39,7 +39,7 @@ class PemeliharaanBarang extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withOrdering($request->withFilters(
+        return $request->withoutTableOrderPrefix()->withOrdering($request->withFilters(
             $query->where('tahun',session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')

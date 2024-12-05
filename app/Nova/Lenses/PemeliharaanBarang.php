@@ -37,10 +37,29 @@ class PemeliharaanBarang extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->orderBy('kode_barang', 'asc')
+            $query->select(self::columns())->orderBy('kode_barang', 'asc')
                 ->orderBy('nup', 'asc')
 
         ));
+    }
+
+        /**
+     * Get the columns that should be selected.
+     *
+     * @return array
+     */
+    protected static function columns()
+    {
+        return [
+            'master_barang_pemeliharaans.kode_barang',
+            'master_barang_pemeliharaans.nup',
+            'master_barang_pemeliharaans.nama_barang',
+            'master_barang_pemeliharaans.merk',
+            'master_barang_pemeliharaans.nopol',
+            'master_barang_pemeliharaans.kondisi',
+            'master_barang_pemeliharaans.lokasi',
+            
+        ];
     }
 
     /**

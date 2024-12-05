@@ -117,6 +117,7 @@ class Cetak
         if ($jenis === 'bast') {
             $templateProcessor->cloneRowAndSetValues('spek_no', $data['daftar_honor']);
             unset($data['daftar_honor']);
+            DaftarKontrakMitra::where('id', $id)->where('status_bast', '!=', 'outdated')->update(['status_bast' => 'dicetak']);
         }
 
         if ($jenis === 'kuitansi') {

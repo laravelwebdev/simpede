@@ -124,13 +124,13 @@ class PemeliharaanBarang extends Lens
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
             GreeterCard::make()
-                ->user('Bobot: 20%')
-                ->message(text: 'Skor Kedisiplinan')
+                ->user($this->getJumlahBarangDipelihara().' Barang')
+                ->message(text: 'Jumlah Barang Dipelihara')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
             GreeterCard::make()
-                ->user('Bobot: 20%')
-                ->message(text: 'Skor Beban Kerja')
+                ->user($this->getJumlahPemeliharaan().' Kegiatan')
+                ->message(text: 'Jumlah Kegiatan Pemeliharaan')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
         ];
@@ -143,6 +143,24 @@ class PemeliharaanBarang extends Lens
             ->select('kode_barang')
             ->count();
     }
+
+    private function getJumlahBarangDipelihara()
+    {
+        return DB::table('daftar_pemeliharaans')
+            ->join('master_barang_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
+            ->where('master_barang_pemeliharaans.tahun', session('year'))
+            ->distinct('daftar_pemeliharaans.master_barang_pemeliharaan_id')
+            ->count('daftar_pemeliharaans.master_barang_pemeliharaan_id');
+    }
+
+    private function getJumlahPemeliharaan()
+    {
+        return DB::table('daftar_pemeliharaans')
+            ->join('master_barang_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
+            ->where('master_barang_pemeliharaans.tahun', session('year'))
+            ->count('daftar_pemeliharaans.master_barang_pemeliharaan_id');
+    }
+
 
 
     /**

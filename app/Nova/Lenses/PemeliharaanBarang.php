@@ -114,6 +114,7 @@ class PemeliharaanBarang extends Lens
                 ->searchable()
                 ->withSubtitles(),
             Number::make('Jumlah Pemeliharaan', 'jumlah')
+            ->sortable()
         ];
     }
 

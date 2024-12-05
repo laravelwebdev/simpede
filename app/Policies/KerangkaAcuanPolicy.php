@@ -16,8 +16,8 @@ class KerangkaAcuanPolicy
      */
     public function viewAny(User $user): bool
     {
-        return ! Policy::make()
-            ->allowedFor('admin')
+        return Policy::make()
+            ->notAllowedFor('admin')
             ->get();
     }
 

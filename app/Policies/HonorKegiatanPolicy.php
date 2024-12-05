@@ -14,8 +14,8 @@ class HonorKegiatanPolicy
      */
     public function viewAny(): bool
     {
-        return ! Policy::make()
-            ->allowedFor('admin')
+        return Policy::make()
+            ->notAllowedFor('admin')
             ->get();
     }
 
@@ -32,8 +32,8 @@ class HonorKegiatanPolicy
                 ->get();
         }
 
-        return ! Policy::make()
-            ->allowedFor('admin')
+        return Policy::make()
+            ->notAllowedFor('admin')
             ->withYear($honor->tahun)
             ->get();
     }

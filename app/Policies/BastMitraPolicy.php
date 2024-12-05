@@ -14,8 +14,8 @@ class BastMitraPolicy
      */
     public function viewAny(): bool
     {
-        return ! Policy::make()
-            ->allowedFor('admin')
+        return Policy::make()
+            ->notAllowedFor('admin')
             ->get();
     }
 

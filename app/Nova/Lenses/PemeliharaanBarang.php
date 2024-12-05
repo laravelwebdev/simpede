@@ -119,8 +119,8 @@ class PemeliharaanBarang extends Lens
     {
         return [
             GreeterCard::make()
-                ->user('Bobot: 60%')
-                ->message(text: 'Skor Kinerja')
+                ->user($this->getJumlahBarang().' Barang')
+                ->message(text: 'Target Pemeliharaan')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
             GreeterCard::make()
@@ -135,6 +135,15 @@ class PemeliharaanBarang extends Lens
                 ->width('1/3'),
         ];
     }
+
+    private function getJumlahBarang()
+    {
+        return DB::table('master_barang_pemeliharaans')
+            ->where('tahun', session('year'))
+            ->select('kode_barang')
+            ->count();
+    }
+
 
     /**
      * Get the filters available for the lens.

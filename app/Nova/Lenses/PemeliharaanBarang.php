@@ -51,6 +51,7 @@ class PemeliharaanBarang extends Lens
     protected static function columns()
     {
         return [
+            'master_barang_pemeliharaans.id',
             'master_barang_pemeliharaans.kode_barang',
             'master_barang_pemeliharaans.nup',
             'master_barang_pemeliharaans.nama_barang',

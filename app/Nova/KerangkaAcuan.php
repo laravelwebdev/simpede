@@ -39,7 +39,7 @@ class KerangkaAcuan extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $query->whereYear('tanggal', session('year'));
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->notAllowedFor('arsiparis')->get()) {
             return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
 

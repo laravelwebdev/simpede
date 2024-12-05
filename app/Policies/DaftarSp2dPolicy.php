@@ -12,7 +12,7 @@ class DaftarSp2dPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->norAllowedFor('admin')
+            ->notAllowedFor('admin')
             ->get();
     }
 

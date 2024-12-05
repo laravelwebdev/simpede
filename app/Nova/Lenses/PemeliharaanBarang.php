@@ -50,6 +50,7 @@ class PemeliharaanBarang extends Lens
                 ->groupBy('nopol')
                 ->groupBy('kondisi')
                 ->groupBy('lokasi')
+                ->groupBy('master_barang_pemeliharaans.id')
                 ->orderBy('jumlah', 'desc')
                 ->orderBy('kode_barang', 'asc')
                 ->orderBy('nup', 'asc')

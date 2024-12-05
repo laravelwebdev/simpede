@@ -135,7 +135,7 @@ class RekapBarangPersediaan extends Lens
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('kasubbag,bmn')) {
+        if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
             $actions[] =
             Download::make('karken_persediaan', 'Unduh Kartu Kendali Persediaan')
                 ->showInline()

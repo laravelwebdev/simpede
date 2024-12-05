@@ -121,20 +121,17 @@ class PemeliharaanBarang extends Lens
             GreeterCard::make()
                 ->user('Bobot: 60%')
                 ->message(text: 'Skor Kinerja')
-                ->avatar(url: Storage::disk('images')->url('trophy.svg'))
-                ->verified(text: 'Dihitung dari Nilai SKP Bulanan')
+                ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
             GreeterCard::make()
                 ->user('Bobot: 20%')
                 ->message(text: 'Skor Kedisiplinan')
-                ->avatar(url: Storage::disk('images')->url('clock.svg'))
-                ->verified(text: 'Dihitung dari ketepatan waktu melakukan presensi')
+                ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
             GreeterCard::make()
                 ->user('Bobot: 20%')
                 ->message(text: 'Skor Beban Kerja')
-                ->avatar(url: Storage::disk('images')->url('beban.svg'))
-                ->verified(text: 'Dihitung dari butir jumlah SKP bulanan')
+                ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
         ];
     }

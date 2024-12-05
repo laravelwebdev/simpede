@@ -39,6 +39,7 @@ class ImportMasterBarangPemeliharaan extends Action
                     [
                         'kode_barang' => $row['Kode Barang'],
                         'nup' => $row['NUP'],
+                        'tahun' => session('year'),
                     ]
                 );
                 $MasterBarangPemeliharaan->nama_barang = $row['Nama Barang'];

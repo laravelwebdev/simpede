@@ -12,7 +12,7 @@ class MasterBarangPemeliharaan extends Model
 {
     use LaraCache;
 
-    protected $fillable = ['kode_barang', 'nup'];
+    protected $fillable = ['kode_barang', 'nup', 'tahun'];
 
     public static function cacheEntities(): array
     {

@@ -37,7 +37,7 @@ class PemeliharaanBarang extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->select(self::columns())->orderBy('kode_barang', 'asc')
+            $query->where('tahun',session('year'))->select(self::columns())->orderBy('kode_barang', 'asc')
                 ->orderBy('nup', 'asc')
 
         ));

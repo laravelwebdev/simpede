@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nopol', 16)->nullable();
             $table->string('kondisi', 20)->nullable();
             $table->string('lokasi', 100)->nullable();
+            $table->string('tahun', 4)->nullable();
             $table->mediumInteger('user_id')->nullable()->unsigned();
             $table->timestamps();
         });

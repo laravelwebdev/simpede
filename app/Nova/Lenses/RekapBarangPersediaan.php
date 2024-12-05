@@ -137,7 +137,7 @@ class RekapBarangPersediaan extends Lens
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag,bmn')) {
             $actions[] =
-            Download::make('karken_persediaan', 'Unduh Kartu kendali Persediaan')
+            Download::make('karken_persediaan', 'Unduh Kartu Kendali Persediaan')
                 ->showInline()
                 ->showOnDetail()
                 ->withTanggal()

@@ -116,7 +116,7 @@ class PemeliharaanBarang extends Lens
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag,bmn')) {
             $actions[] =
-            Download::make('karken_pemeliharaan', 'Unduh Kartu kendali Pemeliharaan')
+            Download::make('karken_pemeliharaan', 'Unduh Kartu Kendali Pemeliharaan')
                 ->showInline()
                 ->showOnDetail()
                 ->withTanggal()

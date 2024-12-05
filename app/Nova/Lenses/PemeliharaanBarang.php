@@ -42,6 +42,9 @@ class PemeliharaanBarang extends Lens
         return $request->withOrdering($request->withFilters(
             $query->where('tahun',session('year'))
                 ->select(self::columns())
+                ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
+                ->groupBy('master_barang_pemeliharaans.id')
+                ->orderBy('jumlah', 'desc')
                 ->orderBy('kode_barang', 'asc')
                 ->orderBy('nup', 'asc')
 
@@ -63,7 +66,8 @@ class PemeliharaanBarang extends Lens
             'master_barang_pemeliharaans.merk',
             'master_barang_pemeliharaans.nopol',
             'master_barang_pemeliharaans.kondisi',
-            'master_barang_pemeliharaans.lokasi',            
+            'master_barang_pemeliharaans.lokasi',   
+            DB::raw('count(daftar_pemeliharaans.master_barang_pemeliharaan_id) as jumlah'),         
         ];
     }
 
@@ -76,14 +80,11 @@ class PemeliharaanBarang extends Lens
     {
         return [
             Text::make('Kode Barang')
-
                 ->readonly(),
             Number::make('NUP')
-
                 ->step(1)
                 ->readonly(),
             Text::make('Nama Barang')
-
                 ->readonly(),
             Text::make('Merk')
                 ->showWhenPeeking()
@@ -101,12 +102,11 @@ class PemeliharaanBarang extends Lens
                 ->filterable()
                 ->readonly(),
             Text::make('Lokasi')
-
                 ->readonly(),
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
-
                 ->searchable()
                 ->withSubtitles(),
+            Number::make('Jumlah Pemeliharaan', 'jumlah')
         ];
     }
 

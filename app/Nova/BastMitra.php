@@ -89,7 +89,7 @@ class BastMitra extends Resource
                     ->sortable()
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->filterable()
-                    ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
+                    ->rules('required', 'after_or_equal:'.$akhir),
                 Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()

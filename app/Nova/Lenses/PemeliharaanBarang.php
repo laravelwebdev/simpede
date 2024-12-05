@@ -40,8 +40,9 @@ class PemeliharaanBarang extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withoutTableOrderPrefix()->withOrdering($request->withFilters(
-            $query->where('tahun',session('year'))
+        return $request->withOrdering($request->withFilters(
+            $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')
+                ->where('tahun',session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
                 ->groupBy('kode_barang')
@@ -54,7 +55,7 @@ class PemeliharaanBarang extends Lens
                 ->groupBy('master_barang_pemeliharaans.id')
                 ->orderBy('jumlah', 'desc')
                 ->orderBy('kode_barang', 'asc')
-                ->orderBy('nup', 'asc')
+                ->orderBy('nup', 'asc'), 'master_barang_pemeliharaans')
 
         ));
     }

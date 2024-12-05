@@ -4,6 +4,7 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
+use App\Nova\Filters\Keberadaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -114,7 +115,6 @@ class PemeliharaanBarang extends Lens
                 ->searchable()
                 ->withSubtitles(),
             Number::make('Jumlah Pemeliharaan', 'jumlah')
-            ->sortable()
         ];
     }
 
@@ -178,7 +178,9 @@ class PemeliharaanBarang extends Lens
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            Keberadaan::make('Jumlah Pemeliharaan', 'jumlah'),
+        ];
     }
 
     /**

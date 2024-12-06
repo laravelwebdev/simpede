@@ -319,6 +319,7 @@ class Cetak
                 ->where('master_persediaan_id', $id)
                 ->with('barangPersediaanable')
                 ->orderBy('tanggal_transaksi', 'asc')
+                ->orderBy('id', 'asc')
                 ->get(),
         ];
     }

@@ -229,7 +229,7 @@ class RewardPegawai extends Resource
                         return true;
                     }
 
-                    return $this->resource instanceof Model && ($this->resource->status === 'diimport');
+                    return $this->resource instanceof Model && ($this->resource->status === 'diimport' || $this->resource->status === 'dinilai');
                 });
         }
         if (Policy::make()->allowedFor('kepala')->get()) {

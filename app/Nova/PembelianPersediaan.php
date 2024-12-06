@@ -148,7 +148,7 @@ class PembelianPersediaan extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
-                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,bmn')->get())
                     ->prunable(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),

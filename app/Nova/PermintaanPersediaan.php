@@ -134,7 +134,7 @@ class PermintaanPersediaan extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
-                    ->canSee(fn () => Policy::make()->allowedFor('bmn,arsiparis')->get())
+                    ->canSee(fn () => Policy::make()->allowedFor('bmn')->get())
                     ->prunable(),
                 $this->arsip ?
                 URL::make('Arsip BON', fn () => Storage::disk('arsip')

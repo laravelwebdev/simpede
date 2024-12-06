@@ -212,7 +212,8 @@ class RewardPegawai extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag')->get()) {
-            $actions[] = ImportRekapPresensi::make()
+            $actions[] = 
+            ImportRekapPresensi::make()
                 ->confirmButtonText('Import')
                 ->showInline()
                 ->exceptOnIndex();
@@ -224,7 +225,6 @@ class RewardPegawai extends Resource
                 ->setName('Finalkan Penilaian')
                 ->setStatus('dinilai');
         }
-
         if (Policy::make()->allowedFor('kepala')->get()) {
             $actions[] =
             SetStatus::make()
@@ -243,7 +243,6 @@ class RewardPegawai extends Resource
                     return $this->resource instanceof Model && ($this->resource->status === 'dinilai' || $this->resource->status === 'ditetapkan');
                 });
         }
-        $actions = [];
         if (Policy::make()->allowedFor('kasubbag,kepala')->get()) {
             $actions[] =
             Download::make('kertas_kerja_reward', 'Unduh Kertas Kerja')

@@ -16,7 +16,7 @@ class RealisasiPerJenisBelanja extends TableCard
 {
     public function __construct()
     {
-        $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Selisih']);
+        $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Persen', 'Selisih']);
         $this->viewAll([
             'label' => 'Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan',
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', //URL to navigate when the link is clicked
@@ -60,6 +60,7 @@ class RealisasiPerJenisBelanja extends TableCard
                 $item->target = round(($total / 100) * $targetSerapan, 0);
                 $item->realisasi = $item->realisasi ?? 0;
                 $item->selisih = $item->realisasi - $item->target;
+                $item->persen = round(($item->realisasi / $item->target) * 100, 2);
                 $item->jenis_belanja = Helper::$jenis_belanja[$item->jenis_belanja];
 
                 return $item;
@@ -76,6 +77,7 @@ class RealisasiPerJenisBelanja extends TableCard
                 Cell::make($data->jenis_belanja),
                 Cell::make(Helper::formatUang($data->target))->class('text-right'),
                 Cell::make(Helper::formatUang($data->realisasi))->class('text-right'),
+                Cell::make($data->persen)->class('text-right'),
                 Cell::make(Helper::formatUang($data->selisih))->class('text-right'),
             );
         })->toArray());

@@ -25,7 +25,7 @@ class MasterBarangPemeliharaan extends Resource
 
     public static function label()
     {
-        return 'Master Barang';
+        return 'Master BMN';
     }
 
     /**

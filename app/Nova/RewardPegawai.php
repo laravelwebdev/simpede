@@ -223,7 +223,14 @@ class RewardPegawai extends Resource
                 ->confirmText('Pastikan seluruh pegawai telah lengkap diinput penilaiannya')
                 ->onlyOnDetail()
                 ->setName('Finalkan Penilaian')
-                ->setStatus('dinilai');
+                ->setStatus('dinilai')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && ($this->resource->status === 'diimport');
+                });
         }
         if (Policy::make()->allowedFor('kepala')->get()) {
             $actions[] =

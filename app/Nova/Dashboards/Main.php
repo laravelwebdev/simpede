@@ -46,7 +46,7 @@ class Main extends Dashboard
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
             WelcomeCard::make()
-                ->title('Get Started') // optional
+                ->title('Permulaan') // optional
                 ->description('Selamat datang di Aplikasi Simpede. Berikut adalah fitur-fitur yang tersedia:') // optional
                 ->addItem(icon: 'document-text', title: 'Pengelolaan Kerangka Acuan Kerja', content: 'Fitur yang disediakan untuk membuat Kerangka Acuan Kerja yang dapat diunduh dalam format Microsoft Word dan mengarsipkan softcopy berkas-berkas terkait Kerangka Acuan Kerja.')
                 ->addItem(icon: 'mail', title: 'Pengelolaan Naskah Dinas', content: 'Fitur yang disediakan untuk membuat nomor naskah dinas keluar dan melakukan pengarsipan naskah dinas masuk dan naskah dinas keluar dalam bentuk softcopy.')

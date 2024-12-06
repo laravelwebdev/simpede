@@ -122,7 +122,7 @@ class PermintaanPersediaan extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
             Panel::make('Arsip', [
-                File::make('Arsip', 'arsip')
+                File::make('Arsip BON', 'arsip')
                     ->disk('arsip')
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
@@ -134,14 +134,14 @@ class PermintaanPersediaan extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
-                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
+                    ->canSee(fn () => Policy::make()->allowedFor('bmn')->get())
                     ->prunable(),
                 $this->arsip ?
-                URL::make('Arsip', fn () => Storage::disk('arsip')
+                URL::make('Arsip BON', fn () => Storage::disk('arsip')
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
-                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+                Text::make('Arsip BON', fn () => '—')->onlyOnIndex(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];

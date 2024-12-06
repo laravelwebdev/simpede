@@ -10,8 +10,11 @@ use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphMany;
@@ -19,6 +22,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL as URLFields;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Notifications\NovaNotification;
@@ -131,6 +135,22 @@ class PembelianPersediaan extends Resource
                         ->allowedFor('bmn')
                         ->get()),
             ]),
+            Panel::make('Arsip', [
+                File::make('Arsip Penerimaan', 'arsip')
+                    ->disk('arsip')
+                    ->rules('mimes:pdf')
+                    ->acceptedTypes('.pdf')
+                    ->hideWhenCreating()
+                    ->path(session('year').'/'.static::uriKey())
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->arsip->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
+                    ->prunable(),
+            ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
     }
@@ -156,6 +176,12 @@ class PembelianPersediaan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat', 'diterima'])
                 ->failedWhen(['outdated']),
+            $this->arsip ?
+            URLFields::make('Arsip Penerimaan', fn () => Storage::disk('arsip')
+                ->url($this->arsip))
+                ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                :
+            Text::make('Arsip Penerimaan', fn () => '—')->onlyOnIndex(),
 
         ];
     }

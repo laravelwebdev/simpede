@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_bast')->nullable();
             $table->date('tanggal_buku')->nullable();
             $table->string('status', 20)->nullable();
+            $table->string('arsip')->nullable();
             $table->mediumInteger('anggaran_kerangka_acuan_id')->unsigned()->nullable();
             $table->mediumInteger('kerangka_acuan_id')->unsigned()->nullable();
             $table->mediumInteger('bast_naskah_keluar_id')->unsigned()->nullable();

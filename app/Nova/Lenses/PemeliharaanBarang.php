@@ -115,7 +115,7 @@ class PemeliharaanBarang extends Lens
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->searchable()
                 ->withSubtitles(),
-            Number::make('Jumlah Pemeliharaan', 'jumlah'),
+            Number::make('Pemeliharaan', 'jumlah'),
         ];
     }
 

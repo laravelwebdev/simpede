@@ -126,8 +126,7 @@ class KerangkaAcuan extends Resource
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
             Panel::make('SPP', [
-                BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
-                    ->exceptOnForms(),
+                BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),

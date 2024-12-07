@@ -31,7 +31,10 @@ class AttachSpm extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-  throw_if(true, $fields->nomor_spp[0]);
+        $model = $models->first();
+        foreach ($fields->nomor_spp as $nomorSpp) {
+            $model->daftarSp2d->attach($nomorSpp);
+        }
 
         return Action::message('SPP berhasil ditambahkan.');
     }

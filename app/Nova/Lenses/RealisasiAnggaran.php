@@ -59,6 +59,7 @@ class RealisasiAnggaran extends Lens
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE round(100*sum(nilai)/total,2) END as persen, 
                 CASE WHEN SUM(nilai) IS NULL THEN total-blokir ELSE  total- SUM(nilai)-blokir END as sisa'
             )
+            ->join('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
 
                 ->rightJoin('mata_anggarans', function ($join) use ($filtered_bulan) {
                     $join->on('realisasi_anggarans.mata_anggaran_id',

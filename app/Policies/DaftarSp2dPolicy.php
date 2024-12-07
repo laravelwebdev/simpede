@@ -59,4 +59,26 @@ class DaftarSp2dPolicy
     {
         return false;
     }
+
+    public function addKerangkaAcuan(): bool
+    {
+        return false;
+    }
+
+    public function attachKerangkaAcuan(): bool
+    {
+        return false;
+    }
+
+    public function attachAnyKerangkaAcuan(): bool
+    {
+        return false;
+    }
+
+    public function detachKerangkaAcuan(): bool
+    {
+        return false;
+    }
+
+
 }

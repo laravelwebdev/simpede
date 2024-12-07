@@ -133,7 +133,7 @@ class KerangkaAcuan extends Resource
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
                 HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
-                // BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
+                BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             ]),
         ];
     }

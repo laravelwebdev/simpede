@@ -33,7 +33,10 @@ class DaftarPemeliharaan extends Resource
      */
     public static $title = 'masterBarangPemeliharaan.nama_barang';
 
-    public static $subtitle = 'pemeliharaan.rincian';
+    public function subtitle()
+    {
+        return $this->pemeliharaan->rincian;
+    }
 
     /**
      * The columns that should be searched.

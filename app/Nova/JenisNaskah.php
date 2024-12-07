@@ -37,10 +37,7 @@ class JenisNaskah extends Resource
      */
     public static $title = 'jenis';
 
-    public function subtitle()
-    {
-        return 'Format Penomoran: '.$this->format;
-    }
+    public static $globallySearchable = false;
 
     /**
      * The columns that should be searched.

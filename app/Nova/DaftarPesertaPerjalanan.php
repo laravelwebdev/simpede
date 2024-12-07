@@ -41,7 +41,10 @@ class DaftarPesertaPerjalanan extends Resource
      */
     public static $title = 'user.name';
 
-    public static $subtitle = 'perjalananDinas.uraian';
+    public function subtitle()
+    {
+        return $this->perjalananDinas->uraian;
+    }
 
     /**
      * The columns that should be searched.

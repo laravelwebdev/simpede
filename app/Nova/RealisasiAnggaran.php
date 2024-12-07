@@ -39,7 +39,10 @@ class RealisasiAnggaran extends Resource
      */
     public static $title = 'daftarSp2d.nomor_spp';
 
-    public static $subtitle = 'daftarSp2d.uraian';
+    public function subtitle()
+    {
+        return $this->daftarSp2d->uraian;
+    }
 
     public static $search = [
         'daftarSp2d.nomor_spp',

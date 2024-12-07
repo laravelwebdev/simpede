@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('realisasi_anggarans', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_sp2d')->nullable();
-            $table->string('nomor_spp', 10)->nullable();
-            $table->string('nomor_sp2d', 20)->nullable();
-            $table->text('uraian', 20)->nullable();
             $table->integer('nilai')->nullable();
+            $table->mediumInteger('daftar_sp2d_id')->nullable()->unsigned();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->mediumInteger('mata_anggaran_id')->nullable()->unsigned();
-            $table->fullText('uraian')->nullable();
             $table->timestamps();
         });
     }

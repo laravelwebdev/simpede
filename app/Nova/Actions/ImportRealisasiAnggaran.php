@@ -40,19 +40,6 @@ class ImportRealisasiAnggaran extends Action
             $array_coa = explode('.', $row['KODE COA']);
             $coa_id = end($array_coa);
             $mak_id = $mataAnggarans[(int) $coa_id];
-            $realisasiAnggaran = RealisasiAnggaran::firstOrNew(
-                [
-                    'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
-                    'mata_anggaran_id' => $mak_id,
-                    'dipa_id' => $model->id,
-                ]
-            );
-            $realisasiAnggaran->tanggal_sp2d = $row['TANGGAL SP2D'];
-            $realisasiAnggaran->nomor_spp = str_replace("'", '', $row['NO SPP']);
-            $realisasiAnggaran->uraian = $row['URAIAN'];
-            $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
-            $realisasiAnggaran->updated_at = now();
-            $realisasiAnggaran->save();
             $daftarsp2d = DaftarSp2d::firstOrNew(
                 [
                     'nomor_sp2d' => str_replace("'", '', $row['NO SP2D']),
@@ -64,6 +51,17 @@ class ImportRealisasiAnggaran extends Action
             $daftarsp2d->uraian = $row['URAIAN'];
             $daftarsp2d->updated_at = now();
             $daftarsp2d->save();
+            $realisasiAnggaran = RealisasiAnggaran::firstOrNew(
+                [
+                    'daftar_sp2d_id' => $daftarsp2d->id,
+                    'mata_anggaran_id' => $mak_id,
+                    'dipa_id' => $model->id,
+                ]
+            );
+            $realisasiAnggaran->nilai = $row['NILAI RUPIAH'];
+            $realisasiAnggaran->updated_at = now();
+            $realisasiAnggaran->save();
+
         });
         RealisasiAnggaran::where('updated_at', null)->delete();
         DaftarSp2d::where('updated_at', null)->delete();

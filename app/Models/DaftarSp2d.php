@@ -16,4 +16,9 @@ class DaftarSp2d extends Model
     {
         return $this->hasMany(KerangkaAcuan::class);
     }
+
+    public function realisasiAnggaran(): HasMany
+    {
+        return $this->hasMany(RealisasiAnggaran::class);
+    }
 }

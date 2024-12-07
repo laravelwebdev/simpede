@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use App\Nova\Lenses\RencanaPenarikanDana;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
@@ -15,6 +16,8 @@ use Laravel\Nova\Query\Search\SearchableText;
 class RealisasiAnggaran extends Resource
 {
     public static $displayInNavigation = false;
+
+    public static $with = ['daftarSp2d'];
 
     public static function label()
     {
@@ -33,26 +36,18 @@ class RealisasiAnggaran extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return 'SPP Nomor: '.$this->nomor_spp;
-    }
+    public static $title = 'daftarSp2d.nomor_spp';
 
-    public function subtitle()
-    {
-        return $this->uraian;
-    }
+    public static $subtitle = 'daftarSp2d.uraian';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static function searchableColumns()
-    {
-        return ['tanggal_sp2d', 'nomor_sp2d', 'nomor_spp', new SearchableText('uraian')];
-    }
-
+    public static $search = [
+        'daftarSp2d.nomor_spp',
+        'daftarSp2d.uraian',
+        'daftarSp2d.nomor_sp2d',
+        'daftarSp2d.tanggal_sp2d',
+        'nilai'
+    ];
+    
     /**
      * Get the fields displayed by the resource.
      *
@@ -66,17 +61,14 @@ class RealisasiAnggaran extends Resource
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
-            Text::make('Nomor SPP', 'nomor_spp')
-                ->sortable()
-                ->rules('required', 'max:10'),
+            BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
+                            ->sortable(),
 
-            Text::make('Nomor SP2D', 'nomor_sp2d')
-                ->sortable()
-                ->rules('required', 'max:20'),
+            Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
+                ->sortable(),
 
-            Text::make('Uraian', 'uraian')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Text::make('Uraian', 'daftarSp2d.uraian')
+                ->sortable(),
 
             Currency::make('Nilai', 'nilai')
                 ->sortable()

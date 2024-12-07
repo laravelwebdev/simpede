@@ -17,7 +17,7 @@ use Laravel\Nova\Query\Search\SearchableText;
 
 class DaftarSp2d extends Resource
 {
-    public static $with = ['kerangkaAcuan'];
+    public static $with = ['kerangkaAcuan', 'realisasiAnggaran'];
     /**
      * The model the resource corresponds to.
      *
@@ -123,6 +123,7 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('Arsip SP2D', fn () => '—')->onlyOnIndex(),
             ]),
+            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             HasMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
         ];
     }

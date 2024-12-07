@@ -212,7 +212,7 @@ class RewardPegawai extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag')->get()) {
-            $actions[] = 
+            $actions[] =
             ImportRekapPresensi::make()
                 ->confirmButtonText('Import')
                 ->showInline()

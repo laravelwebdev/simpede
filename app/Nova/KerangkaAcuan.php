@@ -41,10 +41,10 @@ class KerangkaAcuan extends Resource
         $query->whereYear('tanggal', session('year'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             return $query;
-        }
-        elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+        } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
+
         return $query;
     }
 

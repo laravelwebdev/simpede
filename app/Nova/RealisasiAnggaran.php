@@ -57,7 +57,7 @@ class RealisasiAnggaran extends Resource
      */
     public function fields(NovaRequest $request)
     {
-       return  $request->viaResource === 'daftar-sp2ds' ? $this->fieldsForDaftarSp2d() : $this->defaultFields();
+       return   $this->defaultFields();
     }
 
     private function fieldsForDaftarSp2d()

@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Line;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -17,7 +19,7 @@ class RealisasiAnggaran extends Resource
 {
     public static $displayInNavigation = false;
 
-    public static $with = ['daftarSp2d'];
+    public static $with = ['daftarSp2d', 'mataAnggaran'];
 
     public static function label()
     {
@@ -54,6 +56,28 @@ class RealisasiAnggaran extends Resource
      * @return array
      */
     public function fields(NovaRequest $request)
+    {
+        $request->viaResource === 'daftar-sp2ds' ? $this->fieldsForDaftarSp2d() : $this->defaultFields();
+    }
+
+    private function fieldsForDaftarSp2d()
+    {
+        return [
+            Stack::make('RO/Komponen', [
+                Line::make('RO', 'mak')
+                    ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'ro'))->asSubTitle(),
+                Line::make('Komponen', 'mak')
+                    ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'komponen'))->asSmall(),
+            ]),
+            Stack::make('Akun/Detil', [
+                Line::make('Akun', 'mak')
+                    ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
+                Line::make('Item', 'item')->asSmall(),
+            ]),
+        ];
+    }
+
+    private function defaultFields()
     {
         return [
             Hidden::make('Mata Anggaran', 'mata_anggaran_id')->filterable(),

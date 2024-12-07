@@ -13,4 +13,9 @@ class RealisasiAnggaran extends Model
     {
         return $this->belongsTo(DaftarSp2d::class);
     }
+
+    public function mataAnggaran() : BelongsTo
+    {
+        return $this->belongsTo(MataAnggaran::class);
+    }
 }

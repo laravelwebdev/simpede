@@ -181,15 +181,6 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
-        if (Policy::make()->allowedFor('arsiparis,ppspm')->get()) {
-            $actions[] =
-            AttachSpm::make($this->model())
-                ->showInline()
-                ->showOnDetail()
-                ->confirmButtonText('Tambahkan SPM')
-                ->exceptOnIndex();
-        }
-
         return $actions;
     }
 

@@ -1329,8 +1329,8 @@ class Helper
     public static function setOptionsNomorSpp($kerangka_acuan_id, $dipa_id)
     {
         $options = DaftarSp2d::where('dipa_id', $dipa_id)
-            ->whereIn('nomor_spp', function ($query) use ($kerangka_acuan_id) {
-                $query->select('nomor_spp')
+            ->whereIn('daftar_sp2d_id', function ($query) use ($kerangka_acuan_id) {
+                $query->select('daftar_sp2d_id')
                     ->from('realisasi_anggarans')
                     ->whereIn('mata_anggaran_id', function ($subQuery) use ($kerangka_acuan_id) {
                         $subQuery->select('mata_anggaran_id')

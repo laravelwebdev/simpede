@@ -100,8 +100,7 @@ class KerangkaAcuan extends Resource
                 ->filterable(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
-                ->failedWhen(['outdated']),
-            BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
+                ->failedWhen(['outdated']),            
 
         ];
     }
@@ -134,6 +133,7 @@ class KerangkaAcuan extends Resource
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
                 HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
+                BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             ]),
         ];
     }

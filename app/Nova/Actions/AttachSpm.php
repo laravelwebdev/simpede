@@ -31,7 +31,7 @@ class AttachSpm extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-  throw_if(true, $fields->nomor_spp);
+  throw_if(true, $fields->nomor_spp[0]);
 
         return Action::message('SPP berhasil ditambahkan.');
     }

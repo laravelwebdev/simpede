@@ -140,7 +140,7 @@ class DaftarSp2d extends Resource
             //                 ->from('anggaran_kerangka_acuans')
             //                 ->where('kerangka_acuan_id', $kerangka_acuan_id);
             //         });
-            })
+            // })
         ];
     }
 

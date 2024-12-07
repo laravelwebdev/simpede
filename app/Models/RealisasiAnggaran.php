@@ -9,12 +9,12 @@ class RealisasiAnggaran extends Model
 {
     protected $fillable = ['dipa_id', 'mata_anggaran_id', 'daftar_sp2d_id'];
 
-    public function daftarSp2d() : BelongsTo
+    public function daftarSp2d(): BelongsTo
     {
         return $this->belongsTo(DaftarSp2d::class);
     }
 
-    public function mataAnggaran() : BelongsTo
+    public function mataAnggaran(): BelongsTo
     {
         return $this->belongsTo(MataAnggaran::class);
     }

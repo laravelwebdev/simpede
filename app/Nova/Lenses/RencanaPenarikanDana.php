@@ -51,7 +51,7 @@ class RencanaPenarikanDana extends Lens
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 
                 CASE WHEN SUM(nilai) IS NULL THEN  rpd_'.$filtered_bulan.' ELSE   rpd_'.$filtered_bulan.' - SUM(nilai) END as deviasi'
             )
-            ->join('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
+                ->join('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
                 ->rightJoin('mata_anggarans', function ($join) use ($filtered_bulan) {
                     $join->on('realisasi_anggarans.mata_anggaran_id',
                         '=',

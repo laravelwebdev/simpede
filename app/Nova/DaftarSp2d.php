@@ -125,7 +125,9 @@ class DaftarSp2d extends Resource
                 Text::make('Arsip SP2D', fn () => '—')->onlyOnIndex(),
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
-            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+                ->searchable()
+                ->withSubtitles(),
         ];
     }
 

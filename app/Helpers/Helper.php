@@ -1326,24 +1326,6 @@ class Helper
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 
-    public static function setOptionsNomorSpp($kerangka_acuan_id, $dipa_id)
-    {
-        $options = DaftarSp2d::where('dipa_id', $dipa_id)
-            ->whereIn('id', function ($query) use ($kerangka_acuan_id) {
-                $query->select('daftar_sp2d_id')
-                    ->from('realisasi_anggarans')
-                    ->whereIn('mata_anggaran_id', function ($subQuery) use ($kerangka_acuan_id) {
-                        $subQuery->select('mata_anggaran_id')
-                            ->from('anggaran_kerangka_acuans')
-                            ->where('kerangka_acuan_id', $kerangka_acuan_id);
-                    });
-            })
-            ->pluck('nomor_spp', 'id')
-            ->toArray();
-
-        return $options;
-    }
-
     /**
      * Membuat option value select field Mata Anggaran berdasarkan dipa_id yang diberikan.
      *

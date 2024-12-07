@@ -127,7 +127,20 @@ class DaftarSp2d extends Resource
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                 ->searchable()
+                ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                    $query->whereIn('teams', ['editor', 'writer']);
+                })
                 ->withSubtitles(),
+            //     DaftarSp2d::where('dipa_id', $dipa_id)
+            // ->whereIn('id', function ($query) use ($kerangka_acuan_id) {
+            //     $query->select('daftar_sp2d_id')
+            //         ->from('realisasi_anggarans')
+            //         ->whereIn('mata_anggaran_id', function ($subQuery) use ($kerangka_acuan_id) {
+            //             $subQuery->select('mata_anggaran_id')
+            //                 ->from('anggaran_kerangka_acuans')
+            //                 ->where('kerangka_acuan_id', $kerangka_acuan_id);
+            //         });
+            })
         ];
     }
 

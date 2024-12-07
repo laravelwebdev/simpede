@@ -126,7 +126,7 @@ class KerangkaAcuan extends Resource
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
             Panel::make('SPP', [
-                BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
+                BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
                     ->exceptOnForms(),
             ]),
             Tabs::make('Detail', [
@@ -186,14 +186,14 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
-        // if (Policy::make()->allowedFor('arsiparis,ppspm')->get()) {
-        //     $actions[] =
-        //     AttachSpm::make($this->model())
-        //         ->showInline()
-        //         ->showOnDetail()
-        //         ->confirmButtonText('Tambahkan SPM')
-        //         ->exceptOnIndex();
-        // }
+        if (Policy::make()->allowedFor('arsiparis,ppspm')->get()) {
+            $actions[] =
+            AttachSpm::make($this->model())
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Tambahkan SPM')
+                ->exceptOnIndex();
+        }
 
         return $actions;
     }

@@ -27,7 +27,7 @@ class KerangkaAcuanPolicy
     public function view(User $user, KerangkaAcuan $kerangkaAcuan): bool
     {
         return Policy::make()
-            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,bmn')
+            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,bmn,koordinator,anggota')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
             ->get();
     }

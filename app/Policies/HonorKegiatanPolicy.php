@@ -24,16 +24,8 @@ class HonorKegiatanPolicy
      */
     public function view(User $user, HonorKegiatan $honor): bool
     {
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            return Policy::make()
-                ->allowedFor('koordinator,anggota')
-                ->withYear($honor->tahun)
-                ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
-                ->get();
-        }
-
         return Policy::make()
-            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')
+            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koor,anggota')
             ->withYear($honor->tahun)
             ->get();
     }

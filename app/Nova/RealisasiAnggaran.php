@@ -64,15 +64,15 @@ class RealisasiAnggaran extends Resource
     {
         return [
             Stack::make('RO/Komponen', [
-                Line::make('RO', 'mak')
+                Line::make('RO', 'mataAnggaran.mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'ro'))->asSubTitle(),
-                Line::make('Komponen', 'mak')
+                Line::make('Komponen', 'mataAnggaran.mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'komponen'))->asSmall(),
             ]),
             Stack::make('Akun/Detil', [
-                Line::make('Akun', 'mak')
+                Line::make('Akun', 'mataAnggaran.mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
-                Line::make('Item', 'item')->asSmall(),
+                Line::make('Item', 'mataAnggaran.item')->asSmall(),
             ]),
         ];
     }

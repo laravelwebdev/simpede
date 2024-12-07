@@ -102,7 +102,6 @@ class RealisasiAnggaran extends Lens
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
             ]),
-            Text::make('COA', 'coa_id'),
             Number::make('Total', 'total')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')

@@ -40,7 +40,10 @@ class ArsipDokumen extends Resource
      */
     public static $title = 'slug';
 
-    public static $subtitle = 'kerangkaAcuan.rincian';
+    public function subtitle()
+    {
+        return $this->kerangkaAcuan->rincian;
+    }
 
     /**
      * The columns that should be searched.

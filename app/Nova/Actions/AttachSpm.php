@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AttachSpm extends Action
@@ -46,9 +46,10 @@ class AttachSpm extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Nomor SPP', 'nomor_spp')
+            MultiSelect::make('Nomor SPP', 'nomor_spp')
                 ->options(Helper::setOptionsNomorSpp($this->model->id, $this->model->dipa_id))
                 ->searchable()
+                ->multiple()
                 ->rules('required'),
         ];
     }

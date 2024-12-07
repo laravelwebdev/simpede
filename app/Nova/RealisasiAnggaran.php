@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 
 class RealisasiAnggaran extends Resource
 {
@@ -47,9 +46,9 @@ class RealisasiAnggaran extends Resource
         'daftarSp2d.uraian',
         'daftarSp2d.nomor_sp2d',
         'daftarSp2d.tanggal_sp2d',
-        'nilai'
+        'nilai',
     ];
-    
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -57,7 +56,7 @@ class RealisasiAnggaran extends Resource
      */
     public function fields(NovaRequest $request)
     {
-    return $request->viaResource == 'daftar-sp2ds' || str_contains(request()->url(), 'daftar-sp2ds') ? $this->fieldsForDaftarSp2d() : $this->defaultFields();
+        return $request->viaResource == 'daftar-sp2ds' || str_contains(request()->url(), 'daftar-sp2ds') ? $this->fieldsForDaftarSp2d() : $this->defaultFields();
     }
 
     private function fieldsForDaftarSp2d()
@@ -72,8 +71,10 @@ class RealisasiAnggaran extends Resource
             Stack::make('Akun/Detil', [
                 Line::make('Akun', 'mataAnggaran.mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
-                Line::make('Item', 'mataAnggaran.item')->asSmall(),
+                Line::make('Item', 'mataAnggaran.uraian')->asSmall(),
             ]),
+            Currency::make('Nilai', 'nilai')
+                ->sortable(),
         ];
     }
 
@@ -86,17 +87,13 @@ class RealisasiAnggaran extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
             BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
-                            ->sortable(),
-
+                ->sortable(),
             Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
                 ->sortable(),
-
             Text::make('Uraian', 'daftarSp2d.uraian')
                 ->sortable(),
-
             Currency::make('Nilai', 'nilai')
-                ->sortable()
-                ->rules('required', 'integer'),
+                ->sortable(),
         ];
     }
 

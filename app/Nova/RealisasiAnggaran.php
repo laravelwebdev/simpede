@@ -57,7 +57,7 @@ class RealisasiAnggaran extends Resource
     {
         return [
             Hidden::make('Mata Anggaran', 'mata_anggaran_id')->filterable(),
-            Date::make('Tanggal SP2D', 'tanggal_sp2d')
+            Date::make('Tanggal SP2D', 'daftarSp2d.tanggal_sp2d')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 

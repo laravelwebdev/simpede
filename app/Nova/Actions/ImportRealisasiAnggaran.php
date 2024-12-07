@@ -65,7 +65,7 @@ class ImportRealisasiAnggaran extends Action
         });
         RealisasiAnggaran::where('updated_at', null)->delete();
         DaftarSp2d::where('updated_at', null)->delete();
-        $model->tanggal_realisasi = RealisasiAnggaran::max('tanggal_sp2d');
+        $model->tanggal_realisasi = DaftarSp2d::max('tanggal_sp2d');
         $model->save();
 
         return Action::message('Realisasi Anggaran sukses diimport!');

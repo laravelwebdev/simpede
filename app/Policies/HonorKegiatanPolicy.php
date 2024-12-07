@@ -33,7 +33,7 @@ class HonorKegiatanPolicy
         }
 
         return Policy::make()
-            ->notAllowedFor('admin')
+            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')
             ->withYear($honor->tahun)
             ->get();
     }

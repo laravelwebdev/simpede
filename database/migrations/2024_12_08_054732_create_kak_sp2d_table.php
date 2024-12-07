@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kak_sp2d', function (Blueprint $table) {
             $table->id();
             $table->mediumInteger('kerangka_acuan_id')->unsigned()->nullable();
-            $table->mediumInteger('datar_sp2d_id')->unsigned()->nullable();
+            $table->mediumInteger('daftar_sp2d_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

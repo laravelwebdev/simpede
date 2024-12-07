@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
@@ -29,9 +30,9 @@ class KerangkaAcuan extends Model
         return $this->belongsTo(UnitKerja::class);
     }
 
-    public function daftarSp2d(): BelongsTo
+    public function daftarSp2d(): BelongsToMany
     {
-        return $this->belongsTo(DaftarSp2d::class);
+        return $this->belongsToMany(DaftarSp2d::class, 'kak_sp2d');
     }
 
     public function arsipDokumen(): HasMany

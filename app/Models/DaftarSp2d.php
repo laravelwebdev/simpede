@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DaftarSp2d extends Model
@@ -12,9 +13,9 @@ class DaftarSp2d extends Model
     ];
     protected $fillable = ['dipa_id', 'nomor_sp2d'];
 
-    public function kerangkaAcuan(): HasMany
+    public function kerangkaAcuan(): BelongsToMany
     {
-        return $this->hasMany(KerangkaAcuan::class);
+        return $this->belongsToMany(KerangkaAcuan::class, 'kak_sp2d');
     }
 
     public function realisasiAnggaran(): HasMany

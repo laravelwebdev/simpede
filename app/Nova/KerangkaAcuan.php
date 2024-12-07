@@ -9,6 +9,7 @@ use App\Nova\Actions\AttachSpm;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -100,7 +101,7 @@ class KerangkaAcuan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
-            BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
+            BelongsToMany::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
 
         ];
     }

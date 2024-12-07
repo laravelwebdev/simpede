@@ -57,7 +57,7 @@ class RealisasiAnggaran extends Resource
      */
     public function fields(NovaRequest $request)
     {
-       return   $this->defaultFields();
+    return $request->viaResource === 'daftar-sp2d' ? $this->fieldsForDaftarSp2d() : $this->defaultFields();
     }
 
     private function fieldsForDaftarSp2d()
@@ -97,7 +97,6 @@ class RealisasiAnggaran extends Resource
             Currency::make('Nilai', 'nilai')
                 ->sortable()
                 ->rules('required', 'integer'),
-
         ];
     }
 

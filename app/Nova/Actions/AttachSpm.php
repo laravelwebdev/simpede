@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
+use App\Models\KakSp2d;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -32,10 +33,18 @@ class AttachSpm extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        foreach ($fields->nomor_spp as $nomorSpp) {
-            $model->daftarSp2d->attach($nomorSpp);
-        }
-
+         KakSp2d::where('kerangka_acuan_id', $model->id)->update(['updated_at' => null]);
+            foreach ($fields->nomor_spp  as $nomor_spp) {
+                $kakSp2d = KakSp2d::firstOrNew(
+                    [
+                        'kerangka_acuan_id' => $model->id,
+                        'daftar_sp2d_id' => $nomor_spp,
+                    ]
+                );
+               $kakSp2d->save();
+            }
+        $ids = KakSp2d::where('updated_at', null)->get()->pluck('id');
+        KakSp2d::destroy($ids);
         return Action::message('SPP berhasil ditambahkan.');
     }
 

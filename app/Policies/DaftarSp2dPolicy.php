@@ -60,7 +60,6 @@ class DaftarSp2dPolicy
         return false;
     }
 
-
     public function attachKerangkaAcuan(): bool
     {
         return Policy::make()
@@ -78,9 +77,7 @@ class DaftarSp2dPolicy
     public function detachKerangkaAcuan(): bool
     {
         return Policy::make()
-        ->allowedFor('ppspm,arsiparis')
-        ->get();
+            ->allowedFor('ppspm,arsiparis')
+            ->get();
     }
-
-
 }

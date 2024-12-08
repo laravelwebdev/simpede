@@ -10,7 +10,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
@@ -89,8 +88,8 @@ class DaftarSp2d extends Resource
                 ->options([
                     0 => 'Belum Ada KAK',
                 ])
-                ->filterable(function ($request, $query, $value, $attribute) {                    
-                        $query->has('kerangkaAcuan', '<=', $value);
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    $query->has('kerangkaAcuan', '<=', $value);
                 })
                 ->onlyOnDetail(),
             Panel::make('Arsip', [
@@ -185,6 +184,6 @@ class DaftarSp2d extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal_sp2d',session('year'))->withCount('kerangkaAcuan');
+        $query->whereYear('tanggal_sp2d', session('year'))->withCount('kerangkaAcuan');
     }
 }

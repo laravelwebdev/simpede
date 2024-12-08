@@ -85,7 +85,7 @@ class DaftarSp2d extends Resource
                 ->sortable()
                 ->readonly(),
 
-            Select::make('Jumlah KAK', 'kerangka_acuan_count')
+            Select::make('KAK', 'kerangka_acuan_count')
                 ->sortable()
                 ->options([
                     0 => 'Tidak Ada',

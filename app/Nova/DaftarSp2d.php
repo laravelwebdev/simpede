@@ -4,8 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Nova\Filters\Keberadaan;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -22,6 +20,7 @@ use Laravel\Nova\Query\Search\SearchableText;
 class DaftarSp2d extends Resource
 {
     public static $with = ['kerangkaAcuan', 'realisasiAnggaran'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -86,8 +85,15 @@ class DaftarSp2d extends Resource
                 ->readonly(),
 
             Number::make('Jumlah KAK', 'kerangka_acuan_count')
-                ->sortable()
-                ->readonly(),
+                ->sortable()    
+                ->onlyOnDetail()
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    if(is_numeric($value[0]))
+                        $query->has('kerangka_acuan', '>=', $value[0]);
+            
+                    if(is_numeric($value[1]))
+                        $query->has('kerangka_acuan', '<=', $value[1]);
+                }),
             Panel::make('Arsip', [
                 File::make('Arsip', 'arsip_spm')
                     ->disk('arsip')
@@ -155,9 +161,7 @@ class DaftarSp2d extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            Keberadaan::make('Kerangka Acuan', 'kerangka_acuan_count'),
-        ];
+        return [];
     }
 
     /**

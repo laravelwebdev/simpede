@@ -124,6 +124,14 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
+            Select::make('SP2D', 'daftar_sp2d_count')
+                ->options([
+                    0 => 'Tidak Ada',
+                ])
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    $query->has('daftarSp2d', '<=', $value);
+                })
+                ->onlyOnDetail(),
             BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),

@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -84,9 +85,13 @@ class DaftarSp2d extends Resource
                 ->sortable()
                 ->readonly(),
 
-            Number::make('Jumlah KAK', 'kerangka_acuan_count')
+            Select::make('Jumlah KAK', 'kerangka_acuan_count')
                 ->sortable()
-                ->onlyOnDetail(),
+                ->options([
+                    0 => 'Tidak Ada',
+                ])
+                ->filterable(),
+                ->exceptOnForms(),
             Panel::make('Arsip', [
                 File::make('Arsip', 'arsip_spm')
                     ->disk('arsip')

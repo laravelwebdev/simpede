@@ -84,7 +84,7 @@ class DaftarSp2d extends Resource
                 ->sortable()
                 ->readonly(),
 
-            Number::make('Jumlah KAK', 'kerangkaAcuan_count')
+            Number::make('Jumlah KAK', 'kerangka_acuan_count')
                 ->sortable()
                 ->readonly(),
             Panel::make('Arsip', [

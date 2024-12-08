@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,6 +53,10 @@ class KerangkaAcuan extends Model
 
     protected static function booted(): void
     {
+        static::addGlobalScope('with-daftar-sp2d-count', function (Builder $builder) {
+            $builder->withCount('daftarSp2d');
+        });
+
         static::creating(function (KerangkaAcuan $kak) {
             $kak->status = 'dibuat';
             $kak->createNaskahKeluar();

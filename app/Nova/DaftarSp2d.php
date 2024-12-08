@@ -86,14 +86,13 @@ class DaftarSp2d extends Resource
                 ->readonly(),
 
             Select::make('KAK', 'kerangka_acuan_count')
-                ->sortable()
                 ->options([
                     0 => 'Tidak Ada',
                 ])
                 ->filterable(function ($request, $query, $value, $attribute) {                    
                         $query->has('kerangkaAcuan', '<=', $value);
                 })
-                ->exceptOnForms(),
+                ->onlyOnDetail(),
             Panel::make('Arsip', [
                 File::make('Arsip', 'arsip_spm')
                     ->disk('arsip')

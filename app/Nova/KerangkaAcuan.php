@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
-use App\Nova\Actions\AttachSpm;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
@@ -100,7 +99,7 @@ class KerangkaAcuan extends Resource
                 ->filterable(),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
-                ->failedWhen(['outdated']),            
+                ->failedWhen(['outdated']),
 
         ];
     }
@@ -125,6 +124,14 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
+            Select::make('SP2D', 'daftar_sp2d_count')
+                ->options([
+                    0 => 'Tidak Ada',
+                ])
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    $query->has('daftarSp2d', '<=', $value);
+                })
+                ->onlyOnDetail(),
             BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             Tabs::make('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
@@ -182,6 +189,7 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
+
         return $actions;
     }
 

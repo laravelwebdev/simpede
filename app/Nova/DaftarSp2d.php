@@ -91,7 +91,7 @@ class DaftarSp2d extends Resource
                     0 => 'Tidak Ada',
                 ])
                 ->filterable(function ($request, $query, $value, $attribute) {                    
-                        $query->has('kerangka_acuan', '<=', $value);
+                        $query->has('kerangkaAcuan', '<=', $value);
                 })
                 ->exceptOnForms(),
             Panel::make('Arsip', [

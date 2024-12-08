@@ -126,7 +126,7 @@ class KerangkaAcuan extends Resource
             ]),
             Select::make('SP2D', 'daftar_sp2d_count')
                 ->options([
-                    0 => 'Tidak Ada',
+                    0 => 'Belum SP2D',
                 ])
                 ->filterable(function ($request, $query, $value, $attribute) {
                     $query->has('daftarSp2d', '<=', $value);

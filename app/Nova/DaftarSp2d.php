@@ -87,7 +87,7 @@ class DaftarSp2d extends Resource
 
             Select::make('KAK', 'kerangka_acuan_count')
                 ->options([
-                    0 => 'Tidak Ada',
+                    0 => 'Belum Ada KAK',
                 ])
                 ->filterable(function ($request, $query, $value, $attribute) {                    
                         $query->has('kerangkaAcuan', '<=', $value);

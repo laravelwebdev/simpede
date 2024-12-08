@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
-use App\Models\DaftarSp2d;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;

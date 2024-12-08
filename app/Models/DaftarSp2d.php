@@ -24,11 +24,4 @@ class DaftarSp2d extends Model
     {
         return $this->hasMany(RealisasiAnggaran::class);
     }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('with-kerangka-acuan-count', function (Builder $builder) {
-            $builder->whereYear('tanggal_sp2d',session('year'))->withCount('kerangkaAcuan');
-        });
-    }
 }

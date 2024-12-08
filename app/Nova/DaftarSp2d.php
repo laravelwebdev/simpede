@@ -182,4 +182,9 @@ class DaftarSp2d extends Resource
     {
         return [];
     }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->whereYear('tanggal_sp2d',session('year'))->withCount('kerangkaAcuan');
+    }
 }

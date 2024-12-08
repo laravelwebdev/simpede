@@ -45,7 +45,7 @@ class KerangkaAcuan extends Resource
             return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
 
-        return $query;
+        return $query->withCount('daftarSp2d');
     }
 
     /**

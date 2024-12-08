@@ -53,9 +53,9 @@ class KerangkaAcuan extends Model
 
     protected static function booted(): void
     {
-        static::addGlobalScope('with-daftar-sp2d-count', function (Builder $builder) {
-            $builder->withCount('daftarSp2d');
-        });
+        // static::addGlobalScope('with-daftar-sp2d-count', function (Builder $builder) {
+        //     $builder->withCount('daftarSp2d');
+        // });
 
         static::creating(function (KerangkaAcuan $kak) {
             $kak->status = 'dibuat';

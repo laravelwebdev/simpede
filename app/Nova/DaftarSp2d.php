@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Filters\Keberadaan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -83,10 +84,6 @@ class DaftarSp2d extends Resource
             Text::make('Uraian', 'uraian')
                 ->sortable()
                 ->readonly(),
-
-            Number::make('Jumlah KAK', 'kerangka_acuan_count')
-                ->sortable()
-                ->readonly(),
             Panel::make('Arsip', [
                 File::make('Arsip', 'arsip_spm')
                     ->disk('arsip')
@@ -154,7 +151,9 @@ class DaftarSp2d extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            Keberadaan::make('Kerangka Acuan', 'kerangka_acuan_count'),
+        ];
     }
 
     /**

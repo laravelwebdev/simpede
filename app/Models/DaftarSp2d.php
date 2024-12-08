@@ -28,7 +28,7 @@ class DaftarSp2d extends Model
     protected static function booted(): void
     {
         static::addGlobalScope('with-kerangka-acuan-count', function (Builder $builder) {
-            $builder->withCount('kerangkaAcuan');
+            $builder->withCount('kerangka_acuan');
         });
     }
 }

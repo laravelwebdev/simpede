@@ -90,7 +90,7 @@ class DaftarSp2d extends Resource
                 ->options([
                     0 => 'Tidak Ada',
                 ])
-                ->filterable(),
+                ->filterable()
                 ->exceptOnForms(),
             Panel::make('Arsip', [
                 File::make('Arsip', 'arsip_spm')

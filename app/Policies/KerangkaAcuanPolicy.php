@@ -98,4 +98,19 @@ class KerangkaAcuanPolicy
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
             ->get();
     }
+
+    public function attachDaftarSp2d()
+    {
+        return false;
+    }
+
+    public function attachAnyDaftarSp2d()
+    {
+        return false;
+    }
+
+    public function detachDaftarSp2d()
+    {
+        return false;
+    }
 }

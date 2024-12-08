@@ -4,15 +4,16 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
-use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -80,6 +81,10 @@ class DaftarSp2d extends Resource
                 ->readonly(),
 
             Text::make('Uraian', 'uraian')
+                ->sortable()
+                ->readonly(),
+
+            Number::make('Jumlah KAK', 'kerangkaAcuan_count')
                 ->sortable()
                 ->readonly(),
             Panel::make('Arsip', [

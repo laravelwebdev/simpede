@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\DaftarSp2d as DaftarSp2dModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -191,15 +190,16 @@ class DaftarSp2d extends Resource
     public static function relatableKerangkaAcuans(NovaRequest $request, $query)
     {
         $dipa_id = $request->findModel()->dipa_id;
+
         return $query->where('dipa_id', $dipa_id)
-        ->whereIn('id', function ($query) use ($request) {
-            $query->select('kerangka_acuan_id')
-                ->from('anggaran_kerangka_acuans')
-                ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
-                    $subQuery->select('mata_anggaran_id')
-                        ->from('realisasi_anggarans')
-                        ->where('daftar_sp2KAKAKAd_id', $request->resourceId);
-                });
-        });
+            ->whereIn('id', function ($query) use ($request) {
+                $query->select('kerangka_acuan_id')
+                    ->from('anggaran_kerangka_acuans')
+                    ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
+                        $subQuery->select('mata_anggaran_id')
+                            ->from('realisasi_anggarans')
+                            ->where('daftar_sp2d_id', $request->resourceId);
+                    });
+            });
     }
 }

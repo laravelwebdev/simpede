@@ -197,7 +197,7 @@ class DaftarSp2d extends Resource
                 ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
                     $subQuery->select('mata_anggaran_id')
                         ->from('realisasi_anggarans')
-                        ->where('daftar_sp2d_id', $request->resourceId);
+                        ->where('daftar_sp2KAKAKAd_id', $request->resourceId);
                 });
         });
     }

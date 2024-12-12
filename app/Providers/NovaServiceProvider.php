@@ -57,8 +57,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         <a href="https://hulusungaitengahkab.bps.go.id" class="text-primary dim no-underline">BPS Kabupaten Hulu Sungai Tengah</a>
         <span class="px-1">&middot;</span>
         &copy;'.date('Y').' Simpede - By Muhlis Abdi.
+        </p>
+        <p class="mt-8 text-center text-xs text-80">
         <span class="px-1">&middot;</span>
-        v '.Nova::version().'</p>'
+        Nova v  '.Nova::version().' - Laravel v '.app()->version().'
+        </p>'
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
@@ -137,10 +140,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
         Nova::withBreadcrumbs();
         Nova::showUnreadCountInNotificationCenter();
-
-        // Nova::style('custom-fields-css', resource_path('css/app.css'));
-        // Nova::withoutGlobalSearch();
-        // Nova::withoutNotificationCenter();
     }
 
     /**
@@ -152,7 +151,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Nova::routes()
             ->withAuthenticationRoutes(default: true)
-                // ->withPasswordResetRoutes()
             ->register();
     }
 

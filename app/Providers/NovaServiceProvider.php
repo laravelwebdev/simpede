@@ -59,7 +59,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         &copy;'.date('Y').' Simpede - By Muhlis Abdi.
         </p>
         <p class="mt-8 text-center text-xs text-80">
-          Nova v  '.Nova::version().'<span class="px-1">&middot;</span> Laravel v '.app()->version().'
+          Nova v'.Nova::version().'<span class="px-1">&middot;</span> Laravel v'.app()->version().'
         </p>'
         );
 

@@ -73,8 +73,8 @@ class DaftarSp2dPolicy
     {
         return Policy::make()
             ->allowedFor('ppspm,arsiparis')
-            ->andEqual($sp2d->arsip_sp2d, '!=', null)
-            ->andEqual($sp2d->arsip_spm, '!=', null)
+            ->andNotEqual($sp2d->arsip_sp2d, null)
+            ->andNotEqual($sp2d->arsip_spm, null)
             ->get();
     }
 

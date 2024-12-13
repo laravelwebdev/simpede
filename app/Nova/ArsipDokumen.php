@@ -5,7 +5,9 @@ namespace App\Nova;
 use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -72,12 +74,17 @@ class ArsipDokumen extends Resource
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->creationRules('required')
                 ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
-                ->storeAs(function (Request $request) {
-                    $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $extension = $request->file->getClientOriginalExtension();
-
-                    return $originalName.'_'.uniqid().'.'.$extension;
-                })
+                ->dependsOn(
+                    ['slug'],
+                    function (File $field, NovaRequest $request, FormData $formData) {
+                        $field->storeAs(function (Request $request) use ($formData) {
+                            $originalName = Str::slug($formData->slug);
+                            $extension = $request->file->getClientOriginalExtension();
+        
+                            return $originalName.'_'.uniqid().'.'.$extension;
+                        });
+                    }
+                )
                 ->prunable(),
             $this->file ?
             URL::make('Arsip', fn () => Storage::disk('arsip')

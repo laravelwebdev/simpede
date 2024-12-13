@@ -71,7 +71,7 @@ class ArsipDokumen extends Resource
                 ->rules('mimes:xlsx,pdf,docx')
                 ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->creationRules('required')
-                ->path(session('year').'/'.static::uriKey())
+                ->path(session('year').'/'.static::uriKey().'/'.$this->kerangkaAcuan->id)
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
                     $extension = $request->file->getClientOriginalExtension();

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ArsipController extends Controller
 {
-    public function show(string $tahun)
+    public function show($tahun = null)
     {
         $tahun = (int) $tahun;
         $tahun = $tahun ?? Date('Y') ;

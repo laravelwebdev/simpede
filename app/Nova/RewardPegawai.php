@@ -101,7 +101,7 @@ class RewardPegawai extends Resource
                         function (File $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Kertas_Kerja_'.Helper::$bulan[$formData->bulan];
-                                $extension = $request->file->getClientOriginalExtension();
+                                $extension = $request->arsip->getClientOriginalExtension();
             
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });
@@ -127,7 +127,7 @@ class RewardPegawai extends Resource
                         function (File $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'SK_'.Helper::$bulan[$formData->bulan];
-                                $extension = $request->file->getClientOriginalExtension();
+                                $extension = $request->arsip->getClientOriginalExtension();
             
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });
@@ -153,7 +153,7 @@ class RewardPegawai extends Resource
                         function (File $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Sertifikat_'.Helper::$bulan[$formData->bulan];
-                                $extension = $request->file->getClientOriginalExtension();
+                                $extension = $request->arsip->getClientOriginalExtension();
             
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });

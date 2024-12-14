@@ -49,7 +49,7 @@ table td, table th {
 table td {
   text-align: left;
   vertical-align: middle;
-  font-size: 10pt;
+  font-size: 11pt;
 }
 table td:last-child {
   font-size: 0.95em;
@@ -184,11 +184,11 @@ table tr:nth-child(2n+1) {
         @foreach ( $data as $item )
         <tr>
          <td>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }} <br/>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }} <br/><hr/>
          {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
          </td>
          <td>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} <br/>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} <br/><hr
          {{ $item->uraian }}
          </td>
          <td><a href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->coa_id]) }}">Link</a></td>         

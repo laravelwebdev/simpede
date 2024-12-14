@@ -172,7 +172,7 @@ table tr:nth-child(2n+1) {
    
    <table cellspacing="0">
       <tr>
-         <th>Rincian</th>
+         <th>File</th>
          <th>Link</th>       
       </tr>
         @foreach ( $data as $item )
@@ -184,7 +184,7 @@ table tr:nth-child(2n+1) {
          <td>
          {{ $filename }}
          </td>
-         <td><a target="new" href="{{ $item }}">Link</a></td>         
+         <td><a target="new" href="{{ storage_path($item) }}">Link</a></td>         
         </tr>
         @endforeach
 

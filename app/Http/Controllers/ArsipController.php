@@ -14,9 +14,9 @@ class ArsipController extends Controller
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
 
-        $data = ! empty($dipa) ? DB::table('mata_anggarans')
+        $data = DB::table('mata_anggarans')
             ->selectRaw('DISTINCT MID(mak,11,8) as KRO')
-            ->where('dipa_id', $dipa->id)->paginate() : collect()->paginate();
+            ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)->paginate();
 
         return view('arsip-per-kro', [
             'level' => 'KRO',

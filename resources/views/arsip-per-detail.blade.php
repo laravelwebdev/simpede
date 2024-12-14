@@ -188,11 +188,11 @@ table tr:nth-child(2n+1) {
         @foreach ( $data as $item )
         <tr>
          <td>
-         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }}</span> <br/>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
+         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro', $tahun) }}</span> <br/>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen', $tahun) }}
          </td>
          <td>
-         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} </span><br/>
+         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, $tahun) }} </span><br/>
          {{ $item->uraian }}
          </td>
          <td><a target="_blank" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">Link</a></td>         

@@ -734,18 +734,9 @@ class Helper
      * @param  bool  $kode_prefix  default true, jika true maka detail akan diawali dengan kode level yang diinginkan
      * @return string
      */
-    public static function getDetailAnggaran($mak, $level = 'akun', bool $kode_prefix = true)
+    public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = true)
     {
-        $length = [
-            'program' => 9,
-            'kegiatan' => 14,
-            'kro' => 18,
-            'ro' => 22,
-            'komponen' => 26,
-            'sub' => 28,
-            'akun' => 37,
-
-        ];
+        $tahun = $tahun ?? session('year') ?? date('Y');
         $kode = [
             'program' => '('.Str::substr($mak, 0, 9).') ',
             'kegiatan' => '('.Str::substr($mak, 10, 4).') ',

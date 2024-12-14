@@ -13,13 +13,13 @@ class ArsipController extends Controller
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
         
-        $data = $dipa ?? DB::table('mata_anggarans')
+        $data = !empty($dipa) ? DB::table('mata_anggarans')
             ->selectRaw('DISTINCT MID(mak,11,8) as KRO')
-            ->where('dipa_id', $dipa->id)->get();
+            ->where('dipa_id', $dipa->id)->get() : [];
 
         return view('arsip-dokumen', [
             'tahun' => $tahun,
-            'data' => $data ?? [],
+            'data' => $data,
         ]);
     }
 }

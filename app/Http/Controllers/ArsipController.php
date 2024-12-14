@@ -21,7 +21,7 @@ class ArsipController extends Controller
         return view('arsip-per-kro', [
             'level' => 'KRO',
             'tahun' => $tahun,
-            'data' => $data,
+            'data' => compact($data),
         ]);
     }
 

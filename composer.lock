@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "830417fadaacf262eeb1142a6d230092",
+    "content-hash": "a44c2f305c3b777ad18d3705665affeb",
     "packages": [
         {
             "name": "brick/math",
@@ -4709,14 +4709,8 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/shuvroroy/nova-tabs.git",
-                "reference": "77aa47e287f3dd6ada66100d812ccee3bf056da4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/shuvroroy/nova-tabs/zipball/77aa47e287f3dd6ada66100d812ccee3bf056da4",
-                "reference": "77aa47e287f3dd6ada66100d812ccee3bf056da4",
-                "shasum": ""
+                "url": "https://github.com/laravelwebdev/nova-tabs.git",
+                "reference": "2b64f99f19e0d15f1ead757799adbc699896c578"
             },
             "require": {
                 "laravel/nova": "^4.12",
@@ -4736,7 +4730,13 @@
                     "ShuvroRoy\\NovaTabs\\Tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "build": [
+                    "npm --prefix './vendor/laravel/nova/' ci",
+                    "npm ci",
+                    "TAILWIND_MODE=build npm run prod"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -4751,11 +4751,7 @@
                 "laravel",
                 "nova"
             ],
-            "support": {
-                "issues": "https://github.com/shuvroroy/nova-tabs/issues",
-                "source": "https://github.com/shuvroroy/nova-tabs/tree/v1.1.1"
-            },
-            "time": "2023-11-15T16:05:24+00:00"
+            "time": "2024-12-14T09:33:20+00:00"
         },
         {
             "name": "symfony/clock",

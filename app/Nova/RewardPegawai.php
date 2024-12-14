@@ -77,6 +77,7 @@ class RewardPegawai extends Resource
                 ->options(Helper::$bulan)
                 ->searchable()
                 ->filterable()
+                ->readonly(fn () => $this->status === 'ditetapkan')
                 ->displayUsingLabels()
                 ->updateRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))->ignore($this->id))
                 ->creationRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))),

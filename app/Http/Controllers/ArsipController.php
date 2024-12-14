@@ -9,7 +9,7 @@ class ArsipController extends Controller
     public function show($tahun = null)
     {
         $tahun = (int) $tahun;
-        $tahun = $tahun ?? Date('Y') ;
+        $tahun = $tahun == 0 ? Date('Y') : $tahun;
 
         return view('arsip-dokumen', [
             'tahun' => $tahun,

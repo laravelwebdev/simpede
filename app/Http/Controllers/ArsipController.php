@@ -19,6 +19,7 @@ class ArsipController extends Controller
             ->where('dipa_id', $dipa->id)->get() : [];
 
         return view('arsip-per-kro', [
+            'level' => 'KRO',
             'tahun' => $tahun,
             'data' => $data,
         ]);

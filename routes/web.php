@@ -18,3 +18,6 @@ Route::get('/arsip-dokumen/{tahun?}', 'App\Http\Controllers\ArsipController@perK
 Route::get('/arsip-dokumen/{tahun}/kro/{kro}', 'App\Http\Controllers\ArsipController@perDetail')
     ->name('arsip-per-detail')
     ->prefix(Nova::path());
+Route::get('/arsip-dokumen/{tahun}/coa/{kak}', 'App\Http\Controllers\ArsipController@perKak')
+    ->name('arsip-per-kak')
+    ->prefix(Nova::path());

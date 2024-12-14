@@ -190,7 +190,7 @@ table tr:nth-child(2n+1) {
          {{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} <br/>
          {{ $item->uraian }}
          </td>
-         <td><a href="{{ route('arsip-per-detail', ['tahun' => $tahun , 'coa' => $item->coa_id]) }}">Link</a></td>         
+         <td><a href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->coa_id]) }}">Link</a></td>         
         </tr>
         @endforeach
 

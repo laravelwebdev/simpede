@@ -92,10 +92,10 @@ table tr:nth-child(2n+1) {
     position: absolute;
   }
   td:nth-child(1):before {
-    content: "Klasifikasi Rincian Output:";
+    content: "Klasifikasi Rincian Output: ";
   }
   td:nth-child(2):before {
-    content: "Link:";
+    content: "Link: ";
   }
 
   tr {

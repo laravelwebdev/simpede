@@ -19,10 +19,6 @@
         </div>
       </td>
     </tr>
-    <tr>
-      <td>{{ $item->KRO }}</td>
-      <td><a target="_blank" href="{{ route('arsip-per-detail', ['tahun' => $tahun , 'kro' => $item->KRO]) }}">Link</a></td>
-    </tr>
     @endforeach      
   </tbody>
 </table>

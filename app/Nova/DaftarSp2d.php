@@ -103,7 +103,7 @@ class DaftarSp2d extends Resource
                         $originalName = 'SPM_'.$this->nomor_spp;
                         $extension = $request->arsip_spm->getClientOriginalExtension();
 
-                        return $originalName.'_'.uniqid().'.'.$extension;
+                        return $originalName.'.'.$extension;
                     })
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
@@ -124,7 +124,7 @@ class DaftarSp2d extends Resource
                         $originalName = 'SP2D_'.$this->nomor_spp;
                         $extension = $request->arsip_sp2d->getClientOriginalExtension();
 
-                        return $originalName.'_'.uniqid().'.'.$extension;
+                        return $originalName.'.'.$extension;
                     })
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),

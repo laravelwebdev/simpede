@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arsip Dokumen</title>
   
 <style>
@@ -177,8 +178,7 @@ table tr:nth-child(2n+1) {
         @foreach ( $data as $item )
         <tr>
          <td>{{ $item->KRO }}</td>
-         <td>Link</td>
-         
+         <td>Link</td>         
         </tr>
         @endforeach
 

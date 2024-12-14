@@ -15,7 +15,7 @@ class ArsipController extends Controller
         $dipa = Dipa::where('tahun', $tahun)->first();
 
         $data = DB::table('mata_anggarans')
-            ->select('MID(mak,11,8) as KRO')
+            ->selectRaw('MID(mak,11,8) as KRO')
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->distinct()
             ->paginate();

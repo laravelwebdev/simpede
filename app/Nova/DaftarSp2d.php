@@ -98,7 +98,7 @@ class DaftarSp2d extends Resource
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->creationRules('required')
-                    ->path(session('year').'/'.static::uriKey())
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->arsip_spm->getClientOriginalName(), PATHINFO_FILENAME);
                         $extension = $request->arsip_spm->getClientOriginalExtension();
@@ -119,7 +119,7 @@ class DaftarSp2d extends Resource
                     ->rules('mimes:pdf')
                     ->acceptedTypes('.pdf')
                     ->creationRules('required')
-                    ->path(session('year').'/'.static::uriKey())
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->arsip_sp2d->getClientOriginalName(), PATHINFO_FILENAME);
                         $extension = $request->arsip_sp2d->getClientOriginalExtension();

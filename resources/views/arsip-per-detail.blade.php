@@ -22,6 +22,9 @@ body * {
   text-align: center;
   text-transform: uppercase;
 }
+.bold {
+  font-weight: bold;
+}
 
 img {
   border-radius: 50%;
@@ -184,7 +187,7 @@ table tr:nth-child(2n+1) {
         @foreach ( $data as $item )
         <tr>
          <td>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }} <br/><hr/>
+         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }}</span> <br/>
          {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
          </td>
          <td>

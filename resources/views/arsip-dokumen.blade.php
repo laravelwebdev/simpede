@@ -100,7 +100,6 @@ table tr:nth-child(2n+1) {
 
   tr {
     padding: 10px 0;
-    width: 450px;
     position: relative;
   }
   tr:first-child {

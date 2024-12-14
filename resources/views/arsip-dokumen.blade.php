@@ -66,7 +66,7 @@ table tr:nth-child(2n+1) {
   background-color: #edf7f8;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   table, tr, td {
     display: block;
   }
@@ -100,13 +100,14 @@ table tr:nth-child(2n+1) {
 
   tr {
     padding: 10px 0;
+    width: 450px;
     position: relative;
   }
   tr:first-child {
     display: none;
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .header {
     background-color: transparent;
     color: white;

@@ -67,7 +67,7 @@ class ArsipController extends Controller
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dir = Storage::disk('arsip')
-                ->path(session('year').'/'.'arsip-dokumens'.'/'.$kak);
+                ->path(session('year').'/'.'arsip-dokumens'.'/'.$kak.'/');
         $data = Storage::files($dir);
 
         return view('daftar-file', [

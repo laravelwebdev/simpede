@@ -747,7 +747,7 @@ class Helper
             'akun' => '('.Str::substr($mak, 29, 6).') ',
 
         ];
-        $kamus = KamusAnggaran::cache()->get($level)->where('dipa_id', Dipa::cache()->get('all')->where('tahun', session('year'))->first()->id)->first();
+        $kamus = KamusAnggaran::cache()->get($level)->where('dipa_id', Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id)->first();
         $detail = $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;

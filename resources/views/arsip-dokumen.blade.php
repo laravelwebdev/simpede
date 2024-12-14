@@ -90,10 +90,10 @@ table tr:nth-child(2n+1) {
     left: 0;
     position: absolute;
   }
-  td:nth-child(0):before {
+  td:nth-child(1):before {
     content: "KRO:";
   }
-  td:nth-child(1):before {
+  td:nth-child(2):before {
     content: "Link:";
   }
 
@@ -176,7 +176,7 @@ table tr:nth-child(2n+1) {
       </tr>
         @foreach ( $data as $item )
         <tr>
-         <td>J{{ $item->KRO }}</td>
+         <td>{{ $item->KRO }}</td>
          <td>Link</td>
          
         </tr>

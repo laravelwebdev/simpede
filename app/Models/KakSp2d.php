@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Storage;
 
 class KakSp2d extends Pivot
 {
@@ -11,7 +12,9 @@ class KakSp2d extends Pivot
     protected static function booted(): void
     {
         static::saving(function (KakSp2d $kakSp2d) {
-            $kakSp2d->status = 'dibuat';
+           Storage::disk('arsip')
+           ->copy(session('year').'/'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_spm, 
+           session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id . '/SPM_' .DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp );
         });
         static::deleting(function (KakSp2d $kakSp2d) {
             $kakSp2d->status = 'dihapus';

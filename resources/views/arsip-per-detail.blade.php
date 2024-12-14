@@ -49,7 +49,7 @@ table td, table th {
 table td {
   text-align: left;
   vertical-align: middle;
-  font-size: 8pt;
+  font-size: 10pt;
 }
 table td:last-child {
   font-size: 0.95em;

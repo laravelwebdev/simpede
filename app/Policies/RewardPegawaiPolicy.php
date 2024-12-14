@@ -45,7 +45,7 @@ class RewardPegawaiPolicy
     public function update(User $user, RewardPegawai $reward): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag')
+            ->allowedFor('kasubbag,arsiparis')
             ->withYear(session('year'))
             ->andNotEqual($reward->status, 'ditetapkan')
             ->get();

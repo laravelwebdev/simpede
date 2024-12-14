@@ -12,3 +12,6 @@ Route::get('/dump-download/{filename}', 'App\Http\Controllers\DumpDownloadContro
     ->name('dump-download')
     ->middleware(Authenticate::class)
     ->prefix(Nova::path());
+Route::get('/arsip-dokumen/{tahun?}', 'App\Http\Controllers\ArsipController@show')
+    ->name('dump-download')
+    ->prefix(Nova::path());

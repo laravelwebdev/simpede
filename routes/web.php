@@ -13,5 +13,8 @@ Route::get('/dump-download/{filename}', 'App\Http\Controllers\DumpDownloadContro
     ->middleware(Authenticate::class)
     ->prefix(Nova::path());
 Route::get('/arsip-dokumen/{tahun?}', 'App\Http\Controllers\ArsipController@perKro')
-    ->name('dump-download')
+    ->name('arsip-per-kro')
+    ->prefix(Nova::path());
+Route::get('/arsip-dokumen/{tahun}/kro/{kro}', 'App\Http\Controllers\ArsipController@perDetail')
+    ->name('arsip-per-detail')
     ->prefix(Nova::path());

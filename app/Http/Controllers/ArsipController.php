@@ -22,4 +22,21 @@ class ArsipController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function perDetail($tahun, $kro)
+    {
+        $tahun = (int) $tahun;
+        $tahun = $tahun == 0 ? date('Y') : $tahun;
+        $dipa = Dipa::where('tahun', $tahun)->first();
+        
+        $data = !empty($dipa) ? DB::table('mata_anggarans')
+            ->select(['mak', 'coa_id', 'uraian'])
+            ->where('dipa_id', $dipa->id)
+            ->whereLike('mak', '%'.$kro.'%')->get() : [];
+
+        return view('arsip-per-detail', [
+            'tahun' => $tahun,
+            'data' => $data,
+        ]);
+    }
 }

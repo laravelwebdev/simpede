@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arsip Dokumen</title>
+  <title>Arsip Dokumen - KAK</title>
   
 <style>
 body {

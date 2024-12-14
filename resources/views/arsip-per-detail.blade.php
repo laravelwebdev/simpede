@@ -100,7 +100,7 @@ table tr:nth-child(2n+1) {
     content: "RO/Komponen: ";
   }
   td:nth-child(2):before {
-    content: "Detail: ";
+    content: "Akun/Detail: ";
   }
   td:nth-child(3):before {
     content: "Link: ";

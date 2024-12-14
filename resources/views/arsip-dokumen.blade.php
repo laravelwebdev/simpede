@@ -66,46 +66,7 @@ table tr:nth-child(2n+1) {
   background-color: #edf7f8;
 }
 
-@media screen and (max-width: 700px) {
-  table, tr, td {
-    display: block;
-  }
 
-  td:first-child {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100px;
-  }
-  td:not(:first-child) {
-    clear: both;
-    margin-left: 100px;
-    padding: 4px 20px 4px 90px;
-    position: relative;
-    text-align: left;
-  }
-  td:not(:first-child):before {
-    color: #91ced4;
-    content: "";
-    display: block;
-    left: 0;
-    position: absolute;
-  }
-  td:nth-child(1):before {
-    content: "KRO:";
-  }
-  td:nth-child(2):before {
-    content: "Link:";
-  }
-
-  tr {
-    padding: 10px 0;
-    position: relative;
-  }
-  tr:first-child {
-    display: none;
-  }
-}
 @media screen and (max-width: 500px) {
   .header {
     background-color: transparent;

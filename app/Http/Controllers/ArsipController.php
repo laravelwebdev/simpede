@@ -19,7 +19,9 @@ class ArsipController extends Controller
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->distinct();
 
-        $data = $subquery->paginate();
+        $data = DB::table(DB::raw("({$subquery->toSql()}) as sub"))
+            ->mergeBindings($subquery)
+            ->paginate();
 
         return view('arsip-per-kro', [
             'level' => 'KRO',
@@ -34,14 +36,15 @@ class ArsipController extends Controller
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
 
-        $data = ! empty($dipa) ? DB::table('mata_anggarans')
+        $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
-            ->where('dipa_id', $dipa->id)
+            ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->whereLike('mak', '%'.$kro.'%')
-            ->orderBy('ordered')->get() : [];
+            ->orderBy('ordered')->paginate();
 
         return view('arsip-per-detail', [
             'tahun' => $tahun,
+            'level' => 'COA',
             'data' => $data,
         ]);
     }

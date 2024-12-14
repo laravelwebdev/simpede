@@ -192,7 +192,7 @@ table tr:nth-child(2n+1) {
          {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen', $tahun) }}
          </td>
          <td>
-         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, $tahun) }} </span><br/>
+         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'akun', $tahun) }} </span><br/>
          {{ $item->uraian }}
          </td>
          <td><a target="_blank" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">Link</a></td>         

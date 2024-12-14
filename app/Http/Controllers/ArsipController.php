@@ -14,10 +14,13 @@ class ArsipController extends Controller
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
 
-        $data = DB::table('mata_anggarans')
+        $subquery = DB::table('mata_anggarans')
             ->selectRaw('MID(mak,11,8) as KRO')
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
-            ->distinct('MID(mak,11,8)')
+            ->distinct();
+
+        $data = DB::table(DB::raw("({$subquery->toSql()}) as sub"))
+            ->mergeBindings($subquery)
             ->paginate();
 
         return view('arsip-per-kro', [

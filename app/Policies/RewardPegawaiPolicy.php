@@ -47,7 +47,6 @@ class RewardPegawaiPolicy
         return Policy::make()
             ->allowedFor('kasubbag,arsiparis')
             ->withYear(session('year'))
-            ->andNotEqual($reward->status, 'ditetapkan')
             ->get();
     }
 

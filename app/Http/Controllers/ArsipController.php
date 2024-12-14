@@ -30,7 +30,7 @@ class ArsipController extends Controller
         $dipa = Dipa::where('tahun', $tahun)->first();
         
         $data = !empty($dipa) ? DB::table('mata_anggarans')
-            ->select(['mak', 'coa_id', 'uraian'])
+            ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', $dipa->id)
             ->whereLike('mak', '%'.$kro.'%')->get() : [];
 

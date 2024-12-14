@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Arsip Dokumen - {{ $level }}</title>
-    <link rel="stylesheet" href="{{ resource('css/bulma.min.css') }}">
-    <link rel="stylesheet" href="{{ resource('css/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bulma.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
     <style type="text/css">
       h1.title, h3.subtitle {
       text-align: center;

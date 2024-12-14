@@ -176,7 +176,7 @@ table tr:nth-child(2n+1) {
       </tr>
         @foreach ( $data as $item )
         <tr>
-         <td>J{{ $item-KRO }}</td>
+         <td>J{{ $item->KRO }}</td>
          <td>Link</td>
          
         </tr>

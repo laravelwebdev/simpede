@@ -40,4 +40,24 @@ class ArsipController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function perKak($tahun, $coa)
+    {
+        $tahun = (int) $tahun;
+        $tahun = $tahun == 0 ? date('Y') : $tahun;
+        $kakIds = DB::table('anggaran_kerangka_acuans')
+            ->select('kerangka_acuan_id')
+            ->where('mata_anggaran_id', $coa)
+            ->pluck('kerangka_Acuan_id')
+            ->toArray();
+       
+        $data = !empty($kakIds) ? DB::table('kerangka_acuans')
+            ->select(['id', 'rincian'])
+            ->whereIn('id', $kakIds)->get() : [];
+
+        return view('arsip-per-kak', [
+            'tahun' => $tahun,
+            'data' => $data,
+        ]);
+    }
 }

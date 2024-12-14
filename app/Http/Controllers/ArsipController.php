@@ -19,9 +19,7 @@ class ArsipController extends Controller
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->distinct();
 
-        $data = DB::table(DB::raw("({$subquery->toSql()}) as sub"))
-            ->mergeBindings($subquery)
-            ->paginate();
+        $data = $subquery->paginate();
 
         return view('arsip-per-kro', [
             'level' => 'KRO',

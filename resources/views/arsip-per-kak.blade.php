@@ -180,7 +180,7 @@ table tr:nth-child(2n+1) {
          <td>
          {{ $item->rincian }}
          </td>
-         <td><a target="new" href="{{ route('daftar-file', ['tahun' => $tahun , 'kak' => $item->id]) }}">Link</a></td>         
+         <td><a target="_blank" href="{{ route('daftar-file', ['tahun' => $tahun , 'kak' => $item->id]) }}">Link</a></td>         
         </tr>
         @endforeach
 

@@ -195,7 +195,7 @@ table tr:nth-child(2n+1) {
          <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} </span><br/>
          {{ $item->uraian }}
          </td>
-         <td><a target="new" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">Link</a></td>         
+         <td><a target="_blank" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">Link</a></td>         
         </tr>
         @endforeach
 

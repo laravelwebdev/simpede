@@ -178,7 +178,7 @@ table tr:nth-child(2n+1) {
         @foreach ( $data as $item )
         <tr>
          <td>{{ $item->KRO }}</td>
-         <td><a target="new" href="{{ route('arsip-per-detail', ['tahun' => $tahun , 'kro' => $item->KRO]) }}">Link</a></td>         
+         <td><a target="_blank" href="{{ route('arsip-per-detail', ['tahun' => $tahun , 'kro' => $item->KRO]) }}">Link</a></td>         
         </tr>
         @endforeach
 

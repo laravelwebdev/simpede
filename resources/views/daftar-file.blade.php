@@ -184,7 +184,7 @@ table tr:nth-child(2n+1) {
          <td>
          {{ $filename }}
          </td>
-         <td><a target="new" href="{{ \Illuminate\Support\Facades\Storage::disk('arsip')->url($item) }}">Link</a></td>         
+         <td><a target="_blank" href="{{ \Illuminate\Support\Facades\Storage::disk('arsip')->url($item) }}">Link</a></td>         
         </tr>
         @endforeach
 

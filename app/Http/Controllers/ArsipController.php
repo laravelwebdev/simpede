@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ArsipController extends Controller
 {
-    public function show($tahun = null)
+    public function perKro($tahun = null)
     {
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
@@ -17,7 +17,7 @@ class ArsipController extends Controller
             ->selectRaw('DISTINCT MID(mak,11,8) as KRO')
             ->where('dipa_id', $dipa->id)->get() : [];
 
-        return view('arsip-dokumen', [
+        return view('arsip-per-kro', [
             'tahun' => $tahun,
             'data' => $data,
         ]);

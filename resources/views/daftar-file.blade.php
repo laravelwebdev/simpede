@@ -22,10 +22,6 @@ body * {
   text-align: center;
   text-transform: uppercase;
 }
-.bold {
-  font-weight: bold;
-  font-size: 11pt;
-}
 
 img {
   border-radius: 50%;
@@ -53,7 +49,7 @@ table td, table th {
 table td {
   text-align: left;
   vertical-align: middle;
-  font-size: 10pt;
+  font-size: 11pt;
 }
 table td:last-child {
   font-size: 0.95em;
@@ -97,16 +93,11 @@ table tr:nth-child(2n+1) {
     position: absolute;
   }
   td:nth-child(1):before {
-    content: "RO/Komponen: ";
+    content: "File: ";
   }
   td:nth-child(2):before {
-    content: "Akun/Detail: ";
-  }
-  td:nth-child(3):before {
     content: "Link: ";
   }
-
-
   tr {
     padding: 10px 0;
     position: relative;
@@ -181,21 +172,15 @@ table tr:nth-child(2n+1) {
    
    <table cellspacing="0">
       <tr>
-         <th>RO/Komponen</th>
-         <th>Akun/Detail</th>   
+         <th>Rincian</th>
          <th>Link</th>       
       </tr>
         @foreach ( $data as $item )
         <tr>
          <td>
-         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }}</span> <br/>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
+         {{ $item }}
          </td>
-         <td>
-         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} </span><br/>
-         {{ $item->uraian }}
-         </td>
-         <td><a target="new" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">Link</a></td>         
+         <td><a target="new" href="{{ $item }}">Link</a></td>         
         </tr>
         @endforeach
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dipa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ArsipController extends Controller
 {
@@ -12,8 +13,8 @@ class ArsipController extends Controller
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
-        
-        $data = !empty($dipa) ? DB::table('mata_anggarans')
+
+        $data = ! empty($dipa) ? DB::table('mata_anggarans')
             ->selectRaw('DISTINCT MID(mak,11,8) as KRO')
             ->where('dipa_id', $dipa->id)->get() : [];
 
@@ -28,8 +29,8 @@ class ArsipController extends Controller
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
-        
-        $data = !empty($dipa) ? DB::table('mata_anggarans')
+
+        $data = ! empty($dipa) ? DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', $dipa->id)
             ->whereLike('mak', '%'.$kro.'%')
@@ -50,12 +51,26 @@ class ArsipController extends Controller
             ->where('mata_anggaran_id', $coa)
             ->pluck('kerangka_acuan_id')
             ->toArray();
-       
-        $data = !empty($kakIds) ? DB::table('kerangka_acuans')
+        $data = ! empty($kakIds) ? DB::table('kerangka_acuans')
             ->select(['id', 'rincian'])
             ->whereIn('id', $kakIds)->get() : [];
 
         return view('arsip-per-kak', [
+            'tahun' => $tahun,
+            'data' => $data,
+        ]);
+    }
+
+
+    public function daftarFile($tahun, $kak)
+    {
+        $tahun = (int) $tahun;
+        $tahun = $tahun == 0 ? date('Y') : $tahun;
+        $dir = Storage::disk('arsip')
+                ->path(session('year').'/'.'arsip-dokumens'.'/'.$kak);
+        $data = Storage::files($dir);
+
+        return view('daftar-file', [
             'tahun' => $tahun,
             'data' => $data,
         ]);

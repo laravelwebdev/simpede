@@ -53,7 +53,7 @@ table td {
 table td:last-child {
   font-size: 0.95em;
   line-height: 1.4;
-  text-align: left;
+  text-align: center;
 }
 table th {
   background-color: #daeff1;
@@ -92,11 +92,15 @@ table tr:nth-child(2n+1) {
     position: absolute;
   }
   td:nth-child(1):before {
-    content: "Klasifikasi Rincian Output: ";
+    content: "RO/Komponen: ";
   }
   td:nth-child(2):before {
+    content: "Detail: ";
+  }
+  td:nth-child(3):before {
     content: "Link: ";
   }
+
 
   tr {
     padding: 10px 0;
@@ -172,13 +176,21 @@ table tr:nth-child(2n+1) {
    
    <table cellspacing="0">
       <tr>
-         <th>KRO</th>
-         <th>Link</th>         
+         <th>RO/Komponen</th>
+         <th>Akun/Detail</th>   
+         <th>Link</th>       
       </tr>
         @foreach ( $data as $item )
         <tr>
-         <td>{{ $item->KRO }}</td>
-         <td>Link</td>         
+         <td>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro') }} <br/>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
+         </td>
+         <td>
+         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} <br/>
+         {{ $item->uraian }}
+         </td>
+         <td><a href="{{ route('arsip-per-detail', ['tahun' => $tahun , 'coa' => $item->coa_id]) }}">Link</a></td>         
         </tr>
         @endforeach
 

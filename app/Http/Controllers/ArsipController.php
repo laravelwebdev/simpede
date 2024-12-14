@@ -48,7 +48,7 @@ class ArsipController extends Controller
         $kakIds = DB::table('anggaran_kerangka_acuans')
             ->select('kerangka_acuan_id')
             ->where('mata_anggaran_id', $coa)
-            ->pluck('kerangka_Acuan_id')
+            ->pluck('kerangka_acuan_id')
             ->toArray();
        
         $data = !empty($kakIds) ? DB::table('kerangka_acuans')

@@ -22,10 +22,6 @@ body * {
   text-align: center;
   text-transform: uppercase;
 }
-.bold {
-  font-weight: bold;
-  font-size: 11pt;
-}
 
 img {
   border-radius: 50%;
@@ -53,7 +49,7 @@ table td, table th {
 table td {
   text-align: left;
   vertical-align: middle;
-  font-size: 10pt;
+  font-size: 11pt;
 }
 table td:last-child {
   font-size: 0.95em;

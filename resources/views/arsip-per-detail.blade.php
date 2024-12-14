@@ -24,6 +24,7 @@ body * {
 }
 .bold {
   font-weight: bold;
+  font-size: 11pt;
 }
 
 img {
@@ -52,7 +53,7 @@ table td, table th {
 table td {
   text-align: left;
   vertical-align: middle;
-  font-size: 11pt;
+  font-size: 10pt;
 }
 table td:last-child {
   font-size: 0.95em;
@@ -191,7 +192,7 @@ table tr:nth-child(2n+1) {
          {{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen') }}
          </td>
          <td>
-         {{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} <br/><hr/>
+         <span class="bold">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak) }} </span><br/>
          {{ $item->uraian }}
          </td>
          <td><a href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->coa_id]) }}">Link</a></td>         

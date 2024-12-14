@@ -32,7 +32,8 @@ class ArsipController extends Controller
         $data = !empty($dipa) ? DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', $dipa->id)
-            ->whereLike('mak', '%'.$kro.'%')->get() : [];
+            ->whereLike('mak', '%'.$kro.'%')
+            ->orderBy('ordered')->get() : [];
 
         return view('arsip-per-detail', [
             'tahun' => $tahun,

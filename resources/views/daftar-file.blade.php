@@ -176,9 +176,13 @@ table tr:nth-child(2n+1) {
          <th>Link</th>       
       </tr>
         @foreach ( $data as $item )
+        @php
+          $arr = explode('/', $item);
+          $filename = end($arr);
+        @endphp
         <tr>
          <td>
-         {{ $item }}
+         {{ $filename }}
          </td>
          <td><a target="new" href="{{ $item }}">Link</a></td>         
         </tr>

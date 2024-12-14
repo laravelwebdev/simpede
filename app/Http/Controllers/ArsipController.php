@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ArsipController extends Controller
 {
-    public function show($tahun = null)
+    public function show($tahun)
     {
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;

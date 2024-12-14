@@ -37,7 +37,7 @@
           <div class="table-wrapper has-mobile-cards">
             @yield('table')
           </div>
-          {{ $data->links() }}
+          {{ $data->links('arsip.pagination') }}
         </div>
       </div>
     </section>

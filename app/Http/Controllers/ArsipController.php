@@ -17,7 +17,7 @@ class ArsipController extends Controller
         $data = DB::table('mata_anggarans')
             ->selectRaw('MID(mak,11,8) as KRO')
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
-            ->distinct()
+            ->distinct('KRO')
             ->paginate();
 
         return view('arsip-per-kro', [

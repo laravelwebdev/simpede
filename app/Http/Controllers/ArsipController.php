@@ -58,11 +58,12 @@ class ArsipController extends Controller
             ->where('mata_anggaran_id', $coa)
             ->pluck('kerangka_acuan_id')
             ->toArray();
-        $data = ! empty($kakIds) ? DB::table('kerangka_acuans')
+        $data = DB::table('kerangka_acuans')
             ->select(['id', 'rincian'])
-            ->whereIn('id', $kakIds)->get() : [];
+            ->whereIn('id', $kakIds)->paginate();
 
         return view('arsip-per-kak', [
+            'level' => 'KAK',
             'tahun' => $tahun,
             'data' => $data,
         ]);

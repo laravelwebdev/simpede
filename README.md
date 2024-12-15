@@ -45,7 +45,7 @@ Rekomendasi shared hosting murah:
 - Arahkan ke folder root domain.
 - Clone Simpede Repository: 
     ```bash
-    git clone https://github.com/laravelwebdev/simpede.git
+    git clone https://github.com/laravelwebdev/simpede.git .
     ```
 - Update dependencies (gunakan composer2):
     ```bash

@@ -26,8 +26,8 @@
     <section class="hero is-light">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Arsip Dokumen</h1>
-          <h3 class="subtitle">{{ $tahun }}</h3>
+          <h1 class="title">Arsip Dokumen Tahun Anggaran {{ $tahun }}</h1>
+          <h3 class="subtitle">Per {{ $level }}</h3>
         </div>
       </div>
     </section>

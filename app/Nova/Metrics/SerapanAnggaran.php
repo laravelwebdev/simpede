@@ -51,6 +51,11 @@ class SerapanAnggaran extends Progress
                         'realisasi_anggarans.mata_anggaran_id',
                         '=',
                         'mata_anggarans.id'
+                    )->join(
+                        'daftar_sp2ds',
+                        'realisasi_anggarans.daftar_sp2d_id',
+                        '=',
+                        'daftar_sp2ds.id'
                     );
             }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->where('dipa_id', $dipa_id)->sum('total'))
             : $this->sum($request, RealisasiAnggaran::class, function ($query) use ($filtered_ro, $filtered_bulan, $dipa_id) {
@@ -65,6 +70,11 @@ class SerapanAnggaran extends Progress
                         'realisasi_anggarans.mata_anggaran_id',
                         '=',
                         'mata_anggarans.id'
+                    )->join(
+                        'daftar_sp2ds',
+                        'realisasi_anggarans.daftar_sp2d_id',
+                        '=',
+                        'daftar_sp2ds.id'
                     );
             }, column: 'nilai', target: ! empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum('total') : MataAnggaran::where('dipa_id', $dipa_id)->sum('total'));
     }

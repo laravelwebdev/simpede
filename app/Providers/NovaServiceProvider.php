@@ -136,7 +136,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('share'),
 
                 MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://simpede.mintlify.app/')
+                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
                         ->openInNewTab(),
                 ])
                     ->icon('light-bulb'),

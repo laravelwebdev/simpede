@@ -52,6 +52,8 @@ class ShareLink extends Resource
                 ->sortable()
                 ->searchable()
                 ->rules('required')
+                ->creationRules('unique:share_links,tahun')
+                ->updateRules('unique:share_links,tahun,{{resourceId}}')
                 ->options(Helper::setOptionTahunDipa()),
             Text::make('Link')
                 ->exceptOnForms()

@@ -11,7 +11,7 @@
   <tbody>
     @foreach ( $data as $item )
     <tr>
-      <td data-label="Rincian Kegiatan">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro', $tahun) }}</td>
+      <td data-label="Rincian Kegiatan">{{ $item->rincian }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
         <a target="_blank" href="{{ route('daftar-file', ['tahun' => $tahun , 'kak' => $item->id]) }}">

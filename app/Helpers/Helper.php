@@ -734,9 +734,19 @@ class Helper
      * @param  bool  $kode_prefix  default true, jika true maka detail akan diawali dengan kode level yang diinginkan
      * @return string
      */
-    public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = false)
+    public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = true)
     {
         $tahun = $tahun ?? session('year') ?? date('Y');
+        $length = [
+            'program' => 9,
+            'kegiatan' => 14,
+            'kro' => 18,
+            'ro' => 22,
+            'komponen' => 26,
+            'sub' => 28,
+            'akun' => 37,
+
+        ];
         $kode = [
             'program' => '('.Str::substr($mak, 0, 9).') ',
             'kegiatan' => '('.Str::substr($mak, 10, 4).') ',
@@ -747,7 +757,10 @@ class Helper
             'akun' => '('.Str::substr($mak, 29, 6).') ',
 
         ];
-        $kamus = KamusAnggaran::cache()->get($level)->where('dipa_id', Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id)->first();
+        $kamus = KamusAnggaran::cache()->get($level)
+            ->where('dipa_id', Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id)
+            ->where('mak', substr($mak, 0, $length[$level]))
+            ->first();
         $detail = $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail;
 
         return $kode_prefix ? $kode[$level].$detail : $detail;

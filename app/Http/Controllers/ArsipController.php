@@ -79,6 +79,7 @@ class ArsipController extends Controller
 
         return view('daftar-file', [
             'tahun' => $tahun,
+            'level' => 'FILE',
             'data' => $data,
         ]);
     }

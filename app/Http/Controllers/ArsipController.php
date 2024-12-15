@@ -35,6 +35,7 @@ class ArsipController extends Controller
 
         return view('arsip-per-kro', [
             'level' => 'KRO',
+            'token' => $this->token,
             'tahun' => $this->tahun,
             'data' => $data,
         ]);
@@ -52,6 +53,7 @@ class ArsipController extends Controller
 
         return view('arsip-per-detail', [
             'tahun' => $this->tahun,
+            'token' => $this->token,
             'level' => 'COA',
             'data' => $data,
         ]);
@@ -70,6 +72,7 @@ class ArsipController extends Controller
 
         return view('arsip-per-kak', [
             'level' => 'KAK',
+            'token' => $this->token,
             'tahun' => $this->tahun,
             'data' => $data,
         ]);

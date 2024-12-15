@@ -23,6 +23,5 @@ class ValidateAccessToken
         }
 
         return $next($request);
-
     }
 }

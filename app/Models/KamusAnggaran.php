@@ -41,7 +41,10 @@ class KamusAnggaran extends Model
                 }),
             CacheEntity::make('akun')
                 ->cache(function () {
-                    return KamusAnggaran::whereRaw('LENGTH(mak) = 37')->get();
+                    return KamusAnggaran::whereRaw('LENGTH(mak) = 37')->get()->map(function ($item) {
+                        $item->mak = substr($item->mak, 0, 35);
+                        return $item;
+                    });
                 }),
         ];
     }

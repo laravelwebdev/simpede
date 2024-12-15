@@ -80,7 +80,7 @@ class ArsipDokumen extends Resource
                         $field->storeAs(function (Request $request) use ($formData) {
                             $originalName = Str::slug($formData->slug);
                             $extension = $request->file->getClientOriginalExtension();
-        
+
                             return $originalName.'_'.uniqid().'.'.$extension;
                         });
                     }

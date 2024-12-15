@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\KakSp2d;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,7 +17,7 @@ class DaftarSp2d extends Model
     public function kerangkaAcuan(): BelongsToMany
     {
         return $this->belongsToMany(KerangkaAcuan::class, 'kak_sp2d')
-        ->using(KakSp2d::class);
+            ->using(KakSp2d::class);
     }
 
     public function realisasiAnggaran(): HasMany

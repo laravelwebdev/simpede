@@ -13,7 +13,7 @@ class ShareLink extends Model
         static::saving(function (ShareLink $shareLink) {
             $token = Str::random(32);
             $shareLink->token = $token;
-            $shareLink->link =  url(Config::get('nova.path')).'/arsip-dokumen?token='.$token;
+            $shareLink->link = url(Config::get('nova.path')).'/arsip-dokumen?token='.$token;
         });
     }
 }

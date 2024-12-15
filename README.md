@@ -38,8 +38,7 @@ Rekomendasi shared hosting murah:
 <p><a href="https://niagahoster.co.id?REFERRALCODE=NH8UMUMHSEQ5" target="_blank">
 <img src="https://www.cuponation.co.id/images/fit-in/256x/images/n/niagahoster.png">
 </a></p>
-- Enable Symlink
-  Masuk ke Hpanel website Anda, Pilih `Advanced` -> `PHP Configuration` -> `PHP Option` di bagian `disableFunctions` hapus `symlink`
+- Enable Symlink:  Masuk ke Hpanel website Anda, Pilih `Advanced` -> `PHP Configuration` -> `PHP Option` di bagian `disableFunctions` hapus `symlink`
 - Buat database.
 - Hapus seluruh folder dan file yang ada di root domain.
 - Connect via terminal menggunakan SSH.

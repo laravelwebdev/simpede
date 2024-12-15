@@ -39,6 +39,8 @@ Rekomendasi shared hosting murah:
 <img src="https://www.cuponation.co.id/images/fit-in/256x/images/n/niagahoster.png">
 </a></p>
 
+- Enable Symlink:
+  Masuk ke Hpanel website Anda, Pilih `Advanced` -> `PHP Configuration` -> `PHP Option` di bagian `disableFunctions` hapus `symlink`
 - Buat database.
 - Hapus seluruh folder dan file yang ada di root domain.
 - Connect via terminal menggunakan SSH.
@@ -50,6 +52,10 @@ Rekomendasi shared hosting murah:
 - Update dependencies (gunakan composer2):
     ```bash
     composer2 update --no-dev
+    ```
+- Generate Key:
+    ```bash
+    php artisan key:generate
     ```
 - Rename file .env.example menjadi .env dan edit variabel berikut:
     * `APP_URL`: URL website.

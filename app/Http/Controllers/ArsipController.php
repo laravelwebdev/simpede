@@ -69,14 +69,13 @@ class ArsipController extends Controller
         ]);
     }
 
-
     public function daftarFile($tahun, $kak)
     {
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $files = Storage::disk('arsip')->files($path);
-        $perPage = 2;
+        $perPage = 15;
         $page = request()->get('page', 1);
         $offset = ($page - 1) * $perPage;
         $data = array_slice($files, $offset, $perPage);

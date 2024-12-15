@@ -13,7 +13,7 @@
       <td data-label="KRO">{{ $item->KRO }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
-          <a target="_blank" href="{{ route('arsip-per-detail', ['token' => $token , 'kro' => $item->KRO]) }}">
+          <a target="_blank" href="{{ route('arsip-per-detail', ['token' => $token, 'kro' => $item->KRO]) }}">
           <button class="button is-small is-primary" type="button">Link</button>
           </a>
         </div>

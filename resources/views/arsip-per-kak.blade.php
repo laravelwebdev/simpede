@@ -14,7 +14,7 @@
       <td data-label="Rincian Kegiatan">{{ $item->rincian }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
-        <a target="_blank" href="{{ route('daftar-file', ['tahun' => $tahun , 'kak' => $item->id]) }}">
+        <a target="_blank" href="{{ route('daftar-file', ['token' => $token, 'kak' => $item->id]) }}">
           <button class="button is-small is-primary" type="button">Link</button>
           </a>
         </div>

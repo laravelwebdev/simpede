@@ -20,7 +20,7 @@
       <td data-label="Detail">{{ $item->uraian }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
-        <a target="_blank" href="{{ route('arsip-per-kak', ['tahun' => $tahun , 'coa' => $item->id]) }}">
+        <a target="_blank" href="{{ route('arsip-per-kak', ['token' => $token, 'coa' => $item->id]) }}">
           <button class="button is-small is-primary" type="button">Link</button>
           </a>
         </div>

@@ -736,7 +736,7 @@ class Helper
      */
     public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = true)
     {
-        $tahun = session('year');
+        $tahun = $tahun ?? session('year') ?? date('Y');
         $kode = [
             'program' => '('.Str::substr($mak, 0, 9).') ',
             'kegiatan' => '('.Str::substr($mak, 10, 4).') ',

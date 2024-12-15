@@ -15,10 +15,6 @@ class KamusAnggaran extends Model
     public static function cacheEntities(): array
     {
         return [
-            CacheEntity::make('all')
-                ->cache(function () {
-                    return KamusAnggaran::all();
-                }),
             CacheEntity::make('program')
                 ->cache(function () {
                     return KamusAnggaran::whereRaw('LENGTH(mak) = 9')->get();

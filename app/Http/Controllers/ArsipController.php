@@ -75,7 +75,15 @@ class ArsipController extends Controller
         $tahun = (int) $tahun;
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
-        $data = Storage::disk('arsip')->files($path);
+        $files = Storage::disk('arsip')->files($path);
+        $perPage = 15;
+        $page = request()->get('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $data = array_slice($files, $offset, $perPage);
+        $data = new \Illuminate\Pagination\LengthAwarePaginator($data, count($files), $perPage, $page, [
+            'path' => request()->url(),
+            'query' => request()->query(),
+        ]);
 
         return view('daftar-file', [
             'tahun' => $tahun,

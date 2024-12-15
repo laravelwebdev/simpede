@@ -4,25 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Dipa;
 use App\Models\ShareLink;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ArsipController extends Controller
 {
-    protected $token;
-
-    protected $tahun;
-
-    public function __construct(Request $request)
+    public function perKro($token)
     {
-        $this->token = $request->query('token');
-        $this->tahun = ShareLink::where('token', $this->token)->first()->tahun;
-    }
-
-    public function perKro()
-    {
-        $dipa = Dipa::where('tahun', $this->tahun)->first();
+        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $dipa = Dipa::where('tahun', $tahun)->first();
 
         $subquery = DB::table('mata_anggarans')
             ->selectRaw('MID(mak,11,8) as KRO')
@@ -35,15 +25,16 @@ class ArsipController extends Controller
 
         return view('arsip-per-kro', [
             'level' => 'KRO',
-            'token' => $this->token,
-            'tahun' => $this->tahun,
+            'token' => $token,
+            'tahun' => $tahun,
             'data' => $data,
         ]);
     }
 
-    public function perDetail($kro)
+    public function perDetail($token, $kro)
     {
-        $dipa = Dipa::where('tahun', $this->tahun)->first();
+        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $dipa = Dipa::where('tahun', $tahun)->first();
 
         $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
@@ -52,15 +43,16 @@ class ArsipController extends Controller
             ->orderBy('ordered')->paginate();
 
         return view('arsip-per-detail', [
-            'tahun' => $this->tahun,
-            'token' => $this->token,
+            'tahun' => $tahun,
+            'token' => $token,
             'level' => 'COA',
             'data' => $data,
         ]);
     }
 
-    public function perKak($coa)
+    public function perKak($token, $coa)
     {
+        $tahun = ShareLink::where('token', $token)->first()->tahun;
         $kakIds = DB::table('anggaran_kerangka_acuans')
             ->select('kerangka_acuan_id')
             ->where('mata_anggaran_id', $coa)
@@ -72,15 +64,16 @@ class ArsipController extends Controller
 
         return view('arsip-per-kak', [
             'level' => 'KAK',
-            'token' => $this->token,
-            'tahun' => $this->tahun,
+            'token' => $token,
+            'tahun' => $tahun,
             'data' => $data,
         ]);
     }
 
-    public function daftarFile($kak)
+    public function daftarFile($token, $kak)
     {
-        $path = $this->tahun.'/'.'arsip-dokumens'.'/'.$kak;
+        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $files = Storage::disk('arsip')->files($path);
         $perPage = 15;
         $page = request()->get('page', 1);
@@ -92,7 +85,7 @@ class ArsipController extends Controller
         ]);
 
         return view('daftar-file', [
-            'tahun' => $this->tahun,
+            'tahun' => $tahun,
             'level' => 'FILE',
             'data' => $data,
         ]);

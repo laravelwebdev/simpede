@@ -10,7 +10,7 @@
           @if ($page == $paginator->currentPage())
           <button type="button" class="button is-active">{{ $page }}</button>
           @else
-          <button onclick="window.location.href='{{ $url }}&token={{ $token }}'" type="button" class="button">{{ $page }}</button>
+          <button onclick="window.location.href='{{ $url }}'" type="button" class="button">{{ $page }}</button>
           @endif
           @endforeach
           @endif

@@ -32,7 +32,7 @@ class ShareLinkPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,kasubbag')
             ->get();
     }
 
@@ -50,7 +50,7 @@ class ShareLinkPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,kasubbag')
             ->get();
     }
 

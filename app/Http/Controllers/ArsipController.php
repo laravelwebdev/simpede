@@ -76,7 +76,7 @@ class ArsipController extends Controller
         $tahun = $tahun == 0 ? date('Y') : $tahun;
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $files = Storage::disk('arsip')->files($path);
-        $perPage = 15;
+        $perPage = 2;
         $page = request()->get('page', 1);
         $offset = ($page - 1) * $perPage;
         $data = array_slice($files, $offset, $perPage);

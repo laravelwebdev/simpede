@@ -30,6 +30,7 @@ use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
 use App\Nova\RealisasiAnggaran;
 use App\Nova\RewardPegawai;
+use App\Nova\ShareLink;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -129,6 +130,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Template::class),
 
                 ])->icon('lock-open'),
+
+                MenuSection::make('Share', [
+                    MenuItem::resource(ShareLink::class),
+                ])->icon('share'),
 
                 MenuSection::make('Panduan', [
                     MenuItem::externalLink('Panduan Penggunaan', 'https://simpede.mintlify.app/')

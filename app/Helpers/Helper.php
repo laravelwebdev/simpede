@@ -734,7 +734,7 @@ class Helper
      * @param  bool  $kode_prefix  default true, jika true maka detail akan diawali dengan kode level yang diinginkan
      * @return string
      */
-    public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = true)
+    public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = false)
     {
         $tahun = $tahun ?? session('year') ?? date('Y');
         $kode = [

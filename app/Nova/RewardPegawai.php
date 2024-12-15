@@ -10,7 +10,6 @@ use App\Nova\Actions\SetStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
@@ -102,7 +101,7 @@ class RewardPegawai extends Resource
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Kertas_Kerja_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_kertas_kerja->getClientOriginalExtension();
-            
+
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });
                         }
@@ -128,7 +127,7 @@ class RewardPegawai extends Resource
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'SK_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_sk->getClientOriginalExtension();
-            
+
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });
                         }
@@ -154,7 +153,7 @@ class RewardPegawai extends Resource
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Sertifikat_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_sertifikat->getClientOriginalExtension();
-            
+
                                 return $originalName.'_'.uniqid().'.'.$extension;
                             });
                         }

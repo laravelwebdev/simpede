@@ -18,7 +18,7 @@ class ValidateAccessToken
     {
         $token = $request->query('token');
 
-        if (!$token || !ShareLink::where('token', $token)->exists()) {
+        if (! $token || ! ShareLink::where('token', $token)->exists()) {
             return abort(404);
         }
 

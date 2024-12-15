@@ -25,7 +25,7 @@ class SerapanAnggaran extends Progress
 
     public function name()
     {
-        return $this->program ? 'Serapan Anggaran '.self::$kamusProgram[$this->program] : 'Serapan Anggaran Total';
+        return $this->program ? 'Serapan Anggaran '.self::$kamusProgram[$this->program] : 'Serapan Anggaran';
     }
 
     /**

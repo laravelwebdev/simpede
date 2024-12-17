@@ -3,4 +3,4 @@
 @section('title', __('Service Unavailable'))
 @section('code', '503')
 @section('message', __('Service Unavailable'))
-@section('quote', 'Main tenis dulu boskuu...')
+@section('quote', \App\Helpers\Inspiring::show())

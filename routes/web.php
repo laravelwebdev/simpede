@@ -7,7 +7,7 @@ use Laravel\Nova\Nova;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dump-download/{filename}', 'App\Http\Controllers\DumpDownloadController@show')
     ->name('dump-download')

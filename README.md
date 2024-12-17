@@ -54,10 +54,7 @@ Rekomendasi shared hosting murah:
     ```bash
     composer2 update --no-dev
     ```
-- Generate Key:
-    ```bash
-    php artisan key:generate
-    ```
+
 - Rename file .env.example menjadi .env dan edit variabel berikut:
     * `APP_URL`: URL website.
     * `DB_HOST`: Host database, biasanya `localhost`.
@@ -68,6 +65,11 @@ Rekomendasi shared hosting murah:
     * `APP_ENV`: Set menjadi `production`.
     * `APP_DEBUG`: Set menjadi `false`.
     * `LOG_CHANNEL`: set menjadi `"null"`
+
+- Generate Key:
+    ```bash
+    php artisan key:generate
+    ```
 - Lakukan migrasi database:
     ```bash
     php artisan migrate --seed

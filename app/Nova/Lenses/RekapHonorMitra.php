@@ -7,6 +7,7 @@ use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
+use Illuminate\Contracts\Database\Query\Builder;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -38,7 +39,7 @@ class RekapHonorMitra extends Lens
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return mixed
      */
-    public static function query(LensRequest $request, $query)
+    public static function query(LensRequest $request, Builder $query)
     {
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
 

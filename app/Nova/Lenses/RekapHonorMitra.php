@@ -52,6 +52,7 @@ class RekapHonorMitra extends Lens
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
                     $request->withFilters(HonorKegiatan::query()
+                        ->from('honor_kegiatans')
                         ->select('id')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {

@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\PartitionResult;
 
 class ProporsiMitraPerJenisKontrak extends Partition
 {
@@ -24,7 +25,7 @@ class ProporsiMitraPerJenisKontrak extends Partition
      *
      * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): PartitionResult
     {
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'daftar-honor-mitras_filter', 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = DB::table('daftar_honor_mitras')

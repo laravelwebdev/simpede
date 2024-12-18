@@ -8,6 +8,8 @@ use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -16,8 +18,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\Paginator;
 
 class RekapHonorMitra extends Lens
 {
@@ -43,7 +43,7 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
+        $filtered_bulan = Helper::parseFilterFromUrl($request->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')

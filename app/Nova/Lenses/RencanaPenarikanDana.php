@@ -7,14 +7,14 @@ use App\Models\Dipa;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Filters\RoFilter;
 use App\Nova\Metrics\RencanaPenarikanPerJenisBelanja;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\Paginator;
 
 class RencanaPenarikanDana extends Lens
 {
@@ -41,7 +41,7 @@ class RencanaPenarikanDana extends Lens
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         $dipa_id = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
+        $filtered_bulan = Helper::parseFilterFromUrl($request->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
         $filtered_bulan = $filtered_bulan ?: date('m');
 
         return $request->withOrdering($request->withFilters(

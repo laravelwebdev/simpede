@@ -47,7 +47,11 @@ class PembukuanBarangPersediaan extends Partition
         });
 
         return $this
-            ->result($arr->first());
+            ->result($arr->first())
+            ->colors([
+                'Sudah' => '#38C172',
+                'Belum' => '#E3342F',
+            ]);
     }
 
     /**

@@ -486,6 +486,20 @@ class Helper
         return $filterValue;
     }
 
+    public static function parseFilter($filter, $filterKey, $defaultValue = null)
+    {
+        $filterValue = $defaultValue ?? '';
+        $filters = array_merge(
+            ...json_decode(
+                base64_decode($filter, true),
+                true
+            ));
+
+        $filterValue = $filters[$filterKey];
+
+        return $filterValue;
+    }
+
     /**
      * Membuat Nomor.
      *
@@ -911,19 +925,19 @@ class Helper
             // Mengambil nomor dokumen berdasarkan tipe barang persediaan
             $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
                 "App\Models\PembelianPersediaan" => $item->barangPersediaanable
-                  ->bastNaskahKeluar->nomor,
+                    ->bastNaskahKeluar->nomor,
                 "App\Models\PermintaanPersediaan" => $item->barangPersediaanable
-                  ->naskahKeluar->nomor,
+                    ->naskahKeluar->nomor,
                 "App\Models\PersediaanMasuk" => $item->barangPersediaanable
-                  ->naskahMasuk->nomor,
+                    ->naskahMasuk->nomor,
                 "App\Models\PersediaanKeluar" => $item->barangPersediaanable
-                  ->naskahKeluar->nomor,
+                    ->naskahKeluar->nomor,
             };
 
             // Mengambil uraian berdasarkan tipe barang persediaan
             $item['uraian'] = match (get_class($item->barangPersediaanable)) {
                 "App\Models\PembelianPersediaan" => $item->barangPersediaanable
-                  ->rincian,
+                    ->rincian,
                 "App\Models\PermintaanPersediaan" => 'Permintaan Persediaan oleh '.
                   $item->barangPersediaanable->user->name.
                   ' untuk '.

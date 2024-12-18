@@ -56,8 +56,8 @@ class RekapHonorMitra extends Lens
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);
                         })
-                        ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-                    ), 'honor_kegiatans');
+                        ->where('jenis_honor', 'Kontrak Mitra Bulanan'), 'honor_kegiatans'
+                    ));
                 })
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')

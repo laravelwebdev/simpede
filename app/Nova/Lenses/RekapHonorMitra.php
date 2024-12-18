@@ -3,12 +3,11 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
+use App\Models\HonorKegiatan;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -17,6 +16,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class RekapHonorMitra extends Lens
 {
@@ -52,7 +53,7 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    $subQuery = $query->select('id')
+                    $subQuery = HonorKegiatan::query()->select('id')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);

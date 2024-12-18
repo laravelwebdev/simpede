@@ -462,6 +462,7 @@ class Helper
     public static function parseFilterFromUrl($url, $filterUri, $filterKey, $defaultValue = null)
     {
         $filterValue = $defaultValue ?? '';
+        $parsed_url = null;
         $queries = [];
         if ($url) {
             $parsed_url = parse_url($url, PHP_URL_QUERY);

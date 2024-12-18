@@ -3,11 +3,11 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
+use App\Models\HonorKegiatan;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
-use Illuminate\Contracts\Database\Query\Builder;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
@@ -39,7 +39,7 @@ class RekapHonorMitra extends Lens
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return mixed
      */
-    public static function query(LensRequest $request, Builder $query)
+    public static function query(LensRequest $request, $query)
     {
         $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
@@ -51,14 +51,14 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    $request->withFilters($query->fromSub(fn($query) => $query->from('honor_kegiatans')
-                    ->select('id')
+                    $request->withFilters(HonorKegiatan::query()
+                        ->select('id')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);
                         })
-                        ->where('jenis_honor', 'Kontrak Mitra Bulanan'), 'honor_kegiatans'
-                    ));
+                        ->where('jenis_honor', 'Kontrak Mitra Bulanan')
+                    );
                 })
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')

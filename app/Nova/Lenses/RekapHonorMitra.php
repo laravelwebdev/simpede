@@ -51,13 +51,13 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    $request->withFilters($query->select('id')->from('honor_kegiatans')
+                    $request->withFilters($query->fromSub(fn($query) => $query->select('id')->from('honor_kegiatans')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);
                         })
                         ->where('jenis_honor', 'Kontrak Mitra Bulanan')
-                    );
+                    ), 'honor_kegiatans');
                 })
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')

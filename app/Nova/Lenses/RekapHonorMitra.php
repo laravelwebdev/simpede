@@ -3,7 +3,6 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
-use App\Models\HonorKegiatan;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
@@ -51,9 +50,7 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    return $request->withFilters(HonorKegiatan::query()
-                        ->from('honor_kegiatans')
-                        ->select('id')
+                    $request->withFilters($query->select('id')->from('honor_kegiatans')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);

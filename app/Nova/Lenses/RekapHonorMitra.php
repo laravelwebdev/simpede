@@ -51,7 +51,7 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    $request->withFilters(HonorKegiatan::query()
+                    return $request->withFilters(HonorKegiatan::query()
                         ->from('honor_kegiatans')
                         ->select('id')
                         ->where('tahun', session('year'))

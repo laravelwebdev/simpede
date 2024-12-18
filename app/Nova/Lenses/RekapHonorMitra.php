@@ -3,6 +3,7 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
+use App\Models\HonorKegiatan;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
@@ -52,12 +53,12 @@ class RekapHonorMitra extends Lens
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
                 ->whereIn('honor_kegiatan_id', function ($query) use ($request, $filtered_bulan) {
-                    $request->withFilters(\App\Models\HonorKegiatan::query()
-                        ->where('tahun', session('year'))
-                        ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
-                            return $query->where('bulan', $filtered_bulan);
-                        })
-                        ->where('jenis_honor', 'Kontrak Mitra Bulanan')
+                    $request->withFilters($query->fromSub( fn ($query) => HonorKegiatan::query()->select('id')
+                    ->where('tahun', session('year'))
+                    ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
+                        return $query->where('bulan', $filtered_bulan);
+                    })
+                    ->where('jenis_honor', 'Kontrak Mitra Bulanan'), 'honor_kegiatans')
                     );
                 })
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')

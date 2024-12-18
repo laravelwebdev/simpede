@@ -46,7 +46,7 @@ class RealisasiAnggaran extends Lens
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         $dipa_id = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
-        $filtered_bulan = Helper::parseFilterFromUrl($request->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
+        $filtered_bulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('realisasi_anggarans')->selectRaw(

@@ -43,7 +43,7 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
-        $filtered_bulan = Helper::parseFilterFromUrl($request->headers->get('referer'), 'mitras_filter', 'App\\Nova\\Filters\\BulanFilter', date('m'));
+        $filtered_bulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')

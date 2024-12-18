@@ -43,9 +43,7 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
-        $novarequest = NovaRequest::createFrom($request);
-        $filtered_bulan = Helper::parseFilter($novarequest->query->get('filter'), 'App\\Nova\\Filters\\BulanFilter', date('m'));
-
+        $filtered_bulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\BulanFilter', date('m'));
 
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')

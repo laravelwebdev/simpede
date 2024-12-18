@@ -489,8 +489,11 @@ class Helper
     public static function parseFilter($filter, $filterKey, $defaultValue = null)
     {
         $filterValue = $defaultValue ?? '';
-        $decodedFilter = json_decode(base64_decode($filter, true), true);
-        $filters = is_array($decodedFilter) ? array_merge(...$decodedFilter) : [];
+        $filters = array_merge(
+            ...json_decode(
+                base64_decode($filter, true),
+                true
+            ));
 
         $filterValue = $filters[$filterKey];
 

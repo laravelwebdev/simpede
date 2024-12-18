@@ -15,6 +15,8 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
 use Orion\NovaGreeter\GreeterCard;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class PemeliharaanBarang extends Lens
 {
@@ -38,7 +40,7 @@ class PemeliharaanBarang extends Lens
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return mixed
      */
-    public static function query(LensRequest $request, $query)
+    public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')

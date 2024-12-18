@@ -14,6 +14,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class RekapBarangPersediaan extends Lens
 {
@@ -37,7 +39,7 @@ class RekapBarangPersediaan extends Lens
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return mixed
      */
-    public static function query(LensRequest $request, $query)
+    public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         $displayed = DB::table('barang_persediaans')
             ->select('master_persediaan_id')

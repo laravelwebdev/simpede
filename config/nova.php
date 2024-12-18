@@ -108,6 +108,7 @@ return [
     'api_middleware' => [
         'nova',
         Authenticate::class,
+        // EnsureEmailIsVerified::class,
         Authorize::class,
     ],
 

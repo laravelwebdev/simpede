@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -95,15 +96,11 @@ class IzinKeluar extends Resource
                     ->sortable()
                     ->hideWhenCreating()
                     ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
-                AdvancedImage::make('Bukti Dukung', 'bukti')
+                Image::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
-                    ->croppable()
-                    ->quality(60)
-                    ->convert('webp')
                     ->prunable()
                     ->hideFromIndex()
-                    ->hideWhenCreating()
-                    ->sortable(),
+                    ->hideWhenCreating(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),

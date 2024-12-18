@@ -26,13 +26,12 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Tabs\Tab;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class HonorKegiatan extends Resource
 {
-    use HasTabs;
-
     public static $with = ['kerangkaAcuan.naskahKeluar', 'daftarHonorMitra', 'skNaskahKeluar', 'stNaskahKeluar', 'daftarHonorPegawai', 'jenisKontrak', 'mataAnggaran'];
 
     /**
@@ -323,7 +322,7 @@ class HonorKegiatan extends Resource
                         $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
             ]),
-            Tabs::make('Daftar Honor', [
+            Tab::group('Daftar Honor', [
                 HasMany::make('Daftar Honor Mitra'),
                 HasMany::make('Daftar Honor Pegawai'),
             ]),

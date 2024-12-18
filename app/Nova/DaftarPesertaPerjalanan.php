@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
@@ -79,7 +80,7 @@ class DaftarPesertaPerjalanan extends Resource
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),
-            SimpleRepeatable::make('Item Biaya', 'spesifikasi', [
+            Repeater::make('Item Biaya')->repeatables([
                 Text::make('Item', 'item')
                     ->help('Misal: Uang Harian, Penginapan, Transportasi, dll')
                     ->rules('required'),

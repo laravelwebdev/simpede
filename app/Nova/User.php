@@ -11,13 +11,12 @@ use Laravel\Nova\Fields\PasswordConfirmation;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Tabs\Tab;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class User extends Resource
 {
-    use HasTabs;
-
     public static function label()
     {
         return 'Pegawai';
@@ -91,7 +90,7 @@ class User extends Resource
                     ->updateRules('unique:users,nip_lama,{{resourceId}}')
                     ->rules('required', 'size:9'),
             ]),
-            Tabs::make('Detail', [
+            Tab::group('Detail', [
                 HasMany::make('Data Pegawai'),
                 HasMany::make('Pengelola'),
             ]),

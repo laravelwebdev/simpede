@@ -6,11 +6,19 @@
     "license": "MIT",
     "repositories": [
         {
-            "url": "https://github.com/laravelwebdev/admin-simpede.git",
+            "url": "https://github.com/laravelwebdev/nova-time-field.git",
             "type": "git"
         },
         {
-            "url": "https://github.com/laravelwebdev/nova-tabs.git",
+            "url": "https://github.com/laravelwebdev/nova-url-field.git",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/laravelwebdev/nova-welcome-card.git",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/laravelwebdev/admin-simpede.git",
             "type": "git"
         },
         {
@@ -20,24 +28,22 @@
     ],
     "require": {
         "php": "^8.2",
-        "ctessier/nova-advanced-image-field": "^2.1",
         "digital-creative/nova-welcome-card": "^0.0.2",
         "inspheric/nova-url-field": "^2.0",
-        "joerithegreat/nova-table-card": "^1.0",
+        "whitespacecode/nova-table-card": "^1.0",
         "laravel/framework": "^11.9",
-        "laravel/nova": "^4.0",
+        "laravel/nova": "^5.0",
         "laravel/tinker": "^2.9",
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",
-        "oriondevelops/nova-greeter": "^0.0.2",
-        "outl1ne/nova-simple-repeatable": "^2.2",
+        "oriondevelops/nova-greeter": "^0.1.0",
         "phpoffice/phpword": "^1.2",
-        "rap2hpoutre/fast-excel": "^5.5",
-        "shuvroroy/nova-tabs": "^1.1"
+        "rap2hpoutre/fast-excel": "^5.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
+        "laravel-lang/lang": "^15.9",
         "laravel/pint": "^1.13",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",

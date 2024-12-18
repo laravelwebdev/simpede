@@ -22,13 +22,12 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
+use Laravel\Nova\Tabs\Tab;
 use ShuvroRoy\NovaTabs\Tabs;
 use ShuvroRoy\NovaTabs\Traits\HasTabs;
 
 class KerangkaAcuan extends Resource
 {
-    use HasTabs;
-
     public static $with = ['unitKerja', 'naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan', 'daftarSp2d'];
 
     public static function label()
@@ -133,7 +132,7 @@ class KerangkaAcuan extends Resource
                 })
                 ->onlyOnDetail(),
             BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
-            Tabs::make('Detail', [
+            Tab::group('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
                 HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),

@@ -463,6 +463,7 @@ class Helper
     {
         $filterValue = $defaultValue ?? '';
         $queries = [];
+        $parsed_url = null;
         if ($url) {
             $parsed_url = parse_url($url, PHP_URL_QUERY);
         }

@@ -17,7 +17,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarPesertaPerjalanan extends Resource
 {

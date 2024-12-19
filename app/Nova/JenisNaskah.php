@@ -60,7 +60,7 @@ class JenisNaskah extends Resource
                 ->rules('required'),
             Filepond::make('Template')
                 ->disk('template_naskah')
-                ->rules('mimes:docx,pdf')
+                ->rules('mimetypes:docx,pdf')
                 ->acceptedTypes('.docx,.pdf')
                 ->prunable(),
         ];

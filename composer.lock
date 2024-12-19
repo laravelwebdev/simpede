@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2905cdec447c1fec2649467ef6626736",
+    "content-hash": "39b471c24d34ce1bc8a8fd22cfb3305f",
     "packages": [
         {
             "name": "brick/math",
@@ -338,14 +338,8 @@
             "version": "v1.0.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dcasia/nova-filepond.git",
-                "reference": "d2301c01e17da3fa2fff4a9ea3cddef7c9511af2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dcasia/nova-filepond/zipball/d2301c01e17da3fa2fff4a9ea3cddef7c9511af2",
-                "reference": "d2301c01e17da3fa2fff4a9ea3cddef7c9511af2",
-                "shasum": ""
+                "url": "https://github.com/laravelwebdev/nova-filepond.git",
+                "reference": "bb9dd78fb8b47be2223413fa400ed3a646072c8c"
             },
             "require": {
                 "laravel/nova": "^4.0",
@@ -364,7 +358,6 @@
                     "DigitalCreative\\Filepond\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -383,17 +376,7 @@
                 "upload",
                 "video"
             ],
-            "support": {
-                "issues": "https://github.com/dcasia/nova-filepond/issues",
-                "source": "https://github.com/dcasia/nova-filepond/tree/v1.0.6"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/milewski",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-01-31T04:51:42+00:00"
+            "time": "2024-12-19T23:06:26+00:00"
         },
         {
             "name": "digital-creative/nova-welcome-card",
@@ -3046,10 +3029,6 @@
             ],
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev",
-                    "dev-2.x": "2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Carbon\\Laravel\\ServiceProvider"
@@ -3059,6 +3038,10 @@
                     "includes": [
                         "extension.neon"
                     ]
+                },
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev",
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -7735,16 +7718,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.23.4",
+            "version": "v1.23.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "0815f47bdd867b816b4bf2ca1c7bd7f89e1527ca"
+                "url": "https://github.com/php-debugbar/php-debugbar.git",
+                "reference": "eeabd61a1f19ba5dcd5ac4585a477130ee03ce25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0815f47bdd867b816b4bf2ca1c7bd7f89e1527ca",
-                "reference": "0815f47bdd867b816b4bf2ca1c7bd7f89e1527ca",
+                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/eeabd61a1f19ba5dcd5ac4585a477130ee03ce25",
+                "reference": "eeabd61a1f19ba5dcd5ac4585a477130ee03ce25",
                 "shasum": ""
             },
             "require": {
@@ -7796,10 +7779,10 @@
                 "debugbar"
             ],
             "support": {
-                "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.23.4"
+                "issues": "https://github.com/php-debugbar/php-debugbar/issues",
+                "source": "https://github.com/php-debugbar/php-debugbar/tree/v1.23.5"
             },
-            "time": "2024-12-05T10:36:51+00:00"
+            "time": "2024-12-15T19:20:42+00:00"
         },
         {
             "name": "mockery/mockery",

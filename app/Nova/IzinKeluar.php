@@ -101,7 +101,7 @@ class IzinKeluar extends Resource
                 Filepond::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->prunable()
-                    ->images()
+                    ->image()
                     ->hideFromIndex()
                     ->hideWhenCreating()
                     ->sortable(),

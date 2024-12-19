@@ -100,7 +100,7 @@ class IzinKeluar extends Resource
                     ->disk('izin_keluar')
                     ->prunable()
                     ->hideFromIndex()
-                    // ->hideWhenCreating()
+                    ->hideWhenCreating()
                     ->sortable(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),

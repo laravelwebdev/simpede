@@ -60,9 +60,14 @@ class JenisNaskah extends Resource
                 ->rules('required'),
             Filepond::make('Template')
                 ->disk('template_naskah')
-                ->rules('required')
+                ->rules('mimes:docx,pdf')
                 ->acceptedTypes('.docx,.pdf')
+                ->onlyOnForms()
                 ->prunable(),
+            URL::make('Template', fn () => ($this->template == '') ? '' : Storage::disk('template_naskah')
+                ->url($this->template))
+                ->displayUsing(fn () => 'Unduh')
+                ->exceptOnForms(),
         ];
     }
 

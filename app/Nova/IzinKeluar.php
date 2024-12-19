@@ -96,12 +96,12 @@ class IzinKeluar extends Resource
                     ->sortable()
                     ->hideWhenCreating()
                     ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
-                // Filepond::make('Bukti Dukung', 'bukti')
-                //     ->disk('izin_keluar')
-                //     ->prunable()
-                //     ->hideFromIndex()
-                //     ->hideWhenCreating()
-                //     ->sortable(),
+                Filepond::make('Bukti Dukung', 'bukti')
+                    ->disk('izin_keluar')
+                    ->prunable()
+                    ->hideFromIndex()
+                    ->hideWhenCreating()
+                    ->sortable(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),

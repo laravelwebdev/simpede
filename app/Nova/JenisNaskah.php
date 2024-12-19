@@ -3,8 +3,8 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -58,7 +58,7 @@ class JenisNaskah extends Resource
         return [
             Text::make('Jenis')
                 ->rules('required'),
-            File::make('Template')
+            Filepond::make('Template')
                 ->disk('template_naskah')
                 ->rules('mimes:docx,pdf')
                 ->acceptedTypes('.docx,.pdf')

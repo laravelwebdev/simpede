@@ -46,7 +46,7 @@ class HelperHonorKegiatan extends Table
                 ->icon('check-circle')
                 ->iconClass('text-green-500')
                 ->title('5.Upload Excel ke Aplikasi BOS')
-                ->subtitle('Setelah terisi lengkap, pilih aksi Export Template BOOS dan gunakan file excel tersebut untuk digunakan sebagai file import peserta pada aplikasi BOS.'),
+                ->subtitle('Setelah terisi lengkap, pilih aksi Export Template BOS dan gunakan file excel tersebut untuk digunakan sebagai file import peserta pada aplikasi BOS.'),
         ];
     }
 

@@ -127,6 +127,7 @@ class IzinKeluar extends Resource
                 Filepond::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
                     ->prunable()
+                    ->creationRules('required')
                     ->sortable(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),

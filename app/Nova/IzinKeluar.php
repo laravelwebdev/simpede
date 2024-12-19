@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Carbon\Carbon;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
+use DigitalCreative\Filepond\Filepond;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -95,11 +96,8 @@ class IzinKeluar extends Resource
                     ->sortable()
                     ->hideWhenCreating()
                     ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
-                AdvancedImage::make('Bukti Dukung', 'bukti')
+                Filepond::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
-                    ->croppable()
-                    ->quality(60)
-                    ->convert('webp')
                     ->prunable()
                     ->hideFromIndex()
                     ->hideWhenCreating()

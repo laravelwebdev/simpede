@@ -92,43 +92,16 @@ class IzinKeluar extends Resource
             Text::make('Kegiatan')
                 ->rules('required'),
             Panel::make('Jam Kembali', [
-                Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
-                    ->onlyOnIndex(),
-            ]),
-
-        ];
-    }
-
-    public function fieldsForUpdate(NovaRequest $request)
-    {
-        return [
-            BelongsTo::make('Pegawai', 'user', User::class)
-                ->filterable()
-                ->sortable()
-                ->exceptOnForms(),
-            Date::make('Tanggal Keluar', 'tanggal')
-                ->sortable()
-                ->rules('required', function ($attribute, $value, $fail) {
-                    if (Carbon::createFromFormat('Y-m-d', $value)->year != session('year')) {
-                        return $fail('Tanggal harus di tahun yang telah dipilih');
-                    }
-                })
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable(),
-            Time::make('Jam Keluar', 'keluar')
-                ->rules('required'),
-            Text::make('Kegiatan')
-                ->rules('required'),
-            Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali')
                     ->sortable()
                     ->hideWhenCreating()
                     ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
-                Filepond::make('Bukti Dukung', 'bukti')
-                    ->disk('izin_keluar')
-                    ->prunable()
-                    ->creationRules('required')
-                    ->sortable(),
+                // Filepond::make('Bukti Dukung', 'bukti')
+                //     ->disk('izin_keluar')
+                //     ->prunable()
+                //     ->hideFromIndex()
+                //     ->hideWhenCreating()
+                //     ->sortable(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),

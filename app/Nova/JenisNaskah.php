@@ -60,7 +60,7 @@ class JenisNaskah extends Resource
                 ->rules('required'),
             Filepond::make('Template')
                 ->disk('template_naskah')
-                ->mimesTypes(['application/pdf', 'application/msword'])
+                ->mimesTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                 ->onlyOnForms()
                 ->prunable(),
             URL::make('Template', fn () => ($this->template == '') ? '' : Storage::disk('template_naskah')

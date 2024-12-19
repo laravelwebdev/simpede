@@ -78,19 +78,7 @@ Rekomendasi shared hosting murah:
     ```bash
     ln -s public public_html
     ```
--  Ubah config `filesystems.php` dari:
-
-    ```php
-    'links' => [
-            public_path('storage') => storage_path('app/public'),
-        ],
-    ```
-    menjadi
-    ```php
-    'links' => [
-            base_path('public_html/storage') => storage_path('app/public'),
-        ],
-    ```
+    
 - Jalankan command:
     ```bash
     php artisan storage:link

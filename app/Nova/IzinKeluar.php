@@ -6,9 +6,11 @@ use App\Helpers\Helper;
 use Carbon\Carbon;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
 use DigitalCreative\Filepond\Filepond;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Oneduo\NovaTimeField\Time;
@@ -102,6 +104,10 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->hideWhenCreating()
                     ->sortable(),
+                URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
+                    ->url($this->bukti))
+                    ->displayUsing(fn () => 'Unduh')
+                    ->exceptOnForms(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),

@@ -9,11 +9,11 @@ use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use App\Nova\Filters\StatusFilter;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
@@ -122,8 +122,9 @@ class BastMitra extends Resource
                     ->onlyOnIndex(),
             ]),
             Panel::make('Arsip', [
-                File::make('File')
+                Filepond::make('File')
                     ->disk('arsip')
+                    ->disableCredits()
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -131,8 +132,7 @@ class BastMitra extends Resource
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->mimesTypes(['application/pdf'])
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis')->get())
                     ->prunable(),
                 $this->file ?

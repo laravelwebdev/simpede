@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -122,10 +123,10 @@ class PermintaanPersediaan extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
             Panel::make('Arsip', [
-                File::make('Arsip BON', 'arsip')
+                Filepond::make('Arsip BON', 'arsip')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {

@@ -7,6 +7,7 @@ use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Nova\Filters\GenerateNaskah;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
@@ -169,10 +170,10 @@ class NaskahKeluar extends Resource
     public function arsipFields()
     {
         return [
-            File::make('Draft')
+            Filepond::make('Draft')
                 ->disk('naskah')
-                ->rules('mimes:docx')
-                ->acceptedTypes('.docx')
+                ->disableCredits()
+                ->mimesTypes(['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                 ->path(session('year').'/'.static::uriKey().'/draft')
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->draft->getClientOriginalName(), PATHINFO_FILENAME);
@@ -182,10 +183,10 @@ class NaskahKeluar extends Resource
                 })
                 ->hideWhenCreating()
                 ->prunable(),
-            File::make('Signed')
+            Filepond::make('Signed')
                 ->disk('naskah')
-                ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf')
+                ->disableCredits()
+                ->mimesTypes(['application/pdf'])
                 ->path(session('year').'/'.static::uriKey().'/signed')
                 ->storeAs(function (Request $request) {
                     $originalName = pathinfo($request->signed->getClientOriginalName(), PATHINFO_FILENAME);

@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportRekapPresensi;
 use App\Nova\Actions\SetStatus;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -88,10 +89,10 @@ class RewardPegawai extends Resource
                 ->loadingWhen(['dibuat', 'dinilai', 'diimport'])
                 ->failedWhen(['outdated']),
             Panel::make('Arsip', [
-                File::make('Arsip Kertas Kerja', 'arsip_kertas_kerja')
+                Filepond::make('Arsip Kertas Kerja', 'arsip_kertas_kerja')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
@@ -114,10 +115,10 @@ class RewardPegawai extends Resource
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
                 Text::make('Kertas', fn () => '—')->onlyOnIndex(),
-                File::make('Arsip SK', 'arsip_sk')
+                Filepond::make('Arsip SK', 'arsip_sk')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
@@ -140,10 +141,10 @@ class RewardPegawai extends Resource
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
                 Text::make('SK', fn () => '—')->onlyOnIndex(),
-                File::make('Arsip Sertifikat', 'arsip_sertifikat')
+                Filepond::make('Arsip Sertifikat', 'arsip_sertifikat')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())

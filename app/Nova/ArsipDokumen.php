@@ -71,7 +71,9 @@ class ArsipDokumen extends Resource
                 ->rules('required'),
             Filepond::make('File')
                 ->disk('arsip')
-                ->creationRules('required')
+                ->disableCredits()
+                ->rules('required')
+                ->mimesTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                 ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
                 ->dependsOn(
                     ['slug'],

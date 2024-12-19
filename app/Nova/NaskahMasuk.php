@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -103,10 +104,10 @@ class NaskahMasuk extends Resource
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),
-            File::make('Arsip')
+            Filepond::make('Arsip')
                 ->disk('naskah')
-                ->rules('mimes:pdf')
-                ->acceptedTypes('.pdf')
+                ->disableCredits()
+                ->mimesTypes(['application/pdf'])
                 ->creationRules('required')
                 ->path(session('year').'/'.static::uriKey())
                 ->storeAs(function (Request $request) {

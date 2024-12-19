@@ -9,6 +9,7 @@ use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -136,10 +137,10 @@ class PembelianPersediaan extends Resource
                         ->get()),
             ]),
             Panel::make('Arsip', [
-                File::make('Arsip Penerimaan', 'arsip')
+                Filepond::make('Arsip Penerimaan', 'arsip')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {

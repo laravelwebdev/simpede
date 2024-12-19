@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -93,10 +94,10 @@ class DaftarSp2d extends Resource
                 })
                 ->onlyOnDetail(),
             Panel::make('Arsip', [
-                File::make('Arsip', 'arsip_spm')
+                Filepond::make('Arsip', 'arsip_spm')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
                     ->storeAs(function (Request $request) {
@@ -114,10 +115,10 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('Arsip SPM', fn () => '—')->onlyOnIndex(),
 
-                File::make('Arsip SP2D', 'arsip_sp2d')
+                Filepond::make('Arsip SP2D', 'arsip_sp2d')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
                     ->storeAs(function (Request $request) {

@@ -100,6 +100,7 @@ class IzinKeluar extends Resource
                     ->updateRules('nullable', 'bail', 'after_or_equal:keluar'),
                 Filepond::make('Bukti Dukung', 'bukti')
                     ->disk('izin_keluar')
+                    ->disableCredits()
                     ->prunable()
                     ->image()
                     ->hideFromIndex()

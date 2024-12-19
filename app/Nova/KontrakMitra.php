@@ -8,6 +8,7 @@ use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
 use App\Nova\Filters\StatusFilter;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -145,10 +146,10 @@ class KontrakMitra extends Resource
                     ->onlyOnIndex(),
             ]),
             Panel::make('Arsip', [
-                File::make('File')
+                Filepond::make('File')
                     ->disk('arsip')
-                    ->rules('mimes:pdf')
-                    ->acceptedTypes('.pdf')
+                    ->disableCredits()
+                    ->mimesTypes(['application/pdf'])
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
                         $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);

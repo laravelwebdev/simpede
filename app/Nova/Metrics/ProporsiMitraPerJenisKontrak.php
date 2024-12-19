@@ -26,7 +26,7 @@ class ProporsiMitraPerJenisKontrak extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $filtered_bulan = Helper::parseFilter($request->query->get('filter'),'App\Nova\Filters\BulanKontrak', date('m'));
+        $filtered_bulan = Helper::parseFilter($request->query->get('filter'), 'App\Nova\Filters\BulanKontrak', date('m'));
         $arr = DB::table('daftar_honor_mitras')
             ->selectRaw('jenis, count(distinct(mitra_id)) as jumlah_mitra')
             ->join(

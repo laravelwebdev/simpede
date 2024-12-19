@@ -236,6 +236,7 @@ class Cetak
 
         return [
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
+            'nama_ttd' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'nip' => Helper::getPropertyFromCollection($user, 'nip'),
             'pangkat' => Helper::getPropertyFromCollection($data_user, 'pangkat'),
             'golongan' => Helper::getPropertyFromCollection($data_user, 'golongan'),
@@ -264,6 +265,7 @@ class Cetak
             'kembali' => Helper::terbilangTanggal($data->tanggal_kembali),
             'tanggal_st' => Helper::terbilangTanggal($perjalanan->tanggal_st),
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'kepala_ttd' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
             'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
             'no_spd' => NaskahKeluar::find($perjalanan->spd_naskah_keluar_id)->nomor,
             'ppk' => Helper::getPropertyFromCollection($ppk, 'name'),
@@ -290,8 +292,7 @@ class Cetak
 
         return [
             'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
-            'bmn' => Helper::getPropertyFromCollection($user, 'name'),
-            'nipbmn' => Helper::getPropertyFromCollection($user, 'nip'),
+            'bmn' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'barang' => $data->nama_barang,
             'kode_barang' => $data->kode_barang,
             'nup' => $data->nup,
@@ -308,8 +309,7 @@ class Cetak
 
         return [
             'tanggal' => Helper::terbilangTanggal($tanggal),
-            'bmn' => Helper::getPropertyFromCollection($user, 'name'),
-            'nipbmn' => Helper::getPropertyFromCollection($user, 'nip'),
+            'bmn' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'barang' => $data->barang,
             'kode' => $data->kode,
             'satuan' => $data->satuan,
@@ -415,8 +415,7 @@ class Cetak
             'awal' => Helper::terbilangTanggal($data->awal),
             'akhir' => Helper::terbilangTanggal($data->akhir),
             'tanggal' => Helper::terbilangTanggal($data->tanggal_st),
-            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
-            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
+            'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
             'daftar_petugas' => Helper::makeStMitraAndPegawai($id, $data->tanggal_st),
         ];
     }
@@ -434,7 +433,6 @@ class Cetak
             'bulan' => Helper::$bulan[$data->bulan],
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
-            'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
         ];
     }
 
@@ -470,7 +468,7 @@ class Cetak
             'skor' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->max('nilai_total'),
             'ubulan' => strtoupper(Helper::$bulan[$data->bulan]),
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
-            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
             'nipkepala' => Helper::getPropertyFromCollection($kepala, 'nip'),
             'daftar_penilaian' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->where('user_id', '!=', $data->kepala_user_id)->get(),
 
@@ -490,7 +488,6 @@ class Cetak
             'upper_objek_sk' => Str::upper($data->objek_sk),
             'tanggal' => Helper::terbilangTanggal($data->tanggal_sk),
             'kpa' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($kpa, 'name')),
-            'nipkpa' => Helper::getPropertyFromCollection($kpa, 'nip'),
             'daftar_petugas' => Helper::makeSkMitraAndPegawai($id, $data->tanggal_sk),
         ];
     }
@@ -567,7 +564,8 @@ class Cetak
             'no_bast' => NaskahKeluar::find($data->bast_naskah_keluar_id)->nomor,
             'hari' => Helper::terbilangHari($data->tanggal_bast),
             'terbilangtanggal' => Helper::terbilangTanggal($data->tanggal_bast, 'l'),
-            'bmn' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
+            'bmn' => Helper::getPropertyFromCollection($bmn, 'name'),
+            'bmn_ttd' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
             'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
             'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->get()->toArray(),
         ];

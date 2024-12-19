@@ -277,7 +277,18 @@ class Helper
      */
     public static function upperNamaTanpaGelar($nama)
     {
-        return strtoupper(explode(',', $nama)[0]);
+        return strtoupper(self::namaTanpaGelar($nama));
+    }
+
+    /**
+     * Nama tanpa gelar.
+     *
+     * @param  string  $nama
+     * @return string
+     */
+    public static function namaTanpaGelar($nama)
+    {
+        return explode(',', $nama)[0];
     }
 
     /**

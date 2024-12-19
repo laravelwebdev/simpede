@@ -486,6 +486,20 @@ class Helper
         return $filterValue;
     }
 
+    public static function parseFilter($filter, $filterKey, $defaultValue = null)
+    {
+        $filterValue = $defaultValue ?? '';
+        $filters = array_merge(
+            ...json_decode(
+                base64_decode($filter, true),
+                true
+            ));
+
+        $filterValue = $filters[$filterKey];
+
+        return $filterValue;
+    }
+
     /**
      * Membuat Nomor.
      *

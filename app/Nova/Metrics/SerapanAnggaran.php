@@ -36,8 +36,8 @@ class SerapanAnggaran extends Progress
     public function calculate(NovaRequest $request)
     {
         $dipa_id = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
-        $filtered_ro = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\RoFilter');
-        $filtered_bulan = Helper::parseFilterFromUrl(request()->headers->get('referer'), 'realisasi-anggarans_filter', 'App\\Nova\\Filters\\BulanFilter');
+        $filtered_ro = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\RoFilter');
+        $filtered_bulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\BulanFilter');
 
         return $this->program
             ? $this->sum($request, RealisasiAnggaran::class, function ($query) use ($dipa_id, $filtered_bulan) {

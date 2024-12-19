@@ -65,7 +65,7 @@ class RealisasiAnggaran extends Lens
                         '=',
                         'mata_anggarans.id')
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
-                            return $query->whereMonth('tanggal_sp2d', '<=', $filtered_bulan);
+                            return $query->whereMonth('daftar_sp2ds.tanggal_sp2d', '<=', $filtered_bulan);
                         });
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)

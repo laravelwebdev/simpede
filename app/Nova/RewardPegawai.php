@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
@@ -75,6 +76,7 @@ class RewardPegawai extends Resource
                 ->options(Helper::$bulan)
                 ->searchable()
                 ->filterable()
+                ->readonly(fn () => $this->status === 'ditetapkan')
                 ->displayUsingLabels()
                 ->updateRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))->ignore($this->id))
                 ->creationRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))),
@@ -93,12 +95,17 @@ class RewardPegawai extends Resource
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
-                    ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->arsip->getClientOriginalExtension();
+                    ->dependsOn(
+                        ['bulan'],
+                        function (File $field, NovaRequest $request, FormData $formData) {
+                            $field->storeAs(function (Request $request) use ($formData) {
+                                $originalName = 'Kertas_Kerja_'.Helper::$bulan[$formData->bulan];
+                                $extension = $request->arsip_kertas_kerja->getClientOriginalExtension();
 
-                        return $originalName.'_'.uniqid().'.'.$extension;
-                    })
+                                return $originalName.'_'.uniqid().'.'.$extension;
+                            });
+                        }
+                    )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_kertas_kerja ?
@@ -114,12 +121,17 @@ class RewardPegawai extends Resource
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
-                    ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->arsip->getClientOriginalExtension();
+                    ->dependsOn(
+                        ['bulan'],
+                        function (File $field, NovaRequest $request, FormData $formData) {
+                            $field->storeAs(function (Request $request) use ($formData) {
+                                $originalName = 'SK_'.Helper::$bulan[$formData->bulan];
+                                $extension = $request->arsip_sk->getClientOriginalExtension();
 
-                        return $originalName.'_'.uniqid().'.'.$extension;
-                    })
+                                return $originalName.'_'.uniqid().'.'.$extension;
+                            });
+                        }
+                    )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_sk ?
@@ -135,12 +147,17 @@ class RewardPegawai extends Resource
                     ->hideWhenCreating()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
-                    ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->arsip->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->arsip->getClientOriginalExtension();
+                    ->dependsOn(
+                        ['bulan'],
+                        function (File $field, NovaRequest $request, FormData $formData) {
+                            $field->storeAs(function (Request $request) use ($formData) {
+                                $originalName = 'Sertifikat_'.Helper::$bulan[$formData->bulan];
+                                $extension = $request->arsip_sertifikat->getClientOriginalExtension();
 
-                        return $originalName.'_'.uniqid().'.'.$extension;
-                    })
+                                return $originalName.'_'.uniqid().'.'.$extension;
+                            });
+                        }
+                    )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_sertifikat ?

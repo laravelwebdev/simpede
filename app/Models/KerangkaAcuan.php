@@ -171,6 +171,7 @@ class KerangkaAcuan extends Model
             'Surat Setoran Pajak',
             'SPJ',
             'Mutasi Rekening',
+            'Identifikasi RUP',
         ];
 
         foreach ($slugs as $slug) {

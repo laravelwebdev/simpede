@@ -30,6 +30,7 @@ use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
 use App\Nova\RealisasiAnggaran;
 use App\Nova\RewardPegawai;
+use App\Nova\ShareLink;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -57,8 +58,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         <a href="https://hulusungaitengahkab.bps.go.id" class="text-primary dim no-underline">BPS Kabupaten Hulu Sungai Tengah</a>
         <span class="px-1">&middot;</span>
         &copy;'.date('Y').' Simpede - By Muhlis Abdi.
-        <span class="px-1">&middot;</span>
-        v '.Nova::version().'</p>'
+        </p>
+        <p class="mt-8 text-center text-xs text-80">
+          Nova v'.Nova::version().'<span class="px-1">&middot;</span> Laravel v'.app()->version().'
+        </p>'
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
@@ -128,8 +131,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 ])->icon('lock-open'),
 
+                MenuSection::make('Share', [
+                    MenuItem::resource(ShareLink::class),
+                ])->icon('share'),
+
                 MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://simpede.mintlify.app/')
+                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
                         ->openInNewTab(),
                 ])
                     ->icon('light-bulb'),
@@ -137,10 +144,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
         Nova::withBreadcrumbs();
         Nova::showUnreadCountInNotificationCenter();
-
-        // Nova::style('custom-fields-css', resource_path('css/app.css'));
-        // Nova::withoutGlobalSearch();
-        // Nova::withoutNotificationCenter();
     }
 
     /**
@@ -152,7 +155,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Nova::routes()
             ->withAuthenticationRoutes(default: true)
-                // ->withPasswordResetRoutes()
             ->register();
     }
 

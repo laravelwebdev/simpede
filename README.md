@@ -1,4 +1,5 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="resources/img/logo.svg" width="400" alt="Simpede Logo"></a></p>
+![Simpede logo](resources/img/dark.svg#gh-dark-mode-only)
+![Simpede logo](resources/img/light.svg#gh-light-mode-only)
 
 [![StyleCI](https://github.styleci.io/repos/840671846/shield?branch=main)](https://github.styleci.io/repos/840671846?branch=main)
 
@@ -39,6 +40,8 @@ Rekomendasi shared hosting murah:
 <img src="https://www.cuponation.co.id/images/fit-in/256x/images/n/niagahoster.png">
 </a></p>
 
+- Enable Symlink:
+  Masuk ke Hpanel website Anda, Pilih `Advanced` -> `PHP Configuration` -> `PHP Option` di bagian `disableFunctions` hapus `symlink`
 - Buat database.
 - Hapus seluruh folder dan file yang ada di root domain.
 - Connect via terminal menggunakan SSH.
@@ -51,6 +54,7 @@ Rekomendasi shared hosting murah:
     ```bash
     composer2 update --no-dev
     ```
+
 - Rename file .env.example menjadi .env dan edit variabel berikut:
     * `APP_URL`: URL website.
     * `DB_HOST`: Host database, biasanya `localhost`.
@@ -61,6 +65,11 @@ Rekomendasi shared hosting murah:
     * `APP_ENV`: Set menjadi `production`.
     * `APP_DEBUG`: Set menjadi `false`.
     * `LOG_CHANNEL`: set menjadi `"null"`
+
+- Generate Key:
+    ```bash
+    php artisan key:generate
+    ```
 - Lakukan migrasi database:
     ```bash
     php artisan migrate --seed
@@ -91,6 +100,15 @@ Rekomendasi shared hosting murah:
     php artisan optimize
     ```
 
+## Maintenance Mode
 
+- Untuk menampilkan website sedang dalam kondisi Maintenance jalankan command berikut:
+    ```bash
+    php artisan maintenance:start
+    ```
+- Untuk membuat website live kembali setelah maintenance gunakan command:
+    ```bash
+    php artisan maintenance:stop
+    ```
 
 

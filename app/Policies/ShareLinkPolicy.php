@@ -3,10 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
-use App\Models\RewardPegawai;
-use App\Models\User;
 
-class RewardPegawaiPolicy
+class ShareLinkPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -14,7 +12,7 @@ class RewardPegawaiPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->notAllowedFor('admin')
+            ->allowedFor('admin,koordinator,ppk,anggota,arsiparis')
             ->get();
     }
 
@@ -24,8 +22,7 @@ class RewardPegawaiPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
-            ->withYear(session('year'))
+            ->allowedFor('admin,koordinator,ppk,anggota,arsiparis')
             ->get();
     }
 
@@ -35,30 +32,25 @@ class RewardPegawaiPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag')
+            ->allowedFor('admin,kasubbag')
             ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, RewardPegawai $reward): bool
+    public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('kasubbag,arsiparis')
-            ->withYear(session('year'))
-            ->get();
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, RewardPegawai $reward): bool
+    public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag')
-            ->withYear(session('year'))
-            ->andNotEqual($reward->status, 'ditetapkan')
+            ->allowedFor('admin,kasubbag')
             ->get();
     }
 
@@ -68,12 +60,5 @@ class RewardPegawaiPolicy
     public function replicate(): bool
     {
         return false;
-    }
-
-    public function runAction(): bool
-    {
-        return Policy::make()
-            ->allowedFor('kasubbag,kepala')
-            ->get();
     }
 }

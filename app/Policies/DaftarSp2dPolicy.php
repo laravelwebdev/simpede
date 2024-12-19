@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\DaftarSp2d;
+use App\Models\User;
 
 class DaftarSp2dPolicy
 {
@@ -67,10 +69,12 @@ class DaftarSp2dPolicy
             ->get();
     }
 
-    public function attachAnyKerangkaAcuan(): bool
+    public function attachAnyKerangkaAcuan(User $user, DaftarSp2d $sp2d): bool
     {
         return Policy::make()
             ->allowedFor('ppspm,arsiparis')
+            ->andNotEqual($sp2d->arsip_sp2d, null)
+            ->andNotEqual($sp2d->arsip_spm, null)
             ->get();
     }
 

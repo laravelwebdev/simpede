@@ -66,35 +66,40 @@ class KerangkaAcuan extends Model
             if ($kak->isDirty(['tanggal', 'awal', 'akhir', 'kegiatan', 'dipa_id', 'rincian'])) {
                 $dipa = Dipa::cache()->get('all')->where('id', $kak->dipa_id)->first();
                 $honor = HonorKegiatan::where('kerangka_acuan_id', $kak->id)->first();
-                $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
-                $honor->generate_st ? $honor->tanggal_st = $kak->tanggal : null;
-                $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                $honor->kegiatan = $kak->kegiatan;
-                $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
-                $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
-                $honor->tanggal_kak = $kak->tanggal;
-                $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
-                $honor->awal = $kak->awal;
-                $honor->akhir = $kak->akhir;
-                $honor->status = 'outdated';
-                $honor->save();
-
+                if ($honor) {
+                    $honor->generate_sk ? $honor->tanggal_sk = $kak->tanggal : null;
+                    $honor->generate_st ? $honor->tanggal_st = $kak->tanggal : null;
+                    $honor->judul_spj = 'Daftar Honor Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+                    $honor->kegiatan = $kak->kegiatan;
+                    $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
+                    $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
+                    $honor->tanggal_kak = $kak->tanggal;
+                    $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
+                    $honor->awal = $kak->awal;
+                    $honor->akhir = $kak->akhir;
+                    $honor->status = 'outdated';
+                    $honor->save();
+                }
                 $pembelian = PembelianPersediaan::where('kerangka_acuan_id', $kak->id)->first();
-                $pembelian->tanggal_kak = $kak->tanggal;
-                $pembelian->rincian = $kak->rincian;
-                $pembelian->status = 'outdated';
-                $pembelian->save();
-
+                if ($pembelian) {
+                    $pembelian->tanggal_kak = $kak->tanggal;
+                    $pembelian->rincian = $kak->rincian;
+                    $pembelian->status = 'outdated';
+                    $pembelian->save();
+                }
                 $pemeliharaan = Pemeliharaan::where('kerangka_acuan_id', $kak->id)->first();
-                $pemeliharaan->tanggal_kak = $kak->tanggal;
-                $pemeliharaan->rincian = $kak->rincian;
-                $pemeliharaan->save();
-
+                if ($pemeliharaan) {
+                    $pemeliharaan->tanggal_kak = $kak->tanggal;
+                    $pemeliharaan->rincian = $kak->rincian;
+                    $pemeliharaan->save();
+                }
                 $perjalanan = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->first();
-                $perjalanan->tanggal_berangkat = $kak->awal;
-                $perjalanan->tanggal_kembali = $kak->akhir;
-                $perjalanan->uraian = $kak->rincian;
-                $perjalanan->save();
+                if ($perjalanan) {
+                    $perjalanan->tanggal_berangkat = $kak->awal;
+                    $perjalanan->tanggal_kembali = $kak->akhir;
+                    $perjalanan->uraian = $kak->rincian;
+                    $perjalanan->save();
+                }
             }
         });
 

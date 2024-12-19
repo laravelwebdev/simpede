@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Carbon\Carbon;
-use Ctessier\NovaAdvancedImageField\AdvancedImage;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;

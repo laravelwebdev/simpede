@@ -107,7 +107,7 @@ class IzinKeluar extends Resource
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
                     ->url($this->bukti))
                     ->displayUsing(fn () => 'Unduh')
-                    ->exceptOnForms(),
+                    ->onlyOnDetail(),
                 Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
                     ->onlyOnIndex(),
             ]),

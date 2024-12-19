@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
+use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -68,10 +69,8 @@ class ArsipDokumen extends Resource
             Text::make('Jenis Dokumen', 'slug')
                 ->sortable()
                 ->rules('required'),
-            File::make('File')
+            Filepond::make('File')
                 ->disk('arsip')
-                ->rules('mimes:xlsx,pdf,docx')
-                ->acceptedTypes('.pdf,.docx,.xlsx')
                 ->creationRules('required')
                 ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
                 ->dependsOn(

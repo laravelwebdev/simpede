@@ -112,9 +112,9 @@ class RewardPegawai extends Resource
                 $this->arsip_kertas_kerja ?
                 URL::make('Kertas Kerja', fn () => Storage::disk('arsip')
                     ->url($this->arsip_kertas_kerja))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Kertas', fn () => '—')->exceptOnForms(),
+                Text::make('Kertas', fn () => '—')->onlyOnIndex(),
                 Filepond::make('Arsip SK', 'arsip_sk')
                     ->disk('arsip')
                     ->disableCredits()

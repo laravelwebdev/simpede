@@ -110,11 +110,11 @@ class RewardPegawai extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
                     ->prunable(),
                 $this->arsip_kertas_kerja ?
-                URL::make('Kertas', fn () => Storage::disk('arsip')
+                URL::make('Kertas Kerja', fn () => Storage::disk('arsip')
                     ->url($this->arsip_kertas_kerja))
                     ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                     :
-                Text::make('Kertas', fn () => '—')->onlyOnIndex(),
+                Text::make('Kertas', fn () => '—')->exceptOnForms(),
                 Filepond::make('Arsip SK', 'arsip_sk')
                     ->disk('arsip')
                     ->disableCredits()
@@ -138,7 +138,7 @@ class RewardPegawai extends Resource
                 $this->arsip_sk ?
                 URL::make('SK', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sk))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('SK', fn () => '—')->onlyOnIndex(),
                 Filepond::make('Arsip Sertifikat', 'arsip_sertifikat')
@@ -164,7 +164,7 @@ class RewardPegawai extends Resource
                 $this->arsip_sertifikat ?
                 URL::make('Sertifikat', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sertifikat))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('Sertifikat', fn () => '—')->onlyOnIndex(),
             ]),

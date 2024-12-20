@@ -124,6 +124,7 @@ class PermintaanPersediaan extends Resource
             Panel::make('Arsip', [
                 Filepond::make('Arsip BON', 'arsip')
                     ->disk('arsip')
+                    ->onlyOnForms()
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
@@ -139,9 +140,9 @@ class PermintaanPersediaan extends Resource
                 $this->arsip ?
                 URL::make('Arsip BON', fn () => Storage::disk('arsip')
                     ->url($this->arsip))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip BON', fn () => '—')->onlyOnIndex(),
+                Text::make('Arsip BON', fn () => '—')->exceptOnForms(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];

@@ -106,6 +106,7 @@ class NaskahMasuk extends Resource
             Filepond::make('Arsip')
                 ->disk('naskah')
                 ->disableCredits()
+                ->onlyOnForms()
                 ->mimesTypes(['application/pdf'])
                 ->creationRules('required')
                 ->path(session('year').'/'.static::uriKey())
@@ -116,6 +117,13 @@ class NaskahMasuk extends Resource
                     return $originalName.'_'.uniqid().'.'.$extension;
                 })
                 ->prunable(),
+            $this->arsip ?
+            URL::make('Arsip', fn () => Storage::disk('naskah')
+                ->url($this->arsip))
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Arsip', fn () => '—')->exceptOnForms(),
+
         ];
     }
 

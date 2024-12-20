@@ -22,6 +22,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL as UrlField;
 use Laravel\Nova\Fields\URL as URLFields;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -138,6 +139,7 @@ class PembelianPersediaan extends Resource
             Panel::make('Arsip', [
                 Filepond::make('Arsip Penerimaan', 'arsip')
                     ->disk('arsip')
+                    ->onlyOnForms()
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
@@ -150,6 +152,12 @@ class PembelianPersediaan extends Resource
                     })
                     ->canSee(fn () => Policy::make()->allowedFor('bmn')->get())
                     ->prunable(),
+                $this->arsip ?
+                UrlField::make('Arsip', fn () => Storage::disk('arsip')
+                    ->url($this->arsip))
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    :
+                Text::make('Arsip', fn () => '—')->exceptOnForms(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];

@@ -172,6 +172,7 @@ class NaskahKeluar extends Resource
             Filepond::make('Draft')
                 ->disk('naskah')
                 ->disableCredits()
+                ->onlyOnForms()
                 ->mimesTypes(['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                 ->path(session('year').'/'.static::uriKey().'/draft')
                 ->storeAs(function (Request $request) {
@@ -182,9 +183,16 @@ class NaskahKeluar extends Resource
                 })
                 ->hideWhenCreating()
                 ->prunable(),
+            $this->draft ?
+            URL::make('Draft', fn () => Storage::disk('naskah')
+                ->url($this->draft))
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Draft', fn () => '—')->exceptOnForms(),
             Filepond::make('Signed')
                 ->disk('naskah')
                 ->disableCredits()
+                ->onlyOnForms()
                 ->mimesTypes(['application/pdf'])
                 ->path(session('year').'/'.static::uriKey().'/signed')
                 ->storeAs(function (Request $request) {
@@ -195,6 +203,12 @@ class NaskahKeluar extends Resource
                 })
                 ->hideWhenCreating()
                 ->prunable(),
+            $this->signed ?
+            URL::make('Arsip', fn () => Storage::disk('naskah')
+                ->url($this->signed))
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Arsip', fn () => '—')->exceptOnForms(),
         ];
     }
 

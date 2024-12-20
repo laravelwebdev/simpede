@@ -96,6 +96,7 @@ class DaftarSp2d extends Resource
                 Filepond::make('Arsip', 'arsip_spm')
                     ->disk('arsip')
                     ->disableCredits()
+                    ->onlyOnForms()
                     ->mimesTypes(['application/pdf'])
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
@@ -110,12 +111,13 @@ class DaftarSp2d extends Resource
                 $this->arsip_spm ?
                 URL::make('Arsip SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_spm))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip SPM', fn () => '—')->onlyOnIndex(),
+                Text::make('Arsip SPM', fn () => '—')->exceptOnForms(),
 
                 Filepond::make('Arsip SP2D', 'arsip_sp2d')
                     ->disk('arsip')
+                    ->onlyOnForms()
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->creationRules('required')
@@ -131,9 +133,9 @@ class DaftarSp2d extends Resource
                 $this->arsip_sp2d ?
                 URL::make('Arsip SP2D', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sp2d))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip SP2D', fn () => '—')->onlyOnIndex(),
+                Text::make('Arsip SP2D', fn () => '—')->exceptOnForms(),
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')

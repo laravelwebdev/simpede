@@ -148,6 +148,7 @@ class KontrakMitra extends Resource
                 Filepond::make('File')
                     ->disk('arsip')
                     ->disableCredits()
+                    ->onlyOnForms()
                     ->mimesTypes(['application/pdf'])
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
@@ -161,9 +162,9 @@ class KontrakMitra extends Resource
                 $this->file ?
                 URL::make('Arsip', fn () => Storage::disk('arsip')
                     ->url($this->file))
-                    ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+                Text::make('Arsip', fn () => '—')->exceptOnForms(),
             ]),
             HasMany::make('Daftar Kontrak Mitra'),
         ];

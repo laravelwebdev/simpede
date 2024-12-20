@@ -94,6 +94,7 @@ class RewardPegawai extends Resource
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
+                    ->onlyOnForms()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(
@@ -120,6 +121,7 @@ class RewardPegawai extends Resource
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
+                    ->onlyOnForms()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(
@@ -146,6 +148,7 @@ class RewardPegawai extends Resource
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
                     ->hideWhenCreating()
+                    ->onlyOnForms()
                     ->updateRules('required')
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(

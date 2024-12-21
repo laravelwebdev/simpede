@@ -65,8 +65,8 @@ class DokumentasiKegiatan extends Resource
             foreach ($this->file as $file) {
             $imageFields[] = Image::make('Foto', fn () => $file)
                 ->disk('dokumentasi')
-                ->download(function ($request, $model, $disk, $value) {
-                    return Storage::disk($disk)->download($value);
+                ->download(function ($request, $model, $disk, $value) use ($file) {
+                    return Storage::disk($disk)->download($file);
                 })
                 ->onlyOnDetail();
             }

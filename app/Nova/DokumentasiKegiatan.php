@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -59,31 +59,39 @@ class DokumentasiKegiatan extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        return [
-            Date::make('Tanggal')
-                ->rules('required', function ($attribute, $value, $fail) {
-                    if (Helper::getYearFromDateString($value) != session('year')) {
-                        return $fail('Tanggal harus di tahun yang telah dipilih');
-                    }
-                })
-                ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
-                ->sortable(),
-            Text::make('Kegiatan')
-                ->rules('required')
-                ->sortable(),
-            Filepond::make('Foto', 'file')
+        $imageFields = [];
+        foreach ($this->file as $file) {
+            $imageFields[] =
+            Image::make('Foto', fn () => $file)
                 ->disk('dokumentasi')
-                ->disableCredits()
-                ->prunable()
-                ->columns(3)
-                ->image()
-                ->hideFromIndex()
-                ->multiple()
-                ->rules('required')
-                ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
-                    $field->path(session('year').'/'.Str::slug($formData->kegiatan));
-                }),
-        ];
+                ->onlyOnDetail();
+        }
+
+        return array_merge([
+            Date::make('Tanggal')
+            ->rules('required', function ($attribute, $value, $fail) {
+                if (Helper::getYearFromDateString($value) != session('year')) {
+                return $fail('Tanggal harus di tahun yang telah dipilih');
+                }
+            })
+            ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+            ->sortable(),
+            Text::make('Kegiatan')
+            ->rules('required')
+            ->sortable(),
+            Filepond::make('Foto', 'file')
+            ->disk('dokumentasi')
+            ->disableCredits()
+            ->prunable()
+            ->columns(3)
+            ->image()
+            ->onlyOnForms()
+            ->multiple()
+            ->rules('required')
+            ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
+                $field->path(session('year').'/'.Str::slug($formData->kegiatan));
+            }),
+        ], $imageFields);
     }
 
     /**

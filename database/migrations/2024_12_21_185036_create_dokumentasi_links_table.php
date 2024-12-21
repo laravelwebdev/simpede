@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uraian')->nullable();
             $table->string('link')->nullable()->unique();
+            $table->mediumInteger('user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

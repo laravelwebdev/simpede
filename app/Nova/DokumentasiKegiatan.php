@@ -76,7 +76,7 @@ class DokumentasiKegiatan extends Resource
                 ->prunable()
                 ->columns(3)
                 ->image()
-                ->preview(fn ($value) => $value)
+                ->preview(fn () => true)
                 ->multiple()
                 ->rules('required')
                 ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {

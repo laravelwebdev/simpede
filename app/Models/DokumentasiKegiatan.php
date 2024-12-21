@@ -26,7 +26,7 @@ class DokumentasiKegiatan extends Model
         });
         static::saving(function (DokumentasiKegiatan $dokumentasi) {
             if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file)) {
-                $files = $dokumentasi->file;
+                $files = array_diff($dokumentasi->getOriginal('file'), $dokumentasi->file);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('dokumentasi')->path($file))
                         ->encode('webp', 15);

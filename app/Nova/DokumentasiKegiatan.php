@@ -76,12 +76,14 @@ class DokumentasiKegiatan extends Resource
                 ->disk('dokumentasi')
                 ->disableCredits()
                 ->prunable()
-                ->columns(4)
+                ->columns(3)
                 ->image()
                 ->hideFromIndex()
                 ->multiple()
                 ->rules('required')
-                ->path(session('year').'/'.static::uriKey().'/'.Str::slug($this->kegiatan)),
+                ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
+                    $field->path(session('year').'/'.Str::slug($formData->kegiatan));
+                }),
         ];
     }
 

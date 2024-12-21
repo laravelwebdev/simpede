@@ -6,12 +6,9 @@ use App\Helpers\Helper;
 use Carbon\Carbon;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Oneduo\NovaTimeField\Time;
@@ -104,12 +101,7 @@ class IzinKeluar extends Resource
                     ->disableCredits()
                     ->prunable()
                     ->image()
-                    ->hideFromIndex()
-                    ->onlyOnForms()
                     ->hideWhenCreating(),
-                Image::make('Bukti Dukung', fn() => $this->bukti)
-                    ->disk('izin_keluar')
-                    ->onlyOnDetail(),      
             ]),
 
         ];

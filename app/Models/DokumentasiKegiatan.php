@@ -8,7 +8,7 @@ class DokumentasiKegiatan extends Model
 {
     protected $casts = [
         'tanggal' => 'date',
-        'file' => 'array',
+        'foto' => 'array',
     ];
     public function user()
     {

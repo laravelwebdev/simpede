@@ -31,7 +31,7 @@ class IzinKeluar extends Model
             $izin->user_id = Auth::user()->id;
         });
         static::saving(function (IzinKeluar $izin) {
-            if ($izin->isDirty('bukti')) {
+            if ($izin->isDirty('bukti') && $izin->bukti) {
                 Image::make(Storage::disk('izin_keluar')
                     ->path($izin->bukti))
                     ->encode(quality: 60);

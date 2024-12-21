@@ -106,13 +106,10 @@ class IzinKeluar extends Resource
                     ->image()
                     ->hideFromIndex()
                     ->hideWhenCreating()
-                    ->path(session('year'))
                     ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->bukti->getClientOriginalName(), PATHINFO_FILENAME);
                         $extension = $request->bukti->getClientOriginalExtension();
-                        $file =  $originalName.'_'.uniqid().'.'.$extension;
-                        Image::make($file)->encode('webp', 75);
-                        return $originalName.'_'.uniqid().'.'.'webp';
+                        Image::make($request->bukti)->encode($extension, 75);
+                        return $$request->bukti;
                     })
                     ->sortable(),
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')

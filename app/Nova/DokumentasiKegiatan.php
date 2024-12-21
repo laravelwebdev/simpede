@@ -73,6 +73,7 @@ class DokumentasiKegiatan extends Resource
                 ->disk('dokumentasi')
                 ->disableCredits()
                 ->prunable()
+                ->columns(4)
                 ->image()
                 ->hideFromIndex()
                 ->multiple()

@@ -54,10 +54,11 @@ class DokumentasiLink extends Resource
             Text::make('Uraian')
                 ->rules('required')
                 ->sortable(),
-            URL::make('Link', 'link')
+            Text::make('Link', 'link')
                 ->rules('required', 'url')
                 ->copyable()
                 ->sortable(),
+            URL::make('Lihat', fn () => $this->link),
 
         ];
     }

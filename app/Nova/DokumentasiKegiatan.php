@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -65,6 +66,9 @@ class DokumentasiKegiatan extends Resource
             $imageFields[] =
             Image::make('Foto', fn () => $file)
                 ->disk('dokumentasi')
+                ->download(function ($request, $model, $disk, $value) {
+                    return Storage::disk($disk)->download($value, 'avatar');
+                })
                 ->onlyOnDetail();
         }
 

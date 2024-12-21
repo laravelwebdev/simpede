@@ -11,7 +11,6 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Oneduo\NovaTimeField\Time;
@@ -107,9 +106,8 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->onlyOnForms()
                     ->hideWhenCreating(),
-                Image::make('Bukti Dukung', fn() => Storage::disk('izin_keluar')->url($this->bukti))
-                    ->disk('izin_keluar')
-                    ->onlyOnDetail(),      
+                Image::make('Bukti Dukung', fn () => Storage::disk('izin_keluar')->url($this->bukti))
+                    ->onlyOnDetail(),
             ]),
 
         ];

@@ -7,6 +7,7 @@ use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -58,6 +59,8 @@ class DokumentasiKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('User', 'user_id')
+                ->default($request->user()->id),
             Date::make('Tanggal')
                 ->rules('required', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {

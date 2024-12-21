@@ -107,8 +107,10 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->hideWhenCreating()
                     ->storeAs(function (Request $request) {
-                        Image::make($request->bukti)->encode('webp', 65);
-                        return $request->bukti;
+                        $image = Image::make($request->file('bukti'))->encode('webp', 65);
+                        $filename = $request->file('bukti')->hashName();
+                        Storage::disk('izin_keluar')->put($filename, (string) $image);
+                        return $filename;
                     })
                     ->sortable(),
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')

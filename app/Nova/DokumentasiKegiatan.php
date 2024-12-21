@@ -2,10 +2,18 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
+use DigitalCreative\Filepond\Filepond;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DokumentasiKegiatan extends Resource
 {
+    public static $with = ['user'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -15,7 +23,7 @@ class DokumentasiKegiatan extends Resource
 
     public static function label()
     {
-        return 'DokumentasiKegiatan';
+        return 'Foto Kegiatan';
     }
 
     /**
@@ -23,10 +31,14 @@ class DokumentasiKegiatan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return Helper::terbilangTanggal($this->tanggal);
+    }
 
-    public function subtitle(){
-        return $this->id;
+    public function subtitle()
+    {
+        return $this->kegiatan;
     }
 
     /**
@@ -35,26 +47,43 @@ class DokumentasiKegiatan extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'tanggal', 'kegiatan',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            
+            Date::make('Tanggal')
+                ->rules('required', function ($attribute, $value, $fail) {
+                    if (Helper::getYearFromDateString($value) != session('year')) {
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
+                    }
+                })
+                ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                ->sortable(),
+            Text::make('Kegiatan')
+                ->rules('required')
+                ->sortable(),
+            Filepond::make('Foto')
+                ->disk('dokumentasi')
+                ->disableCredits()
+                ->prunable()
+                ->image()
+                ->hideFromIndex()
+                ->multiple()
+                ->rules('required')
+                ->path(session('year').'/'.static::uriKey().'/'.Str::slug($this->kegiatan)),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -65,7 +94,6 @@ class DokumentasiKegiatan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -76,7 +104,6 @@ class DokumentasiKegiatan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -87,11 +114,21 @@ class DokumentasiKegiatan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->whereYear('tanggal', session('year'));
     }
 }

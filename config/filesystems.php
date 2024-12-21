@@ -100,6 +100,14 @@ return [
             'throw' => false,
         ],
 
+        'dokumentasi' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/dokumentasi'),
+            'url' => env('APP_URL').'/storage/dokumentasi',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

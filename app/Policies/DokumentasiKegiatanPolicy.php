@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\DokumentasiKegiatan;
+use App\Models\User;
 
 class DokumentasiKegiatanPolicy
 {
@@ -12,7 +14,7 @@ class DokumentasiKegiatanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +24,7 @@ class DokumentasiKegiatanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -32,27 +34,29 @@ class DokumentasiKegiatanPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, DokumentasiKegiatan $kegiatan): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, DokumentasiKegiatan $kegiatan): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }
 
@@ -61,8 +65,6 @@ class DokumentasiKegiatanPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

@@ -104,8 +104,7 @@ class IzinKeluar extends Resource
                     ->prunable()
                     ->image()
                     ->hideFromIndex()
-                    ->hideWhenCreating()
-                    ->sortable(),
+                    ->hideWhenCreating(),
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
                     ->url($this->bukti))
                     ->displayUsing(fn () => 'Unduh')

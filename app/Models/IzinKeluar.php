@@ -32,9 +32,9 @@ class IzinKeluar extends Model
         });
         static::saving(function (IzinKeluar $izin) {
             if ($izin->isDirty('bukti') && $izin->bukti) {
-                Image::make(Storage::disk('izin_keluar')
-                    ->path($izin->bukti))
+                $image = Image::make(Storage::disk('izin_keluar')->path($izin->bukti))
                     ->encode('webp', 40);
+                Storage::disk('izin_keluar')->put($izin->bukti, (string) $image);
             }
         });
     }

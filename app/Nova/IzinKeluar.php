@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -104,13 +105,11 @@ class IzinKeluar extends Resource
                     ->prunable()
                     ->image()
                     ->hideFromIndex()
+                    ->onlyOnForms()
                     ->hideWhenCreating(),
-                URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
-                    ->url($this->bukti))
-                    ->displayUsing(fn () => 'Unduh')
-                    ->onlyOnDetail(),
-                Text::make('Bukti Dukung', fn () => $this->bukti ? 'Ada' : 'Tidak Ada')
-                    ->onlyOnIndex(),
+                Image::make('Bukti Dukung', 'bukti')
+                    ->disk('izin_keluar')
+                    ->onlyOnDetail(),      
             ]),
 
         ];

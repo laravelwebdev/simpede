@@ -34,6 +34,7 @@ class IzinKeluar extends Model
             if ($izin->isDirty('bukti') && $izin->bukti) {
                 $image = Image::make(Storage::disk('izin_keluar')->path($izin->bukti))
                     ->encode('webp', 40);
+                Storage::disk('izin_keluar')->put($izin->bukti, (string) $image);
             }
         });
     }

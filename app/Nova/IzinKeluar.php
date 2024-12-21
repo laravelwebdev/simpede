@@ -109,7 +109,9 @@ class IzinKeluar extends Resource
                     ->storeAs(function (Request $request) {
                         $image = Image::make($request->file('bukti'))->encode('webp', 65);
                         $filename = $request->file('bukti')->hashName();
-                        Storage::disk('izin_keluar')->put($filename, (string) $image);
+                        Storage::disk('izin_keluar')->put($filename, $image->stream('webp', 65));
+                        // Delete the original image
+                        Storage::disk('izin_keluar')->delete($request->file('bukti')->hashName());
                         return $filename;
                     })
                     ->sortable(),

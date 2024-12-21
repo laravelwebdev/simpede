@@ -56,7 +56,6 @@ class DokumentasiLink extends Resource
                 ->sortable(),
             URL::make('Link', 'link')
                 ->rules('required', 'url')
-                ->clickable()
                 ->copyable()
                 ->sortable(),
 

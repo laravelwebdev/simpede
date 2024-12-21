@@ -27,6 +27,7 @@
         "digital-creative/nova-filepond": "^1.0",
         "digital-creative/nova-welcome-card": "^0.0.2",
         "inspheric/nova-url-field": "^2.0",
+        "intervention/image": "^2.0",
         "joerithegreat/nova-table-card": "^1.0",
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class IzinKeluar extends Model
 {
@@ -27,6 +28,12 @@ class IzinKeluar extends Model
     {
         static::creating(function (IzinKeluar $izin) {
             $izin->user_id = Auth::user()->id;
+        });
+        static::saving(function (IzinKeluar $izin) {
+            if ($izin->isDirty('bukti')) {
+                Image::make($izin->bukti)
+                    ->encode(quality: 60);
+            }
         });
     }
 }

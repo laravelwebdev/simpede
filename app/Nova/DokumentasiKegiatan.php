@@ -60,6 +60,7 @@ class DokumentasiKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         $imageFields = [];
+        if ($this->file)
         foreach ($this->file as $file) {
             $imageFields[] =
             Image::make('Foto', fn () => $file)
@@ -69,28 +70,28 @@ class DokumentasiKegiatan extends Resource
 
         return array_merge([
             Date::make('Tanggal')
-            ->rules('required', function ($attribute, $value, $fail) {
-                if (Helper::getYearFromDateString($value) != session('year')) {
-                return $fail('Tanggal harus di tahun yang telah dipilih');
-                }
-            })
-            ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
-            ->sortable(),
+                ->rules('required', function ($attribute, $value, $fail) {
+                    if (Helper::getYearFromDateString($value) != session('year')) {
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
+                    }
+                })
+                ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                ->sortable(),
             Text::make('Kegiatan')
-            ->rules('required')
-            ->sortable(),
+                ->rules('required')
+                ->sortable(),
             Filepond::make('Foto', 'file')
-            ->disk('dokumentasi')
-            ->disableCredits()
-            ->prunable()
-            ->columns(3)
-            ->image()
-            ->onlyOnForms()
-            ->multiple()
-            ->rules('required')
-            ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
-                $field->path(session('year').'/'.Str::slug($formData->kegiatan));
-            }),
+                ->disk('dokumentasi')
+                ->disableCredits()
+                ->prunable()
+                ->columns(3)
+                ->image()
+                ->onlyOnForms()
+                ->multiple()
+                ->rules('required')
+                ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
+                    $field->path(session('year').'/'.Str::slug($formData->kegiatan));
+                }),
         ], $imageFields);
     }
 

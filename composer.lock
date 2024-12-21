@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39b471c24d34ce1bc8a8fd22cfb3305f",
+    "content-hash": "30aba2e057de44e8718c220bfb599a34",
     "packages": [
         {
             "name": "brick/math",
@@ -191,72 +191,6 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
-        },
-        {
-            "name": "ctessier/nova-advanced-image-field",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ctessier/nova-advanced-image-field.git",
-                "reference": "1e5296b62e84c2e698995bdece3db1d06c573b62"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ctessier/nova-advanced-image-field/zipball/1e5296b62e84c2e698995bdece3db1d06c573b62",
-                "reference": "1e5296b62e84c2e698995bdece3db1d06c573b62",
-                "shasum": ""
-            },
-            "require": {
-                "intervention/image": "^2.7",
-                "laravel/nova": "^4.0",
-                "php": "^7.3|^8.0"
-            },
-            "suggest": {
-                "ext-exif": "Install the exif extension to orientate images automatically.",
-                "ext-gd": "Install the GD extension to process images using GD.",
-                "ext-imagick": "Install the Imagick extension to process image using ImageMagick."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Ctessier\\NovaAdvancedImageField\\FieldServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ctessier\\NovaAdvancedImageField\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "An advanced image field for Nova with cropping and resizing.",
-            "keywords": [
-                "advanced",
-                "advanced image",
-                "advanced image field",
-                "crop",
-                "image",
-                "image crop",
-                "image resize",
-                "laravel",
-                "nova",
-                "resize"
-            ],
-            "support": {
-                "issues": "https://github.com/ctessier/nova-advanced-image-field/issues",
-                "source": "https://github.com/ctessier/nova-advanced-image-field/tree/v2.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/ctessier",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-08-28T20:12:11+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -8467,16 +8401,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.1",
+            "version": "11.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2b94d4f2450b9869fa64a46fd8a6a41997aef56a"
+                "reference": "153d0531b9f7e883c5053160cad6dd5ac28140b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2b94d4f2450b9869fa64a46fd8a6a41997aef56a",
-                "reference": "2b94d4f2450b9869fa64a46fd8a6a41997aef56a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/153d0531b9f7e883c5053160cad6dd5ac28140b3",
+                "reference": "153d0531b9f7e883c5053160cad6dd5ac28140b3",
                 "shasum": ""
             },
             "require": {
@@ -8490,13 +8424,13 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.2",
-                "phpunit/php-code-coverage": "^11.0.7",
+                "phpunit/php-code-coverage": "^11.0.8",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-invoker": "^5.0.1",
                 "phpunit/php-text-template": "^4.0.1",
                 "phpunit/php-timer": "^7.0.1",
                 "sebastian/cli-parser": "^3.0.2",
-                "sebastian/code-unit": "^3.0.1",
+                "sebastian/code-unit": "^3.0.2",
                 "sebastian/comparator": "^6.2.1",
                 "sebastian/diff": "^6.0.2",
                 "sebastian/environment": "^7.2.0",
@@ -8548,7 +8482,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.1"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.2"
             },
             "funding": [
                 {
@@ -8564,7 +8498,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-11T10:52:48+00:00"
+            "time": "2024-12-21T05:51:08+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -9594,12 +9528,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

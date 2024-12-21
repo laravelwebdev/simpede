@@ -5,7 +5,9 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Carbon\Carbon;
 use DigitalCreative\Filepond\Filepond;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -104,6 +106,14 @@ class IzinKeluar extends Resource
                     ->image()
                     ->hideFromIndex()
                     ->hideWhenCreating()
+                    ->path(session('year'))
+                    ->storeAs(function (Request $request) {
+                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->file->getClientOriginalExtension();
+                        $file =  $originalName.'_'.uniqid().'.'.$extension;
+                        Image::make($file)->encode('webp', 75);
+                        return $originalName.'_'.uniqid().'.'.'webp';
+                    })
                     ->sortable(),
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
                     ->url($this->bukti))

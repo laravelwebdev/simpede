@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -106,14 +105,6 @@ class IzinKeluar extends Resource
                     ->image()
                     ->hideFromIndex()
                     ->hideWhenCreating()
-                    ->storeAs(function (Request $request) {
-                        $image = Image::make($request->file('bukti'))->encode('webp', 65);
-                        $filename = $request->file('bukti')->hashName();
-                        Storage::disk('izin_keluar')->put($filename, $image->stream('webp', 65));
-                        // Delete the original image
-                        Storage::disk('izin_keluar')->delete($request->file('bukti')->hashName());
-                        return $filename;
-                    })
                     ->sortable(),
                 URL::make('Unduh Bukti Dukung', fn () => ($this->bukti == '') ? '' : Storage::disk('izin_keluar')
                     ->url($this->bukti))

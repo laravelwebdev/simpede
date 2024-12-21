@@ -108,8 +108,8 @@ class IzinKeluar extends Resource
                     ->hideWhenCreating()
                     ->path(session('year'))
                     ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->file->getClientOriginalExtension();
+                        $originalName = pathinfo($request->bukti->getClientOriginalName(), PATHINFO_BUKTINAME);
+                        $extension = $request->bukti->getClientOriginalExtension();
                         $file =  $originalName.'_'.uniqid().'.'.$extension;
                         Image::make($file)->encode('webp', 75);
                         return $originalName.'_'.uniqid().'.'.'webp';

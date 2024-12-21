@@ -7,6 +7,8 @@ use App\Nova\BastMitra;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
+use App\Nova\DokumentasiKegiatan;
+use App\Nova\DokumentasiLink;
 use App\Nova\HargaSatuan;
 use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
@@ -130,6 +132,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Template::class),
 
                 ])->icon('lock-open'),
+
+                MenuSection::make('Dokumentasi', [
+                    MenuItem::resource(DokumentasiKegiatan::class),
+                    MenuItem::resource(DokumentasiLink::class),
+                ])->icon('database'),
 
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),

@@ -107,7 +107,8 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->onlyOnForms()
                     ->hideWhenCreating(),
-                Image::make('Bukti Dukung', fn() => Storage::disk('izin_keluar')->path($this->bukti))
+                Image::make('Bukti Dukung', fn() => Storage::url($this->bukti))
+                    ->disk('izin_keluar')
                     ->onlyOnDetail(),      
             ]),
 

@@ -61,12 +61,12 @@ class DokumentasiKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         $imageFields = [];
-        if ($this->file) $files = json_decode($this->file); 
-        foreach ($files as $file) {
-            $imageFields[] =
-            Image::make('Foto', fn () => $file)
+        if ($this->file) {
+            foreach ($this->file as $file) {
+            $imageFields[] = Image::make('Foto', fn () => $file)
                 ->disk('dokumentasi')
                 ->onlyOnDetail();
+            }
         }
 
         return array_merge([

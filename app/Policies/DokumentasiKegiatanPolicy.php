@@ -44,7 +44,7 @@ class DokumentasiKegiatanPolicy
     public function update(User $user, DokumentasiKegiatan $kegiatan): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }
@@ -55,7 +55,7 @@ class DokumentasiKegiatanPolicy
     public function delete(User $user, DokumentasiKegiatan $kegiatan): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }

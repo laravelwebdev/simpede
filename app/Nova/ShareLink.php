@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ShareLink extends Resource
@@ -58,6 +59,7 @@ class ShareLink extends Resource
             Text::make('Link')
                 ->exceptOnForms()
                 ->copyable(),
+            URL::make('Lihat', fn () => $this->link),
         ];
     }
 

@@ -107,7 +107,7 @@ class IzinKeluar extends Resource
                     ->hideFromIndex()
                     ->hideWhenCreating()
                     ->storeAs(function (Request $request) {
-                        Image::make($request->bukti)->encode('jpg', 65);
+                        Image::make($request->bukti)->encode('webp', 65);
                         return $request->bukti;
                     })
                     ->sortable(),

@@ -59,8 +59,6 @@ class DokumentasiKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('User', 'user_id')
-                ->default($request->user()->id),
             Date::make('Tanggal')
                 ->rules('required', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {

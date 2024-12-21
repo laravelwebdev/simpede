@@ -52,8 +52,6 @@ class DokumentasiLink extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('User', 'user_id')
-                ->default($request->user()->id),
             Text::make('Uraian')
                 ->rules('required')
                 ->sortable(),

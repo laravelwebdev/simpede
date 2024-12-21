@@ -5,11 +5,9 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -60,17 +58,7 @@ class DokumentasiKegiatan extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $imageFields = [];
-        if ($this->file) {
-            foreach ($this->file as $file) {
-            $imageFields[] = Image::make('Foto', fn () => $file)
-                ->disk('dokumentasi')
-                ->disableDownload()
-                ->onlyOnDetail();
-            }
-        }
-
-        return array_merge([
+        return [
             Date::make('Tanggal')
                 ->rules('required', function ($attribute, $value, $fail) {
                     if (Helper::getYearFromDateString($value) != session('year')) {
@@ -94,7 +82,7 @@ class DokumentasiKegiatan extends Resource
                 ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
                     $field->path(session('year').'/'.Str::slug($formData->kegiatan));
                 }),
-        ], $imageFields);
+        ];
     }
 
     /**

@@ -69,7 +69,7 @@ class DokumentasiKegiatan extends Resource
             Text::make('Kegiatan')
                 ->rules('required')
                 ->sortable(),
-            Filepond::make('Foto')
+            Filepond::make('Foto', 'file')
                 ->disk('dokumentasi')
                 ->disableCredits()
                 ->prunable()

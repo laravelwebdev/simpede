@@ -67,7 +67,7 @@ class DokumentasiKegiatan extends Resource
             Image::make('Foto', fn () => $file)
                 ->disk('dokumentasi')
                 ->download(function ($request, $model, $disk, $value) {
-                    return Storage::disk($disk)->download($value, 'avatar');
+                    return Storage::disk($disk)->download($value, $value);
                 })
                 ->onlyOnDetail();
         }

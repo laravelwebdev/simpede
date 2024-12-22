@@ -139,9 +139,7 @@ class RapatInternal extends Resource
                         ->rules('required')
                         ->searchable()
                         ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                        ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
-                            $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
-                        }),
+                        ->options(Helper::setOptionPengelola('anggota', now())),
 
                 ]),
             ]),

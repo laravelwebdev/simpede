@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Helpers\Policy;
-use App\Models\RapatInternal;
 use App\Nova\BastMitra;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
@@ -31,6 +30,7 @@ use App\Nova\PerjalananDinas;
 use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
+use App\Nova\RapatInternal;
 use App\Nova\RealisasiAnggaran;
 use App\Nova\RewardPegawai;
 use App\Nova\ShareLink;

@@ -208,7 +208,7 @@ class RapatInternal extends Resource
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('Daftar Hadir Signed', fn () => '—')->exceptOnForms(),
-                Filepond::make('Notula Signed', 'notula_signed')
+                Filepond::make('Notula Signed', 'signed_notula')
                     ->disk('arsip')
                     ->disableCredits()
                     ->mimesTypes(['application/pdf'])
@@ -216,15 +216,15 @@ class RapatInternal extends Resource
                     ->onlyOnForms()
                     ->path(session('year').'/'.static::uriKey())
                     ->storeAs(function (Request $request) {
-                        $originalName = pathinfo($request->notula_signed->getClientOriginalName(), PATHINFO_FILENAME);
-                        $extension = $request->notula_signed->getClientOriginalExtension();
+                        $originalName = pathinfo($request->signed_notula->getClientOriginalName(), PATHINFO_FILENAME);
+                        $extension = $request->signed_notula->getClientOriginalExtension();
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
-                $this->notula_signed ?
+                $this->signed_notula ?
                 URL::make('Notula Signed', fn () => Storage::disk('arsip')
-                    ->url($this->notula_signed))
+                    ->url($this->signed_notula))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('Notula Signed', fn () => '—')->exceptOnForms(),

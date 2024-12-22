@@ -55,7 +55,9 @@ class Main extends Dashboard
                 ->addItem(icon: 'collection', title: 'Pengelolaan Barang Persediaan', content: 'Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan.')
                 ->addItem(icon: 'presentation-chart-bar', title: 'Monitoring Anggaran', content: 'Fitur yang disediakan untuk memonitor serapan anggaran dan rencana penarikan dana.')
                 ->addItem(icon: 'office-building', title: 'Pemeliharaan BMN', content: 'Fitur yang disediakan untuk memonitor pemeliharaan Barang Milik Negara dan mencetak Kartu Kendali Pemeliharaan.')
-                ->addItem(icon: 'truck', title: 'Perjalanan Dinas', content: 'Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas'),
+                ->addItem(icon: 'truck', title: 'Perjalanan Dinas', content: 'Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas')
+                ->addItem(icon: 'film', title: 'Dokumentasi', content: 'Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan link-link penting.')
+                ->addItem(icon: 'library', title: 'Manajemen Rapat', content: 'Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal'),
         ];
     }
 }

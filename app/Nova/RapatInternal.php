@@ -14,6 +14,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
 use Oneduo\NovaTimeField\Time;
+use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class RapatInternal extends Resource
 {
@@ -123,6 +124,26 @@ class RapatInternal extends Resource
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
+            ]),
+            Panel::make('Notula', [
+                Select::make('Notulis', 'notulis_user_id')
+                    ->rules('required')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('pegawai', Helper::createDateFromString($formData->tanggal_rapat)));
+                    }),
+                SimpleRepeatable::make('Peserta Hadir', 'peserta', [
+                    Select::make('Nama', 'peserta_user_id')
+                        ->rules('required')
+                        ->searchable()
+                        ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                        ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
+                            $field->options(Helper::setOptionPengelola('pegawai', Helper::createDateFromString($formData->tanggal_rapat)));
+                        }),
+
+                ]),
             ]),
 
         ];

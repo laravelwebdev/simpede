@@ -65,6 +65,7 @@ class DokumentasiKegiatan extends Resource
                         return $fail('Tanggal harus di tahun yang telah dipilih');
                     }
                 })
+                ->filterable()
                 ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                 ->sortable(),
             Text::make('Kegiatan')
@@ -132,6 +133,6 @@ class DokumentasiKegiatan extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal', session('year'));
+        return $query->whereYear('tanggal', session('year'));
     }
 }

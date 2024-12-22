@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Actions\Download;
 use DigitalCreative\Filepond\Filepond;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -14,6 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -270,7 +273,32 @@ class RapatInternal extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [
+            Download::make('undangan', 'Unduh Undangan Rapat')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex(),
+            Download::make('daftar_hadir', 'Unduh Template Daftar Hadir')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex(),
+            Download::make('notula', 'Unduh Template Notula')
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Unduh')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && ! empty($this->peserta);
+                }),
+        ];
+
+        return $actions;
     }
 
     public static function indexQuery(NovaRequest $request, $query)

@@ -99,7 +99,7 @@ class RewardPegawai extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(
                         ['bulan'],
-                        function (File $field, NovaRequest $request, FormData $formData) {
+                        function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Kertas_Kerja_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_kertas_kerja->getClientOriginalExtension();
@@ -115,7 +115,7 @@ class RewardPegawai extends Resource
                     ->url($this->arsip_kertas_kerja))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Kertas', fn () => '—')->exceptOnForms(),
+                Text::make('Kertas Kerja', fn () => '—')->exceptOnForms(),
                 Filepond::make('Arsip SK', 'arsip_sk')
                     ->disk('arsip')
                     ->disableCredits()
@@ -126,7 +126,7 @@ class RewardPegawai extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(
                         ['bulan'],
-                        function (File $field, NovaRequest $request, FormData $formData) {
+                        function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'SK_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_sk->getClientOriginalExtension();
@@ -153,7 +153,7 @@ class RewardPegawai extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->dependsOn(
                         ['bulan'],
-                        function (File $field, NovaRequest $request, FormData $formData) {
+                        function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
                                 $originalName = 'Sertifikat_'.Helper::$bulan[$formData->bulan];
                                 $extension = $request->arsip_sertifikat->getClientOriginalExtension();

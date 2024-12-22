@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -36,5 +37,37 @@ class RapatInternal extends Model
     public function naskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (RapatInternal $rapat) {
+
+            $default_naskah = NaskahDefault::cache()->get('all')
+                ->where('jenis', 'undangan')
+                ->first();
+            $naskahkeluar = new NaskahKeluar;
+            $naskahkeluar->tanggal = $rapat->tanggal_rapat;
+            $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+            $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
+            $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+            $naskahkeluar->tujuan = $rapat->tujuan;
+            $naskahkeluar->perihal = 'Undangan '.$rapat->tema;
+            $naskahkeluar->generate = 'A';
+            $naskahkeluar->save();
+            $rapat->naskah_keluar_id = $naskahkeluar->id;
+
+        });
+        static::updating(function (RapatInternal $rapat) {
+            if ($rapat->isDirty('tanggal_rapat')) {
+                $naskahkeluar = NaskahKeluar::where('id', $rapat->naskah_keluar_id)->first();
+                $naskahkeluar->tanggal = $rapat->tanggal_st;
+                $naskahkeluar->save();
+            }
+        });
+
+        static::deleting(function (RapatInternal $rapat) {
+            NaskahKeluar::destroy($rapat->naskah_keluar_id);
+        });
     }
 }

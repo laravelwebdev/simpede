@@ -1,5 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-
+SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,10 @@ INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_a
 (18, 'Template Sertifikat Employee Of The Month', 'sertifikat_reward', 'HnihTnXjdITBB6z8etWmegpEOjyXAjcfVWZIWWR3.docx', '2024-11-25 19:08:41', '2024-11-25 19:08:41'),
 (19, 'Template  Surat Keputusan Employee Of The Month', 'sk_reward', 'GqIcQlspcqsXSx9tOZTxM89X12EMCXU623jgebF7.docx', '2024-11-25 19:09:01', '2024-11-25 19:09:01'),
 (20, 'Template Import NIK Mitra', 'import', 'DCxKlHfNoJ9SXMseOLJY7VtNR6XPxrtf9jVVnI2k.xlsx', '2024-11-29 06:02:12', '2024-11-29 06:02:12'),
-(21, 'Template Surat Tugas dan SPPD', 'sppd', 'NZ0yEZ9wHjPNsSGMUIoQaTjMBiKNLLUTtsFs9Rb9.docx', '2024-11-30 14:07:14', '2024-11-30 14:07:14');
+(21, 'Template Surat Tugas dan SPPD', 'sppd', 'NZ0yEZ9wHjPNsSGMUIoQaTjMBiKNLLUTtsFs9Rb9.docx', '2024-11-30 14:07:14', '2024-11-30 14:07:14'),
+(22, 'Template Undangan Rapat', 'undangan', '32Sq1RlqXpn9GNW1JUTmX5kiSih8wLug4pcacciH.docx', '2024-12-22 11:48:13', '2024-12-22 11:48:13'),
+(23, 'Template Daftar Hadir Rapat', 'daftar_hadir', 'rSe0mZotTa5o5vqMYOjF1fJGFXSzeWecJPnb5aDD.docx', '2024-12-22 11:48:46', '2024-12-22 11:48:46'),
+(24, 'Template Notula Rapat', 'notula', 'UUdKH4hsS43urXk16jFPJe50eJuAWkhyb9GTJtaV.docx', '2024-12-22 11:49:11', '2024-12-22 11:49:11');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -132,7 +132,7 @@ class RapatInternal extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('pegawai', Helper::createDateFromString($formData->tanggal_rapat)));
+                        $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
                 SimpleRepeatable::make('Peserta Hadir', 'peserta', [
                     Select::make('Nama', 'peserta_user_id')
@@ -140,7 +140,7 @@ class RapatInternal extends Resource
                         ->searchable()
                         ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                         ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
-                            $field->options(Helper::setOptionPengelola('pegawai', Helper::createDateFromString($formData->tanggal_rapat)));
+                            $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
                         }),
 
                 ]),

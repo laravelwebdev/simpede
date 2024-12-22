@@ -21,12 +21,17 @@ return new class extends Migration
             $table->string('tempat', '80')->nullable();
             $table->text('agenda')->nullable(); 
             $table->text('peserta')->nullable(); 
+            $table->string('draft_notula')->nullable();
+            $table->string('signed_notula')->nullable();
+            $table->string('signed_daftar_hadir')->nullable();
+            $table->string('signed_undangan')->nullable();
             $table->tinyInteger('baris')->nullable()->unsigned();
             $table->mediumInteger('kasubbag_user_id')->nullable()->unsigned();
             $table->mediumInteger('pimpinan_user_id')->nullable()->unsigned();
             $table->mediumInteger('kepala_user_id')->nullable()->unsigned();
             $table->mediumInteger('notulis_user_id')->nullable()->unsigned();
             $table->mediumInteger('naskah_keluar_id')->nullable()->unsigned();
+            $table->fullText('agenda')->nullable();
             $table->timestamps();
         });
     }

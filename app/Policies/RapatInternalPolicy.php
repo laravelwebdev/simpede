@@ -12,7 +12,7 @@ class RapatInternalPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class RapatInternalPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -32,7 +32,7 @@ class RapatInternalPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -42,7 +42,7 @@ class RapatInternalPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -52,7 +52,7 @@ class RapatInternalPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -62,7 +62,7 @@ class RapatInternalPolicy
     public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 }

@@ -2,10 +2,14 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
 
 class RapatInternal extends Resource
 {
+    public static $with = ['kasubbag', 'pimpinan', 'kepala', 'notulis', 'naskahKeluar'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -15,7 +19,7 @@ class RapatInternal extends Resource
 
     public static function label()
     {
-        return 'RapatInternal';
+        return 'Rapat Internal';
     }
 
     /**
@@ -23,10 +27,14 @@ class RapatInternal extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return Helper::terbilangTanggal($this->tanggal_rapat);
+    }
 
-    public function subtitle(){
-        return $this->id;
+    public function subtitle()
+    {
+        return $this->tema;
     }
 
     /**
@@ -34,27 +42,26 @@ class RapatInternal extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'id',
-    ];
+    public static function searchableColumns()
+    {
+        return ['naskahKeluar.nomor', 'tanggal', 'tema',  new SearchableText('agenda')];
+    }
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            
+
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -65,7 +72,6 @@ class RapatInternal extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -76,7 +82,6 @@ class RapatInternal extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -87,7 +92,6 @@ class RapatInternal extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

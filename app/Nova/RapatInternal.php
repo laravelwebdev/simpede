@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -97,9 +99,14 @@ class RapatInternal extends Resource
                 Textarea::make('Agenda')
                     ->rules('required')
                     ->alwaysShow(),
-                BelongsTo::make('Kepala', 'kepala', 'App\Nova\User')
+                Select::make('Kepala', 'kepala_user_id')
+                    ->rules('required')
+                    ->searchable()
                     ->hideFromIndex()
-                    ->rules('required'),
+                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal)));
+                    }),
             ]),
         ];
     }

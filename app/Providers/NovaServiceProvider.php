@@ -75,6 +75,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
+
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
@@ -86,10 +87,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
                 ])->icon('chart-bar'),
+
                 MenuSection::make('Manajemen', [
-                    MenuItem::resource(KerangkaAcuan::class),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
+                    MenuItem::resource(KerangkaAcuan::class),
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
                     MenuItem::resource(RapatInternal::class),
@@ -106,38 +108,36 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         MenuItem::resource(PersediaanMasuk::class),
                         MenuItem::resource(PermintaanPersediaan::class),
                         MenuItem::resource(PersediaanKeluar::class),
-                        MenuItem::resource(RealisasiAnggaran::class),
                     ])->collapsable(),
-
                 ]),
-                MenuSection::make('Referensi', [
-                    MenuItem::resource(TataNaskah::class),
-                    MenuItem::resource(KepkaMitra::class),
-                    MenuItem::resource(HargaSatuan::class),
-                    MenuItem::resource(MasterPersediaan::class),
-                    MenuItem::resource(MasterBarangPemeliharaan::class),
 
-                ])->icon('book-open'),
-                MenuSection::make('Kepegawaian', [
-                    MenuItem::resource(User::class),
-                    MenuItem::resource(RewardPegawai::class),
-                ])->icon('user-group'),
+                MenuSection::make('Administrasi', [
+                    MenuItem::resource(UnitKerja::class),
+                    MenuItem::resource(Template::class),
+                ])->icon('lock-open'),
 
                 MenuSection::make('Anggaran', [
                     MenuItem::resource(Dipa::class),
                     MenuItem::resource(DaftarSp2d::class),
                 ])->icon('currency-dollar'),
 
-                MenuSection::make('Administrasi', [
-                    MenuItem::resource(UnitKerja::class),
-                    MenuItem::resource(Template::class),
-
-                ])->icon('lock-open'),
-
                 MenuSection::make('Dokumentasi', [
                     MenuItem::resource(DokumentasiKegiatan::class),
                     MenuItem::resource(DokumentasiLink::class),
                 ])->icon('database'),
+
+                MenuSection::make('Kepegawaian', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(RewardPegawai::class),
+                ])->icon('user-group'),
+
+                MenuSection::make('Referensi', [
+                    MenuItem::resource(HargaSatuan::class),
+                    MenuItem::resource(KepkaMitra::class),
+                    MenuItem::resource(MasterBarangPemeliharaan::class),
+                    MenuItem::resource(MasterPersediaan::class),
+                    MenuItem::resource(TataNaskah::class),
+                ])->icon('book-open'),
 
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),
@@ -146,8 +146,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Panduan', [
                     MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
                         ->openInNewTab(),
-                ])
-                    ->icon('light-bulb'),
+                ])->icon('light-bulb'),
             ];
         });
         Nova::withBreadcrumbs();

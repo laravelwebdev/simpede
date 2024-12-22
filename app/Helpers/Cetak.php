@@ -125,6 +125,11 @@ class Cetak
             $templateProcessor->cloneRowAndSetValues('item', $data['item_biaya']);
             unset($data['item_biaya']);
         }
+        if ($jenis === 'daftar_hadir') {
+            $templateProcessor->cloneRowAndSetValues('no', $data['baris']);
+            unset($data['baris']);
+        }
+
         if ($jenis === 'karken_pemeliharaan') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPemeliharaan($data['daftar_pemeliharaan']));
             unset($data['daftar_pemeliharaan']);
@@ -594,11 +599,11 @@ class Cetak
         ];
     }
 
-
     public static function undangan($id)
     {
         $data = RapatInternal::find($id);
         $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+
         return [
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
@@ -609,6 +614,25 @@ class Cetak
             'tempat' => $data->tempat,
             'agenda' => $data->agenda,
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+        ];
+    }
+
+    public static function daftar_hadir($id)
+    {
+        $data = RapatInternal::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        $kasubbag = Helper::getPegawaiByUserId($data->kasubbag_user_id);
+
+        return [
+            'tema' => $data->tema,
+            'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
+            'mulai' => Helper::formatJam($data->mulai),
+            'tempat' => $data->tempat,
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'kasubbag' => Helper::getPropertyFromCollection($kasubbag, 'name'),
+            'baris' => array_map(function ($i) {
+                return ['no' => $i];
+            }, range(1, $data->baris)),
         ];
     }
 

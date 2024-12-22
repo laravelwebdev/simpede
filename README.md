@@ -7,14 +7,16 @@
 
 Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 
-- Manajemen naskah Dinas(Penomoran Surat, Pengarsipan Naskah Dinas masuk dan keluar)
-- Pembuatan Kerangka Acuan Kerja
-- Manajemen Izin Keluar Kantor Pegawai
-- Manajemen Kontrak Bulanan Mitra (Monitoring, SK, Kontrak, BAST, Surat Tugas, SPJ)
-- Manajemen Barang Persediaan (Transfer masuk, Transfer Keluar, Persediaan masuk, persediaan keluar)
-- Manajemen Dokumen Pengadaan Barang Jasa (to do list)
-
-
+- Pengelolaan Kerangka Acuan Kerja: Fitur yang disediakan untuk membuat Kerangka Acuan Kerja yang dapat diunduh dalam format Microsoft Word dan mengarsipkan softcopy berkas-berkas terkait Kerangka Acuan Kerja.
+- Pengelolaan Naskah Dinas: Fitur yang disediakan untuk membuat nomor naskah dinas keluar dan melakukan pengarsipan naskah dinas masuk dan naskah dinas keluar dalam bentuk softcopy.
+- Pengelolaan Kepegawaian: Fitur yang disediakan untuk mendokumentasikan izin keluar kantor untuk pegawai dan penganugerahan gelar Employee of the Month
+- Pengelolaan Kontrak Mitra Statistik: Fitur yang disediakan untuk memonitor kesesuaian kontrak dengan SBML, mencetak kontrak dan BAST, mencetak SK, Surat Tugas dan SPJ Honor Mitra serta Mengarsipkan Softcopy Kontrak dan BAST.
+- Pengelolaan Barang Persediaan: Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan.
+- Monitoring Anggarandana: Fitur yang disediakan untuk memonitor serapan anggaran dan rencana penarikan dana.
+- Pemeliharaan BMN: Fitur yang disediakan untuk memonitor pemeliharaan Barang Milik Negara dan mencetak Kartu Kendali Pemeliharaan.
+- Perjalanan Dinas: Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas
+- Dokumentasi: Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan link-link penting.
+- Manajemen Rapat: Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal
 ## Requirement
 
 Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:

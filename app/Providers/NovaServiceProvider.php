@@ -76,16 +76,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Monitoring', [
-                    MenuItem::lens(Mitra::class, RekapHonorMitra::class),
-                    MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
+                    MenuGroup::make('Anggaran', [
+                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
+                        MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                    ])->collapsable(),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
-                    MenuGroup::make('Anggaran', [
-                        MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
-                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
-                    ])->collapsable(),
-
+                    MenuItem::lens(Mitra::class, RekapHonorMitra::class),
+                    MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                 ])->icon('chart-bar'),
                 MenuSection::make('Manajemen', [
                     MenuItem::resource(KerangkaAcuan::class),

@@ -112,13 +112,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ]),
 
                 MenuSection::make('Administrasi', [
-                    MenuItem::resource(UnitKerja::class),
                     MenuItem::resource(Template::class),
+                    MenuItem::resource(UnitKerja::class),
                 ])->icon('lock-open'),
 
                 MenuSection::make('Anggaran', [
-                    MenuItem::resource(Dipa::class),
                     MenuItem::resource(DaftarSp2d::class),
+                    MenuItem::resource(Dipa::class),
                 ])->icon('currency-dollar'),
 
                 MenuSection::make('Dokumentasi', [

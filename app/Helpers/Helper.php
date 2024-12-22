@@ -444,6 +444,27 @@ class Helper
         return date('H:i', strtotime($jam));
     }
 
+    public static function formatDaftarNama($nama)
+    {
+        $daftar = [];
+        $index = 1;
+
+        for ($i = 0; $i < count($nama); $i += 2) {
+            $nama1 = $nama[$i];
+            $nama2 = isset($nama[$i + 1]) ? $nama[$i + 1] : '-';
+
+            $daftar[] = [
+                'no' => $index,
+                'nama1' => $nama1,
+                'nama2' => $nama2,
+            ];
+
+            $index++;
+        }
+
+        return $daftar;
+    }
+
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *
@@ -944,19 +965,19 @@ class Helper
             // Mengambil nomor dokumen berdasarkan tipe barang persediaan
             $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
                 "App\Models\PembelianPersediaan" => $item->barangPersediaanable
-                  ->bastNaskahKeluar->nomor,
+                    ->bastNaskahKeluar->nomor,
                 "App\Models\PermintaanPersediaan" => $item->barangPersediaanable
-                  ->naskahKeluar->nomor,
+                    ->naskahKeluar->nomor,
                 "App\Models\PersediaanMasuk" => $item->barangPersediaanable
-                  ->naskahMasuk->nomor,
+                    ->naskahMasuk->nomor,
                 "App\Models\PersediaanKeluar" => $item->barangPersediaanable
-                  ->naskahKeluar->nomor,
+                    ->naskahKeluar->nomor,
             };
 
             // Mengambil uraian berdasarkan tipe barang persediaan
             $item['uraian'] = match (get_class($item->barangPersediaanable)) {
                 "App\Models\PembelianPersediaan" => $item->barangPersediaanable
-                  ->rincian,
+                    ->rincian,
                 "App\Models\PermintaanPersediaan" => 'Permintaan Persediaan oleh '.
                   $item->barangPersediaanable->user->name.
                   ' untuk '.

@@ -130,6 +130,11 @@ class Cetak
             unset($data['baris']);
         }
 
+        if ($jenis === 'notula') {
+            $templateProcessor->cloneRowAndSetValues('nama1', $data['peserta']);
+            unset($data['peserta']);
+        }
+
         if ($jenis === 'karken_pemeliharaan') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPemeliharaan($data['daftar_pemeliharaan']));
             unset($data['daftar_pemeliharaan']);
@@ -633,6 +638,24 @@ class Cetak
             'baris' => array_map(function ($i) {
                 return ['no' => $i];
             }, range(1, $data->baris)),
+        ];
+    }
+
+    public static function notula($id)
+    {
+        $data = RapatInternal::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        $pimpinan = Helper::getPegawaiByUserId($data->pimpinan_user_id);
+        $notulis = Helper::getPegawaiByUserId($data->notulis_user_id);
+
+        return [
+            'tema' => $data->tema,
+            'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
+            'tempat' => $data->tempat,
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'pimpinan' => Helper::getPropertyFromCollection($pimpinan, 'name'),
+            'notulis' => Helper::getPropertyFromCollection($notulis, 'name'),
+            'peserta' => Helper::formatDaftarNama($data->peserta),
         ];
     }
 

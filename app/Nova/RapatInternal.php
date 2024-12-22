@@ -71,7 +71,8 @@ class RapatInternal extends Resource
                     ->filterable()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Text::make('Tema')
-                    ->sortable()
+                    ->default('Rapat ')
+                    ->help('Diawali dengan kata Rapat, contoh: Rapat Bulanan Pegawai Bulan Januari 2024')
                     ->rules('required', 'max:80'),
             ]),
             Panel::make('Undangan', [

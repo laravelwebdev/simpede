@@ -34,6 +34,7 @@ Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:
 - Session PHP Extension
 - Tokenizer PHP Extension
 - XML PHP Extension
+- GD/imagick
 
 ## Deployment
 
@@ -68,6 +69,7 @@ Rekomendasi shared hosting murah:
     * `APP_DEBUG`: Set menjadi `false`.
     * `LOG_CHANNEL`: set menjadi `"null"`
 
+- 
 - Generate Key:
     ```bash
     php artisan key:generate

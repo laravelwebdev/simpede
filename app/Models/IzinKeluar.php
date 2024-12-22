@@ -33,7 +33,7 @@ class IzinKeluar extends Model
         });
         static::saving(function (IzinKeluar $izin) {
             if ($izin->isDirty('bukti') && $izin->bukti) {
-                $files = array_diff($izin->bukti, $izin->getOriginal('bukti'));
+                $files = array_diff($izin->bukti, $izin->getOriginal('bukti') ?? []);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('izin_keluar')->path($file))
                         ->encode('webp', 15);

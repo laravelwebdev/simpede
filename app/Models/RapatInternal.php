@@ -42,7 +42,6 @@ class RapatInternal extends Model
     protected static function booted(): void
     {
         static::creating(function (RapatInternal $rapat) {
-
             $default_naskah = NaskahDefault::cache()->get('all')
                 ->where('jenis', 'undangan')
                 ->first();
@@ -56,7 +55,6 @@ class RapatInternal extends Model
             $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $rapat->naskah_keluar_id = $naskahkeluar->id;
-
         });
         static::updating(function (RapatInternal $rapat) {
             if ($rapat->isDirty('tanggal_rapat')) {

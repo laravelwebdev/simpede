@@ -19,8 +19,8 @@ return new class extends Migration
             $table->date('tanggal_rapat')->nullable();
             $table->time('mulai', precision: 0)->nullable();
             $table->string('tempat', '80')->nullable();
-            $table->text('agenda')->nullable(); 
-            $table->text('peserta')->nullable(); 
+            $table->text('agenda')->nullable();
+            $table->text('peserta')->nullable();
             $table->string('draft_notula')->nullable();
             $table->string('signed_notula')->nullable();
             $table->string('signed_daftar_hadir')->nullable();

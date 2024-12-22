@@ -127,9 +127,9 @@ class RapatInternal extends Resource
             ]),
             Panel::make('Notula', [
                 Select::make('Notulis', 'notulis_user_id')
-                    ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
+                    ->hideWhenCreating()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
@@ -141,9 +141,8 @@ class RapatInternal extends Resource
                         ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                         ->options(Helper::setOptionPengelola('anggota', now())),
 
-                ]),
+                ])->hideWhenCreating(),
             ]),
-
         ];
     }
 

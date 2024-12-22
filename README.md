@@ -58,7 +58,7 @@ Rekomendasi shared hosting murah:
     composer2 update --no-dev
     ```
 
-- Rename file .env.example menjadi .env dan edit variabel berikut:
+- Rename file `.env.example` menjadi `.env` dan edit variabel berikut:
     * `APP_URL`: URL website.
     * `DB_HOST`: Host database, biasanya `localhost`.
     * `DB_PORT`: Port database mariadb biasanya `3306`.
@@ -69,7 +69,7 @@ Rekomendasi shared hosting murah:
     * `APP_DEBUG`: Set menjadi `false`.
     * `LOG_CHANNEL`: set menjadi `"null"`
 
-- 
+- Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
 - Generate Key:
     ```bash
     php artisan key:generate

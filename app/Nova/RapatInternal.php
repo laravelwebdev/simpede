@@ -65,7 +65,7 @@ class RapatInternal extends Resource
     {
         return [
             Panel::make('Keterangan Rapat', [
-                Date::make('Tanggal Rapat')
+                Date::make('Tanggal Rapat', 'tanggal_rapat')
                     ->sortable()
                     ->rules('required', function ($attribute, $value, $fail) {
                         if (Helper::getYearFromDateString($value) != session('year')) {

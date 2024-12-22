@@ -649,6 +649,13 @@ class Cetak
         $notulis = Helper::getPegawaiByUserId($data->notulis_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'tema' => $data->tema,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'tempat' => $data->tempat,

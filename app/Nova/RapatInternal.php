@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -108,6 +109,21 @@ class RapatInternal extends Resource
                         $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal)));
                     }),
             ]),
+            Panel::make('Daftar Hadir', [
+                Number::make('Jumlah Baris', 'baris')
+                    ->hideFromIndex()
+                    ->step(1)
+                    ->default(30)
+                    ->rules('required', 'integer', 'min:1'),
+            ]),
+            Select::make('Kasubbag Umum', 'kasubbag_user_id')
+                ->rules('required')
+                ->searchable()
+                ->hideFromIndex()
+                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
+                    $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal)));
+                }),
         ];
     }
 

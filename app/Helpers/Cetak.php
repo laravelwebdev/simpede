@@ -618,7 +618,7 @@ class Cetak
             'mulai' => Helper::formatJam($data->mulai),
             'tempat' => $data->tempat,
             'agenda' => $data->agenda,
-            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
         ];
     }
 
@@ -633,8 +633,8 @@ class Cetak
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'mulai' => Helper::formatJam($data->mulai),
             'tempat' => $data->tempat,
-            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
-            'kasubbag' => Helper::getPropertyFromCollection($kasubbag, 'name'),
+            'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
+            'kasubbag' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kasubbag, 'name')),
             'baris' => array_map(function ($i) {
                 return ['no' => $i];
             }, range(1, $data->baris)),
@@ -652,9 +652,9 @@ class Cetak
             'tema' => $data->tema,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'tempat' => $data->tempat,
-            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
+            'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),
             'pimpinan' => Helper::getPropertyFromCollection($pimpinan, 'name'),
-            'notulis' => Helper::getPropertyFromCollection($notulis, 'name'),
+            'notulis' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($notulis, 'name')),
             'peserta' => Helper::formatDaftarNama($data->peserta),
         ];
     }

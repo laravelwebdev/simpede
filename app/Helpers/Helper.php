@@ -451,12 +451,16 @@ class Helper
         
         for ($i = 0; $i < count($nama); $i += 2) {
             $nama1 = Helper::getPegawaiByUserId($nama[$i]['peserta_user_id'])->name;
-            $nama2 = isset($nama[$i + 1]) ? Helper::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '-';
+            $unit_kerja1 ='BPS Kabupaten Hulu Sungai Tengah';
+            $nama2 = isset($nama[$i + 1]) ? Helper::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '';
+            $unit_kerja2 = isset($nama[$i + 1]) ? 'BPS Kabupaten Hulu Sungai Tengah' : '';
             
             $daftar[] = [
                 'no' => $index,
                 'nama1' => $nama1,
-                'nama2' => $nama2
+                'unit_kerja1' => $unit_kerja1,
+                'nama2' => $nama2,
+                'unit_kerja2' => $unit_kerja2,
             ];
             
             $index++;

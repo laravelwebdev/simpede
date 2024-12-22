@@ -448,17 +448,17 @@ class Helper
     {
         $daftar = [];
         $index = 1;
-
+        
         for ($i = 0; $i < count($nama); $i += 2) {
-            $nama1 = $nama[$i];
-            $nama2 = isset($nama[$i + 1]) ? $nama[$i + 1] : '-';
-
+            $nama1 = Helper::getPegawaiByUserId($nama[$i]['peserta_user_id'])->name;
+            $nama2 = isset($nama[$i + 1]) ? Helper::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '-';
+            
             $daftar[] = [
                 'no' => $index,
                 'nama1' => $nama1,
-                'nama2' => $nama2,
+                'nama2' => $nama2
             ];
-
+            
             $index++;
         }
 

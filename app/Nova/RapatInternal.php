@@ -120,6 +120,6 @@ class RapatInternal extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->whereYear('tanggal', session('year'));
+        return $query->whereYear('tanggal_rapat', session('year'));
     }
 }

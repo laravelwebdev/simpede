@@ -211,6 +211,13 @@ class Cetak
         $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'rincian' => Helper::hapusTitikAkhirKalimat($data->rincian),
@@ -246,6 +253,13 @@ class Cetak
         $perjalanan = $data->perjalananDinas;
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
             'nama_ttd' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'nip' => Helper::getPropertyFromCollection($user, 'nip'),
@@ -268,6 +282,13 @@ class Cetak
         $ppk = Helper::getPegawaiByUserId($perjalanan->ppk_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'no_st' => NaskahKeluar::find($perjalanan->st_naskah_keluar_id)->nomor,
             'uraian_spd' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
@@ -302,6 +323,13 @@ class Cetak
         $tanggal = Helper::createDateFromString($tanggal);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'tanggal_cetak' => Helper::terbilangTanggal($tanggal),
             'bmn' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'barang' => $data->nama_barang,
@@ -319,6 +347,13 @@ class Cetak
         $tanggal = Helper::createDateFromString($tanggal);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'tanggal' => Helper::terbilangTanggal($tanggal),
             'bmn' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($user, 'name')),
             'barang' => $data->barang,
@@ -347,6 +382,13 @@ class Cetak
         $itemdengannilai = Helper::addTotalBiayaSpd($data->spesifikasi);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => $perjalanan->spdNaskahKeluar->nomor,
             'tanggal' => Helper::terbilangTanggal($perjalanan->tanggal_spd),
             'nama' => Helper::getPropertyFromCollection($user, 'name'),
@@ -387,6 +429,13 @@ class Cetak
         $bendahara = Helper::getPegawaiByUserId($data->bendahara_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nama' => $data->judul_spj,
             'tanggal_spj' => Helper::terbilangTanggal($data->tanggal_spj),
             'detail' => Helper::getPropertyFromCollection($mataanggaran, 'uraian'),
@@ -420,6 +469,13 @@ class Cetak
         $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->st_naskah_keluar_id)->nomor,
             'kegiatan' => $data->kegiatan,
             'uraian_tugas' => $data->uraian_tugas,
@@ -438,6 +494,13 @@ class Cetak
         $user = Helper::getPegawaiByUserId($data->user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->sertifikat_naskah_keluar_id)->nomor,
             'nama' => $user->name,
             'tahun' => $data->tahun,
@@ -454,6 +517,13 @@ class Cetak
         $user = Helper::getPegawaiByUserId($data->user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,
             'nama' => $user->name,
             'nip' => $user->nip,
@@ -474,6 +544,13 @@ class Cetak
         $user = Helper::getPegawaiByUserId($data->user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'tahun' => $data->tahun,
             'nama_pemenang' => $user->name,
             'skor' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->max('nilai_total'),
@@ -492,6 +569,13 @@ class Cetak
         $kpa = Helper::getPegawaiByUserId($data->kpa_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->sk_naskah_keluar_id)->nomor,
             'kegiatan' => $data->kegiatan,
             'objek_sk' => $data->objek_sk,
@@ -513,6 +597,13 @@ class Cetak
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'bulan' => $bulan,
             'tahun' => $kontrak->tahun,
             'ubulan' => strtoupper($bulan),
@@ -545,6 +636,13 @@ class Cetak
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'bulan' => $bulan,
             'tahun' => $kontrak->tahun,
             'ubulan' => strtoupper($bulan),
@@ -572,6 +670,13 @@ class Cetak
         $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'no_bast' => NaskahKeluar::find($data->bast_naskah_keluar_id)->nomor,
             'hari' => Helper::terbilangHari($data->tanggal_bast),
             'terbilangtanggal' => Helper::terbilangTanggal($data->tanggal_bast, 'l'),
@@ -590,6 +695,13 @@ class Cetak
         $tim_id = Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_permintaan), 'unit_kerja_id');
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tim' => Helper::getPropertyFromCollection(UnitKerja::cache()->get('all')->where('id', $tim_id)->first(), 'unit'),
             'kegiatan' => $data->kegiatan,
@@ -610,6 +722,13 @@ class Cetak
         $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
             'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'tujuan' => $data->tujuan,
@@ -629,6 +748,13 @@ class Cetak
         $kasubbag = Helper::getPegawaiByUserId($data->kasubbag_user_id);
 
         return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'ibukota' => config('satker.ibukota'),
             'tema' => $data->tema,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'mulai' => Helper::formatJam($data->mulai),

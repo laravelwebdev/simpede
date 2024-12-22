@@ -166,9 +166,9 @@ class RapatInternal extends Resource
                 $this->draft_notula ?
                 URL::make('Draft Notula', fn () => Storage::disk('arsip')
                     ->url($this->draft_notula))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Draft Notula', fn () => '—')->exceptOnForms(),
+                Text::make('Draft Notula', fn () => '—')->onlyOndetail(),
                 Filepond::make('Undangan Signed', 'signed_undangan')
                     ->disk('arsip')
                     ->disableCredits()
@@ -186,9 +186,9 @@ class RapatInternal extends Resource
                 $this->signed_undangan ?
                 URL::make('Undangan Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_undangan))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Undangan Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Undangan Signed', fn () => '—')->onlyOndetail(),
                 Filepond::make('Daftar Hadir Signed', 'signed_daftar_hadir')
                     ->disk('arsip')
                     ->disableCredits()
@@ -206,9 +206,9 @@ class RapatInternal extends Resource
                 $this->signed_daftar_hadir ?
                 URL::make('Daftar Hadir Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_daftar_hadir))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Daftar Hadir Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Daftar Hadir Signed', fn () => '—')->onlyOndetail(),
                 Filepond::make('Notula Signed', 'signed_notula')
                     ->disk('arsip')
                     ->disableCredits()
@@ -226,9 +226,9 @@ class RapatInternal extends Resource
                 $this->signed_notula ?
                 URL::make('Notula Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_notula))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Notula Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Notula Signed', fn () => '—')->onlyOndetail(),
             ]),
         ];
     }

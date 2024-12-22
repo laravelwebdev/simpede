@@ -104,10 +104,10 @@ class IzinKeluar extends Resource
                     ->prunable()
                     ->image()
                     ->columns(3)
-                    ->multiple()     
+                    ->multiple()
                     ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
                         $field->path(session('year').'/'.Str::slug($formData->kegiatan));
-                    })               
+                    })
                     ->hideWhenCreating(),
             ]),
 

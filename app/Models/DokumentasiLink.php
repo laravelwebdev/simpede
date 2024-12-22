@@ -17,6 +17,5 @@ class DokumentasiLink extends Model
         static::creating(function (DokumentasiLink $link) {
             $link->user_id = Auth::user()->id;
         });
-
     }
 }

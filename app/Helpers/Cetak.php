@@ -601,11 +601,11 @@ class Cetak
         $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
         return [
             'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
-            'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
+            'tanggal' => Helper::terbilangTanggal($data->tanggal),
             'tujuan' => $data->tujuan,
             'tema' => $data->tema,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
-            'mulai' => $data->mulai,
+            'mulai' => Helper::formatJam($data->mulai),
             'tempat' => $data->tempat,
             'acara' => $data->agenda,
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),

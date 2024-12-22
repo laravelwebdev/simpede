@@ -439,6 +439,11 @@ class Helper
         return $tanggal->format('m');
     }
 
+    public static function formatJam($jam)
+    {
+        return date('H:i', strtotime($jam));
+    }
+
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *

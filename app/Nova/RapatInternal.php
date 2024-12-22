@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -91,6 +92,12 @@ class RapatInternal extends Resource
                     ->default('Aula BPS Kabupaten Hulu Sungai Tengah')
                     ->rules('required', 'max:80'),
                 Time::make('Jam Mulai', 'mulai')
+                    ->hideFromIndex()
+                    ->rules('required'),
+                Textarea::make('Agenda')
+                    ->rules('required')
+                    ->alwaysShow(),
+                BelongsTo::make('Kepala', 'kepala', 'App\Nova\User')
                     ->hideFromIndex()
                     ->rules('required'),
             ]),

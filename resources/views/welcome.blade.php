@@ -331,7 +331,7 @@
             </div>
             <div class="footer">
                 <p>
-                    BPS {{ config('satker.kabupaten }} &copy;
+                    BPS {{ config('satker.kabupaten' }} &copy;
                     <span id="copyright">
                         <script>
                             document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Policy;
+use App\Models\RapatInternal;
 use App\Nova\BastMitra;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
@@ -92,6 +93,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
+                    MenuItem::resource(RapatInternal::class),
                     MenuGroup::make('Kontrak', [
                         MenuItem::resource(KontrakMitra::class),
                         MenuItem::resource(BastMitra::class),

@@ -451,9 +451,9 @@ class Helper
 
         for ($i = 0; $i < count($nama); $i += 2) {
             $nama1 = Helper::getPegawaiByUserId($nama[$i]['peserta_user_id'])->name;
-            $unit_kerja1 = 'BPS Kabupaten Hulu Sungai Tengah';
+            $unit_kerja1 = 'BPS '.config('satker.kabupaten');
             $nama2 = isset($nama[$i + 1]) ? Helper::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '';
-            $unit_kerja2 = isset($nama[$i + 1]) ? 'BPS Kabupaten Hulu Sungai Tengah' : '';
+            $unit_kerja2 = isset($nama[$i + 1]) ? 'BPS '.config('satker.kabupaten') : '';
 
             $daftar[] = [
                 'no' => $index,

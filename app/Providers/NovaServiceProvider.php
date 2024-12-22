@@ -58,7 +58,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
         Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">
-        <a href="https://hulusungaitengahkab.bps.go.id" class="text-primary dim no-underline">BPS Kabupaten Hulu Sungai Tengah</a>
+        <a href="{{ config(satker.website) }}" class="text-primary dim no-underline">{{ config(satker.kabupaten) }}</a>
         <span class="px-1">&middot;</span>
         &copy;'.date('Y').' Simpede - By Muhlis Abdi.
         </p>

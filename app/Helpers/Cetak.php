@@ -19,6 +19,7 @@ use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
 use App\Models\PerjalananDinas;
 use App\Models\PermintaanPersediaan;
+use App\Models\RapatInternal;
 use App\Models\RewardPegawai;
 use App\Models\SpesifikasiKerangkaAcuan;
 use App\Models\UnitKerja;
@@ -590,6 +591,24 @@ class Cetak
             'bmn' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
             'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
             'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->get()->toArray(),
+        ];
+    }
+
+
+    public static function undangan($id)
+    {
+        $data = RapatInternal::find($id);
+        $kepala = Helper::getPegawaiByUserId($data->kepala_user_id);
+        return [
+            'nomor' => NaskahKeluar::find($data->naskah_keluar_id)->nomor,
+            'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
+            'tujuan' => $data->tujuan,
+            'tema' => $data->tema,
+            'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
+            'mulai' => $data->mulai,
+            'tempat' => $data->tempat,
+            'acara' => $data->agenda,
+            'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
         ];
     }
 

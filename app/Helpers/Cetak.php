@@ -607,7 +607,7 @@ class Cetak
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'mulai' => Helper::formatJam($data->mulai),
             'tempat' => $data->tempat,
-            'acara' => $data->agenda,
+            'agenda' => $data->agenda,
             'kepala' => Helper::getPropertyFromCollection($kepala, 'name'),
         ];
     }

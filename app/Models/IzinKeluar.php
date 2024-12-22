@@ -12,6 +12,7 @@ class IzinKeluar extends Model
 {
     protected $casts = [
         'tanggal' => 'date',
+        'bukti' => 'array',
     ];
 
     /**
@@ -32,9 +33,12 @@ class IzinKeluar extends Model
         });
         static::saving(function (IzinKeluar $izin) {
             if ($izin->isDirty('bukti') && $izin->bukti) {
-                $image = Image::make(Storage::disk('izin_keluar')->path($izin->bukti))
-                    ->encode('webp', 15);
-                Storage::disk('izin_keluar')->put($izin->bukti, (string) $image);
+                $files = array_diff($izin->bukti, $izin->getOriginal('bukti'));
+                foreach ($files as $file) {
+                    $image = Image::make(Storage::disk('izin_keluar')->path($file))
+                        ->encode('webp', 15);
+                    Storage::disk('izin_keluar')->put($file, (string) $image);
+                }
             }
         });
     }

@@ -6,8 +6,10 @@ use App\Helpers\Helper;
 use Carbon\Carbon;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -101,6 +103,11 @@ class IzinKeluar extends Resource
                     ->disableCredits()
                     ->prunable()
                     ->image()
+                    ->columns(3)
+                    ->multiple()     
+                    ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {
+                        $field->path(session('year').'/'.Str::slug($formData->kegiatan));
+                    })               
                     ->hideWhenCreating(),
             ]),
 

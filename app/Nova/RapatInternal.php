@@ -104,6 +104,7 @@ class RapatInternal extends Resource
                     ->rules('required'),
                 Textarea::make('Agenda')
                     ->rules('required')
+                    ->placeholder('1........')
                     ->alwaysShow(),
                 Select::make('Kepala', 'kepala_user_id')
                     ->rules('required')

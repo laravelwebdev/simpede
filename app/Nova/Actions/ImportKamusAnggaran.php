@@ -66,11 +66,11 @@ class ImportKamusAnggaran extends Action
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
             Text::make('Kode Satker', 'satker')
-                ->default('428578')
+                ->default(config('satker.kode'))
                 ->rules('required')
                 ->help('Kode Satker, misal: 428578'),
             Text::make('Kode Wilayah', 'wilayah')
-                ->default('15.00')
+                ->default(config('satker.wilayah'))
                 ->rules('required')
                 ->help('Kode Wilayah Satker, misal: 15.00'),
             Heading::make('File import diambil dari excel satudja dan simpan sebagai file .xlsx'),

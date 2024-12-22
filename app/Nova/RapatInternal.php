@@ -121,7 +121,7 @@ class RapatInternal extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal)));
+                        $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
             ]),
 

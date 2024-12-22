@@ -70,6 +70,6 @@ return [
     |
     */
 
-    'wilayah' => env('SATKER_WILAYAH', '15.05'),
+    'wilayah' => env('SATKER_WILAYAH', '15.00'),
 
 ];

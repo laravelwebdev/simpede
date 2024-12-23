@@ -54,6 +54,10 @@ class ExportTemplateCmsBri extends Action
                 ->rules('required')
                 ->default('Honor '.$this->kegiatan),
 
+Text::make('Nama File', 'filename')
+                ->rules('required', 'alpha_dash:ascii')
+                ->help('tanpa extensi file')
+                ->default(fn () => uniqid()),
         ];
     }
 }

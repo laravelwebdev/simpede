@@ -14,6 +14,7 @@ use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
+use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
@@ -111,6 +112,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ]),
 
                 MenuSection::make('Administrasi', [
+                    MenuItem::resource(KodeBank::class),
                     MenuItem::resource(Template::class),
                     MenuItem::resource(UnitKerja::class),
                 ])->icon('lock-open'),

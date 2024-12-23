@@ -9,6 +9,7 @@ use App\Nova\Lenses\RekapHonorMitra;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -80,8 +81,13 @@ class Mitra extends Resource
             Text::make('NPWP')->showWhenPeeking(),
             Text::make('Telepon')
                 ->onlyOnForms(),
-            Text::make('Rekening', 'rekening')->showWhenPeeking()
-                ->rules('required')->help('Contoh Penulisan Rekening: BRI 123456788089'),
+            Select::make('Bank', 'kode_bank_id')
+                ->options(Helper::setOptionsKodeBank())
+                ->showWhenPeeking()
+                ->displayUsingLabels()
+                ->rules('required'),
+            Text::make('Nomor Rekening', 'rekening')->showWhenPeeking()
+                ->rules('required'),
         ];
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->string('nip_lama', 10)->nullable();
             });
             $table->after('nip', function (Blueprint $table) {
+                $table->mediumInteger('kode_bank_id')->nullable()->unsigned();
                 $table->string('rekening', 40)->nullable();
             });
         });

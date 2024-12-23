@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('idsobat', 30)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->mediumInteger('kepka_mitra_id')->nullable()->unsigned();
+            $table->mediumInteger('kode_bank_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

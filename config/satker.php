@@ -28,8 +28,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Ibukota Kabupaten
+    | Lokasi Kantor/ Ibukota Kabupaten
     |--------------------------------------------------------------------------
+    |
+    | Wilayah yang akan digunakan pada keterangan tempat tanda tangan
+    |
     */
 
     'ibukota' => env('SATKER_IBUKOTA', 'Barabai'),
@@ -71,5 +74,16 @@ return [
     */
 
     'wilayah' => env('SATKER_WILAYAH', '15.00'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rekening Satker
+    |--------------------------------------------------------------------------
+    |
+    |Nomor Rekening Satker/Bendahara
+    |
+    */
+
+    'rekening' => env('SATKER_REKENING', '652074285781000'),
 
 ];

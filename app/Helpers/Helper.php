@@ -14,6 +14,7 @@ use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
+use App\Models\KodeBank;
 use App\Models\KodeNaskah;
 use App\Models\MasterPersediaan;
 use App\Models\MataAnggaran;
@@ -1356,6 +1357,11 @@ class Helper
     public static function setOptionsDerajatNaskah($tanggal)
     {
         return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'derajat');
+    }
+
+    public static function setOptionsKodeBank()
+    {
+        return self::setOptions(KodeBank::cache()->get('all'), 'id', 'nama_bank');
     }
 
     /**

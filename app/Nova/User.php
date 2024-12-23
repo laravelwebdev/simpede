@@ -2,12 +2,14 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\PasswordConfirmation;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -90,6 +92,14 @@ class User extends Resource
                     ->creationRules('unique:users,nip_lama')
                     ->updateRules('unique:users,nip_lama,{{resourceId}}')
                     ->rules('required', 'size:9'),
+            ]),
+            Panel::make('Rekening', [
+                Select::make('Bank', 'kode_bank_id')
+                    ->options(Helper::setOptionsKodeBank())
+                    ->displayUsingLabels()
+                    ->rules('required'),
+                Text::make('Nomor Rekening', 'rekening')
+                    ->rules('required'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),

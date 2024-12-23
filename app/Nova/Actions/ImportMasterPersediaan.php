@@ -54,7 +54,7 @@ class ImportMasterPersediaan extends Action
 
             $masterPersediaan->save();
             $masterPersediaanId = $masterPersediaan->id;
-            if ($fields->reset_sald && $row['saldo'] > 0) {
+            if ($fields->reset_saldo && $row['saldo'] > 0) {
                 $persediaan = new BarangPersediaan;
                 $persediaan->volume = $row['saldo'];
                 $persediaan->tanggal_transaksi = session('year') - 1 .'-12-31';
@@ -83,7 +83,7 @@ class ImportMasterPersediaan extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Boolean::make('Reset Saldo Awal?', 'reset-saldo')
+            Boolean::make('Reset Saldo Awal?', 'reset_saldo')
                 ->default(false)
                 ->help('Hanya centang jika Anda mengerti apa yang dilakukan. Hanya dipakai pada saat awal implementasi Aplikasi'),
             Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Master Persediaan')['filename']).'">Unduh Template</a>')

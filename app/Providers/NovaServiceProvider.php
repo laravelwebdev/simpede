@@ -77,7 +77,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Panduan Penggunaan')
                     ->path('https://docs.simpede.my.id/')
-                    ->openInNewTab()
                     ->icon('light-bulb'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [

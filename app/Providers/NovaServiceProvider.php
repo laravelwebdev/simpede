@@ -75,9 +75,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-                MenuSection::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
-                        ->openInNewTab()
-                        ->icon('light-bulb'),
+                MenuSection::make('Panduan Penggunaan')
+                    ->path('https://docs.simpede.my.id/')
+                    ->openInNewTab()
+                    ->icon('light-bulb'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),

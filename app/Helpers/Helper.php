@@ -1306,7 +1306,7 @@ class Helper
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->reject(function ($item) {
-                return $item['netto'] == 0 || $item['kode_bank_id'] != 11;
+                return $item['netto'] == 0 || $item['kode_bank_id'] == 11;
             })
             ->flatten()
             ->transform(function ($item, $index) use ($satker_rekening, $remark) {

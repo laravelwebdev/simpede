@@ -75,7 +75,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-
+                MenuSection::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
+                        ->openInNewTab()
+                        ->icon('light-bulb'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
@@ -143,11 +145,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),
                 ])->icon('share'),
-
-                MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
-                        ->openInNewTab(),
-                ])->icon('light-bulb'),
             ];
         });
         Nova::withBreadcrumbs();

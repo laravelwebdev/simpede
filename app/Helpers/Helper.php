@@ -1042,7 +1042,8 @@ class Helper
             $item['nip'] = '-';
             $item['nama'] = self::getPropertyFromCollection($mitra, 'nama');
             $item['nip_lama'] = self::getPropertyFromCollection($mitra, 'nik');
-            $item['rekening'] = self::getPropertyFromCollection(Helper::getKodeBankById(self::getPropertyFromCollection($mitra, 'kode_bank_id')), 'nama_bank').' '.self::getPropertyFromCollection($mitra, 'rekening');
+            $item['rekening'] = self::getPropertyFromCollection($mitra, 'rekening');
+            $item['kode_bank_id'] = self::getPropertyFromCollection($mitra, 'kode_bank_id');
             $item['golongan'] = '-';
             $item['jabatan'] = 'Mitra Statistik';
             $item['volume'] = $item['volume_realisasi'];
@@ -1080,7 +1081,8 @@ class Helper
             $item['nip'] = self::getPropertyFromCollection($pegawai, 'nip');
             $item['nip_lama'] = self::getPropertyFromCollection($pegawai, 'nip_lama');
             $item['jabatan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
-            $item['rekening'] = self::getPropertyFromCollection(Helper::getKodeBankById(self::getPropertyFromCollection($pegawai, 'kode_bank_id')), 'nama_bank').' '.self::getPropertyFromCollection($pegawai, 'rekening');
+            $item['rekening'] = self::getPropertyFromCollection($pegawai, 'rekening');
+            $item['kode_bank_id'] = self::getPropertyFromCollection($pegawai, 'kode_bank_id');
             $item['golongan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);

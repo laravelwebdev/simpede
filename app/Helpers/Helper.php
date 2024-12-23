@@ -470,6 +470,36 @@ class Helper
         return $daftar;
     }
 
+    public static function convertIndexToAlphabet($index)
+    {
+        $alphabet = '';
+        while ($index > 0) {
+            $index--; // Adjust index to be 0-based
+            $alphabet = chr(65 + ($index % 26)).$alphabet;
+            $index = intval($index / 26);
+        }
+
+        return $alphabet;
+    }
+
+    public static function makeReference($date, $index, $type = 'ft')
+    {
+        $day = $date->format('d');
+        $month = $date->format('m');
+        $year = $date->format($type === 'cn' ? 'Y' : 'y');
+        $alphabetIndex = self::convertIndexToAlphabet($index);
+
+        if ($type === 'ft') {
+            return $day.$month.$year.$alphabetIndex;
+        } elseif ($type === 'cn') {
+            $indexStr = str_pad($index, 3, '0', STR_PAD_LEFT);
+
+            return 'A'.$year.$month.$day.$indexStr;
+        } else {
+            return '';
+        }
+    }
+
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *
@@ -1143,6 +1173,7 @@ class Helper
                 $item['spj_no'] = $index + 1;
                 $item['bruto'] = self::formatUang($item['bruto']);
                 $item['pajak'] = self::formatUang($item['pajak']);
+                $item['rekening'] = self::getPropertyFromCollection(self::getKodeBankById($item['kode_bank_id']), 'nama_bank').' '.$item['rekening'];
                 $item['netto'] = self::formatUang($item['netto']);
                 $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
 
@@ -1196,6 +1227,7 @@ class Helper
                     unset($item['nama']);
                     unset($item['nip']);
                     unset($item['jabatan']);
+                    unset($item['kode_bank_id']);
                     unset($item['rekening']);
                     unset($item['golongan']);
                     unset($item['bruto']);
@@ -1220,6 +1252,7 @@ class Helper
                     unset($item['bruto']);
                     unset($item['jabatan']);
                     unset($item['rekening']);
+                    unset($item['kode_bank_id']);
                     unset($item['golongan']);
                     unset($item['bruto']);
                     unset($item['pajak']);
@@ -1228,6 +1261,83 @@ class Helper
                     return $item;
                 });
         }
+    }
+
+    public static function makeCollectionForMassFt($honor_kegiatan_id, $tanggal, $satker_rekening, $remark)
+    {
+        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->reject(function ($item) {
+                return $item['netto'] == 0 || $item['kode_bank_id'] != 11;
+            })
+            ->flatten()
+            ->transform(function ($item, $index) use ($satker_rekening, $remark) {
+                $item['No'] = $index + 1;
+                $item['Sender Account'] = $satker_rekening;
+                $item['Benef Account'] = $item['rekening'];
+                $item['Benef Name'] = $item['nama'];
+                $item['eMail'] = '';
+                $item['Amount'] = $item['netto'];
+                $item['Currency'] = 'IDR';
+                $item['Charge Type'] = 'BEN';
+                $item['Voucher Code'] = '';
+                $item['BI Trx Code'] = '';
+                $item['Remark'] = $remark;
+                $item['Reference Number'] = Helper::makeReference(now(), $index+1);
+                unset($item['nip_lama']);
+                unset($item['volume']);
+                unset($item['harga_satuan']);
+                unset($item['persen_pajak']);
+                unset($item['bruto']);
+                unset($item['nama']);
+                unset($item['nip']);
+                unset($item['jabatan']);
+                unset($item['kode_bank_id']);
+                unset($item['rekening']);
+                unset($item['golongan']);
+                unset($item['bruto']);
+                unset($item['pajak']);
+                unset($item['netto']);
+
+                return $item;
+            });
+    }
+
+    public static function makeCollectionForMassCn($honor_kegiatan_id, $tanggal, $satker_rekening, $remark)
+    {
+        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
+            ->reject(function ($item) {
+                return $item['netto'] == 0 || $item['kode_bank_id'] != 11;
+            })
+            ->flatten()
+            ->transform(function ($item, $index) use ($satker_rekening, $remark) {
+                $item['No'] = $index + 1;
+                $item['Sender Account'] = $satker_rekening;
+                $item['Benef Account'] = $item['rekening'];
+                $item['Benef Name'] = $item['nama'];
+                $item['Benef Address'] = strtoupper(str_replace('Kabupaten', '', config('satker.kabupaten')));
+                $item['Benef Bank'] = Helper::getPropertyFromCollection( Helper::getKodeBankById($item['kode_bank_id']), 'kode');
+                $item['Benef eMail'] = '';
+                $item['Amount'] = $item['netto'];
+                $item['Charge Type'] = 'BEN';
+                $item['Remark'] = $remark;
+                $item['Reference Number'] = Helper::makeReference(now(), $index+1 ,'cn');
+                unset($item['nip_lama']);
+                unset($item['volume']);
+                unset($item['harga_satuan']);
+                unset($item['persen_pajak']);
+                unset($item['bruto']);
+                unset($item['nama']);
+                unset($item['nip']);
+                unset($item['jabatan']);
+                unset($item['kode_bank_id']);
+                unset($item['rekening']);
+                unset($item['golongan']);
+                unset($item['bruto']);
+                unset($item['pajak']);
+                unset($item['netto']);
+
+                return $item;
+            });
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\KodeBank;
+use App\Models\User;
 
 class KodeBankPolicy
 {
@@ -12,7 +14,7 @@ class KodeBankPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,bendahara')
             ->get();
     }
 
@@ -22,7 +24,7 @@ class KodeBankPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,bendahara')
             ->get();
     }
 
@@ -32,7 +34,7 @@ class KodeBankPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,bendahara')
             ->get();
     }
 
@@ -42,17 +44,18 @@ class KodeBankPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,bendahara')
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, KodeBank $kode): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('admin,bendahara')
+            ->andNotEqual($kode->id, 11, false)
             ->get();
     }
 

@@ -67,7 +67,7 @@ class EditRekening extends Action
                 ->displayUsingLabels()
                 ->rules('required'),
             Text::make('Nomor Rekening', 'rekening')
-                ->rules('required', 'integer'),
+                ->rules('required', 'numeric'),
 
         ];
     }

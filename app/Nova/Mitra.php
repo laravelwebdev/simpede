@@ -89,7 +89,7 @@ class Mitra extends Resource
                 ->rules('required'),
             Text::make('Nomor Rekening', 'rekening')
                 ->showWhenPeeking()
-                ->rules('required', 'integer'),
+                ->rules('required', 'numeric'),
         ];
     }
 

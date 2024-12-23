@@ -12,6 +12,7 @@ use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
+use App\Models\KodeBank;
 use App\Models\KodeNaskah;
 use App\Models\MasterBarangPemeliharaan;
 use App\Models\MasterPersediaan;
@@ -68,6 +69,9 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(
             file_get_contents(database_path().'/dump_sql/naskah_defaults.sql')
         );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/kode_banks.sql')
+        );
         DataPegawai::cache()->updateAll();
         DerajatNaskah::cache()->updateAll();
         Dipa::cache()->updateAll();
@@ -90,5 +94,6 @@ class DatabaseSeeder extends Seeder
         Template::cache()->updateAll();
         UnitKerja::cache()->updateAll();
         User::cache()->updateAll();
+        KodeBank::cache()->updateAll();
     }
 }

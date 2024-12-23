@@ -78,7 +78,8 @@ class Mitra extends Resource
             Text::make('Alamat', 'alamat')
                 ->hideFromIndex()
                 ->rules('required'),
-            Text::make('NPWP')->showWhenPeeking(),
+            Text::make('NPWP')
+                ->showWhenPeeking(),
             Text::make('Telepon')
                 ->onlyOnForms(),
             Select::make('Bank', 'kode_bank_id')
@@ -86,8 +87,9 @@ class Mitra extends Resource
                 ->showWhenPeeking()
                 ->displayUsingLabels()
                 ->rules('required'),
-            Text::make('Nomor Rekening', 'rekening')->showWhenPeeking()
-                ->rules('required'),
+            Text::make('Nomor Rekening', 'rekening')
+                ->showWhenPeeking()
+                ->rules('required', 'integer'),
         ];
     }
 

@@ -99,7 +99,7 @@ class User extends Resource
                     ->displayUsingLabels()
                     ->rules('required'),
                 Text::make('Nomor Rekening', 'rekening')
-                    ->rules('required'),
+                ->rules('required', 'integer'),
             ]),
             Tabs::make('Detail', [
                 HasMany::make('Data Pegawai'),

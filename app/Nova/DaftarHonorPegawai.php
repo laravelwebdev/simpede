@@ -61,7 +61,6 @@ class DaftarHonorPegawai extends Resource
                 ->rules('nullable', 'bail', 'gt:0')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Currency::make('Harga Satuan', 'harga_satuan')
-
                 ->hide()
                 ->dependsOn(['volume'], function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->volume != null) {
@@ -71,7 +70,6 @@ class DaftarHonorPegawai extends Resource
                 })
                 ->step(1),
             Currency::make('Bruto', fn () => $this->volume * $this->harga_satuan)
-
                 ->exceptOnForms(),
             Number::make('Persentase Pajak (%)', 'persen_pajak')
                 ->hide()
@@ -84,12 +82,10 @@ class DaftarHonorPegawai extends Resource
                     }
                 })->onlyOnForms(),
             Currency::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-
                 ->exceptOnForms(),
             Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
-
                 ->exceptOnForms(),
-            Text::make('Rekening', 'user.rekening')
+            Text::make('Rekening', fn () => Helper::getPropertyFromCollection(Helper::getKodeBankById($this->user->kode_bank_id), 'nama_bank').' '.$this->user->rekening)
                 ->exceptOnForms(),
 
         ];

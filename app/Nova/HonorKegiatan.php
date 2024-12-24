@@ -9,6 +9,7 @@ use App\Models\NaskahDefault;
 use App\Models\UnitKerja;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateBos;
+use App\Nova\Actions\ExportTemplateCmsBri;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperHonorKegiatan;
 use Illuminate\Database\Eloquent\Model;
@@ -412,6 +413,19 @@ class HonorKegiatan extends Resource
 
                     return $this->resource instanceof Model && $this->resource->sk_naskah_keluar_id !== null;
                 });
+        }
+        if (Policy::make()->allowedFor('bendahara')->get()) {
+            $actions[] =
+            ExportTemplateCmsBri::make($this->kegiatan, 'ft')
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Export');
+            ExportTemplateCmsBri::make($this->kegiatan, 'cn')
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Export');
         }
 
         return $actions;

@@ -77,7 +77,7 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
                 Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->onlyOnIndex(),
-                Select::make('Bank', 'mitra.bank')
+                Select::make('Bank', 'mitra.kode_bank_id')
                     ->options(Helper::setOptionsKodeBank())
                     ->displayUsingLabels()
                     ->onlyOnIndex(),

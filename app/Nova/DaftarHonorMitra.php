@@ -9,6 +9,7 @@ use App\Nova\Actions\ImportDaftarHonorMitra;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -76,7 +77,11 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
                 Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->onlyOnIndex(),
-                Text::make('Rekening', fn () => Helper::getPropertyFromCollection(Helper::getKodeBankById($this->mitra->kode_bank_id), 'nama_bank').' '.$this->mitra->rekening)
+                Select::make('Bank', 'mitra.kode_bank_id')
+                    ->options(Helper::setOptionsKodeBank())
+                    ->displayUsingLabels()
+                    ->onlyOnIndex(),
+                Text::make('Rekening', 'mitra.rekening')
                     ->onlyOnIndex(),
             ];
         }

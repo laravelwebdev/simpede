@@ -18,6 +18,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class DaftarHonorPegawai extends Resource
 {
     public static $with = ['user', 'honorKegiatan'];
+
     public static $displayInNavigation = false;
 
     /**
@@ -85,8 +86,12 @@ class DaftarHonorPegawai extends Resource
                 ->exceptOnForms(),
             Currency::make('Netto', fn () => $this->volume * $this->harga_satuan - round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->exceptOnForms(),
-            Text::make('Rekening', fn () => Helper::getPropertyFromCollection(Helper::getKodeBankById($this->user->kode_bank_id), 'nama_bank').' '.$this->user->rekening)
-                ->exceptOnForms(),
+            Select::make('Bank', 'user.kode_bank_id')
+                ->options(Helper::setOptionsKodeBank())
+                ->displayUsingLabels()
+                ->onlyOnIndex(),
+            Text::make('Rekening', 'user.rekening')
+                ->onlyOnIndex(),
 
         ];
     }

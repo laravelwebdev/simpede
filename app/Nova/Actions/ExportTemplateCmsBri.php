@@ -44,7 +44,7 @@ class ExportTemplateCmsBri extends Action
         if ($this->type === 'ft') {
             $collection = Helper::makeCollectionForMassFt($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();
-            $sum = $collection->sum('netto');
+            $sum = $collection->sum('Amount');
             $summary = collect(
                 [
                     [
@@ -109,7 +109,7 @@ class ExportTemplateCmsBri extends Action
         } else {
             $collection = Helper::makeCollectionForMassCn($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();
-            $sum = $collection->sum('netto');
+            $sum = $collection->sum('Amount');
             $summary = collect(
                 [
                     [
@@ -166,7 +166,7 @@ class ExportTemplateCmsBri extends Action
                     ],
                 ]
             );
-            $collection = $collection->push($summary);
+            $collection = $collection->merge($summary);
         }
         $filename = $fields->filename.'.csv';
         (new FastExcel($collection))->configureCsv(delimiter: '|', enclosure: chr(0))->export(Storage::path('public/'.$filename));

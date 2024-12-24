@@ -169,7 +169,7 @@ class ExportTemplateCmsBri extends Action
             $collection = $collection->push($summary);
         }
         $filename = $fields->filename.'.csv';
-        (new FastExcel($collection))->configureCsv(delimiter: '|')->export(Storage::path('public/'.$filename));
+        (new FastExcel($collection))->configureCsv(delimiter: '|', enclosure: '')->export(Storage::path('public/'.$filename));
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,

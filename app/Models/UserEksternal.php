@@ -13,8 +13,12 @@ class UserEksternal extends Model
 
     public function setGolonganAttribute($value)
     {
-        $this->attributes['golongan'] = $value;
-        $this->attributes['pangkat'] = Helper::$pangkat[$value];
+        if (! empty($this->attributes['golongan']))
+        {
+            $this->attributes['golongan'] = $value;
+            $this->attributes['pangkat'] = Helper::$pangkat[$value];
+        }
+
     }
     
     public static function cacheEntities(): array

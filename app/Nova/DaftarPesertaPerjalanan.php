@@ -69,7 +69,7 @@ class DaftarPesertaPerjalanan extends Resource
                 ->updateRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)),
             Text::make('Asal', 'asal')
-                ->default(str_replace('Kabupaten', '', config('satker.kabupaten')))
+                ->default(str_replace('Kabupaten ', '', config('satker.kabupaten')))
                 ->rules('required'),
             Text::make('Tujuan', 'tujuan')
                 ->default('Banjarbaru')

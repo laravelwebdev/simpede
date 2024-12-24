@@ -105,7 +105,7 @@ class ExportTemplateCmsBri extends Action
                     ],
                 ]
             );
-            $collection = $collection->push($summary);
+            $collection = $collection->merge($summary);
         } else {
             $collection = Helper::makeCollectionForMassCn($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();

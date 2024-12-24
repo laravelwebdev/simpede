@@ -1282,7 +1282,7 @@ class Helper
                 $item['Voucher Code'] = '';
                 $item['BI Trx Code'] = '';
                 $item['Remark'] = $remark;
-                $item['Reference Number'] = Helper::makeReference(now(), $index+1);
+                $item['Reference Number'] = Helper::makeReference(now(), $index + 1);
                 unset($item['nip_lama']);
                 unset($item['volume']);
                 unset($item['harga_satuan']);
@@ -1315,12 +1315,12 @@ class Helper
                 $item['Benef Account'] = $item['rekening'];
                 $item['Benef Name'] = $item['nama'];
                 $item['Benef Address'] = strtoupper(str_replace('Kabupaten ', '', config('satker.kabupaten')));
-                $item['Benef Bank'] = Helper::getPropertyFromCollection( Helper::getKodeBankById($item['kode_bank_id']), 'kode');
+                $item['Benef Bank'] = Helper::getPropertyFromCollection(Helper::getKodeBankById($item['kode_bank_id']), 'kode');
                 $item['Benef eMail'] = '';
                 $item['Amount'] = $item['netto'];
                 $item['Charge Type'] = 'BEN';
                 $item['Remark'] = $remark;
-                $item['Reference Number'] = Helper::makeReference(now(), $index+1 ,'cn');
+                $item['Reference Number'] = Helper::makeReference(now(), $index + 1, 'cn');
                 unset($item['nip_lama']);
                 unset($item['volume']);
                 unset($item['harga_satuan']);

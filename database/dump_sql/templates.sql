@@ -31,7 +31,8 @@ INSERT INTO `templates` (`id`, `nama`, `jenis`, `file`, `created_at`, `updated_a
 (21, 'Template Surat Tugas dan SPPD', 'sppd', 'NZ0yEZ9wHjPNsSGMUIoQaTjMBiKNLLUTtsFs9Rb9.docx', '2024-11-30 14:07:14', '2024-11-30 14:07:14'),
 (22, 'Template Undangan Rapat', 'undangan', '32Sq1RlqXpn9GNW1JUTmX5kiSih8wLug4pcacciH.docx', '2024-12-22 11:48:13', '2024-12-22 11:48:13'),
 (23, 'Template Daftar Hadir Rapat', 'daftar_hadir', 'rSe0mZotTa5o5vqMYOjF1fJGFXSzeWecJPnb5aDD.docx', '2024-12-22 11:48:46', '2024-12-22 11:48:46'),
-(24, 'Template Notula Rapat', 'notula', 'UUdKH4hsS43urXk16jFPJe50eJuAWkhyb9GTJtaV.docx', '2024-12-22 11:49:11', '2024-12-22 11:49:11');
+(24, 'Template Notula Rapat', 'notula', 'UUdKH4hsS43urXk16jFPJe50eJuAWkhyb9GTJtaV.docx', '2024-12-22 11:49:11', '2024-12-22 11:49:11'),
+(25, 'Template Import Master Wilayah', 'import', 'BuyPo9w8pzuhPqE3t9QTzEt3yigtVNYC5O2ExHe5.xlsx', '2024-12-25 07:57:14', '2024-12-25 07:57:14');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

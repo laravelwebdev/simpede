@@ -22,6 +22,7 @@ use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
 use App\Nova\MasterBarangPemeliharaan;
 use App\Nova\MasterPersediaan;
+use App\Nova\MasterWilayah;
 use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
@@ -117,6 +118,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),
+                    MenuItem::resource(MasterWilayah::class),
                     MenuItem::resource(Template::class),
                     MenuItem::resource(UnitKerja::class),
                 ])->icon('lock-open'),

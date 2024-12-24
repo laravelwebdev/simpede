@@ -51,7 +51,7 @@ class RealisasiAnggaran extends Lens
                 'mak, 
                 mata_anggarans.id as id_mata_anggaran,
                 mata_anggarans.uraian as item, 
-                total, 
+                total - blokir as total, 
                 blokir,
                 ordered,
                 CASE WHEN SUM(nilai) IS NULL THEN 0 ELSE SUM(nilai) END as realisasi, 

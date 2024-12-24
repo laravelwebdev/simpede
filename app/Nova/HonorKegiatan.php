@@ -421,6 +421,7 @@ class HonorKegiatan extends Resource
                 ->showOnDetail()
                 ->exceptOnIndex()
                 ->confirmButtonText('Export');
+            $actions[] =
             ExportTemplateCmsBri::make($this->kegiatan, 'cn')
                 ->showInline()
                 ->showOnDetail()

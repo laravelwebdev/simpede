@@ -69,7 +69,8 @@ class ImportMitra extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
+                ->acceptedTypes('.xlsx')
+                ->help('Data akan diperbaharui dengan data baru'),
             Heading::make('Gunakan File Excel Export Mitra dari Aplikasi SOBAT'),
         ];
     }

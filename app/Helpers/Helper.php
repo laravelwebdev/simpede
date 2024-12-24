@@ -482,24 +482,6 @@ class Helper
         return $alphabet;
     }
 
-    public static function makeReference($date, $index, $type = 'ft')
-    {
-        $day = $date->format('d');
-        $month = $date->format('m');
-        $year = $date->format($type === 'cn' ? 'Y' : 'y');
-        $alphabetIndex = self::convertIndexToAlphabet($index);
-
-        if ($type === 'ft') {
-            return $day.$month.$year.$alphabetIndex;
-        } elseif ($type === 'cn') {
-            $indexStr = str_pad($index, 3, '0', STR_PAD_LEFT);
-
-            return 'A'.$year.$month.$day.$indexStr;
-        } else {
-            return '';
-        }
-    }
-
     /**
      * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
      *
@@ -1282,7 +1264,7 @@ class Helper
                 $item['Voucher Code'] = '';
                 $item['BI Trx Code'] = '';
                 $item['Remark'] = $remark;
-                $item['Reference Number'] = Helper::makeReference(now(), $index+1);
+                $item['Reference Number'] = uniqid();
                 unset($item['nip_lama']);
                 unset($item['volume']);
                 unset($item['harga_satuan']);
@@ -1320,7 +1302,7 @@ class Helper
                 $item['Amount'] = $item['netto'];
                 $item['Charge Type'] = 'BEN';
                 $item['Remark'] = $remark;
-                $item['Reference Number'] = Helper::makeReference(now(), $index+1 ,'cn');
+                $item['Reference Number'] = uniqid();
                 unset($item['nip_lama']);
                 unset($item['volume']);
                 unset($item['harga_satuan']);

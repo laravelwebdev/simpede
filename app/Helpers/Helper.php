@@ -1297,7 +1297,7 @@ class Helper
                 $item['Benef Account'] = $item['rekening'];
                 $item['Benef Name'] = $item['nama'];
                 $item['Benef Address'] = strtoupper(str_replace('Kabupaten ', '', config('satker.kabupaten')));
-                $item['Benef Bank'] = Helper::getPropertyFromCollection( Helper::getKodeBankById($item['kode_bank_id']), 'kode');
+                $item['Benef Bank'] = Helper::getPropertyFromCollection(Helper::getKodeBankById($item['kode_bank_id']), 'kode');
                 $item['Benef eMail'] = '';
                 $item['Amount'] = $item['netto'];
                 $item['Charge Type'] = 'BEN';

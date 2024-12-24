@@ -9,7 +9,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class KodeBank extends Model
 {
     use LaraCache;
-    
+
     public static function cacheEntities(): array
     {
         return [
@@ -19,5 +19,4 @@ class KodeBank extends Model
                 }),
         ];
     }
-
 }

@@ -56,7 +56,7 @@ class RealisasiPerJenisBelanja extends TableCard
                 $total = DB::table('mata_anggarans')
                     ->where('jenis_belanja', $item->jenis_belanja)
                     ->where('dipa_id', $dipaId)
-                    ->sum('total - blokir');
+                    ->sum(DB::raw('total - blokir'));
 
                 $item->target = round(($total / 100) * $targetSerapan, 0);
                 $item->realisasi = $item->realisasi ?? 0;

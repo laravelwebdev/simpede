@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Dipa;
 use App\Models\MataAnggaran;
 use App\Models\RealisasiAnggaran;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Progress;
 
@@ -57,7 +58,7 @@ class SerapanAnggaran extends Progress
                         '=',
                         'daftar_sp2ds.id'
                     );
-            }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->where('dipa_id', $dipa_id)->sum('total'))
+            }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')))
             : $this->sum($request, RealisasiAnggaran::class, function ($query) use ($filtered_ro, $filtered_bulan, $dipa_id) {
                 return $query->when(! empty($filtered_ro), function ($query) use ($filtered_ro) {
                     return $query->whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'");
@@ -76,7 +77,7 @@ class SerapanAnggaran extends Progress
                         '=',
                         'daftar_sp2ds.id'
                     );
-            }, column: 'nilai', target: ! empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum('total') : MataAnggaran::where('dipa_id', $dipa_id)->sum('total'));
+            }, column: 'nilai', target: ! empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')) : MataAnggaran::where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')));
     }
 
     /**

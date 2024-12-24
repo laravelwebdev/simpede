@@ -39,6 +39,7 @@ use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
 use App\Nova\User;
+use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Menu\Menu;
@@ -141,6 +142,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(MasterBarangPemeliharaan::class),
                     MenuItem::resource(MasterPersediaan::class),
                     MenuItem::resource(TataNaskah::class),
+                    MenuItem::resource(UserEksternal::class),
                 ])->icon('book-open'),
 
                 MenuSection::make('Share', [

@@ -2,16 +2,13 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Models\PerjalananDinas;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AddPerjalananDinas extends Action
@@ -22,7 +19,6 @@ class AddPerjalananDinas extends Action
     {
         return 'Tambahkan Perjalalan Dinas';
     }
-
 
     /**
      * Perform the action on the given models.
@@ -42,7 +38,6 @@ class AddPerjalananDinas extends Action
         $perjalanan->save();
 
         return ActionResponse::redirect('perjalanan-dinas/'.$perjalanan->id.'/edit');
-
     }
 
     /**

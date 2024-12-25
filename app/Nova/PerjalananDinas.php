@@ -145,7 +145,7 @@ class PerjalananDinas extends Resource
                 ->hideFromIndex()
                 ->rules('required')
                 ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
-                    return $query->whereIn('id', $this->kerangkaAcuan->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
+                    return $query->whereIn('id', $request->kerangkaAcuan->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
                 }),
 HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 

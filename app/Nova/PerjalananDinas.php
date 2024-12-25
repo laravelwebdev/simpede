@@ -98,7 +98,7 @@ class PerjalananDinas extends Resource
                     ->withSubtitles()
                     ->nullable()
                     ->help('kosongkan jika ingin membuat nomor baru secara otomatis')
-                    ->canSee(fn() => empty($this->stNaskahKeluar))
+                    ->canSee(fn () => empty($this->stNaskahKeluar))
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
@@ -106,7 +106,7 @@ class PerjalananDinas extends Resource
                     ->dependsOn('stNaskahKeluar', function (Date $field, NovaRequest $request, FormData $formData) {
                         if (! empty($formData->stNaskahKeluar)) {
                             $field
-                            ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->tanggal->format('Y-m-d'));
+                                ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->tanggal->format('Y-m-d'));
                         }
                     })
                     ->onlyOnForms(),
@@ -115,9 +115,9 @@ class PerjalananDinas extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->rules('required')
-                    ->dependsOn('stNaskahKeluar', function (Date $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['stNaskahKeluar', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if (! empty($formData->stNaskahKeluar)) {
-                            $field
+                            $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st))
                             ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->kode_arsip_id);
                         }
                     }),

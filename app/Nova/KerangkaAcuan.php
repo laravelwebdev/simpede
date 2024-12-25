@@ -190,7 +190,7 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get() && Helper::hasAkun($this->id, ['524111', '524113', '524114', '524119'])) {
             $actions[] =
            AddPerjalananDinas::make($this->id)
                ->showInline()

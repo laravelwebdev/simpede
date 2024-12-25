@@ -1504,7 +1504,7 @@ class Helper
     }
 
 
-    public function hasAkun($kak_id, array $akun): bool
+    public static function hasAkun($kak_id, array $akun): bool
     {
         return KerangkaAcuan::find($kak_id)->anggaranKerangkaAcuan->contains(function ($anggaran) use ($akun) {
             return in_array(substr($anggaran->mataAnggaran->mak, 29, 6), $akun);

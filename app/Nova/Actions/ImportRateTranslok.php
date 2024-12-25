@@ -30,7 +30,7 @@ class ImportRateTranslok extends Action
     {
         $model = $models->first();
         RateTranslok::cache()->disable();
-        RateTranslok::where('sk_translok_id', $model->id)->update(['updated_at' => null]);
+        RateTranslok::where('sk_translok_id', $model->id)->where('type', $fields->type)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model, $fields) {
             switch ($fields->type) {
                 case '1':

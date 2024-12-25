@@ -111,6 +111,19 @@ class ImportMataAnggaran extends Action
     public function fields(NovaRequest $request)
     {
         return [
+            Heading::make('Import POK Satu DJA'),
+            File::make('File')
+                ->rules('required', 'mimes:xlsx')
+                ->acceptedTypes('.xlsx')
+                ->help('File import diambil dari excel satudja dan simpan sebagai file .xlsx'),
+            Text::make('Kode Satker', 'satker')
+                ->default(config('satker.kode'))
+                ->rules('required')
+                ->help('Kode Satker, misal: 428578'),
+            Text::make('Kode Wilayah', 'wilayah')
+                ->default(config('satker.wilayah'))
+                ->rules('required')
+                ->help('Kode Wilayah Satker, misal: 15.00'),
             Heading::make('Import Mata Anggaran Monsakti'),
             File::make('File')
                 ->rules('required', 'mimes:csv')

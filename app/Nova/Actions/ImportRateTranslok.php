@@ -35,11 +35,11 @@ class ImportRateTranslok extends Action
             switch ($fields) {
                 case '1':
                     $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kabupaten']), 'id');
-                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Desa']), 'id');
+                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Kecamatan']), 'id');
                     break;
                 case '2':
                     $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kabupaten']), 'id');
-                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Kecamatan']), 'id');
+                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Desa']), 'id');
                     break;
 
                 default:
@@ -77,12 +77,12 @@ class ImportRateTranslok extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            File::make('File')
-                ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
             Select::make('Tipe', 'type')
                 ->rules('required')
                 ->options(Helper::$translok_type),
+            File::make('File')
+                ->rules('required', 'mimes:xlsx')
+                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
             Heading::make('Template diunduh dari web iplan BPS'),
         ];
     }

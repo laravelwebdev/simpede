@@ -192,8 +192,8 @@ class KerangkaAcuan extends Resource
         }
         if (Policy::make()->allowedFor('koordinator,anggota')->get() && Helper::hasAkun($request->resourceId, ['524111', '524113', '524114', '524119'])) {
             $actions[] =
-           AddPerjalananDinas::make($this->id)
-            //    ->showInline()
+           AddPerjalananDinas::make()
+               ->showInline()
                ->showOnDetail()
                ->confirmButtonText('Tambahkan')
                ->exceptOnIndex();

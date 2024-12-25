@@ -151,7 +151,7 @@ class PerjalananDinas extends Resource
                 ->dependsOn('kerangka_acuan_id', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
                         $mataAnggaranIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $formData->kerangka_acuan_id)
-                            ->whereHas('mataAnggaran', function ($query)  {
+                            ->whereHas('mataAnggaran', function ($query) {
                                 $query->whereIn(DB::raw('SUBSTRING(mak, 30, 6)'), Helper::$akun_perjalanan);
                             })
                             ->pluck('mata_anggaran_id');
@@ -159,7 +159,8 @@ class PerjalananDinas extends Resource
                         return $query->whereIn('id', $mataAnggaranIds);
                     });
                 }),
-            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
+            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan')
+                ->canSee(fn () => $this->jenis === '1'),
 
         ];
     }

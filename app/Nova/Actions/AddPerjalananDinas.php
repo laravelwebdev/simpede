@@ -62,7 +62,7 @@ class AddPerjalananDinas extends Action
     {
         return [
             Select::make('Mata Anggaran', 'mata_anggaran_id')
-                ->options(Helper::setOptionsMataAnggaranByAkunKerangkaAcuan($this->kak_id, ['524111', '524113', '524114', '524119']))
+                ->options(Helper::setOptionsMataAnggaranByAkunKerangkaAcuan($this->kak_id, []))
                 ->displayUsingLabels()
                 ->rules('required'),
         ];

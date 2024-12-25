@@ -30,7 +30,7 @@ class ImportMasterwilayah extends Action
     {
         $model = $models->first();
         Masterwilayah::cache()->disable();
-        Masterwilayah::all()->update(['updated_at' => null]);
+        Masterwilayah::query()->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) {
             $masterwilayah = Masterwilayah::firstOrNew(
                 [

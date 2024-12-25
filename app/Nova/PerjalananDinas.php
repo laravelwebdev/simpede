@@ -18,7 +18,7 @@ use Laravel\Nova\Panel;
 
 class PerjalananDinas extends Resource
 {
-    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'tujuanMasterWilayah', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala', 'mataAnggaran', 'kerangkaAcuan.anggaranKerangkaAcuan'];
+    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'tujuanMasterWilayah', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala', 'mataAnggaran'];
 
     /**
      * The model the resource corresponds to.
@@ -66,8 +66,7 @@ class PerjalananDinas extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('Kerangka Acuan', 'kerangkaAcuan')
-                ->onlyOnForms(),
+            Hidden::make('Kerangka Acuan ID', 'kerangka_acuan_id'),
             Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
@@ -79,12 +78,12 @@ class PerjalananDinas extends Resource
                 ->hideFromIndex()
                 ->displayUsingLabels(),
             Stack::make('Nomor/Tanggal Surat Tugas', 'tanggal_st', [
-                BelongsTo::make('Nomor:', 'stNaskahKeluar', 'App\Nova\NaskahKeluar'),
+                Text::make('Nomor:', 'stNaskahKeluar.nomor')->copyable(),
                 Date::make('Tanggal:', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Stack::make('Nomor/Tanggal SPPD', 'tanggal_spd', [
-                BelongsTo::make('Nomor:', 'spdNaskahKeluar', 'App\Nova\NaskahKeluar'),
+                Text::make('Nomor:', 'spdNaskahKeluar.nomor')->copyable(),
                 Date::make('Tanggal:', 'tanggal_spd')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
@@ -147,9 +146,10 @@ class PerjalananDinas extends Resource
                 ->withSubtitles()
                 ->hideFromIndex()
                 ->rules('required')
-                ->dependsOn('kerangkaAcuan', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                ->dependsOn('kerangka_acuan_id', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        return $query->whereIn('id', $formData->kerangkaAcuan->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
+                        $mataAnggaranIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $formData->kerangka_acuan_id)->pluck('mata_anggaran_id');
+                        return $query->whereIn('id', $mataAnggaranIds);
                     });
                 }),
 HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),

@@ -65,6 +65,7 @@ class PerjalananDinas extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
             Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')

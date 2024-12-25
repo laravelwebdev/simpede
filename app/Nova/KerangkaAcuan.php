@@ -190,12 +190,13 @@ class KerangkaAcuan extends Resource
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
         }
-        if (Policy::make()->allowedFor('koordinator,anggota')->get() && Helper::hasAkun($this->model()->id, ['524111', '524113', '524114', '524119'])) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
            AddPerjalananDinas::make()
                ->showInline()
                ->showOnDetail()
                ->confirmButtonText('Tambahkan')
+               ->canSee(fn ($request) => Helper::hasAkun($request->resource()->id, ['524111', '524113', '524114', '524119']))
                ->exceptOnIndex();
         }
 

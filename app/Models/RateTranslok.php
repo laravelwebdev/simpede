@@ -28,7 +28,7 @@ class RateTranslok extends Model
     ];
     public function getTitleAttribute()
     {
-        return "{$this->asalMasterWilayah->wilayah} - {$this->tujuanMasterWilayah->wilayah}";
+        return "{$this->asalMasterWilayah->wilayah} - {$this->tujuanMasterWilayah->wilayah} ( $this->skTranslok->tahun )";
     }
 
     public function skTranslok(): BelongsTo

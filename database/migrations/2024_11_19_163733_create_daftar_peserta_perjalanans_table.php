@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal_kuitansi')->nullable();
             $table->text('spesifikasi')->nullable();
             $table->string('angkutan', 20)->nullable();
-            $table->string('asal', 80)->nullable();
+            $table->mediumInteger('asal_master_wilayah_id')->nullable()->unsigned();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
             $table->mediumInteger('perjalanan_dinas_id')->nullable()->unsigned();
             $table->mediumInteger('user_id')->nullable()->unsigned();

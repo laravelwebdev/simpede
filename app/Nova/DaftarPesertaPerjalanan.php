@@ -20,7 +20,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarPesertaPerjalanan extends Resource
 {
-    public static $with = ['user', 'perjalananDinas'];
+    public static $with = ['user', 'perjalananDinas', 'asalMasterWilayah'];
 
     /**
      * The model the resource corresponds to.
@@ -68,8 +68,8 @@ class DaftarPesertaPerjalanan extends Resource
                 ->withSubtitles()
                 ->updateRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_peserta_perjalanans', 'user_id')->where('perjalanan_dinas_id', $request->viaResourceId)),
-            Text::make('Asal', 'asal')
-                ->default(str_replace('Kabupaten ', '', config('satker.kabupaten')))
+            BelongsTo::make('Asal', 'asalMasterWilayah', 'app\Nova\MasterWilayah')
+                ->searchable()
                 ->rules('required'),
             Select::make('Angkutan')
                 ->searchable()

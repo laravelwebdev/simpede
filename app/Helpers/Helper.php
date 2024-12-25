@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\AnggaranKerangkaAcuan;
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
 use App\Models\DataPegawai;
@@ -54,6 +53,12 @@ class Helper
         'Lainnya' => 'Lainnya',
     ];
 
+    public static $akun_perjalanan = [
+        '524111',
+        '524113',
+        '524114',
+        '524119'];
+
     public static $translok_type = [
         '1' => 'Kabupaten - Kecamatan',
         '2' => 'Kabupaten - Desa',
@@ -70,7 +75,6 @@ class Helper
         '7' => 'Paket Meeting Fullboard Dalam Kota',
         '8' => 'Paket Meeting Fullboard Luar Kota',
     ];
-
 
     public static $akun_persediaan = [
         '521811',
@@ -746,7 +750,6 @@ class Helper
         return MasterWilayah::cache()->get('all')->where('kode', $kode)->first();
     }
 
-
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.
      *
@@ -784,7 +787,6 @@ class Helper
 
         return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
     }
-
 
     public static function isAkunPemeliharaan(string $mata_anggaran_id): bool
     {
@@ -1503,14 +1505,12 @@ class Helper
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 
-
     public static function hasAkun($kak_id, array $akun): bool
     {
         return KerangkaAcuan::find($kak_id)->anggaranKerangkaAcuan->contains(function ($anggaran) use ($akun) {
             return in_array(substr($anggaran->mataAnggaran->mak, 29, 6), $akun);
         });
     }
-
 
     public static function setOptionsPemenang($reward_pegawai_id)
     {

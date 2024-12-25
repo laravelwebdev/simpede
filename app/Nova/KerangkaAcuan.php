@@ -202,7 +202,7 @@ class KerangkaAcuan extends Resource
                        return true;
                    }
 
-                   return $this->resource instanceof Model && Helper::hasAkun($this->id, ['524111', '524113', '524114', '524119']);
+                   return $this->resource instanceof Model && Helper::hasAkun($this->id, Helper::$akun_perjalanan);
                })
                ->exceptOnIndex();
         }

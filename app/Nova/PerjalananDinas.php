@@ -107,9 +107,7 @@ class PerjalananDinas extends Resource
                             $field->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today');
                         } else {
                             $field->hide()
-                            ->fillUsing(function ($request, $model, $attribute, $requestAttribute) use ($formData) {
-                                $model->{$attribute} = NaskahKeluar::find($formData->stNaskahKeluar)->tanggal;
-                            });
+                            ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->tanggal->format('Y-m-d'));
                         }
                     })
                     ->onlyOnForms(),

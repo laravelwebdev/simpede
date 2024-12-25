@@ -196,7 +196,7 @@ class KerangkaAcuan extends Resource
                ->showInline()
                ->showOnDetail()
                ->confirmButtonText('Tambahkan')
-               ->canSee(fn ($request) => Helper::hasAkun($request->resource()->id, ['524111', '524113', '524114', '524119']))
+               ->canSee(fn ($request) => Helper::hasAkun($request->resourceId, ['524111', '524113', '524114', '524119']))
                ->exceptOnIndex();
         }
 

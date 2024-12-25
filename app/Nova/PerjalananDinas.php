@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
@@ -65,7 +66,8 @@ class PerjalananDinas extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+            Hidden::make('Kerangka Acuan', 'kerangkaAcuan')
+                ->hideFromIndex(),
             Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')

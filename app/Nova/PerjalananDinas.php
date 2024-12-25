@@ -116,7 +116,7 @@ class PerjalananDinas extends Resource
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->show()
                     ->dependsOn(['tanggal_st', 'stNaskahKeluar'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st ?? $formData->stNaskahKeluar->tanggal));
                         if (empty($formData->stNaskahKeluar)) {
                             $field->rules('required');
                         } else {

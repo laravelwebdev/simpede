@@ -67,7 +67,7 @@ class PerjalananDinas extends Resource
     {
         return [
             Hidden::make('Kerangka Acuan', 'kerangkaAcuan')
-                ->hideFromIndex(),
+                ->onlyOnForms(),
             Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
@@ -149,7 +149,7 @@ class PerjalananDinas extends Resource
                 ->rules('required')
                 ->dependsOn('kerangkaAcuan', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        return $query->whereIn('id', $formData->kerangkaAcuan);
+                        return $query->whereIn('id', $formData->kerangkaAcuan->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
                     });
                 }),
 HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),

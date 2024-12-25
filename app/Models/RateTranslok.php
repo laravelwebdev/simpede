@@ -26,6 +26,10 @@ class RateTranslok extends Model
         'tujuan_master_wilayah_id',
 
     ];
+    public function getTitleAttribute()
+    {
+        return "{$this->asalMasterWilayah->wilayah} - {$this->tujuanMasterWilayah->wilayah}";
+    }
 
     public function skTranslok(): BelongsTo
     {

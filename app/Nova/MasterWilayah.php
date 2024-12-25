@@ -50,7 +50,13 @@ class MasterWilayah extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-
+            Text::make('Kode', 'kode')
+                ->sortable()
+                ->updateRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode')
+                ->creationRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode,{{resourceId}}'),
+            Text::make('Nama Wilayah', 'wilayah')
+                ->sortable()
+                ->rules('required'),
         ];
     }
 
@@ -62,13 +68,6 @@ class MasterWilayah extends Resource
     public function cards(NovaRequest $request)
     {
         return [
-            Text::make('Kode', 'kode')
-                ->sortable()
-                ->updateRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode')
-                ->creationRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode,{{resourceId}}'),
-            Text::make('Nama Wilayah', 'wilayah')
-                ->sortable()
-                ->rules('required'),
         ];
     }
 

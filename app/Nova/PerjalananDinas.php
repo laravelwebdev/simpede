@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\KodeArsip;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;

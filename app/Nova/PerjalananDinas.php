@@ -139,16 +139,8 @@ class PerjalananDinas extends Resource
             BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
                 ->searchable()
                 ->rules('required'),
-            BelongsTo::make('Mata Anggaran')
-                ->searchable()
-                ->rules('required')
-                ->withSubtitles()
-                ->dependsOn('kerangkaAcuan', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        return $query->whereIn('id', $formData->kerangkaAcuan->mataAnggaran->pluck('id'));
-                    });
-                }),
-
+            Text::make('Mata Anggaran', 'mataAmggaran.mak')
+                ->readonly(),
             HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 
         ];

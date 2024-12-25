@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Models\PerjalananDinas;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,11 +11,25 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AddPerjalananDinas extends Action
 {
     use InteractsWithQueue, Queueable;
+
+    protected $kak_id;
+
+    public function __construct($kak_id)
+    {
+        $this->kak_id = $kak_id;
+    }
+
+    public function name()
+    {
+        return 'Tambahkan Perjalalan Dinas';
+    }
+
 
     /**
      * Perform the action on the given models.
@@ -45,6 +60,11 @@ class AddPerjalananDinas extends Action
      */
     public function fields(NovaRequest $request)
     {
-        return [];
+        return [
+            Select::make('Mata Anggaran', 'mata_anggaran_id')
+                ->options(Helper::setOptionsMataAnggaranByAkunKerangkaAcuan($this->kak_id, ['524111', '524113', '524114', '524119']))
+                ->displayUsingLabels()
+                ->rules('required'),
+        ];
     }
 }

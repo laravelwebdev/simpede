@@ -1509,7 +1509,7 @@ class Helper
         if (empty($akun)) {
             return self::setOptions($anggaran, 'mak', 'mak');
         }
-        $anggaran->filter(function ($item) use ($akun) {
+        $anggaran = $anggaran->filter(function ($item) use ($akun) {
             return in_array(substr($item->mataAnggaran->mak, 29, 6), $akun);
         });
 

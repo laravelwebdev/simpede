@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
+use App\Nova\Actions\ImportMasterwilayah;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -97,6 +99,15 @@ class MasterWilayah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions[] =
+                ImportMasterwilayah::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+
+        return $actions;
     }
 }

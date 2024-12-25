@@ -102,9 +102,7 @@ class MasterWilayah extends Resource
         if (Policy::make()->allowedFor('admin')->get()) {
             $actions[] =
                 ImportMasterwilayah::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
+                    ->standalone();
         }
 
         return $actions;

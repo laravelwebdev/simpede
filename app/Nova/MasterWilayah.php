@@ -52,8 +52,8 @@ class MasterWilayah extends Resource
         return [
             Text::make('Kode', 'kode')
                 ->sortable()
-                ->updateRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode')
-                ->creationRules('required', 'min:7', 'max:11', 'unique:master_wilayahs:kode,{{resourceId}}'),
+                ->updateRules('required', 'min:7', 'max:11', 'unique:master_wilayahs,kode')
+                ->creationRules('required', 'min:7', 'max:11', 'unique:master_wilayahs,kode,{{resourceId}}'),
             Text::make('Nama Wilayah', 'wilayah')
                 ->sortable()
                 ->rules('required'),

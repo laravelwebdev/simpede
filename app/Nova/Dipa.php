@@ -7,6 +7,7 @@ use App\Helpers\Policy;
 use App\Nova\Actions\ImportKamusAnggaran;
 use App\Nova\Actions\ImportMataAnggaran;
 use App\Nova\Actions\ImportRealisasiAnggaran;
+use App\Nova\Actions\SinkronisasiDataAnggaran;
 use App\Nova\Metrics\HelperImportAnggaran;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
@@ -103,7 +104,7 @@ class Dipa extends Resource
         $cards = [];
         if (Policy::make()->allowedFor('admin')->get()) {
             $cards[] =
-            HelperImportAnggaran::make()
+            HelperSinkronisasiAnggaran::make()
                 ->width('full');
         }
 
@@ -140,12 +141,7 @@ class Dipa extends Resource
         $actions = [];
         if (Policy::make()->allowedFor('admin,ppk')->get()) {
             $actions[] =
-                ImportKamusAnggaran::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-            $actions[] =
-                ImportMataAnggaran::make()
+                SinkronisasiDataAnggaran::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();

@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Models\JenisBelanja;
+use App\Models\KamusAnggaran;
 use App\Models\MataAnggaran;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,11 +19,11 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
-class ImportMataAnggaran extends Action
+class SinkronisasiDataAnggaran extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Import Mata Anggaran Monsakti';
+    public $name = 'Sinkronisasi Data Anggaran';
 
     /**
      * Perform the action on the given models.
@@ -31,10 +32,35 @@ class ImportMataAnggaran extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $model = $models->first();
+        //POK Satu DJA
+        KamusAnggaran::cache()->disable();
+        KamusAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        (new FastExcel)->import($fields->file_dja, function ($row) use ($model, $fields) {
+            $replaces[$fields->satker.'.'] = '';
+            $replaces['.'.$fields->wilayah] = '';
+            $anggaran = explode('||', $row['Kode'])[0];
+            $mak = strtr($anggaran, $replaces);
+            if ($mak) {
+                $kamusAnggaran = KamusAnggaran::firstOrNew(
+                    [
+                        'mak' => $mak,
+                        'dipa_id' => $model->id,
+                    ]
+                );
+                $kamusAnggaran->detail = $row['Program/ Kegiatan/ KRO/ RO/ Komponen'];
+                $kamusAnggaran->updated_at = now();
+                $kamusAnggaran->save();
+            }
+        });
+        KamusAnggaran::where('updated_at', null)->delete();
+        KamusAnggaran::cache()->enable();
+        KamusAnggaran::cache()->updateAll();
+        // Data Anggaran Monsakti
         $filePath = $fields->file->path();
         $newFilePath = $filePath.'.'.$fields->file->getClientOriginalExtension();
         move_uploaded_file($filePath, $newFilePath);
-        $model = $models->first();
+        
         MataAnggaran::cache()->disable();
         MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);
@@ -100,7 +126,7 @@ class ImportMataAnggaran extends Action
         $model->tanggal_revisi = $fields->tanggal_revisi;
         $model->save();
 
-        return Action::message('Mata Anggaran sukses diimport!');
+        return Action::message('Sinkronisasi Sukses!');
     }
 
     /**
@@ -112,7 +138,7 @@ class ImportMataAnggaran extends Action
     {
         return [
             Heading::make('Import POK Satu DJA'),
-            File::make('File')
+            File::make('File', 'file_dja')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
                 ->help('File import diambil dari excel satudja dan simpan sebagai file .xlsx'),

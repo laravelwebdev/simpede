@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\AnggaranKerangkaAcuan;
 use App\Models\KodeArsip;
-use App\Models\NaskahKeluar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\BelongsTo;
@@ -108,7 +107,9 @@ class PerjalananDinas extends Resource
                             $field->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today');
                         } else {
                             $field->hide()
-                            ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->tanggal);
+                            ->fillUsing(function ($request, $model, $attribute, $requestAttribute) use ($formData) {
+                                $model->{$attribute} = NaskahKeluar::find($formData->stNaskahKeluar)->tanggal;
+                            });
                         }
                     })
                     ->onlyOnForms(),

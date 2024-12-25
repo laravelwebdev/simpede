@@ -404,7 +404,7 @@ class Cetak
             'uraian' => Helper::getPropertyFromCollection($perjalanan, 'uraian'),
             'asal' => Helper::getPropertyFromCollection(Helper::getMasterWilayahById($data->asal_master_wilayah_id), 'wilayah'),
             'tujuan' => Helper::getPropertyFromCollection(Helper::getMasterWilayahById($perjalanan->tujuan_master_wilayah_id), 'wilayah'),
-            'waktu' => Helper::jangkaWaktu($data->tanggal_berangkat, $data->tanggal_kembali),
+            'waktu' => Helper::jangkaWaktu($perjalanan->tanggal_berangkat, $perjalanan->tanggal_kembali),
             'biaya_total' => Helper::formatRupiah(Helper::sumSpek($itemdengannilai, 'nilai')),
             'tahun' => Helper::getYearFromDate($perjalanan->tanggal_spd),
             'mak' => Helper::getMataAnggaranById($perjalanan->mata_anggaran_id)->mak,

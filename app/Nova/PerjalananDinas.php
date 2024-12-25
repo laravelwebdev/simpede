@@ -92,17 +92,34 @@ class PerjalananDinas extends Resource
             Text::make('Uraian', 'uraian')
                 ->rules('required'),
             Panel::make('Surat Tugas', [
+                BelongsTo::make('Surat Tugas', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                    ->searchable()
+                    ->withSubtitles()
+                    ->help('kosongkan jika ingin membuat nomor baru secara otomatis')
+                    ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today')
+                    ->show()
+                    ->dependsOn('stNaskahKeluar', function (Date $field, NovaRequest $request, FormData $formData) {
+                        if (empty($formData->stNaskahKeluar)) {
+                            $field->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today');
+                        } else {
+                            $field->hide();
+                        }
+                    })
                     ->onlyOnForms(),
                 Select::make('Klasifikasi Arsip ST', 'st_kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                    ->rules('required')
-                    ->dependsOn(['tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    ->show()
+                    ->dependsOn(['tanggal_st', 'stNaskahKeluar'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
+                        if (empty($formData->stNaskahKeluar)) {
+                            $field->rules('required');
+                        } else {
+                            $field->hide();
+                        }
                     }),
                 Select::make('Penanda Tangan', 'kepala_user_id')
                     ->rules('required')

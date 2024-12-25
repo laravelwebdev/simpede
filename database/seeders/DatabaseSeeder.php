@@ -16,10 +16,13 @@ use App\Models\KodeBank;
 use App\Models\KodeNaskah;
 use App\Models\MasterBarangPemeliharaan;
 use App\Models\MasterPersediaan;
+use App\Models\MasterWilayah;
 use App\Models\MataAnggaran;
 use App\Models\Mitra;
 use App\Models\NaskahDefault;
 use App\Models\Pengelola;
+use App\Models\RateTranslok;
+use App\Models\SkTranslok;
 use App\Models\TargetSerapanAnggaran;
 use App\Models\TataNaskah;
 use App\Models\Template;
@@ -72,6 +75,15 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(
             file_get_contents(database_path().'/dump_sql/kode_banks.sql')
         );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/master_wilayahs.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/rate_transloks.sql')
+        );
+        DB::unprepared(
+            file_get_contents(database_path().'/dump_sql/sk_transloks.sql')
+        );
         DataPegawai::cache()->updateAll();
         DerajatNaskah::cache()->updateAll();
         Dipa::cache()->updateAll();
@@ -95,5 +107,8 @@ class DatabaseSeeder extends Seeder
         UnitKerja::cache()->updateAll();
         User::cache()->updateAll();
         KodeBank::cache()->updateAll();
+        MasterWilayah::cache()->updateAll();
+        SkTranslok::cache()->updateAll();
+        RateTranslok::cache()->updateAll();
     }
 }

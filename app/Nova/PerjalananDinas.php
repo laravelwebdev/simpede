@@ -131,19 +131,18 @@ class PerjalananDinas extends Resource
                     }),
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')
-                ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Kembali', 'tanggal_kembali')
-                ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
                 ->searchable()
                 ->hideFromIndex()
                 ->rules('required'),
-            Text::make('Mata Anggaran', 'mataAmggaran.mak')
+            BelongsTo::make('Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+                ->searchable()
                 ->hideFromIndex()
-                ->readonly(),
-            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
+                ->rules('required'),
+HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 
         ];
     }

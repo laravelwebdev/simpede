@@ -19,7 +19,7 @@ class MasterWilayah extends Model
         return [
             CacheEntity::make('all')
                 ->cache(function () {
-                    return DataPegawai::all();
+                    return MasterWilayah::all();
                 }),
         ];
     }

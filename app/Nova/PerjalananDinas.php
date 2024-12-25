@@ -98,7 +98,6 @@ class PerjalananDinas extends Resource
                     ->withSubtitles()
                     ->nullable()
                     ->help('kosongkan jika ingin membuat nomor baru secara otomatis')
-                    // ->canSee(fn () => empty($this->stNaskahKeluar))
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

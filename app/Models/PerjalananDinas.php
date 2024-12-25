@@ -110,7 +110,11 @@ class PerjalananDinas extends Model
 
         static::deleting(function (PerjalananDinas $perjalanan) {
             $perjalanan->daftarPesertaPerjalanan->each->delete();
-            NaskahKeluar::destroy([$perjalanan->st_naskah_keluar_id, $perjalanan->spd_naskah_keluar_id]);
+            $jumlah = PerjalananDinas::where('st_naskah_keluar_id', $perjalanan->st_naskah_keluar_id)->count();
+            if ($jumlah === 1) {
+                NaskahKeluar::destroy($perjalanan->st_naskah_keluar_id);
+            }
+            NaskahKeluar::destroy($perjalanan->spd_naskah_keluar_id);
         });
     }
 }

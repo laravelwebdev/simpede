@@ -8,6 +8,7 @@ use App\Models\Dipa;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -20,6 +21,7 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -196,7 +198,13 @@ class KerangkaAcuan extends Resource
                ->showInline()
                ->showOnDetail()
                ->confirmButtonText('Tambahkan')
-               ->canSee(fn ($request) => Helper::hasAkun($request->resourceId, ['524111', '524113', '524114', '524119']))
+               ->canSee(function ($request) {
+                   if ($request instanceof ActionRequest) {
+                       return true;
+                   }
+
+                   return $this->resource instanceof Model && Helper::hasAkun($this->id, ['524111', '524113', '524114', '524119']);
+               })
                ->exceptOnIndex();
         }
 

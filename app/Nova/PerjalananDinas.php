@@ -11,7 +11,6 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
-use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -73,6 +72,7 @@ class PerjalananDinas extends Resource
             Select::make('Jenis Perjalanan', 'jenis')
                 ->options(Helper::$jenis_perjalanan)
                 ->rules('required')
+                ->hideFromIndex()
                 ->displayUsingLabels(),
             Stack::make('Nomor/Tanggal Surat Tugas', 'tanggal_st', [
                 BelongsTo::make('Nomor:', 'stNaskahKeluar', 'App\Nova\NaskahKeluar'),
@@ -138,8 +138,10 @@ class PerjalananDinas extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
                 ->searchable()
+                ->hideFromIndex()
                 ->rules('required'),
             Text::make('Mata Anggaran', 'mataAmggaran.mak')
+                ->hideFromIndex()
                 ->readonly(),
             HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 

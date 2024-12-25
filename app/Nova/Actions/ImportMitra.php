@@ -67,11 +67,16 @@ class ImportMitra extends Action
     public function fields(NovaRequest $request)
     {
         return [
+            Heading::make('Import Data Mitra dari Aplikasi SOBAT'),
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
-                ->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('Gunakan File Excel Export Mitra dari Aplikasi SOBAT'),
+                ->help('File didapat dari hasil export Data Mitra dari Aplikasi SOBAT dengan format excel'),
+            Heading::make('Import Data NIK Mitra'),
+            File::make('File', 'file_nik')
+                ->rules('required', 'mimes:xlsx')
+                ->acceptedTypes('.xlsx')
+                ->help('Template dapat diunduh pada link berikut: <a href="'.route('dump-download', ['filename' => 'template-import-nik-mitra.xlsx']).'">Unduh Template</a>'),
         ];
     }
 }

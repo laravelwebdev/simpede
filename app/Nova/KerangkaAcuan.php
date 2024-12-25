@@ -195,8 +195,7 @@ class KerangkaAcuan extends Resource
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
            AddPerjalananDinas::make()
-               ->showInline()
-               ->showOnDetail()
+               ->onlyInline()
                ->confirmButtonText('Tambahkan')
                ->canSee(function ($request) {
                    if ($request instanceof ActionRequest) {

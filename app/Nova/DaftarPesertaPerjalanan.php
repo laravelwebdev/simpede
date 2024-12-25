@@ -71,9 +71,6 @@ class DaftarPesertaPerjalanan extends Resource
             Text::make('Asal', 'asal')
                 ->default(str_replace('Kabupaten ', '', config('satker.kabupaten')))
                 ->rules('required'),
-            Text::make('Tujuan', 'tujuan')
-                ->default('Banjarbaru')
-                ->rules('required'),
             Select::make('Angkutan')
                 ->searchable()
                 ->rules('required')

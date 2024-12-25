@@ -16,10 +16,7 @@ return new class extends Migration
             $table->date('tanggal_kuitansi')->nullable();
             $table->text('spesifikasi')->nullable();
             $table->string('angkutan', 20)->nullable();
-            $table->date('tanggal_berangkat')->nullable();
-            $table->date('tanggal_kembali')->nullable();
             $table->string('asal', 80)->nullable();
-            $table->string('tujuan', 80)->nullable();
             $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
             $table->mediumInteger('perjalanan_dinas_id')->nullable()->unsigned();
             $table->mediumInteger('user_id')->nullable()->unsigned();

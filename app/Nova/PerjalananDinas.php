@@ -17,7 +17,7 @@ use Laravel\Nova\Panel;
 
 class PerjalananDinas extends Resource
 {
-    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'tujuanMasterWilayah', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala', 'mataAnggaran'];
+    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'tujuanMasterWilayah', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala', 'mataAnggaran', 'kerangkaAcuan.anggaranKerangkaAcuan'];
 
     /**
      * The model the resource corresponds to.
@@ -145,7 +145,7 @@ class PerjalananDinas extends Resource
                 ->hideFromIndex()
                 ->rules('required')
                 ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
-                    return $query->whereIn('id', $this->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
+                    return $query->whereIn('id', $this->kerangkaAcuan->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
                 }),
 HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 

@@ -106,7 +106,8 @@ class PerjalananDinas extends Resource
                         if (empty($formData->stNaskahKeluar)) {
                             $field->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today');
                         } else {
-                            $field->hide();
+                            $field->hide()
+                            ->setValue($formData->stNaskahKeluar->tanggal);
                         }
                     })
                     ->onlyOnForms(),
@@ -116,8 +117,7 @@ class PerjalananDinas extends Resource
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
                     ->show()
                     ->dependsOn(['tanggal_st', 'stNaskahKeluar'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $tanggal = $formData->stNaskahKeluar ? $formData->stNaskahKeluar->tanggal : $formData->tanggal_st;
-                        $field->options(Helper::setOptionsKodeArsip($tanggal));
+                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
                         if (empty($formData->stNaskahKeluar)) {
                             $field->rules('required');
                         } else {

@@ -72,7 +72,7 @@ class PerjalananDinas extends Model
                 $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
                 $naskahkeluar->tujuan = 'Pelaksana Perjalanan Dinas';
                 $naskahkeluar->perihal = 'Surat Tugas '.$perjalanan->uraian;
-                $naskahkeluar->generate = 'A';
+                $naskahkeluar->generate = 'M';
                 $naskahkeluar->save();
                 $perjalanan->st_naskah_keluar_id = $naskahkeluar->id;
             } else {
@@ -110,10 +110,6 @@ class PerjalananDinas extends Model
 
         static::deleting(function (PerjalananDinas $perjalanan) {
             $perjalanan->daftarPesertaPerjalanan->each->delete();
-            $jumlah = PerjalananDinas::where('st_naskah_keluar_id', $perjalanan->st_naskah_keluar_id)->count();
-            if ($jumlah === 1) {
-                NaskahKeluar::destroy($perjalanan->st_naskah_keluar_id);
-            }
             NaskahKeluar::destroy($perjalanan->spd_naskah_keluar_id);
         });
     }

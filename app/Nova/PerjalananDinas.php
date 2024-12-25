@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\AnggaranKerangkaAcuan;
+use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\NaskahKeluar;
 use Illuminate\Database\Eloquent\Builder;
@@ -98,6 +99,9 @@ class PerjalananDinas extends Resource
                     ->withSubtitles()
                     ->nullable()
                     ->help('kosongkan jika ingin membuat nomor baru secara otomatis')
+                    ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                        return $query->whereYear('tanggal', session('year'))->where('jenis_naskah_id', JenisNaskah::cache()->get('all')->where('jenis', 'Surat Tugas')->first()->id);
+                    })
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

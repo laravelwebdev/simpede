@@ -152,7 +152,7 @@ class PerjalananDinas extends Resource
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
                         $mataAnggaranIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $formData->kerangka_acuan_id)
                             ->whereHas('mataAnggaran', function ($query)  {
-                                $query->whereIn(DB::raw('SUBSTRING(mak, 29, 6)'), Helper::$akun_perjalanan);
+                                $query->whereIn(DB::raw('SUBSTRING(mak, 30, 6)'), Helper::$akun_perjalanan);
                             })
                             ->pluck('mata_anggaran_id');
 

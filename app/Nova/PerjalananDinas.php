@@ -102,12 +102,10 @@ class PerjalananDinas extends Resource
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                    ->show()
+                    ->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today')
                     ->dependsOn('stNaskahKeluar', function (Date $field, NovaRequest $request, FormData $formData) {
-                        if (empty($formData->stNaskahKeluar)) {
-                            $field->rules('required', 'before_or_equal:tanggal_berangkat', 'before_or_equal:today');
-                        } else {
-                            $field->hide()
+                        if (! empty($formData->stNaskahKeluar)) {
+                            $field
                             ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->tanggal->format('Y-m-d'));
                         }
                     })
@@ -116,13 +114,11 @@ class PerjalananDinas extends Resource
                     ->searchable()
                     ->hideFromIndex()
                     ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
-                    ->show()
-                    ->dependsOn(['tanggal_st', 'stNaskahKeluar'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
-                        if (empty($formData->stNaskahKeluar)) {
-                            $field->rules('required');
-                        } else {
-                            $field->hide();
+                    ->rules('required')
+                    ->dependsOn('stNaskahKeluar', function (Date $field, NovaRequest $request, FormData $formData) {
+                        if (! empty($formData->stNaskahKeluar)) {
+                            $field
+                            ->setValue(NaskahKeluar::find($formData->stNaskahKeluar)->kode_arsip_id);
                         }
                     }),
                 Select::make('Penanda Tangan', 'kepala_user_id')

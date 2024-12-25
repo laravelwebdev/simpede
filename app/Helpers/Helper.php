@@ -1505,7 +1505,7 @@ class Helper
 
     public static function setOptionsMataAnggaranByAkunKerangkaAcuan($kak_id, $akun =[])
     {
-        $anggaran = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak_id);
+        $anggaran = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak_id)->all();
         if (empty($akun)) {
             return self::setOptions($anggaran, 'mak', 'mak');
         }

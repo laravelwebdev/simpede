@@ -14,6 +14,7 @@ use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
 use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
+use App\Models\KerangkaAcuan;
 use App\Models\KodeArsip;
 use App\Models\KodeBank;
 use App\Models\KodeNaskah;
@@ -1503,17 +1504,11 @@ class Helper
     }
 
 
-    public static function setOptionsMataAnggaranByAkunKerangkaAcuan($kak_id, $akun =[])
+    public function hasAkun($kak_id, array $akun): bool
     {
-        $anggaran = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak_id)->get();
-        if (empty($akun)) {
-            return self::setOptions($anggaran, 'mak', 'mak');
-        }
-        $anggaran = $anggaran->filter(function ($item) use ($akun) {
-            return in_array(substr($item->mataAnggaran->mak, 29, 6), $akun);
+        return KerangkaAcuan::find($kak_id)->anggaranKerangkaAcuan->contains(function ($anggaran) use ($akun) {
+            return in_array(substr($anggaran->mataAnggaran->mak, 29, 6), $akun);
         });
-
-        return self::setOptions($anggaran, 'mak', 'mak');
     }
 
 

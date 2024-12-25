@@ -18,13 +18,6 @@ class AddPerjalananDinas extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    protected $kak_id;
-
-    public function __construct($kak_id)
-    {
-        $this->kak_id = $kak_id;
-    }
-
     public function name()
     {
         return 'Tambahkan Perjalalan Dinas';
@@ -61,10 +54,6 @@ class AddPerjalananDinas extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Mata Anggaran', 'mata_anggaran_id')
-                ->options(Helper::setOptionsMataAnggaranByAkunKerangkaAcuan($this->kak_id, []))
-                ->displayUsingLabels()
-                ->rules('required'),
         ];
     }
 }

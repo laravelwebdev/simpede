@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\KodeArsip;
+use Illuminate\Database\Query\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -140,8 +141,12 @@ class PerjalananDinas extends Resource
                 ->rules('required'),
             BelongsTo::make('Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
                 ->searchable()
+                ->withSubtitles()
                 ->hideFromIndex()
-                ->rules('required'),
+                ->rules('required')
+                ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                    return $query->whereIn('id', $this->anggaranKerangkaAcuan->pluck('mata_anggaran_id'));
+                }),
 HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 
         ];

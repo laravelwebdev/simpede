@@ -76,7 +76,7 @@ class PerjalananDinas extends Model
                 $naskahkeluar->save();
                 $perjalanan->st_naskah_keluar_id = $naskahkeluar->id;
             } else {
-                if ($perjalanan->isDirty(['tanggal_perjalanan', 'st_kode_arsip_id'])) {
+                if ($perjalanan->isDirty(['tanggal_st', 'st_kode_arsip_id'])) {
                     $naskahkeluar = NaskahKeluar::where('id', $perjalanan->st_naskah_keluar_id)->first();
                     $naskahkeluar->tanggal = $perjalanan->tanggal_st;
                     $naskahkeluar->kode_arsip_id = $perjalanan->st_kode_arsip_id;
@@ -99,7 +99,7 @@ class PerjalananDinas extends Model
                 $naskahkeluar->save();
                 $perjalanan->spd_naskah_keluar_id = $naskahkeluar->id;
             } else {
-                if ($perjalanan->isDirty(['tanggal_perjalanan', 'spd_kode_arsip_id'])) {
+                if ($perjalanan->isDirty(['tanggal_spd', 'spd_kode_arsip_id'])) {
                     $naskahkeluar = NaskahKeluar::where('id', $perjalanan->spd_naskah_keluar_id)->first();
                     $naskahkeluar->tanggal = $perjalanan->tanggal_spd;
                     $naskahkeluar->kode_arsip_id = $perjalanan->spd_kode_arsip_id;

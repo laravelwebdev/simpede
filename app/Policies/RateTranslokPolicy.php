@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class MasterWilayahPolicy
+class RateTranslokPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -12,7 +12,7 @@ class MasterWilayahPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('all')
             ->get();
     }
 
@@ -31,9 +31,7 @@ class MasterWilayahPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -41,9 +39,7 @@ class MasterWilayahPolicy
      */
     public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**
@@ -51,9 +47,7 @@ class MasterWilayahPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**

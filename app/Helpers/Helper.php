@@ -17,6 +17,7 @@ use App\Models\KodeArsip;
 use App\Models\KodeBank;
 use App\Models\KodeNaskah;
 use App\Models\MasterPersediaan;
+use App\Models\MasterWilayah;
 use App\Models\MataAnggaran;
 use App\Models\Mitra;
 use App\Models\NaskahKeluar;
@@ -49,6 +50,12 @@ class Helper
         'Angkutan Umum' => 'Angkutan Umum',
         'Kendaraan Dinas' => 'Kendaraan Dinas',
         'Lainnya' => 'Lainnya',
+    ];
+
+    public static $translok_type = [
+        '1' => 'Kabupaten - Kecamatan',
+        '2' => 'Kabupaten - Desa',
+        '3' => 'Kecamatan - Desa',
     ];
 
     public static $akun_persediaan = [
@@ -725,6 +732,17 @@ class Helper
     {
         return MataAnggaran::cache()->get('all')->where('id', $id)->first();
     }
+
+    public static function getMasterWilayahById($id)
+    {
+        return MasterWilayah::cache()->get('all')->where('id', $id)->first();
+    }
+
+    public static function getMasterWilayahByKode($kode)
+    {
+        return MasterWilayah::cache()->get('all')->where('kode', $kode)->first();
+    }
+
 
     /**
      * Memeriksa apakah anggaran memuat akun honor output kegiatan.

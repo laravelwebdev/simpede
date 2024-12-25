@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
@@ -22,6 +23,11 @@ class SkTranslok extends Model
                     return SkTranslok::all();
                 }),
         ];
+    }
+
+    public function rateTransloks(): HasMany
+    {
+        return $this->hasMany(RateTranslok::class);
     }
 
 }

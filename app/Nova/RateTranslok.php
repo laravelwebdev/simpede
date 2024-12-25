@@ -3,39 +3,37 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Helpers\Policy;
-use App\Nova\Actions\ImportRateTranslok;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class SkTranslok extends Resource
-{ 
-    public static $with = ['rateTransloks'];
+class RateTranslok extends Resource
+{
+    public static $with = ['asalMasterWilayah', 'tujuanMasterWilayah', 'skTranslok'];
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\SkTranslok>
+     * @var class-string<\App\Models\RateTranslok>
      */
-    public static $model = \App\Models\SkTranslok::class;
+    public static $model = \App\Models\RateTranslok::class;
 
     public static function label()
     {
-        return 'SK Translok';
+        return 'Rate Translok';
     }
+
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nomor';
+    public static $title = 'asalMasterWilayah.wilayah'.' - '. 'tujuanMasterWilayah.wilayah';
 
-    public function subtitle()
-    {
-        return $this->tahun;
+    public function subtitle(){
+        return $this->rate;
     }
 
     /**
@@ -44,38 +42,40 @@ class SkTranslok extends Resource
      * @var array
      */
     public static $search = [
-        'nomor', 'tahun',
+        'asalMasterWilayah.wilayah', 'tujuanMasterWilayah.wilayah'
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Tahun berlaku', 'tahun')
+            Select::make('Tipe', 'type')
                 ->sortable()
                 ->searchable()
                 ->rules('required')
-                ->options(Helper::setOptionTahunDipa())
-                ->creationRules('unique:sk_transloks,tahun')
-                ->updateRules('unique:sk_transloks,tahun,{{resourceId}}'),
-            Text::make('Nomor', 'nomor')
+                ->displayUsingLabels()
+                ->filterable()
+                ->options(Helper::$translok_type),
+            Text::make('Asal', 'asalMasterWilayah.wilayah')
                 ->sortable()
                 ->rules('required'),
-            Date::make('Tanggal SK', 'tanggal')
+            Text::make('Tujuan', 'tujuanMasterWilayah.wilayah')
                 ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
-            HasMany::make('Rate Translok', 'rateTransloks', RateTranslok::class),
+            Currency::make('Rate', 'rate')
+                ->rules('required'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -86,6 +86,7 @@ class SkTranslok extends Resource
     /**
      * Get the filters available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -96,6 +97,7 @@ class SkTranslok extends Resource
     /**
      * Get the lenses available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -106,19 +108,11 @@ class SkTranslok extends Resource
     /**
      * Get the actions available for the resource.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $actions[] =
-                ImportRateTranslok::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-
-        return $actions;
+        return [];
     }
 }

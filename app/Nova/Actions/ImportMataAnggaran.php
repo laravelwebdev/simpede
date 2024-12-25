@@ -12,10 +12,10 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportMataAnggaran extends Action
@@ -111,22 +111,21 @@ class ImportMataAnggaran extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Panel::make('Mata Anggaran Monsakti', [
-                File::make('File')
-                    ->rules('required', 'mimes:csv')
-                    ->acceptedTypes('.csv')
-                    ->help('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
-                Text::make('Kode Satker/Kementrian', 'kode')
-                    ->rules('required')
-                    ->default('054.01'),
-                Number::make('Revisi ke- ', 'revisi')
-                    ->rules('required', 'gt:0')
-                    ->step(1),
-                Date::make('Tanggal Revisi', 'tanggal_revisi')
-                    ->rules('required'),
-                Boolean::make('Revisi RPD Triwulanan?', 'update_rpd')
-                    ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap triwulan'),
-            ]),
+            Heading::make('Import Mata Anggaran Monsakti'),
+            File::make('File')
+                ->rules('required', 'mimes:csv')
+                ->acceptedTypes('.csv')
+                ->help('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
+            Text::make('Kode Satker/Kementrian', 'kode')
+                ->rules('required')
+                ->default('054.01'),
+            Number::make('Revisi ke- ', 'revisi')
+                ->rules('required', 'gt:0')
+                ->step(1),
+            Date::make('Tanggal Revisi', 'tanggal_revisi')
+                ->rules('required'),
+            Boolean::make('Revisi RPD Triwulanan?', 'update_rpd')
+                ->help('Centang jika revisi merupakan revisi pemutakhiran RPD tiap triwulan'),
         ];
     }
 }

@@ -33,7 +33,7 @@ class RateTranslok extends Resource
     public static $title = 'asalMasterWilayah.wilayah';
 
     public function subtitle(){
-        return $this->rate;
+        return Helper::formatUang($this->rate);
     }
 
     /**

@@ -30,7 +30,7 @@ class RateTranslok extends Resource
      *
      * @var string
      */
-    public static $title = 'asalMasterWilayah.wilayah'.' ke '. 'tujuanMasterWilayah.wilayah';
+    public static $title = 'id';
 
     public function subtitle(){
         return $this->rate;

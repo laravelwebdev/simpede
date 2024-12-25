@@ -95,6 +95,7 @@ class PerjalananDinas extends Resource
                 BelongsTo::make('Surat Tugas', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
                     ->searchable()
                     ->withSubtitles()
+                    ->nullable()
                     ->help('kosongkan jika ingin membuat nomor baru secara otomatis')
                     ->hideFromIndex(),
                 Date::make('Tanggal Surat Tugas', 'tanggal_st')

@@ -36,6 +36,7 @@ use App\Nova\RapatInternal;
 use App\Nova\RealisasiAnggaran;
 use App\Nova\RewardPegawai;
 use App\Nova\ShareLink;
+use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\UnitKerja;
@@ -143,6 +144,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KepkaMitra::class),
                     MenuItem::resource(MasterBarangPemeliharaan::class),
                     MenuItem::resource(MasterPersediaan::class),
+                    MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
                     MenuItem::resource(UserEksternal::class),
                 ])->icon('book-open'),

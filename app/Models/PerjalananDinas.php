@@ -23,14 +23,14 @@ class PerjalananDinas extends Model
         return $this->belongsTo(NaskahKeluar::class, 'spd_naskah_keluar_id');
     }
 
+    public function mataAnggaran(): BelongsTo
+    {
+        return $this->belongsTo(MataAnggaran::class);
+    }
+
     public function stNaskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class, 'st_naskah_keluar_id');
-    }
-
-    public function anggaranKerangkaAcuan(): BelongsTo
-    {
-        return $this->belongsTo(AnggaranKerangkaAcuan::class);
     }
 
     public function kerangkaAcuan(): BelongsTo
@@ -41,6 +41,11 @@ class PerjalananDinas extends Model
     public function ppk(): BelongsTo
     {
         return $this->belongsTo(User::class, 'ppk_user_id');
+    }
+
+    public function tujuanMasterWilayah(): BelongsTo
+    {
+        return $this->belongsTo(MasterWilayah::class, 'tujuan_master_wilayah_id');
     }
 
     public function kepala(): BelongsTo

@@ -93,18 +93,14 @@ class KerangkaAcuan extends Model
                     $pemeliharaan->rincian = $kak->rincian;
                     $pemeliharaan->save();
                 }
-                $perjalanan = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->first();
-                if ($perjalanan) {
-                    $perjalanan->tanggal_berangkat = $kak->awal;
-                    $perjalanan->tanggal_kembali = $kak->akhir;
-                    $perjalanan->uraian = $kak->rincian;
-                    $perjalanan->save();
-                }
             }
         });
 
         static::deleting(function (KerangkaAcuan $kak) {
             $kak->deleteAssociatedRecords();
+            $ids = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->pluck('id');
+            PerjalananDinas::destroy($ids);
+
         });
 
         static::created(function (KerangkaAcuan $kak) {

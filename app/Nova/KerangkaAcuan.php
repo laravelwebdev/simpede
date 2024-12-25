@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
+use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
@@ -188,6 +189,14 @@ class KerangkaAcuan extends Resource
                 ->showOnDetail()
                 ->confirmButtonText('Unduh')
                 ->exceptOnIndex();
+        }
+        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            $actions[] =
+           AddPerjalananDinas::make()
+               ->showInline()
+               ->showOnDetail()
+               ->confirmButtonText('Unduh')
+               ->exceptOnIndex();
         }
 
         return $actions;

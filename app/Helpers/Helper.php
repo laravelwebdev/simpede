@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\AnggaranKerangkaAcuan;
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
 use App\Models\DataPegawai;
@@ -58,6 +59,18 @@ class Helper
         '3' => 'Kecamatan - Desa',
     ];
 
+    public static $jenis_perjalanan = [
+        '1' => 'Perjalanan Dinas Biasa',
+        '2' => 'Translok Pendataan',
+        '3' => 'Translok Role Playing',
+        '4' => 'Translok Pelatihan',
+        '5' => 'Paket Meeting Halfday',
+        '6' => 'Paket Meeting Fullday',
+        '7' => 'Paket Meeting Fullboard Dalam Kota',
+        '8' => 'Paket Meeting Fullboard Luar Kota',
+    ];
+
+
     public static $akun_persediaan = [
         '521811',
         '521813',
@@ -100,17 +113,6 @@ class Helper
         'Kontrak Mitra Bulanan' => 'Kontrak Mitra Bulanan',
         'Kontrak Mitra AdHoc' => 'Kontrak Mitra AdHoc',
         'Honor Pegawai' => 'Honor Pegawai',
-    ];
-
-    public static $akun_perjalanan = [
-        '524111',
-        '524112',
-        '524113',
-        '524114',
-        '524119',
-        '524211',
-        '524212',
-        '524219',
     ];
 
     public static $akun_honor = [
@@ -769,11 +771,6 @@ class Helper
         return (self::isAkunHonor($mak_old) && ! self::isAkunHonor($mak_new)) || (self::isAkunHonor($mak_old) && self::isAkunHonor($mak_new) && $mak_old != $mak_new);
     }
 
-    public static function isAkunPerjalananChanged($mak_old, $mak_new)
-    {
-        return (self::isAkunPerjalanan($mak_old) && ! self::isAkunPerjalanan($mak_new)) || (self::isAkunPerjalanan($mak_old) && self::isAkunPerjalanan($mak_new) && $mak_old != $mak_new);
-    }
-
     /**
      * Memeriksa apakah kode akun merupakan akun persediaan.
      *
@@ -787,12 +784,6 @@ class Helper
         return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
     }
 
-    public static function isAkunPerjalanan(string $mata_anggaran_id): bool
-    {
-        $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
-
-        return $mak == in_array(substr($mak, -6), self::$akun_perjalanan);
-    }
 
     public static function isAkunPemeliharaan(string $mata_anggaran_id): bool
     {
@@ -1511,16 +1502,20 @@ class Helper
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 
-    /**
-     * Membuat option value select field Mata Anggaran berdasarkan dipa_id yang diberikan.
-     *
-     * @param  int  $dipa_id
-     * @return array
-     */
-    public static function setOptionsMataAnggaran($dipa_id)
+
+    public static function setOptionsMataAnggaranByAkunKerangkaAcuan($kak_id, $akun =[])
     {
-        return self::setOptions(MataAnggaran::cache()->get('all')->where('dipa_id', $dipa_id), 'mak', 'mak');
+        $anggaran = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $kak_id);
+        if (empty($akun)) {
+            return self::setOptions($anggaran, 'mak', 'mak');
+        }
+        $anggaran->filter(function ($item) use ($akun) {
+            return in_array(substr($item->mataAnggaran->mak, 29, 6), $akun);
+        });
+
+        return self::setOptions($anggaran, 'mak', 'mak');
     }
+
 
     public static function setOptionsPemenang($reward_pegawai_id)
     {

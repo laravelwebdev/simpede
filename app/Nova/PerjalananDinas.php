@@ -11,12 +11,13 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 class PerjalananDinas extends Resource
 {
-    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'anggaranKerangkaAcuan', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala'];
+    public static $with = ['spdNaskahKeluar', 'stNaskahKeluar', 'tujuanMasterWilayah', 'kerangkaAcuan', 'daftarPesertaPerjalanan', 'ppk', 'kepala', 'mataAnggaran'];
 
     /**
      * The model the resource corresponds to.
@@ -69,6 +70,10 @@ class PerjalananDinas extends Resource
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
+            Select::make('Jenis Perjalanan', 'jenis')
+                ->options(Helper::$jenis_perjalanan)
+                ->rules('required')
+                ->displayUsingLabels(),
             Stack::make('Nomor/Tanggal Surat Tugas', 'tanggal_st', [
                 BelongsTo::make('Nomor:', 'stNaskahKeluar', 'App\Nova\NaskahKeluar'),
                 Date::make('Tanggal:', 'tanggal_st')
@@ -131,6 +136,19 @@ class PerjalananDinas extends Resource
             Date::make('Tanggal Kembali', 'tanggal_kembali')
                 ->readonly()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
+                ->searchable()
+                ->rules('required'),
+            BelongsTo::make('Mata Anggaran')
+                ->searchable()
+                ->rules('required')
+                ->withSubtitles()
+                ->dependsOn('kerangkaAcuan', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        return $query->whereIn('id', $formData->kerangkaAcuan->mataAnggaran->pluck('id'));
+                    });
+                }),
+
             HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan'),
 
         ];

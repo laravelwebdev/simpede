@@ -28,8 +28,7 @@ class Resource extends Command
         $modelNama = $this->argument('modelName');
 
         $this->call('make:model', ['name' => $modelNama, '-m' => true]);
-        $this->call('make:policy', ['name' => $modelNama . 'Policy']);
+        $this->call('make:policy', ['name' => $modelNama.'Policy']);
         $this->call('nova:resource', ['name' => $modelNama]);
-
     }
 }

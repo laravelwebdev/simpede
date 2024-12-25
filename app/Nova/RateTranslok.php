@@ -32,7 +32,8 @@ class RateTranslok extends Resource
      */
     public static $title = 'title';
 
-    public function subtitle(){
+    public function subtitle()
+    {
         return Helper::formatUang($this->rate);
     }
 
@@ -42,7 +43,7 @@ class RateTranslok extends Resource
      * @var array
      */
     public static $search = [
-        'asalMasterWilayah.wilayah', 'tujuanMasterWilayah.wilayah'
+        'asalMasterWilayah.wilayah', 'tujuanMasterWilayah.wilayah',
     ];
 
     /**

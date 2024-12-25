@@ -10,6 +10,7 @@ use Mostafaznv\LaraCache\Traits\LaraCache;
 class RateTranslok extends Model
 {
     use LaraCache;
+
     public static function cacheEntities(): array
     {
         return [
@@ -26,6 +27,7 @@ class RateTranslok extends Model
         'tujuan_master_wilayah_id',
 
     ];
+
     public function getTitleAttribute()
     {
         return "{$this->asalMasterWilayah->wilayah} - {$this->tujuanMasterWilayah->wilayah} ({$this->skTranslok->tahun})";
@@ -45,7 +47,4 @@ class RateTranslok extends Model
     {
         return $this->belongsTo(MasterWilayah::class, 'tujuan_master_wilayah_id');
     }
-
-
-    
 }

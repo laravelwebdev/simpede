@@ -29,5 +29,4 @@ class SkTranslok extends Model
     {
         return $this->hasMany(RateTranslok::class);
     }
-
 }

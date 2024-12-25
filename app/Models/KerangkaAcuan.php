@@ -100,7 +100,6 @@ class KerangkaAcuan extends Model
             $kak->deleteAssociatedRecords();
             $ids = PerjalananDinas::where('kerangka_acuan_id', $kak->id)->pluck('id');
             PerjalananDinas::destroy($ids);
-
         });
 
         static::created(function (KerangkaAcuan $kak) {

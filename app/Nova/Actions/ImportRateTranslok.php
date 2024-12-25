@@ -32,7 +32,7 @@ class ImportRateTranslok extends Action
         RateTranslok::cache()->disable();
         RateTranslok::where('sk_translok_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) use ($model, $fields) {
-            switch ($fields) {
+            switch ($fields->type) {
                 case '1':
                     $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kabupaten']), 'id');
                     $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Kecamatan']), 'id');

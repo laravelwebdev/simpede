@@ -2,11 +2,13 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Models\Mitra;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
@@ -52,7 +54,12 @@ class ImportMitra extends Action
             }
         });
         $ids = Mitra::where('updated_at', null)->get()->pluck('id');
-        Mitra::destroy($ids);
+        Mitra::destroy($ids);        
+        (new FastExcel)->import($fields->file_nik, function ($row) use ($model) {
+            Mitra::where('kepka_mitra_id', $model->id)
+                ->where('email', $row['Email'])
+                ->update(['nik' => $row['NIK']]);
+        });
         Mitra::cache()->enable();
         Mitra::cache()->updateAll();
 
@@ -76,7 +83,7 @@ class ImportMitra extends Action
             File::make('File', 'file_nik')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
-                ->help('Template dapat diunduh pada link berikut: <a href="'.route('dump-download', ['filename' => 'template-import-nik-mitra.xlsx']).'">Unduh Template</a>'),
+                ->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import NIK Mitra')['filename']).'">Unduh Template</a>'),
         ];
     }
 }

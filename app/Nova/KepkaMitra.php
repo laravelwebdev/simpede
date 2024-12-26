@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMitra;
-use App\Nova\Actions\ImportNikMitra;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -113,12 +112,6 @@ class KepkaMitra extends Resource
                     ->showOnDetail()
                     ->exceptOnIndex()
                     ->confirmButtonText('Impor');
-            $actions[] =
-            ImportNikMitra::make()
-                ->showInline()
-                ->showOnDetail()
-                ->exceptOnIndex()
-                ->confirmButtonText('Impor');
         }
 
         return $actions;

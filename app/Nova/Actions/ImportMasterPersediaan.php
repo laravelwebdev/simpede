@@ -14,7 +14,6 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -82,12 +81,11 @@ class ImportMasterPersediaan extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
+                ->acceptedTypes('.xlsx')
+                ->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Master Persediaan')['filename']).'">Unduh Template</a>'),
             Boolean::make('Reset Saldo Awal?', 'reset_saldo')
                 ->default(false)
                 ->help('Hanya centang jika Anda mengerti apa yang dilakukan. Hanya dipakai pada saat awal implementasi Aplikasi'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Master Persediaan')['filename']).'">Unduh Template</a>')
-                ->asHtml(),
         ];
     }
 }

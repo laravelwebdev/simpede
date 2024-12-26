@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -62,9 +61,7 @@ class ImportKodeArsip extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Kode Arsip')['filename']).'">Unduh Template</a>')
-                ->asHtml(),
+                ->acceptedTypes('.xlsx')->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Kode Arsip')['filename']).'">Unduh Template</a>'),
         ];
     }
 }

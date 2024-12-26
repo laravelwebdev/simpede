@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -80,8 +79,8 @@ class ImportRealisasiAnggaran extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Kosongkan Pilihan Tanggal).'),
+                ->acceptedTypes('.xlsx')
+                ->help('File import diambil mon sakti (Pembayaran - Monitoring Detail Transaksi FA 16 Segmen Versi SP2D - Kosongkan Pilihan Tanggal).'),
         ];
     }
 }

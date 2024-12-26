@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -70,8 +69,8 @@ class ImportMasterBarangPemeliharaan extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('File excel diambil dari Hasil Export Aplikasi SIMAN menu Master Aset - Daftar Aset Aktif'),
+                ->acceptedTypes('.xlsx')
+                ->help('File excel diambil dari Hasil Export Aplikasi SIMAN menu Master Aset - Daftar Aset Aktif'),
         ];
     }
 }

@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -82,8 +81,8 @@ class ImportRateTranslok extends Action
                 ->options(Helper::$translok_type),
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('Template diunduh dari web iplan BPS'),
+                ->acceptedTypes('.xlsx')
+                ->help('Template diunduh dari web iplan BPS'),
         ];
     }
 }

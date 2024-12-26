@@ -60,7 +60,7 @@ class SinkronisasiDataAnggaran extends Action
         $filePath = $fields->file->path();
         $newFilePath = $filePath.'.'.$fields->file->getClientOriginalExtension();
         move_uploaded_file($filePath, $newFilePath);
-        
+
         MataAnggaran::cache()->disable();
         MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);

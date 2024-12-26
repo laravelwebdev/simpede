@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -69,8 +68,8 @@ class ImportRekapPresensi extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
-                ->acceptedTypes('.xlsx')->help('Data akan diperbaharui dengan data baru'),
-            Heading::make('Gunakan File Excel Export dari Aplikasi BOS (Menu Kepegawaian->Cetak Presensi->Rekap Presensi Unit Kerja'),
+                ->acceptedTypes('.xlsx')
+                ->help('Gunakan File Excel Export dari Aplikasi BOS (Menu Kepegawaian->Cetak Presensi->Rekap Presensi Unit Kerja'),
         ];
     }
 }

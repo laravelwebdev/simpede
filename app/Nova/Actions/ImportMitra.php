@@ -54,7 +54,7 @@ class ImportMitra extends Action
             }
         });
         $ids = Mitra::where('updated_at', null)->get()->pluck('id');
-        Mitra::destroy($ids);        
+        Mitra::destroy($ids);
         (new FastExcel)->import($fields->file_nik, function ($row) use ($model) {
             Mitra::where('kepka_mitra_id', $model->id)
                 ->where('email', $row['Email'])

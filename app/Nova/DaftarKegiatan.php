@@ -4,8 +4,8 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
-use App\Models\UnitKerja;
-use App\Models\User;
+use App\Nova\UnitKerja;
+use App\Nova\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;

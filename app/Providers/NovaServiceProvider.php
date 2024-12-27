@@ -81,7 +81,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Panduan', [
                     MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
                         ->openInNewTab(),
-                ])->icon('light-bulb'),
+                ])
+                    ->collapsable()
+                    ->icon('light-bulb'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
@@ -122,22 +124,30 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(MasterWilayah::class),
                     MenuItem::resource(Template::class),
                     MenuItem::resource(UnitKerja::class),
-                ])->icon('lock-open'),
+                ])
+                    ->collapsable()
+                    ->icon('lock-open'),
 
                 MenuSection::make('Anggaran', [
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
-                ])->icon('currency-dollar'),
+                ])
+                    ->collapsable()
+                    ->icon('currency-dollar'),
 
                 MenuSection::make('Dokumentasi', [
                     MenuItem::resource(DokumentasiKegiatan::class),
                     MenuItem::resource(DokumentasiLink::class),
-                ])->icon('database'),
+                ])
+                    ->collapsable()
+                    ->icon('database'),
 
                 MenuSection::make('Kepegawaian', [
                     MenuItem::resource(User::class),
                     MenuItem::resource(RewardPegawai::class),
-                ])->icon('user-group'),
+                ])
+                    ->collapsable()
+                    ->icon('user-group'),
 
                 MenuSection::make('Referensi', [
                     MenuItem::resource(HargaSatuan::class),
@@ -147,11 +157,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
                     MenuItem::resource(UserEksternal::class),
-                ])->icon('book-open'),
+                ])
+                    ->collapsable()
+                    ->icon('book-open'),
 
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),
-                ])->icon('share'),
+                ])
+                    ->collapsable()
+                    ->icon('share'),
             ];
         });
         Nova::withBreadcrumbs();

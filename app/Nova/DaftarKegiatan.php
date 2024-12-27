@@ -125,7 +125,7 @@ class DaftarKegiatan extends Resource
                         $kegiatan->save();
                     }
                 }
-            }),
+            })->standalone(),
         ];
     }
 }

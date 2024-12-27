@@ -89,7 +89,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::link(__('Kalender Kegiatan'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
                 ])
                     ->collapsable()
-                    ->icon('calendar-days'),
+                    ->icon('calendar'),
 
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [

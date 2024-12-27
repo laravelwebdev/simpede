@@ -75,9 +75,10 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             'Pelatihan' => [
                 'background-color' => '#FFD700',
             ],
-            'Pengawasan' => [
+            'Lainnya' => [
                 'background-color' => '#FF0000',
             ],
+
         ];
     }
 

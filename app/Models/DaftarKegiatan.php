@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class DaftarKegiatan extends Model
 {
@@ -16,6 +17,11 @@ class DaftarKegiatan extends Model
         'awal' => 'datetime',
         'akhir' => 'datetime',
     ];
+
+    public function daftarKegiatanable(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     protected static function booted(): void
     {

@@ -4,18 +4,22 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
+use App\Models\UnitKerja;
+use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKegiatan extends Resource
 {
+    public static $with = ['daftarKegiatanable'];
     /**
      * The model the resource corresponds to.
      *
@@ -77,8 +81,15 @@ class DaftarKegiatan extends Resource
                             ->show()
                             ->rules('required', 'after_or_equal:awal')
                             ->setValue($formData->awal);
-                    } 
+                    }
                 }),
+            MorphTo::make('Penanggung Jawab', 'daftarKegiatanable')->types([
+                User::class,
+                UnitKerja::class,
+            ])
+            ->searchable()
+            ->withSubtitles()
+            ->rules('required'),
         ];
     }
 

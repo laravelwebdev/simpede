@@ -18,6 +18,8 @@ return new class extends Migration
             $table->mediumInteger('rapat_internal_id')->nullable()->unsigned();
             $table->dateTime('awal')->nullable();
             $table->dateTime('akhir')->nullable();
+            $table->mediumInteger('daftar_kegiatanable_id')->nullable()->unsigned();
+            $table->string('daftar_kegiatanable_type', 80)->nullable();
             $table->timestamps();
         });
     }

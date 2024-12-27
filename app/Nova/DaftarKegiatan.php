@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -69,7 +70,14 @@ class DaftarKegiatan extends Resource
                 ->rules('required'),
             Date::make('Akhir')
                 ->sortable()
-                ->rules('nullable', 'bail', 'after_or_equal:awal'),
+                ->hide()
+                ->dependsOn('jenis', function (Date $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->jenis == 'Kegiatan') {
+                        $field
+                            ->show()
+                            ->rules('required', 'after_or_equal:awal');
+                    }
+                }),
         ];
     }
 

@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\DaftarKegiatan;
-use App\Nova\User;
+use App\Nova\DaftarKegiatan;
 use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
-use Wdelfuego\NovaCalendar\Event;
 
 class CalendarDataProvider extends AbstractCalendarDataProvider
 {
@@ -13,7 +11,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     // Add the Nova resources that should be displayed on the calendar to this method
     //
     // Must return an array with string keys and string or array values;
-    // - each key is a Nova resource class name (eg: 'App/Nova/User::class')
+    // - each key is a Nova resource class name (eg: 'App/Nova/Dummy::class')
     // - each value is either:
     //
     //   1. a string containing the attribute name of a DateTime casted attribute
@@ -40,7 +38,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         return [
 
             // Events without an ending timestamp will always be shown as single-day events:
-           DaftarKegiatan::class => ['awal', 'akhir'],
+            DaftarKegiatan::class => ['awal', 'akhir'],
 
             // Events with an ending timestamp can be multi-day events:
             // SomeResource::class => ['starts_at', 'ends_at'],

@@ -61,7 +61,7 @@ class Helper
 
     public static $jenis_kegiatan = [
         'Libur' => 'Libur',
-        'Deadline' => 'Rapat',
+        'Deadline' => 'Deadline',
         'Kegiatan' => 'Kegiatan',
     ];
 

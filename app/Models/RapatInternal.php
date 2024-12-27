@@ -46,7 +46,7 @@ class RapatInternal extends Model
                 ->where('jenis', 'undangan')
                 ->first();
             $naskahkeluar = new NaskahKeluar;
-            $naskahkeluar->tanggal = $rapat->tanggal_rapat;
+            $naskahkeluar->tanggal = $rapat->tanggal;
             $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
             $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
             $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
@@ -59,7 +59,7 @@ class RapatInternal extends Model
         static::updating(function (RapatInternal $rapat) {
             if ($rapat->isDirty('tanggal_rapat')) {
                 $naskahkeluar = NaskahKeluar::where('id', $rapat->naskah_keluar_id)->first();
-                $naskahkeluar->tanggal = $rapat->tanggal_st;
+                $naskahkeluar->tanggal = $rapat->tanggal;
                 $naskahkeluar->save();
                 $kegiatan = new DaftarKegiatan;
                 $kegiatan->jenis = 'Rapat';

@@ -87,7 +87,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->collapsable()
                     ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
-                    MenuItem::link(__('Kalender Kegiatan'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
+                    MenuItem::link(__('Kalender'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
                     MenuItem::resource(DaftarKegiatan::class),
                 ])
                     ->collapsable()

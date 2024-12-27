@@ -16,4 +16,13 @@ class DaftarKegiatan extends Model
         'awal' => 'datetime',
         'akhir' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (DaftarKegiatan $daftar) {
+            if (empty($daftar->akhir)) {
+                $daftar->akhir = $daftar->awal;
+            }
+        });
+    }
 }

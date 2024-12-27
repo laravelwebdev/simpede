@@ -67,7 +67,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
                 'background-color' => '#CC0000',
             ],
             'Deadline' => [
-                'background-color' => 'F18F01',
+                'background-color' => '#F18F01',
             ],
             'Lainnya' => [
                 'background-color' => '#007E33',

@@ -3,8 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Models\DaftarKegiatan as ModelsDaftarKegiatan;
-use App\Models\DaftarKegiatan;
+use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
@@ -117,7 +116,7 @@ class DaftarKegiatan extends Resource
                 if ($response->ok()) {
                     $data = $response->json();
                     foreach ($data as $item) {
-                        $kegiatan = DaftarKegiatan::firstOrNew([
+                        $kegiatan = ModelDaftarKegiatan::firstOrNew([
                             'jenis' => 'Libur',
                             'awal' => $item['tanggal'],
                         ]);

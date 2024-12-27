@@ -71,7 +71,7 @@ class DaftarKegiatan extends Resource
             Date::make('Akhir')
                 ->sortable()
                 ->hide()
-                ->dependsOn('jenis', function (Date $field, NovaRequest $request, FormData $formData) {
+                ->dependsOn(['jenis', 'awal'], function (Date $field, NovaRequest $request, FormData $formData) {
                     if ($formData->jenis == 'Kegiatan') {
                         $field
                             ->show()

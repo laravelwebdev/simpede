@@ -76,6 +76,9 @@ class DaftarKegiatan extends Resource
                         $field
                             ->show()
                             ->rules('required', 'after_or_equal:awal');
+                    } 
+                    else {
+                        $field->setValue($formData->awal);
                     }
                 }),
         ];

@@ -114,7 +114,7 @@ class DaftarKegiatan extends Resource
             Action::using('Sinkronisasi Hari Libur', function (ActionFields $fields, Collection $models) {
                 $response = Http::get('https://dayoffapi.vercel.app/'.date('Y'));
                 if ($response->ok()) {
-                    $data = $response->json();
+                    $data = json_decode($response->json());
                     foreach ($data as $item) {
                         $kegiatan = ModelDaftarKegiatan::firstOrNew([
                             'jenis' => 'Libur',

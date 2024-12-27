@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Policy;
 use App\Nova\BastMitra;
+use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dipa;
@@ -87,6 +88,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
                     MenuItem::link(__('Kalender Kegiatan'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
+                    MenuItem::resource(DaftarKegiatan::class),
                 ])
                     ->collapsable()
                     ->icon('calendar'),

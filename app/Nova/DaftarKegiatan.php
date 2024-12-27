@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;

@@ -50,6 +50,7 @@ use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Wdelfuego\NovaCalendar\NovaCalendar;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -84,6 +85,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])
                     ->collapsable()
                     ->icon('light-bulb'),
+                MenuSection::make('Kalender', [
+                    MenuItem::link(__('Kalender Kegiatan'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
+                ])
+                    ->collapsable()
+                    ->icon('calendar-days'),
+
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('Anggaran', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
@@ -218,7 +225,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-
+            new NovaCalendar('my-calendar'),
         ];
     }
 

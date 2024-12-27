@@ -38,7 +38,8 @@
         "outl1ne/nova-simple-repeatable": "^2.2",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
-        "shuvroroy/nova-tabs": "^1.1"
+        "shuvroroy/nova-tabs": "^1.1",
+        "wdelfuego/nova-calendar": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

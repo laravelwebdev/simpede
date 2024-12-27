@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30aba2e057de44e8718c220bfb599a34",
+    "content-hash": "568add0653cd0b265f22dd92085aca9b",
     "packages": [
         {
             "name": "brick/math",
@@ -7258,6 +7258,114 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
+            "name": "wdelfuego/nova-calendar",
+            "version": "v2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wdelfuego/nova-calendar.git",
+                "reference": "06c5ceab02a896132c3a748389c4c89ce71c80a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wdelfuego/nova-calendar/zipball/06c5ceab02a896132c3a748389c4c89ce71c80a2",
+                "reference": "06c5ceab02a896132c3a748389c4c89ce71c80a2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10|^11",
+                "laravel/nova": "^4.2.4",
+                "php": "^7.4|^8.0",
+                "wdelfuego/nova-datetime": "^1.0.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wdelfuego\\NovaCalendar\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wdelfuego\\NovaCalendar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later",
+                "proprietary"
+            ],
+            "description": "A powerful event calendar Tool for Laravel's Nova 4.",
+            "keywords": [
+                "calendar",
+                "date",
+                "event-calendar",
+                "events",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/wdelfuego/nova-calendar/issues",
+                "source": "https://github.com/wdelfuego/nova-calendar/tree/v2.1.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/wdelfuego",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-11T06:17:51+00:00"
+        },
+        {
+            "name": "wdelfuego/nova-datetime",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wdelfuego/nova-datetime.git",
+                "reference": "67006e24ae7bcd728ed707d943668387511c0abc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wdelfuego/nova-datetime/zipball/67006e24ae7bcd728ed707d943668387511c0abc",
+                "reference": "67006e24ae7bcd728ed707d943668387511c0abc",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.2.4",
+                "php": "^7.4|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": [
+                        "Wdelfuego\\Nova\\DateTime\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wdelfuego\\Nova\\DateTime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Willem Vervuurt",
+                    "email": "willem@studiodelfuego.com"
+                }
+            ],
+            "description": "Makes working with DateTime fields in Laravel's Nova 4 easier",
+            "support": {
+                "issues": "https://github.com/wdelfuego/nova-datetime/issues",
+                "source": "https://github.com/wdelfuego/nova-datetime/tree/v1.1.2"
+            },
+            "time": "2022-07-18T20:57:27+00:00"
+        },
+        {
             "name": "webmozart/assert",
             "version": "1.11.0",
             "source": {
@@ -9530,12 +9638,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

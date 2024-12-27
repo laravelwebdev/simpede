@@ -88,8 +88,15 @@ class DaftarKegiatan extends Resource
                 UnitKerja::class,
             ])
             ->searchable()
+            ->hide()
             ->withSubtitles()
-            ->rules('required'),
+            ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
+                if ($formData->jenis == 'Kegiatan') {
+                    $field
+                        ->show()
+                        ->rules('required');
+                }
+            }),
         ];
     }
 

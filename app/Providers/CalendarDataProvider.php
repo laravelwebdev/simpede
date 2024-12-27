@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Nova\DaftarKegiatan;
 use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
+use Wdelfuego\NovaCalendar\Event;
 
 class CalendarDataProvider extends AbstractCalendarDataProvider
 {
@@ -59,15 +60,31 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         ];
     }
 
-    public function eventStyles() : array
-{
-    return [
-        'Libur' => [
-            'background-color' => '#CC0000'
-        ],
-        'Rapat' => [
-            'background-color' => '#007E33'
-        ],
-    ];
-}
+    public function eventStyles(): array
+    {
+        return [
+            'Libur' => [
+                'background-color' => '#CC0000',
+            ],
+            'Rapat' => [
+                'background-color' => '#007E33',
+            ],
+            'Pendataan' => [
+                'background-color' => '#FFA500',
+            ],
+            'Pelatihan' => [
+                'background-color' => '#FFD700',
+            ],
+            'Pengawasan' => [
+                'background-color' => '#FF0000',
+            ],
+        ];
+    }
+
+    protected function customizeEvent(Event $event): Event
+    {
+        $event->addStyle($event->model()->jenis);
+
+        return $event;
+    }
 }

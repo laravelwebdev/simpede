@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarKegiatan extends Resource
@@ -91,10 +92,14 @@ class DaftarKegiatan extends Resource
             ->hide()
             ->withSubtitles()
             ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
-                if ($formData->jenis == 'Kegiatan') {
+                if ($formData->jenis != 'Libur') {
                     $field
                         ->show()
                         ->rules('required');
+                }
+            })->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                if ($request->resourceType === User::class) {
+                    $query->whereNull('inactive');
                 }
             }),
         ];

@@ -64,7 +64,7 @@ class DaftarKegiatan extends Resource
                 ->rules('required'),
             DateTime::make('Akhir')
                 ->sortable()
-                ->rules('required', 'after_or_equal:awal'),
+                ->rules('nullable', 'bail', 'after_or_equal:awal'),
         ];
     }
 

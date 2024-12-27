@@ -61,16 +61,23 @@ class RapatInternal extends Model
                 $naskahkeluar = NaskahKeluar::where('id', $rapat->naskah_keluar_id)->first();
                 $naskahkeluar->tanggal = $rapat->tanggal;
                 $naskahkeluar->save();
-                $kegiatan = new DaftarKegiatan;
-                $kegiatan->jenis = 'Rapat';
-                $kegiatan->kegiatan = 'Rapat '.$rapat->tema;
-                $kegiatan->awal = $rapat->tanggal_rapat;
-                $kegiatan->save();
             }
         });
 
         static::deleting(function (RapatInternal $rapat) {
             NaskahKeluar::destroy($rapat->naskah_keluar_id);
+        });
+
+        static::saved(function (RapatInternal $rapat) {
+            $kegiatan = DaftarKegiatan::firstOrNew(
+                [
+                    'rapat_internal_id' => $rapat->id,
+                ]
+            );
+            $kegiatan->jenis = 'Rapat';
+            $kegiatan->kegiatan = $rapat->tema;
+            $kegiatan->awal = $rapat->tanggal_rapat;
+            $kegiatan->save();
         });
     }
 }

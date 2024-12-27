@@ -59,6 +59,14 @@ class Helper
         '524114',
         '524119'];
 
+    public static $jenis_kegiatan = [
+        'Libur' => 'Libur',
+        'Rapat' => 'Rapat',
+        'Pendataan' => 'Pendataan',
+        'Pelatihan' => 'Pelatihan',
+        'Lainnya' => 'Lainnya',
+    ];
+
     public static $translok_type = [
         '1' => 'Kabupaten - Kecamatan',
         '2' => 'Kabupaten - Desa',

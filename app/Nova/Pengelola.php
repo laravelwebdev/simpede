@@ -23,6 +23,8 @@ class Pengelola extends Resource
         return 'Pengelola';
     }
 
+    public static $globallySearchable = false;
+
     public static $displayInNavigation = false;
 
     /**

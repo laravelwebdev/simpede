@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Nova\User;
 use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
 use Wdelfuego\NovaCalendar\Event;
-use App\Nova\User;
 
 class CalendarDataProvider extends AbstractCalendarDataProvider
 {
@@ -15,8 +15,8 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     // - each key is a Nova resource class name (eg: 'App/Nova/User::class')
     // - each value is either:
     //
-    //   1. a string containing the attribute name of a DateTime casted attribute   
-    //      of the underlying Eloquent model that will be used as the event's 
+    //   1. a string containing the attribute name of a DateTime casted attribute
+    //      of the underlying Eloquent model that will be used as the event's
     //      starting date and time (eg.: 'created_at')
     //
     //      OR
@@ -29,21 +29,21 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     //
     //   3. an instance of a custom Event generator, which is generally only required
     //      if you want to create more than 1 calendar event for individual Nova resource instances
-    //      
+    //
     //
     // See https://github.com/wdelfuego/nova-calendar to find out
     // how to customize the way the events are displayed
-    // 
-    public function novaResources() : array
+    //
+    public function novaResources(): array
     {
         return [
-            
+
             // Events without an ending timestamp will always be shown as single-day events:
             User::class => 'created_at',
-            
+
             // Events with an ending timestamp can be multi-day events:
             // SomeResource::class => ['starts_at', 'ends_at'],
-            
+
             // Custom event generators allow you to take complete control of how
             // events are added to the calendar for your Nova resources
             // Take a look at the documentation if you want to implement custom event generators.
@@ -54,13 +54,9 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     // Use this method to show events on the calendar that don't
     // come from a Nova resource. Just return an array of dynamically
     // generated events.
-    protected function nonNovaEvents() : array
+    protected function nonNovaEvents(): array
     {
         return [
-            (new Event("Today until tomorrow", now(), now()->addDays(1)))
-                ->displayTime()
-                ->addBadges('👍')
-                ->withNotes('these are the event notes')
         ];
     }
 }

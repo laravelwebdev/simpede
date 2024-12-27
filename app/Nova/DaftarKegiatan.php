@@ -3,6 +3,10 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Http;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -19,7 +23,7 @@ class DaftarKegiatan extends Resource
 
     public static function label()
     {
-        return 'Daftar Kegiatan';
+        return 'Tanggal Penting';
     }
 
     /**
@@ -29,8 +33,9 @@ class DaftarKegiatan extends Resource
      */
     public static $title = 'kegiatan';
 
-    public function subtitle(){
-        return Helper::terbilangTanggal($this->awal) . ' - ' . Helper::terbilangTanggal($this->akhir);
+    public function subtitle()
+    {
+        return Helper::terbilangTanggal($this->awal).' - '.Helper::terbilangTanggal($this->akhir);
     }
 
     /**
@@ -45,7 +50,6 @@ class DaftarKegiatan extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -71,7 +75,6 @@ class DaftarKegiatan extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -82,7 +85,6 @@ class DaftarKegiatan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -93,7 +95,6 @@ class DaftarKegiatan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -104,11 +105,14 @@ class DaftarKegiatan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            Action::using('Sinkronisasi Hari Libur', function (ActionFields $fields, Collection $models) {
+                $api = Http::get('https://dayoffapi.vercel.app/'.date('Y'));
+            }),
+        ];
     }
 }

@@ -66,19 +66,12 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             'Libur' => [
                 'background-color' => '#CC0000',
             ],
-            'Rapat' => [
-                'background-color' => '#007E33',
-            ],
-            'Pendataan' => [
-                'background-color' => '#FFA500',
-            ],
-            'Pelatihan' => [
-                'background-color' => '#FFD700',
+            'Deadline' => [
+                'background-color' => 'F18F01',
             ],
             'Lainnya' => [
-                'background-color' => '#FF0000',
+                'background-color' => '#007E33',
             ],
-
         ];
     }
 

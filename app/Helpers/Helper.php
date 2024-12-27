@@ -61,10 +61,8 @@ class Helper
 
     public static $jenis_kegiatan = [
         'Libur' => 'Libur',
-        'Rapat' => 'Rapat',
-        'Pendataan' => 'Pendataan',
-        'Pelatihan' => 'Pelatihan',
-        'Lainnya' => 'Lainnya',
+        'Deadline' => 'Rapat',
+        'Kegiatan' => 'Kegiatan',
     ];
 
     public static $translok_type = [

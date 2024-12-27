@@ -8,6 +8,8 @@ class DaftarKegiatan extends Model
 {
     protected $fillable = [
         'rapat_internal_id',
+        'jenis',
+        'awal',
     ];
 
     protected $casts = [

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Wdelfuego\Nova\DateTime\Fields\DateTime;
 
 class DaftarKegiatan extends Resource
 {
@@ -63,10 +63,10 @@ class DaftarKegiatan extends Resource
             Text::make('Kegiatan')
                 ->sortable()
                 ->rules('required'),
-            DateTime::make('Awal')
+            Date::make('Awal')
                 ->sortable()
                 ->rules('required'),
-            DateTime::make('Akhir')
+            Date::make('Akhir')
                 ->sortable()
                 ->rules('nullable', 'bail', 'after_or_equal:awal'),
         ];

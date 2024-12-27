@@ -58,4 +58,16 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         return [
         ];
     }
+
+    public function eventStyles() : array
+{
+    return [
+        'Libur' => [
+            'background-color' => '#CC0000'
+        ],
+        'Rapat' => [
+            'background-color' => '#007E33'
+        ],
+    ];
+}
 }

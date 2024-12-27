@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\DaftarKegiatan;
 use App\Nova\User;
 use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
 use Wdelfuego\NovaCalendar\Event;
@@ -39,7 +40,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         return [
 
             // Events without an ending timestamp will always be shown as single-day events:
-            User::class => 'created_at',
+           DaftarKegiatan::class => ['awal', 'akhir'],
 
             // Events with an ending timestamp can be multi-day events:
             // SomeResource::class => ['starts_at', 'ends_at'],

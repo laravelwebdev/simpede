@@ -225,7 +225,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new NovaCalendar('my-calendar'),
+            new NovaCalendar('kalender-kegiatan'),
         ];
     }
 

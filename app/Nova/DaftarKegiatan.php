@@ -75,7 +75,8 @@ class DaftarKegiatan extends Resource
                     if ($formData->jenis == 'Kegiatan') {
                         $field
                             ->show()
-                            ->rules('required', 'after_or_equal:awal');
+                            ->rules('required', 'after_or_equal:awal')
+                            ->setValue($formData->awal);
                     } 
                 }),
         ];

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarReminder;
+use Illuminate\Http\Request;
 
 class WebhookController extends Controller
 {
-    public function handle()
+    public function handle(Request $request)
     {
         
         $json = file_get_contents('php://input');
@@ -19,7 +20,7 @@ class WebhookController extends Controller
                 DaftarReminder::where('message_id', $id)->update(['status' => $status]);
             }
         }
-        return header('Content-Type: application/json; charset=utf-8');
+        return $request->header('Content-Type: application/json; charset=utf-8');
 
     }
 }

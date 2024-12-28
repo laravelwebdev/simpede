@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;

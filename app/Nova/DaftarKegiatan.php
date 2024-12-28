@@ -268,7 +268,7 @@ Terimakasih ✨✨'),
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->whereYear('awal', session('year'));
+        return $query->whereYear('awal', session('year'))->where('jenis', '!=', 'Libur');
     }
 
     public function replicate()

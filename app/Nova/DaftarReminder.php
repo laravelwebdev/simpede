@@ -3,9 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarReminder extends Resource
@@ -59,9 +59,13 @@ class DaftarReminder extends Resource
                 })
                 ->sortable(),
             BelongsTo::make('Daftar Kegiatan'),
-            Status::make('Status')
-                ->failedWhen(['Gagal'])
-                ->loadingWhen(['Memproses']),
+            Badge::make('Status')->map([
+                'sent' => 'success',
+                'default' => 'warning',
+            ])->icons([
+                'success' => 'check-circle',
+                'default' => 'exclamation-circle',
+            ]),
         ];
     }
 

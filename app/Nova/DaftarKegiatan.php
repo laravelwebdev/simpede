@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphTo;
@@ -115,6 +116,10 @@ class DaftarKegiatan extends Resource
                                 });
                         }
                     }),
+            ]),
+            Badge::make('Status')->map([
+                'loading' => 'danger',
+                'sent' => 'success',
             ]),
             Panel::make('Reminder', [
                 Select::make('WA Group', 'wa_group_id')

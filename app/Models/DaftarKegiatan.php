@@ -69,6 +69,8 @@ class DaftarKegiatan extends Model
                     ]);
                     $reminder->save();
                 }
+if ($daftar->daftarPermintaan()->where('status', '! =', 'sent') ->count() > 0) 
+DaftarKegiatan::find($daftar->id)->update(['status' => 'on progress']);
             }
         });
     }

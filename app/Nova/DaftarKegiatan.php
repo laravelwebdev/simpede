@@ -162,4 +162,9 @@ class DaftarKegiatan extends Resource
             })->standalone(),
         ];
     }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->whereYear('awal', session('year'));
+    }
 }

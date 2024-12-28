@@ -66,6 +66,8 @@ class RapatInternal extends Model
 
         static::deleting(function (RapatInternal $rapat) {
             NaskahKeluar::destroy($rapat->naskah_keluar_id);
+            $kegiatanIds = DaftarKegiatan::where('rapat_internal_id', $rapat->id)->pluck('id');
+            DaftarKegiatan::destroy($kegiatanIds);
         });
 
         static::saved(function (RapatInternal $rapat) {

@@ -17,6 +17,8 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Perjalanan Dinas: Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas
 - Dokumentasi: Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan link-link penting.
 - Manajemen Rapat: Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal
+- Kalender Kegiatan: Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. 
+- Reminder: Fitur untuk mengirimkan reminder deadline kegiatan
 ## Requirement
 
 Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:

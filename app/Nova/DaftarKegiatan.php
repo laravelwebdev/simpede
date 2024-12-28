@@ -239,6 +239,7 @@ Terimakasih ✨✨'),
                 $model = $models->first();
                 $model->status = 'sent';
                 $model->daftarReminder()->update(['status' => 'sent']);
+                $model->save();
             })
             ->showInline()
             ->showOnDetail()

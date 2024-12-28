@@ -59,13 +59,7 @@ class DaftarReminder extends Resource
                 })
                 ->sortable(),
             BelongsTo::make('Daftar Kegiatan'),
-            Badge::make('Status')->map([
-                'sent' => 'success',
-                '*' => 'warning',
-            ])->icons([
-                'success' => 'check-circle',
-                '*' => 'exclamation-circle',
-            ]),
+            Badge::make('Status'),
         ];
     }
 

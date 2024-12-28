@@ -4,21 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\DaftarReminder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WebhookController extends Controller
 {
     public function handle(Request $request)
     {
         
-        $data = $request->all();
-        if (isset($data)) {
-            $id = $data['id'];
-            $status = $data['status'];
+        $id = $request->input('id');
+        $status = $request->input('status');
 
-            if (isset($id)) {
-                DaftarReminder::where('message_id', $id)->update(['status' => $status]);
-            }
-        }
+        // Update the status in the database
+        $updated = DB::table('daftar_reminders')
+            ->where('message_id', $id)
+            ->update(['status' => $status]);
 
     }
 }

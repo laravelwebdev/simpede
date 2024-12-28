@@ -29,6 +29,4 @@ Route::get('/arsip-dokumen/{token}/kak/{kak}', 'App\Http\Controllers\ArsipContro
     ->name('daftar-file')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());
-Route::match(['get', 'post'],'/webhook', 'App\Http\Controllers\WebhookController@index')
-    ->name('webhook')
-    ->prefix(Nova::path());
+

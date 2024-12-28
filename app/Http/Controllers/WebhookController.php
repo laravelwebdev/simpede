@@ -19,7 +19,7 @@ class WebhookController extends Controller
                 DaftarReminder::where('message_id', $id)->update(['status' => $status]);
             }
         }
-        // return response()->json(['status' => 'OK']);
+        return response()->json($data);
 
     }
 }

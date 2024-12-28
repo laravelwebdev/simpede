@@ -91,13 +91,12 @@ class DaftarKegiatan extends Resource
             ->searchable()
             ->hide()
             ->withSubtitles()
+            ->nullable()
             ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
                 if ($formData->jenis != 'Libur') {
                     $field
                         ->show()
                         ->rules('required');
-                } else {
-                    $field->nullable();
                 }
             })->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
                 if ($request->resourceType === User::class) {

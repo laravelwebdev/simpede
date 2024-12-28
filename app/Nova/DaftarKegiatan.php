@@ -96,13 +96,14 @@ class DaftarKegiatan extends Resource
                 if ($formData->jenis != 'Libur') {
                     $field
                         ->show()
-                        ->rules('required');
+                        ->rules('required')
+                        ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                            if ($request->resourceType === User::class) {
+                                $query->whereNull('inactive');
+                            }
+                        });
                 }
-            })->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
-                if ($request->resourceType === User::class) {
-                    $query->whereNull('inactive');
-                }
-            }),
+            })
         ];
     }
 

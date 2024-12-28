@@ -29,6 +29,10 @@ class DaftarKegiatan extends Model
             if (empty($daftar->akhir)) {
                 $daftar->akhir = $daftar->awal;
             }
+            if ($daftar->jenis == 'Libur') {
+                $daftar->daftar_kegiatanable_id = null;
+                $daftar->daftar_kegiatanable_type = null;
+            }
         });
     }
 }

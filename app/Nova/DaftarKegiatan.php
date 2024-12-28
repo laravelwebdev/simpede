@@ -96,6 +96,8 @@ class DaftarKegiatan extends Resource
                     $field
                         ->show()
                         ->rules('required');
+                } else {
+                    $field->nullable();
                 }
             })->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
                 if ($request->resourceType === User::class) {

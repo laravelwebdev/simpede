@@ -219,15 +219,18 @@ Terimakasih ✨✨'),
                 $response = Http::get('https://dayoffapi.vercel.app/api?year='.session('year'));
                 if ($response->ok()) {
                     $data = $response->json();
-                    foreach ($data as $item) {
-                        $kegiatan = ModelDaftarKegiatan::firstOrNew([
-                            'jenis' => 'Libur',
-                            'awal' => $item['tanggal'],
-                        ]);
-                        $kegiatan->kegiatan = $item['keterangan'];
-                        $kegiatan->akhir = $item['tanggal'];
-                        $kegiatan->save();
+                    if (! empty($data)) {
+                        foreach ($data as $item) {
+                            $kegiatan = ModelDaftarKegiatan::firstOrNew([
+                                'jenis' => 'Libur',
+                                'awal' => $item['tanggal'],
+                            ]);
+                            $kegiatan->kegiatan = $item['keterangan'];
+                            $kegiatan->akhir = $item['tanggal'];
+                            $kegiatan->save();
+                        }
                     }
+
                 }
             })->standalone();
         if (Policy::make()->allowedFor('admin')->get()) {

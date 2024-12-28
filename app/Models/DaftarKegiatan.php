@@ -13,6 +13,7 @@ class DaftarKegiatan extends Model
         'rapat_internal_id',
         'jenis',
         'awal',
+        'status',
     ];
 
     protected $casts = [

@@ -10,6 +10,7 @@ class DaftarReminder extends Model
     protected $fillable = [
         'tanggal',
         'daftar_kegiatan_id',
+        'status',
     ];
 
     protected $casts = [

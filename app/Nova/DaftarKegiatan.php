@@ -237,9 +237,8 @@ Terimakasih ✨✨'),
             $actions[] =
             Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
                 $model = $models->first();
-                $model->status = 'sent';
+                $model->query()->where('id', $model->id)->update(['status' => 'sent']);
                 $model->daftarReminder()->update(['status' => 'sent']);
-                $model->save();
             })
             ->showInline()
             ->showOnDetail()

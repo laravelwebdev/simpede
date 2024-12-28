@@ -10,8 +10,7 @@ class WebhookController extends Controller
     public function handle(Request $request)
     {
         
-        $json = file_get_contents('php://input');
-        $data = json_decode($json, true);
+        $data = $request->all();
         if (isset($data)) {
             $id = $data['id'];
             $status = $data['status'];
@@ -20,7 +19,6 @@ class WebhookController extends Controller
                 DaftarReminder::where('message_id', $id)->update(['status' => $status]);
             }
         }
-        return $request->header('Content-Type: application/json; charset=utf-8');
 
     }
 }

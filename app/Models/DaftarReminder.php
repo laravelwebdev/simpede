@@ -21,4 +21,11 @@ class DaftarReminder extends Model
     {
         return $this->belongsTo(DaftarKegiatan::class);
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function (DaftarReminder $daftar) {
+            $daftar->status = 'in progress';
+        });
+    }
 }

@@ -57,18 +57,16 @@ class DaftarKegiatan extends Model
             if ($daftar->jenis === 'Deadline') {
                 $daftar->status = 'in progress';
             }
-
         });
 
         static::saved(function (DaftarKegiatan $daftar) {
-            if (($daftar->isDirty('waktu_reminder') || $daftar->isDirty('awal')) && $daftar->jenis == 'Deadline') {
+            if ($daftar->jenis == 'Deadline') {
                 foreach ($daftar->waktu_reminder as $item) {
                     $tanggal = Helper::getTanggalSebelum($daftar->awal, $item['hari'], $item['referensi_waktu']);
                     $reminder = DaftarReminder::firstOrNew([
                         'tanggal' => $tanggal,
                         'daftar_kegiatan_id' => $daftar->id,
                     ]);
-                    $reminder->status = 'dibuat';
                     $reminder->save();
                 }
             }

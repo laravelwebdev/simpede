@@ -43,7 +43,7 @@ class DaftarReminder extends Resource
      * @var array
      */
     public static $search = [
-        'tanggal', 'daftarKegiatan.kegiatan',
+        'tanggal', 'daftarKegiatan.kegiatan', 'status',
     ];
 
     /**

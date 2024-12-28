@@ -61,7 +61,7 @@ class DaftarKegiatan extends Resource
      * @var array
      */
     public static $search = [
-        'jenis', 'kegiatan', 'awal', 'akhir',
+        'jenis', 'kegiatan', 'awal', 'akhir', 'status',
     ];
 
     /**

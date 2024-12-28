@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class WebhookController extends Controller
 {
-    public function handle(Request $request)
+    public function index(Request $request)
     {
         
         $id = $request->input('id');

@@ -55,7 +55,7 @@ class DaftarKegiatan extends Model
 
         static::creating(function (DaftarKegiatan $daftar) {
             if ($daftar->jenis === 'Deadline') {
-                $daftar->status = 'in progress';
+                $daftar->status = 'on progress';
             }
         });
 
@@ -69,8 +69,11 @@ class DaftarKegiatan extends Model
                     ]);
                     $reminder->save();
                 }
-if ($daftar->daftarPermintaan()->where('status', '! =', 'sent') ->count() > 0) 
-DaftarKegiatan::find($daftar->id)->update(['status' => 'on progress']);
+                DaftarKegiatan::where('id', $daftar->id)
+                    ->whereHas('daftarReminder', function ($query) {
+                        $query->where('status', '!=', 'sent');
+                    })
+                    ->update(['status' => 'on progress']);
             }
         });
     }

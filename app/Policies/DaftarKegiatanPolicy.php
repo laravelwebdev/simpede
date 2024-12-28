@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\DaftarKegiatan;
+use App\Models\User;
 
 class DaftarKegiatanPolicy
 {
@@ -39,30 +41,33 @@ class DaftarKegiatanPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, DaftarKegiatan $daftar): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->andNotEqual($daftar->jenis, 'Rapat')
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, DaftarKegiatan $daftar): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->andNotEqual($daftar->jenis, 'Rapat')
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(): bool
+    public function replicate(User $user, DaftarKegiatan $daftar): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->andNotEqual($daftar->jenis, 'Rapat')
             ->get();
     }
 }

@@ -67,13 +67,16 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     {
         return [
             'Libur' => [
-                'background-color' => '#CC0000',
+                'background-color' => '#c65959',
             ],
             'Deadline' => [
                 'background-color' => '#F18F01',
             ],
-            'Lainnya' => [
-                'background-color' => '#007E33',
+            'Kegiatan' => [
+                'background-color' => '#27af5d',
+            ],
+            'Rapat' => [
+                'background-color' => '#498dd6',
             ],
         ];
     }
@@ -82,7 +85,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     {
         $event->addStyle($event->model()->jenis);
         if ($event->model()->jenis == 'Rapat') {
-            $event->notes(RapatInternal::find($event->model()->rapat_internal_id)->mulai);
+            $event->notes('Mulai: '.RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
         if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline') {
             $pj = $event->model()->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;

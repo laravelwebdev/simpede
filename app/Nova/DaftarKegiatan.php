@@ -136,7 +136,7 @@ class DaftarKegiatan extends Resource
                     ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
                 Textarea::make('Template Pesan', 'pesan')
                     ->hide()
-                    ->help('Jangan hapus bagian {judul}. Gunakan {kegiatan} untuk mengganti kegiatan, {tanggal} untuk mengganti tanggal, {pj} untuk mengganti penanggung jawab')
+                    ->help('Jangan hapus bagian {judul}.<br/> Gunakan {kegiatan} untuk mengganti dengan nama kegiatan,<br/> {tanggal} untuk mengganti tanggal deadline,<br/> {pj} untuk mengganti dengan penanggung jawab')
                     ->dependsOn(['jenis'], function (Textarea $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {
                             $field
@@ -269,5 +269,15 @@ Terimakasih ✨✨'),
     public static function indexQuery(NovaRequest $request, $query)
     {
         return $query->whereYear('awal', session('year'));
+    }
+
+    public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->status = null;
+            $model->awal = null;
+            $model->akhir = null;
+        });
     }
 }

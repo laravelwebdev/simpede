@@ -25,7 +25,7 @@ class DaftarReminder extends Model
     protected static function booted(): void
     {
         static::creating(function (DaftarReminder $daftar) {
-            $daftar->status = 'in progress';
+            $daftar->status = 'on progress';
         });
     }
 }

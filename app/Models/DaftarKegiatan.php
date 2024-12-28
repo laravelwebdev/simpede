@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class DaftarKegiatan extends Model
@@ -23,6 +24,11 @@ class DaftarKegiatan extends Model
     public function daftarKegiatanable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function daftarReminder(): HasMany
+    {
+        return $this->hasMany(DaftarReminder::class);
     }
 
     protected static function booted(): void

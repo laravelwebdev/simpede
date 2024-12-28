@@ -27,7 +27,7 @@ use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarKegiatan extends Resource
 {
-    public static $with = ['daftarKegiatanable'];
+    public static $with = ['daftarKegiatanable', 'daftarReminder'];
 
     /**
      * The model the resource corresponds to.
@@ -232,6 +232,14 @@ Terimakasih ✨✨'),
                     }
                 }
             })->standalone();
+            Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
+                $model = $models->first();
+                $model->status = 'sent';
+                $model->daftarReminder()->update(['status' => 'sent']);
+            })
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex();
         if (Policy::make()->allowedFor('admin')->get()) {
             $actions[] =
             DestructiveAction::using('Sinkronisasi WA Group', function (ActionFields $fields, Collection $models) {

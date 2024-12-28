@@ -61,10 +61,10 @@ class DaftarReminder extends Resource
             BelongsTo::make('Daftar Kegiatan'),
             Badge::make('Status')->map([
                 'sent' => 'success',
-                'default' => 'warning',
+                '*' => 'warning',
             ])->icons([
                 'success' => 'check-circle',
-                'default' => 'exclamation-circle',
+                '*' => 'exclamation-circle',
             ]),
         ];
     }

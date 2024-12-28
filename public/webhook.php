@@ -52,6 +52,30 @@ if (isset($data['id']) && isset($data['status'])) {
 
     // Eksekusi query
     if ($stmt->execute()) {
+        // Mendapatkan daftar_kegiatan_id dari daftar_reminders
+        $stmt = $conn->prepare('SELECT daftar_kegiatan_id FROM daftar_reminders WHERE message_id = ?');
+        $stmt->bind_param('s', $id);
+        $stmt->execute();
+        $stmt->bind_result($daftar_kegiatan_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Cek apakah semua daftar_reminders dengan daftar_kegiatan_id memiliki status 'sent'
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM daftar_reminders WHERE daftar_kegiatan_id = ? AND status != 'sent'");
+        $stmt->bind_param('i', $daftar_kegiatan_id);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($count == 0) {
+            // Update status di tabel daftar_kegiatans menjadi 'sent'
+            $stmt = $conn->prepare("UPDATE daftar_kegiatans SET status = 'sent' WHERE id = ?");
+            $stmt->bind_param('i', $daftar_kegiatan_id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
         echo json_encode(['success' => true, 'message' => 'Status updated successfully']);
     } else {
         echo json_encode(['error' => 'Failed to update status']);

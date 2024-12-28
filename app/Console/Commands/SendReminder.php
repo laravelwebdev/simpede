@@ -32,7 +32,7 @@ class SendReminder extends Command
     public function handle()
     {
         $tanggal = date('Y-m-d');
-        $reminders = DaftarReminder::with('daftarKegiatan')->where('tanggal', $tanggal)->get();
+        $reminders = DaftarReminder::with('daftarKegiatan')->where('tanggal', $tanggal)->where('status', '!=', 'sent')->get();
         foreach ($reminders as $reminder) {
             $kegiatan = $reminder->daftarKegiatan;
             $hari = $kegiatan->awal->diffInDays($reminder->tanggal);

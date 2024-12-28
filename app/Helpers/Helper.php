@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
+use App\Models\DaftarKegiatan;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
@@ -29,6 +30,7 @@ use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -63,6 +65,11 @@ class Helper
         'Libur' => 'Libur',
         'Deadline' => 'Deadline',
         'Kegiatan' => 'Kegiatan',
+    ];
+
+    public static $waktu_reminder = [
+        'HK' => 'Hari Kerja Sebelum Deadline',
+        'H' => 'Hari Kalender Sebelum Deadline',
     ];
 
     public static $translok_type = [
@@ -426,6 +433,32 @@ class Helper
         }
 
         return $hasil;
+    }
+
+    public static function getTanggalSebelum($tanggal_deadline, $jumlah_hari, $ref = 'h')
+    {
+        $tanggal_deadline = Carbon::parse($tanggal_deadline);
+        if ($ref === 'HK') {
+            $hariLibur = DaftarKegiatan::where('jenis', 'Libur')->pluck('awal')->toArray();
+            $hariLibur = array_map(function ($date) {
+                return Carbon::parse($date)->format('Y-m-d');
+            }, $hariLibur);
+    
+            $count = 0;
+            while ($count < $jumlah_hari) {
+                $tanggal_deadline->subDay();
+                if ($tanggal_deadline->isWeekend() || in_array($tanggal_deadline->format('Y-m-d'), $hariLibur)) {
+                    continue;
+                }
+                $count++;
+            }
+    
+        }
+        else {
+            $tanggal_deadline->subDay($jumlah_hari);
+        }
+
+        return $tanggal_deadline->format('Y-m-d');
     }
 
     /**
@@ -1479,6 +1512,17 @@ class Helper
     public static function setOptionsKodeBank()
     {
         return self::setOptions(KodeBank::cache()->get('all'), 'id', 'nama_bank');
+    }
+
+    public static function setOptionsWaGroup()
+    {
+        $datas = Cache::get('wa_group');
+        $result = [];
+        foreach ($datas as $group) {
+            $result[$group['id']] = $group['name'];
+        }
+
+        return $result;
     }
 
     /**

@@ -26,11 +26,9 @@ class Fonnte
         $this->account_token = config('fonnte.token');
     }
 
-    protected function makeRequest($endpoint, $params = [], $useAccountToken = true, $deviceToken = null)
+    protected function makeRequest($endpoint, $params = [])
     {
-        $token = $useAccountToken
-            ? $this->account_token
-            : ($deviceToken ?? null);
+        $token =  $this->account_token;         
 
         if (!$token) {
             return ['status' => false, 'error' => 'API token or device token is required.'];
@@ -55,17 +53,17 @@ class Fonnte
         ];
     }
 
-    public function sendWhatsAppMessage($phoneNumber, $message, $deviceToken)
+    public function sendWhatsAppMessage($phoneNumber, $message)
     {
         return $this->makeRequest(self::ENDPOINTS['send_message'], [
             'target'  => $phoneNumber,
             'message' => $message,
-        ], '', $deviceToken);
+        ]);
     }
 
     public function updateWhatsappGroupList()
     {
-        return $this->makeRequest(self::ENDPOINTS['send_message']);
+        return $this->makeRequest(self::ENDPOINTS['update_group']);
     }
 
     public function getWhatsappGroupList()

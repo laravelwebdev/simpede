@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('jenis', 20)->nullable();
             $table->string('kegiatan', 100)->nullable();
-            $table->mediumInteger('rapat_internal_id')->nullable()->unsigned();
             $table->dateTime('awal')->nullable();
             $table->dateTime('akhir')->nullable();
+            $table->string('wa_group_id', 80)->nullable();
+            $table->text('pesan')->nullable();
+            $table->text('waktu_reminder')->nullable();
+            $table->string('status', 20)->nullable();
+            $table->mediumInteger('rapat_internal_id')->nullable()->unsigned();
             $table->mediumInteger('daftar_kegiatanable_id')->nullable()->unsigned();
             $table->string('daftar_kegiatanable_type', 80)->nullable();
             $table->timestamps();

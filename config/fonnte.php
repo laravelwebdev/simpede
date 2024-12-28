@@ -9,6 +9,6 @@ return [
     */
 
     'token' => env('FONNTE_TOKEN'),
-
+    'number' => env('FONNTE_NUMBER'),
 
 ];

@@ -2,25 +2,32 @@
 
 namespace App\Nova;
 
+use App\Helpers\Fonnte;
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
-use App\Nova\UnitKerja;
-use App\Nova\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
+use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarKegiatan extends Resource
 {
     public static $with = ['daftarKegiatanable'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -62,48 +69,109 @@ class DaftarKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Jenis')
-                ->options(Helper::$jenis_kegiatan)
-                ->sortable()
-                ->filterable()
-                ->rules('required'),
-            Text::make('Kegiatan')
-                ->sortable()
-                ->rules('required'),
-            Date::make('Awal')
-                ->sortable()
-                ->rules('required'),
-            Date::make('Akhir')
-                ->sortable()
-                ->hide()
-                ->dependsOn(['jenis', 'awal'], function (Date $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->jenis == 'Kegiatan') {
-                        $field
-                            ->show()
-                            ->rules('required', 'after_or_equal:awal')
-                            ->setValue($formData->awal);
-                    }
-                }),
-            MorphTo::make('Penanggung Jawab', 'daftarKegiatanable')->types([
-                User::class,
-                UnitKerja::class,
-            ])
-            ->searchable()
-            ->hide()
-            ->withSubtitles()
-            ->nullable()
-            ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
-                if ($formData->jenis != 'Libur') {
-                    $field
-                        ->show()
-                        ->rules('required')
-                        ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
-                            if ($request->resourceType === User::class) {
-                                $query->whereNull('inactive');
-                            }
-                        });
-                }
-            })
+            Panel::make('Keterangan', [
+                Select::make('Jenis')
+                    ->options(Helper::$jenis_kegiatan)
+                    ->sortable()
+                    ->filterable()
+                    ->rules('required'),
+                Text::make('Kegiatan')
+                    ->sortable()
+                    ->help('Contoh: Posting Konten Peringatan Hari Ibu')
+                    ->rules('required'),
+                Date::make('Awal')
+                    ->sortable()
+                    ->filterable()
+                    ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                    ->rules('required'),
+                Date::make('Akhir')
+                    ->sortable()
+                    ->hide()
+                    ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                    ->dependsOn(['jenis', 'awal'], function (Date $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis == 'Kegiatan') {
+                            $field
+                                ->show()
+                                ->rules('required', 'after_or_equal:awal')
+                                ->setValue($formData->awal);
+                        }
+                    }),
+                MorphTo::make('Penanggung Jawab', 'daftarKegiatanable')->types([
+                    User::class,
+                    UnitKerja::class,
+                ])
+                    ->searchable()
+                    ->hide()
+                    ->withSubtitles()
+                    ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis != 'Libur') {
+                            $field
+                                ->show()
+                                ->rules('required')
+                                ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
+                                    if ($request->resourceType === User::class) {
+                                        $query->whereNull('inactive');
+                                    }
+                                });
+                        }
+                    }),
+            ]),
+            Panel::make('Reminder', [
+                Select::make('WA Group', 'wa_group_id')
+                    ->options(Helper::setOptionsWaGroup())
+                    ->hide()
+                    ->searchable()
+                    ->displayUsingLabels()
+                    ->dependsOn(['jenis'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis === 'Deadline') {
+                            $field
+                                ->show()
+                                ->rules('required');
+                        }
+                    })
+                    ->hideFromIndex()
+                    ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
+                Textarea::make('Template Pesan', 'pesan')
+                    ->hide()
+                    ->help('Jangan hapus bagian {judul}. Gunakan {kegiatan} untuk mengganti kegiatan, {tanggal} untuk mengganti tanggal, {pj} untuk mengganti penanggung jawab')
+                    ->dependsOn(['jenis'], function (Textarea $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis === 'Deadline') {
+                            $field
+                                ->show()
+                                ->rules('required');
+                        }
+                    })
+                    ->alwaysShow()
+                    ->rows(15)
+                    ->default('*{judul}*
+
+Deadline : {tanggal}
+Perihal : {kegiatan}
+Penanggung jawab: *{pj}*
+Keterangan Lain: Bisa ditambahkan data -data tentang AKB, dll
+
+Mohon agar *mengirimkan* hasil desain dan _caption_ ke grup *maksimal H-1 hari kerja*  tanggal tayang ({tanggal})
+
+Terimakasih ✨✨'),
+                SimpleRepeatable::make('Waktu Reminder', 'waktu_reminder', [
+                    Number::make('H-', 'hari')
+                        ->min(0)->max(30)
+                        ->step(1)
+                        ->rules('required', 'integer', 'gte:0', 'lte:30'),
+                    Select::make('Referensi Waktu')
+                        ->options(Helper::$waktu_reminder)
+                        ->displayUsingLabels()
+                        ->rules('required'),
+                ])
+                    ->hide()
+                    ->dependsOn(['jenis'], function (SimpleRepeatable $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis === 'Deadline') {
+                            $field
+                                ->show()
+                                ->rules('required');
+                        }
+                    }),
+            ]),
         ];
     }
 
@@ -144,7 +212,9 @@ class DaftarKegiatan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+
+        $actions[] =
             Action::using('Sinkronisasi Hari Libur', function (ActionFields $fields, Collection $models) {
                 $response = Http::get('https://dayoffapi.vercel.app/api?year='.session('year'));
                 if ($response->ok()) {
@@ -159,8 +229,22 @@ class DaftarKegiatan extends Resource
                         $kegiatan->save();
                     }
                 }
-            })->standalone(),
-        ];
+            })->standalone();
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $actions[] =
+            DestructiveAction::using('Sinkronisasi WA Group', function (ActionFields $fields, Collection $models) {
+                Fonnte::make()->updateWhatsappGroupList();
+                $data = Fonnte::make()->getWhatsappGroupList();
+                if ($data['data']['status']) {
+                    Cache::forget('wa_group');
+                    Cache::rememberForever('wa_group', fn () => $data['data']['data']);
+                }
+            })
+                ->confirmText('Terlalu sering menggunanakan fitur ini dapat menyebabkan nomor Whatsapp Anda dibanned oleh Whatsapp. Apakah Anda yakin?')
+                ->standalone();
+        }
+
+        return $actions;
     }
 
     public static function indexQuery(NovaRequest $request, $query)

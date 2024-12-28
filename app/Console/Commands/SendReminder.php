@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Helpers\Fonnte;
 use App\Helpers\Helper;
 use App\Models\DaftarReminder;
-use App\Models\DaftarSp2d;
 use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -43,11 +42,9 @@ class SendReminder extends Command
                 '{pj}' => $kegiatan->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
             ]);
             $response = Fonnte::make()->sendWhatsAppMessage($kegiatan->wa_group_id, $pesan);
-            $reminder->status = $response['data']['process'] ??  'Gagal';
+            $reminder->status = $response['data']['process'] ?? 'Gagal';
             $reminder->message_id = $response['data']['id'][0];
             $reminder->save();
         }
-            
-        
     }
 }

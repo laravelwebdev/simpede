@@ -34,7 +34,7 @@ $conn = new mysqli(
 // Cek koneksi
 if ($conn->connect_error) {
     echo json_encode(['error' => 'Failed to connect to MySQL: '.$conn->connect_error]);
-    exit();
+    exit;
 }
 
 // Mendapatkan data JSON dari input

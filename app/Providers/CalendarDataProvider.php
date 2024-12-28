@@ -86,14 +86,11 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         }
         if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline') {
             $pj = $event->model()->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
-            $event->notes('PJ: '. $pj);
+            $event->notes('PJ: '.$pj);
         }
-        
-        
+
         $event->notes($event->model()->notes);
 
         return $event;
     }
-
-    
 }

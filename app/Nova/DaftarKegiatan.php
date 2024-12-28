@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\MorphTo;
@@ -234,12 +233,12 @@ Terimakasih ✨✨'),
                     }
                 }
             })->standalone();
-            $actions[] =
-            Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
-                $model = $models->first();
-                $model->query()->where('id', $model->id)->update(['status' => 'sent']);
-                $model->daftarReminder()->update(['status' => 'sent']);
-            })
+        $actions[] =
+        Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
+            $model = $models->first();
+            $model->query()->where('id', $model->id)->update(['status' => 'sent']);
+            $model->daftarReminder()->update(['status' => 'sent']);
+        })
             ->showInline()
             ->showOnDetail()
             ->canSee(function ($request) {

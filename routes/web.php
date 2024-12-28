@@ -29,4 +29,3 @@ Route::get('/arsip-dokumen/{token}/kak/{kak}', 'App\Http\Controllers\ArsipContro
     ->name('daftar-file')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());
-

@@ -443,7 +443,7 @@ class Helper
             $hariLibur = array_map(function ($date) {
                 return Carbon::parse($date)->format('Y-m-d');
             }, $hariLibur);
-    
+
             $count = 0;
             while ($count < $jumlah_hari) {
                 $tanggal_deadline->subDay();
@@ -452,9 +452,7 @@ class Helper
                 }
                 $count++;
             }
-    
-        }
-        else {
+        } else {
             $tanggal_deadline->subDay($jumlah_hari);
         }
 
@@ -1523,6 +1521,7 @@ class Helper
                 $result[$group['id']] = $group['name'];
             }
         }
+
         return $result;
     }
 

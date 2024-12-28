@@ -70,7 +70,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
                 'background-color' => '#c65959',
             ],
             'Deadline' => [
-                'background-color' => '#F18F01',
+                'background-color' => '#e89e36',
             ],
             'Kegiatan' => [
                 'background-color' => '#27af5d',
@@ -85,14 +85,22 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     {
         $event->addStyle($event->model()->jenis);
         if ($event->model()->jenis == 'Rapat') {
+            $event->addBadges('👨‍👩‍👧‍👦');
             $event->notes('Mulai: '.RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
         if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline') {
             $pj = $event->model()->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
             $event->notes('PJ: '.$pj);
+            if ($event->model()->jenis == 'Kegiatan') {
+                $event->addBadges('🏢');
+            }
         }
-
-        $event->notes($event->model()->notes);
+        if ($event->model()->jenis == 'Libur') {
+            $event->addBadges('🏖️');
+        }
+        if ($event->model()->jenis == 'Deadline') {
+            $event->addBadges('⚠️');
+        }
 
         return $event;
     }

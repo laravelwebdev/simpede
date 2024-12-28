@@ -16,6 +16,7 @@ use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -156,6 +157,14 @@ Keterangan Lain: Bisa ditambahkan data -data tentang AKB, dll
 Mohon agar *mengirimkan* hasil desain dan _caption_ ke grup *maksimal H-1 hari kerja*  tanggal tayang ({tanggal})
 
 Terimakasih ✨✨'),
+                Heading::make('<p align="center">Waktu Kirim 09.00 WITA</p>')->asHtml()
+                    ->hide()
+                    ->dependsOn(['jenis'], function (Heading $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->jenis === 'Deadline') {
+                            $field
+                                ->show();
+                        }
+                    }),
                 SimpleRepeatable::make('Waktu Reminder', 'waktu_reminder', [
                     Number::make('H-', 'hari')
                         ->min(0)->max(30)

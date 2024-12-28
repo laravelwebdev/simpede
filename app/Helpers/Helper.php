@@ -1518,10 +1518,11 @@ class Helper
     {
         $datas = Cache::get('wa_group');
         $result = [];
-        foreach ($datas as $group) {
-            $result[$group['id']] = $group['name'];
+        if (! empty($datas)) {
+            foreach ($datas as $group) {
+                $result[$group['id']] = $group['name'];
+            }
         }
-
         return $result;
     }
 

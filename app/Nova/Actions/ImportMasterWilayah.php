@@ -14,7 +14,7 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
-class ImportMasterwilayah extends Action
+class ImportMasterWilayah extends Action
 {
     use InteractsWithQueue, Queueable;
 

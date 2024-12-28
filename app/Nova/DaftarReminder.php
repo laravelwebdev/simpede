@@ -60,7 +60,7 @@ class DaftarReminder extends Resource
                 })
                 ->sortable(),
             BelongsTo::make('Daftar Kegiatan'),
-            Text::make('Status'),
+            Badge::make('Status'),
         ];
     }
 

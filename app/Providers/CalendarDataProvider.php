@@ -80,7 +80,6 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
     {
         $event->addStyle($event->model()->jenis);
         if ($event->model()->jenis == 'Rapat') {
-            $event->title('Libur');
             $event->notes(RapatInternal::find($event->model()->daftar_kegiatanable_id)->awal);
         }
         $event->notes($event->model()->notes);

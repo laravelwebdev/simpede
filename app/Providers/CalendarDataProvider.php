@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\RapatInternal;
+use App\Models\UnitKerja;
+use App\Models\User;
 use App\Nova\DaftarKegiatan;
 use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
 use Wdelfuego\NovaCalendar\Event;
@@ -82,6 +84,14 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         if ($event->model()->jenis == 'Rapat') {
             $event->notes(RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
+        if ($event->model()->jenis == 'Deadline') {
+            $event->notes('PJ: '.User::find($event->model()->daftar_kegiatanable_id)->name);
+        }
+        if ($event->model()->jenis == 'Kegiatan') {
+            $event->notes('PJ: '.UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit);
+        }
+        
+        
         $event->notes($event->model()->notes);
 
         return $event;

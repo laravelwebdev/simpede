@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -21,6 +22,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
@@ -232,6 +234,7 @@ Terimakasih ✨✨'),
                     }
                 }
             })->standalone();
+            $actions[] =
             Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
                 $model = $models->first();
                 $model->status = 'sent';
@@ -239,6 +242,13 @@ Terimakasih ✨✨'),
             })
             ->showInline()
             ->showOnDetail()
+            ->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
+
+                return $this->resource instanceof Model && ($this->jenis === 'Deadline');
+            })
             ->exceptOnIndex();
         if (Policy::make()->allowedFor('admin')->get()) {
             $actions[] =

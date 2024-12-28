@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DaftarReminder extends Resource
@@ -59,7 +60,7 @@ class DaftarReminder extends Resource
                 })
                 ->sortable(),
             BelongsTo::make('Daftar Kegiatan'),
-            Badge::make('Status'),
+            Text::make('Status'),
         ];
     }
 

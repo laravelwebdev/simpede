@@ -160,6 +160,7 @@ Terimakasih ✨✨'),
                     Number::make('H-', 'hari')
                         ->min(0)->max(30)
                         ->step(1)
+                        ->help('Pesan akan dikirimkan jam 09.00 WITA dan dikirim ulang jika gagal pada jam 15.00 WITA')
                         ->rules('required', 'integer', 'gte:0', 'lte:30'),
                     Select::make('Referensi Waktu')
                         ->options(Helper::$waktu_reminder)

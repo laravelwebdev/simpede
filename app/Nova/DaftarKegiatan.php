@@ -117,10 +117,7 @@ class DaftarKegiatan extends Resource
                         }
                     }),
             ]),
-            Badge::make('Status')->map([
-                'loading' => 'danger',
-                'sent' => 'success',
-            ]),
+            Text::make('Status')->exceptOnForms(),
             Panel::make('Reminder', [
                 Select::make('WA Group', 'wa_group_id')
                     ->options(Helper::setOptionsWaGroup())

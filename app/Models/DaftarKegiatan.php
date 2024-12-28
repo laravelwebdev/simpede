@@ -46,6 +46,13 @@ class DaftarKegiatan extends Model
             DaftarReminder::destroy($ids);
         });
 
+        static::creating(function (DaftarKegiatan $daftar) {
+            if ($daftar->jenis === 'Deadline') {
+                $daftar->status = 'in progress';
+            }
+
+        });
+
         static::saved(function (DaftarKegiatan $daftar) {
             if (($daftar->isDirty('waktu_reminder') || $daftar->isDirty('awal')) && $daftar->jenis == 'Deadline') {
                 foreach ($daftar->waktu_reminder as $item) {
@@ -54,7 +61,7 @@ class DaftarKegiatan extends Model
                         'tanggal' => $tanggal,
                         'daftar_kegiatan_id' => $daftar->id,
                     ]);
-                    $reminder->status = 'Dibuat';
+                    $reminder->status = 'dibuat';
                     $reminder->save();
                 }
             }

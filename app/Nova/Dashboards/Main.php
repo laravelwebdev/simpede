@@ -52,14 +52,14 @@ class Main extends Dashboard
                 ->addItem(icon: 'mail', title: 'Pengelolaan Naskah Dinas', content: 'Fitur yang disediakan untuk membuat nomor naskah dinas keluar dan melakukan pengarsipan naskah dinas masuk dan naskah dinas keluar dalam bentuk softcopy.')
                 ->addItem(icon: 'users', title: 'Pengelolaan Kepegawaian', content: 'Fitur yang disediakan untuk mendokumentasikan izin keluar kantor untuk pegawai dan penganugerahan gelar Employee of the Month')
                 ->addItem(icon: 'user-group', title: 'Pengelolaan Kontrak Mitra Statistik', content: 'Fitur yang disediakan untuk memonitor kesesuaian kontrak dengan SBML, mencetak kontrak dan BAST, mencetak SK, mengeksport template BOS, export template CMS BRI, Mencetak Surat Tugas dan SPJ Honor Mitra serta Mengarsipkan Softcopy Kontrak dan BAST.')
-                ->addItem(icon: 'collection', title: 'Pengelolaan Barang Persediaan', content: 'Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan.')
+                ->addItem(icon: 'collection', title: 'Pengelolaan Barang Persediaan', content: 'Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan (Aktualisasi Latsar Hasyimur Rusdi)')
                 ->addItem(icon: 'presentation-chart-bar', title: 'Monitoring Anggaran', content: 'Fitur yang disediakan untuk memonitor serapan anggaran dan rencana penarikan dana.')
                 ->addItem(icon: 'office-building', title: 'Pemeliharaan BMN', content: 'Fitur yang disediakan untuk memonitor pemeliharaan Barang Milik Negara dan mencetak Kartu Kendali Pemeliharaan.')
                 ->addItem(icon: 'truck', title: 'Perjalanan Dinas', content: 'Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas')
                 ->addItem(icon: 'film', title: 'Dokumentasi', content: 'Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan link-link penting.')
                 ->addItem(icon: 'library', title: 'Manajemen Rapat', content: 'Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal')
                 ->addItem(icon: 'calendar', title: 'Kalender Kegiatan', content: 'Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya.')
-                ->addItem(icon: 'clipboard-check', title: 'Reminder', content: 'Fitur untuk mengirimkan reminder deadline kegiatan melalui Whatsapp.'),
+                ->addItem(icon: 'clipboard-check', title: 'Reminder', content: 'Fitur untuk mengirimkan reminder deadline kegiatan melalui Whatsapp (Aktualisasi Latsar Ilman Mimin Maulana)'),
         ];
     }
 }

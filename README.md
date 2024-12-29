@@ -120,6 +120,6 @@ Aplikasi ini menggunakan Whatsapp API dari fonnte.com agar bisa mengirimkan remi
     ```
 - Setting Cron Job untuk menjalankan perintah berikut: 
     ```bash
-    php artisan reminder:send (Contoh: `/usr/bin/php /home/u770759286/domains/devbeta.site/artisan reminder:send`)
+    php artisan reminder:send (Contoh: /usr/bin/php /home/u770759286/domains/devbeta.site/artisan reminder:send)
     ```
 

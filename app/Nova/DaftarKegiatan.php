@@ -157,7 +157,7 @@ Keterangan Lain: Bisa ditambahkan data -data tentang AKB, dll
 Mohon agar *mengirimkan* hasil desain dan _caption_ ke grup *maksimal H-1 hari kerja*  tanggal tayang ({tanggal})
 
 Terimakasih ✨✨'),
-                Heading::make('<p align="center">Waktu Kirim 09.00 WITA</p>')->asHtml()
+                Heading::make('<p align="center">Waktu Kirim '.config('fonnte.hour').'</p>')->asHtml()
                     ->hide()
                     ->dependsOn(['jenis'], function (Heading $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {

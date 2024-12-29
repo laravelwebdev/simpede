@@ -70,6 +70,7 @@ Rekomendasi shared hosting murah:
     * `APP_ENV`: Set menjadi `production`.
     * `APP_DEBUG`: Set menjadi `false`.
     * `LOG_CHANNEL`: set menjadi `"null"`
+    * `INITIAL_YEAR`: set menjadi tahun pertama aplikasi digunakan
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
 - Generate Key:
@@ -105,4 +106,20 @@ Rekomendasi shared hosting murah:
     php artisan maintenance:stop
     ```
 
+## Setup Fonnte
+
+Aplikasi ini menggunakan Whatsapp API dari fonnte.com agar bisa mengirimkan reminder melalui Whatsapp. Disarankan menggunakan nomor khusus untuk mengirimkan pesan untuk berjaga-jaga apabila nomor tersebut nantinya dibanned oleh Whatsapp.
+
+- Ubah setting Fonnte pada file `.env`
+    * `FONNTE_TOKEN`: Isi dengan token fonnte.com.
+    * `FONNTE_NUMBER`: Isi dengan nomor whatsapp yang digunakan pada fonnte.com.
+    * `FONNTE_HOUR`: Isi dengan jam pengiriman pesan reminder (sesuaikan dengan pengaturan Cron Job)
+- Login ke akun fonnte Anda, dan tambahkan link berikut pada webhook `Whatsapp Message Status` 
+    ```bash 
+    https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
+    ```
+- Setting Cron Job untuk menjalankan perintah berikut: 
+    ```bash
+    php artisan reminder:send (Contoh: `/usr/bin/php /home/u770759286/domains/devbeta.site/artisan reminder:send`)
+    ```
 

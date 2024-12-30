@@ -1213,6 +1213,13 @@ class Helper
             ->toArray();
     }
 
+    public static function checkEmptyRekeningOnSpjMitraAndPegawai($honor_kegiatan_id, $tanggal): bool
+    {
+        $list = collect(self::makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal));
+
+        return $list->contains(fn ($value) => $value['rekening'] == ' ');
+    }
+
     /**
      * Membuat format data untuk Surat Tugas (ST) ke mitra dan pegawai.
      *

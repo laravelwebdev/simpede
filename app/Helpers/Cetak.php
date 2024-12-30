@@ -816,6 +816,10 @@ class Cetak
                 $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),
                 'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK'
             );
+            throw_if(
+                Helper::checkEmptyRekeningOnSpjMitraAndPegawai($honor->id, $honor->tanggal_spj),
+                'Masih ada rekening yang kosong pada daftar SPJ ini.'
+            );
         }
         if ($jenis === 'st') {
             $honor = HonorKegiatan::where('id', $model_id)->first();

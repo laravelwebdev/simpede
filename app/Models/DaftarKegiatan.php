@@ -35,7 +35,7 @@ class DaftarKegiatan extends Model
     protected static function booted(): void
     {
         static::saving(function (DaftarKegiatan $daftar) {
-            if ($daftar->jenis != 'Kegiatan')) {
+            if ($daftar->jenis != 'Kegiatan') {
                 $daftar->akhir = $daftar->awal;
             }
             if ($daftar->jenis == 'Libur') {

@@ -11,14 +11,14 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Pengelolaan Naskah Dinas: Fitur yang disediakan untuk membuat nomor naskah dinas keluar dan melakukan pengarsipan naskah dinas masuk dan naskah dinas keluar dalam bentuk softcopy.
 - Pengelolaan Kepegawaian: Fitur yang disediakan untuk mendokumentasikan izin keluar kantor untuk pegawai dan penganugerahan gelar Employee of the Month
 - Pengelolaan Kontrak Mitra Statistik: Fitur yang disediakan untuk memonitor kesesuaian kontrak dengan SBML, mencetak kontrak dan BAST, export csv CMS BRI, mencetak SK, Surat Tugas dan SPJ Honor Mitra serta Mengarsipkan Softcopy Kontrak dan BAST.
-- Pengelolaan Barang Persediaan: Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan.
+- Pengelolaan Barang Persediaan: Fitur yang disediakan untuk mencatat transfer masuk, transfer keluar, mencetak BON Permintaan dan mencetak Kartu Kendali Barang Persediaan, serta mengidentifikasi Kode Barang Persediaan (Aktualisasi Latsar Hasyimur Rusdi).
 - Monitoring Anggaran: Fitur yang disediakan untuk memonitor serapan anggaran dan rencana penarikan dana.
 - Pemeliharaan BMN: Fitur yang disediakan untuk memonitor pemeliharaan Barang Milik Negara dan mencetak Kartu Kendali Pemeliharaan.
 - Perjalanan Dinas: Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas
 - Dokumentasi: Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan link-link penting.
 - Manajemen Rapat: Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal
 - Kalender Kegiatan: Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. 
-- Reminder: Fitur untuk mengirimkan reminder deadline kegiatan
+- Reminder: Fitur untuk mengirimkan reminder deadline kegiatan (Aktualisasi Latsar Ilman 'Mimin' Maulana)
 ## Requirement
 
 Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:

@@ -82,12 +82,12 @@ class DaftarKegiatan extends Resource
                     ->sortable()
                     ->help('Contoh: Posting Konten Peringatan Hari Ibu')
                     ->rules('required'),
-                Date::make('Awal')
+                Date::make('Tanggal', 'awal')
                     ->sortable()
                     ->filterable()
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                     ->rules('required'),
-                Date::make('Akhir')
+                Date::make('s.d Tanggal', 'akhir')
                     ->sortable()
                     ->hide()
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))

@@ -16,7 +16,7 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Deviasi', 'Persen Deviasi']);
         $this->viewAll([
-            'label' => 'Bulan '.Helper::$bulan[date('m')], //Label for the link
+            'label' => 'Bulan '.Helper::$bulan[(int) date('m')], //Label for the link
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/rencana-penarikan-dana', //URL to navigate when the link is clicked
             'position' => 'top', //(Possible values `top` - `bottom`)
             'style' => 'button', //(Possible values `link` - `button`)
@@ -24,7 +24,7 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
 
         $this->title('Monitoring Rencana Penarikan Dana');
         $dipaId = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
-        $bulan = date('m');
+        $bulan = (int) date('m');
 
         $datas = DB::table('mata_anggarans')
             ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')
@@ -36,7 +36,7 @@ class RencanaPenarikanPerJenisBelanja extends TableCard
                 $join->on('realisasi_anggarans.mata_anggaran_id', '=', 'mata_anggarans.id')
                     ->where('realisasi_anggarans.dipa_id', $dipaId);
             })
-            ->join('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
+            ->leftJoin('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
             ->whereMonth('tanggal_sp2d', $bulan)
             ->orWhereNull('tanggal_sp2d')
             ->groupBy('jenis_belanja')

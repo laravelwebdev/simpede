@@ -26,7 +26,7 @@ class RealisasiPerJenisBelanja extends TableCard
 
         $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');
         $dipaId = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
-        $bulan = date('m');
+        $bulan = (int) date('m');
 
         $datas = DB::table('mata_anggarans')
             ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')
@@ -38,7 +38,7 @@ class RealisasiPerJenisBelanja extends TableCard
                 $join->on('realisasi_anggarans.mata_anggaran_id', '=', 'mata_anggarans.id')
                     ->where('realisasi_anggarans.dipa_id', $dipaId);
             })
-            ->join('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
+            ->leftJoin('daftar_sp2ds', 'realisasi_anggarans.daftar_sp2d_id', '=', 'daftar_sp2ds.id')
             ->whereMonth('tanggal_sp2d', '<=', $bulan)
             ->orWhereNull('tanggal_sp2d')
             ->groupBy('jenis_belanja')

@@ -53,6 +53,6 @@ class BulanFilter extends Filter
 
     public function default()
     {
-        return $this->default == 'cm' ? date('m') : $this->default;
+        return $this->default == 'cm' ? (int) date('m') : $this->default;
     }
 }

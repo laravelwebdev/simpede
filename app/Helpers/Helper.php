@@ -606,7 +606,7 @@ class Helper
 
         $filterValue = $filters[$filterKey];
 
-        return $filterValue;
+        return $filterValue ;
     }
 
     /**

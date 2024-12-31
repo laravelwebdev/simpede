@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use OpenSpout\Reader\XLSX\Reader;
@@ -1417,6 +1418,47 @@ class Helper
                 return $item;
             })
             ->toArray();
+    }
+
+    public static function getHariLibur($tahun): array
+    {
+        $response = Http::get('https://dayoffapi.vercel.app/api?year='.$tahun);
+        $data1 = $response->json();
+        $response = Http::get('https://api-harilibur.vercel.app/api?year='.$tahun);
+        $data2 = $response->json();
+        $libur = [];
+        foreach ($data2 as $data) {
+            if ($data['is_national_holiday']) {
+                $libur[] = [
+                    'tanggal' => $data['holiday_date'],
+                    'keterangan' => $data['holiday_name'],
+                ];
+            }
+        }
+        foreach ($data1 as $item) {
+            if (isset($item['tanggal']) && isset($item['keterangan'])) {
+                $libur[] = [
+                    'tanggal' => $item['tanggal'],
+                    'keterangan' => $item['keterangan'],
+                ];
+            }
+        }
+
+        return $libur;
+    }
+
+    public static function syncHariLibur($tahun)
+    {
+        $data = self::getHariLibur($tahun);
+        foreach ($data as $item) {
+            $kegiatan = DaftarKegiatan::firstOrNew([
+                'jenis' => 'Libur',
+                'awal' => $item['tanggal'],
+            ]);
+            $kegiatan->kegiatan = $item['keterangan'];
+            $kegiatan->akhir = $item['tanggal'];
+            $kegiatan->save();
+        }
     }
 
     /**

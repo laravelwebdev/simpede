@@ -5,12 +5,10 @@ namespace App\Nova;
 use App\Helpers\Fonnte;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\DaftarKegiatan as ModelDaftarKegiatan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
@@ -229,19 +227,7 @@ Terimakasih ✨✨'),
 
         $actions[] =
             Action::using('Sinkronisasi Hari Libur', function (ActionFields $fields, Collection $models) {
-                $response = Http::get('https://dayoffapi.vercel.app/api?year='.session('year'));
-                if ($response->ok()) {
-                    $data = $response->json();
-                    foreach ($data as $item) {
-                        $kegiatan = ModelDaftarKegiatan::firstOrNew([
-                            'jenis' => 'Libur',
-                            'awal' => $item['tanggal'],
-                        ]);
-                        $kegiatan->kegiatan = $item['keterangan'];
-                        $kegiatan->akhir = $item['tanggal'];
-                        $kegiatan->save();
-                    }
-                }
+                Helper::syncHariLibur(session('year'));
             })->standalone();
         $actions[] =
         Action::using('Stop Reminder', function (ActionFields $fields, Collection $models) {
@@ -278,7 +264,7 @@ Terimakasih ✨✨'),
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->whereYear('awal', session('year'))->where('jenis', '!=', 'Libur');
+        return $query->whereYear('awal', session('year'));
     }
 
     public function replicate()

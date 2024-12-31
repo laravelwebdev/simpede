@@ -159,7 +159,7 @@ class SinkronisasiDataAnggaran extends Action
                 ->rules('required')
                 ->default('054.01'),
             Number::make('Revisi ke- ', 'revisi')
-                ->rules('required', 'gt:0')
+                ->rules('required', 'gte:0')
                 ->step(1),
             Date::make('Tanggal Revisi', 'tanggal_revisi')
                 ->rules('required'),

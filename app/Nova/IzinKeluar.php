@@ -109,6 +109,8 @@ class IzinKeluar extends Resource
                         $field->path(session('year').'/'.Str::slug($formData->kegiatan));
                     })
                     ->hideWhenCreating(),
+                Text::make('Bukti Dukung', fn () => $this->bukti ? count($this->bukti).' Foto' : null)
+                    ->onlyOnIndex(),
             ]),
 
         ];

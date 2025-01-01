@@ -31,7 +31,7 @@ class DokumentasiKegiatan extends Model
                     $image = Image::make(Storage::disk('dokumentasi')->path($file))
                         ->encode('webp', 20);
                     Storage::disk('dokumentasi')->put($file, (string) $image);
-                }                
+                }
             }
             unset($dokumentasi->compress);
         });

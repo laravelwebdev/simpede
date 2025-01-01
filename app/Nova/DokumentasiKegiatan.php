@@ -72,10 +72,10 @@ class DokumentasiKegiatan extends Resource
             Text::make('Kegiatan')
                 ->rules('required')
                 ->sortable(),
-            Boolean::make('Compress Foto', 'compress')
-                ->default(true)
+            Boolean::make('Original Size', 'uncompress')
+                ->default(false)
                 ->onlyOnForms()
-                ->help('Untuk menghemat penyimpanan, selalu contreng pilihan ini kecuali memang diperlukan foto tanpa kompresi')
+                ->help('Untuk menghemat penyimpanan, gambar akan dikompres, centang pilihan ini hanya jika diperlukan foto tanpa dikompres')
                 ->rules('required'),
             Filepond::make('Foto', 'file')
                 ->disk('dokumentasi')

@@ -36,7 +36,7 @@ class IzinKeluar extends Model
                 $files = array_diff($izin->bukti, $izin->getOriginal('bukti') ?? []);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('izin_keluar')->path($file))
-                        ->encode('webp', 15);
+                        ->encode('webp', 20);
                     Storage::disk('izin_keluar')->put($file, (string) $image);
                 }
             }

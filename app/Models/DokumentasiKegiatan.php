@@ -25,14 +25,15 @@ class DokumentasiKegiatan extends Model
             $dokumentasi->user_id = Auth::user()->id;
         });
         static::saving(function (DokumentasiKegiatan $dokumentasi) {
-            if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file)) {
+            if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file) && $dokumentasi->compress) {
                 $files = array_diff($dokumentasi->file, $dokumentasi->getOriginal('file') ?? []);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('dokumentasi')->path($file))
-                        ->encode('webp', 15);
+                        ->encode('webp', 20);
                     Storage::disk('dokumentasi')->put($file, (string) $image);
-                }
+                }                
             }
+            unset($dokumentasi->compress);
         });
     }
 }

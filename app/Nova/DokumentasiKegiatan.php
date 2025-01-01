@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
@@ -71,6 +72,11 @@ class DokumentasiKegiatan extends Resource
             Text::make('Kegiatan')
                 ->rules('required')
                 ->sortable(),
+            Boolean::make('Compress Foto', 'compress')
+                ->default(true)
+                ->onlyOnForms()
+                ->help('Untuk menghemat penyimpanan, selalu contreng pilihan ini kecuali memang diperlukan foto tanpa kompresi')
+                ->rules('required'),
             Filepond::make('Foto', 'file')
                 ->disk('dokumentasi')
                 ->disableCredits()

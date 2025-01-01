@@ -25,7 +25,7 @@ class DokumentasiKegiatan extends Model
             $dokumentasi->user_id = Auth::user()->id;
         });
         static::saving(function (DokumentasiKegiatan $dokumentasi) {
-            if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file) && $dokumentasi->compress) {
+            if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file) && ! $dokumentasi->uncompress) {
                 $files = array_diff($dokumentasi->file, $dokumentasi->getOriginal('file') ?? []);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('dokumentasi')->path($file))
@@ -33,7 +33,7 @@ class DokumentasiKegiatan extends Model
                     Storage::disk('dokumentasi')->put($file, (string) $image);
                 }
             }
-            unset($dokumentasi->compress);
+            unset($dokumentasi->uncompress);
         });
     }
 }

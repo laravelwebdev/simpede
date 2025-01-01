@@ -64,12 +64,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-        Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">
-        <a href="'.config('satker.website').'" class="text-primary dim no-underline">BPS '.config('satker.kabupaten').'</a>
-        <span class="px-1">&middot;</span>
-        &copy;'.date('Y').' Simpede - By Muhlis Abdi.
+        Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">        
+        Copyright &copy;2021 - '.date('Y').' <a href="'.config('satker.website').'" class="text-primary dim no-underline">BPS '.config('satker.kabupaten').'</a>
         </p>
-        <p class="mt-8 text-center text-xs text-80"> Laravel v'.app()->version().'
+        <p class="mt-8 text-center text-xs text-80"> By Muhlis Abdi <span class="px-1">&middot;</span> Laravel v'.app()->version().'
         </p>'
         );
 

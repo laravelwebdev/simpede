@@ -331,36 +331,18 @@
             </div>
             <div class="footer">
                 <p>
-                    BPS {{ config('satker.kabupaten') }} &copy;
+                Simpede - v 2.0
+        </p>
+                <p>                
+                Copyright &copy; 2021 - 
                     <span id="copyright">
                         <script>
                             document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));
                         </script>
                     </span>
-                    Simpede - v 2.0
+                    BPS {{ config('satker.kabupaten') }}
                 </p>
             </div>
         </div>
-
-        <script type="text/javascript">
-            const inputs = document.querySelectorAll(".input");
-
-            function addcl() {
-                let parent = this.parentNode.parentNode;
-                parent.classList.add("focus");
-            }
-
-            function remcl() {
-                let parent = this.parentNode.parentNode;
-                if (this.value == "") {
-                    parent.classList.remove("focus");
-                }
-            }
-
-            inputs.forEach((input) => {
-                input.addEventListener("focus", addcl);
-                input.addEventListener("blur", remcl);
-            });
-        </script>
     </body>
 </html>

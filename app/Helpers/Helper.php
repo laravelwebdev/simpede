@@ -610,6 +610,21 @@ class Helper
     }
 
     /**
+     * Cek Duplicate from json.
+     *
+     * @param  json  $json
+     * @param  string  $key
+     * @return bool
+     */
+    public static function cekGanda($json, $key)
+    {
+        $spek = collect($json);
+        $cek = $spek->duplicates($key);
+
+        return $cek->isNotEmpty();
+    }
+
+    /**
      * Membuat Nomor.
      *
      * @param  date  $tanggal  Tanggal

@@ -313,4 +313,11 @@ class RapatInternal extends Resource
     {
         return $query->whereYear('tanggal_rapat', session('year'));
     }
+
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        if (Helper::cekGanda(json_decode($request->peserta), 'peserta_user_id')) {
+            $validator->errors()->add('peserta', 'Terdapat duplikasi peserta');
+        }
+    }
 }

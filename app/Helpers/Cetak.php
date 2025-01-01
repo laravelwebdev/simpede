@@ -781,6 +781,7 @@ class Cetak
             'email' => config('satker.email'),
             'ibukota' => config('satker.ibukota'),
             'tema' => $data->tema,
+            'agenda' => $data->agenda,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
             'tempat' => $data->tempat,
             'kepala' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($kepala, 'name')),

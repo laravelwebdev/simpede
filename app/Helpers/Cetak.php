@@ -43,10 +43,7 @@ class Cetak
         $mainXml = '';
 
         foreach ($models as $index => $model) {
-            self::validate($jenis, $model->id);
-
             $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
-
             if ($index === 0) {
                 $mainTemplate = $template;
                 $mainXml = self::getMainXml($mainTemplate);
@@ -794,81 +791,70 @@ class Cetak
     public static function validate($jenis, $model_id)
     {
         if ($jenis === 'kak') {
-            throw_if(
-                AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') == 0,
-                'Belum terdapat akun anggaran yang digunakan pada KAK ini'
-            );
-            throw_if(
-                AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') != SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('total_harga'),
-                'Perkiraan jumlah penggunaan anggaran tidak sama dengan  total nilai barang/jasa'
-            );
+            if (AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') == 0) {
+                return 'Belum terdapat akun anggaran yang digunakan pada KAK ini';
+            }
+            if (AnggaranKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('perkiraan') != SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model_id)->sum('total_harga')) {
+                return 'Perkiraan jumlah penggunaan anggaran tidak sama dengan total nilai barang/jasa';
+            }
         }
         if ($jenis === 'spj') {
             $honor = HonorKegiatan::where('id', $model_id)->first();
-            throw_if(
-                $honor->status == 'dibuat',
-                'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Sunting'
-            );
-            throw_if(
-                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
-                'Belum ada data mitra/pegawai pada daftar ini.'
-            );
-            throw_if(
-                $honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto'),
-                'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK'
-            );
-            throw_if(
-                Helper::checkEmptyRekeningOnSpjMitraAndPegawai($honor->id, $honor->tanggal_spj),
-                'Masih ada rekening yang kosong pada daftar SPJ ini.'
-            );
+            if ($honor->status == 'dibuat') {
+                return 'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan dicetak melalui menu Sunting';
+            }
+            if (Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0) {
+                return 'Belum ada data mitra/pegawai pada daftar ini.';
+            }
+            if ($honor->perkiraan_anggaran < Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->sum('bruto')) {
+                return 'Total Honor lebih besar dari perkiraan anggaran yang digunakan di KAK';
+            }
+            if (Helper::checkEmptyRekeningOnSpjMitraAndPegawai($honor->id, $honor->tanggal_spj)) {
+                return 'Masih ada rekening yang kosong pada daftar SPJ ini.';
+            }
         }
         if ($jenis === 'st') {
             $honor = HonorKegiatan::where('id', $model_id)->first();
-            throw_if(
-                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
-                'Belum ada data mitra/pegawai pada daftar ini.'
-            );
+            if (Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0) {
+                return 'Belum ada data mitra/pegawai pada daftar ini.';
+            }
         }
         if ($jenis === 'sk') {
             $honor = HonorKegiatan::where('id', $model_id)->first();
-            throw_if(
-                Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0,
-                'Belum ada data mitra/pegawai pada daftar ini.'
-            );
+            if (Helper::makeBaseListMitraAndPegawai($honor->id, $honor->tanggal_spj)->count() == 0) {
+                return 'Belum ada data mitra/pegawai pada daftar ini.';
+            }
         }
         if ($jenis === 'kontrak') {
             $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
-            throw_if(
-                is_null($kontrak->kontrak_naskah_keluar_id),
-                'Mohon Generate Kontrak terlebih dahulu sebelum mencetak!'
-            );
+            if (is_null($kontrak->kontrak_naskah_keluar_id)) {
+                return 'Mohon Generate Kontrak terlebih dahulu sebelum mencetak!';
+            }
         }
         if ($jenis === 'bast') {
             $kontrak = DaftarKontrakMitra::where('id', $model_id)->first();
-            throw_if(
-                is_null($kontrak->bast_naskah_keluar_id),
-                'Mohon Generate BAST terlebih dahulu sebelum mencetak!'
-            );
+            if (is_null($kontrak->bast_naskah_keluar_id)) {
+                return 'Mohon Generate BAST terlebih dahulu sebelum mencetak!';
+            }
         }
 
         if ($jenis === 'bastp') {
             $bastp = PembelianPersediaan::where('id', $model_id)->first();
-            throw_if(
-                ! in_array($bastp->status, ['diterima', 'dicetak']),
-                'Hanya yang berstatus diterima atau dicetak yang dapat dicetak ulang.'
-            );
-            throw_if(
-                empty($bastp->tanggal_buku),
-                'Lengkapi terlebih dahulu tanggal buku dan tanggal BAST pada daftar yang akan dicetak.'
-            );
+            if (! in_array($bastp->status, ['diterima', 'dicetak'])) {
+                return 'Hanya yang berstatus diterima atau dicetak yang dapat dicetak ulang.';
+            }
+            if (empty($bastp->tanggal_buku)) {
+                return 'Lengkapi terlebih dahulu tanggal buku dan tanggal BAST pada daftar yang akan dicetak.';
+            }
         }
 
         if ($jenis === 'bon') {
             $permintaan = PermintaanPersediaan::where('id', $model_id)->first();
-            throw_if(
-                empty($permintaan->pbmn_user_id),
-                'Lengkapi terlebih dahulu tanggal persetujuan dan Pengelola Persediaan yang menyetujui pada daftar yang akan dicetak.'
-            );
+            if (empty($permintaan->pbmn_user_id)) {
+                return 'Lengkapi terlebih dahulu tanggal persetujuan dan Pengelola Persediaan yang menyetujui pada daftar yang akan dicetak.';
+            }
         }
+
+        return null;
     }
 }

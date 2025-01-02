@@ -62,6 +62,12 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        foreach ($models as $model) {
+            $validationMessage = Cetak::validate($this->jenis, $model->id);
+            if (! is_null($validationMessage)) {
+                return Action::danger($validationMessage);
+            }
+        }
         $filename = Cetak::cetak($this->jenis, $models, $fields->filename, $fields->template, $fields->tanggal, $fields->pengelola);
 
         return Action::redirect(route('dump-download', [

@@ -43,7 +43,6 @@ class PemeliharaanBarang extends Lens
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')
                 ->where('tahun', session('year'))
-                ->whereYear('daftar_pemeliharaans.tanggal', session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
                 ->groupBy('kode_barang')
@@ -77,7 +76,7 @@ class PemeliharaanBarang extends Lens
             'master_barang_pemeliharaans.nopol',
             'master_barang_pemeliharaans.kondisi',
             'master_barang_pemeliharaans.lokasi',
-            DB::raw('count(daftar_pemeliharaans.master_barang_pemeliharaan_id) as jumlah'),
+            DB::raw('SUM(CASE WHEN YEAR(daftar_pemeliharaans.tanggal) = '.session('year').' THEN 1 ELSE 0 END) as jumlah'),
         ];
     }
 
@@ -159,6 +158,7 @@ class PemeliharaanBarang extends Lens
         return DB::table('daftar_pemeliharaans')
             ->join('master_barang_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
             ->where('master_barang_pemeliharaans.tahun', session('year'))
+            ->whereYear('daftar_pemeliharaans.tanggal', session('year'))
             ->distinct('daftar_pemeliharaans.master_barang_pemeliharaan_id')
             ->count('daftar_pemeliharaans.master_barang_pemeliharaan_id');
     }
@@ -168,6 +168,7 @@ class PemeliharaanBarang extends Lens
         return DB::table('daftar_pemeliharaans')
             ->join('master_barang_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
             ->where('master_barang_pemeliharaans.tahun', session('year'))
+            ->whereYear('daftar_pemeliharaans.tanggal', session('year'))
             ->count('daftar_pemeliharaans.master_barang_pemeliharaan_id');
     }
 

@@ -26,7 +26,7 @@ class ImportMasterBarangPemeliharaan extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         MasterBarangPemeliharaan::cache()->disable();
-        MasterBarangPemeliharaan::query()->update(['updated_at' => null]);
+        MasterBarangPemeliharaan::where('tahun', session('year'))->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($row) {
             if (
                 ! empty($row['Kode Barang']) &&

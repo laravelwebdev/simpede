@@ -108,7 +108,8 @@ class RewardPegawai extends Resource
                         }
                     )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
-                    ->prunable(),
+                    ->prunable()
+                    ->hideWhenCreating(),
                 $this->arsip_kertas_kerja ?
                 URL::make('Kertas Kerja', fn () => Storage::disk('arsip')
                     ->url($this->arsip_kertas_kerja))
@@ -135,7 +136,8 @@ class RewardPegawai extends Resource
                         }
                     )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
-                    ->prunable(),
+                    ->prunable()
+                    ->hideWhenCreating(),
                 $this->arsip_sk ?
                 URL::make('SK', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sk))
@@ -162,7 +164,8 @@ class RewardPegawai extends Resource
                         }
                     )
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,kasubbag')->get())
-                    ->prunable(),
+                    ->prunable()
+                    ->hideWhenCreating(),
                 $this->arsip_sertifikat ?
                 URL::make('Sertifikat', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sertifikat))

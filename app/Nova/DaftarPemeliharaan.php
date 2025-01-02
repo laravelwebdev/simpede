@@ -62,7 +62,11 @@ class DaftarPemeliharaan extends Resource
             Date::make('Tanggal Pemeliharaan', 'tanggal')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->rules('required'),
+                ->rules('required', function ($attribute, $value, $fail) {
+                    if (Helper::getYearFromDateString($value) != session('year')) {
+                        return $fail('Tanggal harus di tahun yang telah dipilih');
+                    }
+                }),
             Textarea::make('Keterangan Pemeliharaan', 'uraian')
                 ->rules('required')
                 ->help('Jelaskan detail pemeliharaan yang dilakukan secara lengkap. Misal: Pembelian BBM Pertamax 2 liter, Servis rutin dengan mengganti oli dan dan ganti busi')

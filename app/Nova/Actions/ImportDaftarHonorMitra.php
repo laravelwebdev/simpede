@@ -40,10 +40,9 @@ class ImportDaftarHonorMitra extends Action
     {
         $sheetName = Helper::getLastSheetName($fields->file);
         $honor = $this->model->first();
-        throw_if(
-            $honor->status == 'dibuat',
-            'Mohon lengkapi terlebih dulu isian honor kegiatan yang akan diimport melalui menu Sunting'
-        );
+        if ($honor->status == 'dibuat') {
+            return Action::danger('Mohon lengkapi terlebih dulu isian honor kegiatan yang akan diimport melalui menu Sunting');
+        }
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
         (new FastExcel)->sheet(2)->import($fields->file, function ($row) use ($honor, $fields) {
             if (strlen($row['nip']) == 16) {

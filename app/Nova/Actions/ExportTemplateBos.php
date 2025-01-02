@@ -32,7 +32,9 @@ class ExportTemplateBos extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        throw_if(empty($model->sheet_name), 'Template BOS belum pernah diimport. Lakukan Import dari Template BOS terlebih dahulu');
+        if (empty($model->sheet_name)) {
+            return Action::danger('Template BOS belum pernah diimport. Lakukan Import dari Template BOS terlebih dahulu');
+        }
         $satuan = strtoupper(str_replace([' ', '-'], '', $model->satuan));
         $sheetCollection = Helper::makeCollectionForExportOnSheet($model->id, $model->tangal_spj, 1);
         if (in_array($satuan, ['OB', 'BULAN', '0B'])) {

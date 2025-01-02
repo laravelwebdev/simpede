@@ -72,6 +72,15 @@ class JenisNaskah extends Resource
         ];
     }
 
+    public function fieldsForHasMany(NovaRequest $request)
+    {
+        return [
+            Text::make('Jenis')
+                ->rules('required'),
+
+        ];
+    }
+
     /**
      * Get the fields displayed by the resource on the index.
      *
@@ -133,7 +142,7 @@ class JenisNaskah extends Resource
                 // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request));
+                ->addFields($this->fieldsForHasMany($request));
         }
 
         return $actions;

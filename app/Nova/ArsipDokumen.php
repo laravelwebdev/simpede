@@ -96,6 +96,15 @@ class ArsipDokumen extends Resource
         ];
     }
 
+    public function fieldsForHasMany(NovaRequest $request)
+    {
+        return [
+            Text::make('Jenis Dokumen', 'slug')
+                ->sortable()
+                ->rules('required'),
+        ];
+    }
+
     /**
      * Get the cards available for the request.
      *
@@ -139,7 +148,7 @@ class ArsipDokumen extends Resource
                 // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request)),
+                ->addFields($this->fieldsForHasMany($request)),
         ];
     }
 

@@ -43,6 +43,7 @@ class PemeliharaanBarang extends Lens
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')
                 ->where('tahun', session('year'))
+                ->whereYear('daftar_pemeliharaans.tanggal', session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
                 ->groupBy('kode_barang')

@@ -105,6 +105,11 @@ class Mitra extends Resource
             Text::make('NPWP'),
             URL::make('Telepon', fn () => Helper::formatTelepon($this->telepon))
                 ->displayUsing(fn () => $this->telepon),
+            Select::make('Bank', 'kode_bank_id')
+                ->options(Helper::setOptionsKodeBank())
+                ->showWhenPeeking()
+                ->displayUsingLabels()
+                ->rules('required'),
             Text::make('Rekening', 'rekening'),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
@@ -99,14 +100,18 @@ class JenisKontrak extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get() && $request->viaResource === 'harga-satuans') {
+            $actions[] =
             AddHasManyModel::make('JenisKontrak', 'HargaSatuan', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request)),
-        ];
+                ->addFields($this->fields($request));
+        }
+
+        return $actions;
     }
 
     /**

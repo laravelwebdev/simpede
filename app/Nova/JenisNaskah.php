@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Support\Facades\Storage;
@@ -124,14 +125,18 @@ class JenisNaskah extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $actions = [];
+        if (Policy::make()->allowedFor('admin')->get() && $request->viaResource === 'kode-naskahs') {
+            $actions[] =
             AddHasManyModel::make('JenisNaskah', 'KodeNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request)),
-        ];
+                ->addFields($this->fields($request));
+        }
+
+        return $actions;
     }
 
     /**

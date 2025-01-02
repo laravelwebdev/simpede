@@ -107,7 +107,7 @@ class MataAnggaran extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResource === 'dipas') {
             $actions[] =
             AddHasManyModel::make('MataAnggaran', 'Dipa', $request->viaResourceId)
                 ->confirmButtonText('Tambah')

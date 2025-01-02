@@ -149,7 +149,7 @@ class Mitra extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
+        if (Policy::make()->allowedFor('admin')->get() && $request->viaResource === 'kepka-mitras') {
             $actions[] =
                 AddHasManyModel::make('Mitra', 'KepkaMitra', $request->viaResourceId)
                     ->confirmButtonText('Tambah')

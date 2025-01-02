@@ -97,7 +97,7 @@ class DerajatNaskah extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin')->get()) {
+        if (Policy::make()->allowedFor('admin')->get() && $request->viaResource === 'tata-naskahs') {
             $actions[] =
             AddHasManyModel::make('DerajatNaskah', 'TataNaskah', $request->viaResourceId)
                 ->confirmButtonText('Tambah')

@@ -55,6 +55,7 @@ class RapatInternal extends Model
             $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $rapat->naskah_keluar_id = $naskahkeluar->id;
+            $rapat->peserta = Helper::setDefaultPesertaRapat($rapat->tujuan, $rapat->tanggal);
         });
         static::updating(function (RapatInternal $rapat) {
             if ($rapat->isDirty('tanggal_rapat')) {

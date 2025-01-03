@@ -724,6 +724,27 @@ class Helper
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
+    public static function setDefaultPesertaRapat($tujuan, $tanggal)
+    {
+        Str::contains(Str::lower($tujuan), ['ketua', 'penanggung', 'penanggungjawab']) ? $role = 'koordinator' : $role = 'anggota';
+        $usersId = Pengelola::cache()
+            ->get('all')
+            ->where('role', $role)
+            ->where('active', '<', $tanggal)
+            ->reject(function ($item) use ($tanggal) {
+                return $item['inactive'] && $item['inactive'] < $tanggal;
+            })
+            ->pluck('user_id')
+            ->toArray();
+        $user = User::cache()->get('all')->whereIn('id', $usersId)->pluck('id')->map(function ($id) {
+            return [
+                'peserta_user_id' => $id,
+            ];
+        });
+
+        return json_encode($user);
+    }
+
     /**
      * Mendapatkan data Pegawai berdasarkan ID User dan tanggal.
      *

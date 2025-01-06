@@ -12,6 +12,7 @@ class RapatInternal extends Model
         'tanggal' => 'date',
         'tanggal_rapat' => 'date',
         'peserta' => 'array',
+        'permission' => 'array',
     ];
 
     public function kasubbag(): BelongsTo
@@ -45,6 +46,7 @@ class RapatInternal extends Model
             $default_naskah = NaskahDefault::cache()->get('all')
                 ->where('jenis', 'undangan')
                 ->first();
+            $default_peserta = Helper::setDefaultPesertaRapat($rapat->tujuan, $rapat->tanggal);
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $rapat->tanggal;
             $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
@@ -55,7 +57,8 @@ class RapatInternal extends Model
             $naskahkeluar->generate = 'A';
             $naskahkeluar->save();
             $rapat->naskah_keluar_id = $naskahkeluar->id;
-            $rapat->peserta = Helper::setDefaultPesertaRapat($rapat->tujuan, $rapat->tanggal);
+            $rapat->peserta = $default_peserta;
+            $rapat->permission = $default_peserta;
         });
         static::updating(function (RapatInternal $rapat) {
             if ($rapat->isDirty('tanggal_rapat')) {

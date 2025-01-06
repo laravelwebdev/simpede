@@ -742,7 +742,7 @@ class Helper
             ];
         });
 
-        return $user;
+        return json_encode($user);
     }
 
     /**

@@ -7,7 +7,6 @@ use App\Nova\Actions\Download;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -160,15 +159,6 @@ class RapatInternal extends Resource
 
                 ])->hideWhenCreating(),
             ]),
-            Panel::make('Akses ke notula', [
-                SimpleRepeatable::make('Punya Akses Notula', 'permission', [
-                    Select::make('Nama', 'peserta_user_id')
-                        ->rules('required')
-                        ->searchable()
-                        ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                        ->options(Helper::setOptionPengelola('anggota', now())),
-                ])->hideWhenCreating(),
-            ]),
             Panel::make('Arsip', [
                 Filepond::make('Draft Notula', 'draft_notula')
                     ->disk('arsip')
@@ -184,7 +174,7 @@ class RapatInternal extends Resource
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
-                $this->draft_notula && in_array(Auth::user()->id, collect($this->permission)->pluck('peserta_user_id')->toArray()) ?
+                $this->draft_notula ?
                 URL::make('Draft Notula', fn () => Storage::disk('arsip')
                     ->url($this->draft_notula))
                     ->displayUsing(fn () => 'Lihat')->onlyOndetail()
@@ -244,12 +234,12 @@ class RapatInternal extends Resource
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->prunable(),
-                $this->signed_notula && in_array(Auth::user()->id, collect($this->permission)->pluck('peserta_user_id')->toArray()) ?
+                $this->signed_notula ?
                 URL::make('Notula Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_notula))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Notula Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Notula Signed', fn () => '—')->onlyOndetail(),
             ]),
         ];
     }

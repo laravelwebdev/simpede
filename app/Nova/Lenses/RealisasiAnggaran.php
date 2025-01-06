@@ -124,10 +124,8 @@ class RealisasiAnggaran extends Lens
 
                 return Nova::path().'/resources/realisasi-anggarans?realisasi-anggarans_filter='.$filter;
             })
-                ->label('Lihat')
-                ->clickable()
-                ->canSee(fn () => $this->realisasi > 0)
-                ->sameTab(),
+                ->displayUsing(fn () => 'Lihat')
+                ->canSee(fn () => $this->realisasi > 0),
 
         ];
     }

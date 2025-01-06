@@ -8,10 +8,10 @@ use App\Nova\Filters\BulanFilter;
 use App\Nova\Filters\RoFilter;
 use App\Nova\Metrics\RealisasiPerJenisBelanja;
 use App\Nova\Metrics\SerapanAnggaran;
-use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
@@ -110,7 +110,7 @@ class RealisasiAnggaran extends Lens
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Sisa', 'sisa')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-            Url::make('Detail', function () {
+            URL::make('Detail', function () {
                 $filter = base64_encode(
                     json_encode(
                         [

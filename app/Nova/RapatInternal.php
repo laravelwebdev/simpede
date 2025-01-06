@@ -238,9 +238,9 @@ class RapatInternal extends Resource
                 $this->signed_notula & in_array(Auth::user()->id, collect($this->peserta)->pluck('peserta_user_id')->toArray()) ?
                 URL::make('Notula Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_notula))
-                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Notula Signed', fn () => '—')->onlyOndetail(),
+                Text::make('Notula Signed', fn () => '—')->exceptOnForms(),
             ]),
         ];
     }

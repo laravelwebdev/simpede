@@ -7,7 +7,6 @@ use App\Nova\Actions\Download;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;

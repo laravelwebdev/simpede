@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Actions\AddHasManyModel;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;

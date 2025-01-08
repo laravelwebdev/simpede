@@ -73,7 +73,6 @@ class AnggaranKerangkaAcuan extends Resource
                 }),
 
             Numeric::make('Perkiraan Digunakan ', 'perkiraan')
-                ->separator(' ')
                 ->rules('required', 'gt:1'),
 
         ];

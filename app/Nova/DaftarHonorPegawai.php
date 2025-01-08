@@ -68,8 +68,7 @@ class DaftarHonorPegawai extends Resource
                         $field->show();
                         $field->rules('required', 'gt:0');
                     }
-                })
-                ->step(1),
+                }),
             Numeric::make('Bruto', fn () => $this->volume * $this->harga_satuan)
                 ->exceptOnForms(),
             Number::make('Persentase Pajak (%)', 'persen_pajak')

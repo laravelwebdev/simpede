@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use OpenSpout\Reader\XLSX\Reader;
 
@@ -367,32 +368,8 @@ class Helper
     private static function kata($x)
     {
         $x = abs($x);
-        $angka = ['', 'satu', 'dua', 'tiga', 'empat', 'lima',
-            'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas', ];
-        $temp = '';
-        if ($x < 12) {
-            $temp = ' '.$angka[$x];
-        } elseif ($x < 20) {
-            $temp = self::kata($x - 10).' belas';
-        } elseif ($x < 100) {
-            $temp = self::kata($x / 10).' puluh'.self::kata($x % 10);
-        } elseif ($x < 200) {
-            $temp = ' seratus'.self::kata($x - 100);
-        } elseif ($x < 1000) {
-            $temp = self::kata($x / 100).' ratus'.self::kata($x % 100);
-        } elseif ($x < 2000) {
-            $temp = ' seribu'.self::kata($x - 1000);
-        } elseif ($x < 1000000) {
-            $temp = self::kata($x / 1000).' ribu'.self::kata($x % 1000);
-        } elseif ($x < 1000000000) {
-            $temp = self::kata($x / 1000000).' juta'.self::kata($x % 1000000);
-        } elseif ($x < 1000000000000) {
-            $temp = self::kata($x / 1000000000).' milyar'.self::kata(fmod($x, 1000000000));
-        } elseif ($x < 1000000000000000) {
-            $temp = self::kata($x / 1000000000000).' trilyun'.self::kata(fmod($x, 1000000000000));
-        }
 
-        return $temp;
+        return Number::spell($x, 'id');
     }
 
     /**

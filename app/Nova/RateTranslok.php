@@ -3,14 +3,15 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class RateTranslok extends Resource
 {
     public static $with = ['asalMasterWilayah', 'tujuanMasterWilayah', 'skTranslok'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -49,7 +50,6 @@ class RateTranslok extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -68,7 +68,7 @@ class RateTranslok extends Resource
             Text::make('Tujuan', 'tujuanMasterWilayah.wilayah')
                 ->sortable()
                 ->rules('required'),
-            Currency::make('Rate', 'rate')
+            Numeric::make('Rate', 'rate')
                 ->rules('required'),
         ];
     }
@@ -76,7 +76,6 @@ class RateTranslok extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -87,7 +86,6 @@ class RateTranslok extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -98,7 +96,6 @@ class RateTranslok extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -109,7 +106,6 @@ class RateTranslok extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

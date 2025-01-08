@@ -8,13 +8,13 @@ use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
 use App\Nova\Metrics\KesesuaianSbml;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
+use Laravelwebdev\Numeric\Numeric;
 
 class RekapHonorMitra extends Lens
 {
@@ -94,7 +94,7 @@ class RekapHonorMitra extends Lens
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly()
                 ->sortable(),
-            Currency::make('Nilai Kontrak', 'nilai_kontrak')
+            Numeric::make('Nilai Kontrak', 'nilai_kontrak')
                 ->readOnly()
                 ->sortable(),
             Boolean::make('Sesuai SBML', 'valid_sbml')

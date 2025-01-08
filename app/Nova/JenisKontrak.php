@@ -5,9 +5,9 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class JenisKontrak extends Resource
 {
@@ -56,10 +56,8 @@ class JenisKontrak extends Resource
         return [
             Text::make('Jenis Kontrak', 'jenis')
                 ->rules('required'),
-            Currency::make('Batas maksimal (SBML)', 'sbml')
-                ->rules('required', 'gt:1')
-                ->step(1)
-                ->min(1),
+            Numeric::make('Batas maksimal (SBML)', 'sbml')
+                ->rules('required', 'gt:1'),
         ];
     }
 

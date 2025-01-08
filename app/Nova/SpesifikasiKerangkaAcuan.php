@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class SpesifikasiKerangkaAcuan extends Resource
 {
@@ -64,10 +65,8 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->rules('required', 'gt:0')->min(0),
             Text::make('Satuan')
                 ->rules('required'),
-            Currency::make('Harga Satuan')
-                ->rules('required', 'gt:0')
-                ->min(1)
-                ->step(1),
+            Numeric::make('Harga Satuan')
+                ->rules('required', 'gt:0'),
             Textarea::make('Spesifikasi')
                 ->rules('required')
                 ->alwaysShow()
@@ -81,8 +80,8 @@ class SpesifikasiKerangkaAcuan extends Resource
             Text::make('Rincian'),
             Number::make('Volume'),
             Text::make('Satuan'),
-            Currency::make('Harga Satuan'),
-            Currency::make('Total', 'total_harga'),
+            Numeric::make('Harga Satuan'),
+            Numeric::make('Total', 'total_harga'),
             Textarea::make('Spesifikasi'),
         ];
     }

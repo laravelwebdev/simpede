@@ -31,6 +31,7 @@
         "laravel/framework": "^11.9",
         "laravel/nova": "^4.0",
         "laravel/tinker": "^2.9",
+        "laravelwebdev/numeric": "^1.0",
         "mostafaznv/laracache": "^2.4",
         "oneduo/nova-time-field": "^1.0",
         "oriondevelops/nova-greeter": "^0.0.2",

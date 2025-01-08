@@ -9,11 +9,11 @@ use App\Nova\Filters\StatusFilter;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class DaftarKontrakMitra extends Resource
 {
@@ -81,7 +81,7 @@ class DaftarKontrakMitra extends Resource
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly()
                 ->sortable(),
-            Currency::make('Nilai Kontrak')
+            Numeric::make('Nilai Kontrak')
                 ->readOnly()
                 ->sortable(),
             Status::make('Status', 'status_kontrak')

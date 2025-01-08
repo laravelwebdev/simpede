@@ -11,11 +11,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ImportDaftarHonorMitra extends Action
@@ -84,7 +84,7 @@ class ImportDaftarHonorMitra extends Action
             Number::make('Volume', 'volume')
                 ->step(0.01)
                 ->help('Default Volume Pekerjaan'),
-            Currency::make('Harga Satuan', 'harga_satuan')
+            Numeric::make('Harga Satuan', 'harga_satuan')
 
                 ->help('Default Harga Satuan'),
             Number::make('Persentase Pajak', 'persen_pajak')

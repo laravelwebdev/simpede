@@ -7,12 +7,12 @@ use App\Helpers\Policy;
 use App\Nova\Actions\EditRekening;
 use App\Nova\Actions\ImportDaftarHonorMitra;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class DaftarHonorMitra extends Resource
 {
@@ -64,18 +64,17 @@ class DaftarHonorMitra extends Resource
                     ->loadingWhen(['Loading'])
                     ->failedWhen(['Selesai Tidak Sesuai Target'])
                     ->onlyOnIndex(),
-                Currency::make('Harga Satuan', 'harga_satuan')
-                    ->step(1)
+                Numeric::make('Harga Satuan', 'harga_satuan')
                     ->rules('required', 'gt:0'),
-                Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
+                Numeric::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                     ->onlyOnIndex(),
                 Number::make('Persentase Pajak', 'persen_pajak')
                     ->onlyOnForms()
                     ->rules('nullable', 'bail', 'gte:0', 'lte:100')
                     ->step(0.01),
-                Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                Numeric::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->onlyOnIndex(),
-                Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                Numeric::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                     ->onlyOnIndex(),
                 Select::make('Bank', 'mitra.kode_bank_id')
                     ->options(Helper::setOptionsKodeBank())
@@ -96,13 +95,13 @@ class DaftarHonorMitra extends Resource
             Status::make('Status', 'status_realisasi')
                 ->loadingWhen(['Loading'])
                 ->failedWhen(['Selesai Tidak Sesuai Target']),
-            Currency::make('Harga Satuan', 'harga_satuan')
+            Numeric::make('Harga Satuan', 'harga_satuan')
                 ->onlyOnIndex(),
-            Currency::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
+            Numeric::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                 ->onlyOnIndex(),
-            Currency::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            Numeric::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->onlyOnIndex(),
-            Currency::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+            Numeric::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
                 ->onlyOnIndex(),
         ];
     }

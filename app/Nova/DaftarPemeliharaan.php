@@ -4,11 +4,11 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class DaftarPemeliharaan extends Resource
 {
@@ -75,8 +75,7 @@ class DaftarPemeliharaan extends Resource
                 ->exceptOnForms(),
             Text::make('Nama Penyedia', 'penyedia')
                 ->rules('required'),
-            Currency::make('Biaya')
-                ->step(1)
+            Numeric::make('Biaya')
                 ->rules('required', 'numeric', 'gt:0'),
         ];
     }

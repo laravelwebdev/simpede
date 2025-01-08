@@ -6,13 +6,13 @@ use App\Helpers\Helper;
 use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use App\Nova\Lenses\RencanaPenarikanDana;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class RealisasiAnggaran extends Resource
 {
@@ -76,7 +76,7 @@ class RealisasiAnggaran extends Resource
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'mataAnggaran.uraian')->asSmall(),
             ]),
-            Currency::make('Nilai', 'nilai')
+            Numeric::make('Nilai', 'nilai')
                 ->sortable(),
         ];
     }
@@ -95,7 +95,7 @@ class RealisasiAnggaran extends Resource
                 ->sortable(),
             Text::make('Uraian', 'daftarSp2d.uraian')
                 ->sortable(),
-            Currency::make('Nilai', 'nilai')
+            Numeric::make('Nilai', 'nilai')
                 ->sortable(),
         ];
     }

@@ -7,10 +7,10 @@ use App\Nova\Actions\AddHasManyModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class AnggaranKerangkaAcuan extends Resource
 {
@@ -72,10 +72,9 @@ class AnggaranKerangkaAcuan extends Resource
                     });
                 }),
 
-            Currency::make('Perkiraan Digunakan ', 'perkiraan')
-                ->rules('required', 'gt:1')
-                ->min(1)
-                ->step(1),
+            Numeric::make('Perkiraan Digunakan ', 'perkiraan')
+                ->separator(' ')
+                ->rules('required', 'gt:1'),
 
         ];
     }

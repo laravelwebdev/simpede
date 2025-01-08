@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "build-numeric": "cd nova-components/Numeric && npm run dev",
+        "build-numeric-prod": "cd nova-components/Numeric && npm run prod"
     },
     "devDependencies": {
         "axios": "^1.6.4",

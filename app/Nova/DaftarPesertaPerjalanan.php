@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravelwebdev\Numeric\Numeric;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarPesertaPerjalanan extends Resource
@@ -86,8 +87,7 @@ class DaftarPesertaPerjalanan extends Resource
                 Text::make('Satuan', 'satuan')
                     ->help('Misal: O-H, malam, O-P, dll')
                     ->rules('required'),
-                Currency::make('Harga Satuan', 'harga_satuan')
-                    ->step(1)
+                Numeric::make('Harga Satuan', 'harga_satuan')
                     ->rules('required', 'integer', 'gt:0'),
             ]),
 

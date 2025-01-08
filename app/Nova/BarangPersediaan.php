@@ -13,13 +13,13 @@ use App\Nova\PermintaanPersediaan as NovaPermintaanPersediaan;
 use App\Nova\PersediaanKeluar as NovaPersediaanKeluar;
 use App\Nova\PersediaanMasuk as NovaPersediaanMasuk;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableMorphToRelation;
+use Laravelwebdev\Numeric\Numeric;
 
 class BarangPersediaan extends Resource
 {
@@ -88,8 +88,8 @@ class BarangPersediaan extends Resource
                 ->copyable(),
             Text::make('Volume')
                 ->displayUsing(fn ($value) => $value.' '.$this->satuan),
-            Currency::make('Harga Satuan')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
-            Currency::make('Total Harga')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
+            Numeric::make('Harga Satuan')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
+            Numeric::make('Total Harga')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),
 
         ];
     }

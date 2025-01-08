@@ -63,7 +63,7 @@ class DaftarHonorPegawai extends Resource
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Numeric::make('Harga Satuan', 'harga_satuan')
                 ->hide()
-                ->dependsOn(['volume'], function (Number $field, NovaRequest $request, FormData $formData) {
+                ->dependsOn(['volume'], function (Numeric $field, NovaRequest $request, FormData $formData) {
                     if ($formData->volume != null) {
                         $field->show();
                         $field->rules('required', 'gt:0');

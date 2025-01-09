@@ -29,7 +29,7 @@ class DokumentasiKegiatan extends Model
                 $files = array_diff($dokumentasi->file, $dokumentasi->getOriginal('file') ?? []);
                 foreach ($files as $file) {
                     $image = Image::make(Storage::disk('dokumentasi')->path($file))
-                        ->encode('webp', 20);
+                        ->encode('webp', 50);
                     Storage::disk('dokumentasi')->put($file, (string) $image);
                 }
             }

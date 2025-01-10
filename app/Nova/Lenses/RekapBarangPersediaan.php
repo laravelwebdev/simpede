@@ -55,7 +55,8 @@ class RekapBarangPersediaan extends Lens
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
                 }), 'master_persediaans')
-                ->where('stok', '>', 0)
+                ->where('stok', '>', 0)                
+                ->whereYear('tanggal_transaksi', session('year'), 'or')
         ));
     }
 

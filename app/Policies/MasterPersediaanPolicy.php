@@ -65,4 +65,14 @@ class MasterPersediaanPolicy
             ->allowedFor('bmn')
             ->get();
     }
+
+    /**
+     * Determine whether the user can run action.
+     */
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('kasubbag,bmn')
+            ->get();
+    }
 }

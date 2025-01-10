@@ -137,6 +137,7 @@ class RekapBarangPersediaan extends Lens
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
             $actions[] =
+            //BUG: ini hanya untuk transaksi tahun berjalan
             Download::make('karken_persediaan', 'Unduh Kartu Kendali Persediaan')
                 ->showInline()
                 ->showOnDetail()

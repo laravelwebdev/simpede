@@ -70,6 +70,7 @@ class RekapBarangPersediaan extends Lens
         return [
             'master_persediaans.id',
             'master_persediaans.kode',
+            'tanggal_transaksi',
             'master_persediaans.satuan',
             'master_persediaans.barang',
             DB::raw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'),

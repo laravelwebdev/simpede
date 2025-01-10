@@ -7,6 +7,7 @@ use App\Models\JenisNaskah;
 use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -89,6 +90,8 @@ class NaskahMasuk extends Resource
                 }),
             Text::make('Nomor')
                 ->rules('required')
+                ->creationRules('unique:naskah_masuks,nomor')
+                ->updateRules('unique:naskah_masuks,nomor,{{resourceId}}')
                 ->sortable(),
             Text::make('Pengirim')->rules('required'),
             Text::make('Perihal', 'perihal')->rules('required'),

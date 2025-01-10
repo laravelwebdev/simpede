@@ -41,8 +41,7 @@ class RekapBarangPersediaan extends Lens
     {
         $displayed = DB::table('barang_persediaans')
             ->select('master_persediaan_id')
-            ->distinct()
-            ->whereYear('tanggal_transaksi', session('year'));
+            ->distinct();
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
@@ -56,6 +55,7 @@ class RekapBarangPersediaan extends Lens
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
                 }), 'master_persediaans')
+                ->where('stok', '>', 0)
         ));
     }
 

@@ -40,7 +40,6 @@ class RekapBarangPersediaan extends Lens
     public static function query(LensRequest $request, $query)
     {
         $displayed = DB::table('barang_persediaans')
-            ->select('master_persediaan_id')
             ->whereYear('tanggal_transaksi', session('year'))
             ->orWhere(function ($query) {
                 $query

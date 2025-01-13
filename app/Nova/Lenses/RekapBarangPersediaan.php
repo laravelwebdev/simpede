@@ -40,13 +40,16 @@ class RekapBarangPersediaan extends Lens
     public static function query(LensRequest $request, $query)
     {
         $displayed = DB::table('barang_persediaans')
-            ->select(DB::raw('
-            id, master_persediaan_id,
-            SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
-            SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as stok
-        '))
-            ->groupBy('id', 'master_persediaan_id')
-            ->havingRaw('stok > 0');
+            ->select('master_persediaan_id')
+            ->whereYear('tanggal_transaksi', session('year'))
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('
+                      SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
+                      SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END)
+                  '), '>', 0);
+            })
+            ->groupBy('master_persediaan_id');
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
@@ -54,9 +57,9 @@ class RekapBarangPersediaan extends Lens
                     $join->on('master_persediaans.id',
                         '=',
                         'barang_persediaans.master_persediaan_id')
-                        ->whereYear('tanggal_transaksi', session('year'));
+                        ->whereNotNull('tanggal_transaksi');
                 })
-                ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang', 'stok')
+                ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
                 }), 'master_persediaans')
@@ -75,7 +78,7 @@ class RekapBarangPersediaan extends Lens
             'master_persediaans.kode',
             'master_persediaans.satuan',
             'master_persediaans.barang',
-            'stok',
+            DB::raw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) -  SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar"THEN volume ELSE 0 END) as stok'),
         ];
     }
 

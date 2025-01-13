@@ -42,7 +42,10 @@ class RekapBarangPersediaan extends Lens
         $displayed = DB::table('barang_persediaans')
             ->select('master_persediaan_id')
             ->distinct()
-            ->whereYear('tanggal_transaksi', session('year'));
+            ->whereYear('tanggal_transaksi', session('year'))
+            ->orWhere(function ($query) {
+                $query->whereRaw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) > 0');
+            });
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())

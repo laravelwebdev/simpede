@@ -43,10 +43,10 @@ class RekapBarangPersediaan extends Lens
             ->select(DB::raw('
             id,master_persediaan_id,tanggal_transaksi,
             SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
-            SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as sisa
+            SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as stok
         '))
             ->groupBy('id', 'master_persediaan_id', 'tanggal_transaksi')
-            ->havingRaw('YEAR(tanggal_transaksi) = ? OR sisa > 0', [session('year')]);
+            ->havingRaw('YEAR(tanggal_transaksi) = ? OR stok > 0', [session('year')]);
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
@@ -75,7 +75,7 @@ class RekapBarangPersediaan extends Lens
             'master_persediaans.kode',
             'master_persediaans.satuan',
             'master_persediaans.barang',
-            DB::raw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as stok'),
+            'stok',
         ];
     }
 

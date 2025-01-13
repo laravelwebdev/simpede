@@ -44,21 +44,21 @@ class RekapBarangPersediaan extends Lens
             ->distinct()
             ->whereYear('tanggal_transaksi', session('year'))
             ->orWhere(function ($query) {
-            $query->whereRaw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) > 0');
+                $query->whereRaw('SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR  barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) > 0');
             });
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
-            ->join('barang_persediaans', function ($join) {
-                $join->on('master_persediaans.id',
-                '=',
-                'barang_persediaans.master_persediaan_id')
-                ->whereNotNull('tanggal_transaksi');
-            })
-            ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
-            ->joinSub($displayed, 'displayed', function (JoinClause $join) {
-                $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
-            }), 'master_persediaans')
+                ->join('barang_persediaans', function ($join) {
+                    $join->on('master_persediaans.id',
+                        '=',
+                        'barang_persediaans.master_persediaan_id')
+                        ->whereNotNull('tanggal_transaksi');
+                })
+                ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
+                ->joinSub($displayed, 'displayed', function (JoinClause $join) {
+                    $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
+                }), 'master_persediaans')
         ));
     }
 

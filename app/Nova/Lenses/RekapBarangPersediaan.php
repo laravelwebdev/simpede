@@ -54,7 +54,7 @@ class RekapBarangPersediaan extends Lens
                     $join->on('master_persediaans.id',
                         '=',
                         'barang_persediaans.master_persediaan_id')
-                        ->whereNotNull('displayed.tanggal_transaksi');
+                        ->whereNotNull('tanggal_transaksi');
                 })
                 ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {

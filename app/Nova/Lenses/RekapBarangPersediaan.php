@@ -40,15 +40,8 @@ class RekapBarangPersediaan extends Lens
     public static function query(LensRequest $request, $query)
     {
         $displayed = DB::table('barang_persediaans')
-            ->whereYear('tanggal_transaksi', session('year'))
-            ->orWhere(function ($query) {
-                $query
-                    ->where(DB::raw('
-                      SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
-                      SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END)
-                  '), '>', 0);
-            })
-            ->groupBy('master_persediaan_id');
+            ->select('master_persediaan_id')
+            ->distinct();
 
         return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_persediaans')->select(self::columns())
@@ -61,7 +54,9 @@ class RekapBarangPersediaan extends Lens
                 ->groupBy('master_persediaans.id', 'master_persediaans.kode', 'master_persediaans.satuan', 'master_persediaans.barang')
                 ->joinSub($displayed, 'displayed', function (JoinClause $join) {
                     $join->on('displayed.master_persediaan_id', '=', 'master_persediaans.id');
-                }), 'master_persediaans')
+                })
+                ->whereYear('tanggal_transaksi', session('year'))
+                , 'master_persediaans')
         ));
     }
 

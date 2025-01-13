@@ -45,7 +45,7 @@ class RekapBarangPersediaan extends Lens
             SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
             SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as stok
         '))
-            ->groupBy('id', 'master_persediaan_id', 'tanggal_transaksi')
+            ->groupBy('id', 'master_persediaan_id')
             ->havingRaw('YEAR(tanggal_transaksi) = ? OR stok > 0', [session('year')]);
 
         return $request->withOrdering($request->withFilters(

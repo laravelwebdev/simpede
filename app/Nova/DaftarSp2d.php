@@ -93,7 +93,7 @@ class DaftarSp2d extends Resource
                 })
                 ->onlyOnDetail(),
             Panel::make('Arsip', [
-                Filepond::make('Arsip', 'arsip_spm')
+                Filepond::make('Arsip SPM', 'arsip_spm')
                     ->disk('arsip')
                     ->disableCredits()
                     ->onlyOnForms()
@@ -114,6 +114,28 @@ class DaftarSp2d extends Resource
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('Arsip SPM', fn () => '—')->exceptOnForms(),
+
+                Filepond::make('Lampiran SPM', 'arsip_lampiran')
+                    ->disk('arsip')
+                    ->disableCredits()
+                    ->onlyOnForms()
+                    ->mimesTypes(['application/pdf'])
+                    ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
+                    ->storeAs(function (Request $request) {
+                        $originalName = 'Lampiran_SPM_'.$this->nomor_spp;
+                        $extension = $request->arsip_lampiran->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
+                    ->prunable(),
+                $this->arsip_lampiran ?
+                URL::make('Arsip SPM', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_lampiran))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
+                    :
+                Text::make('Lampiran SPM', fn () => '—')->onlyOnDetail(),
 
                 Filepond::make('Arsip SP2D', 'arsip_sp2d')
                     ->disk('arsip')

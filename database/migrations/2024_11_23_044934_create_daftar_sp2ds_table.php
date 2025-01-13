@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nomor_sp2d', 20)->nullable();
             $table->text('uraian', 20)->nullable();
             $table->string('arsip_spm')->nullable();
+            $table->string('arsip_lampiran')->nullable();
             $table->string('arsip_sp2d')->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->fullText('uraian')->nullable();

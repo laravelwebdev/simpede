@@ -75,6 +75,7 @@ class DaftarSp2dPolicy
             ->allowedFor('ppspm,arsiparis')
             ->andNotEqual($sp2d->arsip_sp2d, null)
             ->andNotEqual($sp2d->arsip_spm, null)
+            ->andNotEqual($sp2d->arsip_lampiran, null)
             ->get();
     }
 

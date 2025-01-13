@@ -41,7 +41,7 @@ class RekapBarangPersediaan extends Lens
     {
         $displayed = DB::table('barang_persediaans')
             ->select(DB::raw('
-            id,master_persediaan_id,tanggal_transaksi
+            id,master_persediaan_id,tanggal_transaksi,
             SUM(CASE WHEN tanggal_transaksi IS NOT NULL AND (barang_persediaanable_type = "App\\\Models\\\PembelianPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanMasuk") THEN volume ELSE 0 END) - 
             SUM(CASE WHEN barang_persediaanable_type = "App\\\Models\\\PermintaanPersediaan" OR barang_persediaanable_type = "App\\\Models\\\PersediaanKeluar" THEN volume ELSE 0 END) as sisa
         '))

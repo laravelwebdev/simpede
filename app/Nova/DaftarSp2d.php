@@ -93,6 +93,28 @@ class DaftarSp2d extends Resource
                 })
                 ->onlyOnDetail(),
             Panel::make('Arsip', [
+                Filepond::make('Arsip SPP', 'arsip_spp')
+                    ->disk('arsip')
+                    ->disableCredits()
+                    ->onlyOnForms()
+                    ->mimesTypes(['application/pdf'])
+                    ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
+                    ->storeAs(function (Request $request) {
+                        $originalName = 'SPP_'.$this->nomor_spp;
+                        $extension = $request->arsip_spp->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
+                    ->prunable(),
+                $this->arsip_spp ?
+                URL::make('Arsip SPP', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_spp))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
+                    :
+                Text::make('Arsip SPM', fn () => '—')->onlyOnDetail(),
+
                 Filepond::make('Arsip SPM', 'arsip_spm')
                     ->disk('arsip')
                     ->disableCredits()
@@ -131,7 +153,7 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_lampiran ?
-                URL::make('Arsip SPM', fn () => Storage::disk('arsip')
+                URL::make('Arsip Lampiran SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_lampiran))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :

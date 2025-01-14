@@ -93,7 +93,7 @@ class DaftarSp2d extends Resource
                 })
                 ->onlyOnDetail(),
             Panel::make('Arsip', [
-                Filepond::make('Arsip SPP', 'arsip_spp')
+                Filepond::make('SPP', 'arsip_spp')
                     ->disk('arsip')
                     ->disableCredits()
                     ->onlyOnForms()
@@ -109,13 +109,13 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_spp ?
-                URL::make('Arsip SPP', fn () => Storage::disk('arsip')
+                URL::make('SPP', fn () => Storage::disk('arsip')
                     ->url($this->arsip_spp))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('Arsip SPM', fn () => '—')->onlyOnDetail(),
+                Text::make('SPP', fn () => '—')->onlyOnDetail(),
 
-                Filepond::make('Arsip SPM', 'arsip_spm')
+                Filepond::make('SPM', 'arsip_spm')
                     ->disk('arsip')
                     ->disableCredits()
                     ->onlyOnForms()
@@ -131,11 +131,11 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_spm ?
-                URL::make('Arsip SPM', fn () => Storage::disk('arsip')
+                URL::make('SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_spm))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip SPM', fn () => '—')->exceptOnForms(),
+                Text::make('SPM', fn () => '—')->exceptOnForms(),
 
                 Filepond::make('Lampiran SPM', 'arsip_lampiran')
                     ->disk('arsip')
@@ -153,7 +153,7 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_lampiran ?
-                URL::make('Arsip Lampiran SPM', fn () => Storage::disk('arsip')
+                URL::make('Lampiran SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_lampiran))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
@@ -175,13 +175,13 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_ssp ?
-                URL::make('Arsip SSP', fn () => Storage::disk('arsip')
+                URL::make('SSP', fn () => Storage::disk('arsip')
                     ->url($this->arsip_ssp))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
                 Text::make('SSP', fn () => '—')->onlyOnDetail(),
 
-                Filepond::make('Arsip SP2D', 'arsip_sp2d')
+                Filepond::make('SP2D', 'arsip_sp2d')
                     ->disk('arsip')
                     ->onlyOnForms()
                     ->disableCredits()
@@ -197,11 +197,11 @@ class DaftarSp2d extends Resource
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
                 $this->arsip_sp2d ?
-                URL::make('Arsip SP2D', fn () => Storage::disk('arsip')
+                URL::make('SP2D', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sp2d))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip SP2D', fn () => '—')->exceptOnForms(),
+                Text::make('SP2D', fn () => '—')->exceptOnForms(),
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')

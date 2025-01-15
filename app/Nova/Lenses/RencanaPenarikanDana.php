@@ -59,14 +59,9 @@ class RencanaPenarikanDana extends Lens
                         ->whereMonth('tanggal_sp2d', $filtered_bulan);
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
-
-                ->groupBy('mak')
-                ->groupBy('ordered')
-                ->groupBy('item')
-                ->groupBy('target')
-                ->orderBy('mak')
-                ->orderBy('ordered'), 'realisasi_anggarans')
-        ));
+                ->groupBy('mak', 'ordered', 'item', 'target'), 'realisasi_anggarans')
+        ), fn ($query) => $query->orderBy('mak')
+            ->orderBy('ordered'));
     }
 
     /**
@@ -77,20 +72,21 @@ class RencanaPenarikanDana extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Stack::make('RO/Komponen', [
+            Stack::make('RO/Komponen', 'mak', [
                 Line::make('RO', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'ro'))->asSubTitle(),
                 Line::make('Komponen', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'komponen'))->asSmall(),
-            ]),
-            Stack::make('Akun/Detil', [
+            ])->sortabel(),
+            Stack::make('Akun/Detil', 'mak', [
                 Line::make('Akun', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
-            ]),
+            ])->sortable(),
             Number::make('Target', 'target')
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Deviasi', 'deviasi')
                 ->sortable()

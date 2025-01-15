@@ -113,7 +113,6 @@ class PemeliharaanBarang extends Lens
                 ->readonly(),
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->searchable()
-                ->filterable()
                 ->withSubtitles(),
             Number::make('Pemeliharaan', 'jumlah')
                 ->sortable(),

@@ -69,11 +69,10 @@ class RealisasiAnggaran extends Lens
                         });
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
-                ->groupBy('mak', 'item', 'id_mata_anggaran', 'blokir', 'total', 'ordered')
-                ->orderBy('mak')
-                ->orderBy('ordered'),
+                ->groupBy('mak', 'item', 'id_mata_anggaran', 'blokir', 'total', 'ordered'),
                 'realisasi_anggarans')
-        ));
+        ), fn ($query) => $query->orderBy('mak')
+            ->orderBy('ordered'));
     }
 
     /**
@@ -84,25 +83,30 @@ class RealisasiAnggaran extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Stack::make('RO/Komponen', [
+            Stack::make('RO/Komponen', 'mak', [
                 Line::make('RO', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'ro'))->asSubTitle(),
                 Line::make('Komponen', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'komponen'))->asSmall(),
-            ]),
-            Stack::make('Akun/Detil', [
+            ])->sortable(),
+            Stack::make('Akun/Detil', 'mak', [
                 Line::make('Akun', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'item')->asSmall(),
-            ]),
+            ])->sortable(),
             Number::make('Total', 'total')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Realisasi', 'realisasi')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
-            Number::make('% Realisasi', 'persen'),
+            Number::make('% Realisasi', 'persen')
+                ->sortable(),
             Number::make('Blokir', 'blokir')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             Number::make('Sisa', 'sisa')
+                ->sortable()
                 ->displayUsing(fn ($value) => Helper::formatUang($value)),
             URL::make('Detail', function () {
                 $filter = base64_encode(

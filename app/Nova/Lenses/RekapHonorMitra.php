@@ -63,8 +63,7 @@ class RekapHonorMitra extends Lens
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
                 // ->groupBy('bulan', 'mitra_id', 'nama', 'nik', 'sbml', 'jenis_kontrak_id', 'volume_realisasi', 'harga_satuan')
                 ->orderBy('jenis_kontrak_id', 'asc')
-                ->orderBy('bulan', 'desc')
-                ->orderBy('nilai_kontrak', 'desc'));
+                ->orderBy('bulan', 'desc'));
     }
 
     /**

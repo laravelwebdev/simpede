@@ -45,7 +45,7 @@ class RekapHonorMitra extends Lens
         return $request->withoutTableOrderPrefix()->withOrdering(
             $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
                 ->addSelect([
-                    'jumlah_kegiatan' => fn ($query) => $query->selectRaw('count(DISTINCT honor_kegiatan_id)'),
+                    // 'jumlah_kegiatan' => fn ($query) => $query->selectRaw('count(DISTINCT honor_kegiatan_id)'),
                     'nilai_kontrak' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan)'),
                     'valid_sbml' => fn ($query) => $query->selectRaw('sum(volume_realisasi * harga_satuan) < sbml'),
                 ])
@@ -91,9 +91,9 @@ class RekapHonorMitra extends Lens
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->readOnly(),
-            Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
-                ->readOnly()
-                ->sortable(),
+            // Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
+            //     ->readOnly()
+            //     ->sortable(),
             Numeric::make('Nilai Kontrak', 'nilai_kontrak')
                 ->readOnly()
                 ->sortable(),

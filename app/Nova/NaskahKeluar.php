@@ -37,6 +37,7 @@ class NaskahKeluar extends Resource
     public static $indexDefaultOrder = [
         'tanggal' => 'desc',
         'nomor_urut' => 'desc',
+        'segmen' => 'desc',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)

@@ -57,10 +57,9 @@ class RekapHonorMitra extends Lens
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
-                ->groupBy('bulan', 'mitra_id', 'nama', 'jenis_kontrak_id', 'sbml')
-                ->orderBy('jenis_kontrak_id', 'asc')
+                ->groupBy('bulan', 'mitra_id', 'nama', 'jenis_kontrak_id', 'sbml'), fn ($query) => $query->orderBy('jenis_kontrak_id', 'asc')
                 ->orderBy('bulan', 'desc')
-                ->orderBy('nilai_kontrak', 'desc'), $request);
+                ->orderBy('nilai_kontrak', 'desc'));
     }
 
     /**

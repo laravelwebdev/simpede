@@ -69,13 +69,7 @@ class RealisasiAnggaran extends Lens
                         });
                 })
                 ->where('mata_anggarans.dipa_id', $dipa_id)
-
-                ->groupBy('mak')
-                ->groupBy('item')
-                ->groupBy('id_mata_anggaran')
-                ->groupBy('blokir')
-                ->groupBy('total')
-                ->groupBy('ordered')
+                ->groupBy('mak', 'item', 'id_mata_anggaran', 'blokir', 'total', 'ordered')
                 ->orderBy('mak')
                 ->orderBy('ordered'),
                 'realisasi_anggarans')

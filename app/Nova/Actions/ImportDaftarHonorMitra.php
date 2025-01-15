@@ -11,7 +11,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -81,14 +83,24 @@ class ImportDaftarHonorMitra extends Action
         return [
             File::make('File')
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
+            Boolean::make('Template Terisi', 'template')
+                ->help('Centang jika file yang BOS diupload sudah terisi data'),
             Number::make('Volume', 'volume')
                 ->step(0.01)
+                ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
+                    $formData->template ? $field->hide() : $field->show();
+                })
                 ->help('Default Volume Pekerjaan'),
             Numeric::make('Harga Satuan', 'harga_satuan')
-
+                ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
+                    $formData->template ? $field->hide() : $field->show();
+                })
                 ->help('Default Harga Satuan'),
             Number::make('Persentase Pajak', 'persen_pajak')
                 ->step(0.01)
+                ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
+                    $formData->template ? $field->hide() : $field->show();
+                })
                 ->help('Default Persentase Pajak'),
             Select::make('Kepka Mitra', 'kepka_mitra_id')
                 ->rules('required')

@@ -77,7 +77,7 @@ class RencanaPenarikanDana extends Lens
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'ro'))->asSubTitle(),
                 Line::make('Komponen', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value, 'komponen'))->asSmall(),
-            ])->sortabel(),
+            ])->sortable(),
             Stack::make('Akun/Detil', 'mak', [
                 Line::make('Akun', 'mak')
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),

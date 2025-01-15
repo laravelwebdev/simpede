@@ -93,15 +93,19 @@ class PemeliharaanBarang extends Lens
                 ->sortable()
                 ->readonly(),
             Number::make('NUP')
+                ->sortable()
                 ->step(1)
                 ->readonly(),
             Text::make('Nama Barang')
+                ->sortable()
                 ->readonly(),
             Text::make('Merk')
                 ->showWhenPeeking()
+                ->sortable()
                 ->readonly(),
             Text::make('Nopol')
                 ->showWhenPeeking()
+                ->sortable()
                 ->readonly(),
             Select::make('Kondisi')
                 ->options([
@@ -110,14 +114,18 @@ class PemeliharaanBarang extends Lens
                 ])
                 ->displayUsingLabels()
                 ->searchable()
+                ->sortable()
                 ->filterable()
                 ->readonly(),
             Text::make('Lokasi')
+                ->sortable()
                 ->readonly(),
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->searchable()
+                ->sortable()
                 ->withSubtitles(),
-            Number::make('Pemeliharaan', 'jumlah'),
+            Number::make('Pemeliharaan', 'jumlah')
+                ->sortable(),
         ];
     }
 

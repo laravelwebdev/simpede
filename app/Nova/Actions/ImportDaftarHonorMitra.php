@@ -87,9 +87,10 @@ class ImportDaftarHonorMitra extends Action
                 ->help('Centang jika file yang BOS diupload sudah terisi data'),
             Number::make('Volume', 'volume')
                 ->step(0.01)
+                ->hide()
                 ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->template) {
-                        $field->hide();
+                        $field->show();
                     }
                 })
                 ->help('Default Volume Pekerjaan'),

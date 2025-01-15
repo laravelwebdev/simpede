@@ -45,19 +45,20 @@ class PemeliharaanBarang extends Lens
                 ->where('tahun', session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
-                ->groupBy('kode_barang')
-                ->groupBy('nup')
-                ->groupBy('nama_barang')
-                ->groupBy('merk')
-                ->groupBy('nopol')
-                ->groupBy('kondisi')
-                ->groupBy('lokasi')
-                ->groupBy('master_barang_pemeliharaans.id')
-                ->orderBy('jumlah', 'desc')
-                ->orderBy('kode_barang', 'asc')
-                ->orderBy('nup', 'asc'), 'master_barang_pemeliharaans')
+                ->groupBy([
+                    'kode_barang',
+                    'nup',
+                    'nama_barang',
+                    'merk',
+                    'nopol',
+                    'kondisi',
+                    'lokasi',
+                    'master_barang_pemeliharaans.id',
+                ]), 'master_barang_pemeliharaans')
 
-        ));
+        ), fn ($query) => $query->orderBy('jumlah', 'desc')
+            ->orderBy('kode_barang', 'asc')
+            ->orderBy('nup', 'asc'));
     }
 
     /**
@@ -89,6 +90,7 @@ class PemeliharaanBarang extends Lens
     {
         return [
             Text::make('Kode Barang')
+                ->sortable()
                 ->readonly(),
             Number::make('NUP')
                 ->step(1)

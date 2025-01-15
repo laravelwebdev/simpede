@@ -88,7 +88,9 @@ class ImportDaftarHonorMitra extends Action
             Number::make('Volume', 'volume')
                 ->step(0.01)
                 ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
-                    $formData->template ? $field->hide() : $field->show();
+                    if ($formData->template) {
+                        $field->hide();
+                    }
                 })
                 ->help('Default Volume Pekerjaan'),
             Numeric::make('Harga Satuan', 'harga_satuan')

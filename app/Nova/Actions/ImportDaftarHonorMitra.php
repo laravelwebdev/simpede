@@ -106,7 +106,7 @@ class ImportDaftarHonorMitra extends Action
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
             Boolean::make('Template Terisi', 'template')
                 ->default(false)
-                ->help('Centang jika file yang BOS diupload sudah terisi data'),
+                ->help('Centang jika file BOS yang diupload sudah terisi data'),
             Number::make('Volume', 'volume')
                 ->step(0.01)
                 ->help('Default Volume Pekerjaan'),

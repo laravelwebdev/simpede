@@ -40,7 +40,7 @@ class PemeliharaanBarang extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return $request->withoutTableOrderPrefix()->withOrdering($request->withFilters(
+        return $request->withOrdering($request->withFilters(
             $query->fromSub(fn ($query) => $query->from('master_barang_pemeliharaans')
                 ->where('tahun', session('year'))
                 ->select(self::columns())
@@ -113,7 +113,6 @@ class PemeliharaanBarang extends Lens
                 ->readonly(),
             BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
                 ->searchable()
-                ->sortable()
                 ->withSubtitles(),
             Number::make('Pemeliharaan', 'jumlah')
                 ->sortable(),

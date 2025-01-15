@@ -55,7 +55,15 @@ class DaftarHonorMitraPolicy
      */
     public function delete(): bool
     {
-        return false;
+        return Nova::whenServing(function (NovaRequest $request) {
+            if ($request->viaResource == 'honor-kegiatans') {
+                return Policy::make()
+                    ->allowedFor('koordinator,anggota')
+                    ->get();
+            }
+
+            return false;
+        });
     }
 
     /**

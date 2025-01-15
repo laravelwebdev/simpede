@@ -36,7 +36,7 @@ class HelperHonorKegiatan extends Table
                 ->icon('check-circle')
                 ->iconClass('text-green-500')
                 ->title('3.Import Template Excel')
-                ->subtitle('Import dengan memilih menu Tampilan. Pada Tab Daftar Honor Mitra pilih Aksi Import Dari BOS. Import file Excel pada langkah 2 tanpa perlu diisi terlebih dahulu.'),
+                ->subtitle('Import dengan memilih menu Tampilan. Pada Tab Daftar Honor Mitra pilih Aksi Import Dari BOS. Import file Excel pada langkah 2 boleh diisi terlebih dahulu atau boleh juga tidak.'),
             MetricTableRow::make()
                 ->icon('check-circle')
                 ->iconClass('text-green-500')

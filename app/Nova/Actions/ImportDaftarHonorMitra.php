@@ -13,7 +13,6 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -46,6 +45,7 @@ class ImportDaftarHonorMitra extends Action
             return Action::danger('Mohon lengkapi terlebih dulu isian honor kegiatan yang akan diimport melalui menu Sunting');
         }
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
+        ! $fields->template ?
         (new FastExcel)->sheet(2)->import($fields->file, function ($row) use ($honor, $fields) {
             if (strlen($row['nip']) == 16) {
                 $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['nip'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
@@ -64,7 +64,28 @@ class ImportDaftarHonorMitra extends Action
 
                 $daftarHonorMitra->save();
             }
+        })
+        :
+        (new FastExcel)->sheet(1)->import($fields->file, function ($row) use ($honor, $fields) {
+            if (strlen($row['NIP Lama']) == 16) {
+                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
+                $daftarHonorMitra = DaftarHonorMitra::firstOrNew(
+                    [
+                        'mitra_id' => $mitra_id,
+                        'honor_kegiatan_id' => $honor->id,
+                    ]
+                );
+
+                $daftarHonorMitra->volume_realisasi = $row['Volume'];
+                $daftarHonorMitra->volume_target = $row['Volume'];
+                $daftarHonorMitra->harga_satuan = $row['HargaSatuan'];
+                $daftarHonorMitra->persen_pajak = $row['PersentasePajak'];
+                $daftarHonorMitra->updated_at = now();
+
+                $daftarHonorMitra->save();
+            }
         });
+
         $ids = DaftarHonorMitra::where('updated_at', null)->get()->pluck('id');
         DaftarHonorMitra::destroy($ids);
         $honor->sheet_name = $sheetName;
@@ -84,26 +105,18 @@ class ImportDaftarHonorMitra extends Action
             File::make('File')
                 ->rules('required', 'mimes:xlsx')->acceptedTypes('.xlsx'),
             Boolean::make('Template Terisi', 'template')
+                ->default(false)
                 ->help('Centang jika file yang BOS diupload sudah terisi data'),
             Number::make('Volume', 'volume')
                 ->step(0.01)
-                ->hide()
-                ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->template) {
-                        $field->show();
-                    }
-                })
                 ->help('Default Volume Pekerjaan'),
             Numeric::make('Harga Satuan', 'harga_satuan')
-                ->dependsOn('template', function (Numeric $field, NovaRequest $request, FormData $formData) {
-                    $formData->template ? $field->hide() : $field->show();
-                })
                 ->help('Default Harga Satuan'),
             Number::make('Persentase Pajak', 'persen_pajak')
                 ->step(0.01)
-                ->dependsOn('template', function (Number $field, NovaRequest $request, FormData $formData) {
-                    $formData->template ? $field->hide() : $field->show();
-                })
+                ->max(100)
+                ->min(0)
+                ->rules('gte:0', 'lte:100')
                 ->help('Default Persentase Pajak'),
             Select::make('Kepka Mitra', 'kepka_mitra_id')
                 ->rules('required')

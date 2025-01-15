@@ -36,7 +36,7 @@ class KesesuaianSbml extends Partition
                         $query
                             ->select('id')
                             ->from('honor_kegiatans')
-                            ->where('tahun', 2024)
+                            ->where('tahun', session('year'))
                             ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                                 return $query->where('bulan', $filtered_bulan);
                             })

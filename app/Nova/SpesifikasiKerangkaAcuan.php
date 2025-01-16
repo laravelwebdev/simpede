@@ -56,7 +56,7 @@ class SpesifikasiKerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
+            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId),
             Text::make('Rincian')
                 ->rules('required'),
             Number::make('Volume')

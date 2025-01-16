@@ -60,7 +60,7 @@ class AnggaranKerangkaAcuan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId)->doNotSaveOnActionRelation(),
+            Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId),
             BelongsTo::make('Mata Anggaran')
                 ->searchable()
                 ->updateRules('required', Rule::unique('anggaran_kerangka_acuans', 'mata_anggaran_id')->where('kerangka_acuan_id', $request->viaResourceId)->ignore($this->id))

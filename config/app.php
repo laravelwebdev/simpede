@@ -123,4 +123,13 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Initial Years in Year Option On login form
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'initialyear' => env('NOVA_INITIAL_YEAR', 2024),
+
 ];

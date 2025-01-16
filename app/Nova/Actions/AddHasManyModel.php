@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AddHasManyModel extends Action
@@ -49,10 +50,10 @@ class AddHasManyModel extends Action
     {
         $model = app('App\Models\\'.Str::studly($this->modelName));
         foreach ($this->fields as $field) {
-            if (($field->resourceClass ?? null) == null && $field->saveOnActionRelation) {
+            if (($field->resourceClass ?? null) == null && ! $field instanceof Hidden) {
                 $model->{$field->attribute} = $fields->{$field->attribute};
             }
-            if ($field instanceof BelongsTo && $field->saveOnActionRelation) {
+            if ($field instanceof BelongsTo && ! $field instanceof Hidden) {
                 $model->{Str::snake($field->attribute.' id')} = $fields->{$field->attribute}->id;
             }
         }

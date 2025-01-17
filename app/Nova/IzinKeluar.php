@@ -57,15 +57,20 @@ class IzinKeluar extends Resource
         'kegiatan', 'tanggal', 'user.name',
     ];
 
-    /**
-     * Build an "index" query for the given resource.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+    public static $indexDefaultOrder = [
+        'tanggal' => 'desc',
+        'keluar' => 'desc',
+    ];
+
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal', session('year'));
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+
+            return $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));
+        }
+
+        return $query->whereYear('tanggal', session('year'));
     }
 
     /**

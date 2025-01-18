@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
-use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;

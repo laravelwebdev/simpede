@@ -208,7 +208,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
     }
 
-        /**
+    /**
      * Register the configurations for Laravel Fortify.
      */
     protected function fortify(): void
@@ -219,7 +219,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             ])
             ->register();
     }
-
 
     /**
      * Get the dashboards that should be listed in the Nova sidebar.

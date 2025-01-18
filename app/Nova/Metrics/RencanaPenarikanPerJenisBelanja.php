@@ -6,9 +6,9 @@ use App\Helpers\Helper;
 use App\Models\Dipa;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
+use Laravelwebdev\Table\Table;
 use Laravelwebdev\Table\Table\Cell;
 use Laravelwebdev\Table\Table\Row;
-use Laravelwebdev\Table\Table;
 
 class RencanaPenarikanPerJenisBelanja extends Table
 {

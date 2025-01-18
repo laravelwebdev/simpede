@@ -6,20 +6,20 @@ use App\Helpers\Helper;
 use App\Models\Dipa;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
-use Whitespacecode\TableCard\Table\Cell;
-use Whitespacecode\TableCard\Table\Row;
-use Whitespacecode\TableCard\TableCard;
+use Laravelwebdev\Table\Table\Cell;
+use Laravelwebdev\Table\Table\Row;
+use Laravelwebdev\Table\Table;
 
-class RencanaPenarikanPerJenisBelanja extends TableCard
+class RencanaPenarikanPerJenisBelanja extends Table
 {
     public function __construct()
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Deviasi', 'Persen Deviasi']);
         $this->viewAll([
-            'label' => 'Bulan '.Helper::$bulan[(int) date('m')], //Label for the link
-            'link' => Nova::path().'/resources/realisasi-anggarans/lens/rencana-penarikan-dana', //URL to navigate when the link is clicked
-            'position' => 'top', //(Possible values `top` - `bottom`)
-            'style' => 'button', //(Possible values `link` - `button`)
+            'label' => 'Bulan '.Helper::$bulan[(int) date('m')], // Label for the link
+            'link' => Nova::path().'/resources/realisasi-anggarans/lens/rencana-penarikan-dana', // URL to navigate when the link is clicked
+            'position' => 'top', // (Possible values `top` - `bottom`)
+            'style' => 'button', // (Possible values `link` - `button`)
         ]);
 
         $this->title('Monitoring Rencana Penarikan Dana');

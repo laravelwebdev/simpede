@@ -38,52 +38,52 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Eloquent::unguard();
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/users.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/data_pegawais.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/pengelolas.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/tata_naskahs.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/kode_naskahs.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/jenis_naskahs.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/kode_arsips.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/templates.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/unit_kerjas.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/derajat_naskahs.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/naskah_defaults.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/kode_banks.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/master_wilayahs.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/rate_transloks.sql')
-        );
-        DB::unprepared(
-            file_get_contents(database_path().'/dump_sql/sk_transloks.sql')
-        );
+        // // Eloquent::unguard();
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/users.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/data_pegawais.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/pengelolas.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/tata_naskahs.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/kode_naskahs.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/jenis_naskahs.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/kode_arsips.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/templates.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/unit_kerjas.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/derajat_naskahs.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/naskah_defaults.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/kode_banks.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/master_wilayahs.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/rate_transloks.sql')
+        // );
+        // DB::unprepared(
+        //     file_get_contents(database_path().'/dump_sql/sk_transloks.sql')
+        // );
         DataPegawai::cache()->updateAll();
         DerajatNaskah::cache()->updateAll();
         Dipa::cache()->updateAll();

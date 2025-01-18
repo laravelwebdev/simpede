@@ -16,7 +16,7 @@ use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravelwebdev\Numeric\Numeric;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
+use Laravelwebdev\Repeatable\Repeatable;
 
 class DaftarPesertaPerjalanan extends Resource
 {
@@ -76,7 +76,7 @@ class DaftarPesertaPerjalanan extends Resource
                 ->rules('required')
                 ->options(Helper::$jenis_angkutan)
                 ->displayUsingLabels(),
-            SimpleRepeatable::make('Item Biaya', 'spesifikasi', [
+            Repeatable::make('Item Biaya', 'spesifikasi', [
                 Text::make('Item', 'item')
                     ->help('Misal: Uang Harian, Penginapan, Transportasi, dll')
                     ->rules('required'),

@@ -6,8 +6,8 @@ use App\Models\RapatInternal;
 use App\Models\UnitKerja;
 use App\Models\User;
 use App\Nova\DaftarKegiatan;
-use Wdelfuego\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
-use Wdelfuego\NovaCalendar\Event;
+use Laravelwebdev\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
+use Laravelwebdev\NovaCalendar\Event;
 
 class CalendarDataProvider extends AbstractCalendarDataProvider
 {

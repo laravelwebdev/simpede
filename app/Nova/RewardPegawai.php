@@ -7,7 +7,6 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportRekapPresensi;
 use App\Nova\Actions\SetStatus;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +21,8 @@ use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Orion\NovaGreeter\GreeterCard;
+use Laravelwebdev\Filepond\Filepond;
+use Laravelwebdev\Greeter\Greeter;
 
 class RewardPegawai extends Resource
 {
@@ -185,19 +185,19 @@ class RewardPegawai extends Resource
     public function cards(NovaRequest $request)
     {
         return [
-            GreeterCard::make()
+            Greeter::make()
                 ->user('Bobot: 60%')
                 ->message(text: 'Skor Kinerja')
                 ->avatar(url: Storage::disk('images')->url('trophy.svg'))
                 ->verified(text: 'Dihitung dari Nilai SKP Bulanan')
                 ->width('1/3'),
-            GreeterCard::make()
+            Greeter::make()
                 ->user('Bobot: 20%')
                 ->message(text: 'Skor Kedisiplinan')
                 ->avatar(url: Storage::disk('images')->url('clock.svg'))
                 ->verified(text: 'Dihitung dari ketepatan waktu melakukan presensi')
                 ->width('1/3'),
-            GreeterCard::make()
+            Greeter::make()
                 ->user('Bobot: 20%')
                 ->message(text: 'Skor Beban Kerja')
                 ->avatar(url: Storage::disk('images')->url('beban.svg'))

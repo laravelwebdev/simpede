@@ -7,7 +7,6 @@ use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Nova\Filters\GenerateNaskah;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
@@ -21,6 +20,7 @@ use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
+use Laravelwebdev\Filepond\Filepond;
 
 class NaskahKeluar extends Resource
 {

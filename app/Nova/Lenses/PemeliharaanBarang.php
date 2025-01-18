@@ -14,7 +14,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
-use Orion\NovaGreeter\GreeterCard;
+use Laravelwebdev\Greeter\Greeter;
 
 class PemeliharaanBarang extends Lens
 {
@@ -127,17 +127,17 @@ class PemeliharaanBarang extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            GreeterCard::make()
+            Greeter::make()
                 ->user($this->getJumlahBarang().' Barang')
                 ->message(text: 'Inventori')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
-            GreeterCard::make()
+            Greeter::make()
                 ->user($this->getJumlahBarangDipelihara().' Barang')
                 ->message(text: 'Barang Dipelihara')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))
                 ->width('1/3'),
-            GreeterCard::make()
+            Greeter::make()
                 ->user($this->getJumlahPemeliharaan().' Kegiatan')
                 ->message(text: 'Kegiatan Pemeliharaan')
                 ->avatar(url: Storage::disk('images')->url('bar-chart.svg'))

@@ -8,20 +8,20 @@ use App\Models\JenisBelanja;
 use App\Models\TargetSerapanAnggaran;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
-use Whitespacecode\TableCard\Table\Cell;
-use Whitespacecode\TableCard\Table\Row;
-use Whitespacecode\TableCard\TableCard;
+use Laravelwebdev\Table\Table\Cell;
+use Laravelwebdev\Table\Table\Row;
+use Laravelwebdev\Table\Table;
 
-class RealisasiPerJenisBelanja extends TableCard
+class RealisasiPerJenisBelanja extends Table
 {
     public function __construct()
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Persen', 'Selisih']);
         $this->viewAll([
             'label' => 'Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan',
-            'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', //URL to navigate when the link is clicked
-            'position' => 'top', //(Possible values `top` - `bottom`)
-            'style' => 'button', //(Possible values `link` - `button`)
+            'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', // URL to navigate when the link is clicked
+            'position' => 'top', // (Possible values `top` - `bottom`)
+            'style' => 'button', // (Possible values `link` - `button`)
         ]);
 
         $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');

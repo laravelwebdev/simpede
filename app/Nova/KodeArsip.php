@@ -131,6 +131,6 @@ class KodeArsip extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail%20Naskah=kode-arsip' : '/'.'resources'.'/'.'tata-naskahs'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'tata-naskahs'.'/';
     }
 }

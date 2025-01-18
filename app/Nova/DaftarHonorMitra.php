@@ -164,6 +164,6 @@ class DaftarHonorMitra extends Resource
 
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-mitra';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

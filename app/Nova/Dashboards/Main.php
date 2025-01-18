@@ -4,11 +4,11 @@ namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
 use App\Helpers\Inspiring;
-use DigitalCreative\NovaWelcomeCard\WelcomeCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
-use Orion\NovaGreeter\GreeterCard;
+use Laravelwebdev\Greeter\Greeter;
+use Laravelwebdev\Welcome\Welcome;
 
 class Main extends Dashboard
 {
@@ -34,18 +34,18 @@ class Main extends Dashboard
         }, session('role'));
 
         return [
-            GreeterCard::make()
+            Greeter::make()
                 ->user(name: Auth::user()->name, title: Auth::user()->email)
                 ->message(text: __('Welcome Back!'))
                 ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
                 ->verified(text: implode(', ', $values))
                 ->width('1/2'),
-            GreeterCard::make()
+            Greeter::make()
                 ->user(name: 'Quotes of the day', title: Inspiring::show())
                 ->message(text: '')
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
-            WelcomeCard::make()
+            Welcome::make()
                 ->title('Permulaan') // optional
                 ->description('Selamat datang di Aplikasi Simpede. Berikut adalah fitur-fitur yang tersedia:') // optional
                 ->addItem(icon: 'document-text', title: 'Pengelolaan Kerangka Acuan Kerja', content: 'Fitur yang disediakan untuk membuat Kerangka Acuan Kerja yang dapat diunduh dalam format Microsoft Word dan mengarsipkan softcopy berkas-berkas terkait Kerangka Acuan Kerja.')

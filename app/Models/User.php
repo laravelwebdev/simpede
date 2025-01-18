@@ -87,7 +87,7 @@ class User extends Authenticatable
             $user->avatar = $user->avatar ?? 'G99ElrTEgEDRG4blE3m1xxMmFcfB0VVeLio0L3H6.jpg';
         });
         static::created(function (User $user) {
-            $pengelola = new Pengelola();
+            $pengelola = new Pengelola;
             $pengelola->role = 'anggota';
             $pengelola->user_id = $user->id;
             $pengelola->save();

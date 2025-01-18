@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Carbon\Carbon;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
@@ -13,7 +12,8 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Oneduo\NovaTimeField\Time;
+use Laravelwebdev\Filepond\Filepond;
+use Laravelwebdev\Time\Time;
 
 class IzinKeluar extends Resource
 {

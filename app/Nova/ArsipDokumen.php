@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AddHasManyModel;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +11,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Filepond\Filepond;
 
 class ArsipDokumen extends Resource
 {
@@ -160,6 +160,6 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen' : '/'.'resources'.'/'.'kerangka-acuans'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }
 }

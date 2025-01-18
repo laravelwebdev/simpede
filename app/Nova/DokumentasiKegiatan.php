@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Boolean;
@@ -11,6 +10,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Filepond\Filepond;
 
 class DokumentasiKegiatan extends Resource
 {

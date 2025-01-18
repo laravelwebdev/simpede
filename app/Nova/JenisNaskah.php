@@ -4,11 +4,11 @@ namespace App\Nova;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Filepond\Filepond;
 
 class JenisNaskah extends Resource
 {

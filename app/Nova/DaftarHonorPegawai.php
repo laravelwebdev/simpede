@@ -149,11 +149,11 @@ class DaftarHonorPegawai extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
-        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Daftar%20Honor=daftar-honor-pegawai';
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

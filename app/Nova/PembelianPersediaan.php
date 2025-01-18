@@ -9,7 +9,6 @@ use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +29,7 @@ use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\URL;
+use Laravelwebdev\Filepond\Filepond;
 
 class PembelianPersediaan extends Resource
 {

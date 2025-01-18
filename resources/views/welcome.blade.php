@@ -331,7 +331,7 @@
             </div>
             <div class="footer">
                 <p>
-                Simpede - v 2.0
+                Simpede - v 2.1
         </p>
                 <p>                
                 Copyright &copy; 2021 - 

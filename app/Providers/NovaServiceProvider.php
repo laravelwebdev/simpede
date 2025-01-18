@@ -46,13 +46,14 @@ use App\Nova\User;
 use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Fortify\Features;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Wdelfuego\NovaCalendar\NovaCalendar;
+use Laravelwebdev\NovaCalendar\NovaCalendar;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -207,6 +208,19 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
     }
 
+        /**
+     * Register the configurations for Laravel Fortify.
+     */
+    protected function fortify(): void
+    {
+        Nova::fortify()
+            ->features([
+                Features::updatePasswords(),
+            ])
+            ->register();
+    }
+
+
     /**
      * Get the dashboards that should be listed in the Nova sidebar.
      *
@@ -238,6 +252,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
+        parent::register();
         //  Nova::initialPath('/resources/users');
     }
 }

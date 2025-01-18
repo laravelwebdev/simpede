@@ -23,6 +23,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravelwebdev\Repeatable\Repeatable;
 use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarKegiatan extends Resource
@@ -163,7 +164,7 @@ Terimakasih ✨✨'),
                                 ->show();
                         }
                     }),
-                SimpleRepeatable::make('Waktu Reminder', 'waktu_reminder', [
+                Repeatable::make('Waktu Reminder', 'waktu_reminder', [
                     Number::make('H-', 'hari')
                         ->min(0)->max(30)
                         ->step(1)
@@ -175,7 +176,7 @@ Terimakasih ✨✨'),
                         ->rules('required'),
                 ])
                     ->hide()
-                    ->dependsOn(['jenis'], function (SimpleRepeatable $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['jenis'], function (Repeatable $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {
                             $field
                                 ->show()

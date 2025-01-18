@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Nova\Actions\Download;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +20,9 @@ use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
-use Oneduo\NovaTimeField\Time;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
+use Laravelwebdev\Filepond\Filepond;
+use Laravelwebdev\Repeatable\Repeatable;
+use Laravelwebdev\Time\Time;
 
 class RapatInternal extends Resource
 {
@@ -151,7 +151,7 @@ class RapatInternal extends Resource
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
-                SimpleRepeatable::make('Peserta Hadir', 'peserta', [
+                Repeatable::make('Peserta Hadir', 'peserta', [
                     Select::make('Nama', 'peserta_user_id')
                         ->rules('required')
                         ->searchable()

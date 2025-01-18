@@ -13,13 +13,10 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use ShuvroRoy\NovaTabs\Tabs;
-use ShuvroRoy\NovaTabs\Traits\HasTabs;
+use Laravel\Nova\Tabs\Tab;
 
 class User extends Resource
 {
-    use HasTabs;
-
     public static function label()
     {
         return 'Pegawai';
@@ -74,9 +71,10 @@ class User extends Resource
                 Password::make('Password')
                     ->onlyOnForms()
                     ->creationRules('required', Rules\Password::defaults(), 'confirmed')
-                    ->updateRules('nullable', Rules\Password::defaults(), 'confirmed'),
-
-                PasswordConfirmation::make('Password Confirmation'),
+                    ->updateRules('nullable', Rules\Password::defaults(), 'confirmed')
+                    ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
+                PasswordConfirmation::make('Password Confirmation')
+                    ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
             ]),
             Panel::make('Biodata', [
                 Text::make('Nama', 'name')
@@ -101,7 +99,7 @@ class User extends Resource
                 Text::make('Nomor Rekening', 'rekening')
                     ->rules('required', 'numeric'),
             ]),
-            Tabs::make('Detail', [
+            Tab::group('Detail', [
                 HasMany::make('Data Pegawai'),
                 HasMany::make('Pengelola'),
             ]),

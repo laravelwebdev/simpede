@@ -13,12 +13,10 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use ShuvroRoy\NovaTabs\Tabs;
-use ShuvroRoy\NovaTabs\Traits\HasTabs;
+use Laravel\Nova\Tabs\Tab;
 
 class Dipa extends Resource
 {
-    use HasTabs;
 
     public static function label()
     {
@@ -85,7 +83,7 @@ class Dipa extends Resource
             Date::make('Tanggal Data realisasi', 'tanggal_realisasi')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->exceptOnForms(),
-            Tabs::make('Anggaran dan Target Serapan', [
+            Tab::group('Anggaran dan Target Serapan', [
                 HasMany::make('Mata Anggaran'),
                 HasMany::make('Jenis Belanja'),
             ]),

@@ -7,7 +7,6 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -22,6 +21,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravelwebdev\Filepond\Filepond;
 
 class PermintaanPersediaan extends Resource
 {

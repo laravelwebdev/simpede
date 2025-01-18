@@ -9,7 +9,6 @@ use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use App\Nova\Filters\StatusFilter;
-use DigitalCreative\Filepond\Filepond;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -22,6 +21,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravelwebdev\Filepond\Filepond;
 
 class BastMitra extends Resource
 {

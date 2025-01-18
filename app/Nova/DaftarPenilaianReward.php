@@ -128,7 +128,7 @@ class DaftarPenilaianReward extends Resource
 
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId.'#Detail=arsip-dokumen' : '/'.'resources'.'/'.'reward-pegawais'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'reward-pegawais'.'/';
     }
 
     public static $indexDefaultOrder = [

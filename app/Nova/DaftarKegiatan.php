@@ -24,7 +24,6 @@ use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravelwebdev\Repeatable\Repeatable;
-use Outl1ne\NovaSimpleRepeatable\SimpleRepeatable;
 
 class DaftarKegiatan extends Resource
 {

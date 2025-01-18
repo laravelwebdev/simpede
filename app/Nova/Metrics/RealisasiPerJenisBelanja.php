@@ -8,9 +8,9 @@ use App\Models\JenisBelanja;
 use App\Models\TargetSerapanAnggaran;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
+use Laravelwebdev\Table\Table;
 use Laravelwebdev\Table\Table\Cell;
 use Laravelwebdev\Table\Table\Row;
-use Laravelwebdev\Table\Table;
 
 class RealisasiPerJenisBelanja extends Table
 {

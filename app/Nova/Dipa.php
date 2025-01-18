@@ -17,7 +17,6 @@ use Laravel\Nova\Tabs\Tab;
 
 class Dipa extends Resource
 {
-
     public static function label()
     {
         return 'DIPA';

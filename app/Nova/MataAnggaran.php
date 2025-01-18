@@ -58,9 +58,8 @@ class MataAnggaran extends Resource
     {
         return [
             Text::make('MAK', 'mak')
-                ->updateRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId)->ignore($this->id))
+                ->rules('required', 'min:35', 'max:35')
                 ->sortable()
-                ->creationRules('required', 'min:35', 'max:35', Rule::unique('mata_anggarans', 'mak')->where('dipa_id', $request->viaResourceId))
                 ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
                 ->showWhenPeeking(),
             Text::make('Detil Anggaran', 'uraian')

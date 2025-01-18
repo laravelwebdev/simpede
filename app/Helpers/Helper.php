@@ -32,11 +32,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use OpenSpout\Reader\XLSX\Reader;
+
+use function Illuminate\Filesystem\join_paths;
 
 class Helper
 {
@@ -1766,5 +1769,19 @@ class Helper
         $reminder->status = $response['data']['process'] ?? 'Gagal';
         $reminder->message_id = $response['data']['id'][0];
         $reminder->save();
+    }
+
+    /**
+     * Get the current Simpede version.
+     */
+    public static function version(): string
+    {
+        return once(function () {
+            $manifest = File::json((string) realpath(join_paths(__DIR__, '../..', 'composer.json')));
+
+            $version = $manifest['version'] ?? '2.x';
+
+            return $version;
+        });
     }
 }

@@ -325,7 +325,7 @@
             </div>
             <div class="footer">
                 <p>
-                Simpede - v 2.2.0
+                Simpede - {{ $version }}
         </p>
                 <p>                
                 Copyright &copy; 2021 - 

@@ -1751,4 +1751,20 @@ class Helper
     {
         return self::setOptions(MasterPersediaan::cache()->get('all'), 'id', 'barang', 'satuan');
     }
+
+    public static function sendReminder($reminder, $method = 'auto')
+    {
+        $kegiatan = $reminder->daftarKegiatan;
+        $hari = $kegiatan->awal->diffInDays($method === 'auto' ? $reminder->tanggal : now());
+        $pesan = strtr($kegiatan->pesan, [
+            '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
+            '{tanggal}' => Helper::terbilangTanggal($kegiatan->awal),
+            '{kegiatan}' => $kegiatan->kegiatan,
+            '{pj}' => $kegiatan->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
+        ]);
+        $response = Fonnte::make()->sendWhatsAppMessage($kegiatan->wa_group_id, $pesan);
+        $reminder->status = $response['data']['process'] ?? 'Gagal';
+        $reminder->message_id = $response['data']['id'][0];
+        $reminder->save();
+    }
 }

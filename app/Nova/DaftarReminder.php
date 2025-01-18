@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -100,7 +103,12 @@ class DaftarReminder extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            Action::using('Kirim Sekarang', function (ActionFields $fields, Collection $models) {
+                $reminder = $models->first();
+                Helper::sendReminder($reminder, 'manual');
+            })->sole(),
+        ];
     }
 
     public static function indexQuery(NovaRequest $request, $query)

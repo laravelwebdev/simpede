@@ -252,6 +252,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function register()
     {
         parent::register();
-        //  Nova::initialPath('/resources/users');
+        Nova::report(function ($exception) {
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($exception);
+            }
+        });
     }
 }

@@ -26,7 +26,8 @@
         "laravelwebdev/welcome": "^1.0",
         "mostafaznv/laracache": "^2.4",
         "phpoffice/phpword": "^1.2",
-        "rap2hpoutre/fast-excel": "^5.5"
+        "rap2hpoutre/fast-excel": "^5.5",
+        "sentry/sentry-laravel": "^4.10"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

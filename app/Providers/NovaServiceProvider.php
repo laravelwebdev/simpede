@@ -187,7 +187,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         // Modify Login Auth
         Fortify::authenticateUsing(function (Request $request) {
-
             $user = UserModel::where('email', $request->email)
                 ->orWhereRaw('LEFT(email ,LOCATE("@", email) -1) = ?', [$request->email])
                 ->first();
@@ -201,7 +200,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 return $user;
             }
         });
-
     }
 
     /**

@@ -496,5 +496,16 @@
     "Update Password": "Perbarui Kata Sandi",
     "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.": "Ketika autentikasi dua faktor diaktifkan, Anda akan diminta untuk memasukkan token acak yang aman selama proses autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.",
     "Two Factor Authentication": "Autentikasi Dua Faktor",
-    "Enable": "Aktifkan"
+    "Enable": "Aktifkan",
+    "Two-factor Confirmation": "Konfirmasi Dua Faktor",
+    "Please confirm access to your account by entering the authentication code provided by your authenticator application.": "Harap konfirmasi akses ke akun Anda dengan memasukkan kode autentikasi yang diberikan oleh aplikasi autentikator Anda.",
+    "Code": "Kode",
+    "Use an authentication code" : "Gunakan kode autentikasi",
+    "Recovery Code": "Kode Pemulihan",
+    "Use a recovery code" : "Gunakan kode pemulihan",
+    "You have enabled two factor authentication.": "Anda telah mengaktifkan autentikasi dua faktor.",
+    "For your security, please confirm your password to continue.": "Untuk keamanan Anda, harap konfirmasi kata sandi Anda untuk melanjutkan.",
+    "Show Recovery Codes": "Tampilkan Kode Pemulihan",
+    "Disable": "Nonaktifkan",
+    "Please confirm access to your account by entering one of your emergency recovery codes." : "Harap konfirmasi akses ke akun Anda dengan memasukkan salah satu kode pemulihan darurat Anda."
 }

@@ -139,7 +139,6 @@ class RekapBarangPersediaan extends Lens
             Download::make('karken_persediaan', 'Unduh Kartu Kendali Persediaan')
                 ->showInline()
                 ->showOnDetail()
-                ->withTanggal()
                 ->withOptionPengelola('bmn')
                 ->confirmButtonText('Unduh');
         }

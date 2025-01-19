@@ -45,6 +45,7 @@ class Download extends Action
     public function withOptionPengelola($role)
     {
         $this->withOptionPengelola = true;
+        $this->withTanggal = true;
         $this->role = $role;
 
         return $this;
@@ -84,7 +85,7 @@ class Download extends Action
     {
         $fields = [
             Text::make('Nama File', 'filename')
-                ->rules('required', 'alpha_dash:ascii')
+                ->rules('required', 'regex:/^[a-zA-Z0-9_\-\s]+$/')
                 ->help('tanpa extensi file')
                 ->default(fn () => uniqid()),
             Select::make('Template')

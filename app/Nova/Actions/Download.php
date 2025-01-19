@@ -97,7 +97,7 @@ class Download extends Action
         if ($this->withTanggal) {
             $fields[] = Date::make('Tanggal', 'tanggal')
                 ->rules('required', 'date', 'before_or_equal:today')
-                ->default(Date::now());
+                ->default(now()->toDateString());
         }
 
         if ($this->withOptionPengelola) {

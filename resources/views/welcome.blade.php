@@ -325,7 +325,7 @@
             </div>
             <div class="footer">
                 <p>
-                Simpede - {{ $version }}
+                Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik (Simpede) - {{ $version }}
         </p>
                 <p>                
                 Copyright &copy; 2021 - 
@@ -334,7 +334,7 @@
                             document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));
                         </script>
                     </span>
-                    BPS {{ config('satker.kabupaten') }}
+                    {{ $satker }}
                 </p>
             </div>
         </div>

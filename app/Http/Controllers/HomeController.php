@@ -10,6 +10,7 @@ class HomeController extends Controller
     {
         return view('welcome', [
             'version' => Helper::version(),
+            'satker' => 'BPS '.config('satker.kabupaten'),
         ]);
     }
 }

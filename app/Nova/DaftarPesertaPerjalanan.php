@@ -103,7 +103,7 @@ class DaftarPesertaPerjalanan extends Resource
                         $field
                             ->rules('required')
                             ->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)))
-                            ->setValue(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
+                            ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
                     }),
                 Select::make('Bendahara', 'bendahara_user_id')
                     ->searchable()
@@ -113,7 +113,7 @@ class DaftarPesertaPerjalanan extends Resource
                         $field
                             ->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)))
                             ->rules('required')
-                            ->setValue(Helper::setDefaultPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)));
+                            ->default(Helper::setDefaultPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)));
                     }),
             ]),
         ];

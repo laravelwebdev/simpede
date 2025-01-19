@@ -105,7 +105,7 @@ class Download extends Action
                 ->searchable()
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionPengelola($this->role, $form->tanggal))
-                        ->setValue(Helper::setDefaultPengelola($this->role, $form->tanggal));
+                        ->default(Helper::setDefaultPengelola($this->role, $form->tanggal));
                 });
         }
 

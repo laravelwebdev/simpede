@@ -110,7 +110,7 @@ class PembelianPersediaan extends Resource
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)))
-                            ->setValue(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
+                            ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     })
                     ->canSee(fn () => Policy::make()
                         ->allowedFor('bmn')
@@ -124,7 +124,7 @@ class PembelianPersediaan extends Resource
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)))
-                            ->setValue(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));
+                            ->default(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));
                     })
                     ->canSee(fn () => Policy::make()
                         ->allowedFor('bmn')

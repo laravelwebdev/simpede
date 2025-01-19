@@ -114,7 +114,7 @@ class PermintaanPersediaan extends Resource
                 ->dependsOn('tanggal_persetujuan', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)))
                         ->rules('required')
-                        ->setValue(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)));
+                        ->default(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)));
                 })
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')

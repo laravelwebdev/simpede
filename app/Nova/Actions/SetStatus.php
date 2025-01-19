@@ -110,7 +110,7 @@ class SetStatus extends Action
                 ->rules('required')
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionPengelola('kepala', $form->tanggal))
-                        ->setValue(Helper::setDefaultPengelola('kepala', $form->tanggal));
+                        ->default(Helper::setDefaultPengelola('kepala', $form->tanggal));
                 });
         }
 

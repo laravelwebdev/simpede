@@ -489,5 +489,12 @@
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "Zambia": "Zambia",
     "Zimbabwe": "Zimbabwe",
-    "—": "—"
+    "—": "—",
+    "Add additional security to your account using two factor authentication.": "Add additional security to your account using two factor authentication.",
+    "Ensure your account is using a long, random password to stay secure." : "Ensure your account is using a long, random password to stay secure.",
+    "You have not enabled two factor authentication.": "You have not enabled two factor authentication.",
+    "Update Password": "Update Password",
+    "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.": "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.",
+    "Two Factor Authentication": "Two Factor Authentication",
+    "Enable": "Enable"
 }

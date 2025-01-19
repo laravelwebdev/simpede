@@ -489,5 +489,12 @@
     "You are receiving this email because we received a password reset request for your account.": "Anda menerima email ini karena kami menerima permintaan pengaturan ulang kata sandi untuk akun Anda.",
     "Zambia": "Zambia",
     "Zimbabwe": "Zimbabwe",
-    "—": "—"
+    "—": "—",
+    "Add additional security to your account using two factor authentication.": "Tambahkan keamanan tambahan ke akun Anda menggunakan autentikasi dua faktor.",
+    "Ensure your account is using a long, random password to stay secure.": "Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk tetap aman.",
+    "You have not enabled two factor authentication.": "Anda belum mengaktifkan autentikasi dua faktor.",
+    "Update Password": "Perbarui Kata Sandi",
+    "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.": "Ketika autentikasi dua faktor diaktifkan, Anda akan diminta untuk memasukkan token acak yang aman selama proses autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.",
+    "Two Factor Authentication": "Autentikasi Dua Faktor",
+    "Enable": "Aktifkan"
 }

@@ -709,7 +709,6 @@ class Helper
         $pengelola = self::getUsersByPengelola($role, $tanggal);
 
         return $pengelola->count() == 1 ? $pengelola->first()->id : null;
-
     }
 
     public static function setDefaultPesertaRapat($tujuan, $tanggal)

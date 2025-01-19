@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class User extends Authenticatable
 {
-    use LaraCache, Notifiable;
+    use LaraCache, Notifiable, TwoFactorAuthenticatable;
 
     public static function cacheEntities(): array
     {

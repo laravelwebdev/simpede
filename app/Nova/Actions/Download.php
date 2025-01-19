@@ -89,7 +89,8 @@ class Download extends Action
                 ->default(fn () => uniqid()),
             Select::make('Template')
                 ->rules('required')
-                ->options(Helper::setOptionTemplate($this->jenis)),
+                ->options(Helper::setOptionTemplate($this->jenis))
+                ->default(Helper::setDefaultTemplate($this->jenis)),
         ];
 
         if ($this->withTanggal) {
@@ -103,7 +104,8 @@ class Download extends Action
                 ->rules('required')
                 ->searchable()
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
-                    $field->options(Helper::setOptionPengelola($this->role, $form->tanggal));
+                    $field->options(Helper::setOptionPengelola($this->role, $form->tanggal))
+                        ->setValue(Helper::setDefaultPengelola($this->role, $form->tanggal));
                 });
         }
 

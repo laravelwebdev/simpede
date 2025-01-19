@@ -136,7 +136,8 @@ class KontrakMitra extends Resource
                     ->onlyOnForms()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)))
+                            ->setValue(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
                     }),
 
                 Status::make('Status', 'status')

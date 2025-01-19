@@ -231,7 +231,8 @@ class HonorKegiatan extends Resource
                         if ($formData->generate_sk) {
                             $field->show()
                                 ->rules('required')
-                                ->options(Helper::setOptionPengelola('kpa', Helper::createDateFromString($formData->tanggal_sk)));
+                                ->options(Helper::setOptionPengelola('kpa', Helper::createDateFromString($formData->tanggal_sk)))
+                                ->setValue(Helper::setDefaultPengelola('kpa', Helper::createDateFromString($formData->tanggal_sk)));
                         }
                     }),
             ]),
@@ -287,7 +288,8 @@ class HonorKegiatan extends Resource
                         if ($formData->generate_st) {
                             $field->show()
                                 ->rules('required')
-                                ->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
+                                ->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)))
+                                ->setValue(Helper::setDefaultPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
                         }
                     }),
             ]),
@@ -302,7 +304,8 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal_spj)));
+                        $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal_spj)))
+                            ->setValue(Helper::setDefaultPengelola('koordinator', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
@@ -310,7 +313,8 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spj)));
+                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spj)))
+                            ->setValue(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
                 Select::make('Bendahara', 'bendahara_user_id')
                     ->rules('required')
@@ -318,7 +322,8 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_spj', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
+                        $field->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)))
+                            ->setValue(Helper::setDefaultPengelola('bendahara', Helper::createDateFromString($formData->tanggal_spj)));
                     }),
             ]),
             Tab::group('Daftar Honor', [

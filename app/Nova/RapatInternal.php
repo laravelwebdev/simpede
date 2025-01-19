@@ -116,7 +116,8 @@ class RapatInternal extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal)));
+                        $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal)))
+                            ->setValue(Helper::setDefaultPengelola('kepala', Helper::createDateFromString($formData->tanggal)));
                     }),
             ]),
             Panel::make('Daftar Hadir', [
@@ -131,7 +132,8 @@ class RapatInternal extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)));
+                        $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)))
+                            ->setValue(Helper::setDefaultPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
             ]),
             Panel::make('Notula', [

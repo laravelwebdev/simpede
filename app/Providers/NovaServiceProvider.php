@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Helpers\Policy;
+use App\Models\Pengelola;
+use App\Models\User as UserModel;
 use App\Nova\BastMitra;
 use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
@@ -46,7 +48,9 @@ use App\Nova\User;
 use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
@@ -180,6 +184,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
         Nova::withBreadcrumbs();
         Nova::showUnreadCountInNotificationCenter();
+
+        // Modify Login Auth
+        Fortify::authenticateUsing(function (Request $request) {
+
+            $user = UserModel::where('email', $request->email)
+                ->orWhereRaw('LEFT(email ,LOCATE("@", email) -1) = ?', [$request->email])
+                ->first();
+
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                $roles = Pengelola::cache()->get('all')->where('user_id', $user->id)->whereNull('inactive')->pluck('role')->toArray();
+                session(['role' => $roles]);
+                session(['year' => $request->year]);
+
+                return $user;
+            }
+        });
+
     }
 
     /**
@@ -216,6 +238,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::fortify()
             ->features([
                 Features::updatePasswords(),
+                Features::twoFactorAuthentication(
+                    [
+                        'confirm' => true,
+                        'confirmPassword' => true,
+                        'window' => 0,
+                    ]
+                ),
+
             ])
             ->register();
     }

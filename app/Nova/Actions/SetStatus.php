@@ -18,11 +18,17 @@ class SetStatus extends Action
     use InteractsWithQueue, Queueable;
 
     protected $status;
+
     protected bool $withTanggal = false;
+
     protected $statusField;
+
     protected bool $withUser = false;
+
     protected $column;
+
     protected $userColumn;
+
     protected $parent_id;
 
     public function setName($name)
@@ -103,7 +109,8 @@ class SetStatus extends Action
                 ->searchable()
                 ->rules('required')
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
-                    $field->options(Helper::setOptionPengelola('kepala', $form->tanggal));
+                    $field->options(Helper::setOptionPengelola('kepala', $form->tanggal))
+                        ->setValue(Helper::setDefaultPengelola('kepala', $form->tanggal));
                 });
         }
 

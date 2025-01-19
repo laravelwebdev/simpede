@@ -102,7 +102,8 @@ class DaftarPesertaPerjalanan extends Resource
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
                             ->rules('required')
-                            ->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
+                            ->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)))
+                            ->setValue(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_kuitansi)));
                     }),
                 Select::make('Bendahara', 'bendahara_user_id')
                     ->searchable()
@@ -111,7 +112,8 @@ class DaftarPesertaPerjalanan extends Resource
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
                             ->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)))
-                            ->rules('required');
+                            ->rules('required')
+                            ->setValue(Helper::setDefaultPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)));
                     }),
             ]),
         ];

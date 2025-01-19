@@ -704,6 +704,14 @@ class Helper
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
+    public static function setDefaultPengelola($role, $tanggal)
+    {
+        $pengelola = self::getUsersByPengelola($role, $tanggal);
+
+        return $pengelola->count() == 1 ? $pengelola->first()->id : null;
+
+    }
+
     public static function setDefaultPesertaRapat($tujuan, $tanggal)
     {
         Str::contains(Str::lower($tujuan), ['ketua', 'penanggung', 'penanggungjawab']) ? $role = 'koordinator' : $role = 'anggota';
@@ -1701,6 +1709,13 @@ class Helper
     public static function setOptionTemplate($jenis)
     {
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
+    }
+
+    public static function setDefaultTemplate($jenis)
+    {
+        $template = Template::cache()->get('all')->where('jenis', $jenis);
+
+        return $template->count() == 1 ? $template->first()->id : null;
     }
 
     public static function setOptionsRo($dipa_id)

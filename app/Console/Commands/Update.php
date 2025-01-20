@@ -49,5 +49,12 @@ class Update extends Command
         }
         $this->info('Dependencies sukses diupdate');
 
+        $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            $this->error($process->getErrorOutput());
+            return 1; // Return non-zero exit code to indicate failure
+        }
+        $this->info('Cache composer sukses dihapus');
     }
 }

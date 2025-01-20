@@ -193,14 +193,14 @@ class PemeliharaanBarang extends Lens
     {
         $actions = [];
 
-        if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
-            $actions[] =
-            Download::make('karken_pemeliharaan', 'Unduh Kartu Kendali Pemeliharaan')
-                ->showInline()
-                ->showOnDetail()
-                ->withOptionPengelola('bmn')
-                ->confirmButtonText('Unduh');
-        }
+        // if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
+        //     $actions[] =
+        //     Download::make('karken_pemeliharaan', 'Unduh Kartu Kendali Pemeliharaan')
+        //         ->showInline()
+        //         ->showOnDetail()
+        //         ->withOptionPengelola('bmn')
+        //         ->confirmButtonText('Unduh');
+        // }
 
         return $actions;
     }

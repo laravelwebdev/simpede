@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
 use App\Nova\Lenses\PemeliharaanBarang;
 use Laravel\Nova\Fields\BelongsTo;
@@ -149,6 +150,14 @@ class MasterBarangPemeliharaan extends Resource
         //         ->standalone()
         //         ->onlyOnIndex();
         // }
+        if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
+            $actions[] =
+            Download::make('karken_pemeliharaan', 'Unduh Kartu Kendali Pemeliharaan')
+                ->showInline()
+                ->showOnDetail()
+                ->withOptionPengelola('bmn')
+                ->confirmButtonText('Unduh');
+        }
 
         return $actions;
     }

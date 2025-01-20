@@ -38,7 +38,7 @@ class TestAction extends Action
         return [
             Boolean::make('Boolean', 'boolean'),
             Text::make('Text', 'text')
-            ->hidden()
+            ->hide()
             ->dependsOn('boolean', function (Text $field, NovaRequest $request, FormData $formData) {
                 if ($formData->boolean) $field->show();
             }),

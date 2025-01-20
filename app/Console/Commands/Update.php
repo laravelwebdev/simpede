@@ -37,7 +37,7 @@ class Update extends Command
         // $composer = config('app.composer');
         // $devFlag = $this->option('dev') ? '' : '--no-dev';
         // shell_exec('composer2 update');
-        $process = Process::fromShellCommandline("composer2 update --no-dev", base_path(), env : ['COMPOSER_HOME' => '$HOME/usr/local/bin/composer.phar']);
+        $process = Process::fromShellCommandline("composer2 update --no-dev", base_path(), env : ['COMPOSER_HOME' => '$HOME/usr/local/bin']);
         $process->run();
         if (!$process->isSuccessful()) {
             $this->error($process->getErrorOutput());

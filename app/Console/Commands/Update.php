@@ -35,13 +35,7 @@ class Update extends Command
         // Update composer dependencies
         $composer = config('app.composer');
         $devFlag = $this->option('dev') ? '' : '--no-dev';
-        $process = new Process([$composer, 'update', $devFlag], null, ['HOME' => getenv('HOME')]);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
+      shell_exec('composer2 update');
 
         $this->info($process->getOutput());
     }

@@ -34,5 +34,7 @@ class Update extends Command
         $devFlag = $this->option('dev') ? '' : '--no-dev';
         $process = new Process([$composer, 'update', $devFlag]);
         $process->run();
+
+        $this->info($process->getOutput());
     }
 }

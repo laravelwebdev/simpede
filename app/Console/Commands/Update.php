@@ -37,7 +37,7 @@ class Update extends Command
         // $composer = config('app.composer');
         // $devFlag = $this->option('dev') ? '' : '--no-dev';
         // shell_exec('composer2 update');
-        app()->make(Composer::class)->run(['update']);
+        app()->make(Composer::class)->run(['composer','update']);
 
         $this->info($process->getOutput());
     }

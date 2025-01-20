@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
 class Update extends Command
 {
@@ -25,9 +26,20 @@ class Update extends Command
      */
     public function handle()
     {
-        exec('git pull origin main');
+        // Pull the latest changes from the main branch
+        $process = new Process(['git', 'pull', 'origin', 'main']);
+        $process->run();
+
+        $this->info($process->getOutput());
+
+        // Update composer dependencies
         $composer = config('app.composer');
         $devFlag = $this->option('dev') ? '' : '--no-dev';
-        exec("$composer update $devFlag");
+        $process = new Process([$composer, 'update', $devFlag]);
+        $process->run();
+
+        $this->info($process->getOutput());
+
+        $this->info('Application updated successfully.');
     }
 }

@@ -201,7 +201,7 @@ class PemeliharaanBarang extends Lens
                 ->withOptionPengelola('bmn')
                 ->confirmButtonText('Unduh');
         }
-        $actions[] = TestAction::make('Test Action');
+        $actions[] = TestAction::make('Test Action')->showInline();
 
         return $actions;
     }

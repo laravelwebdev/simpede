@@ -55,6 +55,11 @@ Rekomendasi shared hosting murah:
     ```bash
     git clone https://github.com/laravelwebdev/simpede.git .
     ```
+- Buat symlink dari public_html
+    ```bash
+    ln -s public public_html
+    ```
+    
 - Update dependencies (gunakan composer2):
     ```bash
     composer2 update --no-dev
@@ -81,20 +86,8 @@ Rekomendasi shared hosting murah:
     ```bash
     php artisan migrate --seed
     ```
-- Buat symlink dari public_html
-    ```bash
-    ln -s public public_html
-    ```
-    
-- Jalankan command:
-    ```bash
-    php artisan storage:link
-    ```
-- Jalankan command:
-    ```bash
-    php artisan optimize
-    ```
 
+    
 ## Maintenance Mode
 
 - Untuk menampilkan website sedang dalam kondisi Maintenance jalankan command berikut:

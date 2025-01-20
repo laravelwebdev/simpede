@@ -58,7 +58,8 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan nova:publish --ansi",
             "@php artisan optimize:clear",
-            "@php artisan optimize"
+            "@php artisan optimize",
+            "@php artisan storage:link"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

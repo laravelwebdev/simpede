@@ -41,20 +41,12 @@ class Update extends Command
         $composer = config('app.composer');
         $devFlag = $this->option('dev') ? '' : '--no-dev';
         // shell_exec('composer2 update');
-        $process = Process::fromShellCommandline("$composer update --no-cache $devFlag", base_path(), ['COMPOSER_HOME' => '.cache/composer']);
+        $process = Process::fromShellCommandline("$composer update --no-cache $devFlag", base_path(), ['COMPOSER_HOME' => 'home/u770759286/.cache/composer']);
         $process->run();
         if (!$process->isSuccessful()) {
             $this->error($process->getErrorOutput());
             return 1; // Return non-zero exit code to indicate failure
         }
         $this->info('Dependencies sukses diupdate');
-
-        $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '.cache/composer']);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            $this->error($process->getErrorOutput());
-            return 1; // Return non-zero exit code to indicate failure
-        }
-        $this->info('Composer cache sukses dihapus');
     }
 }

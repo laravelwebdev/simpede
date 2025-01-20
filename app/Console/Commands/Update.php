@@ -30,8 +30,12 @@ class Update extends Command
     {
         $process = new Process(['git', 'pull', 'origin', 'main']);
         $process->run();
+        if (!$process->isSuccessful()) {
+            $this->error($process->getErrorOutput());
+            return 1; // Return non-zero exit code to indicate failure
+        }
 
-        $this->info($process->getOutput());
+        $this->info('Aplikasi Sukses diupdate');
 
         // Update composer dependencies
         $composer = config('app.composer');
@@ -43,6 +47,6 @@ class Update extends Command
             $this->error($process->getErrorOutput());
             return 1; // Return non-zero exit code to indicate failure
         }
-        $this->info($process->getOutput());
+        $this->info('Dependencies sukses diupdate');
     }
 }

@@ -7,7 +7,6 @@ use App\Helpers\Policy;
 use App\Models\Dipa;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
-use App\Nova\Actions\TestAction;
 use App\Nova\Filters\StatusFilter;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
@@ -204,8 +203,6 @@ class KerangkaAcuan extends Resource
                })
                ->exceptOnIndex();
         }
-
-        $actions[] = TestAction::make()->showinline();
 
         return $actions;
     }

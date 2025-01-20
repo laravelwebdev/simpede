@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\PasswordConfirmation;
@@ -62,9 +63,9 @@ class User extends Resource
         return [
             Avatar::make('Avatar')->disableDownload()->disk('avatars')->prunable(),
             Panel::make('Akun', [
-                Text::make('Username', 'email')
+                Email::make('Email', 'email')
                     ->sortable()
-                    ->rules('required', 'regex:/^[0-9A-Za-z.\-_]+$/u', 'max:254')
+                    ->rules('required', 'email', 'max:254')
                     ->creationRules('unique:users,email')
                     ->updateRules('unique:users,email,{{resourceId}}')
                     ->readonly(! Policy::make()->allowedFor('admin')->get()),

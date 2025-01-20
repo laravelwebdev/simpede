@@ -101,7 +101,7 @@ Rekomendasi shared hosting murah:
 
 ## Setup Fonnte
 
-Aplikasi ini menggunakan Whatsapp API dari fonnte.com agar bisa mengirimkan reminder melalui Whatsapp. Disarankan menggunakan nomor khusus untuk mengirimkan pesan untuk berjaga-jaga apabila nomor tersebut nantinya dibanned oleh Whatsapp.
+Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bisa mengirimkan reminder melalui Whatsapp. Disarankan menggunakan nomor khusus untuk mengirimkan pesan untuk berjaga-jaga apabila nomor tersebut nantinya dibanned oleh Whatsapp.
 
 - Ubah setting Fonnte pada file `.env`
     * `FONNTE_TOKEN`: Isi dengan token fonnte.com.
@@ -116,3 +116,7 @@ Aplikasi ini menggunakan Whatsapp API dari fonnte.com agar bisa mengirimkan remi
     php artisan reminder:send (Contoh: /usr/bin/php /home/u770759286/domains/devbeta.site/artisan reminder:send)
     ```
 
+## Setup Sentry
+Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
+- Ubah setting Sentry pada file `.env`
+  * `SENTRY_LARAVEL_DSN`: Isi DNS Sentry yang anda miliki.

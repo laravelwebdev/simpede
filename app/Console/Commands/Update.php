@@ -33,9 +33,9 @@ class Update extends Command
         $this->info($process->getOutput());
 
         // Update composer dependencies
-        $composer = '/usr/local/bin/composer2.phar';
+        $composer = config('app.composer');
         $devFlag = $this->option('dev') ? '' : '--no-dev';
-        $process = new Process([$composer, 'update', $devFlag]);
+        $process = new Process([$composer, 'update', $devFlag], null, ['HOME' => getenv('HOME')]);
         $process->run();
 
         if (!$process->isSuccessful()) {

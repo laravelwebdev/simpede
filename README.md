@@ -111,9 +111,9 @@ Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana unt
 ## Mengupdate Aplikasi
 Untuk mengupdate aplikasi jalankan command:
 ```bash 
-    php artisan app:update
+    php artisan simpede:update
 ```
 atau jika menggunakan composer2
 ```bash 
-    php artisan app:update --composer=composer2
+    php artisan simpede:update --composer=composer2
 ```

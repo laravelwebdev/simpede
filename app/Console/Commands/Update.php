@@ -29,17 +29,10 @@ class Update extends Command
         // Pull the latest changes from the main branch
         $process = new Process(['git', 'pull', 'origin', 'main']);
         $process->run();
-
-        $this->info($process->getOutput());
-
         // Update composer dependencies
         $composer = config('app.composer');
         $devFlag = $this->option('dev') ? '' : '--no-dev';
         $process = new Process([$composer, 'update', $devFlag]);
         $process->run();
-
-        $this->info($process->getOutput());
-
-        $this->info('Application updated successfully.');
     }
 }

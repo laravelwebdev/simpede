@@ -19,7 +19,7 @@ services:
       - 3306:3306
     environment:
      MYSQL_ROOT_PASSWORD: 'root'
-     MYSQL_ROOT_HOST: 'mysql'
+     MYSQL_ROOT_HOST: 'mariadb'
      MYSQL_DATABASE: 'simpede'
      MYSQL_USER: 'homestead'
      MYSQL_PASSWORD: 'secret'

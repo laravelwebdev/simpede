@@ -4,7 +4,6 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
-use App\Nova\Actions\TestAction;
 use App\Nova\Filters\Keberadaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -201,7 +200,6 @@ class PemeliharaanBarang extends Lens
                 ->withOptionPengelola('bmn')
                 ->confirmButtonText('Unduh');
         }
-        $actions[] = TestAction::make('Test Action')->showInline();
 
         return $actions;
     }

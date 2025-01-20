@@ -39,6 +39,10 @@ class Update extends Command
         // shell_exec('composer2 update');
         $process = Process::fromShellCommandline("composer2 update --no-dev");
         $process->run();
+        if (!$process->isSuccessful()) {
+            $this->error($process->getErrorOutput());
+            return 1; // Return non-zero exit code to indicate failure
+        }
         $this->info($process->getOutput());
     }
 }

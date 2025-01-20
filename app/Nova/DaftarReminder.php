@@ -107,7 +107,9 @@ class DaftarReminder extends Resource
             Action::using('Kirim Sekarang', function (ActionFields $fields, Collection $models) {
                 $reminder = $models->first();
                 Helper::sendReminder($reminder, 'manual');
-            })->sole(),
+            })
+            ->sole()
+            ->canSee( fn () => $this->resource->status !== 'sent' ),
         ];
     }
 

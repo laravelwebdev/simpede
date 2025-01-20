@@ -57,4 +57,11 @@ class DaftarReminderPolicy
     {
         return false;
     }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('all')
+            ->get();
+    }
 }

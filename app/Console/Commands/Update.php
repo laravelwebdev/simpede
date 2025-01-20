@@ -11,7 +11,7 @@ class Update extends Command
      *
      * @var string
      */
-    protected $signature = 'simpede:update {--composer=composer}';
+    protected $signature = 'simpede:update {--dev : Include dev dependencies}';
 
     /**
      * The console command description.
@@ -25,8 +25,9 @@ class Update extends Command
      */
     public function handle()
     {
-        exec('git pull origin main', $output, $return_var);
-        $composer = $this->option('composer');
-        exec("$composer update --no-dev", $output, $return_var);
+        exec('git pull origin main');
+        $composer = config('app.composer');
+        $devFlag = $this->option('dev') ? '' : '--no-dev';
+        exec("$composer update $devFlag");
     }
 }

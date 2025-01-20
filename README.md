@@ -98,9 +98,19 @@ Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bis
     ```bash 
     https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
     ```
-- Setting Cron Job untuk menjalankan perintah berikut: 
+## Artisan Command
+Command berikut dapat dipakai untuk menjalankan berbagai hal atau disetting agar dieksekusi dalam jangka waktu tertentu menggunakan Cron Job.
+- Artisan command untuk mengirim reminder: 
     ```bash
-    php artisan reminder:send (Contoh: /usr/bin/php /home/u770759286/domains/devbeta.site/artisan reminder:send)
+    php artisan reminder:send
+    ```
+- Artisan command untuk mengsinkronkan data hari libur: 
+    ```bash
+    php artisan holidays:sync
+    ```
+- Artisan command untuk update aplikasi: 
+    ```bash
+    php artisan simpede:update
     ```
 
 ## Setup Sentry
@@ -108,12 +118,3 @@ Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana unt
 - Ubah setting Sentry pada file `.env`
   * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
 
-## Mengupdate Aplikasi
-Untuk mengupdate aplikasi jalankan command:
-```bash 
-    php artisan simpede:update
-```
-atau jika menggunakan composer2
-```bash 
-    php artisan simpede:update --composer=composer2
-```

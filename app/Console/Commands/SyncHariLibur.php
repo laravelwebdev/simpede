@@ -19,7 +19,7 @@ class SyncHariLibur extends Command
      *
      * @var string
      */
-    protected $description = 'CSync Indonesian Holidays to database';
+    protected $description = 'Sync Indonesian Holidays to database';
 
     /**
      * Execute the console command.

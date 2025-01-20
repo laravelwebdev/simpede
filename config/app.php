@@ -132,4 +132,13 @@ return [
 
     'initialyear' => env('NOVA_INITIAL_YEAR', 2024),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Composer app command (Command untuk menjalankan perintah composer)
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'composer' => env('COMPOSER', 'composer'),
+
 ];

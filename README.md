@@ -51,20 +51,10 @@ Rekomendasi shared hosting murah:
 - Hapus seluruh folder dan file yang ada di root domain.
 - Connect via terminal menggunakan SSH.
 - Arahkan ke folder root domain.
-- Clone Simpede Repository: 
+- Jalankan Command: 
     ```bash
-    git clone https://github.com/laravelwebdev/simpede.git .
+    composer create-project laravelwebdev/simpede . --no-dev
     ```
-- Buat symlink dari public_html
-    ```bash
-    ln -s public public_html
-    ```
-    
-- Update dependencies (gunakan composer2):
-    ```bash
-    composer2 update --no-dev
-    ```
-
 - Rename file `.env.example` menjadi `.env` dan edit variabel berikut:
     * `APP_URL`: URL website.
     * `DB_HOST`: Host database, biasanya `localhost`.
@@ -78,10 +68,7 @@ Rekomendasi shared hosting murah:
     * `INITIAL_YEAR`: set menjadi tahun pertama aplikasi digunakan
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
-- Generate Key:
-    ```bash
-    php artisan key:generate
-    ```
+
 - Lakukan migrasi database:
     ```bash
     php artisan migrate --seed
@@ -120,3 +107,13 @@ Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bis
 Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
 - Ubah setting Sentry pada file `.env`
   * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
+
+## Mengupdate Aplikasi
+Untuk mengupdate aplikasi jalankan command:
+```bash 
+    php artisan app:update
+```
+atau jika menggunakan composer2
+```bash 
+    php artisan app:update --composer=composer2
+```

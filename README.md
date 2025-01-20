@@ -119,4 +119,4 @@ Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bis
 ## Setup Sentry
 Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
 - Ubah setting Sentry pada file `.env`
-  * `SENTRY_LARAVEL_DSN`: Isi DNS Sentry yang anda miliki.
+  * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.

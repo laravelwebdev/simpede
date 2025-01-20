@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Composer;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -33,9 +34,10 @@ class Update extends Command
         $this->info($process->getOutput());
 
         // Update composer dependencies
-        $composer = config('app.composer');
-        $devFlag = $this->option('dev') ? '' : '--no-dev';
-      shell_exec('composer2 update');
+        // $composer = config('app.composer');
+        // $devFlag = $this->option('dev') ? '' : '--no-dev';
+        // shell_exec('composer2 update');
+        app()->make(Composer::class)->run(['update --no-dev']);
 
         $this->info($process->getOutput());
     }

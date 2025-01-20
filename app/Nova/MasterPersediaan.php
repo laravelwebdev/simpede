@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportMasterPersediaan;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use Laravel\Nova\Fields\Text;
@@ -112,6 +113,15 @@ class MasterPersediaan extends Resource
             ImportMasterPersediaan::make()
                 ->standalone()
                 ->confirmButtonText('Import');
+        }
+
+        if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
+            $actions[] =
+            Download::make('karken_persediaan', 'Unduh Kartu Kendali Persediaan')
+                ->showInline()
+                ->showOnDetail()
+                ->withOptionPengelola('bmn')
+                ->confirmButtonText('Unduh');
         }
 
         return $actions;

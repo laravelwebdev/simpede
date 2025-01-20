@@ -103,7 +103,7 @@ class SetStatus extends Action
         }
         if ($this->withTanggal) {
             $fields[] = Date::make('Tanggal')
-                ->default(now()->toDateString())
+                ->default(now())
                 ->rules('required', 'before_or_equal:today');
             $fields[] = Select::make('Kepala')
                 ->searchable()

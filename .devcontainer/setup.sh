@@ -6,7 +6,7 @@ cp .env.example .env
 echo --- Update .env with desired values ...
 # Define new values
 new_db_connection="DB_CONNECTION=mysql"
-new_db_host="DB_HOST=mysql"
+new_db_host="DB_HOST=mariadb"
 new_db_port="DB_PORT=3306"
 new_db_database="DB_DATABASE=simpede"
 new_db_username="DB_USERNAME=homestead"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee6f1e92fd013a273fd9dc57e81d3ce7",
+    "content-hash": "7ed14782095a950972c9911699f3459e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2402,6 +2402,56 @@
                 "source": "https://github.com/laravelwebdev/time/tree/1.0.0"
             },
             "time": "2025-01-17T23:20:12+00:00"
+        },
+        {
+            "name": "laravelwebdev/updater",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravelwebdev/updater.git",
+                "reference": "22d4306ea09ece17b2ba8fab5db639b76d56048c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravelwebdev/updater/zipball/22d4306ea09ece17b2ba8fab5db639b76d56048c",
+                "reference": "22d4306ea09ece17b2ba8fab5db639b76d56048c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/nova": "^5.0",
+                "laravel/nova-devtool": "^1.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravelwebdev\\Updater\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravelwebdev\\Updater\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/laravelwebdev/updater/issues",
+                "source": "https://github.com/laravelwebdev/updater/tree/1.0.0"
+            },
+            "time": "2025-01-20T14:27:30+00:00"
         },
         {
             "name": "laravelwebdev/welcome",
@@ -10093,12 +10143,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

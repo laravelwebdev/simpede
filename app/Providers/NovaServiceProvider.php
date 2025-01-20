@@ -58,6 +58,7 @@ use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravelwebdev\NovaCalendar\NovaCalendar;
+use Laravelwebdev\Updater\Updater;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -269,6 +270,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new NovaCalendar('kalender-kegiatan'),
+            Updater::make()->canSee(fn () => Policy::make()
+                ->allowedFor('admin')
+                ->get()),
         ];
     }
 

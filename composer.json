@@ -23,6 +23,7 @@
         "laravelwebdev/repeatable": "^1.0",
         "laravelwebdev/table": "^1.0",
         "laravelwebdev/time": "^1.0",
+        "laravelwebdev/updater": "^1.0",
         "laravelwebdev/welcome": "^1.0",
         "mostafaznv/laracache": "^2.4",
         "phpoffice/phpword": "^1.2",

@@ -191,7 +191,6 @@ class PemeliharaanBarang extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        parent::actions($request);
         $actions = [];
         if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
             $actions[] =

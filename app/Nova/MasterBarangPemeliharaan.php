@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
 use App\Nova\Lenses\PemeliharaanBarang;
 use Laravel\Nova\Fields\BelongsTo;
@@ -11,7 +12,6 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Actions\Download;
 
 class MasterBarangPemeliharaan extends Resource
 {

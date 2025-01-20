@@ -131,7 +131,6 @@ class RekapBarangPersediaan extends Lens
      */
     public function actions(NovaRequest $request)
     {
-
         return [...parent::actions($request)];
     }
 

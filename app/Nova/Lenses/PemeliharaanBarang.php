@@ -45,7 +45,7 @@ class PemeliharaanBarang extends Lens
                 ->where('tahun', session('year'))
                 ->select(self::columns())
                 ->leftJoin('daftar_pemeliharaans', 'daftar_pemeliharaans.master_barang_pemeliharaan_id', '=', 'master_barang_pemeliharaans.id')
-                ->groupBy('kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'kondisi', 'lokasi', 'master_barang_pemeliharaans.id'), 'master_barang_pemeliharaans')
+                ->groupBy('kode_barang', 'nup', 'nama_barang', 'merk', 'nopol', 'user_id', 'kondisi', 'lokasi', 'master_barang_pemeliharaans.id'), 'master_barang_pemeliharaans')
 
         ), fn ($query) => $query->orderBy('jumlah', 'desc')
             ->orderBy('kode_barang', 'asc')
@@ -68,6 +68,7 @@ class PemeliharaanBarang extends Lens
             'master_barang_pemeliharaans.nopol',
             'master_barang_pemeliharaans.kondisi',
             'master_barang_pemeliharaans.lokasi',
+            'master_barang_pemeliharaans.user_id',
             DB::raw('SUM(CASE WHEN YEAR(daftar_pemeliharaans.tanggal) = '.session('year').' THEN 1 ELSE 0 END) as jumlah'),
         ];
     }

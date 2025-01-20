@@ -38,7 +38,7 @@ class Update extends Command
         // $devFlag = $this->option('dev') ? '' : '--no-dev';
         // shell_exec('composer2 update');
         $process = Process::fromShellCommandline("composer2 update --no-dev");
-
+        $process->run();
         $this->info($process->getOutput());
     }
 }

@@ -31,9 +31,10 @@ class Update extends Command
 
         $this->info($process->getOutput());
 
-        $composer = config('app.composer');
+        // Update composer dependencies
+        $composer = 'composer';
         $devFlag = $this->option('dev') ? '' : '--no-dev';
-        $process = new Process(['composer2 update']);
+        $process = new Process([$composer, 'update', $devFlag]);
         $process->run();
 
         $this->info($process->getOutput());

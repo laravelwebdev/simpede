@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
-use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportMasterBarangPemeliharaan;
 use App\Nova\Lenses\PemeliharaanBarang;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,6 +11,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Actions\Download;
 
 class MasterBarangPemeliharaan extends Resource
 {
@@ -145,11 +145,11 @@ class MasterBarangPemeliharaan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        // if (Policy::make()->allowedFor('admin,kasubbag,bmn')->get()) {
-        //     $actions[] = ImportMasterBarangPemeliharaan::make()
-        //         ->standalone()
-        //         ->onlyOnIndex();
-        // }
+        if (Policy::make()->allowedFor('admin,kasubbag,bmn')->get()) {
+            $actions[] = ImportMasterBarangPemeliharaan::make()
+                ->standalone()
+                ->onlyOnIndex();
+        }
         if (Policy::make()->allowedFor('kasubbag,bmn')->get()) {
             $actions[] =
             Download::make('karken_pemeliharaan', 'Unduh Kartu Kendali Pemeliharaan')

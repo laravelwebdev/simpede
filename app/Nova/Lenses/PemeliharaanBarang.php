@@ -189,9 +189,7 @@ class PemeliharaanBarang extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        $actions = [...parent::actions($request)];
-
-        return $actions;
+        return [...parent::actions($request)];
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
@@ -62,12 +63,13 @@ class Pemeliharaan extends Resource
                 Date::make('Tanggal KAK', 'tanggal_kak')
                     ->readonly()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ]),
+            ])->sortable(),
             Text::make('Rincian')
                 ->rules('required'),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
-                ->failedWhen(['outdated']),
+                ->failedWhen(['outdated'])
+                ->sortable(),
             HasMany::make('Barang Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
 
         ];
@@ -90,7 +92,9 @@ class Pemeliharaan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('pemeliharaans'),
+        ];
     }
 
     /**

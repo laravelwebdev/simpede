@@ -108,8 +108,8 @@ class DaftarReminder extends Resource
                 $reminder = $models->first();
                 Helper::sendReminder($reminder, 'manual');
             })
-            ->sole()
-            ->canSee( fn () => $this->resource->status !== 'sent' ),
+                ->sole()
+                ->canSee(fn () => $this->resource->status !== 'sent'),
         ];
     }
 

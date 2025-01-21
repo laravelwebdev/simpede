@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Helpers\Composer;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class Update extends Command
@@ -30,8 +29,9 @@ class Update extends Command
     {
         $process = new Process(['git', 'pull', 'origin', 'main']);
         $process->run();
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             $this->error($process->getErrorOutput());
+
             return 1; // Return non-zero exit code to indicate failure
         }
 
@@ -43,16 +43,18 @@ class Update extends Command
         // shell_exec('composer2 update');
         $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
         $process->run();
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             $this->error($process->getErrorOutput());
+
             return 1; // Return non-zero exit code to indicate failure
         }
         $this->info('Dependencies sukses diupdate');
 
         $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
         $process->run();
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             $this->error($process->getErrorOutput());
+
             return 1; // Return non-zero exit code to indicate failure
         }
         $this->info('Cache composer sukses dihapus');

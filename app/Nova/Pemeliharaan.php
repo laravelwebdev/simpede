@@ -57,7 +57,7 @@ class Pemeliharaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Stack::make('Kerangka Acuan/Tanggal', 'kerangkaAcuan.tanggal', [
+            Stack::make('Kerangka Acuan/Tanggal', 'tanggal_kak', [
                 BelongsTo::make('Kerangka Acuan')
                     ->readonly(),
                 Date::make('Tanggal KAK', 'tanggal_kak')

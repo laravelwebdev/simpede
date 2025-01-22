@@ -15,8 +15,11 @@ class MetricKeberadaan extends Partition
 
     private $key;
 
-    public function __construct($model, $column, $key)
+    private $title;
+
+    public function __construct($title, $model, $column, $key)
     {
+        $this->title = $title;
         $this->model = $model;
         $this->column = $column;
         $this->key = $key;
@@ -51,7 +54,7 @@ class MetricKeberadaan extends Partition
 
     public function name()
     {
-        return 'Status';
+        return $this->title;
     }
 
     /**

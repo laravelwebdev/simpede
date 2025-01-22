@@ -242,7 +242,7 @@ class NaskahKeluar extends Resource
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'tanggal', 'trend-naskah-keluar')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make($model, 'signed', 'keberadaan-naskah-keluar')
+            MetricKeberadaan::make('Arsip', $model, 'signed', 'keberadaan-naskah-keluar')
                 ->refreshWhenActionsRun(),
         ];
     }

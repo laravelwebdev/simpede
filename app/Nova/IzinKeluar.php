@@ -139,7 +139,7 @@ class IzinKeluar extends Resource
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'tanggal', 'trend-izin')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make($model, 'bukti', 'keberadaan-izin')
+            MetricKeberadaan::make('Bukti', $model, 'bukti', 'keberadaan-izin')
                 ->refreshWhenActionsRun(),
         ];
     }

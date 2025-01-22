@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\RapatInternal as ModelsRapatInternal;
 use App\Nova\Actions\Download;
+use App\Nova\Metrics\MetricKeberadaan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -254,7 +256,16 @@ class RapatInternal extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsRapatInternal::whereYear('tanggal_rapat', session('year'));
+
+        return [
+            MetricKeberadaan::make('Undangan', $model, 'signed_undangan', 'keberadaan-undangan')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Daftar Hadir', $model, 'signed_daftar_hadir', 'keberadaan-daftar-hadir')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Notula', $model, 'signed_notula', 'keberadaan-notula')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**

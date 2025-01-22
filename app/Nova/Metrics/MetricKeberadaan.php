@@ -27,7 +27,7 @@ class MetricKeberadaan extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $results = $this->model::query()
+        $results = $this->model->newQuery()
             ->selectRaw("{$this->column}, COUNT(id) as count")
             ->groupBy($this->column)
             ->get()

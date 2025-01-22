@@ -15,6 +15,10 @@ class MetricPartition extends Partition
 
     private $key;
 
+    private $failed;
+
+    private $success;
+
     public function __construct($model, $column, $key)
     {
         $this->model = $model;
@@ -30,10 +34,10 @@ class MetricPartition extends Partition
         return $this->count(
             $request, $this->model, column: $this->column, groupBy: $this->column
         )
-            ->colors([
-                'dicetak' => 'rgb(30, 223, 104)',
-                'selesai' => 'rgb(22, 187, 91)',
-            ]);
+            ->colors(array_merge(
+                array_fill_keys($this->failed, 'rgb(247, 74, 30)'), // Red for failed
+                array_fill_keys($this->success, 'rgb(15, 184, 80)') // Green for success
+            ));
     }
 
     /**
@@ -44,6 +48,20 @@ class MetricPartition extends Partition
         // return now()->addMinutes(5);
 
         return null;
+    }
+
+    public function failedWhen(array $failed)
+    {
+        $this->failed = $failed;
+
+        return $this;
+    }
+
+    public function successWhen(array $success)
+    {
+        $this->success = $success;
+
+        return $this;
     }
 
     public function name()

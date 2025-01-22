@@ -155,7 +155,9 @@ class KerangkaAcuan extends Resource
         return [
             MetricValue::make(ModelsKerangkaAcuan::class, 'id', 'tanggal', 'total-kak'),
             MetricTrend::make(ModelsKerangkaAcuan::class, 'tanggal', 'trend-kak'),
-            MetricPartition::make(ModelsKerangkaAcuan::class, 'status', 'status-kak'),
+            MetricPartition::make(ModelsKerangkaAcuan::class, 'status', 'status-kak')
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak']),
         ];
     }
 

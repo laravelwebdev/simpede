@@ -90,7 +90,6 @@ class HonorKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('Tanggal KAK', 'tanggal_kak'),
             Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')

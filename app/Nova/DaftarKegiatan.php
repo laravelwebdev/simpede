@@ -5,6 +5,10 @@ namespace App\Nova;
 use App\Helpers\Fonnte;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DaftarKegiatan as ModelsDaftarKegiatan;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -193,7 +197,16 @@ Terimakasih ✨✨'),
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsDaftarKegiatan::whereYear('awal', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-daftar-kegiatan')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal', 'trend-daftar-kegiatan')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'jenis', 'status-daftar-kegiatan')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**

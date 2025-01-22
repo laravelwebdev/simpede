@@ -13,10 +13,22 @@ class MetricTrend extends Trend
 
     private $key;
 
-    public function __construct($model, $key)
+    private $month = false;
+
+    private $column;
+
+    public function __construct($model, $column, $key)
     {
         $this->model = $model;
+        $this->column = $column;
         $this->key = $key;
+    }
+
+    public function isMonthColumn()
+    {
+        $this->month === true;
+
+        return $this;
     }
 
     /**
@@ -24,7 +36,7 @@ class MetricTrend extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->countByMonths($request, $this->model, 'tanggal_metric');
+        return $this->month ? (new TrendResult)->trend($this->model->count('id')->groupBy($this->column)) : $this->countByMonths($request, $this->model, $this->column);
     }
 
     /**

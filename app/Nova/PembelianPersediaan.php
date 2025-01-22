@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
@@ -77,15 +76,11 @@ class PembelianPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('Tanggal KAK', 'tanggal_kak'),
-            Panel::make('Kerangka Acuan Kerja', [
-                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
-                    ->onlyOnDetail(),
-            ]),
-            Panel::make('Keterangan', [
-                Text::make('Rincian')
-                    ->rules('required'),
-            ]),
+            Date::make('Tanggal KAK', 'tanggal_kak')->immutable(),
+            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+                ->onlyOnDetail(),
+            Text::make('Rincian')
+                ->rules('required'),
             Panel::make('Keterangan Serah Terima Barang', [
                 Date::make('Tanggal Nota', 'tanggal_nota')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

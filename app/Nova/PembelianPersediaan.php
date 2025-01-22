@@ -76,7 +76,9 @@ class PembelianPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Tanggal KAK', 'tanggal_kak')->immutable(),
+            Date::make('Tanggal KAK', 'tanggal_kak')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->immutable(),
             BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                 ->onlyOnDetail(),
             Text::make('Rincian')

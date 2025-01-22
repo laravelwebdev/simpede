@@ -6,7 +6,7 @@ use App\Helpers\Helper;
 use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
-use App\Models\NaskahMasuk;
+use App\Models\NaskahKeluar as ModelsNaskahKeluar;
 use App\Nova\Filters\GenerateNaskah;
 use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricTrend;
@@ -235,14 +235,14 @@ class NaskahKeluar extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = NaskahMasuk::whereYear('tanggal', session('year'))->where('generate', 'M');
+        $model = ModelsNaskahKeluar::whereYear('tanggal', session('year'))->where('generate', 'M');
 
         return [
             MetricValue::make($model, 'total-naskah-keluar')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'signed', 'trend-naskah-keluar')
+            MetricTrend::make($model, 'tanggal', 'trend-naskah-keluar')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make($model, 'bukti', 'keberadaan-naskah-keluar')
+            MetricKeberadaan::make($model, 'signed', 'keberadaan-naskah-keluar')
                 ->refreshWhenActionsRun(),
         ];
     }

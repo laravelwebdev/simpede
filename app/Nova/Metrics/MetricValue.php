@@ -24,7 +24,7 @@ class MetricValue extends Value
      */
     public function calculate(NovaRequest $request): ValueResult
     {
-        return $this->count($request, $this->model, 'id');
+        return $this->count($request, $this->model, 'id', 'tanggal');
     }
 
     public function name()

@@ -188,7 +188,7 @@ class NaskahMasuk extends Resource
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'tanggal', 'trend-naskah-masuk')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Arsip', 'arsip')
+            MetricKeberadaan::make('Arsip', $model, 'arsip', 'keberadaan-naskah-masuk')
                 ->refreshWhenActionsRun(),
         ];
     }

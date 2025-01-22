@@ -35,8 +35,8 @@ class MetricPartition extends Partition
             $request, $this->model, column: $this->column, groupBy: $this->column
         )
             ->colors(array_merge(
-                array_fill_keys($this->failed, 'rgb(135, 48, 26)'),
-                array_fill_keys($this->success, 'rgb(7, 106, 45)')
+                array_fill_keys($this->failed, 'rgb(213, 86, 54)'),
+                array_fill_keys($this->success, 'rgb(12, 197, 83)')
             ));
     }
 

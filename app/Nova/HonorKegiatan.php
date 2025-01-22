@@ -14,7 +14,6 @@ use App\Nova\Actions\ExportTemplateCmsBri;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperHonorKegiatan;
 use App\Nova\Metrics\MetricPartition;
-use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -349,12 +348,12 @@ class HonorKegiatan extends Resource
         }
 
         return [
-            MetricValue::make($model, 'id', 'tanggal_kak', 'total-kak')
-                ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'tanggal_kak', 'trend-kak')
+            MetricValue::make($model, 'total-kak')
+                ->width('1/2')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'status', 'status-kak')
                 ->refreshWhenActionsRun()
+                ->width('1/2')
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),
             HelperHonorKegiatan::make()

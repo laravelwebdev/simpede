@@ -143,7 +143,7 @@ class PermintaanPersediaan extends Resource
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip BON', fn () => '—')->exceptOnForms(),
+                Text::make('Arsip BON', fn () => null)->exceptOnForms(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];

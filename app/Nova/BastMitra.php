@@ -142,7 +142,7 @@ class BastMitra extends Resource
                     ->url($this->file))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip', fn () => '—')->exceptOnForms(),
+                Text::make('Arsip', fn () => null)->exceptOnForms(),
             ]),
 
             HasMany::make('Daftar Kontrak Mitra'),

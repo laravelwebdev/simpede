@@ -159,7 +159,7 @@ class PembelianPersediaan extends Resource
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Arsip', fn () => '—')->exceptOnForms(),
+                Text::make('Arsip', fn () => null)->exceptOnForms(),
             ]),
             MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
         ];
@@ -191,7 +191,7 @@ class PembelianPersediaan extends Resource
                 ->url($this->arsip))
                 ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                 :
-            Text::make('Arsip Penerimaan', fn () => '—')->onlyOnIndex(),
+            Text::make('Arsip Penerimaan', fn () => null)->onlyOnIndex(),
 
         ];
     }

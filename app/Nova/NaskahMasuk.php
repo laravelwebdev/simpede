@@ -134,7 +134,7 @@ class NaskahMasuk extends Resource
                 ->url($this->arsip))
                 ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                 :
-            Text::make('Arsip', fn () => '—')->exceptOnForms(),
+            Text::make('Arsip', fn () => null)->exceptOnForms(),
 
         ];
     }
@@ -166,7 +166,7 @@ class NaskahMasuk extends Resource
                     ->url($this->arsip))
                     ->displayUsing(fn () => 'Lihat')
                     :
-                Text::make('Arsip', fn () => '—'),
+                Text::make('Arsip', fn () => null),
         ];
     }
 

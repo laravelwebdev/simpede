@@ -182,7 +182,7 @@ class RapatInternal extends Resource
                     ->url($this->draft_notula))
                     ->displayUsing(fn () => 'Lihat')->onlyOndetail()
                     :
-                Text::make('Draft Notula', fn () => '—')->onlyOndetail(),
+                Text::make('Draft Notula', fn () => null)->onlyOndetail(),
                 Filepond::make('Undangan Signed', 'signed_undangan')
                     ->disk('arsip')
                     ->disableCredits()

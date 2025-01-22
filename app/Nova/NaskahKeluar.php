@@ -147,7 +147,7 @@ class NaskahKeluar extends Resource
                 ->url($this->signed))
                 ->displayUsing(fn () => 'Lihat')
                 :
-            Text::make('Arsip', fn () => '—'),
+            Text::make('Arsip', fn () => null),
         ];
     }
 
@@ -200,7 +200,7 @@ class NaskahKeluar extends Resource
                 ->url($this->draft))
                 ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                 :
-            Text::make('Draft', fn () => '—')->exceptOnForms(),
+            Text::make('Draft', fn () => null)->exceptOnForms(),
             Filepond::make('Signed')
                 ->disk('naskah')
                 ->disableCredits()
@@ -220,7 +220,7 @@ class NaskahKeluar extends Resource
                 ->url($this->signed))
                 ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                 :
-            Text::make('Arsip', fn () => '—')->exceptOnForms(),
+            Text::make('Arsip', fn () => null)->exceptOnForms(),
         ];
     }
 

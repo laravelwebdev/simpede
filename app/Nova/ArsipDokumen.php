@@ -92,7 +92,7 @@ class ArsipDokumen extends Resource
                 ->url($this->file))
                 ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                 :
-            Text::make('Arsip', fn () => '—')->onlyOnIndex(),
+            Text::make('Arsip', fn () => null)->onlyOnIndex(),
         ];
     }
 

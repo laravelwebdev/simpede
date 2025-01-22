@@ -113,7 +113,7 @@ class DaftarSp2d extends Resource
                     ->url($this->arsip_spp))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('SPP', fn () => '—')->onlyOnDetail(),
+                Text::make('SPP', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('SPM', 'arsip_spm')
                     ->disk('arsip')
@@ -135,7 +135,7 @@ class DaftarSp2d extends Resource
                     ->url($this->arsip_spm))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('SPM', fn () => '—')->exceptOnForms(),
+                Text::make('SPM', fn () => null)->exceptOnForms(),
 
                 Filepond::make('Lampiran SPM', 'arsip_lampiran')
                     ->disk('arsip')
@@ -157,7 +157,7 @@ class DaftarSp2d extends Resource
                     ->url($this->arsip_lampiran))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('Lampiran SPM', fn () => '—')->onlyOnDetail(),
+                Text::make('Lampiran SPM', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('SSP', 'arsip_ssp')
                     ->disk('arsip')
@@ -179,7 +179,7 @@ class DaftarSp2d extends Resource
                     ->url($this->arsip_ssp))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('SSP', fn () => '—')->onlyOnDetail(),
+                Text::make('SSP', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('SP2D', 'arsip_sp2d')
                     ->disk('arsip')
@@ -201,7 +201,7 @@ class DaftarSp2d extends Resource
                     ->url($this->arsip_sp2d))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('SP2D', fn () => '—')->exceptOnForms(),
+                Text::make('SP2D', fn () => null)->exceptOnForms(),
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')

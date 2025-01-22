@@ -115,7 +115,7 @@ class RewardPegawai extends Resource
                     ->url($this->arsip_kertas_kerja))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Kertas Kerja', fn () => '—')->exceptOnForms(),
+                Text::make('Kertas Kerja', fn () => null)->exceptOnForms(),
                 Filepond::make('Arsip SK', 'arsip_sk')
                     ->disk('arsip')
                     ->disableCredits()
@@ -143,7 +143,7 @@ class RewardPegawai extends Resource
                     ->url($this->arsip_sk))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('SK', fn () => '—')->exceptOnForms(),
+                Text::make('SK', fn () => null)->exceptOnForms(),
                 Filepond::make('Arsip Sertifikat', 'arsip_sertifikat')
                     ->disk('arsip')
                     ->disableCredits()
@@ -171,7 +171,7 @@ class RewardPegawai extends Resource
                     ->url($this->arsip_sertifikat))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Sertifikat', fn () => '—')->exceptOnForms(),
+                Text::make('Sertifikat', fn () => null)->exceptOnForms(),
             ]),
             HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
         ];

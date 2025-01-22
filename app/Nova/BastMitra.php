@@ -4,11 +4,14 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\BastMitra as ModelsBastMitra;
 use App\Models\KodeArsip;
 use App\Models\KontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -156,7 +159,20 @@ class BastMitra extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $kontrakMitraIds = KontrakMitra::where('tahun', session('year'))->get()->pluck('id');
+
+        $model = ModelsBastMitra::whereIn('kontrak_mitra_id', $kontrakMitraIds);
+
+        return [
+            MetricValue::make($model, 'total-bast')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-bast')
+                ->refreshWhenActionsRun()
+                ->width('1/2')
+                ->failedWhen(['outdated'])
+                ->successWhen(['digenerate']),
+        ];
     }
 
     /**

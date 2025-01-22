@@ -191,7 +191,7 @@ class KontrakMitra extends Resource
                 ->refreshWhenActionsRun()
                 ->width('1/2')
                 ->failedWhen(['outdated'])
-                ->successWhen(['dicetak']),
+                ->successWhen(['digenerate']),
         ];
     }
 

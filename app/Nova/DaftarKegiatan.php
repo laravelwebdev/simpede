@@ -204,7 +204,7 @@ Terimakasih ✨✨'),
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'awal', 'trend-daftar-kegiatan')
                 ->refreshWhenActionsRun(),
-            MetricPartition::make($model, 'jenis', 'status-daftar-kegiatan')
+            MetricPartition::make($model, 'jenis', 'status-daftar-kegiatan', 'Jenis')
                 ->refreshWhenActionsRun(),
         ];
     }

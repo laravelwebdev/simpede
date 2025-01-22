@@ -17,13 +17,16 @@ class MetricPartition extends Partition
 
     private $failed;
 
+    private $title;
+
     private $success;
 
-    public function __construct($model, $column, $key)
+    public function __construct($model, $column, $key, $title = 'Status')
     {
         $this->model = $model;
         $this->column = $column;
         $this->key = $key;
+        $this->title = $title;
     }
 
     /**
@@ -68,7 +71,7 @@ class MetricPartition extends Partition
 
     public function name()
     {
-        return 'Status';
+        return $this->title;
     }
 
     /**

@@ -6,20 +6,16 @@ use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
-use Laravel\Nova\Nova;
 
 class MetricTrend extends Trend
 {
     private $model;
 
-    private $column;
-
     private $key;
 
-    public function __construct($model, $column, $key)
+    public function __construct($model, $key)
     {
         $this->model = $model;
-        $this->column = $column;
         $this->key = $key;
     }
 
@@ -28,7 +24,7 @@ class MetricTrend extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->countByMonths($request, model: $this->model, column: $this->column);
+        return $this->countByMonths($request, $this->model, 'id');
     }
 
     /**
@@ -39,7 +35,6 @@ class MetricTrend extends Trend
     public function ranges(): array
     {
         return [
-            1 => 'Bulanan',
         ];
     }
 

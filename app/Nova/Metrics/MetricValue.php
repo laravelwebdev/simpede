@@ -6,31 +6,29 @@ use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
-use Laravel\Nova\Nova;
 
 class MetricValue extends Value
 {
     private $model;
-    private $column;
-    private $dateColumn;
+
     private $key;
 
-    public function __construct($model, $column, $dateColumn, $key)
+    public function __construct($model, $key)
     {
         $this->model = $model;
-        $this->column = $column;
-        $this->dateColumn = $dateColumn;
         $this->key = $key;
     }
+
     /**
      * Calculate the value of the metric.
      */
     public function calculate(NovaRequest $request): ValueResult
     {
-        return $this->count($request, $this->model, $this->column, $this->dateColumn);
+        return $this->count($request, $this->model, 'id');
     }
 
-    public function name(){
+    public function name()
+    {
         return 'Jumlah';
     }
 
@@ -42,20 +40,13 @@ class MetricValue extends Value
     public function ranges(): array
     {
         return [
-            30 => Nova::__('30 Days'),
-            60 => Nova::__('60 Days'),
-            365 => Nova::__('365 Days'),
-            'TODAY' => Nova::__('Today'),
-            'MTD' => Nova::__('Month To Date'),
-            'QTD' => Nova::__('Quarter To Date'),
-            'YTD' => Nova::__('Year To Date'),
         ];
     }
 
     /**
      * Determine the amount of time the results of the metric should be cached.
      */
-    public function cacheFor(): DateTimeInterface|null
+    public function cacheFor(): ?DateTimeInterface
     {
         // return now()->addMinutes(5);
 

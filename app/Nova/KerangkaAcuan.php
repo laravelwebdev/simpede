@@ -160,9 +160,9 @@ class KerangkaAcuan extends Resource
         }
 
         return [
-            MetricValue::make($model, 'id', 'tanggal', 'total-kak')
+            MetricValue::make($model, 'total-kak')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'tanggal', 'trend-kak')
+            MetricTrend::make($model, 'trend-kak')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'status', 'status-kak')
                 ->refreshWhenActionsRun()

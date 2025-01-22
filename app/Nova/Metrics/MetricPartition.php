@@ -32,7 +32,7 @@ class MetricPartition extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         return $this->count(
-            $request, $this->model, column: $this->column, groupBy: $this->column
+            $request, $this->model, $this->column, 'id'
         )
             ->colors(array_merge(
                 array_fill_keys($this->failed, 'rgb(213, 86, 54)'),

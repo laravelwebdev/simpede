@@ -343,9 +343,9 @@ class HonorKegiatan extends Resource
     {
         $model = ModelsHonorKegiatan::where('tahun', session('year'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
-            return $model = $model;
+            $model = $model;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            return $model = $model->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+            $model = $model->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
 
         return [

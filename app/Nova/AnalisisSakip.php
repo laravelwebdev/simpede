@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -14,6 +15,7 @@ use Laravelwebdev\Repeatable\Repeatable;
 
 class AnalisisSakip extends Resource
 {
+    public static $with = ['unitKerja'];
     /**
      * The model the resource corresponds to.
      *
@@ -23,7 +25,7 @@ class AnalisisSakip extends Resource
 
     public static function label()
     {
-        return 'Analisis SAKIP';
+        return 'Kendala - Solusi';
     }
 
     /**
@@ -70,6 +72,9 @@ class AnalisisSakip extends Resource
                 ->sortable()
                 ->filterable()
                 ->rules('required'),
+            BelongsTo::make('Unit Kerja')
+                ->rules('required')
+                ->filterable(),
             Text::make('Kegiatan')
                 ->sortable()
                 ->help('Misal: Survei Sosial Ekonomi Nasional Maret, Pengisian Metadata Statistik')
@@ -84,38 +89,8 @@ class AnalisisSakip extends Resource
                 ->rules('required')
                 ->columns(3)
                 ->multiple()
-                ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
-                ->prunable(),
-            Panel::make('Tindak Lanjut', [
-                Textarea::make('Tindak Lanjut')
-                    ->hideWhenCreating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->hideWhenUpdating(fn () => ! in_array(date('n'), [3, 6, 9, 12])),
-                Select::make('Bulan Deadline', 'bulan_deadline')
-                    ->options(Helper::$bulan)
-                    ->displayUsingLabels()
-                    ->hideWhenCreating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->hideWhenUpdating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->readonly()
-                    ->filterable(),
-                Filepond::make('Bukti Tindak Lanjut', 'bukti_tl')
-                    ->disk('arsip')
-                    ->disableCredits()
-                    ->columns(3)
-                    ->hideWhenCreating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->hideWhenUpdating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->multiple()
-                    ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
-                    ->prunable(),
-                Repeatable::make('Penanggung Jawab', 'penanggung_jawab', [
-                    Select::make('Nama', 'pj_user_id')
-                        ->rules('required')
-                        ->searchable()
-                        ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
-                        ->options(Helper::setOptionPengelola('anggota', now())),
-
-                ])->hideWhenCreating(fn () => ! in_array(date('n'), [3, 6, 9, 12]))
-                    ->hideWhenUpdating(fn () => ! in_array(date('n'), [3, 6, 9, 12])),
-            ]),
+                ->path(session('year').'/'.static::uriKey())
+                ->prunable(),           
         ];
     }
 

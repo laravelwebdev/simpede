@@ -20,10 +20,7 @@ return new class extends Migration
             $table->text('kendala')->nullable();
             $table->text('solusi')->nullable();
             $table->text('bukti_solusi')->nullable();
-            $table->text('tindak_lanjut')->nullable();
-            $table->string('bulan_deadline', 2)->nullable();
-            $table->text('bukti_tl')->nullable();
-            $table->mediumInteger('penanggung_jawab')->nullable()->unsigned();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

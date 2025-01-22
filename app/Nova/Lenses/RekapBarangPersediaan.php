@@ -122,7 +122,8 @@ class RekapBarangPersediaan extends Lens
     public function filters(NovaRequest $request)
     {
         return [
-            Keberadaan::make('Stok', 'stok'),
+            Keberadaan::make('Stok', 'stok')
+            ->refreshWhenActionsRun(),
         ];
     }
 

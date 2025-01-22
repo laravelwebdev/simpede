@@ -3,13 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AnalisisSakip extends Model
 {
     protected $casts = [
-        'penanggung_jawab' => 'array',
-        'bukti_tl' => 'array',
         'bukti_solusi' => 'array',
     ];
+
+    public function unitKerja(): BelongsTo
+    {
+        return $this->belongsTo(UnitKerja::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (AnalisisSakip $analisis) {
+            $analisis->tahun = session('year');
+        });
+    }
 
 }

@@ -4,6 +4,10 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
+use App\Models\NaskahMasuk as ModelsNaskahMasuk;
+use App\Nova\Filters\Keberadaan;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -177,7 +181,16 @@ class NaskahMasuk extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsNaskahMasuk::whereYear('tanggal', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-naskah-masuk')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal', 'trend-naskah-masuk')
+                ->refreshWhenActionsRun(),
+            Keberadaan::make('Arsip', 'arsip')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**

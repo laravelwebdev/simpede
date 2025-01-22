@@ -173,7 +173,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(MasterPersediaan::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
-                    MenuItem::resource(UserEksternal::class),
+                    // MenuItem::resource(UserEksternal::class),
                 ])
                     ->collapsable()
                     ->icon('book-open'),

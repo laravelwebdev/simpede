@@ -348,6 +348,8 @@ class HonorKegiatan extends Resource
         }
 
         return [
+            HelperHonorKegiatan::make()
+                ->width('full'),
             MetricValue::make($model, 'total-kak')
                 ->width('1/2')
                 ->refreshWhenActionsRun(),
@@ -356,8 +358,6 @@ class HonorKegiatan extends Resource
                 ->width('1/2')
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),
-            HelperHonorKegiatan::make()
-                ->width('full'),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\Pemeliharaan as ModelsPemeliharaan;
 use App\Nova\Filters\StatusFilter;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -82,7 +83,19 @@ class Pemeliharaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsPemeliharaan::whereYear('tanggal_kak', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-pemeliharaan')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-pemeliharaan')
+                ->refreshWhenActionsRun()
+                ->width('1/2')
+                ->failedWhen(['outdated'])
+                ->successWhen(['selesai']),
+        ];
+    }
     }
 
     /**

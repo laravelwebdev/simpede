@@ -86,7 +86,7 @@ class DaftarReminder extends Resource
                 ->refreshWhenActionsRun()
                 ->width('1/2')
                 ->failedWhen(['outdated'])
-                ->successWhen(['digenerate']),
+                ->successWhen(['sent']),
         ];
     }
 

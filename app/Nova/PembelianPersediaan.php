@@ -78,6 +78,7 @@ class PembelianPersediaan extends Resource
         return [
             Date::make('Tanggal KAK', 'tanggal_kak')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->hideFromIndex()
                 ->immutable(),
             BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                 ->onlyOnDetail(),

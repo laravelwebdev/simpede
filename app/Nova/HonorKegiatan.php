@@ -23,7 +23,6 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
@@ -90,9 +89,10 @@ class HonorKegiatan extends Resource
     {
         return [
             Date::make('Tanggal KAK', 'tanggal_kak')
-            ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-            ->sortable()
-            ->immutable(),
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->sortable()
+                ->hideFromIndex()
+                ->immutable(),
             BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                 ->rules('required')
                 ->readOnly()
@@ -341,12 +341,19 @@ class HonorKegiatan extends Resource
      */
     public function cards(NovaRequest $request)
     {
+        $model = ModelsHonorKegiatan::where('tahun', session('year'));
+        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
+            return $model = $model;
+        } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            return $model = $model->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+        }
+
         return [
-            MetricValue::make(ModelsHonorKegiatan::where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id), 'id', 'tanggal_kak', 'total-kak')
+            MetricValue::make($model, 'id', 'tanggal_kak', 'total-kak')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make(ModelsHonorKegiatan::class, 'tanggal_kak', 'trend-kak')
+            MetricTrend::make($model, 'tanggal_kak', 'trend-kak')
                 ->refreshWhenActionsRun(),
-            MetricPartition::make(ModelsHonorKegiatan::class, 'status', 'status-kak')
+            MetricPartition::make($model, 'status', 'status-kak')
                 ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),

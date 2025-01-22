@@ -29,10 +29,9 @@ class MetricKeberadaan extends Partition
     {
         $results = $this->model->newQuery()
             ->selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as Ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak")
-            ->pluck('Ada', 'Tidak')
             ->toArray();
 
-        return $this->result($results)
+        return $this->result($results[0])
             ->colors([
                 'Tidak' => 'rgb(213, 86, 54)',
                 'Ada' => 'rgb(12, 197, 83)',

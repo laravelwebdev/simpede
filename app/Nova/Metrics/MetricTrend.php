@@ -24,7 +24,7 @@ class MetricTrend extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->countByMonths($request, $this->model, 'id');
+        return $this->countByMonths($request, $this->model, 'tanggal');
     }
 
     /**

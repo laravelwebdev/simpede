@@ -152,7 +152,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('currency-dollar'),
 
                 MenuSection::make('Dokumentasi', [
-                    MenuItem::resource(AnalisisSakip::class),
                     MenuItem::resource(DokumentasiKegiatan::class),
                     MenuItem::resource(DokumentasiLink::class),
                 ])
@@ -177,6 +176,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])
                     ->collapsable()
                     ->icon('book-open'),
+
+                MenuSection::make('SAKIP', [
+                    MenuItem::resource(AnalisisSakip::class),
+                ])
+                    ->collapsable()
+                    ->icon('document-chart-bar'),
 
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),

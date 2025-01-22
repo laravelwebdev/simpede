@@ -200,9 +200,9 @@ class RapatInternal extends Resource
                 $this->signed_undangan ?
                 URL::make('Undangan Signed', fn () => Storage::disk('arsip')
                     ->url($this->signed_undangan))
-                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Undangan Signed', fn () => '—')->onlyOndetail(),
+                Text::make('Undangan Signed', fn () => '—')->exceptOnForms(),
                 Filepond::make('Daftar Hadir Signed', 'signed_daftar_hadir')
                     ->disk('arsip')
                     ->disableCredits()

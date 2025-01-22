@@ -5,7 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\JenisNaskah;
 use App\Models\NaskahMasuk as ModelsNaskahMasuk;
-use App\Nova\Filters\Keberadaan;
+use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
@@ -188,7 +188,7 @@ class NaskahMasuk extends Resource
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'tanggal', 'trend-naskah-masuk')
                 ->refreshWhenActionsRun(),
-            Keberadaan::make('Arsip', 'arsip')
+            MetricKeberadaan::make('Arsip', 'arsip')
                 ->refreshWhenActionsRun(),
         ];
     }

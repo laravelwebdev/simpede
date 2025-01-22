@@ -181,8 +181,7 @@ class PemeliharaanBarang extends Lens
     public function filters(NovaRequest $request)
     {
         return [
-            Keberadaan::make('Jumlah Pemeliharaan', 'jumlah')
-            ->refreshWhenActionsRun(),
+            Keberadaan::make('Jumlah Pemeliharaan', 'jumlah'),
         ];
     }
 

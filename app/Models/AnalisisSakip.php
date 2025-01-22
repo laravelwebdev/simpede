@@ -22,5 +22,4 @@ class AnalisisSakip extends Model
             $analisis->tahun = session('year');
         });
     }
-
 }

@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\Pemeliharaan as ModelsPemeliharaan;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
@@ -95,7 +97,6 @@ class Pemeliharaan extends Resource
                 ->failedWhen(['outdated'])
                 ->successWhen(['selesai']),
         ];
-    }
     }
 
     /**

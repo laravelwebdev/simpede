@@ -27,9 +27,9 @@ class MetricKeberadaan extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $results = $this->model::selectRaw("{$this->column}, COUNT(id) as count")
-            ->groupBy($this->column)
+        $results = $this->model::selectRaw("{$this->column}, COUNT(id) as count")            
             ->get()
+            ->groupBy($this->column)
             ->mapWithKeys(function ($item) {
                 return [$item->{$this->column} > 0 ? 'Ada' : 'Tidak Ada' => $item->count];
             });

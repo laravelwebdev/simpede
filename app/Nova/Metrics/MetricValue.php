@@ -24,7 +24,7 @@ class MetricValue extends Value
      */
     public function calculate(NovaRequest $request): ValueResult
     {
-        return $this->count($request, $this->model, 'id', 'tanggal');
+        return $this->count($request, $this->model, 'id');
     }
 
     public function name()
@@ -40,6 +40,7 @@ class MetricValue extends Value
     public function ranges(): array
     {
         return [
+            'ALL' => 'Semua',
         ];
     }
 

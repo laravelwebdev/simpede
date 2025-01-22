@@ -342,7 +342,7 @@ class HonorKegiatan extends Resource
     public function cards(NovaRequest $request)
     {
         return [
-            MetricValue::make(ModelsHonorKegiatan::class, 'id', 'tanggal_kak', 'total-kak')
+            MetricValue::make(ModelsHonorKegiatan::where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id), 'id', 'tanggal_kak', 'total-kak')
                 ->refreshWhenActionsRun(),
             MetricTrend::make(ModelsHonorKegiatan::class, 'tanggal_kak', 'trend-kak')
                 ->refreshWhenActionsRun(),

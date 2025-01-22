@@ -33,7 +33,7 @@ class MetricKeberadaan extends Partition
             ->get()
             ->mapWithKeys(function ($item) {
                 return [$item->{$this->column} > 0 ? 'Ada' : 'Tidak Ada' => $item->count];
-            });
+            })->toArray();
 
         return $this->result($results)
             ->colors([

@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\DaftarReminder as ModelsDaftarReminder;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
@@ -73,7 +76,18 @@ class DaftarReminder extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsDaftarReminder::whereYear('tanggal', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-reminder')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-reminder')
+                ->refreshWhenActionsRun()
+                ->width('1/2')
+                ->failedWhen(['outdated'])
+                ->successWhen(['digenerate']),
+        ];
     }
 
     /**

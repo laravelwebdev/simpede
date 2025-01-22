@@ -20,6 +20,15 @@ class KerangkaAcuan extends Model
         'akhir' => 'date',
     ];
 
+        // Properti yang ingin ditambahkan
+        protected $appends = ['tanggal_metric'];
+
+        // Accessor untuk properti custom_property
+        public function getTanggalMetricAttribute()
+        {
+            return $this->getTanggalMetricAttribute();
+        }
+
     public function naskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class);

@@ -152,7 +152,7 @@ class KerangkaAcuan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = ModelsKerangkaAcuan::whereYear('tanggal', session('year'))->selectRaw('DATE(tanggal) as tanggal_metric');
+        $model = ModelsKerangkaAcuan::whereYear('tanggal', session('year'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             $model = $model;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {

@@ -91,7 +91,7 @@ class HonorKegiatan extends Resource
         return [
             Date::make('Tanggal KAK', 'tanggal_kak')
             ->sortable()
-            ->readonly(),
+            ->immutable(),
             BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                 ->rules('required')
                 ->readOnly()

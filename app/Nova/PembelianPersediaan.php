@@ -4,11 +4,14 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\PembelianPersediaan as ModelsPembelianPersediaan;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -201,9 +204,16 @@ class PembelianPersediaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
+        $model = ModelsPembelianPersediaan::whereYear('tanggal_kak', session('year'));
         return [
             HelperPembelianPersediaan::make()
                 ->width('full'),
+            MetricValue::make($model, 'total-izin')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make($model, 'bukti', 'keberadaan-izin')
+                ->refreshWhenActionsRun()
+                ->width('1/2'),
         ];
     }
 

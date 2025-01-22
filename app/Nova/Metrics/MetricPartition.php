@@ -29,7 +29,11 @@ class MetricPartition extends Partition
     {
         return $this->count(
             $request, $this->model, column: $this->column, groupBy: $this->column
-        );
+                )
+                ->colors([
+                    'dicetak' => 'rgb(10, 114, 92)',
+                    'selesai' => 'rgb(10, 114, 92)',
+                ]);
     }
 
     /**

@@ -153,9 +153,12 @@ class KerangkaAcuan extends Resource
     public function cards(NovaRequest $request)
     {
         return [
-            MetricValue::make(ModelsKerangkaAcuan::class, 'id', 'tanggal', 'total-kak'),
-            MetricTrend::make(ModelsKerangkaAcuan::class, 'tanggal', 'trend-kak'),
+            MetricValue::make(ModelsKerangkaAcuan::class, 'id', 'tanggal', 'total-kak')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make(ModelsKerangkaAcuan::class, 'tanggal', 'trend-kak')
+                ->refreshWhenActionsRun(),
             MetricPartition::make(ModelsKerangkaAcuan::class, 'status', 'status-kak')
+                ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),
         ];

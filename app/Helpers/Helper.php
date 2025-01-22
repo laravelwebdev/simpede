@@ -61,7 +61,7 @@ class Helper
         'Pembinaan Statistik Sektoral' => 'Pembinaan Statistik Sektoral',
         'Pelayanan Produk Statistik' => 'Pelayanan Produk Statistik',
         'Lainnya' => 'Lainnya',
-        
+
     ];
 
     public static $jenis_angkutan = [

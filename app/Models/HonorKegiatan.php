@@ -182,8 +182,9 @@ class HonorKegiatan extends Model
             $honor->status = 'dibuat';
         });
         static::updating(function (HonorKegiatan $honor) {
-            if ($honor->isDirty())
-            $honor->status = $honor->status === 'dibuat' ? 'diubah' : 'outdated';
+            if ($honor->isDirty()) {
+                $honor->status = $honor->status === 'dibuat' ? 'diubah' : 'outdated';
+            }
         });
     }
 }

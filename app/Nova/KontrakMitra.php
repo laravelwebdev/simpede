@@ -5,9 +5,12 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KodeArsip;
+use App\Models\KontrakMitra as ModelsKontrakMitra;
 use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -178,7 +181,18 @@ class KontrakMitra extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsKontrakMitra::where('tahun', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-kontrak')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-kontrak')
+                ->refreshWhenActionsRun()
+                ->width('1/2')
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak']),
+        ];
     }
 
     /**

@@ -9,9 +9,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 use Laravelwebdev\Filepond\Filepond;
-use Laravelwebdev\Repeatable\Repeatable;
 
 class AnalisisSakip extends Resource
 {
@@ -90,7 +88,7 @@ class AnalisisSakip extends Resource
                 ->columns(3)
                 ->multiple()
                 ->path(session('year').'/'.static::uriKey())
-                ->prunable(),           
+                ->prunable(),
         ];
     }
 

@@ -28,16 +28,13 @@ class MetricKeberadaan extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         $results = $this->model->newQuery()
-            ->selectRaw("SUM (CASE(WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END)) as Ada, SUM (CASE(WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak Ada))")
+            ->selectRaw("SUM (CASE(WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END)) as Ada, SUM (CASE(WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak))")
             ->groupBy($this->column)
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->{$this->column} > 0 ? 'Ada' : 'Tidak Ada' => $item->count];
-            })->toArray();
+            ->get()->toArray();
 
         return $this->result($results)
             ->colors([
-                'Tidak Ada' => 'rgb(213, 86, 54)',
+                'Tidak' => 'rgb(213, 86, 54)',
                 'Ada' => 'rgb(12, 197, 83)',
             ]);
     }

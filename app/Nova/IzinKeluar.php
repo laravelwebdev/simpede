@@ -3,6 +3,10 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\IzinKeluar as ModelsIzinKeluar;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -128,7 +132,16 @@ class IzinKeluar extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsIzinKeluar::whereYear('tanggal', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-izin')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal', 'trend-izin')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make($model, 'bukti', 'keberadaan-izin')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**

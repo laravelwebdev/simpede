@@ -202,7 +202,7 @@ Terimakasih ✨✨'),
         return [
             MetricValue::make($model, 'total-daftar-kegiatan')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'tanggal', 'trend-daftar-kegiatan')
+            MetricTrend::make($model, 'awal', 'trend-daftar-kegiatan')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'jenis', 'status-daftar-kegiatan')
                 ->refreshWhenActionsRun(),

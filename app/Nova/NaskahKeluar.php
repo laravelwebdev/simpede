@@ -6,7 +6,11 @@ use App\Helpers\Helper;
 use App\Models\DerajatNaskah;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
+use App\Models\NaskahMasuk;
 use App\Nova\Filters\GenerateNaskah;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Badge;
@@ -231,7 +235,16 @@ class NaskahKeluar extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = NaskahMasuk::whereYear('tanggal', session('year'))->where('generate', 'M');
+
+        return [
+            MetricValue::make($model, 'total-naskah-keluar')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'signed', 'trend-naskah-keluar')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make($model, 'bukti', 'keberadaan-naskah-keluar')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**

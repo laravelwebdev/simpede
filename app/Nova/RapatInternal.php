@@ -202,7 +202,7 @@ class RapatInternal extends Resource
                     ->url($this->signed_undangan))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Undangan', fn () => '—')->exceptOnForms(),
+                Text::make('Undangan', fn () => '-')->exceptOnForms(),
                 Filepond::make('Daftar Hadir Signed', 'signed_daftar_hadir')
                     ->disk('arsip')
                     ->disableCredits()
@@ -222,7 +222,7 @@ class RapatInternal extends Resource
                     ->url($this->signed_daftar_hadir))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Daftar Hadir', fn () => '—')->exceptOnForms(),
+                Text::make('Daftar Hadir', fn () => '-')->exceptOnForms(),
                 Filepond::make('Notula Signed', 'signed_notula')
                     ->disk('arsip')
                     ->disableCredits()
@@ -242,7 +242,7 @@ class RapatInternal extends Resource
                     ->url($this->signed_notula))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Notula', fn () => '—')->exceptOnForms(),
+                Text::make('Notula', fn () => '-')->exceptOnForms(),
             ]),
         ];
     }

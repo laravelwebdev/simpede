@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Helpers\Policy;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
+use App\Nova\AnalisisSakip;
 use App\Nova\BastMitra;
 use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
@@ -151,6 +152,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('currency-dollar'),
 
                 MenuSection::make('Dokumentasi', [
+                    MenuItem::resource(AnalisisSakip::class),
                     MenuItem::resource(DokumentasiKegiatan::class),
                     MenuItem::resource(DokumentasiLink::class),
                 ])

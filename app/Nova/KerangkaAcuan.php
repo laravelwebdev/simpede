@@ -5,9 +5,13 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
+use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -148,7 +152,11 @@ class KerangkaAcuan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            MetricValue::make(ModelsKerangkaAcuan::class, 'id', 'tanggal', 'total-kak'),
+            MetricTrend::make(ModelsKerangkaAcuan::class, 'tanggal', 'trend-kak'),
+            MetricPartition::make(ModelsKerangkaAcuan::class, 'status', 'status-kak'),
+        ];
     }
 
     /**

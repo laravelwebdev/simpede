@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\HonorKegiatan as ModelsHonorKegiatan;
 use App\Models\KodeArsip;
 use App\Models\NaskahDefault;
 use App\Models\UnitKerja;
@@ -12,6 +13,9 @@ use App\Nova\Actions\ExportTemplateBos;
 use App\Nova\Actions\ExportTemplateCmsBri;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperHonorKegiatan;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
@@ -341,6 +345,14 @@ class HonorKegiatan extends Resource
     public function cards(NovaRequest $request)
     {
         return [
+            MetricValue::make(ModelsHonorKegiatan::class, 'id', 'tanggal', 'total-kak')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make(ModelsHonorKegiatan::class, 'tanggal', 'trend-kak')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make(ModelsHonorKegiatan::class, 'status', 'status-kak')
+                ->refreshWhenActionsRun()
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak']),
             HelperHonorKegiatan::make()
                 ->width('full'),
         ];

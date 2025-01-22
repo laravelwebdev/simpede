@@ -13,8 +13,6 @@ class MetricTrend extends Trend
 
     private $key;
 
-    private $month = false;
-
     private $column;
 
     public function __construct($model, $column, $key)
@@ -24,19 +22,12 @@ class MetricTrend extends Trend
         $this->key = $key;
     }
 
-    public function isMonthColumn()
-    {
-        $this->month === true;
-
-        return $this;
-    }
-
     /**
      * Calculate the value of the metric.
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->month ? (new TrendResult)->trend($this->model->count('id')->groupBy($this->column)) : $this->countByMonths($request, $this->model, $this->column);
+        return $this->countByMonths($request, $this->model, $this->column);
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
@@ -160,11 +161,11 @@ class KerangkaAcuan extends Resource
 
         return [
             MetricValue::make($model, 'total-kak')
-                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal', 'trend-kak')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'status', 'status-kak')
                 ->refreshWhenActionsRun()
-                ->width('1/2')
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),
         ];

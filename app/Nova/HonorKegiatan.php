@@ -91,10 +91,9 @@ class HonorKegiatan extends Resource
     {
         return [
             Hidden::make('Tanggal KAK', 'tanggal_kak'),
-            Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
+            Stack::make('Nomor/Tanggal KAK', [
                 BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
                     ->rules('required')
-                    ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
                 Date::make('Tanggal KAK', 'tanggal_kak')

@@ -235,7 +235,7 @@ class NaskahKeluar extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = ModelsNaskahKeluar::whereYear('tanggal', session('year'))->where('generate', 'M');
+        $model = ModelsNaskahKeluar::query()->whereYear('tanggal', session('year'))->where('generate', 'M');
 
         return [
             MetricValue::make($model, 'total-naskah-keluar')

@@ -13,6 +13,7 @@ use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -152,7 +153,7 @@ class KerangkaAcuan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = ModelsKerangkaAcuan::whereYear('tanggal', session('year'));
+        $model = ModelsKerangkaAcuan::whereYear('tanggal', session('year'))->addSelect(DB::raw('tanggal as tanggal_metric'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             $model = $model;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {

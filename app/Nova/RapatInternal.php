@@ -198,11 +198,11 @@ class RapatInternal extends Resource
                     })
                     ->prunable(),
                 $this->signed_undangan ?
-                URL::make('Undangan Signed', fn () => Storage::disk('arsip')
+                URL::make('Undangan', fn () => Storage::disk('arsip')
                     ->url($this->signed_undangan))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Undangan Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Undangan', fn () => '—')->exceptOnForms(),
                 Filepond::make('Daftar Hadir Signed', 'signed_daftar_hadir')
                     ->disk('arsip')
                     ->disableCredits()
@@ -218,11 +218,11 @@ class RapatInternal extends Resource
                     })
                     ->prunable(),
                 $this->signed_daftar_hadir ?
-                URL::make('Daftar Hadir Signed', fn () => Storage::disk('arsip')
+                URL::make('Daftar Hadir', fn () => Storage::disk('arsip')
                     ->url($this->signed_daftar_hadir))
-                    ->displayUsing(fn () => 'Lihat')->onlyOndetail()
+                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Daftar Hadir Signed', fn () => '—')->onlyOndetail(),
+                Text::make('Daftar Hadir', fn () => '—')->exceptOnForms(),
                 Filepond::make('Notula Signed', 'signed_notula')
                     ->disk('arsip')
                     ->disableCredits()
@@ -238,11 +238,11 @@ class RapatInternal extends Resource
                     })
                     ->prunable(),
                 $this->signed_notula && in_array(Auth::user()->id, collect($this->peserta)->pluck('peserta_user_id')->toArray()) ?
-                URL::make('Notula Signed', fn () => Storage::disk('arsip')
+                URL::make('Notula', fn () => Storage::disk('arsip')
                     ->url($this->signed_notula))
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
-                Text::make('Notula Signed', fn () => '—')->exceptOnForms(),
+                Text::make('Notula', fn () => '—')->exceptOnForms(),
             ]),
         ];
     }

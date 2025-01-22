@@ -3,7 +3,6 @@
 namespace App\Nova\Metrics;
 
 use DateTimeInterface;
-use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
@@ -25,7 +24,7 @@ class MetricTrend extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->countByMonths($request, $this->model, DB::raw('tanggal'));
+        return $this->countByMonths($request, $this->model, 'tanggal as tanggal');
     }
 
     /**

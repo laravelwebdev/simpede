@@ -25,7 +25,6 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ActionRequest;
@@ -90,14 +89,11 @@ class HonorKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Stack::make('Nomor/Tanggal KAK', [
-                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
-                    ->rules('required')
-                    ->readOnly()
-                    ->hideWhenUpdating(),
-                Date::make('Tanggal KAK', 'tanggal_kak')
-                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
+            Hidden::make('Tanggal KAK', 'tanggal_kak'),
+            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+                ->rules('required')
+                ->readOnly()
+                ->hideWhenUpdating(),
             Panel::make('Keterangan SPJ', [
                 Text::make('Nama Kegiatan', 'kegiatan')
                     ->rules('required')

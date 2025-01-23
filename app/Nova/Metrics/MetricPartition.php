@@ -36,7 +36,7 @@ class MetricPartition extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $result =  ($this->failed || $this->success)
+        $result = ($this->failed || $this->success)
         ? $this->count(
             $request, $this->model, $this->column, 'id'
         )
@@ -47,6 +47,7 @@ class MetricPartition extends Partition
             : $this->count(
                 $request, $this->model, $this->column, 'id'
             );
+
         return $result->label(fn ($value) => $this->labels[$value] ?? ucfirst($value));
     }
 

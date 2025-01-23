@@ -6,6 +6,7 @@ use App\Helpers\Policy;
 use App\Models\ResponRate as ModelsResponRate;
 use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricValue;
+use App\Nova\Metrics\ResponRatePerJenisSurvei;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
@@ -110,6 +111,8 @@ class ResponRate extends Resource
                 ->setAdaLabel('Terisi')
                 ->setTidakAdaLabel('Kosong')
                 ->width('1/2'),
+            ResponRatePerJenisSurvei::make('Respon Rate Per Jenis Survei')
+                ->width('full'),
         ];
     }
 

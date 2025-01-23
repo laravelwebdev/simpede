@@ -87,7 +87,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Panduan')->path('https://docs.simpede.my.id')
-                    ->collapsable()
                     ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
                     MenuItem::link(__('Kalender'), NovaCalendar::pathToCalendar('kalender-kegiatan')),

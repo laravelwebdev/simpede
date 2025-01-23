@@ -209,11 +209,11 @@ class PembelianPersediaan extends Resource
         return [
             HelperPembelianPersediaan::make()
                 ->width('full'),
-            MetricValue::make($model, 'total-pembelian-perediaan')
+            MetricValue::make($model, 'total-pembelian-persediaan')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'tanggal_nota', 'trend-pembelian-perediaan')
+            MetricTrend::make($model, 'tanggal_nota', 'trend-pembelian-persediaan')
                 ->refreshWhenActionsRun(),
-            MetricPartition::make($model, 'status', 'status-pembelian-perediaan')
+            MetricPartition::make($model, 'status', 'status-pembelian-persediaan')
                 ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak']),

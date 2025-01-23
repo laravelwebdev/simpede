@@ -38,7 +38,8 @@
                 "fabiospampinato.vscode-todo-plus",
                 "AntiAntiSepticeye.vscode-color-picker",
                 "Dheovani.svg-viewer",
-                "atommaterial.a-file-icon-vscode"
+                "atommaterial.a-file-icon-vscode",
+                "laravel.vscode-laravel"
             ]
         }
     }

@@ -105,7 +105,7 @@ class ResponRate extends Resource
             MetricValue::make($model, 'total-respon-rate')
                 ->width('1/2')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi'.$triwulan, 'keberadaan-respon-rate'.$triwulan)
+            MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi_'.$triwulan, 'keberadaan-respon-rate-'.$triwulan)
                 ->refreshWhenActionsRun()
                 ->setAdaLabel('Terisi')
                 ->setTidakAdaLabel('Kosong')

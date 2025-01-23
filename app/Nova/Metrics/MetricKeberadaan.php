@@ -30,8 +30,7 @@ class MetricKeberadaan extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $results = $this->model->newQuery()
-            ->selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as Ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak")
+        $results = (new $this->model)::selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as Ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak")
             ->get()
             ->toArray();
 

@@ -17,6 +17,10 @@ class MetricKeberadaan extends Partition
 
     private $title;
 
+    private $adaLabel = 'Ada';
+
+    private $tidakAdaLabel = 'Tidak';
+
     public function __construct($title, $model, $column, $key)
     {
         $this->title = $title;
@@ -25,13 +29,27 @@ class MetricKeberadaan extends Partition
         $this->key = $key;
     }
 
+    public function setAdaLabel($label)
+    {
+        $this->adaLabel = $label;
+
+        return $this;
+    }
+
+    public function setTidakAdaLabel($label)
+    {
+        $this->tidakAdaLabel = $label;
+
+        return $this;
+    }
+
     /**
      * Calculate the value of the metric.
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
         $results = $this->model->newQuery()
-            ->selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as Ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as Tidak")
+            ->selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as {$this->adaLabel}, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as {$this->tidakAdaLabel}")
             ->get()
             ->toArray();
 

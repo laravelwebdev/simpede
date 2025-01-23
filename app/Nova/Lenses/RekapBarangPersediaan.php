@@ -115,6 +115,8 @@ class RekapBarangPersediaan extends Lens
         return [
             MetricKeberadaan::make('Pembukuan Persediaan', $persediaan::query(), 'tanggal_transaksi', 'keberadaan-pembukuan-persediaan')
                 ->refreshWhenActionsRun()
+                ->setAdaLabel('Sudah')
+                ->setTidakAdaLabel('Belum')
                 ->help('Proporsi Barang Persediaan berdasarkan penentuan tanggal bukunya'),
             MetricPartition::make($modelPembelian, 'status', '-lens-status-pembelian-persediaan', 'Status Pembelian')
                 ->refreshWhenActionsRun()

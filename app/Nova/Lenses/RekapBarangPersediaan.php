@@ -112,12 +112,12 @@ class RekapBarangPersediaan extends Lens
         return [
             PembukuanBarangPersediaan::make()
                 ->help('Proporsi Barang Persediaan berdasarkan penentuan tanggal bukunya'),
-            MetricPartition::make($modelPembelian, 'status', '-lens-status-pembelian-persediaan')
+            MetricPartition::make($modelPembelian, 'status', '-lens-status-pembelian-persediaan', 'Status Pembelian')
                 ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak'])
                 ->help('Daftar Pembelian Barang Persediaan berdasarkan statusnya'),
-            MetricPartition::make($modelPermintaan, 'status', '-lens-status-permintaan-persediaan')
+            MetricPartition::make($modelPermintaan, 'status', '-lens-status-permintaan-persediaan', 'Status Permintaan')
                 ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak'])

@@ -3,13 +3,12 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
-use App\Models\BarangPersediaan;
 use App\Models\PembelianPersediaan;
 use App\Models\PermintaanPersediaan;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\Keberadaan;
-use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\PembukuanBarangPersediaan;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\Text;
@@ -110,10 +109,8 @@ class RekapBarangPersediaan extends Lens
 
         $modelPermintaan = PermintaanPersediaan::class;
 
-        $modelPersediaan = BarangPersediaan::class;
-
         return [
-            MetricKeberadaan::make('Pembukuan Persediaan', $modelPersediaan, 'tanggal_transaksi', 'keberadaan-pembukuan-persediaan')
+            PembukuanBarangPersediaan::make()
                 ->help('Proporsi Barang Persediaan berdasarkan penentuan tanggal bukunya'),
             MetricPartition::make($modelPembelian, 'status', '-lens-status-pembelian-persediaan', 'Status Pembelian')
                 ->refreshWhenActionsRun()

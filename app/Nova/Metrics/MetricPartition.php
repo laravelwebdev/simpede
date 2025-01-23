@@ -34,15 +34,20 @@ class MetricPartition extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        return ($this->failed || $this->success) ? $this->count(
+        $result =  ($this->failed || $this->success)
+        ? $this->count(
             $request, $this->model, $this->column, 'id'
         )
             ->colors(array_merge(
                 array_fill_keys($this->failed, 'rgb(213, 86, 54)'),
                 array_fill_keys($this->success, 'rgb(12, 197, 83)')
-            )) : $this->count(
+            ))
+            : $this->count(
                 $request, $this->model, $this->column, 'id'
             );
+        return $result->label(function ($value) {
+            return ucfirst($value);
+        });
     }
 
     /**

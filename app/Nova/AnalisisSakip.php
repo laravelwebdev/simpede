@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\AnalisisSakip as ModelsAnalisisSakip;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Select;
@@ -14,6 +17,7 @@ use Laravelwebdev\Filepond\Filepond;
 class AnalisisSakip extends Resource
 {
     public static $with = ['unitKerja'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -99,7 +103,14 @@ class AnalisisSakip extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsAnalisisSakip::where('tahun', session('year'))->where('bulan', now()->month);
+
+        return [
+            MetricValue::make($model, 'total-analisis')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'kategori', 'kategori-analisis', 'Kategori')
+                ->refreshWhenActionsRun()
+        ];
     }
 
     /**
@@ -131,4 +142,10 @@ class AnalisisSakip extends Resource
     {
         return [];
     }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'))->where('bulan', now()->month);
+    }
+
 }

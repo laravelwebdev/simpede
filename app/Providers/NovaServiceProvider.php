@@ -106,6 +106,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
+                    MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),
                     MenuItem::resource(Pemeliharaan::class),
@@ -113,7 +114,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(RapatInternal::class),
                 ]),
                 MenuSection::make('Kontrak Mitra', [
-                    MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(KontrakMitra::class),
                     MenuItem::resource(BastMitra::class),
                 ])->collapsable()

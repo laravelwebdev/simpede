@@ -4,9 +4,13 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\PermintaanPersediaan as ModelsPermintaanPersediaan;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPermintaanPersediaan;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -156,9 +160,22 @@ class PermintaanPersediaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
+        $model = ModelsPermintaanPersediaan::whereYear('tanggal_permintaan', session('year'));
+        if (! Policy::make()->allowedFor('bmn')->get()) {
+            $model = $model->where('user_id', $request->user()->id);
+        }
+
         return [
             HelperPermintaanPersediaan::make()
                 ->width('full'),
+            MetricValue::make($model, 'total-bon')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal_permintaan', 'trend-bon')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-bon')
+                ->refreshWhenActionsRun()
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak']),
         ];
     }
 

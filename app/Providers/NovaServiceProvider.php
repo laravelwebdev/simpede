@@ -86,7 +86,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-                MenuSection::make('Panduan')->path('https://docs.simpede.my.id')
+                MenuSection::make('Panduan', [
+                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
+                        ->openInNewTab(),
+                ])
+                    ->collapsable()
                     ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
                     MenuItem::link(__('Kalender'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
@@ -113,21 +117,25 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
                     MenuItem::resource(RapatInternal::class),
-                    MenuSection::make('Kontrak Mitra', [
-                        MenuItem::resource(KontrakMitra::class),
-                        MenuItem::resource(BastMitra::class),
-                    ]),
-                    MenuSection::make('Naskah Dinas', [
-                        MenuItem::resource(NaskahMasuk::class),
-                        MenuItem::resource(NaskahKeluar::class),
-                    ]),
-                    MenuSection::make('Persediaan', [
-                        MenuItem::resource(PembelianPersediaan::class),
-                        MenuItem::resource(PersediaanMasuk::class),
-                        MenuItem::resource(PermintaanPersediaan::class),
-                        MenuItem::resource(PersediaanKeluar::class),
-                    ]),
                 ]),
+                MenuSection::make('Kontrak Mitra', [
+                    MenuItem::resource(KontrakMitra::class),
+                    MenuItem::resource(BastMitra::class),
+                ])->collapsable()
+                    ->icon('clipboard-document-check'),
+                MenuSection::make('Naskah Dinas', [
+                    MenuItem::resource(NaskahMasuk::class),
+                    MenuItem::resource(NaskahKeluar::class),
+                ])->collapsable()
+                    ->icon('envelope'),
+                MenuSection::make('Persediaan', [
+                    MenuItem::resource(PembelianPersediaan::class),
+                    MenuItem::resource(PersediaanMasuk::class),
+                    MenuItem::resource(PermintaanPersediaan::class),
+                    MenuItem::resource(PersediaanKeluar::class),
+                ])->collapsable()
+                    ->icon('archive-box'),
+
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),
                     MenuItem::resource(MasterWilayah::class),

@@ -17,10 +17,10 @@ class ResponRatePerJenisSurvei extends Table
         $datas = DB::table('respon_rates')
             ->select(
                 'jenis',
-                DB::raw('IFNULL((realisasi_tw1 / target) * 100, 0) as persentase_tw1'),
-                DB::raw('IFNULL((realisasi_tw2 / target) * 100, 0) as persentase_tw2'),
-                DB::raw('IFNULL((realisasi_tw3 / target) * 100, 0) as persentase_tw3'),
-                DB::raw('IFNULL((realisasi_tw4 / target) * 100, 0) as persentase_tw4')
+                DB::raw('IFNULL(SUM(realisasi_tw1) / SUM(target) * 100, 0) as persentase_tw1'),
+                DB::raw('IFNULL(SUM(realisasi_tw2) / SUM(target) * 100, 0) as persentase_tw2'),
+                DB::raw('IFNULL(SUM(realisasi_tw3) / SUM(target) * 100, 0) as persentase_tw3'),
+                DB::raw('IFNULL(SUM(realisasi_tw4) / SUM(target) * 100, 0) as persentase_tw4')
             )
             ->where('tahun', session('year'))
             ->groupBy('jenis')

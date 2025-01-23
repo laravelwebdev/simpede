@@ -4,11 +4,11 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
 use App\Models\PembelianPersediaan;
+use App\Models\PermintaanPersediaan;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\Keberadaan;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\PembukuanBarangPersediaan;
-use App\Nova\Metrics\StatusPermintaanPersediaan;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\Text;
@@ -105,17 +105,22 @@ class RekapBarangPersediaan extends Lens
      */
     public function cards(NovaRequest $request)
     {
-        $modelPersediaan = PembelianPersediaan::class;
+        $modelPembelian = PembelianPersediaan::class;
+
+        $modelPermintaan = PermintaanPersediaan::class;
 
         return [
             PembukuanBarangPersediaan::make()
                 ->help('Proporsi Barang Persediaan berdasarkan penentuan tanggal bukunya'),
-            MetricPartition::make($modelPersediaan, 'status', '-lens-status-pembelian-persediaan')
+            MetricPartition::make($modelPembelian, 'status', '-lens-status-pembelian-persediaan')
                 ->refreshWhenActionsRun()
                 ->failedWhen(['outdated'])
                 ->successWhen(['dicetak'])
                 ->help('Daftar Pembelian Barang Persediaan berdasarkan statusnya'),
-            StatusPermintaanPersediaan::make()
+            MetricPartition::make($modelPermintaan, 'status', '-lens-status-permintaan-persediaan')
+                ->refreshWhenActionsRun()
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak'])
                 ->help('Daftar Permintaan Barang Persediaan berdasarkan statusnya'),
         ];
     }

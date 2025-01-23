@@ -110,7 +110,7 @@ class RekapBarangPersediaan extends Lens
 
         $modelPermintaan = PermintaanPersediaan::class;
 
-        $modelPersediaan = BarangPersediaan::class;
+        $modelPersediaan = BarangPersediaan::all();
 
         return [
             MetricKeberadaan::make('Pembukuan Persediaan', $modelPersediaan, 'tanggal_transaksi', 'keberadaan-pembukuan-persediaan')

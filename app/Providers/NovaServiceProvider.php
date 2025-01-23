@@ -86,10 +86,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-                MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
-                        ->openInNewTab(),
-                ])
+                MenuSection::make('Panduan')->path('https://docs.simpede.my.id')
                     ->collapsable()
                     ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
@@ -117,15 +114,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
                     MenuItem::resource(RapatInternal::class),
-                    MenuItem::resource(KontrakMitra::class),
-                    MenuItem::resource(BastMitra::class),
-                    MenuItem::resource(NaskahMasuk::class),
-                    MenuItem::resource(NaskahKeluar::class),
-                    MenuItem::resource(PembelianPersediaan::class),
-                    MenuItem::resource(PersediaanMasuk::class),
-                    MenuItem::resource(PermintaanPersediaan::class),
-                    MenuItem::resource(PersediaanKeluar::class),
-
+                    MenuSection::make('Kontrak Mitra', [
+                        MenuItem::resource(KontrakMitra::class),
+                        MenuItem::resource(BastMitra::class),
+                    ]),
+                    MenuSection::make('Naskah Dinas', [
+                        MenuItem::resource(NaskahMasuk::class),
+                        MenuItem::resource(NaskahKeluar::class),
+                    ]),
+                    MenuSection::make('Persediaan', [
+                        MenuItem::resource(PembelianPersediaan::class),
+                        MenuItem::resource(PersediaanMasuk::class),
+                        MenuItem::resource(PermintaanPersediaan::class),
+                        MenuItem::resource(PersediaanKeluar::class),
+                    ]),
                 ]),
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),

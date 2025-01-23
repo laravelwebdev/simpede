@@ -39,7 +39,7 @@ class BastMitra extends Resource
 
     public static function label()
     {
-        return 'BAST Mitra';
+        return 'B A S T';
     }
 
     public static function indexQuery(NovaRequest $request, $query)

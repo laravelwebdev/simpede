@@ -38,7 +38,7 @@ class KontrakMitra extends Resource
 
     public static function label()
     {
-        return 'Kontrak Mitra';
+        return 'Kontrak';
     }
 
     public static function indexQuery(NovaRequest $request, $query)

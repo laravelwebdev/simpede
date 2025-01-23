@@ -80,8 +80,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
-                ->prepend(MenuItem::link('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
-                ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()));
+                ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
+                ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab());
         });
 
         Nova::mainMenu(function (Request $request) {

@@ -39,6 +39,7 @@ use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
 use App\Nova\RapatInternal;
 use App\Nova\RealisasiAnggaran;
+use App\Nova\ResponRate;
 use App\Nova\RewardPegawai;
 use App\Nova\ShareLink;
 use App\Nova\SkTranslok;
@@ -179,6 +180,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('SAKIP', [
                     MenuItem::resource(AnalisisSakip::class),
+                    MenuItem::resource(ResponRate::class),
                 ])
                     ->collapsable()
                     ->icon('document-chart-bar'),

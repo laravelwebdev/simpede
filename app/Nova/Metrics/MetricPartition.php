@@ -21,6 +21,8 @@ class MetricPartition extends Partition
 
     private $success;
 
+    private $labels = [];
+
     public function __construct($model, $column, $key, $title = 'Status')
     {
         $this->model = $model;
@@ -45,9 +47,7 @@ class MetricPartition extends Partition
             : $this->count(
                 $request, $this->model, $this->column, 'id'
             );
-        return $result->label(function ($value) {
-            return ucfirst($value);
-        });
+        return $result->label(fn ($value) => $this->labels[$value] ?? $value);
     }
 
     /**
@@ -77,6 +77,13 @@ class MetricPartition extends Partition
     public function name()
     {
         return $this->title;
+    }
+
+    public function setLabel(array $labels)
+    {
+        $this->labels = $labels;
+
+        return $this;
     }
 
     /**

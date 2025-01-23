@@ -109,7 +109,10 @@ class AnalisisSakip extends Resource
             MetricValue::make($model, 'total-analisis')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'kategori', 'kategori-analisis', 'Kategori')
-                ->refreshWhenActionsRun()
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'unit_kerja_id', 'unit-kerja-analisis', 'Unit Kerja')
+                ->setLabel(Helper::setOptionUnitKerja())
+                ->refreshWhenActionsRun(),
         ];
     }
 
@@ -147,5 +150,4 @@ class AnalisisSakip extends Resource
     {
         return $query->where('tahun', session('year'))->where('bulan', now()->month);
     }
-
 }

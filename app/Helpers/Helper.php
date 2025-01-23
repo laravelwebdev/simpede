@@ -1795,6 +1795,11 @@ class Helper
         $reminder->save();
     }
 
+    public static function setOptionUnitKerja()
+    {
+        return self::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit');
+    }
+
     /**
      * Get the current Simpede version.
      */

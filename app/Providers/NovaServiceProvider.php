@@ -22,7 +22,6 @@ use App\Nova\KerangkaAcuan;
 use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\PemeliharaanBarang;
-use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
@@ -103,7 +102,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Monitoring', [
                     MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
-                    MenuItem::lens(RealisasiAnggaran::class, LensesRealisasiAnggaran::class),
+                    MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()

@@ -22,6 +22,7 @@ use App\Nova\KerangkaAcuan;
 use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\PemeliharaanBarang;
+use App\Nova\Lenses\RealisasiAnggaran as LensesRealisasiAnggaran;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
@@ -54,7 +55,6 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
@@ -102,10 +102,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('calendar'),
 
                 MenuSection::make('Monitoring', [
-                    MenuGroup::make('Anggaran', [
-                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
-                        MenuItem::link('Realisasi SP2D', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
-                    ])->collapsable(),
+                    MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
+                    MenuItem::lens(RealisasiAnggaran::class, LensesRealisasiAnggaran::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
@@ -120,22 +118,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
                     MenuItem::resource(RapatInternal::class),
-                    MenuGroup::make('Kontrak', [
-                        MenuItem::resource(KontrakMitra::class),
-                        MenuItem::resource(BastMitra::class),
-                    ])->collapsable(),
-                    MenuGroup::make('Naskah', [
-                        MenuItem::resource(NaskahMasuk::class),
-                        MenuItem::resource(NaskahKeluar::class),
-                    ])->collapsable(),
-                    MenuGroup::make('Persediaan', [
-                        MenuItem::resource(PembelianPersediaan::class),
-                        MenuItem::resource(PersediaanMasuk::class),
-                        MenuItem::resource(PermintaanPersediaan::class),
-                        MenuItem::resource(PersediaanKeluar::class),
-                    ])->collapsable(),
-                ]),
+                    MenuItem::resource(KontrakMitra::class),
+                    MenuItem::resource(BastMitra::class),
+                    MenuItem::resource(NaskahMasuk::class),
+                    MenuItem::resource(NaskahKeluar::class),
+                    MenuItem::resource(PembelianPersediaan::class),
+                    MenuItem::resource(PersediaanMasuk::class),
+                    MenuItem::resource(PermintaanPersediaan::class),
+                    MenuItem::resource(PersediaanKeluar::class),
 
+                ]),
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),
                     MenuItem::resource(MasterWilayah::class),

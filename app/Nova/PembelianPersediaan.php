@@ -9,6 +9,9 @@ use App\Nova\Actions\ImportBarangFromSpesifikasiKerangkaAcuan;
 use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\HelperPembelianPersediaan;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -201,9 +204,19 @@ class PembelianPersediaan extends Resource
      */
     public function cards(NovaRequest $request)
     {
+        $model = PembelianPersediaan::whereYear('tanggal_kak', session('year'));
+
         return [
             HelperPembelianPersediaan::make()
                 ->width('full'),
+            MetricValue::make($model, 'total-pembelian-perediaan')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal_nota', 'trend-pembelian-perediaan')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-pembelian-perediaan')
+                ->refreshWhenActionsRun()
+                ->failedWhen(['outdated'])
+                ->successWhen(['dicetak']),
         ];
     }
 

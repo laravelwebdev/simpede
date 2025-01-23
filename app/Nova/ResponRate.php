@@ -59,17 +59,16 @@ class ResponRate extends Resource
             Numeric::make('Target Sampel Setahun', 'target')
                 ->rules('required', 'integer', 'gte:0'),
             Numeric::make('Realisasi Triwulan I (Kumulatif)', 'realisasi_tw1')
-            //BUG: rule bail not working
-                ->rules('nullable', 'bail', 'integer', 'gte:0', 'lte:target')
+                ->rules('nullable', 'integer', 'gte:0', 'lte:target')
                 ->help('Jumlah Kumulatif sampel yang berhasil dicacah sampai dengan Triwulan I'),
             Numeric::make('Realisasi Triwulan II (Kumulatif)', 'realisasi_tw2')
-                ->rules('nullable', 'bail', 'integer', 'gte:realisasi_tw1', 'lte:target')
+                ->rules('nullable', 'integer', 'gte:realisasi_tw1', 'lte:target')
                 ->help('Jumlah Kumulatif sampel yang berhasil dicacah sampai dengan Triwulan II'),
             Numeric::make('Realisasi Triwulan III (Kumulatif)', 'realisasi_tw3')
-                ->rules('nullable', 'bail', 'integer', 'gte:realisasi_tw2', 'lte:target')
+                ->rules('nullable', 'integer', 'gte:realisasi_tw2', 'lte:target')
                 ->help('Jumlah Kumulatif sampel yang berhasil dicacah sampai dengan Triwulan III'),
             Numeric::make('Realisasi Triwulan IV (Kumulatif)', 'realisasi_tw4')
-                ->rules('nullable', 'bail', 'integer', 'gte:realisasi_tw3', 'lte:target')
+                ->rules('nullable', 'integer', 'gte:realisasi_tw3', 'lte:target')
                 ->help('Jumlah Kumulatif sampel yang berhasil dicacah sampai dengan Triwulan IV'),
 
         ];

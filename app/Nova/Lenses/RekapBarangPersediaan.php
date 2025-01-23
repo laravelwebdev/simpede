@@ -4,7 +4,7 @@ namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
-use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Filters\Keberadaan;
 use App\Nova\Metrics\PembukuanBarangPersediaan;
 use App\Nova\Metrics\StatusPembelianPersediaan;
 use App\Nova\Metrics\StatusPermintaanPersediaan;
@@ -122,7 +122,7 @@ class RekapBarangPersediaan extends Lens
     public function filters(NovaRequest $request)
     {
         return [
-            MetricKeberadaan::make('Stok', 'stok')
+            Keberadaan::make('Stok', 'stok')
                 ->refreshWhenActionsRun(),
         ];
     }

@@ -55,8 +55,8 @@ class MetricKeberadaan extends Partition
 
         return $this->result($results[0])
             ->colors([
-                'Tidak' => 'rgb(213, 86, 54)',
-                'Ada' => 'rgb(12, 197, 83)',
+                $this->tidakAdaLabel => 'rgb(213, 86, 54)',
+                $this->adaLabel => 'rgb(12, 197, 83)',
             ]);
     }
 

@@ -80,18 +80,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
+                ->prepend(MenuItem::link('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()));
         });
 
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-                MenuSection::make('Panduan', [
-                    MenuItem::externalLink('Panduan Penggunaan', 'https://docs.simpede.my.id/')
-                        ->openInNewTab(),
-                ])
-                    ->collapsable()
-                    ->icon('light-bulb'),
                 MenuSection::make('Kalender', [
                     MenuItem::link(__('Kalender'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
                     MenuItem::resource(DaftarKegiatan::class),

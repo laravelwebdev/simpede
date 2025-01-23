@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Policy;
+use App\Models\ResponRate as ModelsResponRate;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricValue;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
@@ -81,7 +84,33 @@ class ResponRate extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsResponRate::where('tahun', session('year'));
+
+        $currentMonth = now()->month;
+        if ($currentMonth <= 3) {
+            $triwulan = 'tw1';
+            $title = 'Triwulan I';
+        } elseif ($currentMonth <= 6) {
+            $triwulan = 'tw2';
+            $title = 'Triwulan II';
+        } elseif ($currentMonth <= 9) {
+            $triwulan = 'tw3';
+            $title = 'Triwulan III';
+        } else {
+            $triwulan = 'tw4';
+            $title = 'Triwulan IV';
+        }
+
+        return [
+            MetricValue::make($model, 'total-respon-rate')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi'.$triwulan, 'keberadaan-respon-rate'.$triwulan)
+                ->refreshWhenActionsRun()
+                ->setAdaLabel('Terisi')
+                ->setTidakAdaLabel('Kosong')
+                ->width('1/2'),
+        ];
     }
 
     /**
@@ -112,5 +141,10 @@ class ResponRate extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'));
     }
 }

@@ -9,6 +9,7 @@ class AnalisisSakip extends Model
 {
     protected $casts = [
         'bukti_solusi' => 'array',
+        'indikator' => 'array',
     ];
 
     public function unitKerja(): BelongsTo

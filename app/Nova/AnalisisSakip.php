@@ -8,10 +8,12 @@ use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Repeater\Repeatable;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class AnalisisSakip extends Resource
@@ -50,9 +52,10 @@ class AnalisisSakip extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'kegiatan', 'kendala', 'solusi', 'tindak_lanjut',
-    ];
+    public static function searchableColumns()
+    {
+        return ['kegiatan', new SearchableText('kendala'), new SearchableText('solusi')];
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -64,12 +67,6 @@ class AnalisisSakip extends Resource
         return [
             Select::make('Bulan', 'bulan')
                 ->options(Helper::$bulan)
-                ->displayUsingLabels()
-                ->sortable()
-                ->filterable()
-                ->rules('required'),
-            Select::make('Kategori')
-                ->options(Helper::$kategori_sakip)
                 ->displayUsingLabels()
                 ->sortable()
                 ->filterable()
@@ -93,6 +90,12 @@ class AnalisisSakip extends Resource
                 ->multiple()
                 ->path(session('year').'/'.static::uriKey())
                 ->prunable(),
+            Repeatable::make('Indikator Terdampak', 'indikator', [
+                Select::make('Indikator', 'indkator_kinerja_id')
+                ->options(Helper::setOptionIndikatorKinerja(now()))
+                ->displayUsingLabels()
+                    ->rules('required'),
+            ]),
         ];
     }
 

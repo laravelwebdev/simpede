@@ -54,16 +54,6 @@ class Helper
         '58' => 'Belanja Lainnya (58)',
     ];
 
-    public static $kategori_sakip = [
-        'Pendataan Lapangan Ruta' => 'Pendataan Lapangan Ruta',
-        'Pendataan Lapangan Non Ruta' => 'Pendataan Lapangan Non Ruta',
-        'Pengolahan' => 'Pengolahan',
-        'Pembinaan Statistik Sektoral' => 'Pembinaan Statistik Sektoral',
-        'Pelayanan Produk Statistik' => 'Pelayanan Produk Statistik',
-        'Lainnya' => 'Lainnya',
-
-    ];
-
     public static $jenis_angkutan = [
         'Angkutan Umum' => 'Angkutan Umum',
         'Kendaraan Dinas' => 'Kendaraan Dinas',

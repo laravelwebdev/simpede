@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->string('kategori', 50)->nullable();
             $table->string('kegiatan')->nullable();
             $table->text('kendala')->nullable();
             $table->text('solusi')->nullable();
             $table->text('bukti_solusi')->nullable();
+            $table->text('indikator')->nullable();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->fullText('kendala')->nullable();
+            $table->fullText('solusi')->nullable();
             $table->timestamps();
         });
     }

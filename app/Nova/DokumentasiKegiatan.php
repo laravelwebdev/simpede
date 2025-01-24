@@ -82,7 +82,9 @@ class DokumentasiKegiatan extends Resource
                 ->disableCredits()
                 ->prunable()
                 ->columns(3)
+                ->limit(10)
                 ->image()
+                ->help('Jika lebih dari 10 foto, silakan buat dokumentasi dengan keterangan part')
                 ->multiple()
                 ->rules('required')
                 ->dependsOn('kegiatan', function (Filepond $field, NovaRequest $request, FormData $formData) {

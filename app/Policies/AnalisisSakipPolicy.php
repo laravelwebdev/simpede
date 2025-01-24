@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\AnalisisSakip;
+use App\Models\User;
 
 class AnalisisSakipPolicy
 {
@@ -19,10 +21,11 @@ class AnalisisSakipPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, AnalisisSakip $analisis): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear($analisis->tahun)
             ->get();
     }
 
@@ -39,30 +42,33 @@ class AnalisisSakipPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, AnalisisSakip $analisis): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear($analisis->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, AnalisisSakip $analisis): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear($analisis->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(): bool
+    public function replicate(User $user, AnalisisSakip $analisis): bool
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear($analisis->tahun)
             ->get();
     }
 }

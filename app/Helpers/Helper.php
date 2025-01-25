@@ -253,6 +253,40 @@ class Helper
         return "https://wa.me/{$wa}";
     }
 
+    public static function is_triwulan($tw)
+    {
+        $now = Carbon::now();
+        switch ($tw) {
+            case 1:
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 4, 10));
+            case 2:
+                return $now->between(Carbon::create($now->year, 6, 1), Carbon::create($now->year, 7, 10));
+            case 3:
+                return $now->between(Carbon::create($now->year, 9, 1), Carbon::create($now->year, 10, 10));
+            case 4:
+                return $now->between(Carbon::create($now->year, 12, 1), Carbon::create($now->year, 1, 10)->addYear());
+            default:
+                return false;
+        }
+    }
+
+    public static function is_triwulan_kumulatif($tw)
+    {
+        $now = Carbon::now();
+        switch ($tw) {
+            case 1:
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 4, 10));
+            case 2:
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 7, 10));
+            case 3:
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 10, 10));
+            case 4:
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 1, 10)->addYear());
+            default:
+                return false;
+        }
+    }
+
     /**
      * Mengubah tanggal ke nama hari.
      *

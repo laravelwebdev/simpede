@@ -2,11 +2,12 @@
 
 namespace App\Policies;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\PerjanjianKinerja;
+use App\Models\RealisasiKinerja;
 use App\Models\User;
 
-class PerjanjianKinerjaPolicy
+class RealisasiKinerjaPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -21,11 +22,10 @@ class PerjanjianKinerjaPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, PerjanjianKinerja $perjanjian): bool
+    public function view(): bool
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear($perjanjian->tahun)
             ->get();
     }
 
@@ -35,40 +35,38 @@ class PerjanjianKinerjaPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
+            ->allowedFor('kasubbag')
             ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, PerjanjianKinerja $perjanjian): bool
+    public function update(User $user, RealisasiKinerja $realisasi): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('koordinator,kasubbag')
+            ->andEqual($realisasi->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, PerjanjianKinerja $perjanjian): bool
+    public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('kasubbag')
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, PerjanjianKinerja $perjanjian): bool
+    public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('kasubbag')
             ->get();
     }
 }

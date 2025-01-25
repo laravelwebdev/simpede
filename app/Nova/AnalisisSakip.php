@@ -7,18 +7,20 @@ use App\Models\AnalisisSakip as ModelsAnalisisSakip;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Repeater\Repeatable;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class AnalisisSakip extends Resource
 {
-    public static $with = ['unitKerja'];
+    public static $with = ['unitKerja', 'perjanjianKinerja'];
 
     /**
      * The model the resource corresponds to.
@@ -65,37 +67,42 @@ class AnalisisSakip extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Bulan', 'bulan')
+            BelongsTo::make('Unit Kerja')
+                ->sortable()
+                ->exceptOnForms(),
+            Select::make('Bulan Pelaksanaan', 'bulan')
                 ->options(Helper::$bulan)
                 ->displayUsingLabels()
                 ->sortable()
                 ->filterable()
                 ->rules('required'),
-            BelongsTo::make('Unit Kerja')
-                ->rules('required')
-                ->filterable(),
             Text::make('Kegiatan')
                 ->sortable()
                 ->help('Misal: Survei Sosial Ekonomi Nasional Maret, Pengisian Metadata Statistik')
                 ->rules('required'),
             Textarea::make('Kendala')
+                ->alwaysShow()
                 ->rules('required'),
             Textarea::make('Solusi')
+                ->alwaysShow()
                 ->rules('required'),
             Filepond::make('Bukti Dukung Pelaksanaan Solusi', 'bukti_solusi')
-                ->disk('arsip')
+                ->disk('sakip')
                 ->disableCredits()
                 ->rules('required')
                 ->columns(3)
                 ->multiple()
+                ->limit(10)
                 ->path(session('year').'/'.static::uriKey())
                 ->prunable(),
-            Repeatable::make('Indikator Terdampak', 'indikator', [
-                Select::make('Indikator', 'indkator_kinerja_id')
-                ->options(Helper::setOptionIndikatorKinerja(now()))
-                ->displayUsingLabels()
-                    ->rules('required'),
-            ]),
+            $this->bukti_solusi ?
+            URL::make('Bukti Dukung', fn () => Storage::disk('sakip')
+                ->url($this->bukti_solusi))
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Bukti Dukung', fn () => null)->exceptOnForms(),
+            BelongsToMany::make('Indikator Kinerja Terdampak', 'perjanjianKinerja', PerjanjianKinerja::class)
+                ->rules('required'),
         ];
     }
 
@@ -110,11 +117,11 @@ class AnalisisSakip extends Resource
 
         return [
             MetricValue::make($model, 'total-analisis')
-                ->refreshWhenActionsRun(),
-            MetricPartition::make($model, 'kategori', 'kategori-analisis', 'Kategori')
+                ->width('1/2')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'unit_kerja_id', 'unit-kerja-analisis', 'Unit Kerja')
                 ->setLabel(Helper::setOptionUnitKerja())
+                ->width('1/2')
                 ->refreshWhenActionsRun(),
         ];
     }

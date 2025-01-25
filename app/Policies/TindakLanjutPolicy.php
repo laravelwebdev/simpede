@@ -3,10 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
-use App\Models\ResponRate;
-use App\Models\User;
 
-class ResponRatePolicy
+class TindakLanjutPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -21,11 +19,10 @@ class ResponRatePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ResponRate $responRate): bool
+    public function view(): bool
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear($responRate->tahun)
             ->get();
     }
 
@@ -35,40 +32,37 @@ class ResponRatePolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ResponRate $responRate): bool
+    public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,admin')
-            ->withYear($responRate->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ResponRate $responRate): bool
+    public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
-            ->withYear($responRate->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, ResponRate $responRate): bool
+    public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('admin')
-            ->withYear($responRate->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 }

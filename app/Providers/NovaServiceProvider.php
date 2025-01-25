@@ -34,11 +34,13 @@ use App\Nova\NaskahMasuk;
 use App\Nova\PembelianPersediaan;
 use App\Nova\Pemeliharaan;
 use App\Nova\PerjalananDinas;
+use App\Nova\PerjanjianKinerja;
 use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
 use App\Nova\RapatInternal;
 use App\Nova\RealisasiAnggaran;
+use App\Nova\RealisasiKinerja;
 use App\Nova\ResponRate;
 use App\Nova\RewardPegawai;
 use App\Nova\ShareLink;
@@ -174,8 +176,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('book-open'),
 
                 MenuSection::make('SAKIP', [
+                    MenuItem::resource(PerjanjianKinerja::class),
+                    MenuItem::resource(RealisasiKinerja::class),
                     MenuItem::resource(AnalisisSakip::class),
-                    MenuItem::resource(ResponRate::class),
                 ])
                     ->collapsable()
                     ->icon('document-chart-bar'),

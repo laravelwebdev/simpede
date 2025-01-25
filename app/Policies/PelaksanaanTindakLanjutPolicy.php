@@ -3,10 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
-use App\Models\PerjanjianKinerja;
-use App\Models\User;
 
-class PerjanjianKinerjaPolicy
+class PelaksanaanTindakLanjutPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -21,11 +19,10 @@ class PerjanjianKinerjaPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, PerjanjianKinerja $perjanjian): bool
+    public function view(): bool
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear($perjanjian->tahun)
             ->get();
     }
 
@@ -35,40 +32,37 @@ class PerjanjianKinerjaPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, PerjanjianKinerja $perjanjian): bool
+    public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, PerjanjianKinerja $perjanjian): bool
+    public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, PerjanjianKinerja $perjanjian): bool
+    public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,kasubbag')
-            ->withYear($perjanjian->tahun)
+            ->allowedFor('kasubbag,koordinator')
             ->get();
     }
 }

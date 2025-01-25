@@ -16,17 +16,11 @@ return new class extends Migration
             $table->string('tahun', 4)->nullable();
             $table->string('tujuan')->nullable();
             $table->string('sasaran')->nullable();
-            $table->string('indikator')->nullable();
-            $table->decimal('target')->nullable()->unsigned();
-            $table->decimal('realisasi_tw1')->nullable()->unsigned();
-            $table->decimal('realisasi_tw2')->nullable()->unsigned();
-            $table->decimal('realisasi_tw3')->nullable()->unsigned();
-            $table->decimal('realisasi_tw4')->nullable()->unsigned();
-            $table->text('keterangan_target')->nullable();
-            $table->text('keterangan_realisasi_tw1')->nullable();
-            $table->text('keterangan_realisasi_tw2')->nullable();
-            $table->text('keterangan_realisasi_tw3')->nullable();
-            $table->text('keterangan_realisasi_tw4')->nullable();
+            $table->string('indikator')->nullable();   
+            $table->decimal('target_tw1')->nullable()->unsigned();
+            $table->decimal('target_tw2')->nullable()->unsigned();
+            $table->decimal('target_tw3')->nullable()->unsigned();
+            $table->decimal('target_tw4')->nullable()->unsigned();
             $table->timestamps();
         });
     }

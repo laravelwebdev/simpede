@@ -14,6 +14,7 @@ use Laravelwebdev\Filepond\Filepond;
 
 class PelaksanaanTindakLanjut extends Resource
 {
+    public static $with = ['tindakLanjut'];
     /**
      * The model the resource corresponds to.
      *
@@ -60,7 +61,21 @@ class PelaksanaanTindakLanjut extends Resource
     {
         return [
             Select::make('Bulan Pelaksanaan', 'bulan')
-                ->options(Helper::$bulan)
+                 ->options(function () {
+                    $triwulan = $this->tindakLanjut->triwulan;
+                    switch ($triwulan) {
+                        case 1:
+                            return array_intersect_key(Helper::$bulan, array_flip([4, 5, 6]));
+                        case 2:
+                            return array_intersect_key(Helper::$bulan, array_flip([7, 8, 9]));
+                        case 3:
+                            return array_intersect_key(Helper::$bulan, array_flip([10, 11, 12]));
+                        case 4:
+                            return array_intersect_key(Helper::$bulan, array_flip([1, 2, 3]));
+                        default:
+                            return [];
+                    }
+                })
                 ->displayUsingLabels()
                 ->sortable()
                 ->filterable()

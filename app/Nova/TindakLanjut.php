@@ -72,10 +72,10 @@ class TindakLanjut extends Resource
                 ->exceptOnForms(),
             Select::make('Triwulan')
                 ->options([
-                    1 => 'Triwulan I',
-                    2 => 'Triwulan II',
-                    3 => 'Triwulan III',
-                    4 => 'Triwulan IV',
+                    1 => 'Triwulan 1',
+                    2 => 'Triwulan 2',
+                    3 => 'Triwulan 3',
+                    4 => 'Triwulan 4',
                 ])
                 ->displayUsingLabels()
                 ->filterable()

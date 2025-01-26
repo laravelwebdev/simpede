@@ -72,7 +72,7 @@ class AnalisisSakip extends Resource
                 ->sortable()
                 ->exceptOnForms(),
             Select::make('Bulan Pelaksanaan', 'bulan')
-                ->options(Helper::$bulan)
+                ->options(array_slice(Helper::$bulan, 0, now()->month, true))
                 ->displayUsingLabels()
                 ->sortable()
                 ->filterable()

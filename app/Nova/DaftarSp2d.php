@@ -4,6 +4,10 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DaftarSp2d as ModelsDaftarSp2d;
+use App\Models\KerangkaAcuan;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -217,9 +221,24 @@ class DaftarSp2d extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
-    }
+        $model = ModelsDaftarSp2d::whereYear('tanggal_sp2d', session('year'));
+        $kak = KerangkaAcuan::whereYear('tanggal', session('year'));
 
+        return [
+            MetricValue::make($model, 'total-sp2d')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('SP2D', $model->withcount('kerangkaAcuan'), 'kerangka_acuan_count', 'kerangka-acuan-terlampir')
+                ->setAdaLabel('Ada KAK')
+                ->nullStrict(false)
+                ->setTidakAdaLabel('Tidak Ada KAK')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('KAK', $kak->withcount('daftarSp2d'), 'daftar_sp2d_count', 'sp2d-tidak-terlampir')
+                ->refreshWhenActionsRun()
+                ->nullStrict(false)
+                ->setAdaLabel('Ada SP2D')
+                ->setTidakAdaLabel('Tidak Ada SP2D'),
+        ];
+    }
     /**
      * Get the filters available for the resource.
      *

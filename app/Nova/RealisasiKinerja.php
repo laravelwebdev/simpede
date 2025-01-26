@@ -43,21 +43,8 @@ class RealisasiKinerja extends Resource
 
     public function subtitle()
     {
-        $currentMonth = now()->month;
-        if ($currentMonth) {
-            return $this->realisasi_tw1;
-        }
-
-        if ($currentMonth <= 6) {
-            return $this->realisasi_tw2;
-        }
-
-        if ($currentMonth <= 9) {
-            return $this->realisasi_tw3;
-        }
-
-        return $this->realisasi_tw4;
-
+        $triwulan = Helper::getTriwulanBerjalan(now()->month);
+        return $this->{'realisasi_tw' . $triwulan};
     }
 
     /**
@@ -115,8 +102,8 @@ class RealisasiKinerja extends Resource
             Textarea::make('Penjelasan Target Target', 'keterangan_target')
                 ->alwaysShow()
                 ->rules('required'),
-            Panel::make('Realisasi Triwulan I', [
-                Number::make('Realisasi TW I', 'realisasi_tw1')
+            Panel::make('Realisasi Triwulan 1', [
+                Number::make('Realisasi TW 1', 'realisasi_tw1')
                     ->rules('nullable', 'integer', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
@@ -139,8 +126,8 @@ class RealisasiKinerja extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->hideWhenCreating(),
             ]),
-            Panel::make('Realisasi Triwulan II', [
-                Number::make('Realisasi TW II', 'realisasi_tw2')
+            Panel::make('Realisasi Triwulan 2', [
+                Number::make('Realisasi TW 2', 'realisasi_tw2')
                     ->rules('nullable', 'integer', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
@@ -163,8 +150,8 @@ class RealisasiKinerja extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->hideWhenCreating(),
             ]),
-            Panel::make('Realisasi Triwulan III', [
-                Number::make('Realisasi TW III', 'realisasi_tw3')
+            Panel::make('Realisasi Triwulan 3', [
+                Number::make('Realisasi TW 3', 'realisasi_tw3')
                     ->rules('nullable', 'integer', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
@@ -187,8 +174,8 @@ class RealisasiKinerja extends Resource
                     ->path(session('year').'/'.static::uriKey())
                     ->hideWhenCreating(),
             ]),
-            Panel::make('Realisasi Triwulan IV', [
-                Number::make('Realisasi TW IV', 'realisasi_tw4')
+            Panel::make('Realisasi Triwulan 4', [
+                Number::make('Realisasi TW 4', 'realisasi_tw4')
                     ->rules('nullable', 'integer', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
@@ -222,32 +209,19 @@ class RealisasiKinerja extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = ModelsRealisasiKinerja::where('perjanjian_kinerja_id', PerjanjianKinerja::where('tahun', session('year'))->first()->id);
-
-        $currentMonth = now()->month;
-        if ($currentMonth <= 3) {
-            $triwulan = 'tw1';
-            $title = 'Triwulan I';
-        } elseif ($currentMonth <= 6) {
-            $triwulan = 'tw2';
-            $title = 'Triwulan II';
-        } elseif ($currentMonth <= 9) {
-            $triwulan = 'tw3';
-            $title = 'Triwulan III';
-        } else {
-            $triwulan = 'tw4';
-            $title = 'Triwulan IV';
-        }
+        $model = ModelsRealisasiKinerja::where('perjanjian_kinerja_id', optional(PerjanjianKinerja::where('tahun', session('year'))->first())->id);
+        $triwulan = Helper::getTriwulanBerjalan(now()->month);
+        $title = 'Triwulan ' . strtoupper($triwulan);
 
         return [
             MetricValue::make($model, 'total-realisasi-kinerja')
-                ->width('1/2')
-                ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi_'.$triwulan, 'keberadaan-realisasi-kinerja-'.$triwulan)
-                ->refreshWhenActionsRun()
-                ->setAdaLabel('Terisi')
-                ->setTidakAdaLabel('Kosong')
-                ->width('1/2'),
+            ->width('1/2')
+            ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi_tw'.$triwulan, 'keberadaan-realisasi-kinerja-tw'.$triwulan)
+            ->refreshWhenActionsRun()
+            ->setAdaLabel('Terisi')
+            ->setTidakAdaLabel('Kosong')
+            ->width('1/2'),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Nova\Metrics;
 
 use DateTimeInterface;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -19,7 +20,9 @@ class MetricKeberadaan extends Partition
 
     private $adaLabel = 'Ada';
 
-    private $tidakAdaLabel = 'Tidak';
+    private $tidakAdaLabel = 'Tidak'; 
+
+    private $null_strict = true;
 
     public function __construct($title, $model, $column, $key)
     {
@@ -43,20 +46,37 @@ class MetricKeberadaan extends Partition
         return $this;
     }
 
+    public function nullStrict(bool $value)
+    {
+        $this->null_strict = $value;
+
+        return $this;
+    }
+
     /**
      * Calculate the value of the metric.
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $results = $this->model->newQuery()
-            ->selectRaw("SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as {$this->adaLabel}, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as {$this->tidakAdaLabel}")
+        $table = $this->model->newQuery();
+        $results = DB::query()
+            ->selectRaw(
+            $this->null_strict ?
+            "SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as tidak" :
+            "SUM(CASE WHEN {$this->column} > 0 THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} <= 0 THEN 1 ELSE 0 END) as tidak"
+            )
+            ->fromSub($table, 'sub')
             ->get()
             ->toArray();
 
-        return $this->result($results[0])
+        return $this->result((array) $results[0])
+            ->label(fn ($value) => match ($value) {
+                'ada' => $this->adaLabel,
+                'tidak' => $this->tidakAdaLabel
+            })
             ->colors([
-                $this->tidakAdaLabel => 'rgb(213, 86, 54)',
-                $this->adaLabel => 'rgb(12, 197, 83)',
+                'tidak' => 'rgb(213, 86, 54)',
+                'ada' => 'rgb(12, 197, 83)',
             ]);
     }
 

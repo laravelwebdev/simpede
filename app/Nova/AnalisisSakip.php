@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\AnalisisSakip as ModelsAnalisisSakip;
+use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
@@ -86,6 +87,14 @@ class AnalisisSakip extends Resource
             Textarea::make('Solusi')
                 ->alwaysShow()
                 ->rules('required'),
+            Select::make('Indikator Terdampak', 'perjanjian_kinerja_count')
+                ->options([
+                    0 => 'Belum Ada',
+                ])
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    $query->has('perjanjianKinerja', '<=', $value);
+                })
+                ->exceptOnForms(),
             Filepond::make('Bukti Dukung Pelaksanaan Solusi', 'bukti_solusi')
                 ->disk('sakip')
                 ->disableCredits()
@@ -117,11 +126,12 @@ class AnalisisSakip extends Resource
 
         return [
             MetricValue::make($model, 'total-analisis')
-                ->width('1/2')
                 ->refreshWhenActionsRun(),
             MetricPartition::make($model, 'unit_kerja_id', 'unit-kerja-analisis', 'Unit Kerja')
                 ->setLabel(Helper::setOptionUnitKerja())
-                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Indikator', $model->withcount('perjanjianKinerja'), 'perjanjian_kinerja_count', 'indikator-terdampak-analisis')
+                ->nullStrict(false)
                 ->refreshWhenActionsRun(),
         ];
     }
@@ -158,6 +168,6 @@ class AnalisisSakip extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'))->where('bulan', now()->month);
+        return $query->where('tahun', session('year'))->where('bulan', now()->month)->withCount('perjanjianKinerja');
     }
 }

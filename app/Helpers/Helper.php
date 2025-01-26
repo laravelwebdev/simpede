@@ -287,6 +287,11 @@ class Helper
         }
     }
 
+    public static function getTriwulanBerjalan($month)
+    {
+        return (int) ceil($month / 3);
+    }
+
     /**
      * Mengubah tanggal ke nama hari.
      *
@@ -1527,7 +1532,7 @@ class Helper
      */
     public static function getPropertyFromCollection($collection, $property)
     {
-        return $collection == null ? null : $collection->$property;
+        return optional($collection)->$property;
     }
 
     /**

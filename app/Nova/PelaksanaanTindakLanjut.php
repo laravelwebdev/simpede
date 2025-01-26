@@ -2,7 +2,15 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableText;
+use Laravelwebdev\Filepond\Filepond;
 
 class PelaksanaanTindakLanjut extends Resource
 {
@@ -15,7 +23,7 @@ class PelaksanaanTindakLanjut extends Resource
 
     public static function label()
     {
-        return 'PelaksanaanTindakLanjut';
+        return 'Pelaksanaan Tindak Lanjut';
     }
 
     /**
@@ -23,10 +31,14 @@ class PelaksanaanTindakLanjut extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return 'Pelaksanaan Tindak Lanjut Bulan '.Helper::$bulan[$this->bulan];
+    }
 
-    public function subtitle(){
-        return $this->id;
+    public function subtitle()
+    {
+        return $this->kegiatan;
     }
 
     /**
@@ -34,27 +46,51 @@ class PelaksanaanTindakLanjut extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'id',
-    ];
+    public static function searchableColumns()
+    {
+        return [new SearchableText('kegiatan')];
+    }
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            
+            Select::make('Bulan Pelaksanaan', 'bulan')
+                ->options(Helper::$bulan)
+                ->displayUsingLabels()
+                ->sortable()
+                ->filterable()
+                ->rules('required'),
+            Text::make('Kegiatan', 'kegiatan')
+                ->onlyOnIndex(),
+            Textarea::make('Kegiatan yang dilaksanakan', 'kegiatan')
+                ->sortable()
+                ->rules('required'),
+            Filepond::make('Bukti Dukung Pelaksanaan', 'bukti_dukung')
+                ->disk('sakip')
+                ->disableCredits()
+                ->rules('required')
+                ->columns(3)
+                ->multiple()
+                ->limit(10)
+                ->path(session('year').'/'.static::uriKey())
+                ->prunable(),
+            $this->bukti_dukung ?
+            URL::make('Bukti Dukung', fn () => Storage::disk('sakip')
+                ->url($this->bukti_dukung))
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Bukti Dukung', fn () => null)->exceptOnForms(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -65,7 +101,6 @@ class PelaksanaanTindakLanjut extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -76,7 +111,6 @@ class PelaksanaanTindakLanjut extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -87,7 +121,6 @@ class PelaksanaanTindakLanjut extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

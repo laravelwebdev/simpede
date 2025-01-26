@@ -47,6 +47,7 @@ use App\Nova\ShareLink;
 use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
+use App\Nova\TindakLanjut;
 use App\Nova\UnitKerja;
 use App\Nova\User;
 use App\Nova\UserEksternal;
@@ -179,6 +180,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(RealisasiKinerja::class),
                     MenuItem::resource(AnalisisSakip::class),
+                    MenuItem::resource(TindakLanjut::class),
                 ])
                     ->collapsable()
                     ->icon('document-chart-bar'),

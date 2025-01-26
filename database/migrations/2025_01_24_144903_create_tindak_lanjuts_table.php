@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('tindak_lanjuts', function (Blueprint $table) {
             $table->id();
-            $table->string('bulan', 2)->nullable();
+            $table->string('triwulan', 1)->nullable();
+            $table->string('tahun', 4)->nullable();
             $table->text('tindak_lanjut')->nullable();
             $table->date('deadline')->nullable();
             $table->text('penanggung_jawab')->nullable();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->fullText('tindak_lanjut')->nullable();
             $table->timestamps();
         });

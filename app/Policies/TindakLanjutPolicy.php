@@ -39,7 +39,7 @@ class TindakLanjutPolicy
 
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
-            // ->andEqual(Helper::is_triwulan($tw), true)
+            ->andEqual(Helper::is_triwulan($tw), true)
             ->get();
     }
 
@@ -53,7 +53,7 @@ class TindakLanjutPolicy
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
             ->withYear($tindak_lanjut->tahun)
-            // ->andEqual(Helper::is_triwulan($tw), true)
+            ->andEqual(Helper::is_triwulan($tw), true)
             ->get();
     }
 
@@ -66,7 +66,7 @@ class TindakLanjutPolicy
 
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
-            // ->andEqual(Helper::is_triwulan($tw), true)
+            ->andEqual(Helper::is_triwulan($tw), true)
             ->withYear($tindak_lanjut->tahun)
             ->get();
     }
@@ -80,7 +80,7 @@ class TindakLanjutPolicy
 
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
-            // ->andEqual(Helper::is_triwulan($tw), true)
+            ->andEqual(Helper::is_triwulan($tw), true)
             ->withYear($tindak_lanjut->tahun)
             ->get();
     }

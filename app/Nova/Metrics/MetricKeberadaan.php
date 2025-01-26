@@ -20,7 +20,7 @@ class MetricKeberadaan extends Partition
 
     private $adaLabel = 'Ada';
 
-    private $tidakAdaLabel = 'Tidak'; 
+    private $tidakAdaLabel = 'Tidak';
 
     private $null_strict = true;
 
@@ -61,9 +61,9 @@ class MetricKeberadaan extends Partition
         $table = $this->model->newQuery();
         $results = DB::query()
             ->selectRaw(
-            $this->null_strict ?
-            "SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as tidak" :
-            "SUM(CASE WHEN {$this->column} > 0 THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} <= 0 THEN 1 ELSE 0 END) as tidak"
+                $this->null_strict ?
+                "SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as tidak" :
+                "SUM(CASE WHEN {$this->column} > 0 THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} <= 0 THEN 1 ELSE 0 END) as tidak"
             )
             ->fromSub($table, 'sub')
             ->get()

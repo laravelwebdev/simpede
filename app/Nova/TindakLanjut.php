@@ -117,7 +117,15 @@ class TindakLanjut extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = ModelsTindakLanjut::where('tahun', session('year'));
+        $currentDate = now();
+        $startOfYear = $currentDate->copy()->startOfYear();
+        $triwulan = match (true) {
+            $currentDate->between($startOfYear, $startOfYear->copy()->addMonths(3)->addDays(10)) => 4,
+            $currentDate->between($startOfYear->copy()->addMonths(3), $startOfYear->copy()->addMonths(6)->addDays(10)) => 1,
+            $currentDate->between($startOfYear->copy()->addMonths(6), $startOfYear->copy()->addMonths(9)->addDays(10)) => 2,
+            $currentDate->between($startOfYear->copy()->addMonths(9), $startOfYear->copy()->endOfYear()->addDays(10)) => 3,
+        };
+        $model = ModelsTindakLanjut::where('tahun', session('year'))->where('triwulan', $triwulan);
 
         return [
             MetricPartition::make($model, 'unit_kerja_id', 'unit-kerja-tl', 'Unit Kerja')
@@ -171,6 +179,17 @@ class TindakLanjut extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'))->withCount(['perjanjianKinerja', 'pelaksanaanTindakLanjut']);
+        $currentDate = now();
+        $startOfYear = $currentDate->copy()->startOfYear();
+        $triwulan = match (true) {
+            $currentDate->between($startOfYear, $startOfYear->copy()->addMonths(3)->addDays(10)) => 4,
+            $currentDate->between($startOfYear->copy()->addMonths(3), $startOfYear->copy()->addMonths(6)->addDays(10)) => 1,
+            $currentDate->between($startOfYear->copy()->addMonths(6), $startOfYear->copy()->addMonths(9)->addDays(10)) => 2,
+            $currentDate->between($startOfYear->copy()->addMonths(9), $startOfYear->copy()->endOfYear()->addDays(10)) => 3,
+        };
+
+        return $query->where('tahun', session('year'))
+            ->where('triwulan', $triwulan)
+            ->withCount(['perjanjianKinerja', 'pelaksanaanTindakLanjut']);
     }
 }

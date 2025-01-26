@@ -3,11 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
@@ -15,6 +13,7 @@ use Laravelwebdev\Filepond\Filepond;
 class PelaksanaanTindakLanjut extends Resource
 {
     public static $with = ['tindakLanjut'];
+
     /**
      * The model the resource corresponds to.
      *
@@ -94,12 +93,9 @@ class PelaksanaanTindakLanjut extends Resource
                 ->limit(10)
                 ->path(session('year').'/'.static::uriKey())
                 ->prunable(),
-            $this->bukti_dukung ?
-            URL::make('Bukti Dukung', fn () => Storage::disk('sakip')
-                ->url($this->bukti_dukung))
-                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
-                :
-            Text::make('Bukti Dukung', fn () => null)->exceptOnForms(),
+            Text::make('Bukti Dukung')
+                ->displayUsing(fn ($value) => empty($value) ? null : count($value).' File')
+                ->onlyOnIndex(),
         ];
     }
 

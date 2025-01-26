@@ -21,6 +21,7 @@ use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
+use App\Nova\Lenses\FormRencanaAksi;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
@@ -98,6 +99,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('calendar'),
 
                 MenuSection::make('Monitoring', [
+                    Menuitem::lens(PerjanjianKinerja::class, FormRencanaAksi::class),
                     MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
                     MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
@@ -168,6 +170,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KepkaMitra::class),
                     MenuItem::resource(MasterBarangPemeliharaan::class),
                     MenuItem::resource(MasterPersediaan::class),
+                    MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
                     // MenuItem::resource(UserEksternal::class),
@@ -176,7 +179,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->icon('book-open'),
 
                 MenuSection::make('SAKIP', [
-                    MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(RealisasiKinerja::class),
                     MenuItem::resource(AnalisisSakip::class),
                     MenuItem::resource(TindakLanjut::class),

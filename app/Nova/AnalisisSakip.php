@@ -8,13 +8,11 @@ use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
@@ -104,12 +102,9 @@ class AnalisisSakip extends Resource
                 ->limit(10)
                 ->path(session('year').'/'.static::uriKey())
                 ->prunable(),
-            $this->bukti_solusi ?
-            URL::make('Bukti Dukung', fn () => Storage::disk('sakip')
-                ->url($this->bukti_solusi))
-                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
-                :
-            Text::make('Bukti Dukung', fn () => null)->exceptOnForms(),
+            Text::make('Bukti Dukung', 'bukti_solusi')
+                ->displayUsing(fn ($value) => empty($value) ? null : count($value).' File')
+                ->onlyOnIndex(),
             BelongsToMany::make('Indikator Kinerja Terdampak', 'perjanjianKinerja', PerjanjianKinerja::class)
                 ->rules('required'),
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Lenses\FormRencanaAksi;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
@@ -114,7 +115,9 @@ class PerjanjianKinerja extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            FormRencanaAksi::make('Form Rencana Aksi'),
+        ];
     }
 
     /**

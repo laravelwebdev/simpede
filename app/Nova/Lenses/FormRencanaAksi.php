@@ -78,7 +78,6 @@ class FormRencanaAksi extends Lens
                 ->nullStrict(false)
                 ->refreshWhenFiltersChange(),
         ];
-
     }
 
     private static function modelQuery($model, $triwulan)

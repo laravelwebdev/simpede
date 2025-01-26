@@ -61,7 +61,7 @@ class PelaksanaanTindakLanjut extends Resource
     {
         return [
             Select::make('Bulan Pelaksanaan', 'bulan')
-                 ->options(function () {
+                ->options(function () {
                     $triwulan = $this->tindakLanjut->triwulan;
                     switch ($triwulan) {
                         case 1:

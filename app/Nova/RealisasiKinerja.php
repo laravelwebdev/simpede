@@ -44,7 +44,8 @@ class RealisasiKinerja extends Resource
     public function subtitle()
     {
         $triwulan = Helper::getTriwulanBerjalan(now()->month);
-        return $this->{'realisasi_tw' . $triwulan};
+
+        return $this->{'realisasi_tw'.$triwulan};
     }
 
     /**
@@ -87,7 +88,7 @@ class RealisasiKinerja extends Resource
                 ->step(0.01)
                 ->help('Target total selama triwulan I')
                 ->rules('required', 'integer', 'gte:0'),
-            Number::make('Target Triwulan II', 'target_tw2')            
+            Number::make('Target Triwulan II', 'target_tw2')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan II')
                 ->rules('required', 'integer', 'gte:target_tw1'),
@@ -98,7 +99,7 @@ class RealisasiKinerja extends Resource
             Number::make('Target Triwulan IV', 'target_tw4')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan IV')
-                ->rules('required', 'integer', 'gte:target_tw3'),                
+                ->rules('required', 'integer', 'gte:target_tw3'),
             Textarea::make('Penjelasan Target Target', 'keterangan_target')
                 ->alwaysShow()
                 ->rules('required'),
@@ -211,17 +212,17 @@ class RealisasiKinerja extends Resource
     {
         $model = ModelsRealisasiKinerja::where('perjanjian_kinerja_id', optional(PerjanjianKinerja::where('tahun', session('year'))->first())->id);
         $triwulan = Helper::getTriwulanBerjalan(now()->month);
-        $title = 'Triwulan ' . strtoupper($triwulan);
+        $title = 'Triwulan '.strtoupper($triwulan);
 
         return [
             MetricValue::make($model, 'total-realisasi-kinerja')
-            ->width('1/2')
-            ->refreshWhenActionsRun(),
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Kelengkapan Isian '.$title, $model, 'realisasi_tw'.$triwulan, 'keberadaan-realisasi-kinerja-tw'.$triwulan)
-            ->refreshWhenActionsRun()
-            ->setAdaLabel('Terisi')
-            ->setTidakAdaLabel('Kosong')
-            ->width('1/2'),
+                ->refreshWhenActionsRun()
+                ->setAdaLabel('Terisi')
+                ->setTidakAdaLabel('Kosong')
+                ->width('1/2'),
         ];
     }
 

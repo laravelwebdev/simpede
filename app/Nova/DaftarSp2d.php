@@ -239,6 +239,7 @@ class DaftarSp2d extends Resource
                 ->setTidakAdaLabel('Tidak Ada SP2D'),
         ];
     }
+
     /**
      * Get the filters available for the resource.
      *

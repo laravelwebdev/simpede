@@ -60,7 +60,6 @@ class FormRencanaAksi extends Lens
      */
     public function cards(NovaRequest $request): array
     {
-
         return [
             MetricKeberadaan::make('Realisasi Triwulanan', null, 'jumlah_realisasi_tw', 'keberadaan-realisasi-tw')
                 ->nullStrict(false)

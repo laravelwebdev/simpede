@@ -100,8 +100,9 @@ class RealisasiKinerja extends Resource
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan IV')
                 ->rules('required', 'integer', 'gte:target_tw3'),
-            Textarea::make('Penjelasan Target Target', 'keterangan_target')
+            Textarea::make('Penjelasan Target', 'keterangan_target')
                 ->alwaysShow()
+                ->help('Misalnya rincian target secara detail, misal 4 dinas apa saja yang menjadi target dll')
                 ->rules('required'),
             Panel::make('Realisasi Triwulan 1', [
                 Number::make('Realisasi TW 1', 'realisasi_tw1')
@@ -114,6 +115,7 @@ class RealisasiKinerja extends Resource
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw1')
                     ->hideWhenCreating()
                     ->alwaysShow()
+                    ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
                     ->immutable(! Helper::is_triwulan(1))
                     ->hide(fn () => Helper::is_triwulan_kumulatif(1)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw1')
@@ -138,6 +140,7 @@ class RealisasiKinerja extends Resource
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw2')
                     ->hideWhenCreating()
                     ->alwaysShow()
+                    ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
                     ->immutable(! Helper::is_triwulan(2))
                     ->hide(fn () => Helper::is_triwulan_kumulatif(2)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw2')
@@ -162,6 +165,7 @@ class RealisasiKinerja extends Resource
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw3')
                     ->hideWhenCreating()
                     ->alwaysShow()
+                    ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
                     ->immutable(! Helper::is_triwulan(3))
                     ->hide(fn () => Helper::is_triwulan_kumulatif(3)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw3')
@@ -186,6 +190,7 @@ class RealisasiKinerja extends Resource
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw4')
                     ->hideWhenCreating()
                     ->alwaysShow()
+                    ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
                     ->immutable(! Helper::is_triwulan(4))
                     ->hide(fn () => Helper::is_triwulan_kumulatif(4)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw4')

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\TindakLanjut;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -60,8 +61,8 @@ class PelaksanaanTindakLanjut extends Resource
     {
         return [
             Select::make('Bulan Pelaksanaan', 'bulan')
-                ->options(function () {
-                    $triwulan = $this->tindakLanjut->triwulan;
+                ->options(function () use ($request) {
+                    $triwulan = TindakLanjut::find($request->viaResourceId)->triwulan;
                     switch ($triwulan) {
                         case 1:
                             return array_intersect_key(Helper::$bulan, array_flip([4, 5, 6]));
@@ -137,5 +138,15 @@ class PelaksanaanTindakLanjut extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId;
     }
 }

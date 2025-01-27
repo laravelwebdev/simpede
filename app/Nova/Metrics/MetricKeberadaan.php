@@ -2,6 +2,8 @@
 
 namespace App\Nova\Metrics;
 
+use App\Helpers\Helper;
+use App\Models\PerjanjianKinerja;
 use DateTimeInterface;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -58,6 +60,10 @@ class MetricKeberadaan extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
+        if (is_null($this->model)) {
+            $triwulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\TriwulanFilter', '1') ?: (string) now()->quarter;
+            $this->model = Helper::modelQuery(PerjanjianKinerja::query(), $triwulan);
+        }
         $table = $this->model->newQuery();
         $results = DB::query()
             ->selectRaw(

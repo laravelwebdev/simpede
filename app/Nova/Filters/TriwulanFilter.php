@@ -3,8 +3,8 @@
 namespace App\Nova\Filters;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TriwulanFilter extends Filter
 {
@@ -18,7 +18,7 @@ class TriwulanFilter extends Filter
     /**
      * Apply the filter to the given query.
      */
-    public function apply(Request $request, Builder $query, mixed $value): Builder
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         return $query;
     }
@@ -28,7 +28,7 @@ class TriwulanFilter extends Filter
      *
      * @return array<string, string>
      */
-    public function options(Request $request): array
+    public function options(NovaRequest $request): array
     {
         return [
             'Triwulan 1' => '1',

@@ -3,14 +3,17 @@
 namespace App\Nova\Filters;
 
 use App\Helpers\Helper;
-use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class BulanFilter extends Filter
 {
     protected bool $embedded;
+
     protected $column;
+
     protected bool $isdate;
+
     protected $default;
 
     public function __construct($embedded = true, $column = 'bulan', $isdate = false, $default = 'cm')
@@ -30,7 +33,7 @@ class BulanFilter extends Filter
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function apply(Request $request, $query, $value)
+    public function apply(NovaRequest $request, $query, $value)
     {
         if ($this->embedded) {
             return $query;
@@ -46,7 +49,7 @@ class BulanFilter extends Filter
      *
      * @return array
      */
-    public function options(Request $request)
+    public function options(NovaRequest $request)
     {
         return array_flip(Helper::$bulan);
     }

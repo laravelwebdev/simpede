@@ -19,6 +19,7 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Manajemen Rapat: Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal
 - Kalender Kegiatan: Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. 
 - Reminder: Fitur untuk mengirimkan reminder deadline kegiatan (Aktualisasi Latsar Ilman 'Mimin' Maulana)
+- Pengelolaan SAKIP: fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.
 ## Requirement
 
 Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:

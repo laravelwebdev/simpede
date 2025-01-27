@@ -45,9 +45,12 @@ class RealisasiKinerjaPolicy
     public function update(User $user, RealisasiKinerja $realisasi): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,kasubbag')
-            ->andEqual($realisasi->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
-            ->get();
+            ->allowedFor('kasubbag')
+            ->get() ? true :
+             Policy::make()
+                 ->allowedFor('koordinator')
+                 ->andEqual($realisasi->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+                 ->get();
     }
 
     /**

@@ -104,8 +104,8 @@ class TindakLanjut extends Resource
                     ->rules('required'),
             ])->rules('required'),
             Tab::group(fields: [
-                HasMany::make('Pelaksanaan Tindak Lanjut', 'pelaksanaanTindakLanjut', PelaksanaanTindakLanjut::class),
                 BelongsToMany::make('Perjanjian Kinerja', 'perjanjianKinerja', PerjanjianKinerja::class),
+                HasMany::make('Pelaksanaan Tindak Lanjut', 'pelaksanaanTindakLanjut', PelaksanaanTindakLanjut::class),
             ]),
         ];
     }

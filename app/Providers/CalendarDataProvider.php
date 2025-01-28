@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Nova\DaftarKegiatan;
 use Laravelwebdev\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
 use Laravelwebdev\NovaCalendar\Event;
+use Laravelwebdev\NovaCalendar\EventFilter\CallbackFilter;
 
 class CalendarDataProvider extends AbstractCalendarDataProvider
 {
@@ -103,5 +104,24 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         }
 
         return $event;
+    }
+
+    public function filters(): array
+    {
+        return [
+            // Only show events that have an underlying Eloquent model that has an even id
+            new CallbackFilter('Libur', function ($event) {
+                return $event->model() && $event->model()->jenis == 'Libur';
+            }),
+            new CallbackFilter('Deadline', function ($event) {
+                return $event->model() && $event->model()->jenis == 'Deadline';
+            }),
+            new CallbackFilter('Kegiatan', function ($event) {
+                return $event->model() && $event->model()->jenis == 'Kegiatan';
+            }),
+            new CallbackFilter('Rapat', function ($event) {
+                return $event->model() && $event->model()->jenis == 'Rapat';
+            }),
+        ];
     }
 }

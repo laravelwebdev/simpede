@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('daftar_reminders', function (Blueprint $table) {
             $table->time('waktu_kirim')
-            ->after('tanggal')
-            ->nullable();
+                ->after('tanggal')
+                ->nullable();
         });
     }
 

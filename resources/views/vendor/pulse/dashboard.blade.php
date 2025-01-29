@@ -17,7 +17,7 @@
 
     <livewire:pulse.slow-outgoing-requests cols="6" />
 
-    <livewire:outdated cols='4' rows='2' />
+    <livewire:outdated cols='6' rows='2' />
 
-    <livewire:vulnerable cols='4' rows='2' />
+    <livewire:vulnerable cols='6' rows='2' />
 </x-pulse>

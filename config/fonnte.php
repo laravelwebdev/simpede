@@ -10,6 +10,5 @@ return [
 
     'token' => env('FONNTE_TOKEN'),
     'number' => env('FONNTE_NUMBER'),
-    'hour' => env('FONNTE_HOUR'),
 
 ];

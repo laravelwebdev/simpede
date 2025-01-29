@@ -54,6 +54,7 @@ use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Nova\Menu\Menu;
@@ -84,6 +85,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
+                ->prepend(MenuItem::externalLink('Sistem Monitoring', URL::to(config('pulse.path')))->openInNewTab())
                 ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab());
         });
 
@@ -294,10 +296,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function register()
     {
         parent::register();
-        Nova::report(function ($exception) {
-            if (app()->bound('sentry')) {
-                app('sentry')->captureException($exception);
-            }
-        });
+
     }
 }

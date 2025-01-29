@@ -65,6 +65,7 @@ class DaftarKegiatan extends Model
                     $tanggal = Helper::getTanggalSebelum($daftar->awal, $item['hari'], $item['referensi_waktu']);
                     $reminder = DaftarReminder::firstOrNew([
                         'tanggal' => $tanggal,
+                        'waktu_kirim' => $item['waktu_kirim'],
                         'daftar_kegiatan_id' => $daftar->id,
                     ]);
                     $reminder->save();

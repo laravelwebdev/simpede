@@ -69,6 +69,12 @@ Rekomendasi shared hosting murah:
     * `INITIAL_YEAR`: set menjadi tahun pertama aplikasi digunakan
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
+- Untuk pelaporan performa dan error, gunakan database yang berbeda dari aplikasi. edit config berikut:
+* `PULSE_DB_HOST` : Host database
+* `PULSE_DB_PORT` : Portt Database
+* `PULSE_DB_DATABASE` : Nama Database
+* `PULSE_DB_USERNAME` : User Database
+* `PULSE_DB_PASSWORD` : Password Database
 
 - Lakukan migrasi database:
     ```bash
@@ -94,28 +100,13 @@ Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bis
 - Ubah setting Fonnte pada file `.env`
     * `FONNTE_TOKEN`: Isi dengan token fonnte.com.
     * `FONNTE_NUMBER`: Isi dengan nomor whatsapp yang digunakan pada fonnte.com.
-    * `FONNTE_HOUR`: Isi dengan jam pengiriman pesan reminder (sesuaikan dengan pengaturan Cron Job)
 - Login ke akun fonnte Anda, dan tambahkan link berikut pada webhook `Whatsapp Message Status` 
     ```bash 
     https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
     ```
-## Artisan Command
-Command berikut dapat dipakai untuk menjalankan berbagai hal atau disetting agar dieksekusi dalam jangka waktu tertentu menggunakan Cron Job.
-- Artisan command untuk mengirim reminder: 
-    ```bash
-    php artisan reminder:send
-    ```
-- Artisan command untuk mengsinkronkan data hari libur: 
-    ```bash
-    php artisan holidays:sync
-    ```
-- Artisan command untuk update aplikasi: 
-    ```bash
-    php artisan simpede:update
-    ```
-
-## Setup Sentry
-Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
-- Ubah setting Sentry pada file `.env`
-  * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
+## Setting Cronjob
+Setting Cron Job dengan pengaturan tiap jam untuk menjalankan perintah
+```bash
+php artisan schedule:run >> /dev/null 2>&1
+```
 

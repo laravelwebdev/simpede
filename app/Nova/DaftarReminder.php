@@ -11,6 +11,7 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -64,6 +65,11 @@ class DaftarReminder extends Resource
                     return Helper::terbilangTanggal($value);
                 })
                 ->sortable(),
+            Select::make('Waktu Kirim', 'waktu_kirim')
+                ->options(Helper::$jam)
+                ->default(9)
+                ->displayUsingLabels()
+                ->rules('required'),
             BelongsTo::make('Daftar Kegiatan'),
             Text::make('Status')->exceptOnForms(),
         ];

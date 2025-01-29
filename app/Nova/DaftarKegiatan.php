@@ -18,7 +18,6 @@ use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -131,8 +130,8 @@ class DaftarKegiatan extends Resource
                     ->dependsOn(['jenis'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {
                             $field
-                                ->show()
-                                ->rules('required');
+                                ->rules('required')
+                                ->show();
                         }
                     })
                     ->hideFromIndex()
@@ -143,8 +142,8 @@ class DaftarKegiatan extends Resource
                     ->dependsOn(['jenis'], function (Textarea $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {
                             $field
-                                ->show()
-                                ->rules('required');
+                                ->rules('required')
+                                ->show();
                         }
                     })
                     ->alwaysShow()
@@ -159,22 +158,18 @@ Keterangan Lain: Bisa ditambahkan data -data tentang AKB, dll
 Mohon agar *mengirimkan* hasil desain dan _caption_ ke grup *maksimal H-1 hari kerja*  tanggal tayang ({tanggal})
 
 Terimakasih ✨✨'),
-                Heading::make('<p align="center">Waktu Kirim '.config('fonnte.hour').'</p>')->asHtml()
-                    ->hide()
-                    ->dependsOn(['jenis'], function (Heading $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->jenis === 'Deadline') {
-                            $field
-                                ->show();
-                        }
-                    }),
                 Repeatable::make('Waktu Reminder', 'waktu_reminder', [
                     Number::make('H-', 'hari')
-                        ->min(0)->max(30)
+                        ->min(0)
                         ->step(1)
-                        ->help('Pesan akan dikirimkan jam 09.00 WITA dan dikirim ulang jika gagal pada jam 15.00 WITA')
-                        ->rules('required', 'integer', 'gte:0', 'lte:30'),
+                        ->rules('required', 'integer', 'gte:0'),
                     Select::make('Referensi Waktu')
                         ->options(Helper::$waktu_reminder)
+                        ->displayUsingLabels()
+                        ->rules('required'),
+                    Select::make('Waktu Kirim', 'waktu_kirim')
+                        ->options(Helper::$jam)
+                        ->default(9)
                         ->displayUsingLabels()
                         ->rules('required'),
                 ])

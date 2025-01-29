@@ -1,12 +1,10 @@
 <?php
 
-use AaronFrancis\Pulse\Outdated\Livewire\Outdated;
 use AaronFrancis\Pulse\Outdated\Recorders\OutdatedRecorder;
 use HT\Pulse\Vulnerable\Recorders\Vulnerable;
 use Laravel\Pulse\Http\Middleware\Authorize;
 use Laravel\Pulse\Pulse;
 use Laravel\Pulse\Recorders;
-
 
 return [
 

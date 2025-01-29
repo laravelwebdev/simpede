@@ -27,6 +27,5 @@ class AppServiceProvider extends ServiceProvider
                 ->allowedFor('admin')
                 ->get();
         });
-
     }
 }

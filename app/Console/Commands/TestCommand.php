@@ -26,7 +26,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $process = Process::fromShellCommandline("top -bn1 | grep -E '^(%Cpu|CPU)' | awk '{ print $2 + $4 }'");
+        $process = Process::exec("top -bn1 | grep -E '^(%Cpu|CPU)' | awk '{ print $2 + $4 }'");
         $process->run();
         if (! $process->isSuccessful()) {
             $this->error($process->getErrorOutput());

@@ -33,7 +33,7 @@ class TestCommand extends Command
 
             return 1; // Return non-zero exit code to indicate failure
         }
-        
+        return $process->getOutput();
 
     }
 }

@@ -11,6 +11,3 @@ Schedule::command('action-events:clear')->daily()
 Schedule::command('holidays:sync')->daily()
     ->withoutOverlapping()
     ->runInBackground();
-Schedule::command('pulse:check')->hourly()
-    ->withoutOverlapping()
-    ->runInBackground();

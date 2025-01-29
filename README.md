@@ -69,12 +69,6 @@ Rekomendasi shared hosting murah:
     * `INITIAL_YEAR`: set menjadi tahun pertama aplikasi digunakan
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
-- Untuk pelaporan performa dan error, gunakan database yang berbeda dari aplikasi. edit config berikut:
-* `PULSE_DB_HOST` : Host database
-* `PULSE_DB_PORT` : Portt Database
-* `PULSE_DB_DATABASE` : Nama Database
-* `PULSE_DB_USERNAME` : User Database
-* `PULSE_DB_PASSWORD` : Password Database
 
 - Lakukan migrasi database:
     ```bash
@@ -109,4 +103,9 @@ Setting Cron Job dengan pengaturan tiap jam untuk menjalankan perintah
 ```bash
 php artisan schedule:run >> /dev/null 2>&1
 ```
+
+## Setup Sentry
+Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
+- Ubah setting Sentry pada file `.env`
+  * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
 

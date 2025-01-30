@@ -54,7 +54,6 @@ use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Nova\Menu\Menu;

@@ -45,10 +45,12 @@ class ImportDaftarHonorMitra extends Action
             return Action::danger('Mohon lengkapi terlebih dulu isian honor kegiatan yang akan diimport melalui menu Sunting');
         }
         DaftarHonorMitra::where('honor_kegiatan_id', $honor->id)->update(['updated_at' => null]);
+        $mitras = Mitra::cache()->get('all')->where('kepka_mitra_id', $fields->kepka_mitra_id)->keyBy('nik');
         ! $fields->template ?
-        (new FastExcel)->sheet(2)->import($fields->file, function ($row) use ($honor, $fields) {
+        (new FastExcel)->sheet(2)->import($fields->file, function ($row) use ($honor, $fields, $mitras) {
             if (strlen($row['nip']) == 16) {
-                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['nip'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
+                $mitra = $mitras->get($row['nip']);
+                $mitra_id = $mitra ? $mitra->id : null;
                 $daftarHonorMitra = DaftarHonorMitra::firstOrNew(
                     [
                         'mitra_id' => $mitra_id,
@@ -66,9 +68,10 @@ class ImportDaftarHonorMitra extends Action
             }
         })
         :
-        (new FastExcel)->sheet(1)->import($fields->file, function ($row) use ($honor, $fields) {
+        (new FastExcel)->sheet(1)->import($fields->file, function ($row) use ($honor, $fields, $mitras) {
             if (strlen($row['NIP Lama']) == 16) {
-                $mitra_id = Helper::getPropertyFromCollection(Mitra::cache()->get('all')->where('nik', $row['NIP Lama'])->where('kepka_mitra_id', $fields->kepka_mitra_id)->first(), 'id');
+                $mitra = $mitras->get($row['NIP Lama']);
+                $mitra_id = $mitra ? $mitra->id : null;
                 $daftarHonorMitra = DaftarHonorMitra::firstOrNew(
                     [
                         'mitra_id' => $mitra_id,

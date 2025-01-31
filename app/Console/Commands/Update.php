@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Composer;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\Process;
 
 class Update extends Command
@@ -27,36 +27,32 @@ class Update extends Command
      */
     public function handle()
     {
-        $process = new Process(['git', 'pull', 'origin', 'main']);
-        $process->run();
-        if (! $process->isSuccessful()) {
-            $this->error($process->getErrorOutput());
+        $error = false;
+        $dummyWaGroup = Cache::get('wa_group');
 
-            return 1; // Return non-zero exit code to indicate failure
+        try {
+            $process = new Process(['git', 'pull', 'origin', 'main']);
+            $process->run();
+            if (! $process->isSuccessful()) {
+                $error = true;
+            }
+
+            $composer = config('app.composer');
+            $devFlag = $this->option('dev') ? '' : '--no-dev';
+            $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
+            $process->run();
+            if (! $process->isSuccessful()) {
+                $error = true;
+            }
+
+            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
+            $process->run();
+            if (! $process->isSuccessful()) {
+                $error = true;
+            }
+        } finally {
+            Cache::rememberForever('wa_group', fn () => $dummyWaGroup);
+            $error ? $this->error('Update failed') : $this->info('Update successful');
         }
-
-        $this->info('Aplikasi Sukses diupdate');
-
-        // Update composer dependencies
-        $composer = config('app.composer');
-        $devFlag = $this->option('dev') ? '' : '--no-dev';
-        // shell_exec('composer2 update');
-        $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
-        $process->run();
-        if (! $process->isSuccessful()) {
-            $this->error($process->getErrorOutput());
-
-            return 1; // Return non-zero exit code to indicate failure
-        }
-        $this->info('Dependencies sukses diupdate');
-
-        $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
-        $process->run();
-        if (! $process->isSuccessful()) {
-            $this->error($process->getErrorOutput());
-
-            return 1; // Return non-zero exit code to indicate failure
-        }
-        $this->info('Cache composer sukses dihapus');
     }
 }

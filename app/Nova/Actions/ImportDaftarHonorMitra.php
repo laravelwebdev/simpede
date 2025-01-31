@@ -68,7 +68,7 @@ class ImportDaftarHonorMitra extends Action
             }
         })
         :
-        (new FastExcel)->sheet(1)->import($fields->file, function ($row) use ($honor, $fields, $mitras) {
+        (new FastExcel)->sheet(1)->import($fields->file, function ($row) use ($honor, $mitras) {
             if (strlen($row['NIP Lama']) == 16) {
                 $mitra = $mitras->get($row['NIP Lama']);
                 $mitra_id = $mitra ? $mitra->id : null;

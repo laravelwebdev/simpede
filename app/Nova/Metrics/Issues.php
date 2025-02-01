@@ -38,9 +38,9 @@ class Issues extends Value
             $count = count($data['installed'] ?? []);
         } else {
             //
-            $organization = config('sentry.organization');
-            $project = config('sentry.project');
-            $token = config('sentry.token');
+            $organization = config('app.sentry_organization');
+            $project = config('app.sentry_project');
+            $token = config('app.sentry_token');
 
             $client = new \GuzzleHttp\Client;
             $response = $client->request('GET', "https://sentry.io/api/0/projects/$organization/$project/issues/", [

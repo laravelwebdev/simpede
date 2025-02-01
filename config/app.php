@@ -154,4 +154,14 @@ return [
     'disk_space_limit' => env('DISK_SPACE_LIMIT', 107374182400),
     'disk_inode_limit' => env('DISK_INODE_LIMIT', 400000),
 
+    /*
+    |--------------------------------------------------------------------------
+    | SENTRY API
+    |--------------------------------------------------------------------------
+    |
+    */
+    'sentry_organization' => env('SENTRY_ORGANIZATION_ID'),
+    'sentry_project' => env('SENTRY_PROJECT_ID'),
+    'sentry_token' => env('SENTRY_AUTH_TOKEN'),
+
 ];

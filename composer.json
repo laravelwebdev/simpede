@@ -1,7 +1,7 @@
 {
     "name": "laravelwebdev/simpede",
     "type": "project",
-    "description": "Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik.",
+    "description": "Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik",
     "keywords": ["simpede"],
     "license": "MIT",
     "repositories": [

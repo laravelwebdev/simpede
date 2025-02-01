@@ -36,6 +36,8 @@ class Issues extends Value
             $value = $process->getOutput();
             $data = json_decode($value, true);
             $count = count($data['installed'] ?? []);
+            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => $home]);
+            $process->run();
         } else {
             //
             $organization = config('app.sentry_organization');

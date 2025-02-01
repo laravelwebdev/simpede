@@ -8,11 +8,18 @@ use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
 use Symfony\Component\Process\Process;
 
-class DiskSpace extends Partition
+class ServerResource extends Partition
 {
+    private $type;
+
+    public function __construct($type = 'space')
+    {
+        $this->type = $type;
+    }
+
     public function name()
     {
-        return 'Disk Space (GB)';
+        return $this->type === 'space' ? 'Disk Space (GB)' : 'Inode Usage';
     }
 
     /**
@@ -20,12 +27,15 @@ class DiskSpace extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
-        $process = new Process(['du -s']);
+        $process = new Process($this->type === 'space' ? ['du', '-s'] : ['du', '--inode', '-s']);
         $process->run();
         $used = (int) $process->getOutput();
+        $value = $this->type === 'space' ? round($used / 1024, 2) : $used;
+        $total = $this->type === 'space' ? round((int) config('app.disk_space_limit') / 1024 / 1024 / 1024, 2) : (int) config('app.disk_inode_limit');
+
         return $this->result([
-            'Used' => round($used / 1024, 2),
-            'Free' => 100 - round($used / 1024, 2),
+            'Used' => $value,
+            'Free' => $total - $value,
         ])
             ->colors([
                 'Used' => 'rgb(213, 86, 54)',
@@ -48,6 +58,6 @@ class DiskSpace extends Partition
      */
     public function uriKey(): string
     {
-        return 'disk-space';
+        return 'disk-space_'.$this->type;
     }
 }

@@ -142,6 +142,16 @@ return [
     */
 
     'composer' => env('COMPOSER', 'composer'),
-    'composer_home' => env('COMPOSER_HOME', null),
+    'composer_home' => env('COMPOSER_HOME', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Server Limitation
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'disk_space_limit' => env('DISK_SPACE_LIMIT', 107374182400),
+    'disk_inode_limit' => env('DISK_INODE_LIMIT', 400000),
 
 ];

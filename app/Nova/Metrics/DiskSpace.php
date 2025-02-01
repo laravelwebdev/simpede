@@ -20,8 +20,8 @@ class DiskSpace extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         return $this->result([
-            'Free' => round(disk_free_space('.') / 1024 / 1024 / 1024, 2),
-            'Used' => round(disk_total_space('.') / 1024 / 1024 / 1024, 2) - round(disk_free_space('.') / 1024 / 1024 / 1024, 2),
+            'Free' => round(disk_free_space('home/') / 1024 / 1024 / 1024, 2),
+            'Used' => round(disk_total_space('home/') / 1024 / 1024 / 1024, 2) - round(disk_free_space('.') / 1024 / 1024 / 1024, 2),
         ])
             ->colors([
                 'Used' => 'rgb(213, 86, 54)',

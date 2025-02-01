@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use Symfony\Component\Process\Process;
 use GuzzleHttp\Client;
+use Symfony\Component\Process\Process;
 
 class Api
 {
@@ -16,13 +16,14 @@ class Api
         $client = new Client;
         try {
             $response = $client->request('GET', "https://sentry.io/api/0/projects/$organization/$project/issues/", [
-            'headers' => [
-                'Authorization' => "Bearer $token",
-            ],
-            'query' => [
-                'query' => 'is:unresolved',
-            ],
+                'headers' => [
+                    'Authorization' => "Bearer $token",
+                ],
+                'query' => [
+                    'query' => 'is:unresolved',
+                ],
             ]);
+
             return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             return [];

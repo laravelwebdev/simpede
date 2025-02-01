@@ -38,14 +38,15 @@ class Update extends Command
             }
 
             $composer = config('app.composer');
+            $home = config('app.composer_home');
             $devFlag = $this->option('dev') ? '' : '--no-dev';
-            $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
+            $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => $home]);
             $process->run();
             if (! $process->isSuccessful()) {
                 $error = true;
             }
 
-            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => '../../.cache/composer']);
+            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => $home]);
             $process->run();
             if (! $process->isSuccessful()) {
                 $error = true;

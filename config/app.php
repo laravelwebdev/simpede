@@ -142,5 +142,6 @@ return [
     */
 
     'composer' => env('COMPOSER', 'composer'),
+    'composer_home' => env('COMPOSER_HOME', null),
 
 ];

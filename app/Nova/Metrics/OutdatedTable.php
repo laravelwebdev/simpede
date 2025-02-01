@@ -18,8 +18,9 @@ class OutdatedTable extends Table
 
     public function name(): string
     {
-        return 'Outdated Packages' . ' (' . count($this->data) . ')';
+        return 'Outdated Packages'.' ('.count($this->data).')';
     }
+
     /**
      * Calculate the value of the metric.
      *
@@ -30,11 +31,12 @@ class OutdatedTable extends Table
         $rows = [];
         foreach ($this->data as $package) {
             $rows[] = MetricTableRow::make()
-            ->icon('exclamation-circle')
-            ->iconClass('text-yellow-500')
-            ->title($package['name'])
-            ->subtitle('Installed: '.$package['version'].' | Latest: '.$package['latest']);
+                ->icon('exclamation-circle')
+                ->iconClass('text-yellow-500')
+                ->title($package['name'])
+                ->subtitle('Installed: '.$package['version'].' | Latest: '.$package['latest']);
         }
+
         return $rows;
     }
 

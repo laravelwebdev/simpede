@@ -81,8 +81,6 @@ if (isset($data['id']) && isset($data['status'])) {
         echo json_encode(['error' => 'Failed to update status']);
     }
 
-    // Menutup statement
-    $stmt->close();
 } else {
     echo json_encode(['error' => 'Invalid input']);
 }

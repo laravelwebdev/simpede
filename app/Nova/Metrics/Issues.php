@@ -59,7 +59,6 @@ class Issues extends Value
         }
 
         return $this->result($count);
-
     }
 
     /**

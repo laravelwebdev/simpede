@@ -80,7 +80,6 @@ if (isset($data['id']) && isset($data['status'])) {
     } else {
         echo json_encode(['error' => 'Failed to update status']);
     }
-
 } else {
     echo json_encode(['error' => 'Invalid input']);
 }

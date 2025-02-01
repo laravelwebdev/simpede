@@ -43,7 +43,7 @@ class Main extends Dashboard
                 ->verified(text: implode(', ', $values))
                 ->width('1/2'),
             Greeter::make()
-                ->user(name: 'Quotes of the day', title: $quotes['quote'])
+                ->user(name: 'Kata-kata Hari Ini', title: $quotes['quote'])
                 ->message(text: '')
                 ->verified(text: $quotes['author'])
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))

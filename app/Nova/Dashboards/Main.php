@@ -37,8 +37,7 @@ class Main extends Dashboard
         }, session('role'));
 
         $quotes = Inspiring::show();
-
-        return [
+        $cards = [
             Greeter::make()
                 ->user(name: Auth::user()->name, title: Auth::user()->email)
                 ->message(text: __('Welcome Back!'))
@@ -51,18 +50,6 @@ class Main extends Dashboard
                 ->verified(text: $quotes['author'])
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
-            ServerResource::make()
-                ->width('1/2')
-                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
-            ServerResource::make('inode')
-                ->width('1/2')
-                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
-            Issues::make('outdated')
-                ->width('1/2')
-                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
-            Issues::make()
-                ->width('1/2')
-                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
             Welcome::make()
                 ->title('Permulaan') // optional
                 ->description('Selamat datang di Aplikasi Simpede. Berikut adalah fitur-fitur yang tersedia:') // optional
@@ -79,5 +66,21 @@ class Main extends Dashboard
                 ->addItem(icon: 'calendar', title: 'Kalender Kegiatan', content: 'Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. Selain itu juga mengirimkan reminder deadline kegiatan melalui Whatsapp (Aktualisasi Latsar Ilman Mimin Maulana)')
                 ->addItem(icon: 'document-chart-bar', title: 'Pengelolaan SAKIP', content: 'Fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.'),
         ];
+        if (Policy::make()->allowedFor('admin')->get()) {
+            $cards[] = ServerResource::make()
+                ->width('1/2');
+
+            $cards[] = ServerResource::make('inode')
+                ->width('1/2');
+
+            $cards[] = Issues::make('outdated')
+                ->width('1/2');
+
+            $cards[] = Issues::make()
+                ->width('1/2');
+
+        }
+
+        return $cards;
     }
 }

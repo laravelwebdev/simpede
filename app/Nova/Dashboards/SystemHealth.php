@@ -29,7 +29,7 @@ class SystemHealth extends Dashboard
             Welcome::make()
                 ->title('Packages and Issues'),
             OutdatedTable::make($outdatedPackages)->width('1/2')
-                ->emptyText('All packages is up to date.'),
+                ->emptyText('All packages are already up to date.'),
             IssuesTable::make($sentryIssues)->width('1/2')
                 ->emptyText('No issues found.'),
         ];

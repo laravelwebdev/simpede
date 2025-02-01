@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Simpede</title>
+        <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Barlow+Condensed:400,400i,700,700i" rel="stylesheet" />
         <style>
             * {
                 padding: 0;
@@ -265,8 +267,6 @@
                 }
             }
         </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Barlow+Condensed:400,400i,700,700i" rel="stylesheet" />
     </head>
     <body>
         <img class="wave" src="{{ asset('images/background.png') }}" />

@@ -33,7 +33,9 @@ class Issues extends Value
         $process = Process::fromShellCommandline("$composer outdated $devFlag -f json", base_path(), ['COMPOSER_HOME' => $home]);
         $process->run();
         $value = $process->getOutput();
-        return $this->result($value);
+        $data = json_decode($value, true);
+        $count = count($data['installed'] ?? []);
+        return $this->result($count);
 
 
     }

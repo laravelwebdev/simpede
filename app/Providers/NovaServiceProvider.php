@@ -12,6 +12,7 @@ use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
+use App\Nova\Dashboards\SystemHealth;
 use App\Nova\Dipa;
 use App\Nova\DokumentasiKegiatan;
 use App\Nova\DokumentasiLink;
@@ -268,7 +269,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function dashboards()
     {
         return [
-            new \App\Nova\Dashboards\Main,
+            Main::make(),
+            SystemHealth::make()->canSee(fn () => Policy::make()
+                ->allowedFor('admin')
+                ->get()),
         ];
     }
 

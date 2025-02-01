@@ -4,9 +4,6 @@ namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
 use App\Helpers\Inspiring;
-use App\Helpers\Policy;
-use App\Nova\Metrics\Issues;
-use App\Nova\Metrics\ServerResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -66,19 +63,6 @@ class Main extends Dashboard
                 ->addItem(icon: 'calendar', title: 'Kalender Kegiatan', content: 'Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. Selain itu juga mengirimkan reminder deadline kegiatan melalui Whatsapp (Aktualisasi Latsar Ilman Mimin Maulana)')
                 ->addItem(icon: 'document-chart-bar', title: 'Pengelolaan SAKIP', content: 'Fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.'),
         ];
-        if (Policy::make()->allowedFor('admin')->get()) {
-            $cards[] = ServerResource::make()
-                ->width('1/2');
-
-            $cards[] = ServerResource::make('inode')
-                ->width('1/2');
-
-            $cards[] = Issues::make('outdated')
-                ->width('1/2');
-
-            $cards[] = Issues::make()
-                ->width('1/2');
-        }
 
         return $cards;
     }

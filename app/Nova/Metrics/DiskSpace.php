@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
+use Symfony\Component\Process\Process;
 
 class DiskSpace extends Partition
 {
@@ -19,9 +20,12 @@ class DiskSpace extends Partition
      */
     public function calculate(NovaRequest $request): PartitionResult
     {
+        $process = new Process(['du -s']);
+        $process->run();
+        $used = (int) $process->getOutput();
         return $this->result([
-            'Free' => round(disk_free_space('home') / 1024 / 1024 / 1024, 2),
-            'Used' => round(disk_total_space('home') / 1024 / 1024 / 1024, 2) - round(disk_free_space('.') / 1024 / 1024 / 1024, 2),
+            'Used' => round($used / 1024, 2),
+            'Free' => 100 - round($used / 1024, 2),
         ])
             ->colors([
                 'Used' => 'rgb(213, 86, 54)',

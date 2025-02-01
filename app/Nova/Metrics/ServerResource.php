@@ -19,7 +19,7 @@ class ServerResource extends Partition
 
     public function name()
     {
-        return $this->type === 'space' ? 'Disk Space (GB)' : 'Inode Usage';
+        return $this->type === 'space' ? 'Disk Space (MB)' : 'Inode Usage';
     }
 
     /**
@@ -31,8 +31,8 @@ class ServerResource extends Partition
         $process = new Process($command, '/home');
         $process->run();
         $used = (int) $process->getOutput();
-        $value = $this->type === 'space' ? round($used / 1024 / 1024, 2) : $used;
-        $total = $this->type === 'space' ? round((int) config('app.disk_space_limit') / 1024 / 1024 / 1024, 2) : (int) config('app.disk_inode_limit');
+        $value = $this->type === 'space' ? round($used / 1024, 2) : $used;
+        $total = $this->type === 'space' ? round((int) config('app.disk_space_limit') / 1024 / 1024, 2) : (int) config('app.disk_inode_limit');
 
         return $this->result([
             'Used' => $value,

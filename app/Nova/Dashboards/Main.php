@@ -78,7 +78,6 @@ class Main extends Dashboard
 
             $cards[] = Issues::make()
                 ->width('1/2');
-
         }
 
         return $cards;

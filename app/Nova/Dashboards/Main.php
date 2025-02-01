@@ -57,7 +57,10 @@ class Main extends Dashboard
             ServerResource::make('inode')
                 ->width('1/2')
                 ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
-            Issues::make('')
+            Issues::make('outdated')
+                ->width('1/2')
+                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
+            Issues::make()
                 ->width('1/2')
                 ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
             Welcome::make()

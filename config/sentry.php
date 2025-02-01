@@ -10,6 +10,10 @@ return [
     // @see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
+    'organization' => env('SENTRY_ORGANIZATION_ID'),
+    'project' => env('SENTRY_PROJECT_ID'),
+    'token' => env('SENTRY_AUTH_TOKEN'),
+
     // @see https://spotlightjs.com/
     // 'spotlight' => env('SENTRY_SPOTLIGHT', false),
 

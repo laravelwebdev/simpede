@@ -33,6 +33,8 @@ class Main extends Dashboard
             return Helper::$role[$key];
         }, session('role'));
 
+        $quotes = Inspiring::show();
+
         return [
             Greeter::make()
                 ->user(name: Auth::user()->name, title: Auth::user()->email)
@@ -41,8 +43,9 @@ class Main extends Dashboard
                 ->verified(text: implode(', ', $values))
                 ->width('1/2'),
             Greeter::make()
-                ->user(name: 'Quotes of the day', title: Inspiring::show())
+                ->user(name: 'Quotes of the day', title: $quotes['quote'])
                 ->message(text: '')
+                ->verified(text: $quotes['author'])
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
             Welcome::make()

@@ -3,4 +3,9 @@
 @section('title', __('Payment Required'))
 @section('code', '402')
 @section('message', __('Payment Required'))
-@section('quote', \App\Helpers\Inspiring::show())
+@php
+    $inspiration = \App\Helpers\Inspiring::show();
+@endphp
+
+@section('quote', $inspiration['quote'])
+@section('author', $inspiration['author'])

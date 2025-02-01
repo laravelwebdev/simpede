@@ -3,4 +3,9 @@
 @section('title', __('Service Unavailable'))
 @section('code', '503')
 @section('message', __('Service Unavailable'))
-@section('quote', \App\Helpers\Inspiring::show())
+@php
+    $inspiration = \App\Helpers\Inspiring::show();
+@endphp
+
+@section('quote', $inspiration['quote'])
+@section('author', $inspiration['author'])

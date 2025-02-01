@@ -1408,7 +1408,7 @@ class Inspiring
 
         return
         Cache::remember('quotes', Carbon::now()->endOfDay(), function () use ($data) {
-            return $data['quote'].' ('.$data['author'].')';
+            return $data;
         });
     }
 }

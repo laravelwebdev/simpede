@@ -3,4 +3,9 @@
 @section('title', __('Server Error'))
 @section('code', '500')
 @section('message', __('Server Error'))
-@section('quote', \App\Helpers\Inspiring::show())
+@php
+    $inspiration = \App\Helpers\Inspiring::show();
+@endphp
+
+@section('quote', $inspiration['quote'])
+@section('author', $inspiration['author'])

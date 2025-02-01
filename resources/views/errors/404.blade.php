@@ -3,4 +3,10 @@
 @section('title', __('Not Found'))
 @section('code', '404')
 @section('message', __('Not Found'))
-@section('quote', \App\Helpers\Inspiring::show())
+
+@php
+$inspiration = \App\Helpers\Inspiring::show();
+@endphp
+
+@section('quote', $inspiration['quote'])
+@section('author', $inspiration['author'])

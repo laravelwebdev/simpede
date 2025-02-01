@@ -28,7 +28,7 @@ class ServerResource extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         $command = $this->type === 'space' ? ['du', '-s'] : ['du', '--inodes', '-s'];
-        $process = new Process($command, 'home');
+        $process = new Process($command, '/home');
         $process->run();
         $used = (int) $process->getOutput();
         $value = $this->type === 'space' ? round($used / 1024, 2) : $used;

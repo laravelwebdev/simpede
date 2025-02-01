@@ -4,6 +4,8 @@ namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
 use App\Helpers\Inspiring;
+use App\Helpers\Policy;
+use App\Nova\Metrics\DiskSpace;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -48,6 +50,7 @@ class Main extends Dashboard
                 ->verified(text: $quotes['author'])
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
+            DiskSpace::make()->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
             Welcome::make()
                 ->title('Permulaan') // optional
                 ->description('Selamat datang di Aplikasi Simpede. Berikut adalah fitur-fitur yang tersedia:') // optional

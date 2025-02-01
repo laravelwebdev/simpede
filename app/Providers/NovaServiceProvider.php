@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
@@ -75,9 +76,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
         Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">        
-        Copyright &copy;2021 - '.date('Y').' <a href="'.config('satker.website').'" class="text-primary dim no-underline">BPS '.config('satker.kabupaten').'</a>
+        Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik <span class="px-1">&middot;</span> v.'.Helper::version().'
         </p>
-        <p class="mt-8 text-center text-xs text-80"> By Muhlis Abdi <span class="px-1">&middot;</span> Laravel v'.app()->version().'
+        <p class="mt-8 text-center text-xs text-80">  Copyright &copy;2021 - '.date('Y').' <a href="'.config('satker.website').'" class="text-primary dim no-underline">BPS '.config('satker.kabupaten').'</a> 
         </p>'
         );
 

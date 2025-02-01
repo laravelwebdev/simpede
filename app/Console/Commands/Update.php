@@ -52,7 +52,7 @@ class Update extends Command
             }
         } finally {
             Cache::rememberForever('wa_group', fn () => $dummyWaGroup);
-            $error ? $this->error('Update failed') : $this->info('Update successful');
+            $error ? $this->error('Update Gagal!') : $this->info('Update Sukses! ');
         }
     }
 }

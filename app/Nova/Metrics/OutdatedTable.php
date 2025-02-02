@@ -10,18 +10,6 @@ use Laravel\Nova\Metrics\Table;
 
 class OutdatedTable extends Table
 {
-    private $data;
-
-    public function __construct()
-    {
-        $this->data = Api::getComposerOutdatedPackages();
-    }
-
-    public function name(): string
-    {
-        return 'Outdated Packages'.' ('.count($this->data).')';
-    }
-
     /**
      * Calculate the value of the metric.
      *
@@ -30,7 +18,7 @@ class OutdatedTable extends Table
     public function calculate(NovaRequest $request): array
     {
         $rows = [];
-        foreach ($this->data as $package) {
+        foreach (Api::getComposerOutdatedPackages() as $package) {
             $rows[] = MetricTableRow::make()
                 ->icon('exclamation-circle')
                 ->iconClass('text-yellow-500')

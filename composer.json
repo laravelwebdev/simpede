@@ -7,7 +7,7 @@
     "repositories": [
         {
             "url": "https://github.com/laravelwebdev/admin-simpede.git",
-            "type": "vcs"
+            "type": "git"
         }
     ],
     "require": {

@@ -10,18 +10,6 @@ use Laravel\Nova\Metrics\Table;
 
 class IssuesTable extends Table
 {
-    private $data;
-
-    public function __construct()
-    {
-        $this->data = Api::getSentryUnreolvedIssues();
-    }
-
-    public function name(): string
-    {
-        return 'Issues'.' ('.count($this->data).')';
-    }
-
     /**
      * Calculate the value of the metric.
      *
@@ -30,7 +18,7 @@ class IssuesTable extends Table
     public function calculate(NovaRequest $request): array
     {
         $rows = [];
-        foreach ($this->data as $issue) {
+        foreach (Api::getSentryUnreolvedIssues() as $issue) {
             $rows[] = MetricTableRow::make()
                 ->icon($issue['level'] === 'error' ? 'x-circle' : 'exclamation-circle')
                 ->iconClass($issue['level'] === 'error' ? 'text-red-500' : 'text-yellow-500')

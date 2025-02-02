@@ -275,7 +275,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             Main::make(),
             SystemHealth::make()
-->showRefreshButton()->canSee(fn () => Policy::make()
+                ->showRefreshButton()->canSee(fn () => Policy::make()
                 ->allowedFor('admin')
                 ->get()),
         ];

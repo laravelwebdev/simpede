@@ -2,6 +2,7 @@
 
 namespace App\Nova\Metrics;
 
+use App\Helpers\Api;
 use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
@@ -9,27 +10,14 @@ use Laravel\Nova\Metrics\ValueResult;
 
 class Issues extends Value
 {
-    private $type;
-
-    private $value;
-
-    public function __construct($value, $type = 'issues')
-    {
-        $this->type = $type;
-        $this->value = $value;
-    }
-
-    public function name()
-    {
-        return $this->type === 'issues' ? 'Issues' : 'Outdated Packages';
-    }
-
     /**
      * Calculate the value of the metric.
      */
     public function calculate(NovaRequest $request): ValueResult
     {
-        return $this->result((float) $this->value);
+        $sentryIssues = Api::getSentryUnreolvedIssues();
+
+        return $this->result(count($sentryIssues));
     }
 
     /**
@@ -57,6 +45,6 @@ class Issues extends Value
      */
     public function uriKey(): string
     {
-        return 'issues_'.$this->type;
+        return 'issues';
     }
 }

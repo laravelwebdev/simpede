@@ -2,7 +2,6 @@
 
 namespace App\Nova\Dashboards;
 
-use App\Helpers\Api;
 use App\Nova\Metrics\Issues;
 use App\Nova\Metrics\IssuesTable;
 use App\Nova\Metrics\OutdatedTable;
@@ -19,18 +18,15 @@ class SystemHealth extends Dashboard
      */
     public function cards(): array
     {
-        $sentryIssues = Api::getSentryUnreolvedIssues();
-        $outdatedPackages = Api::getComposerOutdatedPackages();
-
         return [
             ServerResource::make(),
             ServerResource::make('inode'),
-            Issues::make(count($sentryIssues)),
+            Issues::make(),
             Welcome::make()
                 ->title('Packages and Issues'),
-            OutdatedTable::make($outdatedPackages)->width('1/2')
+            OutdatedTable::make()->width('1/2')
                 ->emptyText('All packages are already up to date.'),
-            IssuesTable::make($sentryIssues)->width('1/2')
+            IssuesTable::make()->width('1/2')
                 ->emptyText('No issues found.'),
         ];
     }

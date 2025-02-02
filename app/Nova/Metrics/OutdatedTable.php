@@ -2,6 +2,7 @@
 
 namespace App\Nova\Metrics;
 
+use App\Helpers\Api;
 use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\MetricTableRow;
@@ -11,9 +12,9 @@ class OutdatedTable extends Table
 {
     private $data;
 
-    public function __construct($data = [])
+    public function __construct()
     {
-        $this->data = $data;
+        $this->data = Api::getComposerOutdatedPackages();
     }
 
     public function name(): string
@@ -43,7 +44,7 @@ class OutdatedTable extends Table
     /**
      * Determine the amount of time the results of the metric should be cached.
      */
-    public function cacheFor(): DateTimeInterface|null
+    public function cacheFor(): ?DateTimeInterface
     {
         // return now()->addMinutes(5);
 

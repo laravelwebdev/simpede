@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('reminder:send')->hourly()
     ->withoutOverlapping()
-    ->runInBackground();
+    ->runInBackground()
+    ->sentryMonitor();
 Schedule::command('action-events:clear')->daily()
     ->withoutOverlapping()
-    ->runInBackground();
+    ->runInBackground()
+    ->sentryMonitor();
 Schedule::command('holidays:sync')->daily()
     ->withoutOverlapping()
-    ->runInBackground();
+    ->runInBackground()
+    ->sentryMonitor();

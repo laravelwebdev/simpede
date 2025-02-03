@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme = "light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -955,7 +955,7 @@
       .rtl\:flex-row-reverse:where([dir="rtl"], [dir="rtl"] *) {
         flex-direction: row-reverse;
       }
-      @media (prefers-color-scheme: dark) {
+      [data-theme="dark"] {
         .dark\:block {
           display: block;
         }
@@ -1400,5 +1400,9 @@
         </div>
       </div>
     </div>
+    <script>
+      const theme = localStorage.getItem('novaTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
   </body>
 </html>

@@ -90,7 +90,7 @@ class DaftarKontrakMitra extends Resource
                 ->onlyOnIndex()
                 ->hideFromIndex($request->viaResource == 'bast-mitras')
                 ->hideFromDetail($request->viaResource == 'bast-mitras'),
-                Status::make('Status BAST ', 'status_bast')
+            Status::make('Status BAST ', 'status_bast')
                 ->loadingWhen(['dibuat', 'diupdate'])
                 ->failedWhen(['outdated'])
                 ->onlyOnIndex()

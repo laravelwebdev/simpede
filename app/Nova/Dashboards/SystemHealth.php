@@ -8,7 +8,6 @@ use App\Nova\Metrics\OutdatedTable;
 use App\Nova\Metrics\ServerResource;
 use Laravel\Nova\Dashboard;
 use Laravelwebdev\SystemInfo\SystemInfo;
-use Laravelwebdev\Welcome\Welcome;
 
 class SystemHealth extends Dashboard
 {

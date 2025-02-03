@@ -59,7 +59,7 @@ class DaftarHonorPegawai extends Resource
                 ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
                 ->step(0.01)
-                ->rules('required', 'gt:0','lte:65535')
+                ->rules('required', 'gt:0', 'lte:65535')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Numeric::make('Harga Satuan', 'harga_satuan')
                 ->hide()

@@ -7,6 +7,7 @@ use App\Nova\Metrics\IssuesTable;
 use App\Nova\Metrics\OutdatedTable;
 use App\Nova\Metrics\ServerResource;
 use Laravel\Nova\Dashboard;
+use Laravelwebdev\SystemInfo\SystemInfo;
 use Laravelwebdev\Welcome\Welcome;
 
 class SystemHealth extends Dashboard
@@ -22,8 +23,7 @@ class SystemHealth extends Dashboard
             ServerResource::make(),
             ServerResource::make('inode'),
             Issues::make(),
-            Welcome::make()
-                ->title('Packages and Issues'),
+            SystemInfo::make()->versions(),
             OutdatedTable::make()->width('1/2')
                 ->emptyText('All packages are already up to date.'),
             IssuesTable::make()->width('1/2')

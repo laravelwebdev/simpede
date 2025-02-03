@@ -10,6 +10,8 @@ use Laravel\Nova\Metrics\Table;
 
 class OutdatedTable extends Table
 {
+    public $name = 'Outdated Packages';
+
     /**
      * Calculate the value of the metric.
      *

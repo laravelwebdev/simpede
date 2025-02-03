@@ -55,10 +55,10 @@ class DaftarHonorMitra extends Resource
                 BelongsTo::make('Mitra')
                     ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
-                    ->rules('required', 'gt:0')
+                    ->rules('required', 'gt:0', 'lte:65535')
                     ->step(0.01),
                 Number::make('Realisasi', 'volume_realisasi')
-                    ->rules('required', 'gt:0')
+                    ->rules('required', 'gt:0', 'lte:65535')
                     ->step(0.01),
                 Status::make('Status', 'status_realisasi')
                     ->loadingWhen(['Loading'])

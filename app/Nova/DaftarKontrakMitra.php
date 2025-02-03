@@ -90,12 +90,6 @@ class DaftarKontrakMitra extends Resource
                 ->onlyOnIndex()
                 ->hideFromIndex($request->viaResource == 'bast-mitras')
                 ->hideFromDetail($request->viaResource == 'bast-mitras'),
-            Status::make('Status', 'status_bast')
-                ->loadingWhen(['dibuat', 'diupdate'])
-                ->failedWhen(['outdated'])
-                ->onlyOnIndex()
-                ->hideFromIndex($request->viaResource == 'kontrak-mitras')
-                ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Boolean::make('Sesuai SBML', 'valid_sbml')
                 ->exceptOnForms()
                 ->filterable(),

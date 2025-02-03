@@ -39,7 +39,8 @@ class MetricTrend extends Trend
     public function ranges(): array
     {
         return [
-            1 => 'Bulan ini',
+            1 => 'Januari',
+            2 => 'Februari',
         ];
     }
 

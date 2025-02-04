@@ -209,7 +209,6 @@ class DaftarSp2d extends Resource
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
-                ->searchable()
                 ->withSubtitles(),
         ];
     }

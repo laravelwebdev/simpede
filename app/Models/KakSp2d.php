@@ -24,9 +24,12 @@ class KakSp2d extends Pivot
             Storage::disk('arsip')
                 ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_spp,
                     session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_ssp,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SSP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+            $arsipSsp = DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_ssp;
+            if ($arsipSsp) {
+                Storage::disk('arsip')
+                    ->copy($arsipSsp,
+                        session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SSP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+            }
         });
         static::deleting(function (KakSp2d $kakSp2d) {
             Storage::disk('arsip')

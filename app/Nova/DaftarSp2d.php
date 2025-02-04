@@ -275,7 +275,6 @@ class DaftarSp2d extends Resource
         $query->whereYear('tanggal_sp2d', session('year'));
     }
 
-    // BUG: tidak muncul d SPM 12
     public static function relatableKerangkaAcuans(NovaRequest $request, $query)
     {
         $dipa_id = $request->findModel()->dipa_id;

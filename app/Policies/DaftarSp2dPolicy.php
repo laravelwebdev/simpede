@@ -62,28 +62,28 @@ class DaftarSp2dPolicy
         return false;
     }
 
-    // public function attachKerangkaAcuan(): bool
-    // {
-    //     return Policy::make()
-    //         ->allowedFor('ppspm,arsiparis')
-    //         ->get();
-    // }
+    public function attachKerangkaAcuan(): bool
+    {
+        return Policy::make()
+            ->allowedFor('ppspm,arsiparis')
+            ->get();
+    }
 
-    // public function attachAnyKerangkaAcuan(User $user, DaftarSp2d $sp2d): bool
-    // {
-    //     return Policy::make()
-    //         ->allowedFor('ppspm,arsiparis')
-    //         ->andNotEqual($sp2d->arsip_sp2d, null)
-    //         ->andNotEqual($sp2d->arsip_spm, null)
-    //         ->andNotEqual($sp2d->arsip_spp, null)
-    //         ->andNotEqual($sp2d->arsip_lampiran, null)
-    //         ->get();
-    // }
+    public function attachAnyKerangkaAcuan(User $user, DaftarSp2d $sp2d): bool
+    {
+        return Policy::make()
+            ->allowedFor('ppspm,arsiparis')
+            ->andNotEqual($sp2d->arsip_sp2d, null)
+            ->andNotEqual($sp2d->arsip_spm, null)
+            ->andNotEqual($sp2d->arsip_spp, null)
+            ->andNotEqual($sp2d->arsip_lampiran, null)
+            ->get();
+    }
 
-    // public function detachKerangkaAcuan(): bool
-    // {
-    //     return Policy::make()
-    //         ->allowedFor('ppspm,arsiparis')
-    //         ->get();
-    // }
+    public function detachKerangkaAcuan(): bool
+    {
+        return Policy::make()
+            ->allowedFor('ppspm,arsiparis')
+            ->get();
+    }
 }

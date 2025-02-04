@@ -128,7 +128,7 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
-            Select::make('Jumlah SP2D', 'daftarSp2d_count')
+            Select::make('Jumlah SP2D', 'daftar_sp2d_count')
                 ->options([
                     0 => 'Belum SP2D',
                 ])

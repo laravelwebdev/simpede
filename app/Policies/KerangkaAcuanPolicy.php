@@ -12,7 +12,7 @@ class KerangkaAcuanPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return Policy::make()
             ->notAllowedFor('admin')
@@ -33,7 +33,7 @@ class KerangkaAcuanPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
@@ -89,20 +89,5 @@ class KerangkaAcuanPolicy
             ->allowedFor('koordinator,anggota,ppk')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
             ->get();
-    }
-
-    public function attachDaftarSp2d()
-    {
-        return false;
-    }
-
-    public function attachAnyDaftarSp2d()
-    {
-        return false;
-    }
-
-    public function detachDaftarSp2d()
-    {
-        return false;
     }
 }

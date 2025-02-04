@@ -14,7 +14,6 @@ use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -135,7 +134,6 @@ class KerangkaAcuan extends Resource
                     $query->has('daftarSp2d', '<=', $value);
                 })
                 ->onlyOnIndex(),
-            BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             Tab::group('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),

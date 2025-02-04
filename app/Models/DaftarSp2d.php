@@ -16,7 +16,7 @@ class DaftarSp2d extends Model
 
     public function kerangkaAcuan(): BelongsToMany
     {
-        return $this->belongsToMany(KerangkaAcuan::class);
+        return $this->belongsToMany(KerangkaAcuan::class, 'kak_sp2d');
     }
 
     public function realisasiAnggaran(): HasMany

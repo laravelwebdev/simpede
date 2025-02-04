@@ -37,10 +37,10 @@ class KerangkaAcuanPolicy
      */
     public function create(User $user): bool
     {
-        return Nova::whenServing(function (NovaRequest $request) {
-            if ($request->viaResource == 'daftar-sp2ds' || str_contains(request()->url(), 'daftar-sp2ds')) {
-                return false;
-            }
+        // return Nova::whenServing(function (NovaRequest $request) {
+        //     if ($request->viaResource == 'daftar-sp2ds' || str_contains(request()->url(), 'daftar-sp2ds')) {
+        //         return false;
+        //     }
 
             return Policy::make()
                 ->allowedFor('koordinator,anggota')

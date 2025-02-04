@@ -46,7 +46,7 @@ class KerangkaAcuan extends Resource
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+            return $query->where('unit_kerja_ids', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
 
         return $query->withCount('daftarSp2d');
@@ -128,13 +128,13 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
-            Text::make('Jumlah SP2D', 'daftarSp2d_count')
-                // ->options([
-                //     0 => 'Belum SP2D',
-                // ])
-                // ->filterable(function ($request, $query, $value, $attribute) {
-                //     $query->has('daftarSp2d', '<=', $value);
-                // })
+            Select::make('Jumlah SP2D', 'daftarSp2d_count')
+                ->options([
+                    0 => 'Belum SP2D',
+                ])
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    $query->has('daftarSp2d', '<=', $value);
+                })
                 ->onlyOnDetail(),
             BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             Tab::group('Detail', [

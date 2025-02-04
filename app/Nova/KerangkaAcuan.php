@@ -20,6 +20,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
@@ -128,10 +129,10 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
             ]),
-            Select::make('Jumlah SP2D', 'daftarSp2d.daftar_sp2d_count')
-                ->options([
-                    0 => 'Belum SP2D',
-                ])
+            Number::make('Jumlah SP2D', 'daftar_sp2d_count')
+                // ->options([
+                //     0 => 'Belum SP2D',
+                // ])
                 ->filterable(function ($request, $query, $value, $attribute) {
                     $query->has('daftarSp2d', '<=', $value);
                 })

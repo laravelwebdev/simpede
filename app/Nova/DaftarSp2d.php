@@ -282,7 +282,7 @@ class DaftarSp2d extends Resource
 
         return $query->where('dipa_id', $dipa_id)
             ->whereIn('id', function ($query) use ($request) {
-                $query->select('kerangka_acuan_id')
+                $query->select('kerangka_acuan_ids')
                     ->from('anggaran_kerangka_acuans')
                     ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
                         $subQuery->select('mata_anggaran_id')

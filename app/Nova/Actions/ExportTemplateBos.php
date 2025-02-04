@@ -69,7 +69,7 @@ class ExportTemplateBos extends Action
                 ->searchable()
                 ->rules('required', 'min:1', 'max:12', 'gte:awal'),
             Text::make('Nama File', 'filename')
-                ->rules('required', 'alpha_dash:ascii')
+                ->rules('required', 'regex:/^[a-zA-Z0-9_\-\s]+$/')
                 ->help('tanpa extensi file')
                 ->default(fn () => uniqid()),
         ];

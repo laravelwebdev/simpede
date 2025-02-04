@@ -191,7 +191,7 @@ class ExportTemplateCmsBri extends Action
                 ->rules('required')
                 ->default('Honor '.$this->kegiatan),
             Text::make('Nama File', 'filename')
-                ->rules('required', 'alpha_dash:ascii')
+                ->rules('required', 'regex:/^[a-zA-Z0-9_\-\s]+$/')
                 ->help('tanpa extensi file')
                 ->default(fn () => uniqid()),
         ];

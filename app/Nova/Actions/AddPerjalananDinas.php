@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Models\PerjalananDinas;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -23,13 +24,14 @@ class AddPerjalananDinas extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
         $kak = $models->first();
+        if (! Helper::hasAkun($kak->id, Helper::$akun_perjalanan)) {
+            return ActionResponse::danger('Kerangka Acuan ini tidak  memiliki Akun Perjalanan Dinas');
+        }
         $perjalanan = new PerjalananDinas;
         $perjalanan->kerangka_acuan_id = $kak->id;
         $perjalanan->tanggal_berangkat = $kak->awal;
@@ -43,7 +45,6 @@ class AddPerjalananDinas extends Action
     /**
      * Get the fields available on the action.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)

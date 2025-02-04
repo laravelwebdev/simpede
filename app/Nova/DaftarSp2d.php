@@ -272,7 +272,7 @@ class DaftarSp2d extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal_sp2d', session('year'))->withCount('kerangkaAcuan');
+        $query->whereYear('tanggal_sp2d', session('year'));
     }
 
     // BUG: tidak muncul d SPM 12

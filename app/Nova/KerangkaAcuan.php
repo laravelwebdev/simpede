@@ -25,7 +25,6 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableText;
@@ -42,7 +41,7 @@ class KerangkaAcuan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal', session('year'))->withCount('daftarSp2d');
+        $query->whereYear('tanggal', session('year'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
@@ -135,7 +134,7 @@ class KerangkaAcuan extends Resource
                 ->filterable(function ($request, $query, $value, $attribute) {
                     $query->has('daftarSp2d', '<=', $value);
                 })
-                ->onlyOnDetail(),
+                ->onlyOnIndex(),
             BelongsToMany::make('SP2D', 'daftarSp2d', 'App\Nova\DaftarSp2d'),
             Tab::group('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
@@ -214,13 +213,6 @@ class KerangkaAcuan extends Resource
            AddPerjalananDinas::make()
                ->onlyInline()
                ->confirmButtonText('Tambahkan')
-               ->canSee(function ($request) {
-                   if ($request instanceof ActionRequest) {
-                       return true;
-                   }
-
-                   return $this->resource instanceof Model && Helper::hasAkun($this->id, Helper::$akun_perjalanan);
-               })
                ->exceptOnIndex();
         }
 

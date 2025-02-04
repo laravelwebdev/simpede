@@ -42,14 +42,14 @@ class KerangkaAcuan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal', session('year'));
+        $query->whereYear('tanggal', session('year'))->withCount('daftarSp2d');
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
         }
 
-        return $query->withCount('daftarSp2d');
+        return $query;
     }
 
     /**

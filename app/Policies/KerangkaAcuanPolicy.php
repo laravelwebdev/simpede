@@ -6,8 +6,6 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\KerangkaAcuan;
 use App\Models\User;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
 
 class KerangkaAcuanPolicy
 {
@@ -37,15 +35,9 @@ class KerangkaAcuanPolicy
      */
     public function create(User $user): bool
     {
-        // return Nova::whenServing(function (NovaRequest $request) {
-        //     if ($request->viaResource == 'daftar-sp2ds' || str_contains(request()->url(), 'daftar-sp2ds')) {
-        //         return false;
-        //     }
-
-            return Policy::make()
-                ->allowedFor('koordinator,anggota')
-                ->get();
-        // });
+        return Policy::make()
+            ->allowedFor('koordinator,anggota')
+            ->get();
     }
 
     /**

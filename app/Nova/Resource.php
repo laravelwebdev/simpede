@@ -62,5 +62,23 @@ abstract class Resource extends NovaResource
      */
     public static $clickAction = 'ignore';
 
-    public static $perPageViaRelationshipOptions = [20];
+    /**
+     * The pagination per-page options configured for this resource.
+     *
+     * @return array<int, int>
+     */
+    public static function perPageOptions()
+    {
+        return [25, 50, 100];
+    }
+
+    /**
+     * The pagination per-page options configured for this resource via relationship.
+     *
+     * @return array<int, int>
+     */
+    public static function perPageViaRelationshipOptions()
+    {
+        return [10, 25, 50];
+    }
 }

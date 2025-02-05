@@ -83,7 +83,7 @@ class PembelianPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->hideFromIndex()
                 ->immutable(),
-            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class)
                 ->onlyOnDetail(),
             Text::make('Rincian')
                 ->rules('required'),
@@ -162,7 +162,7 @@ class PembelianPersediaan extends Resource
                     :
                 Text::make('Arsip', fn () => null)->exceptOnForms(),
             ]),
-            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', \App\Nova\BarangPersediaan::class),
         ];
     }
 
@@ -170,7 +170,7 @@ class PembelianPersediaan extends Resource
     {
         return [
             Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
-                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class),
                 Date::make('Tanggal KAK', 'tanggal_kak')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),

@@ -68,12 +68,12 @@ class DaftarKontrakMitra extends Resource
             BelongsTo::make('Mitra')
                 ->exceptOnForms()
                 ->sortable(),
-            BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', 'App\Nova\NaskahKeluar')
+            BelongsTo::make('Nomor Kontrak', 'kontrakNaskahKeluar', \App\Nova\NaskahKeluar::class)
                 ->readOnly()
                 ->sortable()
                 ->hideFromIndex($request->viaResource == 'bast-mitras')
                 ->hideFromDetail($request->viaResource == 'bast-mitras'),
-            BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\NaskahKeluar')
+            BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', \App\Nova\NaskahKeluar::class)
                 ->readOnly()
                 ->sortable()
                 ->hideFromIndex($request->viaResource == 'kontrak-mitras')

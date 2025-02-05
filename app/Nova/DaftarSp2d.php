@@ -207,8 +207,8 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('SP2D', fn () => null)->exceptOnForms(),
             ]),
-            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
-            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', \App\Nova\RealisasiAnggaran::class),
+            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class)
                 ->searchable()
                 ->withSubtitles(),
         ];

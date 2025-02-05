@@ -59,7 +59,7 @@ class PersediaanKeluar extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Nomor Naskah Keluar', 'naskahKeluar', 'App\Nova\NaskahKeluar')
+            BelongsTo::make('Nomor Naskah Keluar', 'naskahKeluar', \App\Nova\NaskahKeluar::class)
                 ->searchable()
                 ->withSubtitles()
                 ->modalSize('5xl')
@@ -76,7 +76,7 @@ class PersediaanKeluar extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required', 'after_or_equal:tanggal_dokumen'),
 
-            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', \App\Nova\BarangPersediaan::class),
         ];
     }
 

@@ -27,7 +27,7 @@ class ImportBarangFromSpesifikasiKerangkaAcuan extends Action
     {
         $model = $models->first();
         BarangPersediaan::where('barang_persediaanable_id', $model->id)
-            ->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')
+            ->where('barang_persediaanable_type', \App\Models\PembelianPersediaan::class)
             ->delete();
         $speks = SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $model->kerangka_acuan_id)->get();
         foreach ($speks as $spek) {
@@ -38,7 +38,7 @@ class ImportBarangFromSpesifikasiKerangkaAcuan extends Action
             $barang->harga_satuan = $spek->harga_satuan;
             $barang->total_harga = $spek->total_harga;
             $barang->barang_persediaanable_id = $model->id;
-            $barang->barang_persediaanable_type = 'App\Models\PembelianPersediaan';
+            $barang->barang_persediaanable_type = \App\Models\PembelianPersediaan::class;
             $barang->save();
         }
 

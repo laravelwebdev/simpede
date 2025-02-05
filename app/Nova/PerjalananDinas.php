@@ -72,7 +72,7 @@ class PerjalananDinas extends Resource
         return [
             Hidden::make('Kerangka Acuan ID', 'kerangka_acuan_id'),
             Stack::make('Nomor/Tanggal KAK', [
-                BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+                BelongsTo::make('Nomor:', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
@@ -94,7 +94,7 @@ class PerjalananDinas extends Resource
             Text::make('Uraian', 'uraian')
                 ->rules('required'),
             Panel::make('Surat Tugas', [
-                BelongsTo::make('Surat Tugas', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                BelongsTo::make('Surat Tugas', 'stNaskahKeluar', \App\Nova\NaskahKeluar::class)
                     ->searchable()
                     ->withSubtitles()
                     ->nullable()
@@ -162,11 +162,11 @@ class PerjalananDinas extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Kembali', 'tanggal_kembali')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
+            BelongsTo::make('Tujuan', 'tujuanMasterWilayah', \App\Nova\MasterWilayah::class)
                 ->searchable()
                 ->hideFromIndex()
                 ->rules('required'),
-            BelongsTo::make('Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+            BelongsTo::make('Mata Anggaran', 'mataAnggaran', \App\Nova\MataAnggaran::class)
                 ->searchable()
                 ->withSubtitles()
                 ->hideFromIndex()
@@ -182,7 +182,7 @@ class PerjalananDinas extends Resource
                         return $query->whereIn('id', $mataAnggaranIds);
                     });
                 }),
-            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan')
+            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', \App\Nova\DaftarPesertaPerjalanan::class)
                 ->canSee(fn () => $this->jenis === '1'),
 
         ];

@@ -73,7 +73,7 @@ class Pemeliharaan extends Resource
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])
                 ->sortable(),
-            HasMany::make('Barang Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
+            HasMany::make('Barang Pemeliharaan', 'daftarPemeliharaan', \App\Nova\DaftarPemeliharaan::class),
 
         ];
     }

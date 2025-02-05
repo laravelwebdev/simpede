@@ -59,7 +59,7 @@ class ImportMasterPersediaan extends Action
                 $persediaan->tanggal_transaksi = session('year') - 1 .'-12-31';
                 $persediaan->master_persediaan_id = $masterPersediaanId;
                 $persediaan->barang_persediaanable_id = $id_persediaan_masuk;
-                $persediaan->barang_persediaanable_type = 'App\Models\PersediaanMasuk';
+                $persediaan->barang_persediaanable_type = \App\Models\PersediaanMasuk::class;
                 $persediaan->save();
             }
         });

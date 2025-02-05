@@ -92,7 +92,7 @@ class HonorKegiatan extends Resource
                 ->sortable()
                 ->hideFromIndex()
                 ->immutable(),
-            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class)
                 ->rules('required')
                 ->readOnly()
                 ->hideWhenUpdating(),
@@ -161,7 +161,7 @@ class HonorKegiatan extends Resource
                     })
                     ->searchable()
                     ->onlyOnForms(),
-                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', \App\Nova\JenisKontrak::class)
                     ->sortable()
                     ->filterable()
                     ->exceptOnForms(),
@@ -174,7 +174,7 @@ class HonorKegiatan extends Resource
             Panel::make('Keterangan Anggaran', [
                 Text::make('MAK', 'mataAnggaran.mak')
                     ->readonly(),
-                BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+                BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', \App\Nova\MataAnggaran::class)
                     ->hideFromIndex()
                     ->readonly(),
                 Text::make('Satuan Pembayaran', 'satuan')
@@ -204,7 +204,7 @@ class HonorKegiatan extends Resource
                     })
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
-                BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
+                BelongsTo::make('Nomor SK', 'skNaskahKeluar', \App\Nova\NaskahKeluar::class)
                     ->onlyOnDetail(),
                 Select::make('Klasifikasi Arsip', 'sk_kode_arsip_id')
                     ->searchable()
@@ -250,7 +250,7 @@ class HonorKegiatan extends Resource
                     })
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->hideFromIndex(),
-                BelongsTo::make('Nomor ST', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                BelongsTo::make('Nomor ST', 'stNaskahKeluar', \App\Nova\NaskahKeluar::class)
                     ->onlyOnDetail(),
 
                 Text::make('Uraian Tugas', 'uraian_tugas')

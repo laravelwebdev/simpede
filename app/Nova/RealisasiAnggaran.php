@@ -89,7 +89,7 @@ class RealisasiAnggaran extends Resource
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
 
-            BelongsTo::make('Nomor SPP', 'daftarSp2d', 'App\Nova\DaftarSp2d')
+            BelongsTo::make('Nomor SPP', 'daftarSp2d', \App\Nova\DaftarSp2d::class)
                 ->sortable(),
             Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
                 ->sortable(),

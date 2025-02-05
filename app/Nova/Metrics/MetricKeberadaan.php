@@ -61,7 +61,7 @@ class MetricKeberadaan extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         if (is_null($this->model)) {
-            $triwulan = Helper::parseFilter($request->query->get('filter'), 'App\\Nova\\Filters\\TriwulanFilter', '1') ?: (string) now()->quarter;
+            $triwulan = Helper::parseFilter($request->query->get('filter'), \App\Nova\Filters\TriwulanFilter::class, '1') ?: (string) now()->quarter;
             $this->model = Helper::modelQuery(PerjanjianKinerja::query(), $triwulan);
         }
         $table = $this->model->newQuery();

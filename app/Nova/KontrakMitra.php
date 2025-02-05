@@ -93,7 +93,7 @@ class KontrakMitra extends Resource
                     ->filterable()
                     ->exceptOnForms()
                     ->displayUsingLabels(),
-                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', 'App\Nova\JenisKontrak')
+                BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', \App\Nova\JenisKontrak::class)
                     ->filterable()
                     ->sortable()
                     ->exceptOnForms(),
@@ -129,7 +129,7 @@ class KontrakMitra extends Resource
                     })
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->hideFromIndex(),
-                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', \App\Nova\User::class)
                     ->exceptOnForms()
                     ->sortable(),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')

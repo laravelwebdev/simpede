@@ -116,7 +116,7 @@ class BastMitra extends Resource
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)))
                             ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
                     }),
-                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', 'App\Nova\User')
+                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', \App\Nova\User::class)
                     ->sortable()
                     ->filterable()
                     ->exceptOnForms(),

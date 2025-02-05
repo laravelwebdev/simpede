@@ -28,7 +28,7 @@ class PersediaanMasuk extends Model
         static::saving(function (PersediaanMasuk $persediaan) {
             if ($persediaan->isDirty('tanggal_buku')) {
                 BarangPersediaan::where('barang_persediaanable_id', $persediaan->id)
-                    ->where('barang_persediaanable_type', 'App\Models\PersediaanMasuk')
+                    ->where('barang_persediaanable_type', \App\Models\PersediaanMasuk::class)
                     ->update(['tanggal_transaksi' => $persediaan->tanggal_buku]);
             }
         });

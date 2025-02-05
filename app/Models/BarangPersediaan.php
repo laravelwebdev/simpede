@@ -35,7 +35,7 @@ class BarangPersediaan extends Model
                 $persediaan->satuan = $persediaan->masterPersediaan->satuan;
             }
 
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan' && $persediaan->isDirty()) {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PembelianPersediaan::class && $persediaan->isDirty()) {
                 if ($persediaan->isClean('master_persediaan_id')) {
                     PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                         ->where('status', 'diterima')
@@ -46,25 +46,25 @@ class BarangPersediaan extends Model
                     ->update(['status' => 'diterima']);
             }
 
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan' && $persediaan->isDirty()) {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PermintaanPersediaan::class && $persediaan->isDirty()) {
                 PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->where('status', 'dicetak')
                     ->update(['status' => 'outdated']);
             }
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanKeluar' && $persediaan->isDirty()) {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PersediaanKeluar::class && $persediaan->isDirty()) {
                 $persediaan->tanggal_transaksi = PersediaanKeluar::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
 
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PersediaanMasuk' && $persediaan->isDirty()) {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PersediaanMasuk::class && $persediaan->isDirty()) {
                 $persediaan->tanggal_transaksi = PersediaanMasuk::find($persediaan->barang_persediaanable_id)->tanggal_buku;
             }
         });
         static::deleting(function (BarangPersediaan $persediaan) {
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PembelianPersediaan') {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PembelianPersediaan::class) {
                 PembelianPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->update(['status' => 'outdated']);
             }
-            if ($persediaan->barang_persediaanable_type == 'App\Models\PermintaanPersediaan') {
+            if ($persediaan->barang_persediaanable_type == \App\Models\PermintaanPersediaan::class) {
                 PermintaanPersediaan::where('id', $persediaan->barang_persediaanable_id)
                     ->update(['status' => 'outdated']);
             }

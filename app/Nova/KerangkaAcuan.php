@@ -135,9 +135,9 @@ class KerangkaAcuan extends Resource
                 })
                 ->onlyOnIndex(),
             Tab::group('Detail', [
-                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
-                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
-                HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
+                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', \App\Nova\AnggaranKerangkaAcuan::class),
+                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', \App\Nova\SpesifikasiKerangkaAcuan::class),
+                HasMany::make('Arsip Dokumen', 'arsipDokumen', \App\Nova\ArsipDokumen::class),
             ]),
         ];
     }

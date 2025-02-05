@@ -20,8 +20,6 @@ return new class extends Migration
             $table->text('solusi')->nullable();
             $table->text('bukti_solusi')->nullable();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->fullText('kendala')->nullable();
-            $table->fullText('solusi')->nullable();
             $table->timestamps();
         });
     }

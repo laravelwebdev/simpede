@@ -14,7 +14,6 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class AnalisisSakip extends Resource
@@ -55,7 +54,7 @@ class AnalisisSakip extends Resource
      */
     public static function searchableColumns()
     {
-        return ['kegiatan', new SearchableText('kendala'), new SearchableText('solusi')];
+        return ['kegiatan', 'kendala', 'solusi'];
     }
 
     /**

@@ -29,7 +29,6 @@ return new class extends Migration
             $table->mediumInteger('kode_arsip_id')->nullable()->unsigned();
             $table->mediumInteger('kode_naskah_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->fullText('perihal')->nullable();
             $table->timestamps();
         });
     }

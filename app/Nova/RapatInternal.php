@@ -21,7 +21,6 @@ use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 use Laravelwebdev\Repeatable\Repeatable;
 use Laravelwebdev\Time\Time;
@@ -64,7 +63,7 @@ class RapatInternal extends Resource
      */
     public static function searchableColumns()
     {
-        return ['naskahKeluar.nomor', 'tanggal', 'tema',  new SearchableText('agenda')];
+        return ['naskahKeluar.nomor', 'tanggal', 'tema',  'agenda'];
     }
 
     /**

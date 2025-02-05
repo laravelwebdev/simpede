@@ -26,7 +26,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravel\Nova\Tabs\Tab;
 
 class KerangkaAcuan extends Resource
@@ -79,7 +78,7 @@ class KerangkaAcuan extends Resource
      */
     public static function searchableColumns()
     {
-        return ['naskahKeluar.nomor', 'tanggal', new SearchableText('rincian'), 'status'];
+        return ['naskahKeluar.nomor', 'tanggal', 'rincian', 'status'];
     }
 
     /**

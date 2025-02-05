@@ -8,7 +8,6 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class PelaksanaanTindakLanjut extends Resource
@@ -49,7 +48,7 @@ class PelaksanaanTindakLanjut extends Resource
      */
     public static function searchableColumns()
     {
-        return [new SearchableText('kegiatan')];
+        return ['kegiatan'];
     }
 
     /**

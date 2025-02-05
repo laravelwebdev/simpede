@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('arsip_ssp')->nullable();
             $table->string('arsip_sp2d')->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
-            $table->fullText('uraian')->nullable();
             $table->timestamps();
         });
     }

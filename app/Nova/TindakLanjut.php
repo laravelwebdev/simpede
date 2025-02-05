@@ -14,7 +14,6 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravel\Nova\Tabs\Tab;
 use Laravelwebdev\Repeatable\Repeatable;
 
@@ -56,7 +55,7 @@ class TindakLanjut extends Resource
      */
     public static function searchableColumns()
     {
-        return [new SearchableText('tindak_lanjut')];
+        return ['tindak_lanjut'];
     }
 
     /**

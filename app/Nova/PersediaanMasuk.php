@@ -8,7 +8,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 
 class PersediaanMasuk extends Resource
 {
@@ -47,7 +46,7 @@ class PersediaanMasuk extends Resource
     {
         return [
             'naskahMasuk.nomor',
-            new SearchableText('rincian'),
+            'rincian',
         ];
     }
 

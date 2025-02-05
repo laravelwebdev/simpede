@@ -31,7 +31,6 @@ return new class extends Migration
             $table->mediumInteger('kepala_user_id')->nullable()->unsigned();
             $table->mediumInteger('notulis_user_id')->nullable()->unsigned();
             $table->mediumInteger('naskah_keluar_id')->nullable()->unsigned();
-            $table->fullText('agenda')->nullable();
             $table->timestamps();
         });
     }

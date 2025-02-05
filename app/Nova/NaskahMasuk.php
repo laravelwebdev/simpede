@@ -19,7 +19,6 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class NaskahMasuk extends Resource
@@ -80,7 +79,7 @@ class NaskahMasuk extends Resource
      */
     public static function searchableColumns()
     {
-        return ['tanggal', new SearchableText('perihal'), 'nomor', 'pengirim'];
+        return ['tanggal', 'perihal', 'nomor', 'pengirim'];
     }
 
     /**

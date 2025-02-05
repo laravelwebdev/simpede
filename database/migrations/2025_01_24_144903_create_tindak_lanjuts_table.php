@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('deadline')->nullable();
             $table->text('penanggung_jawab')->nullable();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
-            $table->fullText('tindak_lanjut')->nullable();
             $table->timestamps();
         });
     }

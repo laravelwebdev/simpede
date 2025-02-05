@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('kegiatan')->nullable();
             $table->text('bukti_dukung')->nullable();
             $table->mediumInteger('tindak_lanjut_id')->nullable()->unsigned();
-            $table->fullText('kegiatan')->nullable();
             $table->timestamps();
         });
     }

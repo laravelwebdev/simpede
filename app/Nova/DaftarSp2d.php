@@ -18,7 +18,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class DaftarSp2d extends Resource
@@ -59,7 +58,7 @@ class DaftarSp2d extends Resource
      */
     public static function searchableColumns()
     {
-        return ['tanggal_sp2d', 'nomor_sp2d', 'nomor_spp', new SearchableText('uraian')];
+        return ['tanggal_sp2d', 'nomor_sp2d', 'nomor_spp', 'uraian'];
     }
 
     /**

@@ -23,7 +23,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Laravel\Nova\Query\Search\SearchableText;
 use Laravelwebdev\Filepond\Filepond;
 
 class NaskahKeluar extends Resource
@@ -84,7 +83,7 @@ class NaskahKeluar extends Resource
      */
     public static function searchableColumns()
     {
-        return ['tanggal', new SearchableText('perihal'), 'nomor', 'tujuan'];
+        return ['tanggal', 'perihal', 'nomor', 'tujuan'];
     }
 
     /**

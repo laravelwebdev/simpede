@@ -87,7 +87,7 @@ class RapatInternal extends Resource
                 Text::make('Tema')
                     ->default('Rapat ')
                     ->help('Diawali dengan kata Rapat, contoh: Rapat Bulanan Pegawai Bulan Januari 2024')
-                    ->rules('required', 'max:80'),
+                    ->rules('required', 'max:255'),
             ]),
             Panel::make('Undangan', [
                 Date::make('Tanggal')

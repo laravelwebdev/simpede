@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal')->nullable();
             $table->string('tujuan', '80')->nullable();
-            $table->string('tema', '80')->nullable();
+            $table->string('tema')->nullable();
             $table->date('tanggal_rapat')->nullable();
             $table->time('mulai', precision: 0)->nullable();
             $table->string('tempat', '80')->nullable();

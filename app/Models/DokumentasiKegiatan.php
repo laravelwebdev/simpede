@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class DokumentasiKegiatan extends Model
 {
@@ -28,8 +28,8 @@ class DokumentasiKegiatan extends Model
             if ($dokumentasi->isDirty('file') && ! empty($dokumentasi->file) && ! $dokumentasi->uncompress) {
                 $files = array_diff($dokumentasi->file, $dokumentasi->getOriginal('file') ?? []);
                 foreach ($files as $file) {
-                    $image = Image::make(Storage::disk('dokumentasi')->path($file))
-                        ->encode('webp', 50);
+                    $image = Image::read(Storage::disk('dokumentasi')->path($file))
+                        ->toWebp(50);
                     Storage::disk('dokumentasi')->put($file, (string) $image);
                 }
             }

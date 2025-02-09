@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class PersediaanKeluar extends Model
 {
-    protected $casts = [
-        'tanggal_dokumen' => 'date',
-        'tanggal_buku' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_dokumen' => 'date',
+            'tanggal_buku' => 'date',
+        ];
+    }
 
     public function daftarBarangPersediaans(): MorphMany
     {

@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DaftarPemeliharaan extends Model
 {
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+        ];
+    }
 
     public function masterBarangPemeliharaan(): BelongsTo
     {

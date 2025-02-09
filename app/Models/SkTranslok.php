@@ -11,9 +11,12 @@ class SkTranslok extends Model
 {
     use LaraCache;
 
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+        ];
+    }
 
     public static function cacheEntities(): array
     {

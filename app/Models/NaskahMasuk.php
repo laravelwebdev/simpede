@@ -12,7 +12,10 @@ class NaskahMasuk extends Model
         return $this->belongsTo(JenisNaskah::class);
     }
 
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+        ];
+    }
 }

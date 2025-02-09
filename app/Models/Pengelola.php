@@ -16,10 +16,13 @@ class Pengelola extends Model
 
     use LaraCache;
 
-    protected $casts = [
-        'active' => 'date',
-        'inactive' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'active' => 'date',
+            'inactive' => 'date',
+        ];
+    }
 
     public static function cacheEntities(): array
     {

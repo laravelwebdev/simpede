@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class TindakLanjut extends Model
 {
-    protected $casts = [
-        'penanggung_jawab' => 'array',
-        'deadline' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'penanggung_jawab' => 'array',
+            'deadline' => 'date',
+        ];
+    }
 
     public function unitKerja(): BelongsTo
     {

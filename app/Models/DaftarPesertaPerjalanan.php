@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DaftarPesertaPerjalanan extends Model
 {
-    protected $casts = [
-        'spesifikasi' => 'array',
-        'tanggal_kuitansi' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'spesifikasi' => 'array',
+            'tanggal_kuitansi' => 'date',
+        ];
+    }
 
     public function user(): BelongsTo
     {

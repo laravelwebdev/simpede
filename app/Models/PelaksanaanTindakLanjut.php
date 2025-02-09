@@ -12,7 +12,10 @@ class PelaksanaanTindakLanjut extends Model
         return $this->belongsTo(TindakLanjut::class);
     }
 
-    protected $casts = [
-        'bukti_dukung' => 'array',
-    ];
+    public function casts(): array
+    {
+        return [
+            'bukti_dukung' => 'array',
+        ];
+    }
 }

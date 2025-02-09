@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class NaskahKeluar extends Model
 {
-    protected $casts = [
-        'tanggal' => 'date',
-        'tanggal_kirim' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'tanggal_kirim' => 'date',
+        ];
+    }
 
     /**
      * The "booted" method of the model.

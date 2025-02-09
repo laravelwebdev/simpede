@@ -11,12 +11,15 @@ class PembelianPersediaan extends Model
 {
     protected $fillable = ['status'];
 
-    protected $casts = [
-        'tanggal_bast' => 'date',
-        'tanggal_buku' => 'date',
-        'tanggal_kak' => 'date',
-        'tanggal_nota' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'tanggal_bast' => 'date',
+            'tanggal_buku' => 'date',
+            'tanggal_kak' => 'date',
+            'tanggal_nota' => 'date',
+        ];
+    }
 
     public function kerangkaAcuan(): BelongsTo
     {

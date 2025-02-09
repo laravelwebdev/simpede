@@ -14,11 +14,14 @@ class KerangkaAcuan extends Model
 {
     protected $fillable = ['status', 'daftar_sp2d_id'];
 
-    protected $casts = [
-        'tanggal' => 'date',
-        'awal' => 'date',
-        'akhir' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'awal' => 'date',
+            'akhir' => 'date',
+        ];
+    }
 
     public function naskahKeluar(): BelongsTo
     {

@@ -9,10 +9,13 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class DokumentasiKegiatan extends Model
 {
-    protected $casts = [
-        'tanggal' => 'date',
-        'file' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'file' => 'array',
+        ];
+    }
 
     public function user()
     {

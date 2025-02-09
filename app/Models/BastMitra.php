@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BastMitra extends Model
 {
-    protected $casts = [
-        'tanggal_bast' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_bast' => 'date',
+        ];
+    }
 
     protected $fillable = ['kontrak_mitra_id', 'status'];
 

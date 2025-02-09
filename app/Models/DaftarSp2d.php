@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DaftarSp2d extends Model
 {
-    protected $casts = [
-        'tanggal_sp2d' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_sp2d' => 'date',
+        ];
+    }
 
     protected $fillable = ['dipa_id', 'nomor_sp2d'];
 

@@ -11,11 +11,14 @@ class Dipa extends Model
 {
     use LaraCache;
 
-    protected $casts = [
-        'tanggal' => 'date',
-        'tanggal_revisi' => 'date',
-        'tanggal_realisasi' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'tanggal_revisi' => 'date',
+            'tanggal_realisasi' => 'date',
+        ];
+    }
 
     /**
      * Get the daftar mata anggaran.

@@ -12,9 +12,12 @@ class BarangPersediaan extends Model
         'tanggal_transaksi',
     ];
 
-    protected $casts = [
-        'tanggal_transaksi' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_transaksi' => 'date',
+        ];
+    }
 
     public function masterPersediaan(): BelongsTo
     {

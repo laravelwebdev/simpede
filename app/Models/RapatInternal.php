@@ -8,11 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RapatInternal extends Model
 {
-    protected $casts = [
-        'tanggal' => 'date',
-        'tanggal_rapat' => 'date',
-        'peserta' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'tanggal_rapat' => 'date',
+            'peserta' => 'array',
+        ];
+    }
 
     public function kasubbag(): BelongsTo
     {

@@ -12,9 +12,12 @@ class Mitra extends Model
 
     protected $fillable = ['email', 'kepka_mitra_id', 'nik', 'updated_at'];
 
-    protected $casts = [
-        'tanggal_lahir' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'tanggal_lahir' => 'date',
+        ];
+    }
 
     public static function cacheEntities(): array
     {

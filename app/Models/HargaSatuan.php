@@ -11,9 +11,12 @@ class HargaSatuan extends Model
 {
     use LaraCache;
 
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+        ];
+    }
 
     /**
      * Get the daftar mata anggaran.

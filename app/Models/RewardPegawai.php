@@ -9,9 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RewardPegawai extends Model
 {
-    protected $casts = [
-        'tanggal_penetapan' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_penetapan' => 'date',
+        ];
+    }
+
     protected $fillable = ['status'];
 
     public function user(): BelongsTo

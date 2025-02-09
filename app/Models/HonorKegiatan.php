@@ -14,14 +14,17 @@ class HonorKegiatan extends Model
         'status',
     ];
 
-    protected $casts = [
-        'tanggal_spj' => 'date',
-        'tanggal_sk' => 'date',
-        'tanggal_st' => 'date',
-        'tanggal_kak' => 'date',
-        'awal' => 'date',
-        'akhir' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_spj' => 'date',
+            'tanggal_sk' => 'date',
+            'tanggal_st' => 'date',
+            'tanggal_kak' => 'date',
+            'awal' => 'date',
+            'akhir' => 'date',
+        ];
+    }
 
     /**
      * Get the kerangka acuan that owns the honor survei.

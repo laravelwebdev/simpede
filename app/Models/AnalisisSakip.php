@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AnalisisSakip extends Model
 {
-    protected $casts = [
-        'bukti_solusi' => 'array',
-        'indikator' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'bukti_solusi' => 'array',
+            'indikator' => 'array',
+        ];
+    }
 
     public function unitKerja(): BelongsTo
     {

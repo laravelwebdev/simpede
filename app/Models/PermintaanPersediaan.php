@@ -15,10 +15,13 @@ class PermintaanPersediaan extends Model
 {
     protected $fillable = ['status'];
 
-    protected $casts = [
-        'tanggal_permintaan' => 'date',
-        'tanggal_persetujuan' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal_permintaan' => 'date',
+            'tanggal_persetujuan' => 'date',
+        ];
+    }
 
     public function daftarBarangPersediaans(): MorphMany
     {

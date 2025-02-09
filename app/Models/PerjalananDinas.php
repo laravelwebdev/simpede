@@ -11,12 +11,15 @@ class PerjalananDinas extends Model
 {
     protected $table = 'perjalanan_dinas';
 
-    protected $casts = [
-        'tanggal_spd' => 'date',
-        'tanggal_st' => 'date',
-        'tanggal_berangkat' => 'date',
-        'tanggal_kembali' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'tanggal_spd' => 'date',
+            'tanggal_st' => 'date',
+            'tanggal_berangkat' => 'date',
+            'tanggal_kembali' => 'date',
+        ];
+    }
 
     public function spdNaskahKeluar(): BelongsTo
     {

@@ -16,11 +16,14 @@ class DaftarKegiatan extends Model
         'status',
     ];
 
-    protected $casts = [
-        'awal' => 'datetime',
-        'akhir' => 'datetime',
-        'waktu_reminder' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'awal' => 'datetime',
+            'akhir' => 'datetime',
+            'waktu_reminder' => 'array',
+        ];
+    }
 
     public function daftarKegiatanable(): MorphTo
     {

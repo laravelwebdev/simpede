@@ -12,9 +12,12 @@ class DataPegawai extends Model
 {
     use LaraCache;
 
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+        ];
+    }
 
     /**
      * Get the unit kerja that owns the user.

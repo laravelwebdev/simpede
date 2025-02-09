@@ -11,9 +11,12 @@ class NaskahDefault extends Model
 {
     use LaraCache;
 
-    protected $casts = [
-        'kode_arsip_id' => 'array',
-    ];
+    public function casts(): array
+    {
+        return [
+            'kode_arsip_id' => 'array',
+        ];
+    }
 
     public function jenisNaskah(): BelongsTo
     {

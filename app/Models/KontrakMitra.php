@@ -11,11 +11,14 @@ class KontrakMitra extends Model
 {
     protected $fillable = ['status', 'tahun', 'bulan', 'jenis_kontrak_id', 'jenis_honor', 'honor_kegiatan_id'];
 
-    protected $casts = [
-        'awal_kontrak' => 'date',
-        'akhir_kontrak' => 'date',
-        'tanggal_spk' => 'date',
-    ];
+    public function casts(): array
+    {
+        return [
+            'awal_kontrak' => 'date',
+            'akhir_kontrak' => 'date',
+            'tanggal_spk' => 'date',
+        ];
+    }
 
     public function daftarKontrakMitra(): HasMany
     {

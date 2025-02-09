@@ -14,9 +14,12 @@ class DaftarReminder extends Model
         'status',
     ];
 
-    protected $casts = [
-        'tanggal' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'datetime',
+        ];
+    }
 
     public function daftarKegiatan(): BelongsTo
     {

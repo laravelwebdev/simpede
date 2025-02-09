@@ -10,10 +10,13 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class IzinKeluar extends Model
 {
-    protected $casts = [
-        'tanggal' => 'date',
-        'bukti' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tanggal' => 'date',
+            'bukti' => 'array',
+        ];
+    }
 
     /**
      * Get the post that owns the comment.

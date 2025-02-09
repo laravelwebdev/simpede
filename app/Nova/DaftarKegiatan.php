@@ -104,6 +104,7 @@ class DaftarKegiatan extends Resource
                     User::class,
                     UnitKerja::class,
                 ])
+                    ->nullable()
                     ->searchable()
                     ->hide()
                     ->withSubtitles()

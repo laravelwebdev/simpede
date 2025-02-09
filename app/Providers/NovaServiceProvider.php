@@ -54,6 +54,7 @@ use App\Nova\UnitKerja;
 use App\Nova\User;
 use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
@@ -210,10 +211,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             if ($user &&
                 Hash::check($request->password, $user->password)) {
-                $roles = Pengelola::cache()->get('all')->where('user_id', $user->id)->whereNull('inactive')->pluck('role')->toArray();
-                session(['role' => $roles]);
-                session(['year' => $request->year]);
-
+                    if ($request->remember) {
+                        Cookie::queue('simpede_year', $request->year, 576000); // Cookie berlaku selama 400 hari
+                    }
                 return $user;
             }
         });

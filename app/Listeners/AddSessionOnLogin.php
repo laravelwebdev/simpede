@@ -30,6 +30,6 @@ class AddSessionOnLogin
             ->toArray();
         $year = $event->remember ? request()->cookie('simpede_year') : request()->input('year');
         Session::put('role', $roles);
-        Session::put('year', $year);
+        Session::put('year', $year ?? date('Y'));
     }
 }

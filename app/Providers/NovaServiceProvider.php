@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\Pengelola;
 use App\Models\User as UserModel;
 use App\Nova\AnalisisSakip;
 use App\Nova\BastMitra;
@@ -211,9 +210,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             if ($user &&
                 Hash::check($request->password, $user->password)) {
-                    if ($request->remember) {
-                        Cookie::queue('simpede_year', $request->year, 576000); // Cookie berlaku selama 400 hari
-                    }
+                if ($request->remember) {
+                    Cookie::queue('simpede_year', $request->year, 576000); // Cookie berlaku selama 400 hari
+                }
+
                 return $user;
             }
         });

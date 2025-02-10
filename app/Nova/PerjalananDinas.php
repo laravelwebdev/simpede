@@ -183,7 +183,7 @@ class PerjalananDinas extends Resource
                         return $query->whereIn('id', $mataAnggaranIds);
                     });
                 }),
-            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', DaftarPesertaPerjalanan::class),
+            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', DaftarPesertaPerjalanan::class)
                 ->canSee(fn () => $this->jenis === '1'),
 
         ];

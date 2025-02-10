@@ -104,7 +104,7 @@ class PermintaanPersediaan extends Resource
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
-            BelongsTo::make('Pengelola Persediaan', 'pbmn', User::class))
+            BelongsTo::make('Pengelola Persediaan', 'pbmn', User::class)
                 ->exceptOnForms()
                 ->sortable()
                 ->canSee(fn () => Policy::make()

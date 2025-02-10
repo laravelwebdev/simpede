@@ -3,10 +3,9 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Policy;
-use App\Models\User;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\Keberadaan;
-use App\Nova\User as UserResource;
+use App\Nova\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
@@ -114,7 +113,7 @@ class PemeliharaanBarang extends Lens
             Text::make('Lokasi')
                 ->sortable()
                 ->readonly(),
-            BelongsTo::make('Pemegang', 'user', UserResource::class)
+            BelongsTo::make('Pemegang', 'user', User::class)
                 ->searchable()
                 ->withSubtitles(),
             Number::make('Pemeliharaan', 'jumlah')

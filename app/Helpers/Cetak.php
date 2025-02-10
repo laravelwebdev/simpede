@@ -59,7 +59,7 @@ class Cetak
 
         $mainTemplate->settempDocumentMainPart($mainXml);
         $filename .= '_'.uniqid().'.docx';
-        $mainTemplate->saveAs(Storage::path('public/'.$filename));
+        $mainTemplate->saveAs(Storage::path('public/.temp/'.$filename));
 
         return $filename;
     }

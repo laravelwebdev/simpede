@@ -91,7 +91,7 @@ class KerangkaAcuan extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
             Stack::make('Nomor/Tanggal', 'tanggal', [
-                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar'),
+                BelongsTo::make('Nomor', 'naskahKeluar', NaskahKeluar::class),
                 Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
@@ -134,9 +134,9 @@ class KerangkaAcuan extends Resource
                 })
                 ->onlyOnIndex(),
             Tab::group('Detail', [
-                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', 'App\Nova\AnggaranKerangkaAcuan'),
-                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', 'App\Nova\SpesifikasiKerangkaAcuan'),
-                HasMany::make('Arsip Dokumen', 'arsipDokumen', 'App\Nova\ArsipDokumen'),
+                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
+                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
+                HasMany::make('Arsip Dokumen', 'arsipDokumen', ArsipDokumen::class),
             ]),
         ];
     }
@@ -243,7 +243,7 @@ class KerangkaAcuan extends Resource
                     }
                 })
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
+            BelongsTo::make('Nomor', 'naskahKeluar', NaskahKeluar::class)
                 ->onlyOnDetail(),
             Text::make('Rincian', 'rincian')
                 ->rules('required')

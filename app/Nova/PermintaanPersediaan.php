@@ -74,7 +74,7 @@ class PermintaanPersediaan extends Resource
     {
         return [
             Stack::make('Nomor/tanggal', 'tanggal_permintaan', [
-                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\NaskahKeluar')
+                BelongsTo::make('Nomor', 'naskahKeluar', NaskahKeluar::class)
                     ->exceptOnForms(),
                 Date::make('Tanggal', 'naskahKeluar.tanggal')
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value)),
@@ -91,7 +91,7 @@ class PermintaanPersediaan extends Resource
             Textarea::make('Catatan', 'keterangan')
                 ->rules('required')
                 ->alwaysShow(),
-            BelongsTo::make('Pemohon', 'user', 'App\Nova\User')
+            BelongsTo::make('Pemohon', 'user', User::class)
                 ->sortable()
                 ->filterable()
                 ->exceptOnForms(),
@@ -104,7 +104,7 @@ class PermintaanPersediaan extends Resource
                 ->canSee(fn () => Policy::make()
                     ->allowedFor('bmn')
                     ->get()),
-            BelongsTo::make('Pengelola Persediaan', 'pbmn', 'App\Nova\User')
+            BelongsTo::make('Pengelola Persediaan', 'pbmn', User::class))
                 ->exceptOnForms()
                 ->sortable()
                 ->canSee(fn () => Policy::make()
@@ -149,7 +149,7 @@ class PermintaanPersediaan extends Resource
                     :
                 Text::make('Arsip BON', fn () => null)->exceptOnForms(),
             ]),
-            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', BarangPersediaan::class),
         ];
     }
 

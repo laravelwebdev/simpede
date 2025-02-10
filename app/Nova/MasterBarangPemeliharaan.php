@@ -95,12 +95,12 @@ class MasterBarangPemeliharaan extends Resource
                 ->sortable()
                 ->showWhenPeeking()
                 ->readonly(),
-            BelongsTo::make('Pemegang', 'user', 'App\Nova\User')
+            BelongsTo::make('Pemegang', 'user', User::class)
                 ->sortable()
                 ->showWhenPeeking()
                 ->searchable()
                 ->withSubtitles(),
-            HasMany::make('Daftar Pemeliharaan', 'daftarPemeliharaan', 'App\Nova\DaftarPemeliharaan'),
+            HasMany::make('Daftar Pemeliharaan', 'daftarPemeliharaan', DaftarPemeliharaan::class),
 
         ];
     }

@@ -58,7 +58,7 @@ class PersediaanMasuk extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Nomor Naskah Masuk', 'naskahMasuk', 'App\Nova\NaskahMasuk')
+            BelongsTo::make('Nomor Naskah Masuk', 'naskahMasuk', NaskahMasuk::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -75,7 +75,7 @@ class PersediaanMasuk extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required', 'after_or_equal:tanggal_dokumen'),
 
-            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', BarangPersediaan::class),
         ];
     }
 

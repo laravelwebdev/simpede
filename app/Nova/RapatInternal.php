@@ -94,7 +94,7 @@ class RapatInternal extends Resource
                     ->hideFromIndex()
                     ->rules('required', 'before_or_equal:today', 'before_or_equal:tanggal_rapat')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-                BelongsTo::make('Nomor', 'naskahKeluar', 'App\Nova\naskahKeluar')
+                BelongsTo::make('Nomor', 'naskahKeluar', NaskahKeluar::class)
                     ->onlyOnDetail(),
                 Text::make('Tujuan')
                     ->hideFromIndex()

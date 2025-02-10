@@ -55,7 +55,7 @@ class DaftarHonorPegawai extends Resource
                 ->updateRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId))
                 ->onlyOnForms(),
-            BelongsTo::make('Nama Pegawai', 'user', 'App\Nova\User')
+            BelongsTo::make('Nama Pegawai', 'user', User::class)
                 ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
                 ->step(0.01)

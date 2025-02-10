@@ -48,7 +48,7 @@ class DaftarPenilaianReward extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Pegawai', 'user', 'App\Nova\User')
+            BelongsTo::make('Pegawai', 'user', User::class)
                 ->readOnly(),
             Number::make('Nilai SKP')
                 ->step(1)

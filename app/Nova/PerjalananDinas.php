@@ -7,6 +7,7 @@ use App\Models\AnggaranKerangkaAcuan;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\NaskahKeluar;
+use App\Nova\NaskahKeluar as ResourceNaskahKeluar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\BelongsTo;
@@ -72,7 +73,7 @@ class PerjalananDinas extends Resource
         return [
             Hidden::make('Kerangka Acuan ID', 'kerangka_acuan_id'),
             Stack::make('Nomor/Tanggal KAK', [
-                BelongsTo::make('Nomor:', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+                BelongsTo::make('Nomor:', 'kerangkaAcuan', KerangkaAcuan::class),
                 Date::make('Tanggal:', 'kerangkaAcuan.tanggal')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
@@ -94,7 +95,7 @@ class PerjalananDinas extends Resource
             Text::make('Uraian', 'uraian')
                 ->rules('required'),
             Panel::make('Surat Tugas', [
-                BelongsTo::make('Surat Tugas', 'stNaskahKeluar', 'App\Nova\NaskahKeluar')
+                BelongsTo::make('Surat Tugas', 'stNaskahKeluar', ResourceNaskahKeluar::class)
                     ->searchable()
                     ->withSubtitles()
                     ->nullable()
@@ -162,11 +163,11 @@ class PerjalananDinas extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Date::make('Tanggal Kembali', 'tanggal_kembali')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            BelongsTo::make('Tujuan', 'tujuanMasterWilayah', 'App\Nova\MasterWilayah')
+            BelongsTo::make('Tujuan', 'tujuanMasterWilayah', MasterWilayah::class)
                 ->searchable()
                 ->hideFromIndex()
                 ->rules('required'),
-            BelongsTo::make('Mata Anggaran', 'mataAnggaran', 'App\Nova\MataAnggaran')
+            BelongsTo::make('Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
                 ->searchable()
                 ->withSubtitles()
                 ->hideFromIndex()
@@ -182,7 +183,7 @@ class PerjalananDinas extends Resource
                         return $query->whereIn('id', $mataAnggaranIds);
                     });
                 }),
-            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', 'App\Nova\DaftarPesertaPerjalanan')
+            HasMany::make('Daftar Peserta Perjalanan', 'daftarPesertaPerjalanan', DaftarPesertaPerjalanan::class),
                 ->canSee(fn () => $this->jenis === '1'),
 
         ];

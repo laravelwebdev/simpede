@@ -55,7 +55,7 @@ class DaftarPemeliharaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Objek Pemeliharaan', 'masterBarangPemeliharaan', 'App\Nova\MasterBarangPemeliharaan')
+            BelongsTo::make('Objek Pemeliharaan', 'masterBarangPemeliharaan', MasterBarangPemeliharaan::class)
                 ->searchable()
                 ->withSubtitles()
                 ->rules('required'),

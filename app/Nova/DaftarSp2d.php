@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\DaftarSp2d as ModelsDaftarSp2d;
 use App\Models\KerangkaAcuan;
+use App\Nova\KerangkaAcuan as ResourceKerangkaAcuan;
 use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
@@ -206,8 +207,8 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('SP2D', fn () => null)->exceptOnForms(),
             ]),
-            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', 'App\Nova\RealisasiAnggaran'),
-            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', RealisasiAnggaran::class),
+            BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
                 ->searchable()
                 ->withSubtitles(),
         ];

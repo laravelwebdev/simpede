@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper; // Ensure this class exists and is correctly imported
+use App\Helpers\Helper;
 
 class HomeController extends Controller
 {
-    public function show()
+    public function __invoke()
     {
         return view('welcome', [
             'version' => Helper::version(),

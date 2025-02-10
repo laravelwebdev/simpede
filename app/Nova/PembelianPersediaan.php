@@ -83,7 +83,7 @@ class PembelianPersediaan extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->hideFromIndex()
                 ->immutable(),
-            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan')
+            BelongsTo::make('Nomor KAK', 'kerangkaAcuan', KerangkaAcuan::class)
                 ->onlyOnDetail(),
             Text::make('Rincian')
                 ->rules('required'),
@@ -94,7 +94,7 @@ class PembelianPersediaan extends Resource
                     ->readonly(fn () => Policy::make()
                         ->allowedFor('bmn')
                         ->get()),
-                BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', 'App\Nova\naskahKeluar')
+                BelongsTo::make('Nomor BAST', 'bastNaskahKeluar', NaskahKeluar::class)
                     ->onlyOnDetail(),
 
                 Date::make('Tanggal BAST', 'tanggal_bast')
@@ -162,7 +162,7 @@ class PembelianPersediaan extends Resource
                     :
                 Text::make('Arsip', fn () => null)->exceptOnForms(),
             ]),
-            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', 'App\Nova\BarangPersediaan'),
+            MorphMany::make('Daftar Barang Persediaan', 'daftarBarangPersediaans', BarangPersediaan::class),
         ];
     }
 
@@ -170,12 +170,12 @@ class PembelianPersediaan extends Resource
     {
         return [
             Stack::make('Nomor/Tanggal KAK', 'tanggal_kak', [
-                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', 'App\Nova\KerangkaAcuan'),
+                BelongsTo::make('Nomor KAK', 'kerangkaAcuan', KerangkaAcuan::class),
                 Date::make('Tanggal KAK', 'tanggal_kak')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Stack::make('Nomor/Tanggal BAST', 'tanggal_bast', [
-                BelongsTo::make('Nomor', 'bastNaskahKeluar', 'App\Nova\naskahKeluar'),
+                BelongsTo::make('Nomor', 'bastNaskahKeluar', NaskahKeluar::class),
                 Date::make('Tanggal BAST', 'tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),

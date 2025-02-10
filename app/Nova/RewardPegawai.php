@@ -80,9 +80,9 @@ class RewardPegawai extends Resource
                 ->displayUsingLabels()
                 ->updateRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))->ignore($this->id))
                 ->creationRules('required', Rule::unique('reward_pegawais', 'bulan')->where('tahun', session('year'))),
-            BelongsTo::make('Employee of The Month', 'user', 'App\Nova\User')
+            BelongsTo::make('Employee of The Month', 'user', User::class)
                 ->exceptOnForms(),
-            BelongsTo::make('Nomor SK', 'skNaskahKeluar', 'App\Nova\NaskahKeluar')
+            BelongsTo::make('Nomor SK', 'skNaskahKeluar', NaskahKeluar::class)
                 ->exceptOnForms(),
             Status::make('Status')
                 ->loadingWhen(['dibuat', 'dinilai', 'diimport'])
@@ -173,7 +173,7 @@ class RewardPegawai extends Resource
                     :
                 Text::make('Sertifikat', fn () => null)->exceptOnForms(),
             ]),
-            HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', 'App\Nova\DaftarPenilaianReward'),
+            HasMany::make('Daftar Penilaian', 'daftarPenilaianReward', DaftarPenilaianReward::class),
         ];
     }
 

@@ -8,7 +8,7 @@ class DumpDownloadController extends Controller
 {
     private const STORAGE_PATH = 'public/';
 
-    public function show(string $filename)
+    public function __invoke(string $filename)
     {
         $path = Storage::path(self::STORAGE_PATH.$filename);
 

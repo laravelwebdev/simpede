@@ -1,29 +1,32 @@
 <?php
 
+use App\Http\Controllers\ArsipController;
+use App\Http\Controllers\DumpDownloadController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\ValidateAccessToken;
 use Illuminate\Support\Facades\Route;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Nova;
 
-Route::get('/', 'App\Http\Controllers\HomeController@show')->name('welcome');
+Route::get('/', HomeController::class)->name('welcome');
 
-Route::get('/dump-download/{filename}', 'App\Http\Controllers\DumpDownloadController@show')
+Route::get('/dump-download/{filename}', DumpDownloadController::class)
     ->name('dump-download')
     ->middleware(Authenticate::class)
     ->prefix(Nova::path());
-Route::get('/arsip-dokumen/{token}', 'App\Http\Controllers\ArsipController@perKro')
+Route::get('/arsip-dokumen/{token}', [ArsipController::class, 'perKro'])
     ->name('arsip-per-kro')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());
-Route::get('/arsip-dokumen/{token}/kro/{kro}', 'App\Http\Controllers\ArsipController@perDetail')
+Route::get('/arsip-dokumen/{token}/kro/{kro}', [ArsipController::class, 'perDetail'])
     ->name('arsip-per-detail')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());
-Route::get('/arsip-dokumen/{token}/coa/{coa}', 'App\Http\Controllers\ArsipController@perKak')
+Route::get('/arsip-dokumen/{token}/coa/{coa}', [ArsipController::class, 'perKak'])
     ->name('arsip-per-kak')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());
-Route::get('/arsip-dokumen/{token}/kak/{kak}', 'App\Http\Controllers\ArsipController@daftarFile')
+Route::get('/arsip-dokumen/{token}/kak/{kak}', [ArsipController::class, 'daftarFile'])
     ->name('daftar-file')
     ->middleware(ValidateAccessToken::class)
     ->prefix(Nova::path());

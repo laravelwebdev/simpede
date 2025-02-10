@@ -10,7 +10,7 @@ use Laravel\Nova\Nova;
 
 Route::get('/', HomeController::class)->name('welcome');
 
-Route::post('/dump-download/{filename}', DumpDownloadController::class)
+Route::get('/dump-download/{filename}', DumpDownloadController::class)
     ->name('dump-download')
     ->middleware(Authenticate::class)
     ->prefix(Nova::path());

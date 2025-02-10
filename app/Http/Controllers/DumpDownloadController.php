@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DumpDownloadController extends Controller
 {
-    private const STORAGE_PATH = 'public/';
+    private const STORAGE_PATH = 'public/.temp/';
 
     public function __invoke(string $filename)
     {

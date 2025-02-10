@@ -10,6 +10,8 @@ use Laravel\Nova\Metrics\Table;
 
 class IssuesTable extends Table
 {
+    public $name = 'Bugs & Issues';
+
     /**
      * Calculate the value of the metric.
      *

@@ -108,4 +108,6 @@ php artisan schedule:run >> /dev/null 2>&1
 Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
 - Ubah setting Sentry pada file `.env`
   * `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
-
+* `SENTRY_ORGANIZATION_ID`: Isi Sentry Organization id Anda
+* `SENTRY_PROJECT_ID`: Project id
+* `SENTRY_AUTH_TOKEN`: Auth token

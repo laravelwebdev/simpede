@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 class ShareLink extends Model
@@ -13,7 +12,7 @@ class ShareLink extends Model
         static::saving(function (ShareLink $shareLink) {
             $token = Str::random(32);
             $shareLink->token = $token;
-            $shareLink->link = url(Config::get('nova.path')).'/arsip-dokumen/'.$token;
+            $shareLink->link = url(config('nova.path')).'/arsip-dokumen/'.$token;
         });
     }
 }

@@ -188,7 +188,7 @@ class ExportTemplateCmsBri extends Action
                 ->default(config('satker.rekening'))
                 ->rules('required'),
             Text::make('Remark', 'remark')
-                ->rules('required')
+                ->rules('required', 'regex:/^[a-zA-Z0-9_\-\s]+$/', 'max:50')
                 ->default('Honor '.$this->kegiatan),
             Text::make('Nama File', 'filename')
                 ->rules('required', 'regex:/^[a-zA-Z0-9_\-\s]+$/')

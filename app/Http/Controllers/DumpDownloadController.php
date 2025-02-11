@@ -8,9 +8,9 @@ class DumpDownloadController extends Controller
 {
     public function __invoke(string $filename)
     {
-        $path = Storage::disk('public')->path(config('app.download_temp').'/'.$filename);
+        $path = Storage::disk('temp')->path($filename);
 
-        if (! Storage::disk('public')->path(config('app.download_temp').'/'.$filename)) {
+        if (! Storage::disk('temp')->path($filename)) {
             abort(404, 'File not found.');
         }
 

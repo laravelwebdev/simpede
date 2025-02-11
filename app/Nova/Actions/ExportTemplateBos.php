@@ -45,7 +45,7 @@ class ExportTemplateBos extends Action
             'Template' => $sheetCollection,
             $model->sheet_name => Helper::makeCollectionForExportOnSheet($model->id, $model->tangal_spj, 2),
         ]);
-        (new FastExcel($sheets))->export(Storage::path('public/'.$filename));
+        (new FastExcel($sheets))->export(Storage::path('public/.temp/'.$filename));
 
         return Action::redirect(route('dump-download', [
             'filename' => $filename,

@@ -171,6 +171,6 @@ return [
     |
     */
 
-    'download_temp' => '.tmp',
+    'download_temp' => '.temp',
 
 ];

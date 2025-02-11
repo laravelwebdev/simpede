@@ -1125,47 +1125,47 @@ class Helper
 
             // Mengambil nomor dokumen berdasarkan tipe barang persediaan
             $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
-                "App\Models\PembelianPersediaan" => $item->barangPersediaanable
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
                     ->bastNaskahKeluar->nomor,
-                "App\Models\PermintaanPersediaan" => $item->barangPersediaanable
+                \App\Models\PermintaanPersediaan::class => $item->barangPersediaanable
                     ->naskahKeluar->nomor,
-                "App\Models\PersediaanMasuk" => $item->barangPersediaanable
+                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable
                     ->naskahMasuk->nomor,
-                "App\Models\PersediaanKeluar" => $item->barangPersediaanable
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable
                     ->naskahKeluar->nomor,
             };
 
             // Mengambil uraian berdasarkan tipe barang persediaan
             $item['uraian'] = match (get_class($item->barangPersediaanable)) {
-                "App\Models\PembelianPersediaan" => $item->barangPersediaanable
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
                     ->rincian,
-                "App\Models\PermintaanPersediaan" => 'Permintaan Persediaan oleh '.
+                \App\Models\PermintaanPersediaan::class => 'Permintaan Persediaan oleh '.
                   $item->barangPersediaanable->user->name.
                   ' untuk '.
                   $item->barangPersediaanable->kegiatan,
-                "App\Models\PersediaanMasuk" => $item->barangPersediaanable->rincian,
-                "App\Models\PersediaanKeluar" => $item->barangPersediaanable->rincian
+                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable->rincian,
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->rincian
             };
 
             // Menghitung volume masuk dan keluar
             $item['masuk'] = match (get_class($item->barangPersediaanable)) {
-                "App\Models\PembelianPersediaan" => $item->volume,
-                "App\Models\PersediaanMasuk" => $item->volume,
+                \App\Models\PembelianPersediaan::class => $item->volume,
+                \App\Models\PersediaanMasuk::class => $item->volume,
                 default => '-'
             };
 
             $item['keluar'] = match (get_class($item->barangPersediaanable)) {
-                "App\Models\PermintaanPersediaan" => $item->volume,
-                "App\Models\PersediaanKeluar" => $item->volume,
+                \App\Models\PermintaanPersediaan::class => $item->volume,
+                \App\Models\PersediaanKeluar::class => $item->volume,
                 default => '-'
             };
 
             // Menghitung sisa stok
             $item['sisa'] = match (get_class($item->barangPersediaanable)) {
-                "App\Models\PembelianPersediaan", "App\Models\PersediaanMasuk" => $stok +
+                \App\Models\PembelianPersediaan::class, \App\Models\PersediaanMasuk::class => $stok +
                   $item['volume'],
-                "App\Models\PermintaanPersediaan",
-                "App\Models\PersediaanKeluar" => $stok - $item['volume']
+                \App\Models\PermintaanPersediaan::class,
+                \App\Models\PersediaanKeluar::class => $stok - $item['volume']
             };
 
             // Memperbarui stok
@@ -1878,7 +1878,7 @@ class Helper
             '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
             '{tanggal}' => Helper::terbilangTanggal($kegiatan->awal),
             '{kegiatan}' => $kegiatan->kegiatan,
-            '{pj}' => $kegiatan->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
+            '{pj}' => $kegiatan->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
         ]);
         $response = Fonnte::make()->sendWhatsAppMessage($kegiatan->wa_group_id, $pesan);
         $reminder->status = $response['data']['process'] ?? 'Gagal';

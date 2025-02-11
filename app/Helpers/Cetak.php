@@ -94,14 +94,14 @@ class Cetak
             unset($data['daftar_barang']);
             $pembelian = PembelianPersediaan::where('id', $id);
             $pembelian->update(['status' => 'dicetak']);
-            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->update(['tanggal_transaksi' => $pembelian->first()->tanggal_buku]);
+            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', \App\Models\PembelianPersediaan::class)->update(['tanggal_transaksi' => $pembelian->first()->tanggal_buku]);
         }
         if ($jenis === 'bon') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatBarangPersediaan($data['daftar_barang']));
             unset($data['daftar_barang']);
             $permintaan = PermintaanPersediaan::where('id', $id);
             $permintaan->update(['status' => 'dicetak']);
-            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->update(['tanggal_transaksi' => $permintaan->first()->tanggal_persetujuan]);
+            BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', \App\Models\PermintaanPersediaan::class)->update(['tanggal_transaksi' => $permintaan->first()->tanggal_persetujuan]);
         }
         if ($jenis === 'sk') {
             $templateProcessor->cloneRowAndSetValues('sk_no', $data['daftar_petugas']);
@@ -678,7 +678,7 @@ class Cetak
             'bmn' => Helper::getPropertyFromCollection($bmn, 'name'),
             'bmn_ttd' => Helper::namaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
             'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
-            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PembelianPersediaan')->get()->toArray(),
+            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', \App\Models\PembelianPersediaan::class)->get()->toArray(),
         ];
     }
 
@@ -707,7 +707,7 @@ class Cetak
             'nip' => Helper::getPropertyFromCollection($pembuat, 'nip'),
             'bmn' => Helper::upperNamaTanpaGelar(Helper::getPropertyFromCollection($bmn, 'name')),
             'nipbmn' => Helper::getPropertyFromCollection($bmn, 'nip'),
-            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', 'App\Models\PermintaanPersediaan')->get()->toArray(),
+            'daftar_barang' => BarangPersediaan::where('barang_persediaanable_id', $id)->where('barang_persediaanable_type', \App\Models\PermintaanPersediaan::class)->get()->toArray(),
         ];
     }
 

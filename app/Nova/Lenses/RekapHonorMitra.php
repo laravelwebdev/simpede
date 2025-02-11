@@ -40,7 +40,7 @@ class RekapHonorMitra extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        $filtered_bulan = Helper::parseFilter($request->query->get('filters'), 'App\\Nova\\Filters\\BulanFilter', date('m'));
+        $filtered_bulan = Helper::parseFilter($request->query->get('filters'), \App\Nova\Filters\BulanFilter::class, date('m'));
         $filtered_kegiatan = Helper::parseFilter($request->query->get('filters'), 'Select:jenis_kontrak_id', null);
 
         return $request->withoutTableOrderPrefix()->withOrdering(

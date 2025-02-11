@@ -6,13 +6,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DumpDownloadController extends Controller
 {
-    private const STORAGE_PATH = 'public/.temp/';
-
     public function __invoke(string $filename)
     {
-        $path = Storage::path(self::STORAGE_PATH.$filename);
+        $path = Storage::disk('public')->path(config('app.download_temp').'/'.$filename);
 
-        if (! Storage::exists(self::STORAGE_PATH.$filename)) {
+        if (! Storage::disk('public')->path(config('app.download_temp').'/'.$filename)) {
             abort(404, 'File not found.');
         }
 

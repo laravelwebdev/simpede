@@ -164,4 +164,13 @@ return [
     'sentry_project' => env('SENTRY_PROJECT_ID'),
     'sentry_token' => env('SENTRY_AUTH_TOKEN'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Download Temporary Folder
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'download_temp' => '.tmp',
+
 ];

@@ -28,7 +28,7 @@ class FormRencanaAksi extends Lens
      */
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
-        $triwulan = Helper::parseFilter($request->query->get('filters'), 'App\\Nova\\Filters\\TriwulanFilter', '1') ?: (string) now()->quarter;
+        $triwulan = Helper::parseFilter($request->query->get('filters'), \App\Nova\Filters\TriwulanFilter::class, '1') ?: (string) now()->quarter;
         $model = Helper::modelQuery($query, $triwulan);
 
         return $request->withOrdering($request->withFilters(

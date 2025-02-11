@@ -90,7 +90,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             $event->notes('Mulai: '.RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
         if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline') {
-            $pj = $event->model()->daftar_kegiatanable_type == 'App\Models\UnitKerja' ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
+            $pj = $event->model()->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
             $event->notes('PJ: '.$pj);
             if ($event->model()->jenis == 'Kegiatan') {
                 $event->addBadges('🏢');

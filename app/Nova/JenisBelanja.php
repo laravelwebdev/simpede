@@ -10,6 +10,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class JenisBelanja extends Resource
 {
     public static $displayInNavigation = false;
+
     public static $with = ['dipa', 'targetSerapanAnggaran'];
 
     /**
@@ -97,6 +98,7 @@ class JenisBelanja extends Resource
     {
         return [];
     }
+
     public static $indexDefaultOrder = [
         'kode' => 'asc',
     ];

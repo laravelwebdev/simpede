@@ -80,7 +80,7 @@
             font-weight: 700;
             }
             .h-screen {
-            height: 100vh;
+            height: 100%;
             }
             .leading-normal {
             line-height: 1.5;
@@ -117,7 +117,7 @@
             font-style: italic;
             }
             .w-screen {
-            width: 100vw;
+            width: 100%;
             }@media (min-width:768px) {
             .md\:flex-row {
             flex-direction: row;

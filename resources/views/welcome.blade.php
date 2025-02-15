@@ -1123,28 +1123,39 @@
               </svg>
             </div>
             @if (Route::has('login'))
-            <nav class="-mx-3 flex flex-1 justify-end">
+            <nav class="-mx-3 flex flex-1 justify-end items-center">
+              <button
+              id="theme-toggle"
+              class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+              >
+              <svg id="theme-icon" class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path id="sun-icon"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                <path id="moon-icon"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                <path id="system-icon"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"  />
+              </svg>
+              
+              </button>
               @auth
               <a
-                href="{{ config('nova.path') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+              href="{{ config('nova.path') }}"
+              class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
               >
-                Dashboard
+              Dashboard
               </a>
               @else
               <a
-                href="{{ route('login') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+              href="{{ route('login') }}"
+              class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
               >
-                Log in
+              Log in
               </a>
 
               @if (Route::has('register'))
               <a
-                href="{{ route('register') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+              href="{{ route('register') }}"
+              class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#18B69C] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
               >
-                Register
+              Register
               </a>
               @endif @endauth
             </nav>
@@ -1416,8 +1427,62 @@
       </div>
     </div>
     <script>
-      const theme = localStorage.getItem('novaTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
+      const themeToggle = document.getElementById('theme-toggle');
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+      const systemIcon = document.getElementById('system-icon');
+
+      const updateThemeIcon = (theme) => {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.add('hidden');
+        systemIcon.classList.add('hidden');
+        if (theme === 'light') {
+          sunIcon.classList.remove('hidden');
+        } else if (theme === 'dark') {
+          moonIcon.classList.remove('hidden');
+        } else {
+          systemIcon.classList.remove('hidden');
+        }
+      };
+
+      themeToggle.addEventListener('click', () => {
+        let theme = localStorage.getItem('novaTheme') || 'system';
+        if (theme === 'light') {
+          theme = 'dark';
+        } else if (theme === 'dark') {
+          theme = 'system';
+        } else {
+          theme = 'light';
+        }       
+        updateThemeIcon(theme);
+        if (theme === 'system') {
+          localStorage.removeItem('novaTheme');
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        } else {
+          localStorage.setItem('novaTheme', theme);
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      });
+
+      // Initialize theme on page load
+      const initTheme = () => {
+        let theme = localStorage.getItem('novaTheme') || 'system';
+        updateThemeIcon(theme);
+        if (theme === 'system') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      };
+
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('novaTheme')) {
+          const newTheme = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', newTheme);         
+        }
+      });
+      
+      initTheme();
     </script>
   </body>
 </html>

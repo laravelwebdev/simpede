@@ -69,7 +69,7 @@
       }
       [data-theme="dark"] {
         .dark\:bg-gray-700 {
-          background-color:rgb(40, 47, 58);
+          background-color: #111827; 
         }
         .dark\:text-gray-400 {
           color: #9ca3af;

@@ -11,7 +11,7 @@ class ArsipController extends Controller
 {
     public function perKro($token)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::where('token', $token)->with('tahun')->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
 
         $subquery = DB::table('mata_anggarans')
@@ -33,7 +33,7 @@ class ArsipController extends Controller
 
     public function perDetail($token, $kro)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::where('token', $token)->with('tahun')->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
 
         $data = DB::table('mata_anggarans')
@@ -52,7 +52,7 @@ class ArsipController extends Controller
 
     public function perKak($token, $coa)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::where('token', $token)->with('tahun')->first()->tahun;
         $kakIds = DB::table('anggaran_kerangka_acuans')
             ->select('kerangka_acuan_id')
             ->where('mata_anggaran_id', $coa)
@@ -72,7 +72,7 @@ class ArsipController extends Controller
 
     public function daftarFile($token, $kak)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::where('token', $token)->with('tahun')->first()->tahun;
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $files = Storage::disk('arsip')->files($path);
         $perPage = 15;

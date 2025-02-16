@@ -6,6 +6,7 @@ use App\Models\Dipa;
 use App\Models\ShareLink;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class ArsipController extends Controller
 {
@@ -89,5 +90,37 @@ class ArsipController extends Controller
             'level' => 'FILE',
             'data' => $data,
         ]);
+    }
+
+    public function downloadFolder($token, $kak)
+    {
+        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
+        $folderPath = Storage::disk('arsip')->path($path);
+        $files = Storage::disk('arsip')->files($path);
+        $zipFileName = uniqid().'.zip';
+        $zipFilePath = Storage::disk('temp')->path($zipFileName);
+
+        if (! empty($files)) {
+            $zip = new ZipArchive;
+            if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+                $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($folderPath), \RecursiveIteratorIterator::LEAVES_ONLY);
+                foreach ($files as $file) {
+                    if (! $file->isDir()) {
+                        $relativePath = substr($file->getRealPath(), strlen($folderPath) + 1);
+                        $zip->addFile($file->getRealPath(), $relativePath);
+                    }
+                }
+
+                $zip->close();
+            }
+
+            return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        } else {
+            return redirect()->back()->with([
+                'message' => 'Folder kosong, tidak ada file untuk diunduh.',
+                'type' => 'danger',
+            ]);
+        }
     }
 }

@@ -224,7 +224,7 @@
                                 </div>
 
                                 <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Source Code</h2>
+                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laporkan Bugs & Error</h2>
 
                                     <p class="mt-4 text-sm/relaxed">
                                         Jika Anda menemukan bug atau memiliki ide untuk fitur baru, silakan laporkan atau ajukan melalui GitHub kami. Kontribusi Anda sangat berharga untuk meningkatkan kualitas dan fungsionalitas aplikasi ini.

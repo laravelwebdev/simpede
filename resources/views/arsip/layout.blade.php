@@ -183,6 +183,6 @@
         </div>
       </div>
     </section>
-    @yield('toasr')
+    @yield('script')
   </body>
 </html>

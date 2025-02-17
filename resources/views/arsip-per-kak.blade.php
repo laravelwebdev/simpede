@@ -40,7 +40,7 @@
   </tbody>
 </table>
 @endsection
-@section('toasr')
+@section('script')
 @if(session('message') && session('type'))
 <script>
   new CustomToast().show("{{ session('message') }}", "{{ session('type') }}", 10000);

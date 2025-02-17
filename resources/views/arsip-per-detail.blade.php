@@ -1,6 +1,19 @@
 
 @extends('arsip.layout')
 @section('table')
+<div class="field is-horizontal">
+  <div class="field-label is-normal">
+    <label class="label">Akun:</label>
+  </div>
+  <div class="field">
+    <p class="control">
+      <input id="input-cari" class="input is-primary" type="text" placeholder="Akun" />
+    </p>    
+    
+  </div>   
+  <button id="tombol-cari" class="button is-primary is-light">Cari</button>
+  </div>
+</div>
 <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
   <thead>
     <tr>
@@ -36,4 +49,23 @@
     @endforeach      
   </tbody>
 </table>
+@endsection
+
+@section('script')
+<script>
+document.getElementById('tombol-cari').addEventListener('click', function() {
+  var akun = document.getElementById('input-cari').value;
+  var url = new URL(window.location.href);
+  url.searchParams.set('akun', akun);
+  window.location.href = url.toString();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var akun = urlParams.get('akun');
+  if (akun) {
+    document.getElementById('input-cari').value = akun;
+  }
+});
+</script>
 @endsection

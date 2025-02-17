@@ -32,11 +32,11 @@ class ArsipController extends Controller
         ]);
     }
 
-    public function perDetail($token, $kro, $akun = null)
+    public function perDetail($token, $kro)
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
-
+        $akun = request()->get('akun');
         $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)

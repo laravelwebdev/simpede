@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-<b
+<br/>
 <nav class="pagination is-small" role="navigation" aria-label="pagination">
   @if ($paginator->onFirstPage())
   <a class="pagination-previous is-disabled" title="This is the first page">Previous</a>

@@ -49,7 +49,7 @@ class ArsipController extends Controller
             ->when($search, function ($query, $search) {
                 return $query->where('rincian', 'like', '%'.$search.'%');
             })
-            ->whereIn('id', $kakIds)->paginate();
+            ->whereIn('id', $kakIds)->paginate()->withQueryString();
 
         return view('arsip-per-kak', [
             'level' => 'KAK',
@@ -68,10 +68,10 @@ class ArsipController extends Controller
         $page = request()->get('page', 1);
         $offset = ($page - 1) * $perPage;
         $data = array_slice($files, $offset, $perPage);
-        $data = new \Illuminate\Pagination\LengthAwarePaginator($data, count($files), $perPage, $page, [
+        $data = (new \Illuminate\Pagination\LengthAwarePaginator($data, count($files), $perPage, $page, [
             'path' => request()->url(),
             'query' => request()->query(),
-        ]);
+        ]))->withQueryString();
 
         return view('daftar-file', [
             'tahun' => $tahun,

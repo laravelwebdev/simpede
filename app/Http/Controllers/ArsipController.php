@@ -19,7 +19,7 @@ class ArsipController extends Controller
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->when($search, function ($query, $search) {
-                $keywords = explode(' ', $search);
+                $keywords = explode('.', $search);
                 foreach ($keywords as $keyword) {
                     $query->where('mak', 'like', '%'.$keyword.'%');
                 }

@@ -20,7 +20,7 @@ Route::middleware([ValidateAccessToken::class])
     ->group(function () {
         Route::get('/arsip-dokumen/{token}', [ArsipController::class, 'perKro'])
             ->name('arsip-per-kro');
-        Route::get('/arsip-dokumen/{token}/kro/{kro}', [ArsipController::class, 'perDetail'])
+        Route::get('/arsip-dokumen/{token}/kro/{kro}/akun/{akun?}', [ArsipController::class, 'perDetail'])
             ->name('arsip-per-detail');
         Route::get('/arsip-dokumen/{token}/coa/{coa}', [ArsipController::class, 'perKak'])
             ->name('arsip-per-kak');

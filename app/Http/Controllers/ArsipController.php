@@ -31,7 +31,7 @@ class ArsipController extends Controller
         ]);
     }
 
-    public function perDetail($token, $kro)
+    public function perDetail($token, $kro, $akun = null)
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
@@ -40,6 +40,9 @@ class ArsipController extends Controller
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->whereLike('mak', '%'.$kro.'%')
+            ->when($akun, function ($query, $akun) {
+                return $query->where('mak', 'like', '%'.$akun.'%');
+            })
             ->orderBy('ordered')->paginate();
 
         return view('arsip-per-detail', [

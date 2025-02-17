@@ -1,19 +1,17 @@
 
 @extends('arsip.layout')
 @section('table')
-{{-- <div class="field is-horizontal">
-  <div class="field-label is-normal">
+<div class="field is-grouped is-grouped-multiline">
+  <div class="control">
     <label class="label">Akun:</label>
   </div>
-  <div class="field">
-    <p class="control">
-      <input id="input-cari" class="input is-primary" type="text" placeholder="Akun" />
-    </p>  
-    
-  </div>   
-  <button id="tombol-cari" class="button is-primary is-light">Cari</button>
+  <div class="control">
+    <input id="input-cari" class="input is-primary" type="text" placeholder="Akun" />
   </div>
-</div> --}}
+  <div class="control">
+    <button id="tombol-cari" class="button is-primary is-light">Cari</button>
+  </div>
+</div>
 <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
   <thead>
     <tr>

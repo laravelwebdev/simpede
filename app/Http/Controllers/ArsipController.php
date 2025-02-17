@@ -10,33 +10,7 @@ use ZipArchive;
 
 class ArsipController extends Controller
 {
-    public function perKro($token)
-    {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
-        $dipa = Dipa::where('tahun', $tahun)->first();
-        $search = request()->get('search');
-
-        $subquery = DB::table('mata_anggarans')
-            ->selectRaw('MID(mak,11,8) as KRO')
-            ->when($search, function ($query, $search) {
-                return $query->whereRaw('MID(mak,11,8) like ?', ['%'.$search.'%']);
-            })
-            ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
-            ->distinct();
-
-        $data = DB::table(DB::raw("({$subquery->toSql()}) as sub"))
-            ->mergeBindings($subquery)
-            ->paginate();
-
-        return view('arsip-per-kro', [
-            'level' => 'KRO',
-            'token' => $token,
-            'tahun' => $tahun,
-            'data' => $data,
-        ]);
-    }
-
-    public function perDetail($token, $kro)
+    public function perDetail($token)
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
@@ -44,9 +18,12 @@ class ArsipController extends Controller
         $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
-            ->whereLike('mak', '%'.$kro.'%')
             ->when($search, function ($query, $search) {
-                return $query->where('mak', 'like', '%'.$search.'%');
+                $keywords = explode(' ', $search);
+                foreach ($keywords as $keyword) {
+                    $query->where('mak', 'like', '%'.$keyword.'%');
+                }
+                return $query;
             })
             ->orderBy('ordered')->paginate();
 

@@ -18,9 +18,7 @@ Route::get('/dump-download/{filename}', DumpDownloadController::class)
 Route::middleware([ValidateAccessToken::class])
     ->prefix(Nova::path())
     ->group(function () {
-        Route::get('/arsip-dokumen/{token}', [ArsipController::class, 'perKro'])
-            ->name('arsip-per-kro');
-        Route::get('/arsip-dokumen/{token}/kro/{kro}', [ArsipController::class, 'perDetail'])
+        Route::get('/arsip-dokumen/{token}', [ArsipController::class, 'perDetail'])
             ->name('arsip-per-detail');
         Route::get('/arsip-dokumen/{token}/coa/{coa}', [ArsipController::class, 'perKak'])
             ->name('arsip-per-kak');

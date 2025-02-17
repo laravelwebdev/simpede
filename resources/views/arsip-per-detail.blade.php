@@ -60,6 +60,15 @@ document.getElementById('tombol-cari').addEventListener('click', function() {
   window.location.href = url.toString();
 });
 
+document.getElementById('input-cari').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    var akun = document.getElementById('input-cari').value;
+    var url = new URL(window.location.href);
+    url.searchParams.set('akun', akun);
+    window.location.href = url.toString();
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   var urlParams = new URLSearchParams(window.location.search);
   var akun = urlParams.get('akun');

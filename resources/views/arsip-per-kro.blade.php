@@ -1,5 +1,6 @@
 @extends('arsip.layout')
 @section('table')
+@include('arsip.search')
 <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
   <thead>
     <tr>
@@ -29,4 +30,7 @@
     @endforeach      
   </tbody>
 </table>
+@endsection
+@section('script')
+@include('arsip.search-script')
 @endsection

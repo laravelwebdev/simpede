@@ -1,6 +1,7 @@
 
 @extends('arsip.layout')
 @section('table')
+@include('arsip.search')
 <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
   <thead>
     <tr>
@@ -46,4 +47,5 @@
   new CustomToast().show("{{ session('message') }}", "{{ session('type') }}", 10000);
 </script>
 @endif
+@include('arsip.search-script')
 @endsection

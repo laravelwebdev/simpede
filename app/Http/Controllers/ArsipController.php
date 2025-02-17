@@ -14,9 +14,13 @@ class ArsipController extends Controller
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
+        $search = request()->get('search');
 
         $subquery = DB::table('mata_anggarans')
             ->selectRaw('MID(mak,11,8) as KRO')
+            ->when($search, function ($query, $search) {
+                return $query->whereRaw('MID(mak,11,8) like ?', ['%'.$search.'%']);
+            })
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->distinct();
 
@@ -36,13 +40,13 @@ class ArsipController extends Controller
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
-        $akun = request()->get('akun');
+        $search = request()->get('search');
         $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
             ->whereLike('mak', '%'.$kro.'%')
-            ->when($akun, function ($query, $akun) {
-                return $query->where('mak', 'like', '%'.$akun.'%');
+            ->when($search, function ($query, $search) {
+                return $query->where('mak', 'like', '%'.$search.'%');
             })
             ->orderBy('ordered')->paginate();
 
@@ -57,6 +61,7 @@ class ArsipController extends Controller
     public function perKak($token, $coa)
     {
         $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $search = request()->get('search');
         $kakIds = DB::table('anggaran_kerangka_acuans')
             ->select('kerangka_acuan_id')
             ->where('mata_anggaran_id', $coa)
@@ -64,6 +69,9 @@ class ArsipController extends Controller
             ->toArray();
         $data = DB::table('kerangka_acuans')
             ->select(['id', 'rincian'])
+            ->when($search, function ($query, $search) {
+                return $query->where('rincian', 'like', '%'.$search.'%');
+            })
             ->whereIn('id', $kakIds)->paginate();
 
         return view('arsip-per-kak', [

@@ -26,4 +26,6 @@ Route::middleware([ValidateAccessToken::class])
             ->name('arsip-per-kak');
         Route::get('/arsip-dokumen/{token}/kak/{kak}', [ArsipController::class, 'daftarFile'])
             ->name('daftar-file');
+        Route::get('/download-folder/{token}/kak/{kak}', [ArsipController::class, 'downloadFolder'])
+            ->name('download-folder');
     });

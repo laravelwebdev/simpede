@@ -172,21 +172,21 @@ class ExportTemplateCmsBri extends Action
         (new FastExcel($collection))->configureCsv(delimiter: '|')->export(Storage::disk('temp')->path($filename));
         $inputFile = Storage::disk('temp')->path($filename);
         $outputFile = Storage::disk('temp')->path('clean_'.$filename);
-        
+
         $inputHandle = fopen($inputFile, 'r');
         $outputHandle = fopen($outputFile, 'w');
-        
+
         if ($inputHandle !== false && $outputHandle !== false) {
             while (($data = fgetcsv($inputHandle, 0, '|', '"')) !== false) {
-            // Gabungkan data dengan koma tanpa enclosure dan tulis ke file baru
-            fwrite($outputHandle, implode('|', $data) . PHP_EOL);
+                fwrite($outputHandle, implode('|', $data).PHP_EOL);
             }
             fclose($inputHandle);
             fclose($outputHandle);
         }
-        
+
         Storage::disk('temp')->delete($filename);
         Storage::disk('temp')->move('clean_'.$filename, $filename);
+
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
         ]));

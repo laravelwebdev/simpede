@@ -23,6 +23,7 @@ class ArsipController extends Controller
                 foreach ($keywords as $keyword) {
                     $query->where('mak', 'like', '%'.$keyword.'%');
                 }
+
                 return $query;
             })
             ->orderBy('ordered')->paginate()->withQueryString();

@@ -57,6 +57,7 @@ document.getElementById('tombol-cari').addEventListener('click', function() {
   var akun = document.getElementById('input-cari').value;
   var url = new URL(window.location.href);
   url.searchParams.set('akun', akun);
+  url.searchParams.delete('page');
   window.location.href = url.toString();
 });
 
@@ -65,6 +66,7 @@ document.getElementById('input-cari').addEventListener('keypress', function(even
     var akun = document.getElementById('input-cari').value;
     var url = new URL(window.location.href);
     url.searchParams.set('akun', akun);
+    url.searchParams.delete('page');
     window.location.href = url.toString();
   }
 });

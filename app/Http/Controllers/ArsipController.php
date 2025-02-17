@@ -25,7 +25,7 @@ class ArsipController extends Controller
                 }
                 return $query;
             })
-            ->orderBy('ordered')->paginate();
+            ->orderBy('ordered')->withQueryString()->paginate();
 
         return view('arsip-per-detail', [
             'tahun' => $tahun,
@@ -49,7 +49,7 @@ class ArsipController extends Controller
             ->when($search, function ($query, $search) {
                 return $query->where('rincian', 'like', '%'.$search.'%');
             })
-            ->whereIn('id', $kakIds)->paginate();
+            ->whereIn('id', $kakIds)->withQueryString()->paginate();
 
         return view('arsip-per-kak', [
             'level' => 'KAK',

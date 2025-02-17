@@ -14,7 +14,7 @@
       <td data-label="KRO">{{ $item->KRO }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
-          <a target="_blank" href="{{ route('arsip-per-detail', ['token' => $token, 'kro' => $item->KRO]) }}">
+          <a href="{{ route('arsip-per-detail', ['token' => $token, 'kro' => $item->KRO]) }}">
           <button class="button is-light is-primary" type="button">
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

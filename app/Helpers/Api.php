@@ -15,9 +15,9 @@ class Api
 
         $client = new Client;
         try {
-            $response = $client->request('GET', "https://sentry.io/api/0/projects/$organization/$project/issues/", [
+            $response = $client->request('GET', 'https://sentry.io/api/0/projects/{organization}/{project}/issues/', [
                 'headers' => [
-                    'Authorization' => "Bearer $token",
+                    'Authorization' => "Bearer {token}",
                 ],
                 'query' => [
                     'query' => 'is:unresolved',
@@ -34,11 +34,11 @@ class Api
     {
         $composer = config('app.composer');
         $home = config('app.composer_home');
-        $process = Process::fromShellCommandline("$composer outdated $flag -f json", base_path(), ['COMPOSER_HOME' => $home]);
+        $process = Process::fromShellCommandline('{composer} outdated {flag} -f json', base_path(), ['COMPOSER_HOME' => '{home}']);
         $process->run();
         $value = $process->getOutput();
         $data = json_decode($value, true);
-        $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => $home]);
+        $process = Process::fromShellCommandline('{composer} clear-cache', base_path(), ['COMPOSER_HOME' => '{home}']);
         $process->run();
 
         return $data['installed'] ?? [];

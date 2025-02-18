@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{{ asset('css/toasr.min.css') }}">
     <script type="text/javascript" src="{{ asset('js/toast.min.js') }}"></script>
   </head>
-  <body class="has-navbar-fixed-top">    
-        <nav class="navbar is-fixed-top">
+  <body class="has-navbar-fixed-bottom">    
+        <nav class="navbar is-transparent">
           <div class="container">
             <div class="navbar-brand">
               <a href="{{ route('welcome') }}"class="navbar-item">
@@ -98,7 +98,7 @@
         </div>
       </div>
     </section>
-    <footer class="footer pt-1 pb-1" style="position: absolute; bottom: 0; width: 100%;">
+    <footer class="footer pt-1 pb-1">
       <div class="has-text-centered">
         <p>
           Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik

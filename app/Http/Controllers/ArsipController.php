@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Dipa;
 use App\Models\ShareLink;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,9 @@ class ArsipController extends Controller
             'token' => $token,
             'level' => 'COA',
             'data' => $data,
+            'version' => Helper::version(),
+            'satker' => 'BPS '.config('satker.kabupaten'),
+
         ]);
     }
 
@@ -61,6 +65,8 @@ class ArsipController extends Controller
             'token' => $token,
             'tahun' => $tahun,
             'data' => $data,
+            'version' => Helper::version(),
+            'satker' => 'BPS '.config('satker.kabupaten'),
         ]);
     }
 
@@ -82,6 +88,8 @@ class ArsipController extends Controller
             'tahun' => $tahun,
             'level' => 'FILE',
             'data' => $data,
+            'version' => Helper::version(),
+            'satker' => 'BPS '.config('satker.kabupaten'),
         ]);
     }
 

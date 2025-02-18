@@ -100,11 +100,11 @@
     </section>
     <footer class="footer pt-1 pb-1">
       <div class="has-text-centered">
-        <p>
+        <p class="is-size-7">
           Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik
           &middot; v.{{ $version }}
         </p>
-        <p>
+        <p class="is-size-7">
           Copyright &copy; 2021 -
           <span id="copyright">
             <script>

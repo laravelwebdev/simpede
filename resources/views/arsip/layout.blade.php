@@ -17,7 +17,7 @@
               <a href="{{ route('welcome') }}"class="navbar-item">
                 <svg
                 width="360px"
-                viewBox="0 0 210 39"
+                viewBox="0 0 175 39"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>

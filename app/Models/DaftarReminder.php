@@ -32,4 +32,15 @@ class DaftarReminder extends Model
             $daftar->status = 'on progress';
         });
     }
+
+    public static function getRemindersForToday()
+    {
+        $tanggal = date('Y-m-d');
+
+        return self::with('daftarKegiatan')
+            ->whereDate('tanggal', $tanggal)
+            ->whereTime('waktu_kirim', '<=', date('H:i:s'))
+            ->where('status', '!=', 'sent')
+            ->get();
+    }
 }

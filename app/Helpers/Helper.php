@@ -747,7 +747,7 @@ class Helper
         $usersIdByPengelola = Pengelola::cache()
             ->get('all')
             ->where('role', $role)
-            ->whereDate('active', '<', $tanggal)
+            ->where('active', '<', $tanggal)
             ->reject(function ($item) use ($tanggal) {
                 return $item['inactive'] && $item['inactive'] < $tanggal;
             })
@@ -758,7 +758,7 @@ class Helper
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
                 ->where('unit_kerja_id', self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal), 'unit_kerja_id'))
-                ->whereDate('tanggal', '<=', $tanggal)
+                ->where('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
             $koordinatorsId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
@@ -807,7 +807,7 @@ class Helper
      */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
-        return DataPegawai::cache()->get('all')->where('user_id', $user_id)->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -1644,7 +1644,7 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
+        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
     /**
@@ -1666,7 +1666,7 @@ class Helper
      */
     public static function getLatestHargaSatuan($tanggal)
     {
-        return HargaSatuan::cache()->get('all')->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**

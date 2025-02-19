@@ -30,7 +30,7 @@ class SendReminder extends Command
         $tanggal = date('Y-m-d');
         $reminders = DaftarReminder::with('daftarKegiatan')
             ->where('tanggal', $tanggal)
-            ->where('waktu_kirim', '<=', date('H:i:s'))
+            ->whereTime('waktu_kirim', '<=', date('H:i:s'))
             ->where('status', '!=', 'sent')
             ->get();
         foreach ($reminders as $reminder) {

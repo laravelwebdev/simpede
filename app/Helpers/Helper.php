@@ -363,7 +363,7 @@ class Helper
             )
             ->where('master_persediaan_id', $id)
             ->when($tanggal, function ($query, $tanggal) {
-                return $query->where('tanggal_transaksi', '<=', $tanggal);
+                return $query->whereDate('tanggal_transaksi', '<=', $tanggal);
             })
             ->groupBy('master_persediaan_id')
             ->first();
@@ -716,7 +716,7 @@ class Helper
             $no_urut = $max_no_urut + 1;
             $segmen = 0;
         } else {
-            $no_urut = $naskah->where('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
+            $no_urut = $naskah->whereDate('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
             $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
                 ->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))
                 ->where('no_urut', $no_urut)
@@ -758,7 +758,7 @@ class Helper
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
                 ->where('unit_kerja_id', self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal), 'unit_kerja_id'))
-                ->where('tanggal', '<=', $tanggal)
+                ->whereDate('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
             $koordinatorsId = array_intersect($usersIdByPengelola, $usersIdByUnitKerja);
@@ -807,7 +807,7 @@ class Helper
      */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
-        return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return DataPegawai::cache()->get('all')->where('user_id', $user_id)->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -1644,7 +1644,7 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
+        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
     }
 
     /**
@@ -1666,7 +1666,7 @@ class Helper
      */
     public static function getLatestHargaSatuan($tanggal)
     {
-        return HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+        return HargaSatuan::cache()->get('all')->whereDate('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**

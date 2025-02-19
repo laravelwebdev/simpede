@@ -60,13 +60,13 @@ class KodeArsip extends Resource
         return [
             Text::make('Kode Arsip', 'kode')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:20'),
             Text::make('Klasifikasi', 'group')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Text::make('Detail', 'detail')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:255'),
         ];
     }
 

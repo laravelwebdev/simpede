@@ -56,11 +56,11 @@ class UnitKerja extends Resource
             Text::make('Kode')
                 ->sortable()
                 ->help('Kode Unit Kerja untuk ditampilkan di nomor surat')
-                ->rules('required'),
+                ->rules('required', 'max:10'),
             Text::make('Unit')
                 ->sortable()
                 ->help('Nama Unit Kerja')
-                ->rules('required'),
+                ->rules('required', 'max:80'),
         ];
     }
 

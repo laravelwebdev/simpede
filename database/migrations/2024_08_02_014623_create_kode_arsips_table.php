@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('kode_arsips', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->nullable();
+            $table->string('kode', 20)->nullable();
             $table->string('group')->nullable();
             $table->string('detail')->nullable();
             $table->mediumInteger('tata_naskah_id')->nullable()->unsigned();

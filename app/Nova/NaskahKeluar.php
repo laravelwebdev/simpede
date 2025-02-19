@@ -106,10 +106,11 @@ class NaskahKeluar extends Resource
             Text::make('Nomor')
                 ->onlyOnDetail(),
             Text::make('Tujuan', 'tujuan')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Text::make('Perihal', 'perihal')
                 ->rules('required'),
-            Text::make('Dikirimkan melalui', 'pengiriman'),
+            Text::make('Dikirimkan melalui', 'pengiriman')
+                ->rules('nullable', 'bail', 'max:255'),
             Date::make('Tanggal Kirim', 'tanggal_kirim')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('nullable', 'bail', 'after_or_equal:tanggal'),

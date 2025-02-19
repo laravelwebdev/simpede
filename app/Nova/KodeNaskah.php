@@ -63,9 +63,9 @@ class KodeNaskah extends Resource
             Text::make('Kategori')
                 ->creationRules('unique:kode_naskahs,kategori')
                 ->updateRules('unique:kode_naskahs,kategori,{{resourceId}}')
-                ->rules('required'),
+                ->rules('required', 'max:60'),
             Text::make('Format Penomoran', 'format')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             HasMany::make('Jenis Naskah'),
         ];
     }

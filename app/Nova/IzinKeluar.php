@@ -101,7 +101,7 @@ class IzinKeluar extends Resource
             Time::make('Jam Keluar', 'keluar')
                 ->rules('required'),
             Text::make('Kegiatan')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Panel::make('Jam Kembali', [
                 Time::make('Jam Kembali', 'kembali')
                     ->sortable()

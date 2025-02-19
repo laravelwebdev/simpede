@@ -58,7 +58,7 @@ class JenisNaskah extends Resource
     {
         return [
             Text::make('Jenis')
-                ->rules('required'),
+                ->rules('required', 'max:100'),
             Filepond::make('Template')
                 ->disk('template_naskah')
                 ->disableCredits()

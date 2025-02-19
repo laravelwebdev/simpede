@@ -101,12 +101,14 @@ class NaskahMasuk extends Resource
                     }
                 }),
             Text::make('Nomor')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->creationRules('unique:naskah_masuks,nomor')
                 ->updateRules('unique:naskah_masuks,nomor,{{resourceId}}')
                 ->sortable(),
-            Text::make('Pengirim')->rules('required'),
-            Text::make('Perihal', 'perihal')->rules('required'),
+            Text::make('Pengirim')
+                ->rules('required', 'max:255'),
+            Text::make('Perihal', 'perihal')
+                ->rules('required'),
             BelongsTo::make('Jenis Naskah')
                 ->sortable()
                 ->filterable()

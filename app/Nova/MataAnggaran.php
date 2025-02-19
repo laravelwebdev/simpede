@@ -61,7 +61,7 @@ class MataAnggaran extends Resource
                 ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
                 ->showWhenPeeking(),
             Text::make('Detil Anggaran', 'uraian')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
 
         ];
     }

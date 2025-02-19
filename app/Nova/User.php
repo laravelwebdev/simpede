@@ -98,7 +98,7 @@ class User extends Resource
                     ->displayUsingLabels()
                     ->rules('required'),
                 Text::make('Nomor Rekening', 'rekening')
-                    ->rules('required', 'numeric'),
+                    ->rules('required', 'numeric', 'max:40'),
             ]),
             Tab::group('Detail', [
                 HasMany::make('Data Pegawai'),

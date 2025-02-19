@@ -268,7 +268,8 @@ class KerangkaAcuan extends Resource
                 ->alwaysShow()
                 ->default('Target/sasaran yang ingin dicapai terkait dengan pelaksanaan kegiatan ini adalah '),
             Text::make('Nama Survei/Kegiatan', 'kegiatan')
-                ->rules('required')->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
+                ->rules('required')
+                ->help('Untuk Honor Mitra, Agar diisikan nama kegiatan secara lengkap termasuk keterangan tentang pendataan/pemeriksaan/pengolahan karena akan ditampilkan di dalam kontrak bulanan. Contoh:Pendataan Lapangan Survei Sosial Ekonomi Nasional Maret 2024, Pemeriksaan Lapangan Sakernas Agustus 2023'),
             Date::make('Awal', 'awal')
                 ->rules('required', 'after_or_equal:tanggal')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

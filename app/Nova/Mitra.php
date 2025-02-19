@@ -67,20 +67,22 @@ class Mitra extends Resource
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->showWhenPeeking()
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Email::make('Email', 'email')
                 ->sortable()
-                ->rules('required', 'email'),
+                ->rules('required', 'email', 'max:80'),
             Date::make('Tanggal Lahir', 'tanggal_lahir')
                 ->sortable()
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Text::make('Alamat', 'alamat')
                 ->hideFromIndex()
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Text::make('NPWP')
+                ->rules('nullable', 'bail', 'max:40')
                 ->showWhenPeeking(),
             Text::make('Telepon')
+                ->rules('nullable', 'bail', 'max:30')
                 ->onlyOnForms(),
             Select::make('Bank', 'kode_bank_id')
                 ->options(Helper::setOptionsKodeBank())
@@ -89,7 +91,7 @@ class Mitra extends Resource
                 ->rules('required'),
             Text::make('Nomor Rekening', 'rekening')
                 ->showWhenPeeking()
-                ->rules('required', 'numeric'),
+                ->rules('required', 'integer', 'max:40'),
         ];
     }
 

@@ -747,7 +747,7 @@ class Helper
         $usersIdByPengelola = Pengelola::cache()
             ->get('all')
             ->where('role', $role)
-            ->where('active', '<', $tanggal)
+            ->whereDate('active', '<', $tanggal)
             ->reject(function ($item) use ($tanggal) {
                 return $item['inactive'] && $item['inactive'] < $tanggal;
             })

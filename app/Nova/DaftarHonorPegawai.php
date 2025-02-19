@@ -66,7 +66,7 @@ class DaftarHonorPegawai extends Resource
                 ->dependsOn(['volume'], function (Numeric $field, NovaRequest $request, FormData $formData) {
                     if ($formData->volume != null) {
                         $field->show();
-                        $field->rules('required', 'gt:0');
+                        $field->rules('required', 'gt:0', 'lte:16777215');
                     }
                 }),
             Numeric::make('Bruto', fn () => $this->volume * $this->harga_satuan)

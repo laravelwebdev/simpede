@@ -65,7 +65,7 @@ class DaftarHonorMitra extends Resource
                     ->failedWhen(['Selesai Tidak Sesuai Target'])
                     ->onlyOnIndex(),
                 Numeric::make('Harga Satuan', 'harga_satuan')
-                    ->rules('required', 'gt:0'),
+                    ->rules('required', 'gt:0', 'lte:16777215'),
                 Numeric::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
                     ->onlyOnIndex(),
                 Number::make('Persentase Pajak', 'persen_pajak')

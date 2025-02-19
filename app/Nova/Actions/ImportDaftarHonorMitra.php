@@ -112,8 +112,10 @@ class ImportDaftarHonorMitra extends Action
                 ->help('Centang jika file BOS yang diupload sudah terisi data'),
             Number::make('Volume', 'volume')
                 ->step(1)
+                ->rules('nullable', 'bail', 'lte:65535')
                 ->help('Default Volume Pekerjaan'),
             Numeric::make('Harga Satuan', 'harga_satuan')
+                ->rules('nullable', 'bail',	'lte:16777215')
                 ->help('Default Harga Satuan'),
             Number::make('Persentase Pajak', 'persen_pajak')
                 ->step(0.01)

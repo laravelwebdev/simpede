@@ -31,6 +31,11 @@ class DaftarReminder extends Model
         static::creating(function (DaftarReminder $daftar) {
             $daftar->status = 'on progress';
         });
+        static::deleting(function (DaftarReminder $daftar) {
+            $daftar->daftarKegiatan->whereDoesntHave('daftarReminder', function ($query) use ($daftar) {
+                $query->where('status', '!=', 'sent')->where('id', '!=', $daftar->id);
+            })->update(['status' => 'sent']);
+        });
 
     }
 

@@ -52,8 +52,7 @@ class DaftarKegiatan extends Model
             }
         });
         static::deleting(function (DaftarKegiatan $daftar) {
-            $ids = DaftarReminder::where('daftar_kegiatan_id', $daftar->id)->get()->pluck('id');
-            DaftarReminder::destroy($ids);
+            DaftarReminder::where('daftar_kegiatan_id', $daftar->id)->delete();
         });
 
         static::creating(function (DaftarKegiatan $daftar) {
@@ -73,7 +72,7 @@ class DaftarKegiatan extends Model
                     ]);
                     $reminder->save();
                 }
-                DaftarKegiatan::where('id', $daftar->id)
+                $daftar
                     ->whereHas('daftarReminder', function ($query) {
                         $query->where('status', '!=', 'sent');
                     })

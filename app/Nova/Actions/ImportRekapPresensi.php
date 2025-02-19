@@ -2,7 +2,6 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Models\DaftarPenilaianReward;
 use App\Models\User;
 use Illuminate\Bus\Queueable;

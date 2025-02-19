@@ -49,8 +49,8 @@ class DaftarKontrakMitra extends Model
             $jenis_kontrak = optional(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first())->jenis;
             $bulan_kontrak = Helper::$bulan[$kontrak->bulan];
             $default_naskah = NaskahDefault::cache()->get('all')
-            ->where('jenis', 'kontrak')
-            ->first();
+                ->where('jenis', 'kontrak')
+                ->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $kontrak->tanggal_spk;
             $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;

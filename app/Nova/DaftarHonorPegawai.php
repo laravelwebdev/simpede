@@ -58,7 +58,7 @@ class DaftarHonorPegawai extends Resource
             BelongsTo::make('Nama Pegawai', 'user', User::class)
                 ->exceptOnForms(),
             Number::make('Jumlah', 'volume')
-                ->step(0.01)
+                ->step(1)
                 ->rules('required', 'gt:0', 'lte:65535')
                 ->help('Kosongkan jika pegawai tidak diberi honor'),
             Numeric::make('Harga Satuan', 'harga_satuan')

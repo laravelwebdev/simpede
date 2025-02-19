@@ -111,7 +111,7 @@ class ImportDaftarHonorMitra extends Action
                 ->default(false)
                 ->help('Centang jika file BOS yang diupload sudah terisi data'),
             Number::make('Volume', 'volume')
-                ->step(0.01)
+                ->step(1)
                 ->help('Default Volume Pekerjaan'),
             Numeric::make('Harga Satuan', 'harga_satuan')
                 ->help('Default Harga Satuan'),

@@ -56,10 +56,10 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
                 Number::make('Target', 'volume_target')
                     ->rules('required', 'gt:0', 'lte:65535')
-                    ->step(0.01),
+                    ->step(1),
                 Number::make('Realisasi', 'volume_realisasi')
                     ->rules('required', 'gt:0', 'lte:65535')
-                    ->step(0.01),
+                    ->step(1),
                 Status::make('Status', 'status_realisasi')
                     ->loadingWhen(['Loading'])
                     ->failedWhen(['Selesai Tidak Sesuai Target'])

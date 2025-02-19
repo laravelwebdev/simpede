@@ -58,7 +58,7 @@ class Template extends Resource
         return [
             Text::make('Nama Template', 'nama')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:80'),
             Select::make('Jenis Template', 'jenis')
                 ->sortable()
                 ->searchable()

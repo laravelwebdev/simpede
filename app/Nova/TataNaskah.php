@@ -58,7 +58,7 @@ class TataNaskah extends Resource
         return [
             Text::make('Nomor', 'nomor')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:40'),
             Date::make('Tanggal', 'tanggal')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

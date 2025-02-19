@@ -52,7 +52,7 @@ class DokumentasiLink extends Resource
     {
         return [
             Text::make('Uraian')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->sortable(),
             URL::make('Lihat', fn () => $this->link),
 

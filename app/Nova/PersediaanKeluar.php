@@ -69,7 +69,7 @@ class PersediaanKeluar extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('required'),
             Text::make('Rincian', 'rincian')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Date::make('Tanggal Buku', 'tanggal_buku')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

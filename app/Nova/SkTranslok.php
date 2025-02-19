@@ -64,7 +64,7 @@ class SkTranslok extends Resource
                 ->updateRules('unique:sk_transloks,tahun,{{resourceId}}'),
             Text::make('Nomor', 'nomor')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:40'),
             Date::make('Tanggal SK', 'tanggal')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

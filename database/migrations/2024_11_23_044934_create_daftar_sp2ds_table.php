@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal_sp2d')->nullable();
             $table->string('nomor_spp', 10)->nullable();
             $table->string('nomor_sp2d', 20)->nullable();
-            $table->text('uraian', 20)->nullable();
+            $table->text('uraian')->nullable();
             $table->string('arsip_spm')->nullable();
             $table->string('arsip_lampiran')->nullable();
             $table->string('arsip_spp')->nullable();

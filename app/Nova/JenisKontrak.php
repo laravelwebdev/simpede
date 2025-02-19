@@ -55,7 +55,7 @@ class JenisKontrak extends Resource
     {
         return [
             Text::make('Jenis Kontrak', 'jenis')
-                ->rules('required'),
+                ->rules('required', 'max:80'),
             Numeric::make('Batas maksimal (SBML)', 'sbml')
                 ->rules('required', 'gt:1'),
         ];

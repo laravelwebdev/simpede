@@ -77,7 +77,7 @@ class AnalisisSakip extends Resource
             Text::make('Kegiatan')
                 ->sortable()
                 ->help('Misal: Survei Sosial Ekonomi Nasional Maret, Pengisian Metadata Statistik')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Textarea::make('Kendala')
                 ->alwaysShow()
                 ->rules('required'),

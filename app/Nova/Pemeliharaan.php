@@ -68,7 +68,7 @@ class Pemeliharaan extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated'])

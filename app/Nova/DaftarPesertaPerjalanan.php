@@ -79,13 +79,13 @@ class DaftarPesertaPerjalanan extends Resource
             Repeatable::make('Item Biaya', 'spesifikasi', [
                 Text::make('Item', 'item')
                     ->help('Misal: Uang Harian, Penginapan, Transportasi, dll')
-                    ->rules('required'),
+                    ->rules('required', 'max:255'),
                 Number::make('Jumlah', 'jumlah')
                     ->step(1)
                     ->rules('required', 'integer', 'gt:0'),
                 Text::make('Satuan', 'satuan')
                     ->help('Misal: O-H, malam, O-P, dll')
-                    ->rules('required'),
+                    ->rules('required', 'max:40'),
                 Numeric::make('Harga Satuan', 'harga_satuan')
                     ->rules('required', 'integer', 'gt:0'),
             ]),

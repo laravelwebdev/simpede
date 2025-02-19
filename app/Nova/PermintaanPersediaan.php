@@ -87,7 +87,7 @@ class PermintaanPersediaan extends Resource
                 ->onlyOnForms()
                 ->default(now()),
             Text::make('Untuk Kegiatan', 'kegiatan')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Textarea::make('Catatan', 'keterangan')
                 ->rules('required')
                 ->alwaysShow(),

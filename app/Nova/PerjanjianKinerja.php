@@ -56,13 +56,13 @@ class PerjanjianKinerja extends Resource
     {
         return [
             Text::make('Tujuan')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
             Text::make('Sasaran')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->hideFromIndex(),
             Text::make('Indikator')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Number::make('Target Triwulan I', 'target_tw1')
                 ->step(0.01)
                 ->help('Target total selama triwulan I')

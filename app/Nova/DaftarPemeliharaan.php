@@ -68,13 +68,13 @@ class DaftarPemeliharaan extends Resource
                     }
                 }),
             Textarea::make('Keterangan Pemeliharaan', 'uraian')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->help('Jelaskan detail pemeliharaan yang dilakukan secara lengkap. Misal: Pembelian BBM Pertamax 2 liter, Servis rutin dengan mengganti oli dan dan ganti busi')
                 ->onlyonForms(),
             Text::make('Keterangan Pemeliharaan', 'uraian')
                 ->exceptOnForms(),
             Text::make('Nama Penyedia', 'penyedia')
-                ->rules('required'),
+                ->rules('required', 'max:100'),
             Numeric::make('Biaya')
                 ->rules('required', 'numeric', 'gt:0'),
         ];

@@ -82,7 +82,7 @@ class DaftarKegiatan extends Resource
                 Text::make('Kegiatan')
                     ->sortable()
                     ->help('Contoh: Posting Konten Peringatan Hari Ibu')
-                    ->rules('required'),
+                    ->rules('required', 'max:255'),
                 Date::make('Tanggal', 'awal')
                     ->sortable()
                     ->filterable()

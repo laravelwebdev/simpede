@@ -69,7 +69,7 @@ class Dipa extends Resource
                 ->updateRules('unique:dipas,tahun,{{resourceId}}'),
             Text::make('Nomor', 'nomor')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:40'),
             Date::make('Tanggal DIPA', 'tanggal')
                 ->sortable()
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

@@ -57,18 +57,18 @@ class UserEksternal extends Resource
             Text::make('Nama', 'nama')
                 ->sortable()
                 ->showWhenPeeking()
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Select::make('Golongan')
                 ->options(Helper::$golongan)
                 ->searchable(),
             Text::make('Jabatan')
-                ->rules('required'),
+                ->rules('required', 'max:50'),
             Select::make('Bank', 'kode_bank_id')
                 ->options(Helper::setOptionsKodeBank())
                 ->displayUsingLabels(),
             Text::make('Nomor Rekening', 'rekening')
                 ->showWhenPeeking()
-                ->rules('nullable', 'bail', 'numeric'),
+                ->rules('nullable', 'bail', 'numeric', 'digits_between:5,20'),
         ];
     }
 

@@ -86,7 +86,7 @@ class PembelianPersediaan extends Resource
             BelongsTo::make('Nomor KAK', 'kerangkaAcuan', KerangkaAcuan::class)
                 ->onlyOnDetail(),
             Text::make('Rincian')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Panel::make('Keterangan Serah Terima Barang', [
                 Date::make('Tanggal Nota', 'tanggal_nota')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))

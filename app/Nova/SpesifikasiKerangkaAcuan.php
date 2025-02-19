@@ -61,11 +61,13 @@ class SpesifikasiKerangkaAcuan extends Resource
                 ->rules('required','max:80'),
             Number::make('Volume')
                 ->step(0.01)
-                ->rules('required', 'gt:0')->min(0),
+                ->rules('required', 'gt:0, max:99999999')
+                ->min(0)
+                ->max(99999999),
             Text::make('Satuan')
                 ->rules('required', 'max:40'),
             Numeric::make('Harga Satuan')
-                ->rules('required', 'gt:0'),
+                ->rules('required', 'gt:0', 'lte:4294967295'),
             Textarea::make('Spesifikasi')
                 ->rules('required')
                 ->alwaysShow()

@@ -64,7 +64,7 @@ class DataPegawai extends Resource
                 ->rules('required')
                 ->searchable(),
             Text::make('Jabatan')
-                ->rules('required'),
+                ->rules('required', 'max:50'),
             BelongsTo::make('Unit Kerja')
                 ->rules('required')
                 ->filterable(),

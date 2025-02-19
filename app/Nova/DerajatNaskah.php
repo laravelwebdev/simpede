@@ -53,9 +53,9 @@ class DerajatNaskah extends Resource
     {
         return [
             Text::make('Kode')
-                ->rules('required'),
+                ->rules('required', 'max:10'),
             Text::make('Derajat Naskah', 'derajat')
-                ->rules('required'),
+                ->rules('required', 'max:20'),
         ];
     }
 

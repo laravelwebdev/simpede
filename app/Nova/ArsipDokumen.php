@@ -68,7 +68,7 @@ class ArsipDokumen extends Resource
         return [
             Text::make('Jenis Dokumen', 'slug')
                 ->sortable()
-                ->rules('required'),
+                ->rules('required', 'max:50'),
             Filepond::make('File')
                 ->disk('arsip')
                 ->disableCredits()

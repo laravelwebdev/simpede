@@ -70,7 +70,7 @@ class DokumentasiKegiatan extends Resource
                 ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                 ->sortable(),
             Text::make('Kegiatan')
-                ->rules('required')
+                ->rules('required', 'max:255')
                 ->sortable(),
             Boolean::make('Original Size', 'uncompress')
                 ->default(false)

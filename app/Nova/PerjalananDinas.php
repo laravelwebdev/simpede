@@ -93,7 +93,7 @@ class PerjalananDinas extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Uraian', 'uraian')
-                ->rules('required'),
+                ->rules('required', 'max:255'),
             Panel::make('Surat Tugas', [
                 BelongsTo::make('Surat Tugas', 'stNaskahKeluar', ResourceNaskahKeluar::class)
                     ->searchable()

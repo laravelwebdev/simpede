@@ -116,13 +116,13 @@ class BarangPersediaan extends Resource
                         ->readonly(fn () => Policy::make()
                             ->allowedFor('bmn')
                             ->get())
-                        ->rules('required');
+                        ->rules('required', 'max:80');
                 $fields[] =
                     Text::make('Satuan', 'satuan')
                         ->readonly(fn () => Policy::make()
                             ->allowedFor('bmn')
                             ->get())
-                        ->rules('required');
+                        ->rules('required', 'max:20');
             }
             if (Policy::make()
                 ->allowedFor('pbj')

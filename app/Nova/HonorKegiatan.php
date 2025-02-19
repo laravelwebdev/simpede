@@ -98,7 +98,7 @@ class HonorKegiatan extends Resource
                 ->hideWhenUpdating(),
             Panel::make('Keterangan SPJ', [
                 Text::make('Nama Kegiatan', 'kegiatan')
-                    ->rules('required')
+                    ->rules('required', 'max:255')
                     ->sortable()
                     ->readOnly()
                     ->hideWhenUpdating(),
@@ -115,7 +115,7 @@ class HonorKegiatan extends Resource
                     ->hideWhenUpdating()
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
                 Text::make('Judul SPJ', 'judul_spj')
-                    ->rules('required')
+                    ->rules('required', 'max:255')
                     ->sortable()
                     ->hideFromIndex(),
                 Date::make('Tanggal SPJ', 'tanggal_spj')
@@ -167,7 +167,7 @@ class HonorKegiatan extends Resource
                     ->exceptOnForms(),
                 Text::make('Jabatan Petugas', 'objek_sk')
                     ->help('Contoh: Petugas Pemeriksa Lapangan Sensus Penduduk 2020')
-                    ->rules('required')
+                    ->rules('required', 'max:255')
                     ->hideFromIndex(),
             ]),
 
@@ -178,7 +178,7 @@ class HonorKegiatan extends Resource
                     ->hideFromIndex()
                     ->readonly(),
                 Text::make('Satuan Pembayaran', 'satuan')
-                    ->rules('required')
+                    ->rules('required', 'max:20')
                     ->hideFromIndex()
                     ->help('Contoh Satuan Pembayaran: Dokumen, Ruta, BS')
                     ->dependsOn('mataAnggaran', function (Text $field, NovaRequest $request, FormData $formData) {
@@ -259,7 +259,7 @@ class HonorKegiatan extends Resource
                     ->dependsOn('generate_st', function (Text $field, NovaRequest $request, FormData $formData) {
                         if ($formData->generate_st) {
                             $field->show()
-                                ->rules('required');
+                                ->rules('required', 'max:255');
                         }
                     })
                     ->hideFromIndex(),

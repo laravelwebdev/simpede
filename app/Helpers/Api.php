@@ -15,7 +15,7 @@ class Api
 
         $client = new Client;
         try {
-            $response = $client->request('GET', 'https://sentry.io/api/0/projects/'.$organization.'/'.$project .'/issues/', [
+            $response = $client->request('GET', 'https://sentry.io/api/0/projects/'.$organization.'/'.$project.'/issues/', [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token,
                 ],

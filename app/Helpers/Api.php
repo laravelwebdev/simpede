@@ -17,7 +17,7 @@ class Api
         try {
             $response = $client->request('GET', 'https://sentry.io/api/0/projects/{organization}/{project}/issues/', [
                 'headers' => [
-                    'Authorization' => "Bearer {token}",
+                    'Authorization' => 'Bearer {token}',
                 ],
                 'query' => [
                     'query' => 'is:unresolved',

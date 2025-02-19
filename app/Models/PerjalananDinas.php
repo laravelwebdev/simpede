@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -70,9 +69,9 @@ class PerjalananDinas extends Model
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $perjalanan->tanggal_st;
-                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
                 $naskahkeluar->kode_arsip_id = $perjalanan->st_kode_arsip_id;
-                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                 $naskahkeluar->tujuan = 'Pelaksana Perjalanan Dinas';
                 $naskahkeluar->perihal = 'Surat Tugas '.$perjalanan->uraian;
                 $naskahkeluar->generate = 'M';
@@ -93,9 +92,9 @@ class PerjalananDinas extends Model
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $perjalanan->tanggal_spd;
-                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
                 $naskahkeluar->kode_arsip_id = $perjalanan->spd_kode_arsip_id;
-                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                 $naskahkeluar->tujuan = 'Pelaksana Perjalanan Dinas';
                 $naskahkeluar->perihal = 'SPPD '.$perjalanan->uraian;
                 $naskahkeluar->generate = 'A';

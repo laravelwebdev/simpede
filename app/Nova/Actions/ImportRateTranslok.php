@@ -33,17 +33,17 @@ class ImportRateTranslok extends Action
         (new FastExcel)->import($fields->file, function ($row) use ($model, $fields) {
             switch ($fields->type) {
                 case '1':
-                    $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kabupaten'].'000'), 'id');
-                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Kecamatan']), 'id');
+                    $asal = optional(Helper::getMasterWilayahByKode($row['Asal Kabupaten'].'000'))->id;
+                    $tujuan = optional(Helper::getMasterWilayahByKode($row['Tujuan Kecamatan']))->id;
                     break;
                 case '2':
-                    $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kabupaten'].'000'), 'id');
-                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Desa']), 'id');
+                    $asal = optional(Helper::getMasterWilayahByKode($row['Asal Kabupaten'].'000'))->id;
+                    $tujuan = optional(Helper::getMasterWilayahByKode($row['Tujuan Desa']))->id;
                     break;
 
                 default:
-                    $asal = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Asal Kecamatan']), 'id');
-                    $tujuan = Helper::getPropertyFromCollection(Helper::getMasterWilayahByKode($row['Tujuan Desa']), 'id');
+                    $asal = optional(Helper::getMasterWilayahByKode($row['Asal Kecamatan']))->id;
+                    $tujuan = optional(Helper::getMasterWilayahByKode($row['Tujuan Desa']))->id;
                     break;
             }
 

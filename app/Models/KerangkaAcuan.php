@@ -78,7 +78,7 @@ class KerangkaAcuan extends Model
                     $honor->uraian_tugas = 'Melakukan '.$kak->kegiatan;
                     $honor->objek_sk = 'Petugas '.strtr($kak->kegiatan, ['Pemeriksaan' => 'Pemeriksa', 'Pencacahan' => 'Pencacah', 'Pengawasan' => 'Pengawas']);
                     $honor->tanggal_kak = $kak->tanggal;
-                    $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
+                    $honor->tahun = optional($dipa)->tahun;
                     $honor->awal = $kak->awal;
                     $honor->akhir = $kak->akhir;
                     $honor->status = 'outdated';
@@ -130,9 +130,9 @@ class KerangkaAcuan extends Model
             ->where('jenis', 'kak')
             ->first();
         $naskahkeluar->tanggal = $this->tanggal;
-        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-        $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+        $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+        $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+        $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
         $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
         $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
         $naskahkeluar->generate = 'A';
@@ -227,7 +227,7 @@ class KerangkaAcuan extends Model
     private function setKoordinatorUnitKerja(): void
     {
         $dataKetua = Helper::getDataPegawaiByUserId($this->koordinator_user_id, $this->tanggal);
-        $this->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
+        $this->unit_kerja_id = optional($dataKetua)->unit_kerja_id;
     }
 
     public static function getKerangkaAcuans($coa, $search)

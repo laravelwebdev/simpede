@@ -23,7 +23,7 @@ class NaskahKeluar extends Model
     {
         static::saving(function (NaskahKeluar $naskah) {
             if ($naskah->isDirty(['jenis_naskah_id', 'tanggal', 'kode_arsip_id', 'derajat_naskah_id', 'unit_kerja_id'])) {
-                $unit_kerja_id = $naskah->unit_kerja_id ?? Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal), 'unit_kerja_id');
+                $unit_kerja_id = $naskah->unit_kerja_id ?? optional(Helper::getDataPegawaiByUserId(Auth::user()->id, $naskah->tanggal))->unit_kerja_id;
                 $nomor = Helper::nomor($naskah->tanggal, $naskah->jenis_naskah_id, $unit_kerja_id, $naskah->kode_arsip_id, $naskah->derajat_naskah_id);
                 $naskah->nomor = $nomor['nomor'];
                 $naskah->no_urut = $nomor['no_urut'];

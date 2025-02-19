@@ -104,7 +104,7 @@ class HonorKegiatan extends Model
                             'tahun' => $honor->tahun,
                         ]
                     );
-                    $kontrak->nama_kontrak = 'Kontrak '.Helper::getPropertyFromCollection(Helper::getJenisKontrakById($honor->jenis_kontrak_id), 'jenis').' Bulan '.Helper::$bulan[$honor->bulan];
+                    $kontrak->nama_kontrak = 'Kontrak '.optional(Helper::getJenisKontrakById($honor->jenis_kontrak_id))->jenis.' Bulan '.Helper::$bulan[$honor->bulan];
                     $kontrak->jenis_honor = $honor->jenis_honor;
                     $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
                     $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
@@ -130,9 +130,9 @@ class HonorKegiatan extends Model
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_sk;
-                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                        $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
                         $naskahkeluar->kode_arsip_id = $honor->sk_kode_arsip_id;
-                        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                        $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'SK '.$honor->objek_sk;
                         $naskahkeluar->generate = 'A';
@@ -155,9 +155,9 @@ class HonorKegiatan extends Model
                             ->first();
                         $naskahkeluar = new NaskahKeluar;
                         $naskahkeluar->tanggal = $honor->tanggal_st;
-                        $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                        $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
                         $naskahkeluar->kode_arsip_id = $honor->st_kode_arsip_id;
-                        $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                        $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                         $naskahkeluar->tujuan = $honor->objek_sk;
                         $naskahkeluar->perihal = 'Surat Tugas '.$honor->objek_sk;
                         $naskahkeluar->generate = 'A';

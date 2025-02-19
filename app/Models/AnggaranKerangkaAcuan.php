@@ -42,7 +42,7 @@ class AnggaranKerangkaAcuan extends Model
                     $honor->tanggal_spj = $kak->akhir;
                     $honor->tanggal_st = $kak->tanggal;
                     $honor->tanggal_sk = $kak->tanggal;
-                    $honor->tahun = Helper::getPropertyFromCollection($dipa, 'tahun');
+                    $honor->tahun = optional($dipa)->tahun;
                     $honor->unit_kerja_id = $kak->unit_kerja_id;
                     $honor->save();
                 }

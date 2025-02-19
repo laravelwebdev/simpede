@@ -51,7 +51,7 @@ class DaftarHonorPegawai extends Resource
             Select::make('Nama Pegawai', 'user_id')
                 ->rules('required')
                 ->searchable()
-                ->options(Helper::setOptionPengelola('anggota', Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj')))
+                ->options(Helper::setOptionPengelola('anggota', optional(HonorKegiatan::where('id', $request->viaResourceId)->first())->tanggal_spj))
                 ->updateRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId)->ignore($this->id))
                 ->creationRules('required', Rule::unique('daftar_honor_pegawais', 'user_id')->where('honor_kegiatan_id', $request->viaResourceId))
                 ->onlyOnForms(),
@@ -78,7 +78,7 @@ class DaftarHonorPegawai extends Resource
                     if ($formData->volume != null) {
                         $field->show();
                         $field->rules('required');
-                        $field->setvalue(Helper::$pajakgolongan[Helper::getPropertyFromCollection(Helper::getDataPegawaiByUserId($formData->user_id, Helper::getPropertyFromCollection(HonorKegiatan::where('id', $request->viaResourceId)->first(), 'tanggal_spj')), 'golongan') ?? 'I/a']);
+                        $field->setvalue(Helper::$pajakgolongan[optional(Helper::getDataPegawaiByUserId($formData->user_id, optional(HonorKegiatan::where('id', $request->viaResourceId)->first())->tanggal_spj))->golongan ?? 'I/a']);
                     }
                 })->onlyOnForms(),
             Numeric::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))

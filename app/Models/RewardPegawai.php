@@ -57,9 +57,9 @@ class RewardPegawai extends Model
                         ->first();
                     $naskahkeluar = new NaskahKeluar;
                     $naskahkeluar->tanggal = $reward->tanggal_penetapan;
-                    $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                    $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-                    $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                    $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+                    $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+                    $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                     $naskahkeluar->tujuan = 'Employee of the month';
                     $naskahkeluar->perihal = 'SK Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
                     $naskahkeluar->generate = 'A';
@@ -78,9 +78,9 @@ class RewardPegawai extends Model
                         ->first();
                     $naskahkeluar = new NaskahKeluar;
                     $naskahkeluar->tanggal = $reward->tanggal_penetapan;
-                    $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                    $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-                    $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                    $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+                    $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+                    $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                     $naskahkeluar->tujuan = 'Employee of the month';
                     $naskahkeluar->perihal = 'Sertifikat Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
                     $naskahkeluar->generate = 'A';

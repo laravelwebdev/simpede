@@ -116,7 +116,7 @@ class NaskahMasuk extends Resource
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisNaskah::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
+                ->displayUsing(fn ($kode) => optional(JenisNaskah::cache()->get('all')->where('id', $kode)->first())->jenis)
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),

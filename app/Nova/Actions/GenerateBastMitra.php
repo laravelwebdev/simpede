@@ -37,17 +37,17 @@ class GenerateBastMitra extends Action
             $daftar_kontrak->bast_mitra_id = $model->id;
             if (is_null($daftar_kontrak->bast_naskah_keluar_id)) {
                 $kontrak = KontrakMitra::find($model->kontrak_mitra_id);
-                $jenis_kontrak_id = Helper::getPropertyFromCollection(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first(), 'jenis');
+                $jenis_kontrak_id = optional(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first())->jenis;
                 $bulan_kontrak = Helper::$bulan[$kontrak->bulan];
                 $default_naskah = NaskahDefault::cache()->get('all')
                     ->where('jenis', 'bast')
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $model->tanggal_bast;
-                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
+                $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
                 $naskahkeluar->kode_arsip_id = $model->kode_arsip_id;
-                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
-                $naskahkeluar->tujuan = Helper::getPropertyFromCollection(Helper::getMitraById($daftar_kontrak->mitra_id), 'nama');
+                $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
+                $naskahkeluar->tujuan = optional(Helper::getMitraById($daftar_kontrak->mitra_id))->nama;
                 $naskahkeluar->perihal = 'BERITA ACARA SERAH TERIMA HASIL PEKERJAAN MITRA STATISTIK PETUGAS '.strtoupper($jenis_kontrak_id).' BULAN '.strtoupper($bulan_kontrak).' TAHUN '.$kontrak->tahun;
                 $naskahkeluar->generate = 'A';
                 $naskahkeluar->save();

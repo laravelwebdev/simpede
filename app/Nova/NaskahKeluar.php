@@ -161,21 +161,21 @@ class NaskahKeluar extends Resource
             Select::make('Derajat Kerahasiaan', 'derajat_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(DerajatNaskah::cache()->get('all')->where('id', $kode)->first(), 'derajat'))
+                ->displayUsing(fn ($kode) => optional(DerajatNaskah::cache()->get('all')->where('id', $kode)->first())->derajat)
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsDerajatNaskah($form->tanggal));
                 }),
             Select::make('Klasifikasi Arsip', 'kode_arsip_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsKodeArsip($form->tanggal));
                 }),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(JenisNaskah::cache()->get('all')->where('id', $kode)->first(), 'jenis'))
+                ->displayUsing(fn ($kode) => optional(JenisNaskah::cache()->get('all')->where('id', $kode)->first())->jenis)
                 ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                     $field->options(Helper::setOptionsJenisNaskah($form->tanggal));
                 }),

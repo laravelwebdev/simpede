@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,7 +44,7 @@ class KontrakMitra extends Model
             $bast->save();
         });
         static::deleting(function (KontrakMitra $kontrak) {
-            $bastId = Helper::getPropertyFromCollection(BastMitra::where('kontrak_mitra_id', $kontrak->id)->first(), 'id');
+            $bastId = optional(BastMitra::where('kontrak_mitra_id', $kontrak->id)->first())->id;
             BastMitra::destroy($bastId);
             $daftarKontrakMitraIds = DaftarKontrakMitra::where('kontrak_mitra_id', $kontrak->id)->pluck('id');
             DaftarKontrakMitra::destroy($daftarKontrakMitraIds);

@@ -108,7 +108,7 @@ class PembelianPersediaan extends Resource
                         ->get()),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->searchable()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)))
                             ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
@@ -122,7 +122,7 @@ class PembelianPersediaan extends Resource
                 Select::make('Pengelola Persediaan', 'pbmn_user_id')
                     ->rules('required')
                     ->searchable()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)))
                             ->default(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));

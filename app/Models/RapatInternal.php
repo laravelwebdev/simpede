@@ -50,9 +50,9 @@ class RapatInternal extends Model
                 ->first();
             $naskahkeluar = new NaskahKeluar;
             $naskahkeluar->tanggal = $rapat->tanggal;
-            $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-            $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-            $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+            $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+            $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+            $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
             $naskahkeluar->tujuan = $rapat->tujuan;
             $naskahkeluar->perihal = 'Undangan '.$rapat->tema;
             $naskahkeluar->generate = 'A';

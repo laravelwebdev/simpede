@@ -549,9 +549,9 @@ class Helper
         $index = 1;
 
         for ($i = 0; $i < count($nama); $i += 2) {
-            $nama1 = Helper::getPegawaiByUserId($nama[$i]['peserta_user_id'])->name;
+            $nama1 = self::getPegawaiByUserId($nama[$i]['peserta_user_id'])->name;
             $unit_kerja1 = 'BPS '.config('satker.kabupaten');
-            $nama2 = isset($nama[$i + 1]) ? Helper::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '';
+            $nama2 = isset($nama[$i + 1]) ? self::getPegawaiByUserId($nama[$i + 1]['peserta_user_id'])->name : '';
             $unit_kerja2 = isset($nama[$i + 1]) ? 'BPS '.config('satker.kabupaten') : '';
 
             $daftar[] = [
@@ -690,25 +690,25 @@ class Helper
         $replaces['<bulan>'] = $bulan;
 
         $jenis_naskah = JenisNaskah::cache()->get('all')->where('id', $jenis_naskah_id)->first();
-        $kode_naskah_id = self::getPropertyFromCollection($jenis_naskah, 'kode_naskah_id');
+        $kode_naskah_id = optional($jenis_naskah)->kode_naskah_id;
         $kode_naskah = KodeNaskah::cache()->get('all')->where('id', $kode_naskah_id)->first();
 
         if ($unit_kerja_id !== null) {
             $unit_kerja = UnitKerja::cache()->get('all')->where('id', $unit_kerja_id)->first();
-            $replaces['<kode_unit_kerja>'] = self::getPropertyFromCollection($unit_kerja, 'kode');
+            $replaces['<kode_unit_kerja>'] = optional($unit_kerja)->kode;
         }
 
         if ($kode_arsip_id !== null) {
             $kode_arsip = KodeArsip::cache()->get('all')->where('id', $kode_arsip_id)->first();
-            $replaces['<kode_arsip>'] = self::getPropertyFromCollection($kode_arsip, 'kode');
+            $replaces['<kode_arsip>'] = optional($kode_arsip)->kode;
         }
 
         if ($derajat_naskah_id !== null) {
             $derajat_naskah = DerajatNaskah::cache()->get('all')->where('id', $derajat_naskah_id)->first();
-            $replaces['<derajat>'] = self::getPropertyFromCollection($derajat_naskah, 'kode');
+            $replaces['<derajat>'] = optional($derajat_naskah)->kode;
         }
 
-        $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'));
+        $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', optional($kode_naskah)->id);
         $max_no_urut = $naskah->max('no_urut') ?? 0;
         $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
 
@@ -718,20 +718,20 @@ class Helper
         } else {
             $no_urut = $naskah->whereDate('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
             $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
-                ->where('kode_naskah_id', self::getPropertyFromCollection($kode_naskah, 'id'))
+                ->where('kode_naskah_id', optional($kode_naskah)->id)
                 ->where('no_urut', $no_urut)
                 ->max('segmen') + 1;
         }
 
         $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
-        $format = self::getPropertyFromCollection($kode_naskah, 'format');
+        $format = optional($kode_naskah)->format;
         $nomor = strtr($format, $replaces);
 
         return [
             'nomor' => $nomor,
             'no_urut' => $no_urut,
             'segmen' => $segmen,
-            'kode_naskah_id' => self::getPropertyFromCollection($kode_naskah, 'id'),
+            'kode_naskah_id' => optional($kode_naskah)->id,
         ];
     }
 
@@ -757,7 +757,7 @@ class Helper
         if ($role === 'koordinator') {
             $usersIdByUnitKerja = DataPegawai::cache()
                 ->get('all')
-                ->where('unit_kerja_id', self::getPropertyFromCollection(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal), 'unit_kerja_id'))
+                ->where('unit_kerja_id', optional(self::getDataPegawaiByUserId(Auth::user()->id, $tanggal))->unit_kerja_id)
                 ->where('tanggal', '<=', $tanggal)
                 ->pluck('user_id')
                 ->toArray();
@@ -1057,7 +1057,7 @@ class Helper
     {
         $spek = collect($anggaran);
         $spek->transform(function ($item, $index) {
-            $item['mak'] = self::getPropertyFromCollection(self::getMataAnggaranById($item['mata_anggaran_id']), 'mak')."\r\n".self::getPropertyFromCollection(self::getMataAnggaranById($item['mata_anggaran_id']), 'uraian');
+            $item['mak'] = optional(self::getMataAnggaranById($item['mata_anggaran_id']))->mak."\r\n".optional(self::getMataAnggaranById($item['mata_anggaran_id']))->uraian;
             $item['anggaran_no'] = $index + 1;
             $item['perkiraan'] = self::formatRupiah($item['perkiraan']);
 
@@ -1074,7 +1074,7 @@ class Helper
             $item['no'] = $index + 1;
             $item['harga_satuan'] = self::formatRupiah($item['harga_satuan']);
             $item['total_harga'] = self::formatRupiah($item['total_harga']);
-            $item['kode'] = self::getPropertyFromCollection(self::getMasterPersediaanById($item['master_persediaan_id']), 'kode');
+            $item['kode'] = optional(self::getMasterPersediaanById($item['master_persediaan_id']))->kode;
 
             return $item;
         });
@@ -1191,10 +1191,10 @@ class Helper
         $mitra->transform(function ($item, $index) {
             $mitra = self::getMitraById($item['mitra_id']);
             $item['nip'] = '-';
-            $item['nama'] = self::getPropertyFromCollection($mitra, 'nama');
-            $item['nip_lama'] = self::getPropertyFromCollection($mitra, 'nik');
-            $item['rekening'] = self::getPropertyFromCollection($mitra, 'rekening');
-            $item['kode_bank_id'] = self::getPropertyFromCollection($mitra, 'kode_bank_id');
+            $item['nama'] = optional($mitra)->nama;
+            $item['nip_lama'] = optional($mitra)->nik;
+            $item['rekening'] = optional($mitra)->rekening;
+            $item['kode_bank_id'] = optional($mitra)->kode_bank_id;
             $item['golongan'] = '-';
             $item['jabatan'] = 'Mitra Statistik';
             $item['volume'] = $item['volume_realisasi'];
@@ -1263,13 +1263,13 @@ class Helper
     {
         $pegawai->transform(function ($item, $index) use ($tanggal_spj) {
             $pegawai = self::getPegawaiByUserId($item['user_id']);
-            $item['nama'] = self::getPropertyFromCollection($pegawai, 'name');
-            $item['nip'] = self::getPropertyFromCollection($pegawai, 'nip');
-            $item['nip_lama'] = self::getPropertyFromCollection($pegawai, 'nip_lama');
-            $item['jabatan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'jabatan');
-            $item['rekening'] = self::getPropertyFromCollection($pegawai, 'rekening');
-            $item['kode_bank_id'] = self::getPropertyFromCollection($pegawai, 'kode_bank_id');
-            $item['golongan'] = self::getPropertyFromCollection(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj), 'golongan');
+            $item['nama'] = optional($pegawai)->name;
+            $item['nip'] = optional($pegawai)->nip;
+            $item['nip_lama'] = optional($pegawai)->nip_lama;
+            $item['jabatan'] = optional(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj))->jabatan;
+            $item['rekening'] = optional($pegawai)->rekening;
+            $item['kode_bank_id'] = optional($pegawai)->kode_bank_id;
+            $item['golongan'] = optional(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj))->golongan;
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
             $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
@@ -1329,7 +1329,7 @@ class Helper
                 $item['spj_no'] = $index + 1;
                 $item['bruto'] = self::formatUang($item['bruto']);
                 $item['pajak'] = self::formatUang($item['pajak']);
-                $item['rekening'] = self::getPropertyFromCollection(self::getKodeBankById($item['kode_bank_id']), 'nama_bank').' '.$item['rekening'];
+                $item['rekening'] = optional(self::getKodeBankById($item['kode_bank_id']))->nama_bank.' '.$item['rekening'];
                 $item['netto'] = self::formatUang($item['netto']);
                 $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
 
@@ -1478,7 +1478,7 @@ class Helper
                 $item['Benef Account'] = $item['rekening'];
                 $item['Benef Name'] = $item['nama'];
                 $item['Benef Address'] = strtoupper(str_replace('Kabupaten ', '', config('satker.kabupaten')));
-                $item['Benef Bank'] = Helper::getPropertyFromCollection(Helper::getKodeBankById($item['kode_bank_id']), 'kode');
+                $item['Benef Bank'] = optional(self::getKodeBankById($item['kode_bank_id']))->kode;
                 $item['Benef eMail'] = '';
                 $item['Amount'] = $item['netto'];
                 $item['Charge Type'] = 'BEN';
@@ -1529,14 +1529,14 @@ class Helper
                 $honor_kegiatan = HonorKegiatan::find($item['honor_kegiatan_id']);
                 $mata_anggaran = self::getMataAnggaranById($honor_kegiatan->mata_anggaran_id);
                 $item['spek_no'] = $index + 1;
-                $item['spek_kegiatan'] = self::getPropertyFromCollection($honor_kegiatan, 'kegiatan');
-                $item['spek_mak'] = self::getPropertyFromCollection($mata_anggaran, 'mak');
+                $item['spek_kegiatan'] = optional($honor_kegiatan)->kegiatan;
+                $item['spek_mak'] = optional($mata_anggaran)->mak;
                 $item['spek_vol'] = $item['volume_target'];
                 $item['spek_vol_target'] = $item['volume_target'];
                 $item['spek_vol_realisasi'] = $item['volume_realisasi'];
                 $item['spek_selesai'] = $item['status_realisasi'];
-                $item['spek_satuan'] = self::getPropertyFromCollection($honor_kegiatan, 'satuan');
-                $item['spek_akhir'] = self::terbilangTanggal(self::getPropertyFromCollection($honor_kegiatan, 'akhir'));
+                $item['spek_satuan'] = optional($honor_kegiatan)->satuan;
+                $item['spek_akhir'] = self::terbilangTanggal(optional($honor_kegiatan)->akhir);
                 $item['spek_total'] = self::formatUang($item['volume_target'] * $item['harga_satuan']);
 
                 return $item;
@@ -1586,18 +1586,6 @@ class Helper
     }
 
     /**
-     * Get property from collection.
-     *
-     * @param  mixed  $collection  Eloquent collection or null
-     * @param  string  $property  Property name
-     * @return mixed
-     */
-    public static function getPropertyFromCollection($collection, $property)
-    {
-        return optional($collection)->$property;
-    }
-
-    /**
      * Mendapatkan path template berdasarkan kolom dan value.
      *
      * @param  string  $column  Nama kolom template
@@ -1606,7 +1594,7 @@ class Helper
      */
     public static function getTemplatePath($column, $value)
     {
-        $file = self::getPropertyFromCollection(Template::cache()->get('all')->where($column, '=', $value)->first(), 'file');
+        $file = optional(Template::cache()->get('all')->where($column, '=', $value)->first())->file;
 
         return [
             'filename' => $file,
@@ -1644,7 +1632,7 @@ class Helper
      */
     public static function getLatestTataNaskahId($tanggal)
     {
-        return self::getPropertyFromCollection(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first(), 'id');
+        return optional(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first())->id;
     }
 
     /**
@@ -1655,7 +1643,7 @@ class Helper
      */
     public static function getLatestHargaSatuanId($tanggal)
     {
-        return self::getPropertyFromCollection(self::getLatestHargaSatuan($tanggal), 'id');
+        return optional(self::getLatestHargaSatuan($tanggal))->id;
     }
 
     /**
@@ -1876,7 +1864,7 @@ class Helper
         $hari = $kegiatan->awal->diffInDays($method === 'auto' ? $reminder->tanggal : now());
         $pesan = strtr($kegiatan->pesan, [
             '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
-            '{tanggal}' => Helper::terbilangTanggal($kegiatan->awal),
+            '{tanggal}' => self::terbilangTanggal($kegiatan->awal),
             '{kegiatan}' => $kegiatan->kegiatan,
             '{pj}' => $kegiatan->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
         ]);

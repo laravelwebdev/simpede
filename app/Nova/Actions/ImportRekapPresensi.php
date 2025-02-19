@@ -33,7 +33,7 @@ class ImportRekapPresensi extends Action
         (new FastExcel)->startRow(5)->import($fields->file, function ($row) use ($model) {
             $daftar = DaftarPenilaianReward::firstOrNew(
                 [
-                    'user_id' => Helper::getPropertyFromCollection(User::cache()->get('all')->where('nip_lama', $row['NIP'])->first(), 'id'),
+                    'user_id' => optional(User::cache()->get('all')->where('nip_lama', $row['NIP'])->first())->id,
                     'reward_pegawai_id' => $model->id,
                 ]
             );

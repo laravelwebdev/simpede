@@ -108,14 +108,14 @@ class KontrakMitra extends Resource
                     ->searchable()
                     ->hideFromIndex()
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                     ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $default_naskah = NaskahDefault::cache()
                             ->get('all')
                             ->where('jenis', 'kontrak')
                             ->first();
                         $field->rules('required')
-                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
+                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, optional($default_naskah)->kode_arsip_id));
                     }),
                 Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')
                     ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
@@ -137,7 +137,7 @@ class KontrakMitra extends Resource
                     ->searchable()
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->onlyOnForms()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)))
                             ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));

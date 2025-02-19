@@ -98,7 +98,7 @@ class DaftarPesertaPerjalanan extends Resource
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
                             ->rules('required')
@@ -108,7 +108,7 @@ class DaftarPesertaPerjalanan extends Resource
                 Select::make('Bendahara', 'bendahara_user_id')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_kuitansi', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field
                             ->options(Helper::setOptionPengelola('bendahara', Helper::createDateFromString($formData->tanggal_kuitansi)))

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -52,9 +51,9 @@ class PembelianPersediaan extends Model
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $pembelian->tanggal_bast;
-                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+                $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+                $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                 $naskahkeluar->tujuan = 'Pengelola Barang Persediaan';
                 $naskahkeluar->perihal = 'BAST '.$pembelian->rincian;
                 $naskahkeluar->generate = 'A';

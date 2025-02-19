@@ -25,7 +25,7 @@ class RealisasiPerJenisBelanja extends Table
         ]);
 
         $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');
-        $dipaId = Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id');
+        $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
         $bulan = (int) date('m');
 
         $datas = DB::table('mata_anggarans')

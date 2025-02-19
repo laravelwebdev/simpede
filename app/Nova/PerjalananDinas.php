@@ -117,7 +117,7 @@ class PerjalananDinas extends Resource
                 Select::make('Klasifikasi Arsip ST', 'st_kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                     ->rules('required')
                     ->dependsOn(['stNaskahKeluar', 'tanggal_st'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionsKodeArsip($formData->tanggal_st));
@@ -130,7 +130,7 @@ class PerjalananDinas extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_st', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)))
                             ->default(Helper::setDefaultPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
@@ -144,7 +144,7 @@ class PerjalananDinas extends Resource
                 Select::make('Klasifikasi Arsip SPD', 'spd_kode_arsip_id')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                     ->rules('required')
                     ->dependsOn(['tanggal_spd'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionsKodeArsip($formData->tanggal_spd));
@@ -153,7 +153,7 @@ class PerjalananDinas extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_spd', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spd)))
                             ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spd)));

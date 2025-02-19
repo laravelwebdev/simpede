@@ -97,21 +97,21 @@ class BastMitra extends Resource
                     ->searchable()
                     ->hideFromIndex()
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                     ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $default_naskah = NaskahDefault::cache()
                             ->get('all')
                             ->where('jenis', 'bast')
                             ->first();
                         $field->rules('required')
-                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')));
+                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, optional($default_naskah)->kode_arsip_id));
                     }),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->rules('required')
                     ->searchable()
                     ->readonly(! Policy::make()->allowedFor('ppk')->get())
                     ->onlyOnForms()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)))
                             ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));

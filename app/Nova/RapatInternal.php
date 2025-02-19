@@ -115,7 +115,7 @@ class RapatInternal extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal)))
                             ->default(Helper::setDefaultPengelola('kepala', Helper::createDateFromString($formData->tanggal)));
@@ -131,7 +131,7 @@ class RapatInternal extends Resource
                     ->rules('required')
                     ->searchable()
                     ->hideFromIndex()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)))
                             ->default(Helper::setDefaultPengelola('kasubbag', Helper::createDateFromString($formData->tanggal_rapat)));
@@ -142,7 +142,7 @@ class RapatInternal extends Resource
                     ->searchable()
                     ->hideFromIndex()
                     ->hideWhenCreating()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
@@ -150,7 +150,7 @@ class RapatInternal extends Resource
                     ->searchable()
                     ->hideFromIndex()
                     ->hideWhenCreating()
-                    ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_rapat', function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('anggota', Helper::createDateFromString($formData->tanggal_rapat)));
                     }),
@@ -158,7 +158,7 @@ class RapatInternal extends Resource
                     Select::make('Nama', 'peserta_user_id')
                         ->rules('required')
                         ->searchable()
-                        ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                        ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                         ->options(Helper::setOptionPengelola('anggota', now())),
 
                 ])->hideWhenCreating(),

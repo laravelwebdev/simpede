@@ -123,7 +123,7 @@ class KerangkaAcuan extends Resource
                     ->rules('required')
                     ->displayUsingLabels()
                     ->options(Helper::setOptionDipa())
-                    ->default(Helper::getPropertyFromCollection(Dipa::cache()->get('all')->where('tahun', session('year'))->first(), 'id')),
+                    ->default(optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id),
             ]),
             Select::make('Jumlah SP2D', 'daftar_sp2d_count')
                 ->options([
@@ -336,7 +336,7 @@ class KerangkaAcuan extends Resource
             Select::make('Pembuat KAK', 'koordinator_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal)))
                         ->default(Helper::setDefaultPengelola('koordinator', Helper::createDateFromString($formData->tanggal)));
@@ -344,7 +344,7 @@ class KerangkaAcuan extends Resource
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal)))
                         ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal)));

@@ -114,7 +114,7 @@ class PermintaanPersediaan extends Resource
                 ->searchable()
                 ->onlyOnForms()
                 ->hideWhenCreating()
-                ->displayUsing(fn ($id) => Helper::getPropertyFromCollection(Helper::getPegawaiByUserId($id), 'name'))
+                ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                 ->dependsOn('tanggal_persetujuan', function (Select $field, NovaRequest $request, FormData $formData) {
                     $field->options(Helper::setOptionPengelola('bmn', Helper::createDateFromString($formData->tanggal_persetujuan)))
                         ->rules('required')

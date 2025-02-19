@@ -86,7 +86,7 @@ class NaskahDefault extends Resource
                 ->options(Helper::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'derajat')),
             MultiSelect::make('Kode Arsip', 'kode_arsip_id')
                 ->sortable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                 ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
                 ->hideFromIndex(),
 
@@ -110,7 +110,7 @@ class NaskahDefault extends Resource
                 ->exceptOnForms(),
             MultiSelect::make('Kode Arsip', 'kode_arsip_id')
                 ->sortable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                 ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
                 ->hideFromIndex(),
 
@@ -134,7 +134,7 @@ class NaskahDefault extends Resource
                 ->exceptOnForms(),
             MultiSelect::make('Kode Arsip', 'kode_arsip_id')
                 ->sortable()
-                ->displayUsing(fn ($kode) => Helper::getPropertyFromCollection(KodeArsip::cache()->get('all')->where('id', $kode)->first(), 'kode'))
+                ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
                 ->options(Helper::setOptions(KodeArsip::cache()->get('all')->where('tata_naskah_id', $request->viaResourceId), 'id', 'detail', '', 'kode', ''))
                 ->hideFromIndex(),
 

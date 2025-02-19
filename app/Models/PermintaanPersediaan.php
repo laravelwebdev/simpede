@@ -70,9 +70,9 @@ class PermintaanPersediaan extends Model
                     ->first();
                 $naskahkeluar = new NaskahKeluar;
                 $naskahkeluar->tanggal = $permintaan->tanggal_permintaan;
-                $naskahkeluar->jenis_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'jenis_naskah_id');
-                $naskahkeluar->kode_arsip_id = Helper::getPropertyFromCollection($default_naskah, 'kode_arsip_id')[0];
-                $naskahkeluar->derajat_naskah_id = Helper::getPropertyFromCollection($default_naskah, 'derajat_naskah_id');
+                $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
+                $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+                $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                 $naskahkeluar->tujuan = 'Pengelola Barang Persediaan';
                 $naskahkeluar->perihal = 'Bon Permintaan Persediaan '.$permintaan->rincian;
                 $naskahkeluar->generate = 'A';

@@ -58,12 +58,12 @@ class SpesifikasiKerangkaAcuan extends Resource
         return [
             Hidden::make('ID KAK', 'kerangka_acuan_id')->default($request->viaResourceId),
             Text::make('Rincian')
-                ->rules('required'),
+                ->rules('required','max:80'),
             Number::make('Volume')
                 ->step(0.01)
                 ->rules('required', 'gt:0')->min(0),
             Text::make('Satuan')
-                ->rules('required'),
+                ->rules('required', 'max:40'),
             Numeric::make('Harga Satuan')
                 ->rules('required', 'gt:0'),
             Textarea::make('Spesifikasi')

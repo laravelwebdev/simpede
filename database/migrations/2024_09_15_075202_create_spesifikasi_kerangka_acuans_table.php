@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('spesifikasi_kerangka_acuans', function (Blueprint $table) {
             $table->id();
             $table->string('rincian', 80)->nullable();
-            $table->integer('volume')->nullable()->unsigned();
+            $table->decimal('volume', 10, 2)->nullable()->unsigned();
             $table->string('satuan', 40)->nullable();
             $table->integer('harga_satuan')->nullable()->unsigned();
             $table->integer('total_harga')->nullable()->unsigned();

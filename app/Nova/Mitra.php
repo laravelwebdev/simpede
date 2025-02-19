@@ -91,7 +91,7 @@ class Mitra extends Resource
                 ->rules('required'),
             Text::make('Nomor Rekening', 'rekening')
                 ->showWhenPeeking()
-                ->rules('required', 'integer', 'max:40'),
+                ->rules('required', 'numeric', 'digits_between:1,40'),
         ];
     }
 

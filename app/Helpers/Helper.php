@@ -1177,7 +1177,7 @@ class Helper
 
         $arrayspek = $spek->toArray();
 
-        return empty($arrayspek) ? [['no' => 1, 'nomor_dokumen' => '-', 'tanggal_buku' => '-', 'uraian' => '-', 'masuk' => '-', 'keluar' => '-', 'sisa' => '-']] : $arrayspek;
+        return empty($arrayspek) ? [['no' => 1, 'nomor_dokumen' => '-', 'tanggal_buku' => '-', 'uraian' => '-', 'masuk' => '-', 'keluar' => '-', 'sisa' => $stok]] : $arrayspek;
     }
 
     /**

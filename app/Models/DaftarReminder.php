@@ -31,6 +31,7 @@ class DaftarReminder extends Model
         static::creating(function (DaftarReminder $daftar) {
             $daftar->status = 'on progress';
         });
+
     }
 
     public static function getRemindersForToday()

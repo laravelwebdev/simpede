@@ -58,7 +58,7 @@ class DaftarKegiatan extends Model
 
         static::creating(function (DaftarKegiatan $daftar) {
             if ($daftar->jenis === 'Deadline') {
-                $daftar->status = 'on progress';
+                $daftar->status = empty($daftar->waktu_reminder) ? 'sent' : 'on progress';
             }
         });
 

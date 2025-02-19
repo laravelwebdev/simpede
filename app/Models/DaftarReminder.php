@@ -36,7 +36,6 @@ class DaftarReminder extends Model
                 $query->where('status', '!=', 'sent')->where('id', '!=', $daftar->id);
             })->update(['status' => 'sent']);
         });
-
     }
 
     public static function getRemindersForToday()

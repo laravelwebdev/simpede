@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
+use Illuminate\Support\Facades\DB;
 
 class Dipa extends Model
 {
@@ -72,5 +73,27 @@ class Dipa extends Model
             $realisasiIds = RealisasiAnggaran::where('dipa_id', $dipa->id)->pluck('id');
             RealisasiAnggaran::destroy($realisasiIds);
         });
+    }
+
+    public static function getByTahun($tahun)
+    {
+        return self::where('tahun', $tahun)->first();
+    }
+
+    public static function getMataAnggarans($dipaId, $search)
+    {
+        return DB::table('mata_anggarans')
+            ->select(['mak', 'id', 'uraian'])
+            ->where('dipa_id', $dipaId)
+            ->when($search, function ($query, $search) {
+                $keywords = explode('.', $search);
+                foreach ($keywords as $keyword) {
+                    $query->where('mak', 'like', '%'.$keyword.'%');
+                }
+
+                return $query;
+            })
+            ->orderBy('mak')
+            ->orderBy('ordered');
     }
 }

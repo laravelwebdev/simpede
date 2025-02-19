@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
@@ -227,5 +228,21 @@ class KerangkaAcuan extends Model
     {
         $dataKetua = Helper::getDataPegawaiByUserId($this->koordinator_user_id, $this->tanggal);
         $this->unit_kerja_id = Helper::getPropertyFromCollection($dataKetua, 'unit_kerja_id');
+    }
+
+    public static function getKerangkaAcuans($coa, $search)
+    {
+        $kakIds = DB::table('anggaran_kerangka_acuans')
+            ->select('kerangka_acuan_id')
+            ->where('mata_anggaran_id', $coa)
+            ->pluck('kerangka_acuan_id')
+            ->toArray();
+
+        return DB::table('kerangka_acuans')
+            ->select(['id', 'rincian'])
+            ->when($search, function ($query, $search) {
+                return $query->where('rincian', 'like', '%'.$search.'%');
+            })
+            ->whereIn('id', $kakIds);
     }
 }

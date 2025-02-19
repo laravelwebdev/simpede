@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Dipa;
+use App\Models\KerangkaAcuan;
 use App\Models\ShareLink;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
@@ -13,22 +13,10 @@ class ArsipController extends Controller
 {
     public function perDetail($token)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
-        $dipa = Dipa::where('tahun', $tahun)->first();
+        $tahun = ShareLink::getTahunByToken($token);
+        $dipa = Dipa::getByTahun($tahun);
         $search = request()->get('search');
-        $data = DB::table('mata_anggarans')
-            ->select(['mak', 'id', 'uraian'])
-            ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)
-            ->when($search, function ($query, $search) {
-                $keywords = explode('.', $search);
-                foreach ($keywords as $keyword) {
-                    $query->where('mak', 'like', '%'.$keyword.'%');
-                }
-
-                return $query;
-            })
-            ->orderBy('mak')
-            ->orderBy('ordered')
+        $data = Dipa::getMataAnggarans(! empty($dipa) ? $dipa->id : null, $search)
             ->paginate()
             ->withQueryString();
 
@@ -39,25 +27,15 @@ class ArsipController extends Controller
             'data' => $data,
             'version' => Helper::version(),
             'satker' => 'BPS '.config('satker.kabupaten'),
-
         ]);
     }
 
     public function perKak($token, $coa)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::getTahunByToken($token);
         $search = request()->get('search');
-        $kakIds = DB::table('anggaran_kerangka_acuans')
-            ->select('kerangka_acuan_id')
-            ->where('mata_anggaran_id', $coa)
-            ->pluck('kerangka_acuan_id')
-            ->toArray();
-        $data = DB::table('kerangka_acuans')
-            ->select(['id', 'rincian'])
-            ->when($search, function ($query, $search) {
-                return $query->where('rincian', 'like', '%'.$search.'%');
-            })
-            ->whereIn('id', $kakIds)->paginate()
+        $data = KerangkaAcuan::getKerangkaAcuans($coa, $search)
+            ->paginate()
             ->withQueryString();
 
         return view('arsip-per-kak', [
@@ -72,7 +50,7 @@ class ArsipController extends Controller
 
     public function daftarFile($token, $kak)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::getTahunByToken($token);
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $files = Storage::disk('arsip')->files($path);
         $perPage = 15;
@@ -95,7 +73,7 @@ class ArsipController extends Controller
 
     public function downloadFolder($token, $kak)
     {
-        $tahun = ShareLink::where('token', $token)->first()->tahun;
+        $tahun = ShareLink::getTahunByToken($token);
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
         $folderPath = Storage::disk('arsip')->path($path);
         $files = Storage::disk('arsip')->files($path);

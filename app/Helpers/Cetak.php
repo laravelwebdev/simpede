@@ -331,7 +331,7 @@ class Cetak
             'kode_barang' => $data->kode_barang,
             'nup' => $data->nup,
             'tahun' => session('year'),
-            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->where('tanggal', '<=', $tanggal)->where('master_barang_pemeliharaan_id', $id)->get(),
+            'daftar_pemeliharaan' => DaftarPemeliharaan::whereYear('tanggal', session('year'))->whereDate('tanggal', '<=', $tanggal)->where('master_barang_pemeliharaan_id', $id)->get(),
         ];
     }
 
@@ -356,7 +356,7 @@ class Cetak
             'satuan' => $data->satuan,
             'tahun' => session('year'),
             'daftar_persediaan' => BarangPersediaan::whereYear('tanggal_transaksi', session('year'))
-                ->where('tanggal_transaksi', '<=', $tanggal)
+                ->whereDate('tanggal_transaksi', '<=', $tanggal)
                 ->where('master_persediaan_id', $id)
                 ->with('barangPersediaanable')
                 ->orderBy('tanggal_transaksi', 'asc')

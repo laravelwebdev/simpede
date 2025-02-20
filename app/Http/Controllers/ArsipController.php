@@ -11,6 +11,12 @@ use ZipArchive;
 
 class ArsipController extends Controller
 {
+    /**
+     * Display the list of Mata Anggaran (COA) for a given token.
+     *
+     * @param string $token The access token.
+     * @return \Illuminate\View\View The view displaying the list of Mata Anggaran.
+     */
     public function perDetail($token)
     {
         $tahun = ShareLink::getTahunByToken($token);
@@ -30,6 +36,13 @@ class ArsipController extends Controller
         ]);
     }
 
+    /**
+     * Display the list of Kerangka Acuan (KAK) for a given COA and token.
+     *
+     * @param string $token The access token.
+     * @param string $coa The COA identifier.
+     * @return \Illuminate\View\View The view displaying the list of Kerangka Acuan.
+     */
     public function perKak($token, $coa)
     {
         $tahun = ShareLink::getTahunByToken($token);
@@ -48,6 +61,13 @@ class ArsipController extends Controller
         ]);
     }
 
+    /**
+     * Display the list of files for a given KAK and token.
+     *
+     * @param string $token The access token.
+     * @param string $kak The KAK identifier.
+     * @return \Illuminate\View\View The view displaying the list of files.
+     */
     public function daftarFile($token, $kak)
     {
         $tahun = ShareLink::getTahunByToken($token);
@@ -71,6 +91,13 @@ class ArsipController extends Controller
         ]);
     }
 
+    /**
+     * Download the contents of a folder as a ZIP file.
+     *
+     * @param string $token The access token.
+     * @param string $kak The KAK identifier.
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\RedirectResponse The response to download the ZIP file or redirect back with an error message.
+     */
     public function downloadFolder($token, $kak)
     {
         $tahun = ShareLink::getTahunByToken($token);

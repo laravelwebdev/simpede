@@ -259,6 +259,12 @@ class Helper
         'IV/e' => 15,
     ];
 
+    /**
+     * Get the last sheet name from an Excel file.
+     *
+     * @param  string  $file  The path to the Excel file.
+     * @return string  The name of the last sheet.
+     */
     public static function getLastSheetName($file)
     {
         $reader = new Reader;
@@ -271,6 +277,12 @@ class Helper
         return $name;
     }
 
+    /**
+     * Format a phone number for WhatsApp.
+     *
+     * @param  string  $telepon  The phone number to format.
+     * @return string  The formatted phone number.
+     */
     public static function formatTelepon($telepon)
     {
         $wa = str_replace('+62 08', '628', $telepon);
@@ -280,6 +292,12 @@ class Helper
         return "https://wa.me/{$wa}";
     }
 
+    /**
+     * Check if the current date is within a specific triwulan (quarter).
+     *
+     * @param  int  $tw  The triwulan number (1-4).
+     * @return bool  True if the current date is within the specified triwulan, false otherwise.
+     */
     public static function is_triwulan($tw)
     {
         $now = Carbon::now();
@@ -297,6 +315,12 @@ class Helper
         }
     }
 
+    /**
+     * Check if the current date is within a specific cumulative triwulan (quarter).
+     *
+     * @param  int  $tw  The cumulative triwulan number (1-4).
+     * @return bool  True if the current date is within the specified cumulative triwulan, false otherwise.
+     */
     public static function is_triwulan_kumulatif($tw)
     {
         $now = Carbon::now();
@@ -314,16 +338,22 @@ class Helper
         }
     }
 
+    /**
+     * Get the current triwulan (quarter) based on the given month.
+     *
+     * @param  int  $month  The month number (1-12).
+     * @return int  The triwulan number (1-4).
+     */
     public static function getTriwulanBerjalan($month)
     {
         return (int) ceil($month / 3);
     }
 
     /**
-     * Mengubah tanggal ke nama hari.
+     * Convert a date to the name of the day.
      *
-     * @param  Date  $tanggal
-     * @return string
+     * @param  Date  $tanggal  The date to convert.
+     * @return string  The name of the day.
      */
     public static function terbilangHari($tanggal)
     {
@@ -334,10 +364,10 @@ class Helper
     }
 
     /**
-     * Mengubah bulan ke nama bulan.
+     * Convert a month number to the name of the month.
      *
-     * @param  int  $bulan
-     * @return string
+     * @param  int  $bulan  The month number (1-12).
+     * @return string  The name of the month.
      */
     public static function terbilangBulan($bulan)
     {
@@ -345,16 +375,23 @@ class Helper
     }
 
     /**
-     * Mengubah angka ke format rupiah.
+     * Format a number as Indonesian Rupiah.
      *
-     * @param  int|float  $angka
-     * @return string
+     * @param  int|float  $angka  The number to format.
+     * @return string  The formatted Rupiah value.
      */
     public static function formatRupiah($angka)
     {
         return 'Rp.'.self::formatUang($angka);
     }
 
+    /**
+     * Check the stock of a specific item in the inventory.
+     *
+     * @param  int  $id  The ID of the item.
+     * @param  string|null  $tanggal  The date to check the stock (optional).
+     * @return int  The stock quantity.
+     */
     public static function cekStokPersediaan($id, $tanggal = null)
     {
         $stok = DB::table('barang_persediaans')
@@ -372,10 +409,10 @@ class Helper
     }
 
     /**
-     * Upper case nama tanpa gelar.
+     * Convert a name to uppercase without titles.
      *
-     * @param  string  $nama
-     * @return string
+     * @param  string  $nama  The name to convert.
+     * @return string  The name in uppercase without titles.
      */
     public static function upperNamaTanpaGelar($nama)
     {
@@ -383,10 +420,10 @@ class Helper
     }
 
     /**
-     * Nama tanpa gelar.
+     * Remove titles from a name.
      *
-     * @param  string  $nama
-     * @return string
+     * @param  string  $nama  The name to process.
+     * @return string  The name without titles.
      */
     public static function namaTanpaGelar($nama)
     {
@@ -394,33 +431,46 @@ class Helper
     }
 
     /**
-     * Mengubah angka ke format uang.
+     * Format a number as currency.
      *
-     * @param  int|float  $angka
-     * @return string
+     * @param  int|float  $angka  The number to format.
+     * @return string  The formatted currency value.
      */
     public static function formatUang($angka)
     {
         return number_format($angka, 0, ',', '.');
     }
 
+    /**
+     * Mask a NIK (National Identification Number) with asterisks.
+     *
+     * @param  string  $nik  The NIK to mask.
+     * @return string  The masked NIK.
+     */
     public static function asterikNik($nik)
     {
         return substr($nik, 0, 4).str_repeat('*', 10).substr($nik, 14);
     }
 
     /**
-     * Generate jangka waktu.
+     * Generate a time period in calendar days.
      *
-     * @param  DateTime  $awal
-     * @param  DateTime  $akhir
-     * @return string
+     * @param  DateTime  $awal  The start date.
+     * @param  DateTime  $akhir  The end date.
+     * @return string  The time period in calendar days.
      */
     public static function jangkaWaktuHariKalender($awal, $akhir)
     {
         return self::jangkaWaktu($awal, $akhir).' Kalender';
     }
 
+    /**
+     * Generate a time period in days.
+     *
+     * @param  DateTime  $awal  The start date.
+     * @param  DateTime  $akhir  The end date.
+     * @return string  The time period in days.
+     */
     public static function jangkaWaktu($awal, $akhir)
     {
         $selisih = $awal->diff($akhir)->format('%a') + 1;
@@ -429,10 +479,10 @@ class Helper
     }
 
     /**
-     * Mengubah Angka ke Suku Kata.
+     * Convert a number to words.
      *
-     * @param  int|float  $x
-     * @return string
+     * @param  int|float  $x  The number to convert.
+     * @return string  The number in words.
      */
     private static function kata($x)
     {
@@ -442,10 +492,10 @@ class Helper
     }
 
     /**
-     * Menghapus titik di akhir kalimat.
+     * Remove the period at the end of a sentence.
      *
-     * @param  string  $kalimat
-     * @return string
+     * @param  string  $kalimat  The sentence to process.
+     * @return string  The sentence without the period at the end.
      */
     public static function hapusTitikAkhirKalimat($kalimat)
     {
@@ -453,12 +503,12 @@ class Helper
     }
 
     /**
-     * Mengubah Angka ke  Kata.
+     * Convert a number to words with optional style and suffix.
      *
-     * @param  int|float  $x  Angka
-     * @param  string  $style  up=Upper|uw=ucwordss|uf=ucfirst
-     * @param  string  $suffix  tambahan di akhir
-     * @return string
+     * @param  int|float  $x  The number to convert.
+     * @param  string  $style  The style of the words (up=Upper, uw=ucwords, uf=ucfirst).
+     * @param  string  $suffix  The suffix to add to the words.
+     * @return string  The number in words with the specified style and suffix.
      */
     public static function terbilang($x, $style = 'uw', $suffix = '')
     {
@@ -482,6 +532,14 @@ class Helper
         return $hasil;
     }
 
+    /**
+     * Get the date before a specific deadline.
+     *
+     * @param  string  $tanggal_deadline  The deadline date.
+     * @param  int  $jumlah_hari  The number of days before the deadline.
+     * @param  string  $ref  The reference type (HK=Hari Kerja, H=Hari Kalender).
+     * @return string  The date before the deadline.
+     */
     public static function getTanggalSebelum($tanggal_deadline, $jumlah_hari, $ref = 'h')
     {
         $tanggal_deadline = Carbon::parse($tanggal_deadline);
@@ -507,11 +565,11 @@ class Helper
     }
 
     /**
-     * Mengubah Tanggal ke Kata.
+     * Convert a date to words.
      *
-     * @param  Date  $tanggal
-     * @param  string  $format  s=short|l=long
-     * @return string
+     * @param  Date  $tanggal  The date to convert.
+     * @param  string  $format  The format of the words (s=short, l=long).
+     * @return string  The date in words.
      */
     public static function terbilangTanggal($tanggal, $format = 's')
     {
@@ -523,26 +581,44 @@ class Helper
     }
 
     /**
-     * Mengembalikan tahun dari tanggal yang diberikan.
+     * Get the year from a date.
      *
-     * @param  \Illuminate\Support\Carbon  $tanggal  Tanggal
-     * @return int Tahun
+     * @param  \Illuminate\Support\Carbon  $tanggal  The date to process.
+     * @return int  The year.
      */
     public static function getYearFromDate($tanggal)
     {
         return $tanggal->format('Y');
     }
 
+    /**
+     * Get the month from a date.
+     *
+     * @param  \Illuminate\Support\Carbon  $tanggal  The date to process.
+     * @return int  The month.
+     */
     public static function getMonthFromDate($tanggal)
     {
         return $tanggal->format('m');
     }
 
+    /**
+     * Format a time value.
+     *
+     * @param  string  $jam  The time value to format.
+     * @return string  The formatted time value.
+     */
     public static function formatJam($jam)
     {
         return date('H:i', strtotime($jam));
     }
 
+    /**
+     * Format a list of names.
+     *
+     * @param  array  $nama  The list of names to format.
+     * @return array  The formatted list of names.
+     */
     public static function formatDaftarNama($nama)
     {
         $daftar = [];
@@ -568,6 +644,12 @@ class Helper
         return $daftar;
     }
 
+    /**
+     * Convert an index to an alphabetic representation.
+     *
+     * @param  int  $index  The index to convert.
+     * @return string  The alphabetic representation of the index.
+     */
     public static function convertIndexToAlphabet($index)
     {
         $alphabet = '';
@@ -581,10 +663,10 @@ class Helper
     }
 
     /**
-     * Mengembalikan tahun dari tanggal yang diberikan dalam format 'Y-m-d'.
+     * Get the year from a date string.
      *
-     * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
-     * @return int Tahun
+     * @param  string  $tanggal  The date string in 'Y-m-d' format.
+     * @return int  The year.
      */
     public static function getYearFromDateString($tanggal)
     {
@@ -594,8 +676,8 @@ class Helper
     /**
      * Create a date from a given string.
      *
-     * @param  string  $tanggal  Tanggal dalam format 'Y-m-d'
-     * @return string|null Tanggal dalam format 'Y-m-d H:i:s' atau null jika tanggal kosong
+     * @param  string  $tanggal  The date string in 'Y-m-d' format.
+     * @return string|null  The date in 'Y-m-d H:i:s' format or null if the date is empty.
      */
     public static function createDateFromString($tanggal)
     {
@@ -607,12 +689,13 @@ class Helper
     }
 
     /**
-     * Mem-parsing filter dari URL yang diberikan.
+     * Parse a filter value from a URL.
      *
-     * @param  string  $url  URL yang akan di-parsing.
-     * @param  string  $filterUri  URI filter yang akan dicari dalam query URL.
-     * @param  string  $filterKey  Kunci filter yang akan diambil nilainya.
-     * @return string Nilai filter yang ditemukan berdasarkan kunci filter yang diberikan.
+     * @param  string  $url  The URL to parse.
+     * @param  string  $filterUri  The filter URI to search for in the query.
+     * @param  string  $filterKey  The filter key to retrieve the value for.
+     * @param  string|null  $defaultValue  The default value to return if the filter is not found.
+     * @return string  The filter value.
      */
     public static function parseFilterFromUrl($url, $filterUri, $filterKey, $defaultValue = null)
     {
@@ -641,6 +724,14 @@ class Helper
         return $filterValue;
     }
 
+    /**
+     * Parse a filter value from a base64-encoded filter string.
+     *
+     * @param  string  $filter  The base64-encoded filter string.
+     * @param  string  $filterKey  The filter key to retrieve the value for.
+     * @param  string|null  $defaultValue  The default value to return if the filter is not found.
+     * @return string  The filter value.
+     */
     public static function parseFilter($filter, $filterKey, $defaultValue = null)
     {
         $filterValue = $defaultValue ?? '';
@@ -656,11 +747,11 @@ class Helper
     }
 
     /**
-     * Cek Duplicate from json.
+     * Check for duplicate values in a JSON array.
      *
-     * @param  json  $json
-     * @param  string  $key
-     * @return bool
+     * @param  json  $json  The JSON array to check.
+     * @param  string  $key  The key to check for duplicates.
+     * @return bool  True if duplicates are found, false otherwise.
      */
     public static function cekGanda($json, $key)
     {
@@ -671,15 +762,14 @@ class Helper
     }
 
     /**
-     * Membuat Nomor.
+     * Generate a document number.
      *
-     * @param  date  $tanggal  Tanggal
-     * @param  string  $tahun
-     * @param  string  $jenis_naskah_id
-     * @param  string  $unit_kerja_id
-     * @param  string  $kode_arsip_id
-     * @param  string  $derajat
-     * @return array nomor, nomor_urut, segmen
+     * @param  date  $tanggal  The date of the document.
+     * @param  string  $jenis_naskah_id  The ID of the document type.
+     * @param  string|null  $unit_kerja_id  The ID of the work unit (optional).
+     * @param  string|null  $kode_arsip_id  The ID of the archive code (optional).
+     * @param  string|null  $derajat_naskah_id  The ID of the document degree (optional).
+     * @return array  The generated document number, order number, segment, and archive code ID.
      */
     public static function nomor($tanggal, $jenis_naskah_id, $unit_kerja_id = null, $kode_arsip_id = null, $derajat_naskah_id = null)
     {
@@ -736,11 +826,11 @@ class Helper
     }
 
     /**
-     * Mendapatkan user yang memiliki peran pengelola berdasarkan tanggal aktif/inaktif.
+     * Get users with a specific role based on active/inactive dates.
      *
-     * @param  string  $role  Peran pengelola (admin/koordinator)
-     * @param  date  $tanggal  Tanggal
-     * @return Collection Kumpulan user
+     * @param  string  $role  The role of the users (admin/koordinator).
+     * @param  date  $tanggal  The date to check for active/inactive status.
+     * @return Collection  The collection of users.
      */
     public static function getUsersByPengelola($role, $tanggal)
     {
@@ -770,6 +860,13 @@ class Helper
         return User::cache()->get('all')->whereIn('id', $usersId);
     }
 
+    /**
+     * Set the default manager for a specific role based on the date.
+     *
+     * @param  string  $role  The role of the manager.
+     * @param  date  $tanggal  The date to check for active/inactive status.
+     * @return int|null  The ID of the default manager or null if not found.
+     */
     public static function setDefaultPengelola($role, $tanggal)
     {
         $pengelola = self::getUsersByPengelola($role, $tanggal);
@@ -777,6 +874,13 @@ class Helper
         return $pengelola->count() == 1 ? $pengelola->first()->id : null;
     }
 
+    /**
+     * Set the default participants for a meeting based on the purpose and date.
+     *
+     * @param  string  $tujuan  The purpose of the meeting.
+     * @param  date  $tanggal  The date of the meeting.
+     * @return array  The list of default participants.
+     */
     public static function setDefaultPesertaRapat($tujuan, $tanggal)
     {
         Str::contains(Str::lower($tujuan), ['ketua', 'penanggung', 'penanggungjawab']) ? $role = 'koordinator' : $role = 'anggota';
@@ -799,11 +903,11 @@ class Helper
     }
 
     /**
-     * Mendapatkan data Pegawai berdasarkan ID User dan tanggal.
+     * Get employee data based on user ID and date.
      *
-     * @param  int  $user_id  ID User
-     * @param  \Illuminate\Support\Carbon  $tanggal  Tanggal
-     * @return \App\Models\DataPegawai|null
+     * @param  int  $user_id  The user ID.
+     * @param  \Illuminate\Support\Carbon  $tanggal  The date to check for active/inactive status.
+     * @return \App\Models\DataPegawai|null  The employee data or null if not found.
      */
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
@@ -811,10 +915,10 @@ class Helper
     }
 
     /**
-     * Mendapatkan data Pegawai berdasarkan ID User.
+     * Get employee data based on user ID.
      *
-     * @param  int  $user_id  ID User
-     * @return \App\Models\User|null
+     * @param  int  $user_id  The user ID.
+     * @return \App\Models\User|null  The employee data or null if not found.
      */
     public static function getPegawaiByUserId($user_id)
     {
@@ -822,26 +926,32 @@ class Helper
     }
 
     /**
-     * Mendapatkan data Mitra berdasarkan ID.
+     * Get mitra data based on ID.
      *
-     * @param  int  $id  ID Mitra
-     * @return \App\Models\Mitra|null
+     * @param  int  $id  The mitra ID.
+     * @return \App\Models\Mitra|null  The mitra data or null if not found.
      */
     public static function getMitraById($id)
     {
         return Mitra::cache()->get('all')->where('id', $id)->first();
     }
 
+    /**
+     * Get bank code data based on ID.
+     *
+     * @param  int  $id  The bank code ID.
+     * @return \App\Models\KodeBank|null  The bank code data or null if not found.
+     */
     public static function getKodeBankById($id)
     {
         return KodeBank::cache()->get('all')->where('id', $id)->first();
     }
 
     /**
-     * Mengambil data MasterPersediaan berdasarkan ID.
+     * Get master inventory data based on ID.
      *
-     * @param  int  $id  ID dari MasterPersediaan yang ingin diambil.
-     * @return mixed Data MasterPersediaan yang sesuai dengan ID yang diberikan, atau null jika tidak ditemukan.
+     * @param  int  $id  The master inventory ID.
+     * @return \App\Models\MasterPersediaan|null  The master inventory data or null if not found.
      */
     public static function getMasterPersediaanById($id)
     {
@@ -849,39 +959,54 @@ class Helper
     }
 
     /**
-     * Mengambil jenis kontrak berdasarkan ID.
+     * Get contract type data based on ID.
      *
-     * Metode ini mengambil semua catatan dari cache Mitra dan memfilter
-     * untuk menemukan catatan pertama yang cocok dengan ID yang diberikan.
-     *
-     * @param  int  $id  ID jenis kontrak yang akan diambil.
-     * @return mixed Catatan pertama yang cocok dengan ID yang diberikan, atau null jika tidak ada yang cocok.
+     * @param  int  $id  The contract type ID.
+     * @return \App\Models\JenisKontrak|null  The contract type data or null if not found.
      */
     public static function getJenisKontrakById($id)
     {
         return JenisKontrak::cache()->get('all')->where('id', $id)->first();
     }
 
+    /**
+     * Get budget data based on ID.
+     *
+     * @param  int  $id  The budget ID.
+     * @return \App\Models\MataAnggaran|null  The budget data or null if not found.
+     */
     public static function getMataAnggaranById($id)
     {
         return MataAnggaran::cache()->get('all')->where('id', $id)->first();
     }
 
+    /**
+     * Get master region data based on ID.
+     *
+     * @param  int  $id  The master region ID.
+     * @return \App\Models\MasterWilayah|null  The master region data or null if not found.
+     */
     public static function getMasterWilayahById($id)
     {
         return MasterWilayah::cache()->get('all')->where('id', $id)->first();
     }
 
+    /**
+     * Get master region data based on code.
+     *
+     * @param  string  $kode  The master region code.
+     * @return \App\Models\MasterWilayah|null  The master region data or null if not found.
+     */
     public static function getMasterWilayahByKode($kode)
     {
         return MasterWilayah::cache()->get('all')->where('kode', $kode)->first();
     }
 
     /**
-     * Memeriksa apakah anggaran memuat akun honor output kegiatan.
+     * Check if the budget contains honor account output activities.
      *
-     * @param  json anggaran $spek
-     * @return int
+     * @param  json  $spek  The budget specification.
+     * @return bool  True if the budget contains honor account output activities, false otherwise.
      */
     public static function isAkunHonor($mata_anggaran_id): bool
     {
@@ -891,11 +1016,11 @@ class Helper
     }
 
     /**
-     * Memeriksa apakah akun honor berubah dari $mak_old menjadi $mak_new.
+     * Check if the honor account has changed from $mak_old to $mak_new.
      *
-     * @param  string  $mak_old  akun sebelumnya
-     * @param  string  $mak_new  akun setelahnya
-     * @return bool
+     * @param  string  $mak_old  The old honor account.
+     * @param  string  $mak_new  The new honor account.
+     * @return bool  True if the honor account has changed, false otherwise.
      */
     public static function isAkunHonorChanged($mak_old, $mak_new)
     {
@@ -903,10 +1028,10 @@ class Helper
     }
 
     /**
-     * Memeriksa apakah kode akun merupakan akun persediaan.
+     * Check if the account code is an inventory account.
      *
-     * @param  string  $mak  Kode akun yang akan diperiksa.
-     * @return bool Mengembalikan true jika kode akun merupakan akun persediaan, sebaliknya false.
+     * @param  string  $mata_anggaran_id  The budget ID.
+     * @return bool  True if the account code is an inventory account, false otherwise.
      */
     public static function isAkunPersediaan(string $mata_anggaran_id): bool
     {
@@ -915,6 +1040,12 @@ class Helper
         return $mak == in_array(substr($mak, -6), self::$akun_persediaan);
     }
 
+    /**
+     * Check if the account code is a maintenance account.
+     *
+     * @param  string  $mata_anggaran_id  The budget ID.
+     * @return bool  True if the account code is a maintenance account, false otherwise.
+     */
     public static function isAkunPemeliharaan(string $mata_anggaran_id): bool
     {
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
@@ -923,32 +1054,36 @@ class Helper
     }
 
     /**
-     * Memeriksa apakah akun persediaan telah berubah.
+     * Check if the inventory account has changed.
      *
-     * Fungsi ini membandingkan dua nilai akun persediaan dan menentukan apakah
-     * ada perubahan antara nilai lama dan nilai baru.
-     *
-     * @param  string  $mak_old  Nilai akun persediaan lama.
-     * @param  string  $mak_new  Nilai akun persediaan baru.
-     * @return bool Mengembalikan true jika akun persediaan berubah, sebaliknya false.
+     * @param  string  $mak_old  The old inventory account.
+     * @param  string  $mak_new  The new inventory account.
+     * @return bool  True if the inventory account has changed, false otherwise.
      */
     public static function isAkunPersediaanChanged($mak_old, $mak_new)
     {
         return (self::isAkunPersediaan($mak_old) && ! self::isAkunPersediaan($mak_new)) || (self::isAkunPersediaan($mak_old) && self::isAkunPersediaan($mak_new) && $mak_old != $mak_new);
     }
 
+    /**
+     * Check if the maintenance account has changed.
+     *
+     * @param  string  $mak_old  The old maintenance account.
+     * @param  string  $mak_new  The new maintenance account.
+     * @return bool  True if the maintenance account has changed, false otherwise.
+     */
     public static function isAkunPemeliharaanChanged($mak_old, $mak_new)
     {
         return (self::isAkunPemeliharaan($mak_old) && ! self::isAkunPemeliharaan($mak_new)) || (self::isAkunPemeliharaan($mak_old) && self::isAkunPemeliharaan($mak_new) && $mak_old != $mak_new);
     }
 
     /**
-     * Mengambil detail akun sesuai level yang diinginkan.
+     * Get the account details based on the desired level.
      *
-     * @param  string  $mak
-     * @param  string  $level  default 'akun', pilihan: program, kegiatan, kro, ro, komponen, sub, akun
-     * @param  bool  $kode_prefix  default true, jika true maka detail akan diawali dengan kode level yang diinginkan
-     * @return string
+     * @param  string  $mak  The account code.
+     * @param  string  $level  The desired level (default: 'akun', options: program, kegiatan, kro, ro, komponen, sub, akun).
+     * @param  bool  $kode_prefix  Whether to include the code prefix (default: true).
+     * @return string  The account details.
      */
     public static function getDetailAnggaran($mak, $level = 'akun', $tahun = null, bool $kode_prefix = true)
     {
@@ -983,10 +1118,10 @@ class Helper
     }
 
     /**
-     * Format tampilan spesifikasi.
+     * Format the specification for display.
      *
-     * @param  array  $spesifikasi
-     * @return array
+     * @param  array  $spesifikasi  The specification to format.
+     * @return array  The formatted specification.
      */
     public static function formatSpek($spesifikasi)
     {
@@ -1003,10 +1138,10 @@ class Helper
     }
 
     /**
-     * Format tampilan spesifikasi.
+     * Format the travel expenses for display.
      *
-     * @param  array  $spesifikasi
-     * @return array
+     * @param  array  $item  The travel expenses to format.
+     * @return array  The formatted travel expenses.
      */
     public static function formatBiayaSpd($item)
     {
@@ -1021,6 +1156,12 @@ class Helper
         return $speks->toArray();
     }
 
+    /**
+     * Add the total travel expenses.
+     *
+     * @param  array  $item  The travel expenses to add.
+     * @return \Illuminate\Support\Collection  The travel expenses with the total added.
+     */
     public static function addTotalBiayaSpd($item)
     {
         $speks = collect($item)
@@ -1034,24 +1175,24 @@ class Helper
     }
 
     /**
-     * Menghitung jumlah nilai spesifikasi.
+     * Sum the values of a specific column in the specification.
      *
-     * @param  array  $spesifikasi
-     * @return float
+     * @param  array  $spesifikasi  The specification to sum.
+     * @param  string  $column  The column to sum.
+     * @return float  The sum of the values in the column.
      */
     public static function sumSpek($spesifikasi, $column)
     {
-        // $speks= json_decode($spesifikasi,true);
         $spek = collect($spesifikasi);
 
         return $spek->sum($column);
     }
 
     /**
-     * Format tampilan anggaran.
+     * Format the budget for display.
      *
-     * @param  array  $anggaran
-     * @return array
+     * @param  array  $anggaran  The budget to format.
+     * @return array  The formatted budget.
      */
     public static function formatAnggaran($anggaran)
     {
@@ -1067,6 +1208,12 @@ class Helper
         return $spek->toArray();
     }
 
+    /**
+     * Format the inventory items for display.
+     *
+     * @param  array  $bastp  The inventory items to format.
+     * @return array  The formatted inventory items.
+     */
     public static function formatBarangPersediaan($bastp)
     {
         $spek = collect($bastp);
@@ -1082,6 +1229,12 @@ class Helper
         return $spek->toArray();
     }
 
+    /**
+     * Format the maintenance items for display.
+     *
+     * @param  \Illuminate\Support\Collection  $spek  The maintenance items to format.
+     * @return array  The formatted maintenance items.
+     */
     public static function formatDaftarPemeliharaan($spek)
     {
         $spek->transform(function ($item, $index) {
@@ -1097,6 +1250,12 @@ class Helper
         return empty($arrayspek) ? [['no' => 1, 'tanggal_pemeliharaan' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
     }
 
+    /**
+     * Format the assessment items for display.
+     *
+     * @param  \Illuminate\Support\Collection  $spek  The assessment items to format.
+     * @return array  The formatted assessment items.
+     */
     public static function formatDaftarPenilaian($spek)
     {
         $spek->transform(function ($item, $index) {
@@ -1111,64 +1270,43 @@ class Helper
         return $spek->toArray();
     }
 
+    /**
+     * Format the inventory items for display.
+     *
+     * @param  int  $id  The ID of the inventory item.
+     * @param  \Illuminate\Support\Collection  $spek  The inventory items to format.
+     * @return array  The formatted inventory items.
+     */
     public static function formatDaftarPersediaan($id, $spek)
     {
         $stok = self::cekStokPersediaan($id, (session('year') - 1).'-12-31');
         $spek->transform(function ($item, $index) use (&$stok) {
-            // Menambahkan nomor urut
             $item['no'] = $index + 1;
-
-            // Mengubah tanggal transaksi menjadi tanggal buku
-            $item['tanggal_buku'] = self::terbilangTanggal(
-                $item['tanggal_transaksi']
-            );
-
-            // Mengambil nomor dokumen berdasarkan tipe barang persediaan
+            $item['tanggal_buku'] = self::terbilangTanggal($item['tanggal_transaksi']);
             $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
-                    ->bastNaskahKeluar->nomor,
-                \App\Models\PermintaanPersediaan::class => $item->barangPersediaanable
-                    ->naskahKeluar->nomor,
-                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable
-                    ->naskahMasuk->nomor,
-                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable
-                    ->naskahKeluar->nomor,
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable->bastNaskahKeluar->nomor,
+                \App\Models\PermintaanPersediaan::class => $item->barangPersediaanable->naskahKeluar->nomor,
+                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable->naskahMasuk->nomor,
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->naskahKeluar->nomor,
             };
-
-            // Mengambil uraian berdasarkan tipe barang persediaan
             $item['uraian'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
-                    ->rincian,
-                \App\Models\PermintaanPersediaan::class => 'Permintaan Persediaan oleh '.
-                  $item->barangPersediaanable->user->name.
-                  ' untuk '.
-                  $item->barangPersediaanable->kegiatan,
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable->rincian,
+                \App\Models\PermintaanPersediaan::class => 'Permintaan Persediaan oleh '.$item->barangPersediaanable->user->name.' untuk '.$item->barangPersediaanable->kegiatan,
                 \App\Models\PersediaanMasuk::class => $item->barangPersediaanable->rincian,
-                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->rincian
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->rincian,
             };
-
-            // Menghitung volume masuk dan keluar
             $item['masuk'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class => $item->volume,
-                \App\Models\PersediaanMasuk::class => $item->volume,
-                default => '-'
+                \App\Models\PembelianPersediaan::class, \App\Models\PersediaanMasuk::class => $item->volume,
+                default => '-',
             };
-
             $item['keluar'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PermintaanPersediaan::class => $item->volume,
-                \App\Models\PersediaanKeluar::class => $item->volume,
-                default => '-'
+                \App\Models\PermintaanPersediaan::class, \App\Models\PersediaanKeluar::class => $item->volume,
+                default => '-',
             };
-
-            // Menghitung sisa stok
             $item['sisa'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class, \App\Models\PersediaanMasuk::class => $stok +
-                  $item['volume'],
-                \App\Models\PermintaanPersediaan::class,
-                \App\Models\PersediaanKeluar::class => $stok - $item['volume']
+                \App\Models\PembelianPersediaan::class, \App\Models\PersediaanMasuk::class => $stok + $item['volume'],
+                \App\Models\PermintaanPersediaan::class, \App\Models\PersediaanKeluar::class => $stok - $item['volume'],
             };
-
-            // Memperbarui stok
             $stok = $item['sisa'];
             unset($item->barangPersediaanable);
 
@@ -1181,10 +1319,10 @@ class Helper
     }
 
     /**
-     * Format tampilan data Mitra untuk keperluan cetak SPJ.
+     * Format the mitra data for SPJ purposes.
      *
-     * @param  collection  $mitra
-     * @return collection
+     * @param  \Illuminate\Support\Collection  $mitra  The mitra data to format.
+     * @return \Illuminate\Support\Collection  The formatted mitra data.
      */
     public static function formatMitra($mitra)
     {
@@ -1217,6 +1355,13 @@ class Helper
         return $mitra;
     }
 
+    /**
+     * Create a query for the model based on the triwulan (quarter).
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model  The model to query.
+     * @param  int  $triwulan  The triwulan number (1-4).
+     * @return \Illuminate\Database\Eloquent\Builder  The query builder.
+     */
     public static function modelQuery($model, $triwulan)
     {
         $bulan = match ($triwulan) {
@@ -1253,11 +1398,11 @@ class Helper
     }
 
     /**
-     * Format tampilan pegawai.
+     * Format the employee data for display.
      *
-     * @param  \Illuminate\Support\Collection  $pegawai
-     * @param  string  $tanggal_spj
-     * @return \Illuminate\Support\Collection
+     * @param  \Illuminate\Support\Collection  $pegawai  The employee data to format.
+     * @param  string  $tanggal_spj  The date of the SPJ.
+     * @return \Illuminate\Support\Collection  The formatted employee data.
      */
     public static function formatPegawai($pegawai, $tanggal_spj)
     {
@@ -1286,11 +1431,11 @@ class Helper
     }
 
     /**
-     * Format the mitra and pegawai from the database into a unified list with the required fields.
+     * Create a unified list of mitra and employee data for SPJ purposes.
      *
-     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan
-     * @param  string  $tanggal  The date of the SPJ
-     * @return Collection A collection of the unified list
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @return \Illuminate\Support\Collection  The unified list of mitra and employee data.
      */
     public static function makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
@@ -1303,6 +1448,12 @@ class Helper
         return $formattedMitra;
     }
 
+    /**
+     * Create a list of mitra data for SPJ purposes.
+     *
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @return \Illuminate\Support\Collection  The list of mitra data.
+     */
     public static function makeBaseListMitra($honor_kegiatan_id)
     {
         $mitra = DaftarHonorMitra::where('honor_kegiatan_id', $honor_kegiatan_id)->get();
@@ -1312,11 +1463,11 @@ class Helper
     }
 
     /**
-     * Buat array untuk keperluan SPJ berdasar id honor kegiatan dan tanggal.
+     * Create an array for SPJ purposes based on honor kegiatan ID and date.
      *
-     * @param  int  $honor_kegiatan_id
-     * @param  string  $tanggal
-     * @return array
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @return array  The array for SPJ purposes.
      */
     public static function makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
@@ -1338,6 +1489,13 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Check for empty bank account numbers in the SPJ list.
+     *
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @return bool  True if there are empty bank account numbers, false otherwise.
+     */
     public static function checkEmptyRekeningOnSpjMitraAndPegawai($honor_kegiatan_id, $tanggal): bool
     {
         $list = collect(self::makeSpjMitraAndPegawai($honor_kegiatan_id, $tanggal));
@@ -1346,11 +1504,11 @@ class Helper
     }
 
     /**
-     * Membuat format data untuk Surat Tugas (ST) ke mitra dan pegawai.
+     * Create a list of mitra and employee data for Surat Tugas (ST) purposes.
      *
-     * @param  int  $honor_kegiatan_id
-     * @param  \Illuminate\Support\Carbon  $tanggal
-     * @return array
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  \Illuminate\Support\Carbon  $tanggal  The date of the ST.
+     * @return array  The list of mitra and employee data for ST purposes.
      */
     public static function makeStMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
@@ -1364,6 +1522,16 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Create a collection for export on a specific sheet.
+     *
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @param  int  $sheet_no  The sheet number (default: 1).
+     * @param  string  $awal  The start date (optional).
+     * @param  string  $akhir  The end date (optional).
+     * @return \Illuminate\Support\Collection  The collection for export.
+     */
     public static function makeCollectionForExportOnSheet($honor_kegiatan_id, $tanggal, $sheet_no = 1, $awal = '', $akhir = '')
     {
         if ($sheet_no === 1) {
@@ -1426,6 +1594,15 @@ class Helper
         }
     }
 
+    /**
+     * Create a collection for mass fund transfer (FT) purposes.
+     *
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @param  string  $satker_rekening  The sender account number.
+     * @param  string  $remark  The remark for the transfer.
+     * @return \Illuminate\Support\Collection  The collection for mass FT purposes.
+     */
     public static function makeCollectionForMassFt($honor_kegiatan_id, $tanggal, $satker_rekening, $remark)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -1465,6 +1642,15 @@ class Helper
             });
     }
 
+    /**
+     * Create a collection for mass credit note (CN) purposes.
+     *
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SPJ.
+     * @param  string  $satker_rekening  The sender account number.
+     * @param  string  $remark  The remark for the transfer.
+     * @return \Illuminate\Support\Collection  The collection for mass CN purposes.
+     */
     public static function makeCollectionForMassCn($honor_kegiatan_id, $tanggal, $satker_rekening, $remark)
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
@@ -1504,11 +1690,11 @@ class Helper
     }
 
     /**
-     * Make Surat Keterangan (SK) for both Mitra and Pegawai.
+     * Create a list of mitra and employee data for Surat Keputusan (SK) purposes.
      *
-     * @param  int  $honor_kegiatan_id  ID of HonorKegiatan
-     * @param  string  $tanggal  Date in 'Y-m-d' format
-     * @return array
+     * @param  int  $honor_kegiatan_id  The ID of the honor kegiatan.
+     * @param  string  $tanggal  The date of the SK.
+     * @return array  The list of mitra and employee data for SK purposes.
      */
     public static function makeSkMitraAndPegawai($honor_kegiatan_id, $tanggal)
     {
@@ -1522,6 +1708,12 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Create a list of contract data for mitra.
+     *
+     * @param  int  $kontrak_mitra_id  The ID of the contract.
+     * @return array  The list of contract data for mitra.
+     */
     public static function makeKontrakMitra($kontrak_mitra_id)
     {
         return DaftarHonorMitra::where('daftar_kontrak_mitra_id', $kontrak_mitra_id)->get()
@@ -1544,6 +1736,12 @@ class Helper
             ->toArray();
     }
 
+    /**
+     * Get the list of holidays for a specific year.
+     *
+     * @param  int  $tahun  The year to get the holidays for.
+     * @return array  The list of holidays.
+     */
     public static function getHariLibur($tahun): array
     {
         $response = Http::get('https://dayoffapi.vercel.app/api?year='.$tahun);
@@ -1571,6 +1769,12 @@ class Helper
         return $libur;
     }
 
+    /**
+     * Synchronize holidays for a specific year.
+     *
+     * @param  int  $tahun  The year to synchronize holidays for.
+     * @return void
+     */
     public static function syncHariLibur($tahun)
     {
         $data = self::getHariLibur($tahun);
@@ -1586,11 +1790,11 @@ class Helper
     }
 
     /**
-     * Mendapatkan path template berdasarkan kolom dan value.
+     * Get the template path based on a specific column and value.
      *
-     * @param  string  $column  Nama kolom template
-     * @param  string  $value  Nilai kolom template
-     * @return array Berisi filename dan path template
+     * @param  string  $column  The column name.
+     * @param  string  $value  The column value.
+     * @return array  The template filename and path.
      */
     public static function getTemplatePath($column, $value)
     {
@@ -1603,10 +1807,10 @@ class Helper
     }
 
     /**
-     * Mengambil Path Template berdasarkan nama Template.
+     * Get the template path based on the template name.
      *
-     * @param  string  $name  Nama Template
-     * @return array
+     * @param  string  $name  The template name.
+     * @return array  The template filename and path.
      */
     public static function getTemplatePathByName($name)
     {
@@ -1614,10 +1818,10 @@ class Helper
     }
 
     /**
-     * Mengambil Path Template berdasarkan ID Template.
+     * Get the template path based on the template ID.
      *
-     * @param  int  $id
-     * @return array
+     * @param  int  $id  The template ID.
+     * @return array  The template filename and path.
      */
     public static function getTemplatePathById($id)
     {
@@ -1625,10 +1829,10 @@ class Helper
     }
 
     /**
-     * Mengambil ID Tata Naskah terbaru berdasarkan tanggal yang diberikan.
+     * Get the latest Tata Naskah ID based on the given date.
      *
-     * @param  string  $tanggal
-     * @return string
+     * @param  string  $tanggal  The date to check for the latest Tata Naskah.
+     * @return string  The latest Tata Naskah ID.
      */
     public static function getLatestTataNaskahId($tanggal)
     {
@@ -1636,10 +1840,10 @@ class Helper
     }
 
     /**
-     * Mengambil ID Harga Satuan Terbaru berdasarkan tanggal yang diberikan.
+     * Get the latest Harga Satuan ID based on the given date.
      *
-     * @param  string  $tanggal
-     * @return string
+     * @param  string  $tanggal  The date to check for the latest Harga Satuan.
+     * @return string  The latest Harga Satuan ID.
      */
     public static function getLatestHargaSatuanId($tanggal)
     {
@@ -1647,10 +1851,10 @@ class Helper
     }
 
     /**
-     * Mengambil harga satuan terbaru berdasarkan tanggal yang diberikan.
+     * Get the latest Harga Satuan based on the given date.
      *
-     * @param  string  $tanggal  Tanggal untuk memfilter data harga satuan.
-     * @return HargaSatuan|null Objek HargaSatuan terbaru atau null jika tidak ditemukan.
+     * @param  string  $tanggal  The date to check for the latest Harga Satuan.
+     * @return \App\Models\HargaSatuan|null  The latest Harga Satuan or null if not found.
      */
     public static function getLatestHargaSatuan($tanggal)
     {
@@ -1658,21 +1862,31 @@ class Helper
     }
 
     /**
-     * Membuat option value select field Derajat Naskah berdasarkan tanggal yang diberikan.
+     * Create options for the Derajat Naskah select field based on the given date.
      *
-     * @param  string  $tanggal
-     * @return array
+     * @param  string  $tanggal  The date to check for the latest Tata Naskah.
+     * @return array  The options for the Derajat Naskah select field.
      */
     public static function setOptionsDerajatNaskah($tanggal)
     {
         return self::setOptions(DerajatNaskah::cache()->get('all')->where('tata_naskah_id', self::getLatestTataNaskahId($tanggal)), 'id', 'derajat');
     }
 
+    /**
+     * Create options for the Kode Bank select field.
+     *
+     * @return array  The options for the Kode Bank select field.
+     */
     public static function setOptionsKodeBank()
     {
         return self::setOptions(KodeBank::cache()->get('all'), 'id', 'nama_bank');
     }
 
+    /**
+     * Create options for the WhatsApp group select field.
+     *
+     * @return array  The options for the WhatsApp group select field.
+     */
     public static function setOptionsWaGroup()
     {
         $datas = Cache::get('wa_group');
@@ -1687,10 +1901,10 @@ class Helper
     }
 
     /**
-     * Membuat option value select field Jenis Naskah berdasarkan tanggal yang diberikan.
+     * Create options for the Jenis Naskah select field based on the given date.
      *
-     * @param  string  $tanggal
-     * @return array
+     * @param  string  $tanggal  The date to check for the latest Tata Naskah.
+     * @return array  The options for the Jenis Naskah select field.
      */
     public static function setOptionsJenisNaskah($tanggal)
     {
@@ -1700,10 +1914,11 @@ class Helper
     }
 
     /**
-     * Membuat option value select field Kode Arsip berdasarkan tanggal yang diberikan.
+     * Create options for the Kode Arsip select field based on the given date.
      *
-     * @param  string  $tanggal
-     * @return array
+     * @param  string  $tanggal  The date to check for the latest Tata Naskah.
+     * @param  array  $filterId  The filter IDs to include (optional).
+     * @return array  The options for the Kode Arsip select field.
      */
     public static function setOptionsKodeArsip($tanggal, array $filterId = [])
     {
@@ -1716,6 +1931,13 @@ class Helper
         return self::setOptions($kodeArsip, 'id', 'detail', 'group', '', 'kode');
     }
 
+    /**
+     * Check if the budget contains specific accounts.
+     *
+     * @param  int  $kak_id  The ID of the budget.
+     * @param  array  $akun  The list of accounts to check.
+     * @return bool  True if the budget contains the specified accounts, false otherwise.
+     */
     public static function hasAkun($kak_id, array $akun): bool
     {
         return KerangkaAcuan::find($kak_id)->anggaranKerangkaAcuan->contains(function ($anggaran) use ($akun) {
@@ -1723,6 +1945,12 @@ class Helper
         });
     }
 
+    /**
+     * Create options for the Pemenang select field based on the reward ID.
+     *
+     * @param  int  $reward_pegawai_id  The ID of the reward.
+     * @return array  The options for the Pemenang select field.
+     */
     public static function setOptionsPemenang($reward_pegawai_id)
     {
         return User::whereIn('id', function ($query) use ($reward_pegawai_id) {
@@ -1742,15 +1970,15 @@ class Helper
     }
 
     /**
-     * Membuat option value select field.
+     * Create options for a select field.
      *
-     * @param  \Illuminate\Support\Collection  $collection
-     * @param  string  $value
-     * @param  string  $label
-     * @param  string  $group
-     * @param  string  $labelPrefix
-     * @param  string  $groupPrefix
-     * @return array
+     * @param  \Illuminate\Support\Collection  $collection  The collection of options.
+     * @param  string  $value  The value field.
+     * @param  string  $label  The label field.
+     * @param  string  $group  The group field (optional).
+     * @param  string  $labelPrefix  The label prefix (optional).
+     * @param  string  $groupPrefix  The group prefix (optional).
+     * @return array  The options for the select field.
      */
     public static function setOptions($collection, $value, $label, $group = '', $labelPrefix = '', $groupPrefix = '')
     {
@@ -1763,10 +1991,10 @@ class Helper
     }
 
     /**
-     * Mengembalikan opsi jenis kontrak berdasarkan tanggal yang diberikan.
+     * Create options for the Jenis Kontrak select field based on the given date.
      *
-     * @param  string  $tanggal
-     * @return array
+     * @param  string  $tanggal  The date to check for the latest Harga Satuan.
+     * @return array  The options for the Jenis Kontrak select field.
      */
     public static function setOptionJenisKontrak($tanggal)
     {
@@ -1774,9 +2002,9 @@ class Helper
     }
 
     /**
-     * Opsi tahun DIPA.
+     * Create options for the DIPA year select field.
      *
-     * @return array
+     * @return array  The options for the DIPA year select field.
      */
     public static function setOptionTahunDipa()
     {
@@ -1789,16 +2017,22 @@ class Helper
     }
 
     /**
-     * Pilihan template berdasarkan jenis.
+     * Create options for the template select field based on the template type.
      *
-     * @param  string  $jenis
-     * @return array
+     * @param  string  $jenis  The template type.
+     * @return array  The options for the template select field.
      */
     public static function setOptionTemplate($jenis)
     {
         return self::setOptions(Template::cache()->get('all')->where('jenis', $jenis), 'id', 'nama');
     }
 
+    /**
+     * Set the default template based on the template type.
+     *
+     * @param  string  $jenis  The template type.
+     * @return int|null  The ID of the default template or null if not found.
+     */
     public static function setDefaultTemplate($jenis)
     {
         $template = Template::cache()->get('all')->where('jenis', $jenis);
@@ -1806,6 +2040,12 @@ class Helper
         return $template->count() == 1 ? $template->first()->id : null;
     }
 
+    /**
+     * Create options for the RO select field based on the DIPA ID.
+     *
+     * @param  int  $dipa_id  The ID of the DIPA.
+     * @return array  The options for the RO select field.
+     */
     public static function setOptionsRo($dipa_id)
     {
         return KamusAnggaran::cache()
@@ -1821,11 +2061,11 @@ class Helper
     }
 
     /**
-     * Mengambil opsi pengelola berdasarkan role dan tanggal.
+     * Create options for the manager select field based on the role and date.
      *
-     * @param  string  $role
-     * @param  string  $tanggal
-     * @return array
+     * @param  string  $role  The role of the manager.
+     * @param  string  $tanggal  The date to check for active/inactive status.
+     * @return array  The options for the manager select field.
      */
     public static function setOptionPengelola($role, $tanggal)
     {
@@ -1833,9 +2073,9 @@ class Helper
     }
 
     /**
-     * Opsi DIPA.
+     * Create options for the DIPA select field.
      *
-     * @return array
+     * @return array  The options for the DIPA select field.
      */
     public static function setOptionDipa()
     {
@@ -1843,21 +2083,33 @@ class Helper
     }
 
     /**
-     * Opsi Kepka Mitra berdasarkan tahun.
+     * Create options for the Kepka Mitra select field based on the year.
      *
-     * @param  int  $tahun
-     * @return array
+     * @param  int  $tahun  The year to check for Kepka Mitra.
+     * @return array  The options for the Kepka Mitra select field.
      */
     public static function setOptionKepkaMitra($tahun)
     {
         return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');
     }
 
+    /**
+     * Create options for the inventory item select field.
+     *
+     * @return array  The options for the inventory item select field.
+     */
     public static function setOptionBarangPersediaan()
     {
         return self::setOptions(MasterPersediaan::cache()->get('all'), 'id', 'barang', 'satuan');
     }
 
+    /**
+     * Send a reminder message.
+     *
+     * @param  \App\Models\DaftarReminder  $reminder  The reminder to send.
+     * @param  string  $method  The method of sending the reminder (default: 'auto').
+     * @return void
+     */
     public static function sendReminder($reminder, $method = 'auto')
     {
         $kegiatan = $reminder->daftarKegiatan;
@@ -1874,6 +2126,11 @@ class Helper
         $reminder->save();
     }
 
+    /**
+     * Create options for the work unit select field.
+     *
+     * @return array  The options for the work unit select field.
+     */
     public static function setOptionUnitKerja()
     {
         return self::setOptions(UnitKerja::cache()->get('all'), 'id', 'unit');
@@ -1881,6 +2138,8 @@ class Helper
 
     /**
      * Get the current Simpede version.
+     *
+     * @return string  The current Simpede version.
      */
     public static function version(): string
     {

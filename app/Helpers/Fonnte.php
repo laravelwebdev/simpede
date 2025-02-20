@@ -13,7 +13,6 @@ class Fonnte
         'send_message' => 'https://api.fonnte.com/send',
         'update_group' => 'https://api.fonnte.com/fetch-group',
         'list_group' => 'https://api.fonnte.com/get-whatsapp-group',
-
     ];
 
     public static function make()

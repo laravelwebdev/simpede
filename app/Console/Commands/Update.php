@@ -31,25 +31,21 @@ class Update extends Command
         $dummyWaGroup = Cache::get('wa_group');
 
         try {
-            $process = new Process(['git', 'pull', 'origin', 'main']);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
-            }
+            $commands = [
+                ['git', 'pull', 'origin', 'main'],
+                [config('app.composer'), 'update', $this->option('dev') ? '' : '--no-dev'],
+                [config('app.composer'), 'clear-cache']
+            ];
 
-            $composer = config('app.composer');
-            $home = config('app.composer_home');
-            $devFlag = $this->option('dev') ? '' : '--no-dev';
-            $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => $home]);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
-            }
+            foreach ($commands as $command) {
+                $process = new Process($command, base_path(), ['COMPOSER_HOME' => config('app.composer_home')]);
+                $process->run();
 
-            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => $home]);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
+                if (! $process->isSuccessful()) {
+                    $error = true;
+                    $this->error($process->getErrorOutput());
+                    break;
+                }
             }
         } finally {
             Cache::rememberForever('wa_group', fn () => $dummyWaGroup);

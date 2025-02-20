@@ -7,6 +7,8 @@ use Symfony\Component\Process\Process;
 
 class Api
 {
+    protected static $process;
+
     public static function getSentryUnreolvedIssues()
     {
         $organization = config('app.sentry_organization');
@@ -34,13 +36,20 @@ class Api
     {
         $composer = config('app.composer');
         $home = config('app.composer_home');
-        $process = Process::fromShellCommandline($composer.' outdated {flag} -f json', base_path(), ['COMPOSER_HOME' => $home]);
-        $process->run();
-        $value = $process->getOutput();
-        $data = json_decode($value, true);
-        $process = Process::fromShellCommandline($composer.' clear-cache', base_path(), ['COMPOSER_HOME' => $home]);
-        $process->run();
+        self::$process = new Process([], base_path(), ['COMPOSER_HOME' => $home]);
 
-        return $data['installed'] ?? [];
+        try {
+            self::$process->setCommandLine($composer.' outdated {flag} -f json');
+            self::$process->run();
+            $value = self::$process->getOutput();
+            $data = json_decode($value, true);
+
+            self::$process->setCommandLine($composer.' clear-cache');
+            self::$process->run();
+
+            return $data['installed'] ?? [];
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 }

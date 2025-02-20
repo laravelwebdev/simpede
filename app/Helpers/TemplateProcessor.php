@@ -5,23 +5,52 @@ namespace App\Helpers;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\TemplateProcessor as PhpWordTemplateProcessor;
 
+/**
+ * Class TemplateProcessor
+ *
+ * Extends PhpWordTemplateProcessor to provide additional functionality for processing templates.
+ */
 class TemplateProcessor extends PhpWordTemplateProcessor
 {
+    /**
+     * Get the main part of the temporary document.
+     *
+     * @return string The main part of the temporary document.
+     */
     public function gettempDocumentMainPart()
     {
         return $this->tempDocumentMainPart;
     }
 
+    /**
+     * Set the main part of the temporary document.
+     *
+     * @param string $new The new main part of the temporary document.
+     * @return void
+     */
     public function settempDocumentMainPart($new)
     {
-        return $this->tempDocumentMainPart = $new;
+        $this->tempDocumentMainPart = $new;
     }
 
+    /**
+     * Ensure the subject is UTF-8 encoded.
+     *
+     * @param string|null $subject The subject to encode.
+     * @return string The UTF-8 encoded subject.
+     */
     protected static function ensureUtf8Encoded($subject)
     {
         return ($subject !== null) ? Text::toUTF8($subject) : '';
     }
 
+    /**
+     * Clone a row in the template.
+     *
+     * @param string $search The search string to find the row.
+     * @param int $numberOfClones The number of times to clone the row.
+     * @return void
+     */
     public function cloneRow($search, $numberOfClones): void
     {
         $search = static::ensureMacroCompleted($search);
@@ -37,7 +66,6 @@ class TemplateProcessor extends PhpWordTemplateProcessor
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);

@@ -21,9 +21,7 @@ class MasterWilayahPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**

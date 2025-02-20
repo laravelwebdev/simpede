@@ -13,9 +13,7 @@ class AnalisisSakipPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**
@@ -34,9 +32,7 @@ class AnalisisSakipPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**

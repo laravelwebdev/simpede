@@ -79,10 +79,10 @@ class ImportDaftarHonorMitra extends Action
                     ]
                 );
 
-                $daftarHonorMitra->volume_realisasi = $row['Volume'];
-                $daftarHonorMitra->volume_target = $row['Volume'];
-                $daftarHonorMitra->harga_satuan = $row['HargaSatuan'];
-                $daftarHonorMitra->persen_pajak = $row['PersentasePajak'];
+                $daftarHonorMitra->volume_realisasi = ! empty($row['Volume']) ? $row['Volume'] : 0;
+                $daftarHonorMitra->volume_target = ! empty($row['Volume']) ? $row['Volume'] : 0;
+                $daftarHonorMitra->harga_satuan = ! empty($row['HargaSatuan']) ? $row['HargaSatuan'] : 0;
+                $daftarHonorMitra->persen_pajak = ! empty($row['PersentasePajak']) ? $row['PersentasePajak'] : 0;
                 $daftarHonorMitra->updated_at = now();
 
                 $daftarHonorMitra->save();

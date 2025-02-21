@@ -34,7 +34,7 @@ class Api
     {
         $composer = config('app.composer');
         $home = config('app.composer_home');
-        $process = Process::fromShellCommandline($composer.' outdated {flag} -f json', base_path(), ['COMPOSER_HOME' => $home]);
+        $process = Process::fromShellCommandline($composer.' outdated '.$flag.' -f json', base_path(), ['COMPOSER_HOME' => $home]);
         $process->run();
         $value = $process->getOutput();
         $data = json_decode($value, true);

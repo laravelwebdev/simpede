@@ -58,10 +58,10 @@ class ImportDaftarHonorMitra extends Action
                     ]
                 );
 
-                $daftarHonorMitra->volume_realisasi = !empty($fields->volume) ? $fields->volume : 0;
-                $daftarHonorMitra->volume_target = !empty($fields->volume) ? $fields->volume : 0;
-                $daftarHonorMitra->harga_satuan = !empty($fields->harga_satuan) ? $fields->harga_satuan : 0;
-                $daftarHonorMitra->persen_pajak = !empty($fields->persen_pajak) ? $fields->persen_pajak : 0;
+                $daftarHonorMitra->volume_realisasi = ! empty($fields->volume) ? $fields->volume : 0;
+                $daftarHonorMitra->volume_target = ! empty($fields->volume) ? $fields->volume : 0;
+                $daftarHonorMitra->harga_satuan = ! empty($fields->harga_satuan) ? $fields->harga_satuan : 0;
+                $daftarHonorMitra->persen_pajak = ! empty($fields->persen_pajak) ? $fields->persen_pajak : 0;
                 $daftarHonorMitra->updated_at = now();
 
                 $daftarHonorMitra->save();

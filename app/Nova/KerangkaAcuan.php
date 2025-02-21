@@ -197,14 +197,12 @@ class KerangkaAcuan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('all')->get()) {
-            $actions[] =
-            Download::make('kak', 'Unduh KAK')
-                ->showInline()
-                ->showOnDetail()
-                ->confirmButtonText('Unduh')
-                ->exceptOnIndex();
-        }
+        $actions[] =
+        Download::make('kak', 'Unduh KAK')
+            ->showInline()
+            ->showOnDetail()
+            ->confirmButtonText('Unduh')
+            ->exceptOnIndex();
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
            AddPerjalananDinas::make()

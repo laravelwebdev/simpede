@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Helpers\Policy;
-
 class RateTranslokPolicy
 {
     /**
@@ -11,9 +9,7 @@ class RateTranslokPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**
@@ -21,9 +17,7 @@ class RateTranslokPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**

@@ -12,9 +12,7 @@ class UserPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**
@@ -22,9 +20,7 @@ class UserPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**

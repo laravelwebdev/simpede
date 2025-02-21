@@ -391,34 +391,20 @@ class HonorKegiatan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('all')->get()) {
-            $actions[] =
-            Download::make('spj', 'Unduh SPJ')
-                ->showInline()
-                ->showOnDetail()
-                ->exceptOnIndex()
-                ->confirmButtonText('Unduh');
-            $actions[] =
-            ExportTemplateBos::make()
-                ->showInline()
-                ->showOnDetail()
-                ->exceptOnIndex()
-                ->confirmButtonText('Export');
-            $actions[] =
-                Download::make('st', 'Unduh Surat Tugas')
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex()
-                    ->confirmButtonText('Unduh')
-                    ->canSee(function ($request) {
-                        if ($request instanceof ActionRequest) {
-                            return true;
-                        }
-
-                        return $this->resource instanceof Model && $this->resource->st_naskah_keluar_id !== null;
-                    });
-            $actions[] =
-            Download::make('sk', 'Unduh SK')
+        $actions[] =
+        Download::make('spj', 'Unduh SPJ')
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex()
+            ->confirmButtonText('Unduh');
+        $actions[] =
+        ExportTemplateBos::make()
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex()
+            ->confirmButtonText('Export');
+        $actions[] =
+            Download::make('st', 'Unduh Surat Tugas')
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()
@@ -428,9 +414,21 @@ class HonorKegiatan extends Resource
                         return true;
                     }
 
-                    return $this->resource instanceof Model && $this->resource->sk_naskah_keluar_id !== null;
+                    return $this->resource instanceof Model && $this->resource->st_naskah_keluar_id !== null;
                 });
-        }
+        $actions[] =
+        Download::make('sk', 'Unduh SK')
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex()
+            ->confirmButtonText('Unduh')
+            ->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
+
+                return $this->resource instanceof Model && $this->resource->sk_naskah_keluar_id !== null;
+            });
         if (Policy::make()->allowedFor('bendahara')->get()) {
             $actions[] =
             ExportTemplateCmsBri::make($this->kegiatan, 'ft')

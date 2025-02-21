@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Helpers\Policy;
-
 class DaftarReminderPolicy
 {
     /**
@@ -11,9 +9,7 @@ class DaftarReminderPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**
@@ -21,9 +17,7 @@ class DaftarReminderPolicy
      */
     public function view(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**
@@ -60,8 +54,6 @@ class DaftarReminderPolicy
 
     public function runAction(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 }

@@ -11,9 +11,7 @@ class DaftarHonorPegawaiPolicy
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return true;
     }
 
     /**

@@ -38,7 +38,8 @@ class Cetak
      * @param  int  $template_id  The template ID
      * @param  string|null  $tanggal  The date (optional)
      * @param  string|null  $pengelola  The manager (optional)
-     * @return string  The filename of the saved document
+     * @return string The filename of the saved document
+     *
      * @throws \Exception
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)

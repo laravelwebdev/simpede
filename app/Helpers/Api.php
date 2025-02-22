@@ -38,7 +38,7 @@ class Api
     /**
      * Get outdated packages from Composer.
      *
-     * @param string $flag
+     * @param  string  $flag
      * @return array
      */
     public static function getComposerOutdatedPackages($flag = '--no-dev')

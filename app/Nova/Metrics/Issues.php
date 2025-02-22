@@ -15,7 +15,7 @@ class Issues extends Value
      */
     public function calculate(NovaRequest $request): ValueResult
     {
-        $sentryIssues = Api::getSentryUnreolvedIssues();
+        $sentryIssues = Api::getSentryUnresolvedIssues();
 
         return $this->result(count($sentryIssues));
     }

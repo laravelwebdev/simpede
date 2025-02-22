@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 
 class Api
 {
-    public static function getSentryUnreolvedIssues()
+    public static function getSentryUnresolvedIssues()
     {
         $organization = config('app.sentry_organization');
         $project = config('app.sentry_project');

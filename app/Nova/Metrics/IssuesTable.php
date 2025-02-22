@@ -20,7 +20,7 @@ class IssuesTable extends Table
     public function calculate(NovaRequest $request): array
     {
         $rows = [];
-        foreach (Api::getSentryUnreolvedIssues() as $issue) {
+        foreach (Api::getSentryUnresolvedIssues() as $issue) {
             $rows[] = MetricTableRow::make()
                 ->icon($issue['level'] === 'error' ? 'x-circle' : 'exclamation-circle')
                 ->iconClass($issue['level'] === 'error' ? 'text-red-500' : 'text-yellow-500')

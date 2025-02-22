@@ -30,12 +30,16 @@ use PhpOffice\PhpWord\Element\TextRun;
 class Cetak
 {
     /**
-     * Cetak Dokumen.
+     * Print a document.
      *
-     * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
-     * @param  collection  $model
-     * @param  string  $filename
-     * @return string
+     * @param  string  $jenis  The type of document (kak|spj|sk|st|dpr|spd|bon)
+     * @param  collection  $model  The model collection
+     * @param  string  $filename  The filename for the document
+     * @param  int  $template_id  The template ID
+     * @param  string|null  $tanggal  The date (optional)
+     * @param  string|null  $pengelola  The manager (optional)
+     * @return string  The filename of the saved document
+     * @throws \Exception
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
@@ -65,9 +69,13 @@ class Cetak
     }
 
     /**
-     * Ambil TemplateProsessor.
+     * Get the TemplateProcessor.
      *
-     * @param  string  $jenis  kak|spj|sk|st|dpr|spd|bon
+     * @param  string  $jenis  The type of document (kak|spj|sk|st|dpr|spd|bon)
+     * @param  int  $id  The ID of the model
+     * @param  int  $template_id  The template ID
+     * @param  string|null  $tanggal  The date (optional)
+     * @param  string|null  $pengelola  The manager (optional)
      * @return TemplateProcessor
      */
     public static function getTemplate(string $jenis, $id, $template_id, $tanggal, $pengelola)
@@ -169,7 +177,7 @@ class Cetak
     }
 
     /**
-     * Ambil XML dari dokumen utama.
+     * Get the XML from the main document.
      *
      * @param  TemplateProcessor  $templateProcessor
      * @return string
@@ -180,7 +188,7 @@ class Cetak
     }
 
     /**
-     * Ambil XML dari dokumen yangakan digabung.
+     * Get the XML from the document to be merged.
      *
      * @param  TemplateProcessor  $templateProcessor
      * @return string
@@ -195,9 +203,9 @@ class Cetak
     }
 
     /**
-     * Format nilai KAK.
+     * Format the KAK values.
      *
-     * @param  string  $id
+     * @param  string  $id  The ID of the KAK
      * @return array
      */
     public static function kak($id)
@@ -409,9 +417,9 @@ class Cetak
     }
 
     /**
-     * Format nilai SPJ.
+     * Format the SPJ values.
      *
-     * @param  string  $id
+     * @param  string  $id  The ID of the SPJ
      * @return array
      */
     public static function spj($id)

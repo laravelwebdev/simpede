@@ -7,6 +7,11 @@ use Symfony\Component\Process\Process;
 
 class Api
 {
+    /**
+     * Get unresolved issues from Sentry.
+     *
+     * @return array
+     */
     public static function getSentryUnresolvedIssues()
     {
         $organization = config('app.sentry_organization');
@@ -30,6 +35,12 @@ class Api
         }
     }
 
+    /**
+     * Get outdated packages from Composer.
+     *
+     * @param string $flag
+     * @return array
+     */
     public static function getComposerOutdatedPackages($flag = '--no-dev')
     {
         $composer = config('app.composer');

@@ -26,6 +26,13 @@ class Fonnte
         $this->account_token = config('fonnte.token');
     }
 
+    /**
+     * Make a request to the Fonnte API.
+     *
+     * @param string $endpoint The API endpoint to call.
+     * @param array $params The parameters to send with the request.
+     * @return array The response from the API.
+     */
     protected function makeRequest($endpoint, $params = [])
     {
         $token = $this->account_token;
@@ -53,6 +60,13 @@ class Fonnte
         ];
     }
 
+    /**
+     * Send a WhatsApp message using the Fonnte API.
+     *
+     * @param string $phoneNumber The phone number to send the message to.
+     * @param string $message The message to send.
+     * @return array The response from the API.
+     */
     public function sendWhatsAppMessage($phoneNumber, $message)
     {
         return $this->makeRequest(self::ENDPOINTS['send_message'], [
@@ -61,11 +75,21 @@ class Fonnte
         ]);
     }
 
+    /**
+     * Update the WhatsApp group list using the Fonnte API.
+     *
+     * @return array The response from the API.
+     */
     public function updateWhatsappGroupList()
     {
         return $this->makeRequest(self::ENDPOINTS['update_group']);
     }
 
+    /**
+     * Get the WhatsApp group list using the Fonnte API.
+     *
+     * @return array The response from the API.
+     */
     public function getWhatsappGroupList()
     {
         return $this->makeRequest(self::ENDPOINTS['list_group']);

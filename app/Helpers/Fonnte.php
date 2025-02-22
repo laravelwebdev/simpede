@@ -29,8 +29,8 @@ class Fonnte
     /**
      * Make a request to the Fonnte API.
      *
-     * @param string $endpoint The API endpoint to call.
-     * @param array $params The parameters to send with the request.
+     * @param  string  $endpoint  The API endpoint to call.
+     * @param  array  $params  The parameters to send with the request.
      * @return array The response from the API.
      */
     protected function makeRequest($endpoint, $params = [])
@@ -63,8 +63,8 @@ class Fonnte
     /**
      * Send a WhatsApp message using the Fonnte API.
      *
-     * @param string $phoneNumber The phone number to send the message to.
-     * @param string $message The message to send.
+     * @param  string  $phoneNumber  The phone number to send the message to.
+     * @param  string  $message  The message to send.
      * @return array The response from the API.
      */
     public function sendWhatsAppMessage($phoneNumber, $message)

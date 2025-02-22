@@ -259,6 +259,12 @@ class Helper
         'IV/e' => 15,
     ];
 
+    /**
+     * Get the name of the last sheet in an Excel file.
+     *
+     * @param string $file The path to the Excel file.
+     * @return string The name of the last sheet.
+     */
     public static function getLastSheetName($file)
     {
         $reader = new Reader;
@@ -271,6 +277,12 @@ class Helper
         return $name;
     }
 
+    /**
+     * Format a phone number to a WhatsApp URL.
+     *
+     * @param string $telepon The phone number to format.
+     * @return string The formatted WhatsApp URL.
+     */
     public static function formatTelepon($telepon)
     {
         $wa = str_replace('+62 08', '628', $telepon);
@@ -280,6 +292,12 @@ class Helper
         return "https://wa.me/{$wa}";
     }
 
+    /**
+     * Check if the current date is within a specific quarter.
+     *
+     * @param int $tw The quarter to check (1, 2, 3, or 4).
+     * @return bool True if the current date is within the specified quarter, false otherwise.
+     */
     public static function is_triwulan($tw)
     {
         $now = Carbon::now();
@@ -297,6 +315,12 @@ class Helper
         }
     }
 
+    /**
+     * Check if the current date is within a specific cumulative quarter.
+     *
+     * @param int $tw The cumulative quarter to check (1, 2, 3, or 4).
+     * @return bool True if the current date is within the specified cumulative quarter, false otherwise.
+     */
     public static function is_triwulan_kumulatif($tw)
     {
         $now = Carbon::now();
@@ -314,6 +338,12 @@ class Helper
         }
     }
 
+    /**
+     * Get the current quarter based on the given month.
+     *
+     * @param int $month The month to determine the quarter.
+     * @return int The current quarter (1, 2, 3, or 4).
+     */
     public static function getTriwulanBerjalan($month)
     {
         return (int) ceil($month / 3);

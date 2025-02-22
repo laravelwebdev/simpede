@@ -58,6 +58,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Laravel\Nova\Actions\ActionEvent;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
@@ -76,6 +77,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        ActionEvent::saving(function ($actionEvent) {
+            return config('nova.action_events_log', true);
+        });
+
         Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">        
         Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik <span class="px-1">&middot;</span> v.'.Helper::version().'
         </p>

@@ -203,4 +203,17 @@ return [
         'stopped' => '/',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Action Events Log
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to enable or disable the logging of
+    | action events. When enabled, the actions that are executed within Nova
+    | will be logged in the "action_events" database table for auditing.
+    |
+    */
+
+    'action_events_log' => true,
+
 ];

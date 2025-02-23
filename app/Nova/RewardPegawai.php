@@ -47,7 +47,7 @@ class RewardPegawai extends Resource
      */
     public function title()
     {
-        return Helper::$bulan[$this->bulan].' '.$this->tahun;
+        return Helper::BULAN[$this->bulan].' '.$this->tahun;
     }
 
     public function subtitle()
@@ -73,7 +73,7 @@ class RewardPegawai extends Resource
     {
         return [
             Select::make('Bulan')
-                ->options(Helper::$bulan)
+                ->options(Helper::BULAN)
                 ->searchable()
                 ->filterable()
                 ->readonly(fn () => $this->status === 'ditetapkan')
@@ -100,7 +100,7 @@ class RewardPegawai extends Resource
                         ['bulan'],
                         function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
-                                $originalName = 'Kertas_Kerja_'.Helper::$bulan[$formData->bulan];
+                                $originalName = 'Kertas_Kerja_'.Helper::BULAN[$formData->bulan];
                                 $extension = $request->arsip_kertas_kerja->getClientOriginalExtension();
 
                                 return $originalName.'_'.uniqid().'.'.$extension;
@@ -128,7 +128,7 @@ class RewardPegawai extends Resource
                         ['bulan'],
                         function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
-                                $originalName = 'SK_'.Helper::$bulan[$formData->bulan];
+                                $originalName = 'SK_'.Helper::BULAN[$formData->bulan];
                                 $extension = $request->arsip_sk->getClientOriginalExtension();
 
                                 return $originalName.'_'.uniqid().'.'.$extension;
@@ -156,7 +156,7 @@ class RewardPegawai extends Resource
                         ['bulan'],
                         function (Filepond $field, NovaRequest $request, FormData $formData) {
                             $field->storeAs(function (Request $request) use ($formData) {
-                                $originalName = 'Sertifikat_'.Helper::$bulan[$formData->bulan];
+                                $originalName = 'Sertifikat_'.Helper::BULAN[$formData->bulan];
                                 $extension = $request->arsip_sertifikat->getClientOriginalExtension();
 
                                 return $originalName.'_'.uniqid().'.'.$extension;

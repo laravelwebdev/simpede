@@ -59,7 +59,7 @@ class UserEksternal extends Resource
                 ->showWhenPeeking()
                 ->rules('required', 'max:255'),
             Select::make('Golongan')
-                ->options(Helper::$golongan)
+                ->options(Helper::GOLONGAN)
                 ->searchable(),
             Text::make('Jabatan')
                 ->rules('required', 'max:50'),

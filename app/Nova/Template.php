@@ -36,7 +36,7 @@ class Template extends Resource
 
     public function subtitle()
     {
-        return Helper::$template[$this->jenis];
+        return Helper::TEMPLATE[$this->jenis];
     }
 
     /**
@@ -65,7 +65,7 @@ class Template extends Resource
                 ->rules('required')
                 ->displayUsingLabels()
                 ->filterable()
-                ->options(Helper::$template),
+                ->options(Helper::TEMPLATE),
             File::make('File')
                 ->disk('templates')
                 ->rules('mimes:xlsx,pdf,docx')

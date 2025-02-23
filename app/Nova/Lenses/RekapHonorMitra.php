@@ -84,7 +84,7 @@ class RekapHonorMitra extends Lens
                 ->displayUsingLabels()
                 ->sortable()
                 ->searchable()
-                ->options(Helper::$bulan)
+                ->options(Helper::BULAN)
                 ->readOnly(),
             Text::make('Nama', 'nama')
                 ->sortable()

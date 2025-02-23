@@ -39,7 +39,7 @@ class AnalisisSakip extends Resource
      */
     public function title()
     {
-        return 'Analisis SAKIP Bulan '.Helper::$bulan[$this->bulan];
+        return 'Analisis SAKIP Bulan '.Helper::BULAN[$this->bulan];
     }
 
     public function subtitle()
@@ -69,7 +69,7 @@ class AnalisisSakip extends Resource
                 ->sortable()
                 ->exceptOnForms(),
             Select::make('Bulan Pelaksanaan', 'bulan')
-                ->options(array_slice(Helper::$bulan, 0, now()->month, true))
+                ->options(array_slice(Helper::BULAN, 0, now()->month, true))
                 ->displayUsingLabels()
                 ->sortable()
                 ->filterable()

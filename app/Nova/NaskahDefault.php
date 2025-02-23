@@ -70,7 +70,7 @@ class NaskahDefault extends Resource
                 ->searchable()
                 ->rules('required')
                 ->displayUsingLabels()
-                ->options(Helper::$template),
+                ->options(Helper::TEMPLATE),
             Select::make('Jenis Naskah', 'jenis_naskah_id')
                 ->sortable()
                 ->searchable()
@@ -101,7 +101,7 @@ class NaskahDefault extends Resource
                 ->rules('required')
                 ->searchable()
                 ->displayUsingLabels()
-                ->options(Helper::$template),
+                ->options(Helper::TEMPLATE),
             BelongsTo::make('Jenis Naskah')
                 ->sortable()
                 ->exceptOnForms(),
@@ -125,7 +125,7 @@ class NaskahDefault extends Resource
                 ->searchable()
                 ->rules('required')
                 ->displayUsingLabels()
-                ->options(Helper::$template),
+                ->options(Helper::TEMPLATE),
             BelongsTo::make('Jenis Naskah')
                 ->sortable()
                 ->exceptOnForms(),

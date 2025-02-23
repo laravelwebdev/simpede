@@ -60,7 +60,7 @@ class DataPegawai extends Resource
                 ->rules('required')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             Select::make('Golongan')
-                ->options(Helper::$golongan)
+                ->options(Helper::GOLONGAN)
                 ->rules('required')
                 ->searchable(),
             Text::make('Jabatan')

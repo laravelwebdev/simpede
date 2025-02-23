@@ -74,7 +74,7 @@ class DaftarPesertaPerjalanan extends Resource
             Select::make('Angkutan')
                 ->searchable()
                 ->rules('required')
-                ->options(Helper::$jenis_angkutan)
+                ->options(Helper::JENIS_ANGKUTAN)
                 ->displayUsingLabels(),
             Repeatable::make('Item Biaya', 'spesifikasi', [
                 Text::make('Item', 'item')

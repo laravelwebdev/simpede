@@ -30,7 +30,7 @@ class Main extends Dashboard
     public function cards()
     {
         $values = array_map(function ($key) {
-            return Helper::$role[$key];
+            return Helper::ROLE[$key];
         }, session('role'));
 
         $quotes = Inspiring::show();

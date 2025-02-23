@@ -61,7 +61,7 @@ class RewardPegawai extends Model
                     $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
                     $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                     $naskahkeluar->tujuan = 'Employee of the month';
-                    $naskahkeluar->perihal = 'SK Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
+                    $naskahkeluar->perihal = 'SK Employee of The Month Bulan '.Helper::BULAN[$reward->bulan];
                     $naskahkeluar->generate = 'A';
                     $naskahkeluar->save();
                     $reward->sk_naskah_keluar_id = $naskahkeluar->id;
@@ -82,7 +82,7 @@ class RewardPegawai extends Model
                     $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
                     $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
                     $naskahkeluar->tujuan = 'Employee of the month';
-                    $naskahkeluar->perihal = 'Sertifikat Employee of The Month Bulan '.Helper::$bulan[$reward->bulan];
+                    $naskahkeluar->perihal = 'Sertifikat Employee of The Month Bulan '.Helper::BULAN[$reward->bulan];
                     $naskahkeluar->generate = 'A';
                     $naskahkeluar->save();
                     $reward->sertifikat_naskah_keluar_id = $naskahkeluar->id;

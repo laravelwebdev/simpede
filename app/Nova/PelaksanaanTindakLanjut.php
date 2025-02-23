@@ -33,7 +33,7 @@ class PelaksanaanTindakLanjut extends Resource
      */
     public function title()
     {
-        return 'Pelaksanaan Tindak Lanjut Bulan '.Helper::$bulan[$this->bulan];
+        return 'Pelaksanaan Tindak Lanjut Bulan '.Helper::BULAN[$this->bulan];
     }
 
     public function subtitle()
@@ -64,13 +64,13 @@ class PelaksanaanTindakLanjut extends Resource
                     $triwulan = TindakLanjut::find($request->viaResourceId)->triwulan;
                     switch ($triwulan) {
                         case 1:
-                            return array_intersect_key(Helper::$bulan, array_flip([4, 5, 6]));
+                            return array_intersect_key(Helper::BULAN, array_flip([4, 5, 6]));
                         case 2:
-                            return array_intersect_key(Helper::$bulan, array_flip([7, 8, 9]));
+                            return array_intersect_key(Helper::BULAN, array_flip([7, 8, 9]));
                         case 3:
-                            return array_intersect_key(Helper::$bulan, array_flip([10, 11, 12]));
+                            return array_intersect_key(Helper::BULAN, array_flip([10, 11, 12]));
                         case 4:
-                            return array_intersect_key(Helper::$bulan, array_flip([1, 2, 3]));
+                            return array_intersect_key(Helper::BULAN, array_flip([1, 2, 3]));
                         default:
                             return [];
                     }

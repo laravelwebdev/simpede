@@ -15,7 +15,7 @@ class UserEksternal extends Model
     {
         if (! empty($this->attributes['golongan'])) {
             $this->attributes['golongan'] = $value;
-            $this->attributes['pangkat'] = Helper::$pangkat[$value];
+            $this->attributes['pangkat'] = Helper::PANGKAT[$value];
         }
     }
 

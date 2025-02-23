@@ -16,7 +16,7 @@ class RencanaPenarikanPerJenisBelanja extends Table
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Deviasi', 'Persen Deviasi']);
         $this->viewAll([
-            'label' => 'Bulan '.Helper::$bulan[(int) date('m')], // Label for the link
+            'label' => 'Bulan '.Helper::BULAN[(int) date('m')], // Label for the link
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/rencana-penarikan-dana', // URL to navigate when the link is clicked
             'position' => 'top', // (Possible values `top` - `bottom`)
             'style' => 'button', // (Possible values `link` - `button`)
@@ -49,7 +49,7 @@ class RencanaPenarikanPerJenisBelanja extends Table
                     ->sum('rpd_'.$bulan);
                 $item->realisasi = $item->realisasi ?? 0;
                 $item->selisih = $item->realisasi - $item->target;
-                $item->jenis_belanja = Helper::$jenis_belanja[$item->jenis_belanja];
+                $item->jenis_belanja = Helper::JENIS_BELANJA[$item->jenis_belanja];
                 $item->persen = abs(($item->target == 0) ? 0 : round(($item->selisih / $item->target) * 100, 2));
 
                 return $item;

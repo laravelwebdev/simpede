@@ -66,7 +66,7 @@ class DaftarReminder extends Resource
                 })
                 ->sortable(),
             Select::make('Waktu Kirim', 'waktu_kirim')
-                ->options(Helper::$jam)
+                ->options(Helper::JAM)
                 ->default(9)
                 ->displayUsingLabels()
                 ->rules('required'),

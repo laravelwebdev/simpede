@@ -27,7 +27,7 @@ class TargetSerapanAnggaran extends Resource
 
     public function title()
     {
-        return Helper::$bulan[$this->bulan];
+        return Helper::BULAN[$this->bulan];
     }
 
     public function subtitle()
@@ -56,7 +56,7 @@ class TargetSerapanAnggaran extends Resource
                 ->readonly()
                 ->searchable()
                 ->filterable()
-                ->options(Helper::$bulan)
+                ->options(Helper::BULAN)
                 ->displayUsingLabels(),
             Number::make('Target(%)', 'nilai')
                 ->rules('gte:0', 'lte:100')

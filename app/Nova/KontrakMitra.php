@@ -77,7 +77,7 @@ class KontrakMitra extends Resource
         return [
             Panel::make('Keterangan Kontrak', [
                 Select::make('Jenis Kontrak/Honor', 'jenis_honor')
-                    ->options(Helper::$jenis_honor)
+                    ->options(Helper::JENIS_HONOR)
                     ->displayUsingLabels()
                     ->sortable()
                     ->filterable()
@@ -86,7 +86,7 @@ class KontrakMitra extends Resource
                 Text::make('Nama Kontrak', 'nama_kontrak')
                     ->readonly(),
                 Select::make('Bulan Kontrak', 'bulan')
-                    ->options(Helper::$bulan)
+                    ->options(Helper::BULAN)
                     ->readonly()
                     ->sortable()
                     ->searchable()

@@ -46,14 +46,14 @@ class JumlahMitra extends Trend
             ->groupBy('bulan')
             ->get();
 
-        foreach (Helper::$bulan as $key => $value) {
+        foreach (Helper::BULAN as $key => $value) {
             $arr[$value] = $query->firstWhere('bulan', $key)->mitra_count ?? 0;
         }
         if ($filtered_bulan == '') {
             return (new TrendResult)->trend($arr);
         } else {
             return (new TrendResult)->trend($arr)
-                ->result($arr[Helper::$bulan[$filtered_bulan]])
+                ->result($arr[Helper::BULAN[$filtered_bulan]])
                 ->suffix('Mitra')
                 ->withoutSuffixInflection();
         }

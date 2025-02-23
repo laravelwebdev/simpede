@@ -61,7 +61,7 @@ class RateTranslok extends Resource
                 ->displayUsingLabels()
                 ->filterable()
                 ->hideFromIndex()
-                ->options(Helper::$translok_type),
+                ->options(Helper::TRANSLOK_TYPE),
             Text::make('Asal', 'asalMasterWilayah.wilayah')
                 ->sortable()
                 ->rules('required'),

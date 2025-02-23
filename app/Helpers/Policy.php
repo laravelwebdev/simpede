@@ -35,7 +35,7 @@ class Policy
 
     public function notAllowedFor(string $roles = 'all'): self
     {
-        $this->allowed = $roles !== 'all' && self::hasAccess(array_diff(array_keys(Helper::$role), explode(',', $roles)), session('role'));
+        $this->allowed = $roles !== 'all' && self::hasAccess(array_diff(array_keys(Helper::ROLE), explode(',', $roles)), session('role'));
 
         return $this;
     }

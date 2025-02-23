@@ -62,7 +62,7 @@ class RealisasiPerJenisBelanja extends Table
                 $item->realisasi = $item->realisasi ?? 0;
                 $item->selisih = $item->realisasi - $item->target;
                 $item->persen = round(($item->realisasi / $item->target) * 100, 2);
-                $item->jenis_belanja = Helper::$jenis_belanja[$item->jenis_belanja];
+                $item->jenis_belanja = Helper::JENIS_BELANJA[$item->jenis_belanja];
 
                 return $item;
             });

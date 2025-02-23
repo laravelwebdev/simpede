@@ -35,7 +35,7 @@ class DataPegawai extends Model
     public function setGolonganAttribute($value)
     {
         $this->attributes['golongan'] = $value;
-        $this->attributes['pangkat'] = Helper::$pangkat[$value];
+        $this->attributes['pangkat'] = Helper::PANGKAT[$value];
     }
 
     public static function cacheEntities(): array

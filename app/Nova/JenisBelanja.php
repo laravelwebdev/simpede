@@ -10,6 +10,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class JenisBelanja extends Resource
 {
     public static $displayInNavigation = false;
+
     public static $with = ['dipa', 'targetSerapanAnggaran'];
 
     /**
@@ -26,7 +27,7 @@ class JenisBelanja extends Resource
 
     public function title()
     {
-        return Helper::$jenis_belanja[$this->kode];
+        return Helper::JENIS_BELANJA[$this->kode];
     }
 
     public function subtitle()
@@ -53,7 +54,7 @@ class JenisBelanja extends Resource
         return [
             Text::make('Kode Jenis Belanja', 'kode')
                 ->readonly(),
-            Text::make('Jenis Belanja', fn ($value) => Helper::$jenis_belanja[$value->kode]),
+            Text::make('Jenis Belanja', fn ($value) => Helper::JENIS_BELANJA[$value->kode]),
             HasMany::make('Target Serapan Anggaran'),
         ];
     }
@@ -97,6 +98,7 @@ class JenisBelanja extends Resource
     {
         return [];
     }
+
     public static $indexDefaultOrder = [
         'kode' => 'asc',
     ];

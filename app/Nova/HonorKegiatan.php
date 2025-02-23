@@ -126,7 +126,7 @@ class HonorKegiatan extends Resource
             Panel::make('Keterangan Kontrak', [
                 Select::make('Jenis Kontrak/Honor', 'jenis_honor')
                     ->rules('required')
-                    ->options(Helper::$jenis_honor)
+                    ->options(Helper::JENIS_HONOR)
                     ->sortable()
                     ->searchable()
                     ->filterable()
@@ -144,7 +144,7 @@ class HonorKegiatan extends Resource
                                 });
                         }
                     })
-                    ->options(Helper::$bulan)
+                    ->options(Helper::BULAN)
                     ->displayUsingLabels()
                     ->sortable()
                     ->searchable()

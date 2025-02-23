@@ -41,7 +41,7 @@ class Pengelola extends Resource
      */
     public function title()
     {
-        return Helper::$role[$this->role];
+        return Helper::ROLE[$this->role];
     }
 
     public function subtitle()
@@ -67,7 +67,7 @@ class Pengelola extends Resource
     {
         return [
             Select::make('Role')
-                ->options(Helper::$role)
+                ->options(Helper::ROLE)
                 ->searchable()
                 ->displayUsingLabels()
                 ->rules('required'),

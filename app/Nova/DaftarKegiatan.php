@@ -75,7 +75,7 @@ class DaftarKegiatan extends Resource
         return [
             Panel::make('Keterangan', [
                 Select::make('Jenis')
-                    ->options(Helper::$jenis_kegiatan)
+                    ->options(Helper::JENIS_KEGIATAN)
                     ->sortable()
                     ->filterable()
                     ->rules('required'),
@@ -165,11 +165,11 @@ Terimakasih ✨✨'),
                         ->step(1)
                         ->rules('required', 'integer', 'gte:0'),
                     Select::make('Referensi Waktu')
-                        ->options(Helper::$waktu_reminder)
+                        ->options(Helper::WAKTU_REMINDER)
                         ->displayUsingLabels()
                         ->rules('required'),
                     Select::make('Waktu Kirim', 'waktu_kirim')
-                        ->options(Helper::$jam)
+                        ->options(Helper::JAM)
                         ->default(9)
                         ->displayUsingLabels()
                         ->rules('required'),

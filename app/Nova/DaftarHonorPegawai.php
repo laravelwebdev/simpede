@@ -78,7 +78,7 @@ class DaftarHonorPegawai extends Resource
                     if ($formData->volume != null) {
                         $field->show();
                         $field->rules('required');
-                        $field->setvalue(Helper::$pajakgolongan[optional(Helper::getDataPegawaiByUserId($formData->user_id, optional(HonorKegiatan::where('id', $request->viaResourceId)->first())->tanggal_spj))->golongan ?? 'I/a']);
+                        $field->setvalue(Helper::PAJAK_GOLONGAN[optional(Helper::getDataPegawaiByUserId($formData->user_id, optional(HonorKegiatan::where('id', $request->viaResourceId)->first())->tanggal_spj))->golongan ?? 'I/a']);
                     }
                 })->onlyOnForms(),
             Numeric::make('Pajak', fn () => round($this->volume * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))

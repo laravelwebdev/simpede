@@ -78,7 +78,7 @@ class PerjalananDinas extends Resource
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ]),
             Select::make('Jenis Perjalanan', 'jenis')
-                ->options(Helper::$jenis_perjalanan)
+                ->options(Helper::JENIS_PERJALANAN)
                 ->rules('required')
                 ->hideFromIndex()
                 ->displayUsingLabels(),
@@ -176,7 +176,7 @@ class PerjalananDinas extends Resource
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
                         $mataAnggaranIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $formData->kerangka_acuan_id)
                             ->whereHas('mataAnggaran', function ($query) {
-                                $query->whereIn(DB::raw('SUBSTRING(mak, 30, 6)'), Helper::$akun_perjalanan);
+                                $query->whereIn(DB::raw('SUBSTRING(mak, 30, 6)'), Helper::AKUN_PERJALANAN);
                             })
                             ->pluck('mata_anggaran_id');
 

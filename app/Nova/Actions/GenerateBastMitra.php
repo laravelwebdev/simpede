@@ -38,7 +38,7 @@ class GenerateBastMitra extends Action
             if (is_null($daftar_kontrak->bast_naskah_keluar_id)) {
                 $kontrak = KontrakMitra::find($model->kontrak_mitra_id);
                 $jenis_kontrak_id = optional(JenisKontrak::cache()->get('all')->where('id', $kontrak->jenis_kontrak_id)->first())->jenis;
-                $bulan_kontrak = Helper::$bulan[$kontrak->bulan];
+                $bulan_kontrak = Helper::BULAN[$kontrak->bulan];
                 $default_naskah = NaskahDefault::cache()->get('all')
                     ->where('jenis', 'bast')
                     ->first();

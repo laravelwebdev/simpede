@@ -51,7 +51,7 @@ class BulanFilter extends Filter
      */
     public function options(NovaRequest $request)
     {
-        return array_flip(Helper::$bulan);
+        return array_flip(Helper::BULAN);
     }
 
     public function default()

@@ -65,7 +65,7 @@ class ImportRateTranslok extends Action
         RateTranslok::cache()->enable();
         RateTranslok::cache()->updateAll();
 
-        return Action::message('Rate Translok '.Helper::$translok_type[$fields->type].' sukses diimport!');
+        return Action::message('Rate Translok '.Helper::TRANSLOK_TYPE[$fields->type].' sukses diimport!');
     }
 
     /**
@@ -78,7 +78,7 @@ class ImportRateTranslok extends Action
         return [
             Select::make('Tipe', 'type')
                 ->rules('required')
-                ->options(Helper::$translok_type),
+                ->options(Helper::TRANSLOK_TYPE),
             File::make('File')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')

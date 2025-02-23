@@ -61,11 +61,11 @@ class ExportTemplateBos extends Action
     {
         return [
             Select::make('Bulan Awal', 'awal')
-                ->options(Helper::$bulan)
+                ->options(Helper::BULAN)
                 ->searchable()
                 ->rules('required', 'min:1', 'max:12'),
             Select::make('Bulan Akhir', 'akhir')
-                ->options(Helper::$bulan)
+                ->options(Helper::BULAN)
                 ->searchable()
                 ->rules('required', 'min:1', 'max:12', 'gte:awal'),
             Text::make('Nama File', 'filename')

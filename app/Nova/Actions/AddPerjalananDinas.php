@@ -29,7 +29,7 @@ class AddPerjalananDinas extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $kak = $models->first();
-        if (! Helper::hasAkun($kak->id, Helper::$akun_perjalanan)) {
+        if (! Helper::hasAkun($kak->id, Helper::AKUN_PERJALANAN)) {
             return ActionResponse::danger('Kerangka Acuan ini tidak  memiliki Akun Perjalanan Dinas');
         }
         $perjalanan = new PerjalananDinas;

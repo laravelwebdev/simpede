@@ -508,7 +508,7 @@ class Cetak
             'nomor' => NaskahKeluar::find($data->sertifikat_naskah_keluar_id)->nomor,
             'nama' => $user->name,
             'tahun' => $data->tahun,
-            'bulan' => Helper::$bulan[$data->bulan],
+            'bulan' => Helper::BULAN[$data->bulan],
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
             'kepala' => optional($kepala)->name,
         ];
@@ -533,8 +533,8 @@ class Cetak
             'nip' => $user->nip,
             'tahun' => $data->tahun,
             'golongan' => optional(Helper::getDataPegawaiByUserId($data->user_id, $data->tanggal_penetapan))->golongan,
-            'bulan' => Helper::$bulan[$data->bulan],
-            'ubulan' => strtoupper(Helper::$bulan[$data->bulan]),
+            'bulan' => Helper::BULAN[$data->bulan],
+            'ubulan' => strtoupper(Helper::BULAN[$data->bulan]),
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
             'kepala' => optional($kepala)->name,
 
@@ -558,7 +558,7 @@ class Cetak
             'tahun' => $data->tahun,
             'nama_pemenang' => $user->name,
             'skor' => DaftarPenilaianReward::where('reward_pegawai_id', $id)->max('nilai_total'),
-            'ubulan' => strtoupper(Helper::$bulan[$data->bulan]),
+            'ubulan' => strtoupper(Helper::BULAN[$data->bulan]),
             'tanggal' => Helper::terbilangTanggal($data->tanggal_penetapan),
             'kepala' => Helper::namaTanpaGelar(optional($kepala)->name),
             'nipkepala' => optional($kepala)->nip,
@@ -597,7 +597,7 @@ class Cetak
         $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
         $ppk = Helper::getPegawaiByUserId($kontrak->ppk_user_id);
         $mitra = Helper::getMitraById($data->mitra_id);
-        $bulan = Helper::$bulan[$kontrak->bulan];
+        $bulan = Helper::BULAN[$kontrak->bulan];
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
 
         return [
@@ -636,7 +636,7 @@ class Cetak
         $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
         $ppk = Helper::getPegawaiByUserId($bast->ppk_user_id);
         $mitra = Helper::getMitraById($data->mitra_id);
-        $bulan = Helper::$bulan[$kontrak->bulan];
+        $bulan = Helper::BULAN[$kontrak->bulan];
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
 
         return [

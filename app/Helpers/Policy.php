@@ -19,7 +19,7 @@ class Policy
     /**
      * Check if the user has access based on roles.
      *
-     * @param array $roles
+     * @param  array  $roles
      * @return bool
      */
     private static function hasAccess($roles): bool
@@ -40,7 +40,7 @@ class Policy
     /**
      * Set access allowed for specific roles.
      *
-     * @param string $roles
+     * @param  string  $roles
      * @return self
      */
     public function allowedFor(string $roles = 'all'): self
@@ -53,7 +53,7 @@ class Policy
     /**
      * Set access not allowed for specific roles.
      *
-     * @param string $roles
+     * @param  string  $roles
      * @return self
      */
     public function notAllowedFor(string $roles = 'all'): self
@@ -66,7 +66,7 @@ class Policy
     /**
      * Set access allowed for a specific year.
      *
-     * @param mixed $year
+     * @param  mixed  $year
      * @return self
      */
     public function withYear($year): self
@@ -79,9 +79,9 @@ class Policy
     /**
      * Set access allowed if two expressions are equal.
      *
-     * @param mixed $expr1
-     * @param mixed $expr2
-     * @param bool $strict
+     * @param  mixed  $expr1
+     * @param  mixed  $expr2
+     * @param  bool  $strict
      * @return self
      */
     public function andEqual($expr1, $expr2, $strict = true): self
@@ -94,9 +94,9 @@ class Policy
     /**
      * Set access allowed if two expressions are not equal.
      *
-     * @param mixed $expr1
-     * @param mixed $expr2
-     * @param bool $strict
+     * @param  mixed  $expr1
+     * @param  mixed  $expr2
+     * @param  bool  $strict
      * @return self
      */
     public function andNotEqual($expr1, $expr2, $strict = true): self
@@ -109,9 +109,9 @@ class Policy
     /**
      * Set access allowed if either of two expressions are equal.
      *
-     * @param mixed $expr1
-     * @param mixed $expr2
-     * @param bool $strict
+     * @param  mixed  $expr1
+     * @param  mixed  $expr2
+     * @param  bool  $strict
      * @return self
      */
     public function orEqual($expr1, $expr2, $strict = true): self
@@ -124,9 +124,9 @@ class Policy
     /**
      * Set access allowed if either of two expressions are not equal.
      *
-     * @param mixed $expr1
-     * @param mixed $expr2
-     * @param bool $strict
+     * @param  mixed  $expr1
+     * @param  mixed  $expr2
+     * @param  bool  $strict
      * @return self
      */
     public function orNotEqual($expr1, $expr2, $strict = true): self

@@ -20,7 +20,7 @@ class TemplateProcessor extends PhpWordTemplateProcessor
     /**
      * Set the main part of the temporary document.
      *
-     * @param string $new
+     * @param  string  $new
      * @return void
      */
     public function settempDocumentMainPart($new)
@@ -31,7 +31,7 @@ class TemplateProcessor extends PhpWordTemplateProcessor
     /**
      * Ensure the subject is UTF-8 encoded.
      *
-     * @param string $subject
+     * @param  string  $subject
      * @return string
      */
     protected static function ensureUtf8Encoded($subject)
@@ -42,8 +42,8 @@ class TemplateProcessor extends PhpWordTemplateProcessor
     /**
      * Clone a row in the document.
      *
-     * @param string $search
-     * @param int $numberOfClones
+     * @param  string  $search
+     * @param  int  $numberOfClones
      * @return void
      */
     public function cloneRow($search, $numberOfClones): void

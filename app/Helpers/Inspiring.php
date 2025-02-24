@@ -1401,6 +1401,11 @@ class Inspiring
         ],
     ];
 
+    /**
+     * Show a random quote from the list of quotes.
+     *
+     * @return array
+     */
     public static function show()
     {
         $data['topic'] = Arr::random(array_keys(static::$quotes));

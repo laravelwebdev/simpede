@@ -251,6 +251,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the vehicle statement.
+     *
+     * @param  string  $id  The ID of the vehicle statement
+     * @return array
+     */
     public static function pernyataan_kendaraan($id)
     {
         $data = DaftarPesertaPerjalanan::find($id);
@@ -278,6 +284,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the SPPD.
+     *
+     * @param  string  $id  The ID of the SPPD
+     * @return array
+     */
     public static function sppd($id)
     {
         $data = DaftarPesertaPerjalanan::find($id);
@@ -320,6 +332,14 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the maintenance card.
+     *
+     * @param  string  $id  The ID of the maintenance card
+     * @param  string  $tanggal  The date
+     * @param  string  $pengelola  The manager
+     * @return array
+     */
     public static function karken_pemeliharaan($id, $tanggal, $pengelola)
     {
         $data = MasterBarangPemeliharaan::find($id);
@@ -344,6 +364,14 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the inventory card.
+     *
+     * @param  string  $id  The ID of the inventory card
+     * @param  string  $tanggal  The date
+     * @param  string  $pengelola  The manager
+     * @return array
+     */
     public static function karken_persediaan($id, $tanggal, $pengelola)
     {
         $data = MasterPersediaan::find($id);
@@ -374,6 +402,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the receipt.
+     *
+     * @param  string  $id  The ID of the receipt
+     * @return array
+     */
     public static function kuitansi($id)
     {
         $data = DaftarPesertaPerjalanan::find($id);
@@ -467,6 +501,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the assignment letter.
+     *
+     * @param  string  $id  The ID of the assignment letter
+     * @return array
+     */
     public static function st($id)
     {
         $data = HonorKegiatan::find($id);
@@ -491,6 +531,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the reward certificate.
+     *
+     * @param  string  $id  The ID of the reward certificate
+     * @return array
+     */
     public static function sertifikat_reward($id)
     {
         $data = RewardPegawai::find($id);
@@ -514,6 +560,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the reward decree.
+     *
+     * @param  string  $id  The ID of the reward decree
+     * @return array
+     */
     public static function sk_reward($id)
     {
         $data = RewardPegawai::find($id);
@@ -541,6 +593,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the reward worksheet.
+     *
+     * @param  string  $id  The ID of the reward worksheet
+     * @return array
+     */
     public static function kertas_kerja_reward($id)
     {
         $data = RewardPegawai::find($id);
@@ -567,6 +625,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the decree.
+     *
+     * @param  string  $id  The ID of the decree
+     * @return array
+     */
     public static function sk($id)
     {
         $data = HonorKegiatan::find($id);
@@ -591,6 +655,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the contract.
+     *
+     * @param  string  $id  The ID of the contract
+     * @return array
+     */
     public static function kontrak($id)
     {
         $data = DaftarKontrakMitra::where('id', '=', $id)->first();
@@ -629,6 +699,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the BAST.
+     *
+     * @param  string  $id  The ID of the BAST
+     * @return array
+     */
     public static function bast($id)
     {
         $data = DaftarKontrakMitra::where('id', $id)->first();
@@ -667,6 +743,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the BASTP.
+     *
+     * @param  string  $id  The ID of the BASTP
+     * @return array
+     */
     public static function bastp($id)
     {
         $data = PembelianPersediaan::find($id);
@@ -691,6 +773,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the request form.
+     *
+     * @param  string  $id  The ID of the request form
+     * @return array
+     */
     public static function bon($id)
     {
         $data = PermintaanPersediaan::find($id);
@@ -720,6 +808,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the invitation.
+     *
+     * @param  string  $id  The ID of the invitation
+     * @return array
+     */
     public static function undangan($id)
     {
         $data = RapatInternal::find($id);
@@ -745,6 +839,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the attendance list.
+     *
+     * @param  string  $id  The ID of the attendance list
+     * @return array
+     */
     public static function daftar_hadir($id)
     {
         $data = RapatInternal::find($id);
@@ -771,6 +871,12 @@ class Cetak
         ];
     }
 
+    /**
+     * Format the values for the minutes of meeting.
+     *
+     * @param  string  $id  The ID of the minutes of meeting
+     * @return array
+     */
     public static function notula($id)
     {
         $data = RapatInternal::find($id);
@@ -797,6 +903,13 @@ class Cetak
         ];
     }
 
+    /**
+     * Validate the document before printing.
+     *
+     * @param  string  $jenis  The type of document (kak|spj|sk|st|dpr|spd|bon)
+     * @param  string  $model_id  The ID of the model
+     * @return string|null
+     */
     public static function validate($jenis, $model_id)
     {
         if ($jenis === 'kak') {

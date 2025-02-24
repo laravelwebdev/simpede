@@ -7,21 +7,45 @@ use PhpOffice\PhpWord\TemplateProcessor as PhpWordTemplateProcessor;
 
 class TemplateProcessor extends PhpWordTemplateProcessor
 {
+    /**
+     * Get the main part of the temporary document.
+     *
+     * @return string
+     */
     public function gettempDocumentMainPart()
     {
         return $this->tempDocumentMainPart;
     }
 
+    /**
+     * Set the main part of the temporary document.
+     *
+     * @param string $new
+     * @return void
+     */
     public function settempDocumentMainPart($new)
     {
-        return $this->tempDocumentMainPart = $new;
+        $this->tempDocumentMainPart = $new;
     }
 
+    /**
+     * Ensure the subject is UTF-8 encoded.
+     *
+     * @param string $subject
+     * @return string
+     */
     protected static function ensureUtf8Encoded($subject)
     {
         return ($subject !== null) ? Text::toUTF8($subject) : '';
     }
 
+    /**
+     * Clone a row in the document.
+     *
+     * @param string $search
+     * @param int $numberOfClones
+     * @return void
+     */
     public function cloneRow($search, $numberOfClones): void
     {
         $search = static::ensureMacroCompleted($search);

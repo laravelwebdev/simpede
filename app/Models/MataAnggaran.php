@@ -13,6 +13,13 @@ class MataAnggaran extends Model
 
     protected $fillable = ['coa_id', 'dipa_id'];
 
+    protected function casts(): array
+    {
+        return [
+            'is_manual' => 'boolean',
+        ];
+    }
+
     public static function cacheEntities(): array
     {
         return [

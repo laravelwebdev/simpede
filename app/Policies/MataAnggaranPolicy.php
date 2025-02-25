@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\MataAnggaran;
+use App\Models\User;
 
 class MataAnggaranPolicy
 {
@@ -47,10 +49,11 @@ class MataAnggaranPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, MataAnggaran $mataAnggaran): bool
     {
         return Policy::make()
             ->allowedFor('admin,koordinator,ppk')
+            ->andEqual($mataAnggaran->is_manual, true)
             ->get();
     }
 

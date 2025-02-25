@@ -10,13 +10,12 @@ class HelperHonorKegiatan extends Table
 {
     public function name()
     {
-        return 'Tata Cara Penggunaan Import dan Upload Menggunakan FIle BOS';
+        return 'Tata Cara Penggunaan Import dan Upload Menggunakan File BOS';
     }
 
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
     public function calculate(NovaRequest $request)

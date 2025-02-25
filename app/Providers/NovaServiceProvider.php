@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\MataAnggaran;
 use App\Models\User as UserModel;
 use App\Nova\AnalisisSakip;
 use App\Nova\BastMitra;
@@ -23,6 +24,7 @@ use App\Nova\KerangkaAcuan;
 use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\FormRencanaAksi;
+use App\Nova\Lenses\MatchingAnggaran;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
@@ -30,6 +32,7 @@ use App\Nova\Lenses\RencanaPenarikanDana;
 use App\Nova\MasterBarangPemeliharaan;
 use App\Nova\MasterPersediaan;
 use App\Nova\MasterWilayah;
+use App\Nova\MataAnggaran as MataAnggaranResource;
 use App\Nova\Mitra;
 use App\Nova\NaskahKeluar;
 use App\Nova\NaskahMasuk;
@@ -153,6 +156,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Anggaran', [
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
+                    MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
+                        ->withBadge(fn () => MataAnggaran::where('is_manual', true)->count('id'), 'danger'),
                 ])
                     ->collapsable()
                     ->icon('currency-dollar'),

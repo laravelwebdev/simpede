@@ -23,6 +23,8 @@ class HonorKegiatan extends Model
             'tanggal_kak' => 'date',
             'awal' => 'date',
             'akhir' => 'date',
+            'generate_sk' => 'boolean',
+            'generate_st' => 'boolean',
         ];
     }
 

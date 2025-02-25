@@ -1529,7 +1529,6 @@ class Helper
      *
      * @param  int  $honor_kegiatan_id
      * @param  string  $tanggal
-     * @return bool
      */
     public static function checkEmptyRekeningOnSpjMitraAndPegawai($honor_kegiatan_id, $tanggal): bool
     {
@@ -1775,7 +1774,6 @@ class Helper
      * Get public holidays for a specific year.
      *
      * @param  int  $tahun
-     * @return array
      */
     public static function getHariLibur($tahun): array
     {
@@ -1969,8 +1967,6 @@ class Helper
      * Check if the KAK contains the specified accounts.
      *
      * @param  int  $kak_id
-     * @param  array  $akun
-     * @return bool
      */
     public static function hasAkun($kak_id, array $akun): bool
     {
@@ -2128,6 +2124,24 @@ class Helper
     }
 
     /**
+     * Set options for Mata Anggaran based on the given DIPA ID and MAK.
+     *
+     * This method filters the Mata Anggaran records from the cache based on the provided
+     * DIPA ID and MAK, excluding those marked as manual, and then sets the options.
+     *
+     * @param  int  $dipa_id  The ID of the DIPA.
+     * @param  string  $mak  The MAK (Mata Anggaran Kode).
+     * @return array The options set for Mata Anggaran.
+     */
+    public static function setOptionMataAnggaran($dipa_id, $mak)
+    {
+        return self::setOptions(MataAnggaran::cache()->get('all')
+            ->where('dipa_id', $dipa_id)
+            ->where('mak', $mak)
+            ->where('is_manual', '!=', true), 'id', 'uraian', 'mak');
+    }
+
+    /**
      * Create option values for the inventory item select field.
      *
      * @return array
@@ -2172,8 +2186,6 @@ class Helper
 
     /**
      * Get the current Simpede version.
-     *
-     * @return string
      */
     public static function version(): string
     {

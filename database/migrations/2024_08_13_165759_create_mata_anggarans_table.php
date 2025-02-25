@@ -35,6 +35,7 @@ return new class extends Migration
             $table->integer('rpd_11')->nullable()->unsigned();
             $table->integer('rpd_12')->nullable()->unsigned();
             $table->smallInteger('ordered')->nullable()->unsigned();
+            $table->boolean('is_manual')->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
         });

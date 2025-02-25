@@ -33,7 +33,7 @@ class SinkronisasiDataAnggaran extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        //POK Satu DJA
+        // POK Satu DJA
         KamusAnggaran::cache()->disable();
         KamusAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file_dja, function ($row) use ($model, $fields) {
@@ -62,7 +62,7 @@ class SinkronisasiDataAnggaran extends Action
         move_uploaded_file($filePath, $newFilePath);
 
         MataAnggaran::cache()->disable();
-        MataAnggaran::where('dipa_id', $model->id)->update(['updated_at' => null]);
+        MataAnggaran::where('dipa_id', $model->id)->where('is_manual', false)->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);
         $index = 0;
         foreach ($collections as $row) {

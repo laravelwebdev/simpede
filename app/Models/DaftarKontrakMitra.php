@@ -15,6 +15,14 @@ class DaftarKontrakMitra extends Model
 
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'valid_sbml' => 'boolean',
+            'valid_jumlah_kontrak' => 'boolean',
+        ];
+    }
+
     public function kontrakNaskahKeluar(): BelongsTo
     {
         return $this->belongsTo(NaskahKeluar::class, 'kontrak_naskah_keluar_id');

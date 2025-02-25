@@ -4,7 +4,12 @@ namespace App\Nova;
 
 use App\Helpers\Policy;
 use App\Nova\Actions\AddHasManyModel;
+use App\Nova\Actions\MatchingAnggaran as ActionMatchingAnggaran;
+use App\Nova\Lenses\MatchingAnggaran;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class MataAnggaran extends Resource
@@ -66,6 +71,23 @@ class MataAnggaran extends Resource
         ];
     }
 
+    public function fieldsForAdd(NovaRequest $request)
+    {
+        return [
+            Text::make('MAK', 'mak')
+                ->rules('required', 'min:35', 'max:35')
+                ->sortable()
+                ->placeholder('XXX.XX.XX.XXXX.XXX.XXX.XXX.X.XXXXXX')
+                ->showWhenPeeking(),
+            Text::make('Detil Anggaran', 'uraian')
+                ->rules('required', 'max:255'),
+            Boolean::make('Manual', 'is_manual')
+                ->default(true)
+                ->immutable(),
+
+        ];
+    }
+
     /**
      * Get the cards available for the request.
      *
@@ -93,7 +115,9 @@ class MataAnggaran extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            MatchingAnggaran::make(),
+        ];
     }
 
     /**
@@ -111,8 +135,19 @@ class MataAnggaran extends Resource
             // ->size('7xl')
                 ->standalone()
                 ->onlyOnIndex()
-                ->addFields($this->fields($request));
+                ->addFields($this->fieldsForAdd($request));
         }
+        $actions[] = ActionMatchingAnggaran::make($this->resource->dipa_id, $this->resource->mak)
+            ->sole()
+            ->confirmButtonText('Matching')
+            ->confirmText('Cek kembali sekali lagi. Pastikan anggaran yang di matching sudah benar. Matching tidak dapat diulang.')
+            ->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
+
+                return $this->resource instanceof Model && ($this->is_manual);
+            });
 
         return $actions;
     }

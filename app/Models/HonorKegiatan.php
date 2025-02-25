@@ -91,7 +91,7 @@ class HonorKegiatan extends Model
                 $honor->tanggal_st = null;
                 $honor->uraian_tugas = null;
                 $honor->kepala_user_id = null;
-                $honor->kode_arsip_id = null;
+                $honor->st_kode_arsip_id = null;
                 NaskahKeluar::destroy($honor->st_naskah_keluar_id);
                 $honor->st_naskah_keluar_id = null;
             }

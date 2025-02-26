@@ -157,7 +157,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
                     MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
-                        ->withBadge(fn () => 'New', 'danger', fn () => MataAnggaran::where('is_manual', true)->count('id') > 0),
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->count('id') > 0),
                 ])
                     ->collapsable()
                     ->icon('currency-dollar'),

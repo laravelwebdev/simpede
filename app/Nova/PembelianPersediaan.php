@@ -128,7 +128,7 @@ class PembelianPersediaan extends Resource
                             ->default(Helper::setDefaultPengelola('bmn', Helper::createDateFromString($formData->tanggal_bast)));
                     })
                     ->canSee(fn () => Policy::make()
-                        ->allowedFor('bmn')
+                        ->allowedFor('bmn,arsiparis')
                         ->get()),
             ]),
             Panel::make('Keterangan Pembukuan', [
@@ -136,7 +136,7 @@ class PembelianPersediaan extends Resource
                     ->rules('required', 'after_or_equal:tanggal_bast')
                     ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                     ->canSee(fn () => Policy::make()
-                        ->allowedFor('bmn')
+                        ->allowedFor('bmn,arsiparis')
                         ->get()),
             ]),
             Panel::make('Arsip', [

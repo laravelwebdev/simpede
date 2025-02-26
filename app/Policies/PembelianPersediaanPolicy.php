@@ -12,7 +12,7 @@ class PembelianPersediaanPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk,pbj')
+            ->allowedFor('bmn,ppk,pbj,arsiparis')
             ->get();
     }
 
@@ -22,7 +22,7 @@ class PembelianPersediaanPolicy
     public function view(): bool
     {
         return Policy::make()
-            ->allowedFor('bmn,ppk,pbj')
+            ->allowedFor('bmn,ppk,pbj,arsiparis')
             ->get();
     }
 

@@ -84,8 +84,7 @@ class BarangPersediaan extends Resource
                 ->displayUsing(fn ($value) => substr($value, 0, 10))
                 ->hideFromIndex(! Policy::make()
                     ->allowedFor('ppk,bmn,arsiparis')
-                    ->get())
-                ->copyable(),
+                    ->get()),
             Text::make('Volume')
                 ->displayUsing(fn ($value) => $value.' '.$this->satuan),
             Numeric::make('Harga Satuan')->hideFromIndex($request->viaResource == 'permintaan-persediaans' || $request->viaResource == 'persediaan-keluars'),

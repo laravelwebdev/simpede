@@ -1002,10 +1002,10 @@ button,input,select,textarea,label{
     right:-100px;
     width:1440px;
     height:324px;
-    background-image:url("../images/header-illustration-light.svg")
+    background-image:url("/images/header-illustration-light.svg")
 }
 .lights-off .site-header::before{
-    background-image:url("../images/header-illustration-dark.svg")
+    background-image:url("/images/header-illustration-dark.svg")
 }
 .site-header-inner{
     position:relative;
@@ -1262,13 +1262,13 @@ button,input,select,textarea,label{
     left:calc(50% - 720px);
     height:263px;
     width:1440px;
-    background-image:url("../images/cta-illustration-light.svg")
+    background-image:url("/images/cta-illustration-light.svg")
 }
 .hidden{
     display:none;
 }
 .lights-off .cta::before{
-    background-image:url("../images/cta-illustration-dark.svg")
+    background-image:url("/images/cta-illustration-dark.svg")
 }
 .cta-cta{
     max-width:400px;

@@ -146,7 +146,7 @@ class MataAnggaran extends Resource
                     return true;
                 }
 
-                return $this->resource instanceof Model && ($this->is_manual);
+                return $this->resource instanceof Model && $this->is_manual;
             });
 
         return $actions;

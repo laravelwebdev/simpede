@@ -20,6 +20,7 @@ use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -114,6 +115,29 @@ class NaskahKeluar extends Resource
             Date::make('Tanggal Kirim', 'tanggal_kirim')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->rules('nullable', 'bail', 'after_or_equal:tanggal'),
+            Textarea::make('Template Kirim Email', fn () => 'Yang Terhormat:
+'.$this->tujuan.'
+di -
+    Tempat
+            
+            
+            
+Mohon izin menyampaikan '.optional(JenisNaskah::cache()->get('all')->where('id', $this->jenis_naskah_id)->first())->jenis.' dari Kepala BPS '.config('satker.kabupaten').' (terlampir),
+Nomor       : '.$this->nomor.'
+Tanggal     : '.Helper::terbilangTanggal($this->tanggal).'
+Hal         : '.$this->perihal.'
+
+
+Kami berkomitmen menjaga integritas dan meningkatkan kualitas kinerja serta pelayanan dalam rangka mewujudkan Zona Integritas BPS '.config('satker.kabupaten').'.
+            
+Demikian kami sampaikan, atas perhatian Bapak/Ibu, kami ucapkan terima kasih.
+======================================================================
+Hormat Kami,
+Badan Pusat Statistik '.config('satker.kabupaten').'
+'.config('satker.alamat').'
+Telp : '.config('satker.telepon').'
+Website : '.config('satker.website'))
+                ->onlyOnDetail(),
             new Panel('Klasifikasi Surat', $this->klasifikasiFields()),
             new Panel('Arsip', $this->arsipFields()),
         ];

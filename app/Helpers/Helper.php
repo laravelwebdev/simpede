@@ -1923,7 +1923,7 @@ class Helper
      */
     public static function setOptionsWaGroup()
     {
-        return self::setOptions(WhatsappGroup::cache()->get('all'), 'id', 'name');
+        return self::setOptions(WhatsappGroup::cache()->get('all'), 'group_id', 'group_name');
     }
 
     /**

@@ -22,7 +22,7 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Pengelolaan SAKIP: fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.
 ## Requirement
 
-Dibuat menggunakan Laravel 11 dan memerlukan ekstensi server berikut:
+Dibuat menggunakan Laravel 12 dan memerlukan ekstensi server berikut:
 - PHP >= 8.2
 - Ctype PHP Extension
 - cURL PHP Extension
@@ -70,9 +70,9 @@ Rekomendasi shared hosting murah:
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
 
-- Lakukan migrasi database:
+- Lakukan installasi aplikasi:
     ```bash
-    php artisan migrate --seed
+    php artisan simpede:install
     ```
 
     

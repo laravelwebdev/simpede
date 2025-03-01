@@ -261,7 +261,7 @@ Terimakasih ✨✨'),
                 $data = Fonnte::make()->getWhatsappGroupList();
                 if ($data['data']['status']) {
                     WhatsappGroup::cache()->disable();
-                    WhatsappGroup::update(['updated_at' => null]);
+                    WhatsappGroup::query()->update(['updated_at' => null]);
                     foreach ($data['data']['data'] as $item) {
                         $waGroup = WhatsappGroup::firstOrNew(
                             [

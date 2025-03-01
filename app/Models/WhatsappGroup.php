@@ -10,6 +10,10 @@ class WhatsappGroup extends Model
 {
     use LaraCache;
 
+    protected $fillable = [
+        'group_id',
+    ];
+
     public static function cacheEntities(): array
     {
         return [

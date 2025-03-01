@@ -14,6 +14,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class SkTranslok extends Resource
 {
     public static $with = ['rateTransloks'];
+
     /**
      * The model the resource corresponds to.
      *

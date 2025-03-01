@@ -44,7 +44,6 @@ class TemplateProcessor extends PhpWordTemplateProcessor
      *
      * @param  string  $search
      * @param  int  $numberOfClones
-     * @return void
      */
     public function cloneRow($search, $numberOfClones): void
     {

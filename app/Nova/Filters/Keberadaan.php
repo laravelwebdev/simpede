@@ -8,6 +8,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Keberadaan extends Filter
 {
     protected $judul;
+
     protected $column;
 
     public function __construct($judul, $column)
@@ -31,7 +32,6 @@ class Keberadaan extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder
@@ -44,7 +44,6 @@ class Keberadaan extends Filter
     /**
      * Get the filter's available options.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function options(NovaRequest $request)

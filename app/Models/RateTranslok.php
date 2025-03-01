@@ -20,6 +20,7 @@ class RateTranslok extends Model
                 }),
         ];
     }
+
     protected $fillable = [
         'type',
         'sk_translok_id',

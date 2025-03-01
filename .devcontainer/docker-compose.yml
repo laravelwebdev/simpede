@@ -14,7 +14,6 @@ services:
       - phpmyadmin
   mariadb:
     image: 'mariadb:10.11'
-    restart: always
     ports:
       - 3306:3306
     environment:
@@ -26,7 +25,6 @@ services:
      MYSQL_ALLOW_EMPTY_PASSWORD: 1
   phpmyadmin:
       image: 'phpmyadmin:latest'
-      restart: always
       ports:
         - 8080:80
       environment:

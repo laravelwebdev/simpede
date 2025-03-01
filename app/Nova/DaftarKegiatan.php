@@ -6,13 +6,13 @@ use App\Helpers\Fonnte;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\DaftarKegiatan as ModelsDaftarKegiatan;
+use App\Models\WhatsappGroup;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
@@ -260,11 +260,25 @@ Terimakasih ✨✨'),
                 Fonnte::make()->updateWhatsappGroupList();
                 $data = Fonnte::make()->getWhatsappGroupList();
                 if ($data['data']['status']) {
-                    Cache::forget('wa_group');
-                    Cache::rememberForever('wa_group', fn () => $data['data']['data']);
+                    WhatsappGroup::cache()->disable();
+                    WhatsappGroup::update(['updated_at' => null]);
+                    foreach ($data['data']['data'] as $item) {
+                        $waGroup = WhatsappGroup::firstOrNew(
+                            [
+                                'group_id' => $item['id'],
+                            ]
+                        );
+                        $waGroup->group_name = $item['name'];
+                        $waGroup->updated_at = now();
+                        $waGroup->save();
+                    }
+                    $ids = WhatsappGroup::where('updated_at', null)->get()->pluck('id');
+                    WhatsappGroup::destroy($ids);
+                    WhatsappGroup::cache()->enable();
+                    WhatsappGroup::cache()->updateAll();
                 }
             })
-                ->confirmText('Terlalu sering menggunanakan fitur ini dapat menyebabkan nomor Whatsapp Anda dibanned oleh Whatsapp. Apakah Anda yakin?')
+                ->confirmText('Terlalu sering menggunakan fitur ini dapat menyebabkan nomor Whatsapp Anda dibanned oleh Whatsapp. Apakah Anda yakin?')
                 ->standalone();
         }
 

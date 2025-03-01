@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\Process;
 
 class Update extends Command
@@ -28,8 +27,6 @@ class Update extends Command
     public function handle()
     {
         $error = false;
-        $dummyWaGroup = Cache::get('wa_group');
-
         try {
             $process = new Process(['git', 'pull', 'origin', 'main']);
             $process->run();
@@ -52,7 +49,6 @@ class Update extends Command
                 $error = true;
             }
         } finally {
-            Cache::rememberForever('wa_group', fn () => $dummyWaGroup);
             $error ? $this->error('Update Gagal!') : $this->info('Update Sukses! ');
         }
     }

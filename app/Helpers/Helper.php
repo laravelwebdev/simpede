@@ -28,6 +28,7 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
+use App\Models\WhatsappGroup;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -1922,15 +1923,7 @@ class Helper
      */
     public static function setOptionsWaGroup()
     {
-        $datas = Cache::get('wa_group');
-        $result = [];
-        if (! empty($datas)) {
-            foreach ($datas as $group) {
-                $result[$group['id']] = $group['name'];
-            }
-        }
-
-        return $result;
+        return self::setOptions(WhatsappGroup::cache()->get('all'), 'id', 'name');
     }
 
     /**

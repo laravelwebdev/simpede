@@ -10,6 +10,12 @@ class Template extends Model
 {
     use LaraCache;
 
+    protected $fillable = [
+        'nama',
+        'jenis',
+        'file',
+    ];
+
     public static function cacheEntities(): array
     {
         return [

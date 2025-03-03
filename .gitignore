@@ -20,4 +20,4 @@ yarn-error.log
 .DS_Store
 .env
 /nova-components
-
+composer.lock

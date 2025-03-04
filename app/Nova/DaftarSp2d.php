@@ -163,6 +163,28 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('Lampiran SPM', fn () => null)->onlyOnDetail(),
 
+                Filepond::make('DRPP', 'arsip_drpp')
+                    ->disk('arsip')
+                    ->disableCredits()
+                    ->onlyOnForms()
+                    ->mimesTypes(['application/pdf'])
+                    ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
+                    ->storeAs(function (Request $request) {
+                        $originalName = 'DRPP_'.$this->nomor_spp;
+                        $extension = $request->arsip_drpp->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
+                    ->prunable(),
+                $this->arsip_drpp ?
+                URL::make('DRPP', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_drpp))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
+                    :
+                Text::make('DRPP', fn () => null)->onlyOnDetail(),
+
                 Filepond::make('SSP', 'arsip_ssp')
                     ->disk('arsip')
                     ->disableCredits()

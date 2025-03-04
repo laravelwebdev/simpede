@@ -24,7 +24,7 @@
                     <ul class="list-none menu-social mb-0">
                         <li class="inline">
                             @auth
-                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Home</a>
+                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Panel</a>
                             @else
                             <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Masuk</a>
                             @endauth
@@ -47,7 +47,7 @@
                 <div class="navigation lg_992:order-1 lg_992:flex hidden ms-auto" id="menu-collapse">
                     <ul class="navbar-nav" id="navbar-navlist">
                         <li class="nav-item">
-                            <a class="nav-link active dark:text-gray-200" href="#">Panel</a>
+                            <a class="nav-link active dark:text-gray-200" href="#">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link dark:text-gray-200" href="#fitur">Fitur</a>

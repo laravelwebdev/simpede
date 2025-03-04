@@ -13,7 +13,7 @@
         <!-- Navbar Start -->
         <nav class="navbar" id="navbar">
             <div class="container relative flex flex-wrap items-center justify-between">
-                <a class="navbar-brand md:me-8 w-40" href="index.html" style="width:160px;">
+                <a class="navbar-brand md:me-8 w-40" href="#" style="width:160px;">
                     <img src="{{ asset('images/light.svg') }}" class="inline-block dark:hidden" alt="">
                     <img src="{{ asset('images/dark.svg') }}" class="hidden dark:inline-block" alt="">
                 </a>

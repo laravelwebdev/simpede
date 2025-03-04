@@ -79,7 +79,7 @@ class Helper
         'H' => 'Hari Kalender Sebelum Deadline',
     ];
 
-    const TRANLOK_TYPE = [
+    const TRANSLOK_TYPE = [
         '1' => 'Kabupaten - Kecamatan',
         '2' => 'Kabupaten - Desa',
         '3' => 'Kecamatan - Desa',

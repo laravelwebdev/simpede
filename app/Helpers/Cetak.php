@@ -832,6 +832,7 @@ class Cetak
             'tujuan' => $data->tujuan,
             'tema' => $data->tema,
             'tanggal_rapat' => Helper::terbilangTanggal($data->tanggal_rapat),
+            'hari' => Helper::terbilanghari($data->tanggal_rapat),
             'mulai' => Helper::formatJam($data->mulai),
             'tempat' => $data->tempat,
             'agenda' => $data->agenda,

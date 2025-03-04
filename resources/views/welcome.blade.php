@@ -13,7 +13,7 @@
         <!-- Navbar Start -->
         <nav class="navbar" id="navbar">
             <div class="container relative flex flex-wrap items-center justify-between">
-                <a class="navbar-brand md:me-8 w-40" href="index.html" style="width:160px;">
+                <a class="navbar-brand md:me-8 w-40" href="#" style="width:160px;">
                     <img src="{{ asset('images/light.svg') }}" class="inline-block dark:hidden" alt="">
                     <img src="{{ asset('images/dark.svg') }}" class="hidden dark:inline-block" alt="">
                 </a>
@@ -24,7 +24,7 @@
                     <ul class="list-none menu-social mb-0">
                         <li class="inline">
                             @auth
-                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Dashboard</a>
+                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Panel</a>
                             @else
                             <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Masuk</a>
                             @endauth
@@ -47,13 +47,13 @@
                 <div class="navigation lg_992:order-1 lg_992:flex hidden ms-auto" id="menu-collapse">
                     <ul class="navbar-nav" id="navbar-navlist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#home">Home</a>
+                            <a class="nav-link active dark:text-gray-200" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#fitur">Fitur</a>
+                            <a class="nav-link dark:text-gray-200" href="#fitur">Fitur</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" target="_blank" href="https://docs.simpede.my.id">Panduan</a>
+                            <a class="nav-link dark:text-gray-200" target="_blank" href="https://docs.simpede.my.id">Panduan</a>
                         </li>
                     </ul>
                 </div>
@@ -336,7 +336,7 @@
 
                     <div class="lg:col-span-8 md:col-span-7">
                         <div id="myTabContent" class="p-6 bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
-                            <div class="" id="panduan" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <img src="{{ asset('images/docs-light.png') }}" class="shadow dark:shadow-gray-700 rounded-md inline-block dark:hidden" alt="">
                                 <img src="{{ asset('images/docs-dark.png') }}" class="shadow dark:shadow-gray-700 rounded-md hidden dark:inline-block" alt="">
                                 <div class="mt-6">
@@ -378,6 +378,7 @@
                         <p>
                             Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik
                             &middot; v.{{ $version }}
+                            <br />
                             Copyright &copy; 2021 -
                             <span id="copyright">
                               <script>
@@ -414,8 +415,8 @@
         <!-- JAVASCRIPTS -->
         <script src="{{ asset('js/feather.min.js') }}"></script>
         <script src="{{ asset('js/gumshoe.polyfills.min.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/plugins.init.js') }}"></script>
-        <script src="{{ asset('js//app.js') }}"></script>
         <!-- JAVASCRIPTS -->
     </body>
 </html>

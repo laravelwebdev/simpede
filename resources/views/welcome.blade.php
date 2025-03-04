@@ -47,7 +47,7 @@
                 <div class="navigation lg_992:order-1 lg_992:flex hidden ms-auto" id="menu-collapse">
                     <ul class="navbar-nav" id="navbar-navlist">
                         <li class="nav-item">
-                            <a class="nav-link active dark:text-gray-200" href="#">Home</a>
+                            <a class="nav-link active dark:text-gray-200" href="#">Panel</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link dark:text-gray-200" href="#fitur">Fitur</a>

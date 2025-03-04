@@ -24,7 +24,7 @@
                     <ul class="list-none menu-social mb-0">
                         <li class="inline">
                             @auth
-                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Dashboard</a>
+                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Home</a>
                             @else
                             <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Masuk</a>
                             @endauth

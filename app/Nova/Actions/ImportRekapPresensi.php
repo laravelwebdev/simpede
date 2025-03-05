@@ -12,6 +12,8 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Storage;
 
 class ImportRekapPresensi extends Action
 {
@@ -49,12 +51,24 @@ class ImportRekapPresensi extends Action
 
             $daftar->save();
         });
+        (new FastExcel)->import($fields->skp, function ($row) use ($model) {
+            $daftar = DaftarPenilaianReward::firstOrNew(
+                [
+                    'user_id' => optional(User::cache()->get('all')->where('nip_lama', substr($row['Nama'], 1, 9))->first())->id,
+                    'reward_pegawai_id' => $model->id,
+                ]
+            );
+            $daftar->nilai_skp = explode(' ', trim($row['Predikat Kinerja']))[0];
+            $daftar->updated_at = now();
+
+            $daftar->save();
+        });
         $ids = DaftarPenilaianReward::where('updated_at', null)->get()->pluck('id');
         DaftarPenilaianReward::destroy($ids);
         $model->status = 'diimport';
         $model->save();
 
-        return Action::message('Rekap Presensi sukses diimport!');
+        return Action::message('Rekap Presensi dan Penilaian SKP sukses diimport!');
     }
 
     /*'
@@ -65,10 +79,14 @@ class ImportRekapPresensi extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            File::make('File')
+            File::make('Rekap Presensi', 'file')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
                 ->help('Gunakan File Excel Export dari Aplikasi BOS (Menu Kepegawaian->Cetak Presensi->Rekap Presensi Unit Kerja'),
+            File::make('Penilaian SKP', 'skp')
+                ->rules('required', 'mimes:xlsx')
+                ->acceptedTypes('.xlsx')
+                ->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Nilai SKP')['filename']).'">Unduh Template</a>'),
         ];
     }
 }

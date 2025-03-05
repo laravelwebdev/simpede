@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('daftar_penilaian_rewards', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('nilai_skp')->nullable()->unsigned();
+            $table->decimal('nilai_skp')->nullable()->unsigned();
             $table->tinyInteger('tk')->nullable()->unsigned();
             $table->tinyInteger('tl1')->nullable()->unsigned();
             $table->tinyInteger('tl2')->nullable()->unsigned();

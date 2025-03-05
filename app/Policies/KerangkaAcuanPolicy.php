@@ -96,10 +96,6 @@ class KerangkaAcuanPolicy
         return false;
     }
 
-    public function attachAnyDaftarSp2d(): bool
-    {
-        return false;
-    }
 
     public function detachDaftarSp2d(): bool
     {

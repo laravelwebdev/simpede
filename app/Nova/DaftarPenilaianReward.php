@@ -27,7 +27,7 @@ class DaftarPenilaianReward extends Resource
      *
      * @var string
      */
-    public static $title = 'user.nama';
+    public static $title = 'user.name';
 
     /**
      * The columns that should be searched.
@@ -35,7 +35,7 @@ class DaftarPenilaianReward extends Resource
      * @var array
      */
     public static $search = [
-        'user.nama',
+        'user.name',
     ];
 
     public static $globallySearchable = false;

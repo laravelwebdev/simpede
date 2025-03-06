@@ -96,7 +96,7 @@
 
                 <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6 mt-6">
                     
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="truck" class="size-6 rotate-45"></i>
                         </div>
@@ -115,7 +115,7 @@
                             <i data-feather="truck" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="archive" class="size-6 rotate-45"></i>
                         </div>
@@ -132,7 +132,7 @@
                             <i data-feather="archive" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="users" class="size-6 rotate-45"></i>
                         </div>
@@ -153,7 +153,7 @@
                     </div><!--end feature content-->
 
 
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="user-check" class="size-6 rotate-45"></i>
                         </div>
@@ -170,7 +170,7 @@
                             <i data-feather="user-check" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="trending-up" class="size-6 rotate-45"></i>
                         </div>
@@ -186,7 +186,7 @@
                             <i data-feather="trending-up" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="camera" class="size-6 rotate-45"></i>
                         </div>
@@ -201,7 +201,7 @@
                             <i data-feather="camera" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="file-text" class="size-6 rotate-45"></i>
                         </div>
@@ -216,7 +216,7 @@
                             <i data-feather="file-text" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="calendar" class="size-6 rotate-45"></i>
                         </div>
@@ -232,7 +232,7 @@
                     </div><!--end feature content-->                   
 
 
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="coffee" class="size-6 rotate-45"></i>
                         </div>
@@ -249,7 +249,7 @@
                         </div>
                     </div><!--end feature content-->
 
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="mail" class="size-6 rotate-45"></i>
                         </div>
@@ -263,7 +263,7 @@
                             <i data-feather="mail" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="home" class="size-6 rotate-45"></i>
                         </div>
@@ -278,7 +278,7 @@
                         </div>
                     </div><!--end feature content-->
 
-                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden h-fit">
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="link-2" class="size-6 rotate-45"></i>
                         </div>

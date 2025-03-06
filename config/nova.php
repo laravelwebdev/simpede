@@ -1,26 +1,8 @@
 <?php
 
 use Laravel\Nova\Actions\ActionResource;
-use Laravel\Nova\Http\Middleware\Authenticate;
-use Laravel\Nova\Http\Middleware\Authorize;
-use Laravel\Nova\Http\Middleware\BootTools;
-use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
-use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Nova License Key
-    |--------------------------------------------------------------------------
-    |
-    | The following configuration option contains your Nova license key. On
-    | non-local domains, Nova will verify that the Nova installation has
-    | a valid license associated with the application's active domain.
-    |
-    */
-
-    'license_key' => env('NOVA_LICENSE_KEY'),
 
     /*
     |--------------------------------------------------------------------------
@@ -100,17 +82,23 @@ return [
 
     'middleware' => [
         'web',
-        HandleInertiaRequests::class,
-        DispatchServingNovaEvent::class,
-        BootTools::class,
+        \Laravel\Nova\Http\Middleware\HandleInertiaRequests::class,
+        'nova:serving',
     ],
 
     'api_middleware' => [
         'nova',
-        Authenticate::class,
-        // EnsureEmailIsVerified::class,
-        Authorize::class,
+        \Laravel\Nova\Http\Middleware\Authenticate::class,
+        // \Laravel\Nova\Http\Middleware\AuthenticateSession::class,
+        // \Laravel\Nova\Http\Middleware\EnsureEmailIsVerified::class,
+        \Laravel\Nova\Http\Middleware\Authorize::class,
     ],
+
+    'asset_middleware' => [
+        'nova:api',
+        \Illuminate\Http\Middleware\CheckResponseForModifications::class,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Nova Pagination Type

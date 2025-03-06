@@ -2,18 +2,18 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Models\DaftarPenilaianReward;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
-use App\Helpers\Helper;
-use Illuminate\Support\Facades\Storage;
 
 class ImportRekapPresensi extends Action
 {
@@ -59,6 +59,7 @@ class ImportRekapPresensi extends Action
                 ]
             );
             $daftar->nilai_skp = explode(' ', trim($row['Predikat Kinerja']))[0];
+            $daftar->jumlah_butir = $row['Butir'] ?? 0;
             $daftar->updated_at = now();
 
             $daftar->save();

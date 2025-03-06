@@ -173,6 +173,11 @@ class Install extends Command
                 'jenis' => 'import',
                 'file' => 'BuyPo9w8pzuhPqE3t9QTzEt3yigtVNYC5O2ExHe5.xlsx',
             ],
+            [
+                'nama' => 'Template Import Nilai SKP',
+                'jenis' => 'import',
+                'file' => 'RW2LxwcWpTAe98xaTars8i2vDEh7XDScBr9OKyjj.xlsx',
+            ],
         ];
 
         foreach ($templates as $template) {

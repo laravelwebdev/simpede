@@ -66,19 +66,19 @@ class PerjanjianKinerja extends Resource
             Number::make('Target Triwulan I', 'target_tw1')
                 ->step(0.01)
                 ->help('Target total selama triwulan I')
-                ->rules('required', 'integer', 'gte:0'),
+                ->rules('required', 'numeric', 'gte:0'),
             Number::make('Target Triwulan II', 'target_tw2')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan II')
-                ->rules('required', 'integer', 'gte:target_tw1'),
+                ->rules('required', 'numeric', 'gte:target_tw1'),
             Number::make('Target Triwulan III', 'target_tw3')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan III')
-                ->rules('required', 'integer', 'gte:target_tw2'),
+                ->rules('required', 'numeric', 'gte:target_tw2'),
             Number::make('Target Triwulan IV', 'target_tw4')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan IV')
-                ->rules('required', 'integer', 'gte:target_tw3'),
+                ->rules('required', 'numeric', 'gte:target_tw3'),
             Tab::group(fields: [
                 HasMany::make('Realisasi Kinerja', 'realisasiKinerja', RealisasiKinerja::class),
                 BelongsToMany::make('Analisis Sakip', 'analisisSakip', AnalisisSakip::class),

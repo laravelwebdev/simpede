@@ -87,26 +87,26 @@ class RealisasiKinerja extends Resource
             Number::make('Target Triwulan I', 'target_tw1')
                 ->step(0.01)
                 ->help('Target total selama triwulan I')
-                ->rules('required', 'integer', 'gte:0'),
+                ->rules('required', 'numeric', 'gte:0'),
             Number::make('Target Triwulan II', 'target_tw2')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan II')
-                ->rules('required', 'integer', 'gte:target_tw1'),
+                ->rules('required', 'numeric', 'gte:target_tw1'),
             Number::make('Target Triwulan III', 'target_tw3')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan III')
-                ->rules('required', 'integer', 'gte:target_tw2'),
+                ->rules('required', 'numeric', 'gte:target_tw2'),
             Number::make('Target Triwulan IV', 'target_tw4')
                 ->step(0.01)
                 ->help('Target kumulatif sampai dengan triwulan IV')
-                ->rules('required', 'integer', 'gte:target_tw3'),
+                ->rules('required', 'numeric', 'gte:target_tw3'),
             Textarea::make('Penjelasan Target', 'keterangan_target')
                 ->alwaysShow()
                 ->help('Misalnya rincian target secara detail, misal 4 dinas apa saja yang menjadi target dll')
                 ->rules('required'),
             Panel::make('Realisasi Triwulan 1', [
                 Number::make('Realisasi TW 1', 'realisasi_tw1')
-                    ->rules('nullable', 'integer', 'gte:0')
+                    ->rules('nullable', 'numeric', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->immutable(! Helper::is_triwulan(1))
@@ -131,7 +131,7 @@ class RealisasiKinerja extends Resource
             ]),
             Panel::make('Realisasi Triwulan 2', [
                 Number::make('Realisasi TW 2', 'realisasi_tw2')
-                    ->rules('nullable', 'integer', 'gte:0')
+                    ->rules('nullable', 'numeric', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->immutable(! Helper::is_triwulan(2))
@@ -156,7 +156,7 @@ class RealisasiKinerja extends Resource
             ]),
             Panel::make('Realisasi Triwulan 3', [
                 Number::make('Realisasi TW 3', 'realisasi_tw3')
-                    ->rules('nullable', 'integer', 'gte:0')
+                    ->rules('nullable', 'numeric', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->immutable(! Helper::is_triwulan(3))
@@ -181,7 +181,7 @@ class RealisasiKinerja extends Resource
             ]),
             Panel::make('Realisasi Triwulan 4', [
                 Number::make('Realisasi TW 4', 'realisasi_tw4')
-                    ->rules('nullable', 'integer', 'gte:0')
+                    ->rules('nullable', 'numeric', 'gte:0')
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->immutable(! Helper::is_triwulan(4))

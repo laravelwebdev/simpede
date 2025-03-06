@@ -162,6 +162,6 @@ class AnalisisSakip extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'))->where('bulan', now()->month)->withCount('perjanjianKinerja');
+        return $query->where('tahun', session('year'))->withCount('perjanjianKinerja');
     }
 }

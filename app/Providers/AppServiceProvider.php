@@ -27,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Report to Sentry
         Sentry::captureMessage($message);
-    }
+    
+});
+}
+
 }

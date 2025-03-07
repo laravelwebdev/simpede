@@ -342,6 +342,9 @@
                                 <div class="mt-6">
                                     <h5 class="text-lg font-medium">Panduan Penggunaan</h5>
                                     <p class="text-slate-400 mt-4">Panduan lengkap penggunaan Aplikasi Simpede untuk mempermudah pengguna dalam memahami fitur-fitur dan cara pengoperasian sistem.</p>
+                                    <div class="mt-4">
+                                        <a href="" class="text-teal-500">Baca Panduan<i class="mdi mdi-chevron-right align-middle"></i></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="hidden " id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">

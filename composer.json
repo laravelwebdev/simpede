@@ -10,6 +10,12 @@
             "type": "git"
         }
     ],
+    "authors": [
+        {
+            "name": "Muhlis Abdi",
+            "email": "muhlisabdi@gmail.com"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "intervention/image-laravel": "*",

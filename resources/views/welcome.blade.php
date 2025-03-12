@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="{{ asset('css/tailwind.min.css')}}">
         <style>
             .image-container {
-                border: 5px solid hsla(143, 73.90%, 53.30%, 0.27);
                 border-radius: 10px;
                 overflow: hidden;
                 display: flex;

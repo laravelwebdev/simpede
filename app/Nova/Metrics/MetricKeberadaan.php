@@ -68,7 +68,7 @@ class MetricKeberadaan extends Partition
         $results = DB::query()
             ->selectRaw(
                 $this->null_strict ?
-                "SUM(CASE WHEN {$this->column} IS NOT NULL THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} IS NULL THEN 1 ELSE 0 END) as tidak" :
+                "SUM(CASE WHEN {$this->column} IS NOT NULL AND {$this->column} != '[]' THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} IS NULL OR {$this->column} = '[]' THEN 1 ELSE 0 END) as tidak" :
                 "SUM(CASE WHEN {$this->column} > 0 THEN 1 ELSE 0 END) as ada, SUM(CASE WHEN {$this->column} <= 0 THEN 1 ELSE 0 END) as tidak"
             )
             ->fromSub($table, 'sub')

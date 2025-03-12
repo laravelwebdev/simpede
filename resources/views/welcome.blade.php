@@ -5,7 +5,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Simpede</title>
         <link rel="stylesheet" href="{{ asset('css/tailwind.min.css')}}">
+        <style>
+            .image-container {
+                border: 5px solid hsla(143, 73.90%, 53.30%, 0.27);
+                border-radius: 10px;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            .image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0.9;
+            }
 
+             /* Default selection color */
+            ::selection {
+                background-color:rgb(19, 207, 182); /* Light orange */
+                color: #ffffff; /* White text */
+            }
+
+            /* For Mozilla browsers */
+            ::-moz-selection {
+                background-color:rgb(19, 207, 182);
+                color: #ffffff;
+            }
+
+        </style>
     </head>
     
     <body class="font-libre_franklin text-base text-black dark:text-white bg-white dark:bg-slate-900">
@@ -75,7 +104,7 @@
                     </div>
 
                     <div class="lg:ms-8">
-                        <div class="relative">
+                        <div class="relative image-container">
                             <img src="{{ asset('images/hero-media-dark.png') }}" class="relative top-8 hidden dark:inline-block" alt="">
                             <img src="{{ asset('images/hero-media-light.png') }}" class="relative top-8 inline-block dark:hidden" alt="">
                         </div>
@@ -291,9 +320,6 @@
                             <i data-feather="link-2" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
-
-
-
                 </div><!--end grid-->
             </div><!--end container-->
         </section><!--end section-->

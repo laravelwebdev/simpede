@@ -39,7 +39,7 @@ class AddPerjalananDinas extends Action
         $perjalanan->uraian = $kak->rincian;
         $perjalanan->save();
 
-        return ActionResponse::redirect('perjalanan-dinas/'.$perjalanan->id.'/edit');
+        return ActionResponse::visit('/resources/perjalanan-dinas/'.$perjalanan->id.'/edit');
     }
 
     /**

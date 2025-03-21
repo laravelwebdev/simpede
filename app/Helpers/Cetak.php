@@ -26,6 +26,7 @@ use App\Models\UnitKerja;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Settings;
 
 class Cetak
 {
@@ -81,6 +82,7 @@ class Cetak
      */
     public static function getTemplate(string $jenis, $id, $template_id, $tanggal, $pengelola)
     {
+        Settings::setOutputEscapingEnabled(true);
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
         if ($tanggal || $pengelola) {
             $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id, $tanggal, $pengelola);

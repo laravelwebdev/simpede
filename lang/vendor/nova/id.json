@@ -510,5 +510,6 @@
     "For your security, please confirm your password to continue.": "Untuk keamanan Anda, harap konfirmasi kata sandi Anda untuk melanjutkan.",
     "Show Recovery Codes": "Tampilkan Kode Pemulihan",
     "Disable": "Nonaktifkan",
-    "Please confirm access to your account by entering one of your emergency recovery codes." : "Harap konfirmasi akses ke akun Anda dengan memasukkan salah satu kode pemulihan darurat Anda."
+    "Please confirm access to your account by entering one of your emergency recovery codes." : "Harap konfirmasi akses ke akun Anda dengan memasukkan salah satu kode pemulihan darurat Anda.",
+    "To finish enabling two factor authentication, scan the following QR code using your phone's authenticator application or enter the setup key and provide the generated OTP code." : "Untuk menyelesaikan pengaktifan autentikasi dua faktor, pindai kode QR berikut menggunakan aplikasi autentikator di ponsel Anda atau masukkan kunci pengaturan dan berikan kode OTP yang dihasilkan."
 }

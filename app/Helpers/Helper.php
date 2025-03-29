@@ -2161,7 +2161,8 @@ class Helper
             '{kegiatan}' => $kegiatan->kegiatan,
             '{pj}' => $kegiatan->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($kegiatan->daftar_kegiatanable_id)->unit : User::find($kegiatan->daftar_kegiatanable_id)->name,
         ]);
-        $response = Fonnte::make()->sendWhatsAppMessage($kegiatan->wa_group_id, $pesan);
+        $recipients = implode(',',collect($kegiatan->wa_group_id)->pluck('id')->toArray());
+        $response = Fonnte::make()->sendWhatsAppMessage($recipients, $pesan);
         $reminder->status = $response['data']['process'] ?? 'Gagal';
         $reminder->message_id = $response['data']['id'][0];
         $reminder->save();

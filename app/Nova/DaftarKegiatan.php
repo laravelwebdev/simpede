@@ -123,20 +123,22 @@ class DaftarKegiatan extends Resource
             ]),
             Text::make('Status')->exceptOnForms(),
             Panel::make('Reminder', [
-                Select::make('WA Group', 'wa_group_id')
-                    ->options(Helper::setOptionsWaGroup())
+                Repeatable::make('WA Group', 'wa_group_id', [
+                    Select::make('WA Group', 'id')
+                        ->options(Helper::setOptionsWaGroup())
+                        ->searchable()
+                        ->rules('required')
+                        ->displayUsingLabels()
+                        ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
+                ])
                     ->hide()
-                    ->searchable()
-                    ->displayUsingLabels()
-                    ->dependsOn(['jenis'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['jenis'], function (Repeatable $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis === 'Deadline') {
                             $field
-                                ->rules('required')
-                                ->show();
+                                ->show()
+                                ->rules('required');
                         }
-                    })
-                    ->hideFromIndex()
-                    ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
+                    }),
                 Textarea::make('Template Pesan', 'pesan')
                     ->hide()
                     ->help('Jangan hapus bagian {judul}.<br/> Gunakan {kegiatan} untuk mengganti dengan nama kegiatan,<br/> {tanggal} untuk mengganti tanggal deadline,<br/> {pj} untuk mengganti dengan penanggung jawab')

@@ -22,6 +22,7 @@ class DaftarKegiatan extends Model
             'awal' => 'datetime',
             'akhir' => 'datetime',
             'waktu_reminder' => 'array',
+            'wa_group_id' => 'array',
         ];
     }
 

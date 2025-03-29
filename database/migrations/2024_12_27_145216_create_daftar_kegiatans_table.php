@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('kegiatan')->nullable();
             $table->dateTime('awal')->nullable();
             $table->dateTime('akhir')->nullable();
-            $table->string('wa_group_id', 80)->nullable();
+            $table->text('wa_group_id')->nullable();
             $table->text('pesan')->nullable();
             $table->text('waktu_reminder')->nullable();
             $table->string('status', 20)->nullable();

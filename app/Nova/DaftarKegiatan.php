@@ -128,8 +128,7 @@ class DaftarKegiatan extends Resource
                         ->options(Helper::setOptionsWaGroup())
                         ->searchable()
                         ->rules('required')
-                        ->displayUsingLabels()
-                        ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
+                        ->displayUsingLabels(),
                 ])
                     ->hide()
                     ->dependsOn(['jenis'], function (Repeatable $field, NovaRequest $request, FormData $formData) {
@@ -138,7 +137,8 @@ class DaftarKegiatan extends Resource
                                 ->show()
                                 ->rules('required');
                         }
-                    }),
+                    })
+                    ->help('Jika Pilihan Group belum tersedia, tambahkan nomor ini ke dalam Group WA Anda: <b>'.config('fonnte.number').'</b> Kemudian hubungi Admin'),
                 Textarea::make('Template Pesan', 'pesan')
                     ->hide()
                     ->help('Jangan hapus bagian {judul}.<br/> Gunakan {kegiatan} untuk mengganti dengan nama kegiatan,<br/> {tanggal} untuk mengganti tanggal deadline,<br/> {pj} untuk mengganti dengan penanggung jawab')

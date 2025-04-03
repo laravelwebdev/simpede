@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\MataAnggaran;
+use App\Models\Pengelola;
 use App\Models\User as UserModel;
 use App\Nova\AnalisisSakip;
 use App\Nova\BastMitra;
@@ -246,7 +247,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return true;
+            return Pengelola::where('user_id', $user->id)
+                ->where('role', 'anggota')
+                ->where(function ($query) {
+                    $query->whereNull('inactive')
+                        ->orWhere('inactive', '>=', now());
+                })
+                ->exists();
         });
     }
 

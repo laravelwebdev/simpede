@@ -38,7 +38,8 @@
                 "Cardinal90.multi-cursor-case-preserve",
                 "bmewburn.vscode-intelephense-client",
                 "fabiospampinato.vscode-todo-plus",
-                "AntiAntiSepticeye.vscode-color-picker"
+                "AntiAntiSepticeye.vscode-color-picker",
+                "MehediDracula.php-namespace-resolver"
             ]
         }
     }

@@ -84,6 +84,25 @@ class DaftarHonorMitra extends Resource
                     ->onlyOnIndex(),
             ];
         }
+        if ($request->viaResource === 'mitras') {
+            return [
+                Text::make('Bulan', fn () => Helper::terbilangBulan($kegiatan->bulan))
+                    ->filterable()
+                    ->onlyOnIndex(),
+                Text::make('Kegiatan', fn () => $kegiatan->kegiatan)
+                    ->onlyOnIndex(),
+                Number::make('Realisasi', 'volume_realisasi')
+                    ->onlyOnIndex(),
+                Numeric::make('Harga Satuan', 'harga_satuan')
+                    ->onlyOnIndex(),
+                Numeric::make('Bruto', fn () => $this->volume_realisasi * $this->harga_satuan)
+                    ->onlyOnIndex(),
+                Numeric::make('Pajak', fn () => round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                    ->onlyOnIndex(),
+                Numeric::make('Netto', fn () => $this->volume_realisasi * $this->harga_satuan - round($this->volume_realisasi * $this->harga_satuan * $this->persen_pajak / 100, 0, PHP_ROUND_HALF_UP))
+                    ->onlyOnIndex(),
+            ];
+        }
 
         return [
             Text::make('Kegiatan', fn () => $kegiatan->kegiatan)

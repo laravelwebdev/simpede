@@ -9,6 +9,7 @@ use App\Nova\Lenses\RekapHonorMitra;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
@@ -16,6 +17,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Mitra extends Resource
 {
+    public static $with = ['daftarHonorMitra'];
+
     public static function label()
     {
         return 'Mitra';
@@ -93,6 +96,7 @@ class Mitra extends Resource
             Text::make('Nomor Rekening', 'rekening')
                 ->showWhenPeeking()
                 ->rules('required', 'numeric', 'digits_between:1,40'),
+            HasMany::make('Daftar Honor Mitra', 'daftarHonorMitra'),
         ];
     }
 

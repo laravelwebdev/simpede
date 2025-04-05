@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class MitraPolicy
 {
@@ -38,9 +40,16 @@ class MitraPolicy
      */
     public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return Nova::whenServing(function (NovaRequest $request) {
+            if (str_contains(request()->url(), 'lens/rekap-honor-mitra')) {
+                return false;
+            }
+
+            return Policy::make()
+                ->allowedFor('admin')
+                ->get();
+        });
+
     }
 
     /**
@@ -48,9 +57,15 @@ class MitraPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return Nova::whenServing(function (NovaRequest $request) {
+            if (str_contains(request()->url(), 'lens/rekap-honor-mitra')) {
+                return false;
+            }
+
+            return Policy::make()
+                ->allowedFor('admin')
+                ->get();
+        });
     }
 
     /**

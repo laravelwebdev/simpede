@@ -44,7 +44,7 @@ class RekapHonorMitra extends Lens
         $filtered_kegiatan = Helper::parseFilter($request->query->get('filters'), 'Select:jenis_kontrak_id', null);
 
         return $request->withoutTableOrderPrefix()->withOrdering(
-            $query->select('bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
+            $query->select('mitras.id', 'bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
                 ->selectRaw('count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml')
                 ->whereIn('honor_kegiatan_id', function ($query) use ($filtered_bulan, $filtered_kegiatan) {
                     $query->select('id')->from('honor_kegiatans')
@@ -60,7 +60,7 @@ class RekapHonorMitra extends Lens
                 ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
                 ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
                 ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
-                ->groupBy('bulan', 'mitra_id', 'nama', 'jenis_kontrak_id', 'sbml'), fn ($query) => $query->orderBy('jenis_kontrak_id', 'asc')
+                ->groupBy('mitras.id', 'bulan', 'mitra_id', 'nama', 'jenis_kontrak_id', 'sbml'), fn ($query) => $query->orderBy('jenis_kontrak_id', 'asc')
                 ->orderBy('bulan', 'desc')
                 ->orderBy('nilai_kontrak', 'desc'));
     }

@@ -40,7 +40,7 @@ class DaftarHonorMitra extends Resource
     }
 
     public static $search =
-        ['mitra.nama', 'mitra.nik'];
+        ['mitra.nama', 'mitra.nik', 'honorKegiatan.kegiatan', 'honorKegiatan.bulan'];
 
     /**
      * Get the fields displayed by the resource.

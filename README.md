@@ -80,11 +80,11 @@ Rekomendasi shared hosting murah:
 
 - Untuk menampilkan website sedang dalam kondisi Maintenance jalankan command berikut:
     ```bash
-    php artisan maintenance:start
+    php artisan maintenance start
     ```
 - Untuk membuat website live kembali setelah maintenance gunakan command:
     ```bash
-    php artisan maintenance:stop
+    php artisan maintenance stop
     ```
 
 ## Setup Fonnte

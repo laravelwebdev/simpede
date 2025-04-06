@@ -29,11 +29,24 @@ class Download extends Action
 
     protected string $role;
 
+    protected string $filter;
+
+    protected string $exceptionMessage;
+
     public function __construct($jenis, $title = 'Unduh')
     {
         $this->jenis = $jenis;
         $this->title = $title;
     }
+
+    public function exceptionOnEmpty($column, $msg = 'Error')
+    {
+        $this->filter = $column;
+        $this->exceptionMessage = $msg;
+
+        return $this;
+    }
+
 
     public function withTanggal()
     {
@@ -63,6 +76,13 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        if ($this->filter) {
+            if ($models->contains(function ($model) {
+                return empty($model->{$this->filter});
+            })) {
+                return Action::danger($this->exceptionMessage);
+            }
+        }
         foreach ($models as $model) {
             $validationMessage = Cetak::validate($this->jenis, $model->id);
             if (! is_null($validationMessage)) {

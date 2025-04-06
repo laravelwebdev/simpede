@@ -44,7 +44,7 @@ class BastMitraPolicy
     public function update(User $user, BastMitra $bast): bool
     {
         return Policy::make()
-            ->allowedFor('ppk,arsiparis')
+            ->allowedFor('arsiparis')
             ->withYear(KontrakMitra::find($bast->kontrak_mitra_id)->tahun)
             ->get();
     }

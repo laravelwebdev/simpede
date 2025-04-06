@@ -5,9 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\BastMitra as ModelsBastMitra;
-use App\Models\KodeArsip;
 use App\Models\KontrakMitra;
-use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateBastMitra;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\MetricPartition;
@@ -15,10 +13,7 @@ use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
@@ -83,47 +78,11 @@ class BastMitra extends Resource
 
         return [
             Panel::make('Keterangan BAST', [
-                BelongsTo::make('Kontrak Mitra')
-                    ->onlyOnIndex(),
-                Date::make('Tanggal BAST', 'tanggal_bast')
-                    ->displayUsing(function ($tanggal) {
-                        return Helper::terbilangTanggal($tanggal);
-                    })
-                    ->sortable()
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->filterable()
-                    ->rules('required', 'before_or_equal:today', 'after_or_equal:'.$akhir),
-                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                    ->searchable()
-                    ->hideFromIndex()
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
-                    ->dependsOn(['tanggal_bast'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $default_naskah = NaskahDefault::cache()
-                            ->get('all')
-                            ->where('jenis', 'bast')
-                            ->first();
-                        $field->rules('required')
-                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_bast, optional($default_naskah)->kode_arsip_id));
-                    }),
-                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                    ->rules('required')
-                    ->searchable()
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->onlyOnForms()
-                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
-                    ->dependsOn('tanggal_bast', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)))
-                            ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_bast)));
-                    }),
-                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', User::class)
-                    ->sortable()
-                    ->filterable()
-                    ->exceptOnForms(),
+                BelongsTo::make('Kontrak Mitra'),
+
                 Status::make('Status', 'status')
                     ->loadingWhen(['dibuat'])
-                    ->failedWhen(['outdated'])
-                    ->onlyOnIndex(),
+                    ->failedWhen(['outdated']),
             ]),
             Panel::make('Arsip', [
                 Filepond::make('File')

@@ -667,7 +667,7 @@ class Cetak
     {
         $data = DaftarKontrakMitra::where('id', '=', $id)->first();
         $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
-        $ppk = Helper::getPegawaiByUserId($kontrak->ppk_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->spk_ppk_user_id);
         $mitra = Helper::getMitraById($data->mitra_id);
         $bulan = Helper::BULAN[$kontrak->bulan];
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
@@ -684,19 +684,19 @@ class Cetak
             'tahun' => $kontrak->tahun,
             'ubulan' => strtoupper($bulan),
             'no_spk' => optional(NaskahKeluar::find($data->kontrak_naskah_keluar_id))->nomor,
-            'hari' => Helper::terbilangHari($kontrak->tanggal_spk),
-            'terbilangtanggal' => Helper::terbilangTanggal($kontrak->tanggal_spk, 'l'),
+            'hari' => Helper::terbilangHari($data->tanggal_spk),
+            'terbilangtanggal' => Helper::terbilangTanggal($data->tanggal_spk, 'l'),
             'ppk' => optional($ppk)->name,
             'nama' => optional($mitra)->nama,
             'jenis' => $jenis_kontrak,
             'ujenis' => strtoupper($jenis_kontrak),
             'alamat' => optional($mitra)->alamat,
-            'awal' => Helper::terbilangTanggal($kontrak->awal_kontrak),
-            'akhir' => Helper::terbilangTanggal($kontrak->akhir_kontrak),
+            'awal' => Helper::terbilangTanggal($data->awal_kontrak),
+            'akhir' => Helper::terbilangTanggal($data->akhir_kontrak),
             'honor' => Helper::formatRupiah((float) $data->nilai_kontrak),
             'terbilanghonor' => Helper::terbilang($data->nilai_kontrak, 'uw', 'rupiah'),
-            'tanggal_spk' => Helper::terbilangTanggal($kontrak->tanggal_spk),
-            'no_hsks' => optional(Helper::getLatestHargaSatuan($kontrak->tanggal_spk))->nomor,
+            'tanggal_spk' => Helper::terbilangTanggal($data->tanggal_spk),
+            'no_hsks' => optional(Helper::getLatestHargaSatuan($data->tanggal_spk))->nomor,
             'daftar_honor' => Helper::makeKontrakMitra($id),
         ];
     }
@@ -712,7 +712,7 @@ class Cetak
         $data = DaftarKontrakMitra::where('id', $id)->first();
         $bast = BastMitra::find($data->bast_mitra_id);
         $kontrak = KontrakMitra::find($data->kontrak_mitra_id);
-        $ppk = Helper::getPegawaiByUserId($bast->ppk_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->bast_ppk_user_id);
         $mitra = Helper::getMitraById($data->mitra_id);
         $bulan = Helper::BULAN[$kontrak->bulan];
         $jenis_kontrak = Helper::getJenisKontrakById($kontrak->jenis_kontrak_id)->jenis;
@@ -730,9 +730,9 @@ class Cetak
             'ubulan' => strtoupper($bulan),
             'no_bast' => optional(NaskahKeluar::find($data->bast_naskah_keluar_id))->nomor,
             'no_spk' => optional(NaskahKeluar::find($data->kontrak_naskah_keluar_id))->nomor,
-            'tanggal_spk' => Helper::terbilangTanggal($kontrak->tanggal_spk),
-            'hari' => Helper::terbilangHari($bast->tanggal_bast),
-            'terbilangtanggal' => Helper::terbilangTanggal($bast->tanggal_bast, 'l'),
+            'tanggal_spk' => Helper::terbilangTanggal($data->tanggal_spk),
+            'hari' => Helper::terbilangHari($data->tanggal_bast),
+            'terbilangtanggal' => Helper::terbilangTanggal($data->tanggal_bast, 'l'),
             'ppk' => optional($ppk)->name,
             'nipppk' => optional($ppk)->nip,
             'nama' => optional($mitra)->nama,
@@ -740,7 +740,7 @@ class Cetak
             'jenis' => $jenis_kontrak,
             'ujenis' => strtoupper($jenis_kontrak),
             'alamat' => optional($mitra)->alamat,
-            'tanggal_bast' => Helper::terbilangTanggal($kontrak->tanggal_spk),
+            'tanggal_bast' => Helper::terbilangTanggal($data->tanggal_bast),
             'daftar_honor' => Helper::makeKontrakMitra($id),
         ];
     }

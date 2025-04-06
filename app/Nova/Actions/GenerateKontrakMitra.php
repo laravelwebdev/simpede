@@ -28,9 +28,6 @@ class GenerateKontrakMitra extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        if (! $model->tanggal_spk) {
-            return Action::danger('Lengkapi Keterangan Kontrak lebih dahulu sebelum menggenerate');
-        }
         if ($model->jenis_honor === 'Kontrak Mitra Bulanan') {
             $honorKegiatanIds = HonorKegiatan::where('bulan', $model->bulan)
                 ->where('tahun', $model->tahun)

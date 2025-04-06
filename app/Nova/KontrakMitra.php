@@ -96,53 +96,7 @@ class KontrakMitra extends Resource
                 BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', JenisKontrak::class)
                     ->filterable()
                     ->sortable()
-                    ->exceptOnForms(),
-                Date::make('Tanggal SPK', 'tanggal_spk')
-                    ->rules('required', 'before_or_equal:awal_kontrak', 'before_or_equal:today')->displayUsing(function ($tanggal) {
-                        return Helper::terbilangTanggal($tanggal);
-                    })
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->filterable()
-                    ->sortable(),
-                Select::make('Klasifikasi Arsip', 'kode_arsip_id')
-                    ->searchable()
-                    ->hideFromIndex()
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
-                    ->dependsOn(['tanggal_spk'], function (Select $field, NovaRequest $request, FormData $formData) {
-                        $default_naskah = NaskahDefault::cache()
-                            ->get('all')
-                            ->where('jenis', 'kontrak')
-                            ->first();
-                        $field->rules('required')
-                            ->options(Helper::setOptionsKodeArsip($formData->tanggal_spk, optional($default_naskah)->kode_arsip_id));
-                    }),
-                Date::make('Tanggal Mulai Pelaksanaan Kontrak', 'awal_kontrak')
-                    ->rules('required', 'after_or_equal:tanggal_spk')->displayUsing(function ($tanggal) {
-                        return Helper::terbilangTanggal($tanggal);
-                    })
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->hideFromIndex(),
-                Date::make('Tanggal Selesai Kontrak', 'akhir_kontrak')
-                    ->rules('required', 'after_or_equal:awal')->displayUsing(function ($tanggal) {
-                        return Helper::terbilangTanggal($tanggal);
-                    })
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->hideFromIndex(),
-                BelongsTo::make('Pejabat Pembuat Komitmen', 'ppk', User::class)
-                    ->exceptOnForms()
-                    ->sortable(),
-                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
-                    ->rules('required')
-                    ->searchable()
-                    ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                    ->onlyOnForms()
-                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
-                    ->dependsOn('tanggal_spk', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)))
-                            ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spk)));
-                    }),
-
+                    ->exceptOnForms(),                
                 Status::make('Status', 'status')
                     ->loadingWhen(['dibuat', 'diubah'])
                     ->failedWhen(['outdated'])
@@ -232,6 +186,7 @@ class KontrakMitra extends Resource
                 ->showOnDetail()
                 ->confirmButtonText('Generate')
                 ->exceptOnIndex();
+            
         }
 
         return $actions;

@@ -108,8 +108,6 @@ class HonorKegiatan extends Model
                     );
                     $kontrak->nama_kontrak = 'Kontrak '.optional(Helper::getJenisKontrakById($honor->jenis_kontrak_id))->jenis.' Bulan '.Helper::BULAN[$honor->bulan];
                     $kontrak->jenis_honor = $honor->jenis_honor;
-                    $kontrak->awal_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->startOfMonth();
-                    $kontrak->akhir_kontrak = Carbon::createFromDate(session('year'), $honor->bulan)->endOfMonth();
                     $kontrak->save();
                 }
                 if ($honor->jenis_honor === 'Kontrak Mitra AdHoc') {

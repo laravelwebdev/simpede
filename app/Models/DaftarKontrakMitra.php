@@ -9,15 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DaftarKontrakMitra extends Model
 {
-    // protected $fillable = [
-    //     'kontrak_mitra_id',
-    //     'mitra_id',
-    //     'status_kontrak',
-    //     'status_bast',
+    protected $fillable = [
+        'kontrak_mitra_id',
+        'mitra_id',
+        'status_kontrak',
+        'status_bast',
 
-    // ];
-
-    protected $guarded = [];
+    ];
 
     protected function casts(): array
     {

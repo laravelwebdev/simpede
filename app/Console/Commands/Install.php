@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Template;
 use App\Models\Pengelola;
+use App\Models\Template;
 use Illuminate\Console\Command;
-
-use function Laravel\Prompts\text;
-use function Laravel\Prompts\select;
 use Symfony\Component\Process\Process;
+
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
 
 class Install extends Command
 {
@@ -192,7 +192,7 @@ class Install extends Command
             $this->info('Membuat symlink public_html');
             $process = new Process(['ln', '-s', 'public_html', 'public']);
             $process->run();
-        } 
+        }
         $this->info('Membuat storage symlink');
         $this->call('storage:link');
         $this->info('Simpede berhasil diinstall. Silakan login dengan user admin yang baru saja dibuat.');

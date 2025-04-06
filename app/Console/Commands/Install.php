@@ -38,6 +38,7 @@ class Install extends Command
             return;
         }
         $this->info('Memulai proses installasi');
+        $this->call('key:generate');
         $this->call('migrate:fresh');
         $this->info('Membuat User Admin. Silakan Masukkan data Admin Sementara');
         $this->call('nova:user');
@@ -190,7 +191,7 @@ class Install extends Command
         $is_public_html = select('Apakah Anda menggunakan public_html sebagai folder publik?', ['Ya', 'Tidak'], 'Ya');
         if ($is_public_html == 'Ya') {
             $this->info('Membuat symlink public_html');
-            $process = new Process(['ln', '-s', 'public_html', 'public']);
+            $process = new Process(['ln', '-s', base_path('public_html'), public_path()]);
             $process->run();
         }
         $this->info('Membuat storage symlink');

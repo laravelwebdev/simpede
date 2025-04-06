@@ -40,6 +40,5 @@ class KontrakMitra extends Model
             $daftarKontrakMitraIds = DaftarKontrakMitra::where('kontrak_mitra_id', $kontrak->id)->pluck('id');
             DaftarKontrakMitra::destroy($daftarKontrakMitraIds);
         });
-
     }
 }

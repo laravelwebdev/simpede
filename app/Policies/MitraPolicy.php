@@ -49,7 +49,6 @@ class MitraPolicy
                 ->allowedFor('admin')
                 ->get();
         });
-
     }
 
     /**

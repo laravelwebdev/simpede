@@ -39,6 +39,12 @@ Dibuat menggunakan Laravel 12 dan memerlukan ekstensi server berikut:
 - XML PHP Extension
 - GD/imagick
 
+Akun Fonnte
+- Buat akun di website [fonnte.com](https://fonnte.com/)
+
+Akun Sentry
+- Buat akun di website [sentry.io](https://sentry.io/)
+
 ## Deployment
 
 Rekomendasi shared hosting murah: 
@@ -56,6 +62,7 @@ Rekomendasi shared hosting murah:
     ```bash
     composer create-project laravelwebdev/simpede . --no-dev
     ```
+## Setup .ENV
 - Rename file `.env.example` menjadi `.env` dan edit variabel berikut:
     * `APP_URL`: URL website.
     * `DB_HOST`: Host database, biasanya `localhost`.
@@ -70,11 +77,36 @@ Rekomendasi shared hosting murah:
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 
 
+## Setup Fonnte
+
+Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bisa mengirimkan reminder melalui Whatsapp. Disarankan menggunakan nomor khusus untuk mengirimkan pesan untuk berjaga-jaga apabila nomor tersebut nantinya dibanned oleh Whatsapp.
+
+- Ubah setting Fonnte pada file `.env`
+    * `FONNTE_TOKEN`: Isi dengan token fonnte.com.
+    * `FONNTE_NUMBER`: Isi dengan nomor whatsapp yang digunakan pada fonnte.com.
+- Login ke akun fonnte Anda, dan tambahkan link berikut pada webhook `Whatsapp Message Status` 
+    ```bash 
+    https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
+    ```
+## Setup Sentry
+Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
+Ubah setting Sentry pada file `.env`
+* `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
+* `SENTRY_ORGANIZATION_ID`: Isi Sentry Organization id Anda
+* `SENTRY_PROJECT_ID`: Project id
+* `SENTRY_AUTH_TOKEN`: Auth token
+
+## Install
 - Lakukan installasi aplikasi:
     ```bash
     php artisan simpede:install
     ```
 
+## Setting Cronjob
+Setting Cron Job dengan pengaturan tiap jam untuk menjalankan perintah
+```bash
+php artisan schedule:run >> /dev/null 2>&1
+```
     
 ## Maintenance Mode
 
@@ -87,27 +119,5 @@ Rekomendasi shared hosting murah:
     php artisan maintenance stop
     ```
 
-## Setup Fonnte
 
-Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bisa mengirimkan reminder melalui Whatsapp. Disarankan menggunakan nomor khusus untuk mengirimkan pesan untuk berjaga-jaga apabila nomor tersebut nantinya dibanned oleh Whatsapp.
 
-- Ubah setting Fonnte pada file `.env`
-    * `FONNTE_TOKEN`: Isi dengan token fonnte.com.
-    * `FONNTE_NUMBER`: Isi dengan nomor whatsapp yang digunakan pada fonnte.com.
-- Login ke akun fonnte Anda, dan tambahkan link berikut pada webhook `Whatsapp Message Status` 
-    ```bash 
-    https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
-    ```
-## Setting Cronjob
-Setting Cron Job dengan pengaturan tiap jam untuk menjalankan perintah
-```bash
-php artisan schedule:run >> /dev/null 2>&1
-```
-
-## Setup Sentry
-Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
-Ubah setting Sentry pada file `.env`
-* `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
-* `SENTRY_ORGANIZATION_ID`: Isi Sentry Organization id Anda
-* `SENTRY_PROJECT_ID`: Project id
-* `SENTRY_AUTH_TOKEN`: Auth token

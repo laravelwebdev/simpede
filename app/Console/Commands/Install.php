@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Pengelola;
 use App\Models\Template;
+use App\Models\Pengelola;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\text;
+use function Laravel\Prompts\select;
+use Symfony\Component\Process\Process;
 
 class Install extends Command
 {
@@ -185,6 +187,14 @@ class Install extends Command
         }
 
         $this->call('simpede:cache');
+        $is_public_html = select('Apakah Anda menggunakan public_html sebagai folder publik?', ['Ya', 'Tidak'], 'Ya');
+        if ($is_public_html == 'Ya') {
+            $this->info('Membuat symlink public_html');
+            $process = new Process(['ln', '-s', 'public_html', 'public']);
+            $process->run();
+        } 
+        $this->info('Membuat storage symlink');
+        $this->call('storage:link');
         $this->info('Simpede berhasil diinstall. Silakan login dengan user admin yang baru saja dibuat.');
     }
 }

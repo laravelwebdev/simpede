@@ -47,7 +47,6 @@ class Download extends Action
         return $this;
     }
 
-
     public function withTanggal()
     {
         $this->withTanggal = true;

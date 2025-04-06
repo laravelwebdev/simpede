@@ -4,9 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\KodeArsip;
 use App\Models\KontrakMitra as ModelsKontrakMitra;
-use App\Models\NaskahDefault;
 use App\Nova\Actions\GenerateKontrakMitra;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\MetricPartition;
@@ -14,8 +12,6 @@ use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
@@ -96,7 +92,7 @@ class KontrakMitra extends Resource
                 BelongsTo::make('Jenis Kegiatan', 'jenisKontrak', JenisKontrak::class)
                     ->filterable()
                     ->sortable()
-                    ->exceptOnForms(),                
+                    ->exceptOnForms(),
                 Status::make('Status', 'status')
                     ->loadingWhen(['dibuat', 'diubah'])
                     ->failedWhen(['outdated'])
@@ -186,7 +182,6 @@ class KontrakMitra extends Resource
                 ->showOnDetail()
                 ->confirmButtonText('Generate')
                 ->exceptOnIndex();
-            
         }
 
         return $actions;

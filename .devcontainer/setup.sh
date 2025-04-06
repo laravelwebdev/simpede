@@ -29,4 +29,3 @@ echo "--- Generate the application key ..."
 php artisan key:generate
 
 echo "--- SETUP DONE ---"
-echo "please run 'php artisan migrate:fresh --seed' to create the database tables"

@@ -29,7 +29,7 @@ class Download extends Action
 
     protected string $role;
 
-    protected string $filter;
+    protected string $filter = '';
 
     protected string $exceptionMessage;
 
@@ -75,7 +75,7 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        if ($this->filter) {
+        if (! empty($this->filter)) {
             if ($models->contains(function ($model) {
                 return empty($model->{$this->filter});
             })) {

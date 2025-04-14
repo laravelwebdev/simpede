@@ -132,8 +132,8 @@ class PerjalananDinas extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_st', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)))
-                            ->default(Helper::setDefaultPengelola('kepala', Helper::createDateFromString($formData->tanggal_st)));
+                        $field->options(Helper::setOptionPengelola('kepala', $formData->date('tanggal_st')))
+                            ->default(Helper::setDefaultPengelola('kepala', $formData->date('tanggal_st')));
                     }),
             ]),
             Panel::make('Surat Perjalanan Dinas', [
@@ -155,8 +155,8 @@ class PerjalananDinas extends Resource
                     ->hideFromIndex()
                     ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                     ->dependsOn('tanggal_spd', function (Select $field, NovaRequest $request, FormData $formData) {
-                        $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal_spd)))
-                            ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal_spd)));
+                        $field->options(Helper::setOptionPengelola('ppk', $formData->date('tanggal_spd')))
+                            ->default(Helper::setDefaultPengelola('ppk', $formData->date('tanggal_spd')));
                     }),
             ]),
             Date::make('Tanggal Berangkat', 'tanggal_berangkat')

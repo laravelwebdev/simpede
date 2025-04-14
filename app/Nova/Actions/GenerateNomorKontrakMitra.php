@@ -28,9 +28,9 @@ class GenerateNomorKontrakMitra extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
-            $model->tanggal_spk = Helper::createDateFromString($fields->tanggal_spk);
-            $model->awal_kontrak = Helper::createDateFromString($fields->awal_kontrak);
-            $model->akhir_kontrak = Helper::createDateFromString($fields->akhir_kontrak);
+            $model->tanggal_spk = $fields->date('tanggal_spk');
+            $model->awal_kontrak = $fields->date('awal_kontrak');
+            $model->akhir_kontrak = $fields->date('akhir_kontrak');
             $model->spk_ppk_user_id = $fields->ppk_user_id;
             $model->spk_kode_arsip_id = $fields->kode_arsip_id;
             $model->save();

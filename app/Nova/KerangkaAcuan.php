@@ -338,16 +338,16 @@ class KerangkaAcuan extends Resource
                 ->searchable()
                 ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('koordinator', Helper::createDateFromString($formData->tanggal)))
-                        ->default(Helper::setDefaultPengelola('koordinator', Helper::createDateFromString($formData->tanggal)));
+                    $field->options(Helper::setOptionPengelola('koordinator', $formData->date('tanggal')))
+                        ->default(Helper::setDefaultPengelola('koordinator', $formData->date('tanggal')));
                 }),
             Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                 ->rules('required')
                 ->searchable()
                 ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
                 ->dependsOn('tanggal', function (Select $field, NovaRequest $request, FormData $formData) {
-                    $field->options(Helper::setOptionPengelola('ppk', Helper::createDateFromString($formData->tanggal)))
-                        ->default(Helper::setDefaultPengelola('ppk', Helper::createDateFromString($formData->tanggal)));
+                    $field->options(Helper::setOptionPengelola('ppk', $formData->date('tanggal')))
+                        ->default(Helper::setDefaultPengelola('ppk', $formData->date('tanggal')));
                 }),
 
         ];

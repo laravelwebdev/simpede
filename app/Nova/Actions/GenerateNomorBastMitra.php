@@ -29,7 +29,7 @@ class GenerateNomorBastMitra extends Action
     {
         $error = false;
         foreach ($models as $model) {
-            if ($model->akhir_kontrak >= Helper::createDateFromString($fields->tanggal_bast)) {
+            if ($model->akhir_kontrak > Helper::createDateFromString($fields->tanggal_bast)) {
                 $model->tanggal_bast = Helper::createDateFromString($fields->tanggal_bast);
                 $model->bast_ppk_user_id = $fields->ppk_user_id;
                 $model->bast_kode_arsip_id = $fields->kode_arsip_id;

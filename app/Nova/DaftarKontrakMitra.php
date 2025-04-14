@@ -98,6 +98,14 @@ class DaftarKontrakMitra extends Resource
                 ->sortable()
                 ->hideFromIndex($request->viaResource == 'kontrak-mitras')
                 ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
+            Date::make('Tanggal Akhir Kontrak', 'akhir_kontrak')
+                ->readOnly()
+                ->displayUsing(function ($value) {
+                    return Helper::terbilangTanggal($value);
+                })
+                ->sortable()
+                ->hideFromIndex($request->viaResource == 'kontrak-mitras')
+                ->hideFromDetail($request->viaResource == 'kontrak-mitras'),
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly()
                 ->sortable(),

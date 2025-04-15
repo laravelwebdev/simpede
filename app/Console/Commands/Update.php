@@ -28,7 +28,7 @@ class Update extends Command
     {
         $error = false;
         try {
-            $this->call('maintenance', ['start']);
+            $this->call('maintenance', ['action' => 'start']);
             $process = new Process(['git', 'pull', 'origin', 'main']);
             $process->run();
             if (! $process->isSuccessful()) {
@@ -51,7 +51,7 @@ class Update extends Command
             }
         } finally {
             $error ? $this->error('Update Gagal!') : $this->info('Update Sukses! ');
-            $this->call('maintenance', ['stop']);
+            $this->call('maintenance', ['action' => 'stop']);
         }
     }
 }

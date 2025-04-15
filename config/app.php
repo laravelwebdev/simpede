@@ -164,4 +164,16 @@ return [
     'sentry_project' => env('SENTRY_PROJECT_ID'),
     'sentry_token' => env('SENTRY_AUTH_TOKEN'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Auto Update for Application and Composer Dependencies
+    |--------------------------------------------------------------------------
+    |
+    | This option enables automatic updates for the application and composer
+    | dependencies. Ensure that this is configured properly to avoid
+    | unexpected issues during the update process.
+    |
+    */
+    'auto_update' => env('AUTO_UPDATE', true),
+
 ];

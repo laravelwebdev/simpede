@@ -62,7 +62,7 @@ class SinkronisasiDataAnggaran extends Action
         move_uploaded_file($filePath, $newFilePath);
 
         MataAnggaran::cache()->disable();
-        MataAnggaran::where('dipa_id', $model->id)->where('is_manual', false)->update(['updated_at' => null]);
+        MataAnggaran::where('dipa_id', $model->id)->whereNull('is_manual')->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);
         $index = 0;
         foreach ($collections as $row) {

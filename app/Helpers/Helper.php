@@ -305,13 +305,13 @@ class Helper
         $now = Carbon::now();
         switch ($tw) {
             case 1:
-                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 4, 10));
+                return $now->between(Carbon::create($now->year, 3, 1), Carbon::create($now->year, 4, 20));
             case 2:
-                return $now->between(Carbon::create($now->year, 6, 1), Carbon::create($now->year, 7, 10));
+                return $now->between(Carbon::create($now->year, 6, 1), Carbon::create($now->year, 7, 20));
             case 3:
-                return $now->between(Carbon::create($now->year, 9, 1), Carbon::create($now->year, 10, 10));
+                return $now->between(Carbon::create($now->year, 9, 1), Carbon::create($now->year, 10, 20));
             case 4:
-                return $now->between(Carbon::create($now->year, 12, 1), Carbon::create($now->year, 1, 10)->addYear());
+                return $now->between(Carbon::create($now->year, 12, 1), Carbon::create($now->year, 1, 20)->addYear());
             default:
                 return false;
         }

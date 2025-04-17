@@ -37,7 +37,6 @@ class TindakLanjut extends Model
     protected static function booted(): void
     {
         static::creating(function (TindakLanjut $tindak_lanjut) {
-            $tindak_lanjut->triwulan = 1;
             $deadlines = [
                 1 => now()->setDate(now()->year, 6, 30),
                 2 => now()->setDate(now()->year, 9, 30),

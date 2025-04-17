@@ -39,7 +39,7 @@ class AnalisisSakip extends Resource
      */
     public function title()
     {
-        return 'Analisis SAKIP Bulan '.Helper::BULAN[$this->bulan];
+        return $this->kegiatan;
     }
 
     public function subtitle()

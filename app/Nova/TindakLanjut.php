@@ -77,8 +77,8 @@ class TindakLanjut extends Resource
                     4 => 'Triwulan 4',
                 ])
                 ->displayUsingLabels()
-                ->filterable()
-                ->exceptOnForms(),
+                ->rules('required')
+                ->filterable(),
             Text::make('Tindak Lanjut')
                 ->onlyOnIndex(),
             Textarea::make('Tindak Lanjut')

@@ -11,6 +11,11 @@ class RealisasiKinerja extends Model
     {
         return [
             'is_indikator' => 'boolean',
+            'bukti_realisasi_tw1' => 'array',
+            'bukti_realisasi_tw2' => 'array',
+            'bukti_realisasi_tw3' => 'array',
+            'bukti_realisasi_tw4' => 'array',
+
         ];
     }
 

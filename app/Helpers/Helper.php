@@ -1420,8 +1420,9 @@ class Helper
                 $join->on('perjanjian_kinerjas.id', '=', 'realisasi_kinerjas.perjanjian_kinerja_id')
                     ->where('realisasi_kinerjas.is_indikator', true);
             })
+            ->leftJoin('perjanjian_kinerja_tindak_lanjut', 'perjanjian_kinerjas.id', '=', 'perjanjian_kinerja_tindak_lanjut.perjanjian_kinerja_id')
             ->leftJoin('tindak_lanjuts', function ($join) use ($triwulan) {
-                $join->on('realisasi_kinerjas.unit_kerja_id', '=', 'tindak_lanjuts.unit_kerja_id')
+                $join->on('perjanjian_kinerja_tindak_lanjut.tindak_lanjut_id', '=', 'tindak_lanjuts.id')
                     ->where('tindak_lanjuts.triwulan', $triwulan);
             })
             ->leftJoin('analisis_sakip_perjanjian_kinerja', 'perjanjian_kinerjas.id', '=', 'analisis_sakip_perjanjian_kinerja.perjanjian_kinerja_id')

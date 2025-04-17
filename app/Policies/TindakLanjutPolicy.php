@@ -33,7 +33,6 @@ class TindakLanjutPolicy
      */
     public function create(): bool
     {
-
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
             ->get();
@@ -44,7 +43,6 @@ class TindakLanjutPolicy
      */
     public function update(User $user, TindakLanjut $tindak_lanjut): bool
     {
-
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
             ->withYear($tindak_lanjut->tahun)
@@ -56,7 +54,6 @@ class TindakLanjutPolicy
      */
     public function delete(User $user, TindakLanjut $tindak_lanjut): bool
     {
-
         return Policy::make()
             ->allowedFor('kasubbag,koordinator')
             ->withYear($tindak_lanjut->tahun)

@@ -78,7 +78,7 @@ class TindakLanjut extends Resource
                 ])
                 ->displayUsingLabels()
                 ->rules('required')
-                ->default(Helper::getTriwulanBerjalan(now()))
+                ->default(Helper::getTriwulanBerjalan(now()->month))
                 ->filterable(),
             Text::make('Tindak Lanjut')
                 ->onlyOnIndex(),

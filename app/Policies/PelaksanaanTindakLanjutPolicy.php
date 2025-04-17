@@ -28,7 +28,7 @@ class PelaksanaanTindakLanjutPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->get();
     }
 
@@ -38,7 +38,7 @@ class PelaksanaanTindakLanjutPolicy
     public function update(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->get();
     }
 
@@ -48,7 +48,7 @@ class PelaksanaanTindakLanjutPolicy
     public function delete(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->get();
     }
 
@@ -58,7 +58,7 @@ class PelaksanaanTindakLanjutPolicy
     public function replicate(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->get();
     }
 }

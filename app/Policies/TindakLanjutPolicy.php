@@ -34,7 +34,7 @@ class TindakLanjutPolicy
     public function create(): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->get();
     }
 
@@ -44,7 +44,7 @@ class TindakLanjutPolicy
     public function update(User $user, TindakLanjut $tindak_lanjut): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->withYear($tindak_lanjut->tahun)
             ->get();
     }
@@ -55,7 +55,7 @@ class TindakLanjutPolicy
     public function delete(User $user, TindakLanjut $tindak_lanjut): bool
     {
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->withYear($tindak_lanjut->tahun)
             ->get();
     }
@@ -68,7 +68,7 @@ class TindakLanjutPolicy
         $tw = Helper::getTriwulanBerjalan(now()->month);
 
         return Policy::make()
-            ->allowedFor('kasubbag,koordinator')
+            ->allowedFor('kasubbag,koordinator,kepala')
             ->andEqual(Helper::is_triwulan($tw), true)
             ->withYear($tindak_lanjut->tahun)
             ->get();

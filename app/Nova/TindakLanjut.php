@@ -78,6 +78,7 @@ class TindakLanjut extends Resource
                 ])
                 ->displayUsingLabels()
                 ->rules('required')
+                ->help('Diisi dengan triwulan pengisian. Bukan triwulan pelaksanaan')
                 ->default(Helper::getTriwulanBerjalan(now()->month))
                 ->filterable(),
             Text::make('Tindak Lanjut')

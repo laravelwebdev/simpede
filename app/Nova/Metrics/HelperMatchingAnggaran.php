@@ -30,7 +30,7 @@ class HelperMatchingAnggaran extends Table
             MetricTableRow::make()
                 ->icon('x-circle')
                 ->iconClass('text-red-700')
-                ->title('Tujuan')
+                ->title('Warning')
                 ->subtitle('Matching anggaran hanya dapat dilakukan sekali dalam satu akun dan tidak dapat dimatching ulang jika terjadi kesalahan. Pastikan untuk memilih anggaran yang benar-benar sesuai.'),
         ];
     }

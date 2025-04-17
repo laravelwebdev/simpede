@@ -110,19 +110,17 @@ class RealisasiKinerja extends Resource
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->readonly(! Helper::is_triwulan(1))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(1))
                     ->help('Realisasi secara kumulatif sampai dengan Triwulan I'),
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw1')
                     ->hideWhenCreating()
                     ->alwaysShow()
                     ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
-                    ->readonly(! Helper::is_triwulan(1))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(1)),
+                    ->readonly(! Helper::is_triwulan(1)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw1')
                     ->disk('sakip')
                     ->disableCredits()
                     ->prunable()
-                    ->hide(! Helper::is_triwulan(1))
+                    ->readonly(! Helper::is_triwulan(1))
                     ->columns(3)
                     ->multiple()
                     ->limit(10)
@@ -135,19 +133,18 @@ class RealisasiKinerja extends Resource
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->readonly(! Helper::is_triwulan(2))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(2))
+
                     ->help('Realisasi secara kumulatif sampai dengan Triwulan II'),
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw2')
                     ->hideWhenCreating()
                     ->alwaysShow()
                     ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
-                    ->readonly(! Helper::is_triwulan(2))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(2)),
+                    ->readonly(! Helper::is_triwulan(2)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw2')
                     ->disk('sakip')
                     ->disableCredits()
                     ->prunable()
-                    ->hide(! Helper::is_triwulan(2))
+                    ->readonly(! Helper::is_triwulan(2))
                     ->columns(3)
                     ->multiple()
                     ->limit(10)
@@ -160,19 +157,18 @@ class RealisasiKinerja extends Resource
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->readonly(! Helper::is_triwulan(3))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(3))
+
                     ->help('Realisasi secara kumulatif sampai dengan Triwulan III'),
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw3')
                     ->hideWhenCreating()
                     ->alwaysShow()
                     ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
-                    ->readonly(! Helper::is_triwulan(3))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(3)),
+                    ->readonly(! Helper::is_triwulan(3)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw3')
                     ->disk('sakip')
                     ->disableCredits()
                     ->prunable()
-                    ->hide(! Helper::is_triwulan(3))
+                    ->readonly(! Helper::is_triwulan(3))
                     ->columns(3)
                     ->multiple()
                     ->limit(10)
@@ -185,19 +181,18 @@ class RealisasiKinerja extends Resource
                     ->step(0.01)
                     ->hideWhenCreating()
                     ->readonly(! Helper::is_triwulan(4))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(4))
+
                     ->help('Realisasi secara kumulatif sampai dengan Triwulan IV'),
                 Textarea::make('Penjelasan Realisasi', 'keterangan_realisasi_tw4')
                     ->hideWhenCreating()
                     ->alwaysShow()
                     ->help('Misalnya penjelasan penyebab non respon, rincian capaian, dan lain-lain')
-                    ->readonly(! Helper::is_triwulan(4))
-                    ->hide(fn () => Helper::is_triwulan_kumulatif(4)),
+                    ->readonly(! Helper::is_triwulan(4)),
                 Filepond::make('Bukti Dukung Realisasi', 'bukti_realisasi_tw4')
                     ->disk('sakip')
                     ->disableCredits()
                     ->prunable()
-                    ->hide(! Helper::is_triwulan(4))
+                    ->readonly(! Helper::is_triwulan(4))
                     ->columns(3)
                     ->multiple()
                     ->limit(10)

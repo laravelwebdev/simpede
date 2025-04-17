@@ -54,6 +54,12 @@ class DokumentasiLink extends Resource
             Text::make('Uraian')
                 ->rules('required', 'max:255')
                 ->sortable(),
+            Text::make('Link')
+                ->rules('required', 'max:255')
+                ->sortable()
+                ->onlyOnForms()
+                ->creationRules('unique:dokumentasi_links,link')
+                ->updateRules('unique:dokumentasi_links,link,{{resourceId}}'),
             URL::make('Lihat', fn () => $this->link),
 
         ];

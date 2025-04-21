@@ -77,8 +77,12 @@ class PelaksanaanTindakLanjut extends Resource
                 })
                 ->displayUsingLabels()
                 ->sortable()
+                ->onlyOnForms()
                 ->filterable()
                 ->rules('required'),
+            Text::make('Bulan Pelaksanaan', 'bulan')
+                ->displayUsing(fn ($value) => Helper::BULAN[$value])
+                ->exceptOnForms(),
             Text::make('Kegiatan', 'kegiatan')
                 ->onlyOnIndex(),
             Textarea::make('Kegiatan yang dilaksanakan', 'kegiatan')

@@ -87,6 +87,7 @@ class PelaksanaanTindakLanjut extends Resource
                 ->onlyOnIndex(),
             Textarea::make('Kegiatan yang dilaksanakan', 'kegiatan')
                 ->sortable()
+                ->alwaysShow()
                 ->rules('required'),
             Filepond::make('Bukti Dukung Pelaksanaan', 'bukti_dukung')
                 ->disk('sakip')

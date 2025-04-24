@@ -39,8 +39,8 @@ class NaskahKeluar extends Resource
     }
 
     public static $indexDefaultOrder = [
-        'no_urut' => 'desc',
         'segmen' => 'desc',
+        'no_urut' => 'desc',
         'tanggal' => 'desc',
     ];
 

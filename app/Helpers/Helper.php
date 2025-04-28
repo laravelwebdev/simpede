@@ -2155,7 +2155,7 @@ class Helper
     public static function sendReminder($reminder, $method = 'auto')
     {
         $kegiatan = $reminder->daftarKegiatan;
-        $hari = $kegiatan->awal->diffInDays($method === 'auto' ? $reminder->tanggal : now());
+        $hari = floor($kegiatan->awal->diffInDays($method === 'auto' ? $reminder->tanggal : now()));
         $pesan = strtr($kegiatan->pesan, [
             '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
             '{tanggal}' => self::terbilangTanggal($kegiatan->awal),

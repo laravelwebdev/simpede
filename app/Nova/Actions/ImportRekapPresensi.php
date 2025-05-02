@@ -52,17 +52,19 @@ class ImportRekapPresensi extends Action
             $daftar->save();
         });
         (new FastExcel)->import($fields->skp, function ($row) use ($model) {
-            $daftar = DaftarPenilaianReward::firstOrNew(
-                [
-                    'user_id' => optional(User::cache()->get('all')->where('nip_lama', substr($row['Nama'], 1, 9))->first())->id,
-                    'reward_pegawai_id' => $model->id,
-                ]
-            );
-            $daftar->nilai_skp = explode(' ', trim($row['Predikat Kinerja']))[0];
-            $daftar->jumlah_butir = $row['Butir'] ?? 0;
-            $daftar->updated_at = now();
+            if (strtoupper($row['Status']) === 'DINILAI') {
+                $daftar = DaftarPenilaianReward::firstOrNew(
+                    [
+                        'user_id' => optional(User::cache()->get('all')->where('nip_lama', $row['Niplama'])->first())->id,
+                        'reward_pegawai_id' => $model->id,
+                    ]
+                );
+                $daftar->nilai_skp = $row['Nilai rata-rata'] ?? 0;
+                $daftar->jumlah_butir = $row['Butir'] ?? 0;
+                $daftar->updated_at = now();
 
-            $daftar->save();
+                $daftar->save();
+            }
         });
         $ids = DaftarPenilaianReward::where('updated_at', null)->get()->pluck('id');
         DaftarPenilaianReward::destroy($ids);

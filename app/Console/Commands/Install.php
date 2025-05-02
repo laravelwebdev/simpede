@@ -138,7 +138,7 @@ class Install extends Command
             [
                 'nama' => 'Template Sertifikat Employee Of The Month',
                 'jenis' => 'sertifikat_reward',
-                'file' => 'HnihTnXjdITBB6z8etWmegpEOjyXAjcfVWZIWWR3.docx',
+                'file' => 'GeoUpv4i8s7flVjG0jYlJSjPnMmxukw9GAh5sKa1.docx',
             ],
             [
                 'nama' => 'Template Surat Keputusan Employee Of The Month',
@@ -178,7 +178,7 @@ class Install extends Command
             [
                 'nama' => 'Template Import Nilai SKP',
                 'jenis' => 'import',
-                'file' => 'RW2LxwcWpTAe98xaTars8i2vDEh7XDScBr9OKyjj.xlsx',
+                'file' => '6xGSAprFh0YgkReR9xCUt9xvKKyXMzv1bQ83IGNy.xlsx',
             ],
         ];
 

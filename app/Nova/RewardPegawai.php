@@ -318,8 +318,18 @@ class RewardPegawai extends Resource
         return $actions;
     }
 
+    public static $indexDefaultOrder = [
+        'bulan' => 'desc',
+    ];
+
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('tahun', session('year'))->orderBy('bulan', 'desc');
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+
+            return $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));
+        }
+
+        return $query->where('tahun', session('year'));
     }
 }

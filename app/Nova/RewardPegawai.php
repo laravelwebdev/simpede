@@ -319,7 +319,7 @@ class RewardPegawai extends Resource
     }
 
     public static $indexDefaultOrder = [
-        'bulan' => 'desc',
+        'bulan' => 'asc',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)

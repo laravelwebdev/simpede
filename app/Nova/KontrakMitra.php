@@ -51,7 +51,7 @@ class KontrakMitra extends Resource
 
     public function subtitle()
     {
-        return 'Tanggal SPK: '.Helper::terbilangTanggal($this->tanggal_spk);
+        return $this->jenis_honor;
     }
 
     /**
@@ -60,7 +60,7 @@ class KontrakMitra extends Resource
      * @var array
      */
     public static $search = [
-        'nama_kontrak', 'bulan', 'tanggal_spk', 'status',
+        'nama_kontrak', 'bulan', 'status',
     ];
 
     /**

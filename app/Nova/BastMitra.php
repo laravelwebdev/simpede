@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\BastMitra as ModelsBastMitra;
 use App\Models\KontrakMitra;
@@ -53,7 +52,7 @@ class BastMitra extends Resource
 
     public function subtitle()
     {
-        return 'Tanggal BAST: '.Helper::terbilangTanggal($this->tanggal_bast);
+        return $this->kontrakMitra->jenis_honor;
     }
 
     /**
@@ -64,7 +63,6 @@ class BastMitra extends Resource
     public static $search = [
         'kontrakMitra.nama_kontrak',
         'status',
-        'tanggal_bast',
     ];
 
     /**
@@ -74,7 +72,6 @@ class BastMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-        $akhir = $this->kontrakMitra ? $this->kontrakMitra->akhir_kontrak : 'today';
 
         return [
             Panel::make('Keterangan BAST', [

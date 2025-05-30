@@ -15,7 +15,7 @@ Schedule::command('holidays:sync')->daily()
     ->runInBackground()
     ->sentryMonitor();
 if (config('app.auto_update')) {
-    Schedule::command('simpede:update')->dailyAt('1:00')
+    Schedule::command('simpede:update')->dailyAt('0:30')
         ->withoutOverlapping()
         ->runInBackground()
         ->timezone(config('app.schedule_timezone'))

@@ -9,9 +9,8 @@
     </tr>
   </thead>
   <tbody>
-
-    <tr>
     @forelse ( $data as $item )
+    <tr>
     @php
           $arr = explode('/', $item);
           $filename = end($arr);
@@ -31,10 +30,12 @@
           </a>
         </div>
       </td>
-    @empty
-      <td colspan="2" class="has-text-centered">Tidak ada file yang ditemukan.</td>
-          @endforelse   
     </tr>   
+    @empty
+    <tr>
+      <td colspan="2" class="has-text-centered">Tidak ada file yang ditemukan.</td>
+    </tr>
+    @endforelse   
   </tbody>
 </table>
 @endsection

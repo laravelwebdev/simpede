@@ -10,8 +10,8 @@
     </tr>
   </thead>
   <tbody>
+    @forelse ( $data as $item )
     <tr>
-      @forelse ( $data as $item )
       <td data-label="Rincian Kegiatan">{{ $item->rincian }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
@@ -35,10 +35,12 @@
           </a>
         </div>
       </td>
+      </tr>   
       @empty
+      <tr>
       <td colspan="2" class="has-text-centered">Tidak ada rincian kegiatan yang ditemukan.</td>
-    @endforelse
-    </tr>    
+      </tr>
+    @endforelse 
   </tbody>
 </table>
 @endsection

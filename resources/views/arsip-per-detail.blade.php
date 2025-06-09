@@ -13,8 +13,8 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ( $data as $item )
     <tr>
+      @forelse ( $data as $item )
       <td data-label="Rincian Output">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'ro', $tahun) }}</td>
       <td data-label="Komponen">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'komponen', $tahun) }}</td>
       <td data-label="Akun">{{ \App\Helpers\Helper::getDetailAnggaran($item->mak, 'akun', $tahun) }}</td>
@@ -33,8 +33,10 @@
           </a>
         </div>
       </td>
+      @empty
+      <td colspan="5" class="has-text-centered">Tidak ada rincian output yang ditemukan.</td>
+      @endforelse   
     </tr>
-    @endforeach      
   </tbody>
 </table>
 @endsection

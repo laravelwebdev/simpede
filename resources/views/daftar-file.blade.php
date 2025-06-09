@@ -9,12 +9,13 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ( $data as $item )
+
+    <tr>
+    @forelse ( $data as $item )
     @php
           $arr = explode('/', $item);
           $filename = end($arr);
     @endphp
-    <tr>
       <td data-label="Nama File"> {{ $filename }}</td>
       <td class="is-actions-cell">
         <div class="buttons is-right">
@@ -30,8 +31,10 @@
           </a>
         </div>
       </td>
-    </tr>
-    @endforeach      
+    @empty
+      <td colspan="2" class="has-text-centered">Tidak ada file yang ditemukan.</td>
+          @endforelse   
+    </tr>   
   </tbody>
 </table>
 @endsection

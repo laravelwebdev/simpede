@@ -72,7 +72,6 @@ class BastMitra extends Resource
      */
     public function fields(NovaRequest $request)
     {
-
         return [
             Panel::make('Keterangan BAST', [
                 BelongsTo::make('Kontrak Mitra'),

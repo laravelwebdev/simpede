@@ -33,6 +33,7 @@
         "laravelwebdev/updater": "^1.0",
         "laravelwebdev/welcome": "^1.0",
         "mostafaznv/laracache": "^2.4",
+        "pekhota/nova-scroll-buttons": "*",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
         "sentry/sentry-laravel": "*"

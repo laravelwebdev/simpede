@@ -190,7 +190,7 @@ class TindakLanjut extends Resource
         };
 
         return $query->where('tahun', session('year'))
-            ->where('triwulan', $triwulan)
+            // ->where('triwulan', $triwulan)
             ->withCount(['perjanjianKinerja', 'pelaksanaanTindakLanjut']);
     }
 }

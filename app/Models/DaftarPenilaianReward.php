@@ -25,15 +25,14 @@ class DaftarPenilaianReward extends Model
     protected static function booted(): void
     {
         static::saving(function (DaftarPenilaianReward $penilaian) {
-            $nilai_kinerja = 0.6 * $penilaian->nilai_skp;
-            $nilai_disiplin = 0.2 * (100 - (100 * $penilaian->tk + 50 * ($penilaian->tl4 + $penilaian->psw4) + 30 * ($penilaian->tl3 + $penilaian->psw3) + 20 * ($penilaian->tl2 + $penilaian->psw2) + 10 * ($penilaian->tl1 + $penilaian->psw1)));
-            $nilai_disiplin_abs = $nilai_disiplin > 0 ? $nilai_disiplin : 0;
-            $nilai_beban = 0.2 * 4 * $penilaian->jumlah_butir;
-            $nilai_beban_abs = $nilai_beban <= 20 ? $nilai_beban : 20;
+            $nilai_kinerja = 0.5 * $penilaian->nilai_skp;
+            $nilai_kehadiran = (100 / $penilaian->hk) * ($penilaian->hd + 0.5 * $penilaian->cst + 0.5 * $penilaian->tb);
+            $nilai_disiplin = 0.1 * ($nilai_kehadiran - (100 * $penilaian->tk + 10 * ($penilaian->tl4 + $penilaian->psw4) + 7.5 * ($penilaian->tl3 + $penilaian->psw3) + 5 * ($penilaian->tl2 + $penilaian->psw2) + 2.5 * ($penilaian->tl1 + $penilaian->psw1)));
+            $nilai_perilaku = 0.4 * $penilaian->nilai_perilaku;
             $penilaian->nilai_kinerja = $nilai_kinerja;
-            $penilaian->nilai_disiplin = $nilai_disiplin_abs;
-            $penilaian->nilai_beban = $nilai_beban_abs;
-            $penilaian->nilai_total = $nilai_kinerja + $nilai_disiplin_abs + $nilai_beban_abs;
+            $penilaian->nilai_disiplin = $nilai_disiplin;
+            $penilaian->nilai_perilaku = $nilai_perilaku;
+            $penilaian->nilai_total = $nilai_kinerja + $nilai_disiplin + $nilai_perilaku;
         });
     }
 }

@@ -38,6 +38,10 @@ class ImportRekapPresensi extends Action
                     'reward_pegawai_id' => $model->id,
                 ]
             );
+            $daftar->hk = $row['HK'];
+            $daftar->hd = $row['HD'];
+            $daftar->cst = (int) $row['CST1'] + (int) $row['CST2'];
+            $daftar->tb = $row['TB'];
             $daftar->tk = $row['TK'];
             $daftar->tl1 = $row['TL1'];
             $daftar->tl2 = $row['TL2'];
@@ -59,8 +63,8 @@ class ImportRekapPresensi extends Action
                         'reward_pegawai_id' => $model->id,
                     ]
                 );
-                $daftar->nilai_skp = $row['Nilai rata-rata'] ?? 0;
-                $daftar->jumlah_butir = $row['Butir'] ?? 0;
+                $daftar->nilai_skp = $row['Rata-rata hasil kerja'] ?? 0;
+                $daftar->nilai_perilaku = $row['Rata-rata perilaku'] ?? 0;
                 $daftar->updated_at = now();
 
                 $daftar->save();

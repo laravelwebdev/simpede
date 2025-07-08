@@ -50,10 +50,22 @@ class DaftarPenilaianReward extends Resource
         return [
             BelongsTo::make('Pegawai', 'user', User::class)
                 ->readOnly(),
-            Number::make('Nilai SKP')
-                ->step(1)
-                ->rules('required', 'integer', 'gte:0', 'lte:120')
-                ->hideFromIndex(),
+            // Number::make('Nilai Hasil Kerja', 'nilai_skp')
+            //     ->step(1)
+            //     ->rules('required', 'integer', 'gte:0', 'lte:120')
+            //     ->hideFromIndex(),
+            // Number::make('Nilai Hasil Kerja', 'nilai_skp')
+            //     ->step(1)
+            //     ->rules('required', 'integer', 'gte:0', 'lte:120')
+            //     ->hideFromIndex(),
+            Number::make('Jumlah Hari Kerja', 'hk')
+                ->onlyOnDetail(),
+            Number::make('Jumlah Hari Kehadiran', 'hd')
+                ->onlyOnDetail(),
+            Number::make('Jumlah Cuti Setengah Hari', 'cst')
+                ->onlyOnDetail(),
+            Number::make('Jumlah Hari Tugas Belajar', 'tb')
+                ->onlyOnDetail(),
             Number::make('Jumlah TK', 'tk')
                 ->onlyOnDetail(),
             Number::make('Jumlah TL1', 'tl1')
@@ -70,15 +82,15 @@ class DaftarPenilaianReward extends Resource
                 ->onlyOnDetail(),
             Number::make('Jumlah PSW4', 'psw4')
                 ->onlyOnDetail(),
-            Number::make('Jumlah Butir Pekerjaan', 'jumlah_butir')
-                ->step(1)
-                ->rules('required', 'integer', 'gt:0')
-                ->hideFromIndex(),
+            // Number::make('Jumlah Butir Pekerjaan', 'jumlah_butir')
+            //     ->step(1)
+            //     ->rules('required', 'integer', 'gt:0')
+            //     ->hideFromIndex(),
             Number::make('Kinerja', 'nilai_kinerja')
                 ->exceptOnForms(),
             Number::make('Disiplin', 'nilai_disiplin')
                 ->exceptOnForms(),
-            Number::make('Beban Kerja', 'nilai_beban')
+            Number::make('Perilaku', 'nilai_perilaku')
                 ->exceptOnForms(),
             Number::make('Total Nilai', 'nilai_total')
                 ->exceptOnForms(),

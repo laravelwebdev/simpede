@@ -183,14 +183,14 @@ class TindakLanjut extends Resource
         $currentDate = now();
         $startOfYear = $currentDate->copy()->startOfYear();
         $triwulan = match (true) {
-            $currentDate->between($startOfYear, $startOfYear->copy()->addMonths(3)->addDays(10)) => 4,
-            $currentDate->between($startOfYear->copy()->addMonths(3), $startOfYear->copy()->addMonths(6)->addDays(10)) => 1,
-            $currentDate->between($startOfYear->copy()->addMonths(6), $startOfYear->copy()->addMonths(9)->addDays(10)) => 2,
-            $currentDate->between($startOfYear->copy()->addMonths(9), $startOfYear->copy()->endOfYear()->addDays(10)) => 3,
+            $currentDate->between($startOfYear, $startOfYear->copy()->addMonths(3)) => 4,
+            $currentDate->between($startOfYear->copy()->addMonths(3), $startOfYear->copy()->addMonths(6)) => 1,
+            $currentDate->between($startOfYear->copy()->addMonths(6), $startOfYear->copy()->addMonths(9)) => 2,
+            $currentDate->between($startOfYear->copy()->addMonths(9), $startOfYear->copy()->endOfYear()) => 3,
         };
 
         return $query->where('tahun', session('year'))
-            ->where('triwulan', $triwulan)
+            // ->where('triwulan', $triwulan)
             ->withCount(['perjanjianKinerja', 'pelaksanaanTindakLanjut']);
     }
 }

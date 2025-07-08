@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
-use App\Models\DaftarPenilaianReward;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;

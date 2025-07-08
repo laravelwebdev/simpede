@@ -93,7 +93,7 @@ class ImportRekapPresensi extends Action
             File::make('Penilaian SKP', 'skp')
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
-                ->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Nilai SKP')['filename']).'">Unduh Template</a>'),
+                ->help('Gunakan File Excel Export dari Aplikasi KipApp (Masuk dengan Akun Kepala, Menu Penilaian Kinerja - Rekap Prestasi Periodik - Download Excel'),
         ];
     }
 }

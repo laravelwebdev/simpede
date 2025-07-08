@@ -45,7 +45,7 @@ class DaftarPenilaianRewardPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, DaftarPenilaianReward $daftar): bool
+    public function update(): bool
     {
         return false;
     }

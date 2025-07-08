@@ -88,7 +88,7 @@ class DaftarPenilaianReward extends Resource
             //     ->hideFromIndex(),
             Number::make('Kinerja', 'nilai_kinerja')
                 ->exceptOnForms(),
-            Number::make('Disiplin', 'nilai_disiplin')
+            Number::make('Kehadiran', 'nilai_disiplin')
                 ->exceptOnForms(),
             Number::make('Perilaku', 'nilai_perilaku')
                 ->exceptOnForms(),

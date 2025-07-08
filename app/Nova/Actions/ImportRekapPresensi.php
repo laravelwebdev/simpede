@@ -2,13 +2,11 @@
 
 namespace App\Nova\Actions;
 
-use App\Helpers\Helper;
 use App\Models\DaftarPenilaianReward;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
@@ -39,7 +37,7 @@ class ImportRekapPresensi extends Action
                 ]
             );
             $daftar->hk = $row['HK'];
-            $daftar->hd = $row['HD'];
+            $daftar->hd = (int) $row['HD'] + (int) $row['TL'] + (int) $row['PD'] + (int) $row['DK'] + (int) $row['KN'];
             $daftar->cst = (int) $row['CST1'] + (int) $row['CST2'];
             $daftar->tb = $row['TB'];
             $daftar->tk = $row['TK'];

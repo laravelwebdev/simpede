@@ -186,22 +186,22 @@ class RewardPegawai extends Resource
     {
         return [
             Greeter::make()
-                ->user('Bobot: 60%')
+                ->user('Bobot: 45%')
                 ->message(text: 'Skor Kinerja')
                 ->avatar(url: Storage::disk('images')->url('trophy.svg'))
-                ->verified(text: 'Dihitung dari Nilai SKP Bulanan')
+                ->verified(text: 'Dihitung dari Rata-rata Nilai Hasil Kerja SKP Bulanan')
                 ->width('1/3'),
             Greeter::make()
-                ->user('Bobot: 20%')
-                ->message(text: 'Skor Kedisiplinan')
+                ->user('Bobot: 10%')
+                ->message(text: 'Skor Kehadiran')
                 ->avatar(url: Storage::disk('images')->url('clock.svg'))
-                ->verified(text: 'Dihitung dari ketepatan waktu melakukan presensi')
+                ->verified(text: 'Dihitung dari jumlah kehadiran dan ketepatan waktu melakukan presensi')
                 ->width('1/3'),
             Greeter::make()
-                ->user('Bobot: 20%')
-                ->message(text: 'Skor Beban Kerja')
+                ->user('Bobot: 45%')
+                ->message(text: 'Skor Perilaku')
                 ->avatar(url: Storage::disk('images')->url('beban.svg'))
-                ->verified(text: 'Dihitung dari butir jumlah SKP bulanan')
+                ->verified(text: 'Dihitung dari Rata-rata Nilai Perilaku SKP Bulanan')
                 ->width('1/3'),
         ];
     }

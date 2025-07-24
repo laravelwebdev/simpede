@@ -41,7 +41,7 @@ class DaftarHonorMitra extends Model
                     BastMitra::where('kontrak_mitra_id', $daftarKontrak->kontrak_mitra_id)
                         ->where('status', 'digenerate')
                         ->update(['status' => 'outdated']);
-                    $ppk = Helper::getPegawaiByUserId(KontrakMitra::find($daftarKontrak->kontrak_mitra_id)->ppk_user_id);
+                    $ppk = Helper::getPegawaiByUserId($daftarKontrak->spk_ppk_user_id);
                     $ppk->notify(
                         NovaNotification::make()
                             ->message('Terdapat perubahan pada kontrak mitra!')

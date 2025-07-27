@@ -64,7 +64,7 @@ class LimitPulsa extends Resource
             Numeric::make('Limit per bulan', 'limit')
                 ->sortable()
                 ->rules('required', 'integer', 'gte:1'),
-            HasMany::make('Jenis Kontrak'),
+            HasMany::make('Jenis Pulsa'),
         ];
     }
 

@@ -34,4 +34,9 @@ class Mitra extends Model
     {
         return $this->hasMany(DaftarHonorMitra::class);
     }
+
+    public function pulsaKegiatan(): HasMany
+    {
+        return $this->hasMany(PulsaKegiatan::class);
+    }
 }

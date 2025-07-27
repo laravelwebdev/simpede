@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
             $table->decimal('jam',5)->nullable()->unsigned();
-            $table->mediumInteger('jumlah')->nullable()->unsigned();
             $table->mediumInteger('mitra_id')->nullable()->unsigned();
+            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Mitra extends Resource
 {
-    public static $with = ['daftarHonorMitra'];
+    public static $with = ['daftarHonorMitra', 'pulsaKegiatan'];
 
     public static function label()
     {

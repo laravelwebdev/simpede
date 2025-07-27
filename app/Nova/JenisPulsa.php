@@ -4,26 +4,24 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
+use App\Nova\Actions\AddHasManyModel;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class JenisKontrak extends Resource
+class JenisPulsa extends Resource
 {
-    public static function label()
-    {
-        return 'Jenis Kontrak';
-    }
-
-    public static $displayInNavigation = false;
-
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\JenisKontrak>
+     * @var class-string<\App\Models\JenisPulsa>
      */
-    public static $model = \App\Models\JenisKontrak::class;
+    public static $model = \App\Models\JenisPulsa::class;
+
+    public static function label()
+    {
+        return 'Jenis Pulsa';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -54,9 +52,11 @@ class JenisKontrak extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Jenis Kontrak', 'jenis')
+            Text::make('Jenis Kegiatan', 'jenis')
                 ->rules('required', 'max:80'),
-            Numeric::make('Batas maksimal (SBML)', 'sbml')
+            Text::make('Satuan')
+                ->rules('required'),
+            Numeric::make('Batas maksimal per Satuan', 'sbml')
                 ->rules('required', 'gte:1'),
         ];
     }
@@ -99,9 +99,9 @@ class JenisKontrak extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        if (Policy::make()->allowedFor('admin')->get() && $request->viaResource === 'harga-satuans') {
+        if (Policy::make()->allowedFor('admin,ppk')->get() && $request->viaResource === 'limit-pulsas') {
             $actions[] =
-            AddHasManyModel::make('JenisKontrak', 'HargaSatuan', $request->viaResourceId)
+            AddHasManyModel::make('JenisPulsa', 'LimitPulsa', $request->viaResourceId)
                 ->confirmButtonText('Tambah')
                 // ->size('7xl')
                 ->standalone()
@@ -110,16 +110,5 @@ class JenisKontrak extends Resource
         }
 
         return $actions;
-    }
-
-    /**
-     * Return the location to redirect the user after update.
-     *
-     * @param  \Laravel\Nova\Resource  $resource
-     * @return \Laravel\Nova\URL|string
-     */
-    public static function redirectAfterUpdate(NovaRequest $request, $resource)
-    {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'harga-satuans'.'/';
     }
 }

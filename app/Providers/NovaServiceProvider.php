@@ -30,6 +30,7 @@ use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
+use App\Nova\LimitPulsa;
 use App\Nova\MasterBarangPemeliharaan;
 use App\Nova\MasterPersediaan;
 use App\Nova\MasterWilayah;
@@ -182,6 +183,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KepkaMitra::class),
                     MenuItem::resource(MasterBarangPemeliharaan::class),
                     MenuItem::resource(MasterPersediaan::class),
+                    MenuItem::resource(LimitPulsa::class),
                     MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),

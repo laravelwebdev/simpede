@@ -12,6 +12,8 @@ use Laravel\Nova\Nova;
 
 class PulsaKegiatan extends Model
 {
+    protected $fillable = ['status'];
+
     protected function casts(): array
     {
         return [
@@ -70,6 +72,7 @@ class PulsaKegiatan extends Model
             $pulsa->tahun = session('year');
             $token = uniqid(Str::random(19));
             $pulsa->token = $token;
+            $pulsa->status = 'open';
             $pulsa->link = url(config('nova.path')).'/pulsa/'.$token;
             $dataKetua = Helper::getDataPegawaiByUserId($pulsa->koordinator_user_id, $pulsa->tanggal);
             $pulsa->unit_kerja_id = optional($dataKetua)->unit_kerja_id;

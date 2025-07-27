@@ -58,6 +58,7 @@ class ShareLink extends Resource
                 ->options(Helper::setOptionTahunDipa()),
             Text::make('Link')
                 ->exceptOnForms()
+                ->displayUsing(fn () => 'Salin')
                 ->copyable(),
             URL::make('Lihat', fn () => $this->link),
         ];

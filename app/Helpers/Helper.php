@@ -161,6 +161,7 @@ class Helper
         'undangan' => 'Undangan',
         'daftar_hadir' => 'Daftar Hadir',
         'notula' => 'Notula',
+        'pulsa' => 'Tanda Terima Pulsa',
     ];
 
     const JENIS_HONOR = [

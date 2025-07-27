@@ -22,11 +22,11 @@ class PulsaKegiatanPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, PulsaKegiatan $honor): bool
+    public function view(User $user, PulsaKegiatan $pulsa): bool
     {
         return Policy::make()
             ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koordinator,anggota')
-            ->withYear($honor->tahun)
+            ->withYear($pulsa->tahun)
             ->get();
     }
 
@@ -43,24 +43,24 @@ class PulsaKegiatanPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, PulsaKegiatan $honor): bool
+    public function update(User $user, PulsaKegiatan $pulsa): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
-            ->withYear($honor->tahun)
-            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->withYear($pulsa->tahun)
+            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, PulsaKegiatan $honor): bool
+    public function delete(User $user, PulsaKegiatan $pulsa): bool
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
-            ->withYear($honor->tahun)
-            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->withYear($pulsa->tahun)
+            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 
@@ -77,10 +77,12 @@ class PulsaKegiatanPolicy
     /**
      * Determine whether the user can replicate model.
      */
-    public function runAction(): bool
+    public function runAction(User $user, PulsaKegiatan $pulsa): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,ppk')
+            ->allowedFor('koordinator,anggota')
+            ->withYear($pulsa->tahun)
+            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
             ->get();
     }
 }

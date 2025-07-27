@@ -4,11 +4,15 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\SetStatus;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
@@ -130,6 +134,10 @@ class PulsaKegiatan extends Resource
                             ->default(Helper::setDefaultPengelola('ppk', $formData->date('tanggal')));
                     }),
             ]),
+            Status::make('Status', 'status')
+                ->loadingWhen(['open'])
+                ->failedWhen([''])
+                ->onlyOnIndex(),
 
         ];
     }
@@ -171,6 +179,24 @@ class PulsaKegiatan extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        $actions[] = SetStatus::make()
+            ->confirmButtonText('Ubah Status')
+            ->confirmText('Pastikan form dibuka jika hanya ada perbaikan isian. Yakin akan melanjutkan?')
+            ->setName('Buka Form')
+            ->setStatus('open')
+            ->sole()
+            ->showInline()
+            ->exceptOnIndex()
+            ->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
+
+                return $this->resource instanceof Model && $this->resource->status !== 'open';
+            });
+
+        return $actions;
+
     }
 }

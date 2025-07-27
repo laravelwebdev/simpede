@@ -28,6 +28,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Tabs\Tab;
+use Laravelwebdev\Numeric\Numeric;
 
 class KerangkaAcuan extends Resource
 {
@@ -40,7 +41,7 @@ class KerangkaAcuan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->whereYear('tanggal', session('year'));
+        $query->withSum('anggaranKerangkaAcuan as anggaran', 'perkiraan')->whereYear('tanggal', session('year'));
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
@@ -96,7 +97,8 @@ class KerangkaAcuan extends Resource
                 Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
             Text::make('Rincian'),
-            Text::make('Kegiatan'),
+            Numeric::make('Perkiraan', 'anggaran')
+                ->sortable(),
             BelongsTo::make('Unit Kerja')
                 ->filterable(),
             Status::make('Status', 'status')

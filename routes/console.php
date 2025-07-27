@@ -6,8 +6,9 @@ Schedule::command('reminder:send')->hourly()
     ->withoutOverlapping()
     ->sentryMonitor();
 Schedule::command('action-events:clear')->daily()
-    ->withoutOverlapping()
-    ->sentryMonitor();
+    ->withoutOverlapping();
+Schedule::command('queue:clear')->daily()
+    ->withoutOverlapping();
 Schedule::command('holidays:sync')->daily()
     ->withoutOverlapping()
     ->sentryMonitor();

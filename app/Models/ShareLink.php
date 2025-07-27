@@ -11,7 +11,7 @@ class ShareLink extends Model
     protected static function booted(): void
     {
         static::saving(function (ShareLink $shareLink) {
-            $token = Str::random(32);
+            $token = uniqid(Str::random(19));
             $shareLink->token = $token;
             $shareLink->link = url(config('nova.path')).'/arsip-dokumen/'.$token;
         });

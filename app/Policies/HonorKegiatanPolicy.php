@@ -25,7 +25,7 @@ class HonorKegiatanPolicy
     public function view(User $user, HonorKegiatan $honor): bool
     {
         return Policy::make()
-            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koor,anggota')
+            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koordinator,anggota')
             ->withYear($honor->tahun)
             ->get();
     }

@@ -45,6 +45,7 @@ use App\Nova\PerjanjianKinerja;
 use App\Nova\PermintaanPersediaan;
 use App\Nova\PersediaanKeluar;
 use App\Nova\PersediaanMasuk;
+use App\Nova\PulsaKegiatan;
 use App\Nova\RapatInternal;
 use App\Nova\RealisasiAnggaran;
 use App\Nova\RealisasiKinerja;
@@ -126,6 +127,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(KerangkaAcuan::class),
                     MenuItem::resource(Pemeliharaan::class),
                     MenuItem::resource(PerjalananDinas::class),
+                    MenuItem::resource(PulsaKegiatan::class),
                     MenuItem::resource(RapatInternal::class),
                 ]),
                 MenuSection::make('Kontrak Mitra', [

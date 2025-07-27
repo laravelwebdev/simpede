@@ -23,7 +23,7 @@ sed -i "s/^DB_USERNAME=.*/${new_db_username}/" .env
 sed -i "s/^DB_PASSWORD=.*/${new_db_password}/" .env
 
 echo "--- Install dependencies ..."
-composer install
+composer update
 
 echo "--- Generate the application key ..."
 php artisan key:generate

@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('pulsa_kegiatans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal')->nullable();
             $table->string('kegiatan')->nullable();
             $table->string('bulan', 2)->nullable();
             $table->string('tahun', 4)->nullable();
-            $table->decimal('jam',5)->nullable()->unsigned();
-            $table->mediumInteger('mitra_id')->nullable()->unsigned();
-            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
+            $table->string('token', 32)->nullable();
+            $table->string('link')->nullable();
+            $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
+            $table->mediumInteger('mata_anggaran_id')->nullable()->unsigned();
+            $table->mediumInteger('koordinator_user_id')->nullable()->unsigned();
+            $table->mediumInteger('ppk_user_id')->nullable()->unsigned();
+            $table->mediumInteger('jenis_pulsa_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

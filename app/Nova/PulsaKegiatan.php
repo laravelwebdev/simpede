@@ -2,7 +2,16 @@
 
 namespace App\Nova;
 
+use App\Helpers\Helper;
+use App\Helpers\Policy;
+use App\Nova\UnitKerja;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
 class PulsaKegiatan extends Resource
 {
@@ -13,9 +22,11 @@ class PulsaKegiatan extends Resource
      */
     public static $model = \App\Models\PulsaKegiatan::class;
 
+    public static $with = ['mataAnggaran', 'jenisPulsa', 'unitKerja'];
+
     public static function label()
     {
-        return 'PulsaKegiatan';
+        return 'Pulsa Kegiatan';
     }
 
     /**
@@ -23,10 +34,11 @@ class PulsaKegiatan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'kegiatan';
 
-    public function subtitle(){
-        return $this->id;
+    public function subtitle()
+    {
+        return Helper::terbilangBulan($this->bulan).' '.$this->tahun;
     }
 
     /**
@@ -35,26 +47,100 @@ class PulsaKegiatan extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'kegiatan', 'bulan', 'mataAnggaran.mak',
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $query->where('tahun', session('year'));
+        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
+            return $query;
+        } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+        }
+
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
-            
+            Panel::make('Keterangan SPJ', [
+                Text::make('Nama Kegiatan', 'kegiatan')
+                    ->rules('required', 'max:255')
+                    ->sortable()
+                    ->help('Nama Kegiatan yang akan dibayarkan pulsanya. Contoh: Pelatihan Sakernas Februri 2025'),
+                Date::make('Tanggal SPJ Tanda Terima', 'tanggal')
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                BelongsTo::make('Unit Kerja', 'unitKerja', UnitKerja::class)
+                    ->showOnIndex(fn () => Policy::make()->allowedFor('ppk,ppspm,bendahara')->get())
+                    ->exceptOnForms(),
+            ]),
+            Panel::make('Keterangan Pembayaran Pulsa', [
+                Select::make('Bulan Pelaksanaan', 'bulan')
+                    ->options(Helper::BULAN)
+                    ->displayUsingLabels()
+                    ->rules('required')
+                    ->sortable()
+                    ->searchable()
+                    ->filterable(),
+                Select::make('Jenis Kegiatan', 'jenis_pulsa_id')
+                    ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
+                        $field
+                            ->options(Helper::setOptionJenisPulsa($form->tanggal));
+
+                    })
+                    ->rules('required')
+                    ->searchable()
+                    ->onlyOnForms(),
+                Text::make('Link Upload Tanda Terima Pulsa', 'link')
+                    ->displayUsing(fn () => 'Salin')
+                    ->exceptOnForms()
+                    ->copyable(),
+            ]),
+            Panel::make('Anggaran', [
+                BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
+                    ->hideFromIndex()
+                    ->withSubtitles()
+                    ->searchable()
+                    ->rules('required'),
+            ]),
+            Panel::make('Penanda Tangan', [
+                Select::make('Pembuat Daftar', 'koordinator_user_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->rules('required')
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
+                    ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('koordinator', $formData->date('tanggal')))
+                            ->default(Helper::setDefaultPengelola('koordinator', $formData->date('tanggal')));
+
+                    }),
+                Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
+                    ->searchable()
+                    ->hideFromIndex()
+                    ->rules('required')
+                    ->displayUsing(fn ($id) => optional(Helper::getPegawaiByUserId($id))->name)
+                    ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $field->options(Helper::setOptionPengelola('ppk', $formData->date('tanggal')))
+                            ->default(Helper::setDefaultPengelola('ppk', $formData->date('tanggal')));
+
+                    }),
+            ]),
+
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -65,7 +151,6 @@ class PulsaKegiatan extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -76,7 +161,6 @@ class PulsaKegiatan extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -87,7 +171,6 @@ class PulsaKegiatan extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)

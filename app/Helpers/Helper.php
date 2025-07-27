@@ -12,12 +12,14 @@ use App\Models\HargaSatuan;
 use App\Models\HonorKegiatan;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
+use App\Models\JenisPulsa;
 use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
 use App\Models\KerangkaAcuan;
 use App\Models\KodeArsip;
 use App\Models\KodeBank;
 use App\Models\KodeNaskah;
+use App\Models\LimitPulsa;
 use App\Models\MasterPersediaan;
 use App\Models\MasterWilayah;
 use App\Models\MataAnggaran;
@@ -1886,6 +1888,17 @@ class Helper
     }
 
     /**
+     * Get the latest Limit Pulsa ID based on the given date.
+     *
+     * @param  string  $tanggal
+     * @return string|null The latest Limit Pulsa ID or null if not found.
+     */
+    public static function getLatestLimitPulsaId($tanggal)
+    {
+        return optional(self::getLatestLimitPulsa($tanggal))->id;
+    }
+
+    /**
      * Get the latest Harga Satuan based on the given date.
      *
      * @param  string  $tanggal  The date to filter the Harga Satuan data.
@@ -1894,6 +1907,20 @@ class Helper
     public static function getLatestHargaSatuan($tanggal)
     {
         return HargaSatuan::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+    }
+
+    /**
+     * Retrieves the latest LimitPulsa record with a 'tanggal' less than or equal to the specified date.
+     *
+     * This method fetches all LimitPulsa records from cache, filters them by the given date,
+     * sorts them in descending order by 'tanggal', and returns the first (latest) record.
+     *
+     * @param  string|\DateTime  $tanggal  The date to filter records by (inclusive).
+     * @return LimitPulsa|null The latest LimitPulsa record matching the criteria, or null if none found.
+     */
+    public static function getLatestLimitPulsa($tanggal)
+    {
+        return LimitPulsa::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -2023,6 +2050,11 @@ class Helper
     public static function setOptionJenisKontrak($tanggal)
     {
         return self::setOptions(JenisKontrak::cache()->get('all')->where('harga_satuan_id', self::getLatestHargaSatuanId($tanggal)), 'id', 'jenis');
+    }
+
+    public static function setOptionJenisPulsa($tanggal)
+    {
+        return self::setOptions(JenisPulsa::cache()->get('all')->where('limit_pulsa_id', self::getLatestLimitPulsaId($tanggal)), 'id', 'jenis');
     }
 
     /**

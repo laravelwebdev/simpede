@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Mostafaznv\LaraCache\CacheEntity;
-use Mostafaznv\LaraCache\LaraCache;
+use Mostafaznv\LaraCache\Traits\LaraCache;
 
 class JenisPulsa extends Model
 {

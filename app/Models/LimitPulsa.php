@@ -24,7 +24,7 @@ class LimitPulsa extends Model
         return [
             CacheEntity::make('all')
                 ->cache(function () {
-                    return HargaSatuan::all();
+                    return LimitPulsa::all();
                 }),
         ];
     }

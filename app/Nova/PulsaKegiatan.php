@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Nova\UnitKerja;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -95,7 +94,6 @@ class PulsaKegiatan extends Resource
                     ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $form) {
                         $field
                             ->options(Helper::setOptionJenisPulsa($form->tanggal));
-
                     })
                     ->rules('required')
                     ->searchable()
@@ -121,7 +119,6 @@ class PulsaKegiatan extends Resource
                     ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('koordinator', $formData->date('tanggal')))
                             ->default(Helper::setDefaultPengelola('koordinator', $formData->date('tanggal')));
-
                     }),
                 Select::make('Pejabat Pembuat Komitmen', 'ppk_user_id')
                     ->searchable()
@@ -131,7 +128,6 @@ class PulsaKegiatan extends Resource
                     ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $formData) {
                         $field->options(Helper::setOptionPengelola('ppk', $formData->date('tanggal')))
                             ->default(Helper::setDefaultPengelola('ppk', $formData->date('tanggal')));
-
                     }),
             ]),
 

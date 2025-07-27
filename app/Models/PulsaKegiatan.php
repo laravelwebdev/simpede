@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Laravel\Nova\Nova;
 use App\Helpers\Helper;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class PulsaKegiatan extends Model
 {

@@ -16,11 +16,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
 use Laravelwebdev\Numeric\Numeric;
 
-class RekapHonorMitra extends Lens
+class RekapPulsaMitra extends Lens
 {
     public function name()
     {
-        return 'Honor Mitra';
+        return 'Pulsa Mitra';
     }
 
     // public static $showPollingToggle = true;
@@ -41,28 +41,24 @@ class RekapHonorMitra extends Lens
     public static function query(LensRequest $request, $query)
     {
         $filtered_bulan = Helper::parseFilter($request->query->get('filters'), \App\Nova\Filters\BulanFilter::class, date('m'));
-        $filtered_kegiatan = Helper::parseFilter($request->query->get('filters'), 'Select:jenis_kontrak_id', null);
 
         return $request->withoutTableOrderPrefix()->withOrdering(
-            $query->select('mitras.id', 'bulan', 'jenis_kontrak_id', 'nama', 'mitra_id')
-                ->selectRaw('count(DISTINCT honor_kegiatan_id) as jumlah_kegiatan, sum(volume_realisasi * harga_satuan) as nilai_kontrak, sum(volume_realisasi * harga_satuan) < sbml as valid_sbml')
-                ->whereIn('honor_kegiatan_id', function ($query) use ($filtered_bulan, $filtered_kegiatan) {
-                    $query->select('id')->from('honor_kegiatans')
+            $query->select('mitras.id', 'bulan', 'nama', 'mitra_id')
+                ->selectRaw('count(DISTINCT pulsa_kegiatan_id) as jumlah_kegiatan, sum(harga) as nilai_pulsa, sum(harga) < `limit` as valid_limit, SUM(CASE WHEN harga > volume*sbml THEN 1 ELSE 0 END)=0 AS valid_limit_kegiatan')
+                ->whereIn('pulsa_kegiatan_id', function ($query) use ($filtered_bulan) {
+                    $query->select('id')->from('pulsa_kegiatans')
                         ->where('tahun', session('year'))
                         ->when(! empty($filtered_bulan), function ($query) use ($filtered_bulan) {
                             return $query->where('bulan', $filtered_bulan);
-                        })
-                        ->when(! empty($filtered_kegiatan), function ($query) use ($filtered_kegiatan) {
-                            return $query->where('jenis_kontrak_id', $filtered_kegiatan);
-                        })
-                        ->where('jenis_honor', 'Kontrak Mitra Bulanan');
+                        });
                 })
-                ->join('daftar_honor_mitras', 'mitras.id', '=', 'daftar_honor_mitras.mitra_id')
-                ->join('honor_kegiatans', 'honor_kegiatans.id', '=', 'daftar_honor_mitras.honor_kegiatan_id')
-                ->join('jenis_kontraks', 'jenis_kontraks.id', '=', 'honor_kegiatans.jenis_kontrak_id')
-                ->groupBy('mitras.id', 'bulan', 'mitra_id', 'nama', 'jenis_kontrak_id', 'sbml'), fn ($query) => $query->orderBy('jenis_kontrak_id', 'asc')
+                ->join('daftar_pulsa_mitras', 'mitras.id', '=', 'daftar_pulsa_mitras.mitra_id')
+                ->join('pulsa_kegiatans', 'pulsa_kegiatans.id', '=', 'daftar_pulsa_mitras.pulsa_kegiatan_id')
+                ->join('jenis_pulsas', 'jenis_pulsas.id', '=', 'pulsa_kegiatans.jenis_pulsa_id')
+                ->join('limit_pulsas', 'limit_pulsas.id', '=', 'jenis_pulsas.limit_pulsa_id')
+                ->groupBy('mitras.id', 'bulan', 'mitra_id', 'nama', 'limit'), fn ($query) => $query->orderBy('jenis_pulsa_id', 'asc')
                 ->orderBy('bulan', 'desc')
-                ->orderBy('nilai_kontrak', 'desc'));
+                ->orderBy('nilai_pulsa', 'desc'));
     }
 
     /**
@@ -73,13 +69,6 @@ class RekapHonorMitra extends Lens
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Jenis Kontrak', 'jenis_kontrak_id')
-                ->displayUsingLabels()
-                ->sortable()
-                ->searchable()
-                ->options(Helper::setOptionJenisKontrak(now()))
-                ->filterable()
-                ->readOnly(),
             Select::make('Bulan', 'bulan')
                 ->displayUsingLabels()
                 ->sortable()
@@ -92,10 +81,13 @@ class RekapHonorMitra extends Lens
             Number::make('Jumlah Kegiatan', 'jumlah_kegiatan')
                 ->readOnly()
                 ->sortable(),
-            Numeric::make('Nilai Kontrak', 'nilai_kontrak')
+            Numeric::make('Nilai Pulsa', 'nilai_pulsa')
                 ->readOnly()
                 ->sortable(),
-            Boolean::make('Sesuai SBML', 'valid_sbml')
+            Boolean::make('Limit Bulanan', 'valid_limit')
+                ->exceptOnForms()
+                ->sortable(),
+            Boolean::make('Limit Kegiatan', 'valid_limit_kegiatan')
                 ->exceptOnForms()
                 ->sortable(),
 
@@ -110,16 +102,15 @@ class RekapHonorMitra extends Lens
     public function cards(NovaRequest $request)
     {
         return [
-            JumlahKegiatan::make()
-                ->help('Jumlah kegiatan yang tertuang dalam kontrak bulanan mitra')
+            JumlahKegiatan::make('pulsa')
+                ->help('Jumlah kegiatan yang membayar pulsa kepada mitra')
                 ->refreshWhenFiltersChange(),
-            JumlahMitra::make()
-                ->help('Jumlah mitra yang berkontrak tiap bulan di semua kegiatan')
+            JumlahMitra::make('pulsa')
+                ->help('Jumlah mitra yang mendapat pulsa tiap bulan di semua kegiatan')
                 ->refreshWhenFiltersChange(),
-            KesesuaianSbml::make()
-                ->help('Jumlah Kontrak dengan nilai tidak melebihi SBML')
+            KesesuaianSbml::make('pulsa')
+                ->help('Jumlah Pulsa dengan nilai tidak melebihi batas limit bulanan')
                 ->refreshWhenFiltersChange(),
-
         ];
     }
 
@@ -152,6 +143,6 @@ class RekapHonorMitra extends Lens
      */
     public function uriKey()
     {
-        return 'rekap-honor-mitra';
+        return 'rekap-pulsa-mitra';
     }
 }

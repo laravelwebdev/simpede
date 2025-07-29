@@ -2,75 +2,76 @@
 
 namespace App\Providers;
 
+use App\Nova\Dipa;
+use App\Nova\User;
+use App\Nova\Mitra;
+use App\Nova\KodeBank;
+use App\Nova\Template;
+use Laravel\Nova\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\MataAnggaran;
-use App\Models\Pengelola;
-use App\Models\User as UserModel;
-use App\Nova\AnalisisSakip;
 use App\Nova\BastMitra;
-use App\Nova\DaftarKegiatan;
-use App\Nova\DaftarReminder;
+use App\Nova\ShareLink;
+use App\Nova\UnitKerja;
 use App\Nova\DaftarSp2d;
-use App\Nova\Dashboards\Main;
-use App\Nova\Dashboards\SystemHealth;
-use App\Nova\Dipa;
-use App\Nova\DokumentasiKegiatan;
-use App\Nova\DokumentasiLink;
-use App\Nova\HargaSatuan;
-use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
 use App\Nova\KepkaMitra;
-use App\Nova\KerangkaAcuan;
-use App\Nova\KodeBank;
-use App\Nova\KontrakMitra;
-use App\Nova\Lenses\FormRencanaAksi;
-use App\Nova\Lenses\MatchingAnggaran;
-use App\Nova\Lenses\PemeliharaanBarang;
-use App\Nova\Lenses\RekapBarangPersediaan;
-use App\Nova\Lenses\RekapHonorMitra;
-use App\Nova\Lenses\RencanaPenarikanDana;
 use App\Nova\LimitPulsa;
-use App\Nova\MasterBarangPemeliharaan;
-use App\Nova\MasterPersediaan;
-use App\Nova\MasterWilayah;
-use App\Nova\MataAnggaran as MataAnggaranResource;
-use App\Nova\Mitra;
-use App\Nova\NaskahKeluar;
-use App\Nova\NaskahMasuk;
-use App\Nova\PembelianPersediaan;
-use App\Nova\Pemeliharaan;
-use App\Nova\PerjalananDinas;
-use App\Nova\PerjanjianKinerja;
-use App\Nova\PermintaanPersediaan;
-use App\Nova\PersediaanKeluar;
-use App\Nova\PersediaanMasuk;
-use App\Nova\PulsaKegiatan;
-use App\Nova\RapatInternal;
-use App\Nova\RealisasiAnggaran;
-use App\Nova\RealisasiKinerja;
-use App\Nova\RewardPegawai;
-use App\Nova\ShareLink;
 use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
-use App\Nova\Template;
+use App\Models\Pengelola;
+use App\Nova\HargaSatuan;
+use App\Nova\NaskahMasuk;
+use App\Nova\KontrakMitra;
+use App\Nova\NaskahKeluar;
+use App\Nova\Pemeliharaan;
 use App\Nova\TindakLanjut;
-use App\Nova\UnitKerja;
-use App\Nova\User;
+use App\Nova\AnalisisSakip;
+use App\Nova\HonorKegiatan;
+use App\Nova\KerangkaAcuan;
+use App\Nova\MasterWilayah;
+use App\Nova\PulsaKegiatan;
+use App\Nova\RapatInternal;
+use App\Nova\RewardPegawai;
 use App\Nova\UserEksternal;
+use Laravel\Nova\Menu\Menu;
+use App\Models\MataAnggaran;
+use App\Nova\DaftarKegiatan;
+use App\Nova\DaftarReminder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Laravel\Fortify\Fortify;
+use App\Nova\Dashboards\Main;
+use App\Nova\DokumentasiLink;
+use App\Nova\PerjalananDinas;
+use App\Nova\PersediaanMasuk;
+use Laravel\Fortify\Features;
+use App\Nova\MasterPersediaan;
+use App\Nova\PersediaanKeluar;
+use App\Nova\RealisasiKinerja;
+use App\Nova\PerjanjianKinerja;
+use App\Nova\RealisasiAnggaran;
+use Laravel\Nova\Menu\MenuItem;
+use App\Models\User as UserModel;
+use App\Nova\DokumentasiKegiatan;
+use App\Nova\PembelianPersediaan;
+use App\Nova\PermintaanPersediaan;
+use Laravel\Nova\Menu\MenuSection;
+use Laravelwebdev\Updater\Updater;
+use App\Nova\Lenses\FormRencanaAksi;
+use App\Nova\Lenses\RekapHonorMitra;
+use App\Nova\Lenses\RekapPulsaMitra;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Fortify\Features;
-use Laravel\Fortify\Fortify;
-use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Menu\MenuSection;
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
+use App\Nova\Dashboards\SystemHealth;
+use App\Nova\Lenses\MatchingAnggaran;
+use App\Nova\MasterBarangPemeliharaan;
+use Illuminate\Support\Facades\Cookie;
+use App\Nova\Lenses\PemeliharaanBarang;
+use App\Nova\Lenses\RencanaPenarikanDana;
+use App\Nova\Lenses\RekapBarangPersediaan;
 use Laravelwebdev\NovaCalendar\NovaCalendar;
-use Laravelwebdev\Updater\Updater;
+use Laravel\Nova\NovaApplicationServiceProvider;
+use App\Nova\MataAnggaran as MataAnggaranResource;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -116,6 +117,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
+                    MenuItem::lens(Mitra::class, RekapPulsaMitra::class),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),

@@ -4,20 +4,21 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Nova\Actions\AddHasManyModel;
-use App\Nova\Lenses\RekapHonorMitra;
-use Illuminate\Validation\Rule;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Email;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Email;
+use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\HasMany;
+use App\Nova\Lenses\RekapHonorMitra;
+use App\Nova\Lenses\RekapPulsaMitra;
+use App\Nova\Actions\AddHasManyModel;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Mitra extends Resource
 {
-    public static $with = ['daftarHonorMitra', 'pulsaKegiatan'];
+    public static $with = ['daftarHonorMitra', 'daftarPulsaMitra'];
 
     public static function label()
     {
@@ -97,6 +98,7 @@ class Mitra extends Resource
                 ->showWhenPeeking()
                 ->rules('required', 'numeric', 'digits_between:1,40'),
             HasMany::make('Daftar Honor Mitra', 'daftarHonorMitra'),
+            HasMany::make('Daftar Pulsa Mitra', 'daftarPulsaMitra'),
         ];
     }
 
@@ -150,6 +152,7 @@ class Mitra extends Resource
     {
         return [
             RekapHonorMitra::make(),
+            RekapPulsaMitra::make(),
         ];
     }
 

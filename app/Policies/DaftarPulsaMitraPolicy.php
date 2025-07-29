@@ -6,17 +6,14 @@ use App\Helpers\Policy;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
-class MitraPolicy
+class DaftarPulsaMitraPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->andEqual(request()->is('resources/mitras'), false)
-            ->get();
+        return true;
     }
 
     /**
@@ -24,7 +21,7 @@ class MitraPolicy
      */
     public function view(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -41,16 +38,13 @@ class MitraPolicy
     public function update(): bool
     {
         return Nova::whenServing(function (NovaRequest $request) {
-            if (str_contains(request()->url(), 'lens/rekap-honor-mitra')) {
-                return false;
-            }
-            if (str_contains(request()->url(), 'lens/rekap-pulsa-mitra')) {
-                return false;
+            if ($request->viaResource == 'pulsa-kegiatans') {
+                return Policy::make()
+                    ->allowedFor('koordinator,anggota')
+                    ->get();
             }
 
-            return Policy::make()
-                ->allowedFor('admin')
-                ->get();
+            return false;
         });
     }
 
@@ -60,24 +54,28 @@ class MitraPolicy
     public function delete(): bool
     {
         return Nova::whenServing(function (NovaRequest $request) {
-            if (str_contains(request()->url(), 'lens/rekap-honor-mitra')) {
-                return false;
-            }
-            if (str_contains(request()->url(), 'lens/rekap-pulsa-mitra')) {
-                return false;
+            if ($request->viaResource == 'pulsa-kegiatans') {
+                return Policy::make()
+                    ->allowedFor('koordinator,anggota')
+                    ->get();
             }
 
-            return Policy::make()
-                ->allowedFor('admin')
-                ->get();
+            return false;
         });
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Determine whether the user can replicate model.
      */
     public function replicate(): bool
     {
         return false;
+    }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('koordinator,anggota')
+            ->get();
     }
 }

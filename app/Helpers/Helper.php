@@ -766,6 +766,25 @@ class Helper
     }
 
     /**
+     * Retrieves the pulsa limit (sbml) for a specific kegiatan based on the given jenis_pulsa_id.
+     *
+     * This method fetches the JenisPulsa record from cache, finds the entry with the specified ID,
+     * and returns its 'sbml' value. If no matching record is found, it returns 0.
+     *
+     * @param  int  $jenis_pulsa_id  The ID of the JenisPulsa to retrieve the limit for.
+     * @return int The pulsa limit (sbml) for the specified kegiatan, or 0 if not found.
+     */
+    public static function getLimitPulsaPerKegiatan($jenis_pulsa_id)
+    {
+        $limit = JenisPulsa::cache()
+            ->get('all')
+            ->where('id', $jenis_pulsa_id)
+            ->first();
+
+        return $limit ? $limit->sbml : 0;
+    }
+
+    /**
      * Generate a document number.
      *
      * @param  date  $tanggal  The date
@@ -939,6 +958,31 @@ class Helper
     public static function getMitraById($id)
     {
         return Mitra::cache()->get('all')->where('id', $id)->first();
+    }
+
+    /**
+     * Retrieve the ID of a Mitra by their NIK (Nomor Induk Kependudukan).
+     *
+     * This method fetches all Mitra records from the cache, filters them by the provided NIK,
+     * and returns the ID of the first matching Mitra.
+     *
+     * @param string $nik The NIK of the Mitra to search for.
+     * @return int|null The ID of the matching Mitra, or null if not found.
+     */
+    public static function getMitraIdByNik($nik)
+    {
+        return optional(Mitra::cache()->get('all')->where('nik', $nik)->first())->id;
+    }
+
+    /**
+     * Get jenis pulsa based on ID.
+     *
+     * @param  int  $id  The jenis pulsa ID
+     * @return \App\Models\JenisPulsa|null
+     */
+    public static function getJenisPulsaById($id)
+    {
+        return JenisPulsa::cache()->get('all')->where('id', $id)->first();
     }
 
     /**
@@ -2148,6 +2192,23 @@ class Helper
     public static function setOptionKepkaMitra($tahun)
     {
         return self::setOptions(KepkaMitra::cache()->get('all')->where('tahun', $tahun), 'id', 'nomor');
+    }
+
+    /**
+     * Generates options for Mitra based on the specified year.
+     *
+     * Retrieves the KepkaMitra ID for the given year, then fetches all Mitra records
+     * associated with that KepkaMitra ID. Returns the options array using the Mitra's
+     * 'id' as the key and 'nama' as the value.
+     *
+     * @param  int|string  $tahun  The year to filter KepkaMitra records.
+     * @return array Options array with Mitra IDs as keys and names as values.
+     */
+    public static function setOptionsMitra($tahun)
+    {
+        $kepkaMitraId = optional(KepkaMitra::cache()->get('all')->where('tahun', $tahun)->first())->id;
+
+        return self::setOptions(Mitra::cache()->get('all')->where('kepka_mitra_id', $kepkaMitraId), 'id', 'nama', '', 'nik');
     }
 
     /**

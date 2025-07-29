@@ -36,7 +36,8 @@
         "pekhota/nova-scroll-buttons": "*",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
-        "sentry/sentry-laravel": "*"
+        "sentry/sentry-laravel": "*",
+        "sweetalert2/laravel": "^0.1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "*",
@@ -102,5 +103,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "version": "2.11.5"
+    "version": "2.12.0"
 }

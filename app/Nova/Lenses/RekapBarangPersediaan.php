@@ -24,7 +24,7 @@ class RekapBarangPersediaan extends Lens
         return 'Barang Persediaan';
     }
 
-    public static $showPollingToggle = true;
+    // public static $showPollingToggle = true;
 
     /**
      * The columns that should be searched.

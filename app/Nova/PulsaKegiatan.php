@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
@@ -25,7 +26,7 @@ class PulsaKegiatan extends Resource
      */
     public static $model = \App\Models\PulsaKegiatan::class;
 
-    public static $with = ['mataAnggaran', 'jenisPulsa', 'unitKerja'];
+    public static $with = ['mataAnggaran', 'jenisPulsa', 'unitKerja', 'daftarPulsaMitra'];
 
     public static function label()
     {
@@ -101,7 +102,8 @@ class PulsaKegiatan extends Resource
                     })
                     ->rules('required')
                     ->searchable()
-                    ->onlyOnForms(),
+                    ->displayUsing(fn ($id) => optional(Helper::getJenisPulsaById($id))->jenis)
+                    ->hideFromIndex(),
                 Text::make('Link Upload Tanda Terima Pulsa', 'link')
                     ->displayUsing(fn () => 'Salin')
                     ->exceptOnForms()
@@ -138,7 +140,7 @@ class PulsaKegiatan extends Resource
                 ->loadingWhen(['open'])
                 ->failedWhen([''])
                 ->onlyOnIndex(),
-
+            HasMany::make('Daftar Pulsa Mitra'),
         ];
     }
 
@@ -198,5 +200,12 @@ class PulsaKegiatan extends Resource
 
         return $actions;
 
+    }
+        public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->tanggal = null;
+        });
     }
 }

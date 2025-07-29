@@ -100,6 +100,14 @@ return [
             'throw' => false,
         ],
 
+        'pulsa' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/pulsa'),
+            'url' => env('APP_URL').'/storage/pulsa',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         'dokumentasi' => [
             'driver' => 'local',
             'root' => storage_path('app/public/dokumentasi'),

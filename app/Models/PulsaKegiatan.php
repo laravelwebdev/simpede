@@ -50,7 +50,6 @@ class PulsaKegiatan extends Model
             $fromResourceId = $request->input('fromResourceId');
 
             if ($fromResourceId) {
-                $sourceKak = PulsaKegiatan::find($fromResourceId);
                 $this->copyDaftar($fromResourceId);
             }
         });
@@ -81,5 +80,19 @@ class PulsaKegiatan extends Model
             $DaftarPulsaMitraIds = DaftarPulsaMitra::where('pulsa_kegiatan_id', $pulsa->id)->pluck('id');
             DaftarPulsaMitra::destroy($DaftarPulsaMitraIds);
         });
+        static::created(function (PulsaKegiatan $pulsa) {
+            $pulsa->replicateDaftarPulsaMitra();
+        });
     }
+
+    public static function getJudulByToken($token)
+    {
+        return optional(self::where('token', $token)->first())->kegiatan;
+    }
+
+    public static function getIdByToken($token)
+    {
+        return optional(self::where('token', $token)->first())->id;
+    }
+    
 }

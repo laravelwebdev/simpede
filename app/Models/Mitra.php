@@ -35,8 +35,8 @@ class Mitra extends Model
         return $this->hasMany(DaftarHonorMitra::class);
     }
 
-    public function pulsaKegiatan(): HasMany
+    public function DaftarPulsaMitra(): HasMany
     {
-        return $this->hasMany(PulsaKegiatan::class);
+        return $this->hasMany(DaftarPulsaMitra::class);
     }
 }

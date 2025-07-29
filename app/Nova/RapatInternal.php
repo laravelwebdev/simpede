@@ -333,4 +333,13 @@ class RapatInternal extends Resource
             $validator->errors()->add('peserta', 'Terdapat duplikasi peserta');
         }
     }
+    
+    public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->tanggal = null;
+            $model->tanggal_rapat = null;
+        });
+    }
 }

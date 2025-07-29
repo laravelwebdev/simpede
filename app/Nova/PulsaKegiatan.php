@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\ExportDaftarPulsa;
 use App\Nova\Actions\SetStatus;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
@@ -197,11 +198,20 @@ class PulsaKegiatan extends Resource
 
                 return $this->resource instanceof Model && $this->resource->status !== 'open';
             });
+        if (Policy::make()->allowedFor('ppk.pbj')->get()) {
+            $actions[] =
+            ExportDaftarPulsa::make()
+                ->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Unduh');
+        }
 
         return $actions;
 
     }
-        public function replicate()
+
+    public function replicate()
     {
         return tap(parent::replicate(), function ($resource) {
             $model = $resource->model();

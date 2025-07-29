@@ -966,7 +966,7 @@ class Helper
      * This method fetches all Mitra records from the cache, filters them by the provided NIK,
      * and returns the ID of the first matching Mitra.
      *
-     * @param string $nik The NIK of the Mitra to search for.
+     * @param  string  $nik  The NIK of the Mitra to search for.
      * @return int|null The ID of the matching Mitra, or null if not found.
      */
     public static function getMitraIdByNik($nik)

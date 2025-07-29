@@ -208,7 +208,6 @@ class PulsaKegiatan extends Resource
         }
 
         return $actions;
-
     }
 
     public function replicate()

@@ -94,5 +94,4 @@ class PulsaKegiatan extends Model
     {
         return optional(self::where('token', $token)->first())->id;
     }
-    
 }

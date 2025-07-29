@@ -84,7 +84,6 @@ class PulsaController extends Controller
         if ($request->input('action-type') === 'upload') {
             return redirect()->route('pulsa-upload', ['token' => $token]);
         }
-
     }
 
     public function confirm(Request $request)
@@ -106,7 +105,6 @@ class PulsaController extends Controller
         $handphone = $mitra->no_pulsa;
 
         return view('konfirmasi-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone'));
-
     }
 
     public function submitConfirm(Request $request)
@@ -173,7 +171,6 @@ class PulsaController extends Controller
             ->exists();
 
         return view('upload-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'nominal', 'uploaded'));
-
     }
 
     public function submitUpload(Request $request)

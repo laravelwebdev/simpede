@@ -61,5 +61,4 @@ Route::middleware([ValidatePulsaToken::class])
         Route::post('/pulsa/upload/{token}', [PulsaController::class, 'submitUpload'])
             ->name('pulsa-submit-upload')
             ->where('token', '[A-Za-z0-9]+');
-
     });

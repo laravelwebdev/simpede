@@ -333,7 +333,7 @@ class RapatInternal extends Resource
             $validator->errors()->add('peserta', 'Terdapat duplikasi peserta');
         }
     }
-    
+
     public function replicate()
     {
         return tap(parent::replicate(), function ($resource) {

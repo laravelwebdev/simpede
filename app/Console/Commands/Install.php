@@ -180,6 +180,11 @@ class Install extends Command
                 'jenis' => 'import',
                 'file' => '6xGSAprFh0YgkReR9xCUt9xvKKyXMzv1bQ83IGNy.xlsx',
             ],
+            [
+                'nama' => 'Template Tanda Terima Pulsa',
+                'jenis' => 'pulsa',
+                'file' => 'uzvdQmXrt7hesC2ULRZVQhmcQEkTJdIwIJvKALmX.docx',
+            ],
         ];
 
         foreach ($templates as $template) {

@@ -80,7 +80,7 @@ class ImportDaftarPulsaMitra extends Action
             Number::make('Volume', 'volume')
                 ->step(1)
                 ->rules('nullable', 'bail', 'lte:65535')
-                ->help('Default Volume Pekerjaan'),
+                ->help('Default Volume Per Satuan'),
             Numeric::make('Nominal', 'nominal')
                 ->rules('nullable', 'bail', 'lte:16777215')
                 ->help('Default Nominal Pulsa'),

@@ -110,7 +110,7 @@ class PulsaKegiatan extends Resource
                     ->searchable()
                     ->displayUsing(fn ($id) => optional(Helper::getJenisPulsaById($id))->jenis)
                     ->hideFromIndex(),
-                Text::make('Link Upload Tanda Terima Pulsa', 'link')
+                Text::make('Link Konfirmasi dan Upload', 'link')
                     ->displayUsing(fn () => 'Salin')
                     ->exceptOnForms()
                     ->copyable(),

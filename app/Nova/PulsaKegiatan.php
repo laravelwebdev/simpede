@@ -63,7 +63,7 @@ class PulsaKegiatan extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $query->where('tahun', session('year'));
-        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
+        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,pbj')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);

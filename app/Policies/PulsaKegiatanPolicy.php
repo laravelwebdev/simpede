@@ -25,7 +25,7 @@ class PulsaKegiatanPolicy
     public function view(User $user, PulsaKegiatan $pulsa): bool
     {
         return Policy::make()
-            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koordinator,anggota')
+            ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,koordinator,anggota,pbj')
             ->withYear($pulsa->tahun)
             ->get();
     }
@@ -79,6 +79,10 @@ class PulsaKegiatanPolicy
      */
     public function runAction(User $user, PulsaKegiatan $pulsa): bool
     {
+        if (Policy::make()->allowedFor('ppk,pbj,bendahara,ppspm,arsiparis')->get()) {
+            return true;
+        }
+
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($pulsa->tahun)

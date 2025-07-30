@@ -139,9 +139,6 @@ class DaftarPulsaMitra extends Resource
                 ->rules('required', 'gt:0', 'lte:16777215'),
             Numeric::make('Harga Pulsa', 'harga')
                 ->rules('required', 'gt:0', 'lte:16777215'),
-            Text::make('Handphone', 'handphone')
-                ->rules('nullable', 'max:20')
-                ->help('Isikan nomor handphone mitra'),
         ];
     }
 

@@ -9,6 +9,7 @@ use App\Models\DaftarKontrakMitra;
 use App\Models\DaftarPemeliharaan;
 use App\Models\DaftarPenilaianReward;
 use App\Models\DaftarPesertaPerjalanan;
+use App\Models\DaftarPulsaMitra;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
 use App\Models\KerangkaAcuan;
@@ -19,6 +20,7 @@ use App\Models\NaskahKeluar;
 use App\Models\PembelianPersediaan;
 use App\Models\PerjalananDinas;
 use App\Models\PermintaanPersediaan;
+use App\Models\PulsaKegiatan;
 use App\Models\RapatInternal;
 use App\Models\RewardPegawai;
 use App\Models\SpesifikasiKerangkaAcuan;
@@ -174,7 +176,37 @@ class Cetak
             unset($data['daftar_honor_mitra']);
             HonorKegiatan::where('id', $id)->update(['status' => 'dicetak']);
         }
+        if ($jenis === 'pulsa') {
+            $templateProcessor->cloneRowAndSetValues('spj_no', $data['daftar_pulsa_mitra']);
+            $detailAnggarans = ['kegiatan', 'kro', 'ro', 'komponen', 'sub', 'akun', 'detail'];
+            foreach ($detailAnggarans as $detailAnggaran) {
+                if (Str::of($data[$detailAnggaran])->contains('edit manual karena belum ada di POK')) {
+                    $detail = new TextRun;
+                    $detail->addText(Str::of($data[$detailAnggaran])->before('edit manual karena belum ada di POK'));
+                    $detail->addText('edit manual karena belum ada di POK', ['color' => 'red']);
+                    $templateProcessor->setComplexValue($detailAnggaran, $detail);
+                    unset($data[$detailAnggaran]);
+                }
+            }
+            $dummies = $data['daftar_pulsa_mitra'];
+            unset($data['daftar_pulsa_mitra']);
+            PulsaKegiatan::where('id', $id)->update(['status' => 'selesai']);
+        }
         $templateProcessor->setValues($data);
+        if ($jenis === 'pulsa') {
+            foreach ($dummies as $dummy) {
+                $templateProcessor->setImageValue(
+                    $dummy['nik'],
+                    [
+                        'path' => Storage::disk('pulsa')->path($dummy['bukti']),
+                        'width' => '',
+                        'height' => '5.7cm',
+                        'ratio' => true,
+                    ]
+                );
+            }
+            unset($dummies);
+        }
 
         return $templateProcessor;
     }
@@ -500,6 +532,44 @@ class Cetak
             'bendahara' => optional($bendahara)->name,
             'nipbendahara' => optional($bendahara)->nip,
             'terbilang_total' => Helper::terbilang(Helper::makeBaseListMitraAndPegawai($id, $data->tanggal_spj)->sum('bruto'), 'uw', ' rupiah'),
+        ];
+    }
+
+    public static function pulsa($id)
+    {
+        $data = PulsaKegiatan::find($id);
+        $mataanggaran = Helper::getMataAnggaranById($data->mata_anggaran_id);
+        $mak = optional($mataanggaran)->mak;
+        $koordinator = Helper::getPegawaiByUserId($data->koordinator_user_id);
+        $ppk = Helper::getPegawaiByUserId($data->ppk_user_id);
+        $harga = DaftarPulsaMitra::where('pulsa_kegiatan_id', $id)->sum('harga');
+
+        return [
+            'kabupaten' => config('satker.kabupaten'),
+            'u_kabupaten' => strtoupper(config('satker.kabupaten')),
+            'alamat_satker' => config('satker.alamat'),
+            'telepon_satker' => config('satker.telepon'),
+            'website' => config('satker.website'),
+            'email' => config('satker.email'),
+            'tanggal_spj' => Helper::terbilangTanggal($data->tanggal),
+            'ibukota' => config('satker.ibukota'),
+            'nama_kegiatan' => $data->kegiatan,
+            'detail' => optional($mataanggaran)->uraian,
+            'bulan' => Helper::terbilangBulan($data->bulan),
+            'mak' => $mak,
+            'kegiatan' => Helper::getDetailAnggaran($mak, 'kegiatan'),
+            'kro' => Helper::getDetailAnggaran($mak, 'kro'),
+            'ro' => Helper::getDetailAnggaran($mak, 'ro'),
+            'komponen' => Helper::getDetailAnggaran($mak, 'komponen'),
+            'sub' => Helper::getDetailAnggaran($mak, 'sub'),
+            'akun' => Helper::getDetailAnggaran($mak, 'akun'),
+            'daftar_pulsa_mitra' => Helper::makeSpjPulsaMitra($id),
+            'ketua' => optional($koordinator)->name,
+            'nipketua' => optional($koordinator)->nip,
+            'ppk' => optional($ppk)->name,
+            'nipppk' => optional($ppk)->nip,
+            'total_harga' => Helper::formatUang($harga),
+            'terbilang_total' => Helper::terbilang($harga, 'uw', ' rupiah'),
         ];
     }
 
@@ -936,6 +1006,21 @@ class Cetak
             }
             if (Helper::checkEmptyRekeningOnSpjMitraAndPegawai($honor->id, $honor->tanggal_spj)) {
                 return 'Masih ada rekening yang kosong pada daftar SPJ ini.';
+            }
+        }
+        if ($jenis === 'pulsa') {
+            $honor = PulsaKegiatan::where('id', $model_id)->first();
+            $notConfirmed = DaftarPulsaMitra::where('pulsa_kegiatan_id', $honor->id)
+                ->where('confirmed', false)
+                ->count();
+            $notUploaded = DaftarPulsaMitra::where('pulsa_kegiatan_id', $honor->id)
+                ->whereNull('file')
+                ->count();
+            if ($notConfirmed > 0) {
+                return 'Masih ada data nomor handphone yang belum dikonfirmasi pada daftar ini.';
+            }
+            if ($notUploaded > 0) {
+                return 'Masih ada bukti pulsa masuk yang belum diunggah pada daftar ini.';
             }
         }
         if ($jenis === 'st') {

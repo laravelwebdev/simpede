@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\DaftarHonorMitra;
 use App\Models\DaftarHonorPegawai;
 use App\Models\DaftarKegiatan;
+use App\Models\DaftarPulsaMitra;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
@@ -1438,6 +1439,30 @@ class Helper
         return $mitra;
     }
 
+    public static function formatPulsaMitra($mitra)
+    {
+        $mitra->transform(function ($item, $index) {
+            $mitra = self::getMitraById($item['mitra_id']);
+            $item['nama'] = optional($mitra)->nama;
+            $item['nik'] = optional($mitra)->nik;
+            $item['nik_tag'] = '${'.optional($mitra)->nik.'}';
+            $item['no_hp'] = optional($mitra)->no_pulsa;
+            $item['bukti'] = $item['file'];
+            unset($item['mitra_id']);
+            unset($item['id']);
+            unset($item['created_at']);
+            unset($item['updated_at']);
+            unset($item['pulsa_kegiatan_id']);
+            unset($item['volume']);
+            unset($item['file']);
+            unset($item['confirmed']);
+
+            return $item;
+        });
+
+        return $mitra;
+    }
+
     /**
      * Create a query for the model based on the quarter.
      *
@@ -1567,6 +1592,22 @@ class Helper
                 $item['rekening'] = optional(self::getKodeBankById($item['kode_bank_id']))->nama_bank.' '.$item['rekening'];
                 $item['netto'] = self::formatUang($item['netto']);
                 $item['harga_satuan'] = self::formatUang($item['harga_satuan']);
+
+                return $item;
+            })
+            ->toArray();
+    }
+
+    public static function makeSpjPulsaMitra($pulsa_kegiatan_id)
+    {
+        $mitra = DaftarPulsaMitra::where('pulsa_kegiatan_id', $pulsa_kegiatan_id)->get();
+        $formattedMitra = self::formatPulsaMitra($mitra);
+
+        return $formattedMitra
+            ->transform(function ($item, $index) {
+                $item['spj_no'] = $index + 1;
+                $item['nominal'] = self::formatUang($item['nominal']);
+                $item['harga'] = self::formatUang($item['harga']);
 
                 return $item;
             })

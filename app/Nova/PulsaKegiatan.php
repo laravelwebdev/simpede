@@ -4,8 +4,13 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\PulsaKegiatan as ModelsPulsaKegiatan;
+use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportDaftarPulsa;
 use App\Nova\Actions\SetStatus;
+use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -152,7 +157,23 @@ class PulsaKegiatan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsPulsaKegiatan::where('tahun', session('year'));
+        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
+            $model = $model;
+        } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
+            $model = $model->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+        }
+
+        return [
+            MetricValue::make($model, 'total-pulsa')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricPartition::make($model, 'status', 'status-pulsa')
+                ->refreshWhenActionsRun()
+                ->width('1/2')
+                ->failedWhen(['open'])
+                ->successWhen(['selesai']),
+        ];
     }
 
     /**
@@ -162,7 +183,9 @@ class PulsaKegiatan extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            StatusFilter::make('pulsa_kegiatans'),
+        ];
     }
 
     /**
@@ -183,6 +206,12 @@ class PulsaKegiatan extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
+        $actions[] =
+        Download::make('pulsa', 'Unduh Tanda Terima Pulsa')
+            ->showInline()
+            ->showOnDetail()
+            ->exceptOnIndex()
+            ->confirmButtonText('Unduh');
         $actions[] = SetStatus::make()
             ->confirmButtonText('Ubah Status')
             ->confirmText('Pastikan form dibuka jika hanya ada perbaikan isian. Yakin akan melanjutkan?')

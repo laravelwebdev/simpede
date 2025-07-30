@@ -350,10 +350,10 @@ class HonorKegiatan extends Resource
         return [
             HelperHonorKegiatan::make()
                 ->width('full'),
-            MetricValue::make($model, 'total-kak')
+            MetricValue::make($model, 'total-honor')
                 ->width('1/2')
                 ->refreshWhenActionsRun(),
-            MetricPartition::make($model, 'status', 'status-kak')
+            MetricPartition::make($model, 'status', 'status-honor')
                 ->refreshWhenActionsRun()
                 ->width('1/2')
                 ->failedWhen(['outdated'])

@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 <p class="form-description">
-                    Isikan Nomor Handphone yang ingin diisikan pulsa.
+                    Isikan Nomor Handphone yang ingin diisikan pulsa. Perbaiki isian ini jika belum sesuai.
                 </p>
             </div>
             <div class="form-group">

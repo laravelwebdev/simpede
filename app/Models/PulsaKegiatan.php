@@ -59,7 +59,7 @@ class PulsaKegiatan extends Model
     {
         $daftar = DaftarPulsaMitra::where('pulsa_kegiatan_id', $fromResourceId)->get();
         foreach ($daftar as $item) {
-            $copyItem = $item->replicate();
+            $copyItem = $item->replicate(['handphone', 'file']);
             $copyItem->pulsa_kegiatan_id = $this->id;
             $copyItem->save();
         }

@@ -131,7 +131,7 @@ class PulsaController extends Controller
         $updateMitra = $mitraModel->save();
         $updateDaftar = DaftarPulsaMitra::where('pulsa_kegiatan_id', session('pulsaKegiatanId'))
             ->where('mitra_id', session('mitraId'))
-            ->update(['confirmed' => true]);
+            ->update(['confirmed' => true, 'handphone' => $handphone]);
         if ($updateMitra > 0 && $updateDaftar > 0) {
             Swal::success([
                 'title' => 'Berhasil',

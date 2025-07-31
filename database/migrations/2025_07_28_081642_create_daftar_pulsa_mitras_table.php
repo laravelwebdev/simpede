@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('daftar_pulsa_mitras', function (Blueprint $table) {
             $table->id();
             $table->decimal('volume', 5)->nullable()->unsigned();
+            $table->string('handphone', 20)->nullable();
             $table->mediumInteger('nominal')->nullable()->unsigned();
             $table->mediumInteger('harga')->nullable()->unsigned();
             $table->boolean('confirmed')->nullable()->default(false);

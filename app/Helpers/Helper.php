@@ -1446,7 +1446,6 @@ class Helper
             $item['nama'] = optional($mitra)->nama;
             $item['nik'] = optional($mitra)->nik;
             $item['nik_tag'] = '${'.optional($mitra)->nik.'}';
-            $item['no_hp'] = optional($mitra)->no_pulsa;
             $item['bukti'] = $item['file'];
             unset($item['mitra_id']);
             unset($item['id']);

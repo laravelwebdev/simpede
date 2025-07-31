@@ -52,7 +52,7 @@
                     <ul class="list-none menu-social mb-0">
                         <li class="inline">
                             @auth
-                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Dashboard</a>
+                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Home</a>
                             @else
                             <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Masuk</a>
                             @endauth
@@ -180,6 +180,7 @@
                         </div>
                     </div><!--end feature content-->
 
+    
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
@@ -276,6 +277,23 @@
                             <i data-feather="coffee" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
                         </div>
                     </div><!--end feature content-->
+
+                    <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
+                            <i data-feather="wifi" class="size-6 rotate-45"></i>
+                        </div>
+
+                        <div class="content mt-6 relative z-1">
+                            <a class="title text-lg font-semibold hover:text-teal-500">Pulsa Mitra</a>
+                            <p class="text-slate-400 mt-3">Pembuatan SPJ Pulsa Mitra</p>
+                            <p class="text-slate-400 mt-3">Monitoring Penggantian Pulsa Mitra</p>
+                       
+                        </div>
+                        <div class="absolute bottom-0 -end-16">
+                            <i data-feather="wifi" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
+                        </div>
+                    </div><!--end feature content-->
+
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
                         <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">

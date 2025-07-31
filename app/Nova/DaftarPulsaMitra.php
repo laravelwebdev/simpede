@@ -74,7 +74,7 @@ class DaftarPulsaMitra extends Resource
                     ->rules('required', 'gt:0', 'lte:16777215'),
                 Numeric::make('Harga Pulsa', 'harga')
                     ->rules('required', 'gt:0', 'lte:16777215'),
-                Text::make('Handphone', 'mitra.no_pulsa')
+                Text::make('Handphone', 'handphone')
                     ->onlyOnIndex(),
                 Boolean::make('No HP Confirmed', 'confirmed')
                     ->readonly()

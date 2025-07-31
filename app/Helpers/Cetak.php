@@ -200,7 +200,7 @@ class Cetak
                     [
                         'path' => Storage::disk('pulsa')->path($dummy['bukti']),
                         'width' => '',
-                        'height' => '5.7cm',
+                        'height' => '6.5cm',
                         'ratio' => true,
                     ]
                 );

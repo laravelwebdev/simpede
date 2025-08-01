@@ -116,7 +116,6 @@ class Mitra extends Resource
                 ->displayUsing(fn () => $this->telepon),
             Select::make('Bank', 'kode_bank_id')
                 ->options(Helper::setOptionsKodeBank())
-                ->showWhenPeeking()
                 ->displayUsingLabels()
                 ->rules('required'),
             Text::make('Rekening', 'rekening'),

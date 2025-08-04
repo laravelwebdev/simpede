@@ -17,7 +17,7 @@ if (config('app.auto_update')) {
         ->timezone(config('app.schedule_timezone'))
         ->sentryMonitor();
 }
-Schedule::command('db:optimize')->monthlyAt('2:00')
+Schedule::command('db:optimize')->monthlyOn(1, '2:00')
     ->runInBackground()
     ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))

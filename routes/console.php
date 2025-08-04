@@ -3,24 +3,22 @@
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('reminder:send')->hourly()
-    ->withoutOverlapping()
     ->sentryMonitor();
 Schedule::command('action-events:clear')->daily()
-    ->withoutOverlapping();
+    ->sentryMonitor();
 Schedule::command('queue:clear')->daily()
-    ->withoutOverlapping();
+    ->sentryMonitor();
 Schedule::command('holidays:sync')->daily()
-    ->withoutOverlapping()
     ->sentryMonitor();
 if (config('app.auto_update')) {
     Schedule::command('simpede:update')->dailyAt('1:00')
-        ->withoutOverlapping()
         ->runInBackground()
+        ->withoutOverlapping()
         ->timezone(config('app.schedule_timezone'))
         ->sentryMonitor();
 }
-Schedule::command('db:optimize')->monthly()
-    ->withoutOverlapping()
+Schedule::command('db:optimize')->monthlyAt('2:00')
     ->runInBackground()
+    ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();

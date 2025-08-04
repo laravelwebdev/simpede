@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Helpers\Helper;
 use App\Models\DaftarPenilaianReward;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -10,6 +11,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -29,10 +31,15 @@ class ImportRekapPresensi extends Action
     {
         $model = $models->first();
         DaftarPenilaianReward::where('reward_pegawai_id', $model->id)->update(['updated_at' => null]);
-        (new FastExcel)->startRow(5)->import($fields->file, function ($row) use ($model) {
+        (new FastExcel)->startRow(5)->import($fields->file, function ($row) use ($model, $fields) {
+            $user = User::cache()->get('all')->where('nip_lama', $row['NIP'])->first();
+            if ($user && is_array($fields->kecualikan) && in_array($user->id, $fields->kecualikan)) {
+                return;
+            }
+
             $daftar = DaftarPenilaianReward::firstOrNew(
                 [
-                    'user_id' => optional(User::cache()->get('all')->where('nip_lama', $row['NIP'])->first())->id,
+                    'user_id' => optional($user)->id,
                     'reward_pegawai_id' => $model->id,
                 ]
             );
@@ -53,11 +60,20 @@ class ImportRekapPresensi extends Action
 
             $daftar->save();
         });
-        (new FastExcel)->import($fields->skp, function ($row) use ($model) {
-            if (strtoupper($row['Status']) === 'DINILAI') {
+
+        (new FastExcel)->import($fields->skp, function ($row) use ($model, $fields) {
+            $user = User::cache()->get('all')->where('nip_lama', $row['Niplama'])->first();
+            if (
+                strtoupper($row['Status']) === 'DINILAI' &&
+                ! (
+                    $user &&
+                    is_array($fields->kecualikan) &&
+                    in_array($user->id, $fields->kecualikan)
+                )
+            ) {
                 $daftar = DaftarPenilaianReward::firstOrNew(
                     [
-                        'user_id' => optional(User::cache()->get('all')->where('nip_lama', $row['Niplama'])->first())->id,
+                        'user_id' => optional($user)->id,
                         'reward_pegawai_id' => $model->id,
                     ]
                 );
@@ -92,6 +108,9 @@ class ImportRekapPresensi extends Action
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
                 ->help('Gunakan File Excel Export dari Aplikasi KipApp (Masuk dengan Akun Kepala, Menu Penilaian Kinerja - Rekap Prestasi Periodik - Download Excel'),
+            MultiSelect::make('Dikecualikan dari Penilaian', 'kecualikan')
+                ->options(Helper::setOptionPengelola('anggota', now()))
+                ->help('Pilih pegawai yang tidak perlu dinilai pada periode ini.'),
         ];
     }
 }

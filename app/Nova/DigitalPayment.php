@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Helpers\Policy;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -71,10 +72,12 @@ class DigitalPayment extends Resource
             Text::make('Nomor SP2D/SPBy', 'nomor')
                 ->rules('nullable', 'bail', 'max:50')
                 ->sortable()
+                ->readonly(! Policy::make()->allowedFor('ppk')->get())
                 ->help('Masukkan nomor SP2D untuk pembayaran KKP atau Nomor SPBY untuk CMS'),
             Date::make('Tanggal Pembayaran', 'tanggal_pembayaran')
                 ->rules('nullable', 'bail', 'after_or_equal:tanggal_transaksi')
                 ->sortable()
+                ->readonly(! Policy::make()->allowedFor('ppk')->get())
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable()
                 ->help('Masukkan tanggal SP2D untuk pembayaran KKP atau tanggal Persetujuan SPBy oleh PPK untuk CMS'),

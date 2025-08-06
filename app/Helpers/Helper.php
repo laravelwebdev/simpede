@@ -71,6 +71,11 @@ class Helper
         '524119',
     ];
 
+    const JENIS_DIGITAL_PAYMENT = [
+        'cms' => 'CMS',
+        'kkp' => 'KKP',
+    ];
+
     const JENIS_KEGIATAN = [
         'Libur' => 'Libur',
         'Deadline' => 'Deadline',

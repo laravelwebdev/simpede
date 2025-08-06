@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DigitalPayment as DigitalPaymentModel;
 use App\Models\MataAnggaran;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
@@ -14,6 +15,7 @@ use App\Nova\DaftarReminder;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\SystemHealth;
+use App\Nova\DigitalPayment;
 use App\Nova\Dipa;
 use App\Nova\DokumentasiKegiatan;
 use App\Nova\DokumentasiLink;
@@ -26,6 +28,7 @@ use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\FormRencanaAksi;
 use App\Nova\Lenses\MatchingAnggaran;
+use App\Nova\Lenses\MonitoringDigitalPayment;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
@@ -121,9 +124,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
+                    MenuItem::lens(DigitalPayment::class, MonitoringDigitalPayment::class)
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => DigitalPaymentModel::whereNull('tanggal_pembayaran')->count('id') > 0),
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
+                    MenuItem::resource(DigitalPayment::class),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),

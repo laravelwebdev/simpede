@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
 use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
+use App\Nova\Actions\AddDigitalPayment;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
@@ -210,6 +211,11 @@ class KerangkaAcuan extends Resource
         if (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             $actions[] =
            AddPerjalananDinas::make()
+               ->onlyInline()
+               ->confirmButtonText('Tambahkan')
+               ->exceptOnIndex();
+            $actions[] =
+           AddDigitalPayment::make()
                ->onlyInline()
                ->confirmButtonText('Tambahkan')
                ->exceptOnIndex();

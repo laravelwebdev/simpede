@@ -17,6 +17,8 @@ class SetPembayaranDigitalPayment extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $name = 'Set Pembayaran Digital';
+
     /**
      * Perform the action on the given models.
      *

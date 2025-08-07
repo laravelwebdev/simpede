@@ -26,7 +26,6 @@ class SetPembayaranDigitalPayment extends Action
     {
         $model = $models->first();
         if ($model) {
-
             if ($fields->tanggal_pembayaran < $model->tanggal_transaksi) {
                 return ActionResponse::danger('Tanggal pembayaran tidak boleh kurang dari tanggal transaksi.');
             }

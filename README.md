@@ -21,7 +21,7 @@ Simpede adalah aplikasi untuk membantu ketatausahaan. Fitur:
 - Reminder: Fitur untuk mengirimkan reminder deadline kegiatan (Aktualisasi Latsar Ilman 'Mimin' Maulana)
 - Pengelolaan SAKIP: fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.
 - Pulsa Kegiatan:Fitur yang disediakan ntuk membuat secara otomatis Tanda terima pulsa dan melakukan rekapitulasi bulanan Penggantian Pulsa yang diterima oleh Mitra
-- Digital Payment: Monitoring Penggunaan CMS dan KKP (Kartu Kredit Pemerintah)
+- Digital Payment: Monitoring Penggunaan ATM dan KKP (Kartu Kredit Pemerintah)
 ## Requirement
 
 Dibuat menggunakan Laravel 12 dan memerlukan ekstensi server berikut:

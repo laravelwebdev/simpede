@@ -4,10 +4,24 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DigitalPayment as ModelsDigitalPayment;
+use App\Nova\Actions\SetPembayaranDigitalPayment;
+use App\Nova\Filters\Keberadaan;
+use App\Nova\Metrics\MetricKeberadaan;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class DigitalPayment extends Resource
 {
@@ -22,7 +36,7 @@ class DigitalPayment extends Resource
 
     public static function label()
     {
-        return 'Penggunaan CMS dan KKP';
+        return 'Penggunaan ATM dan KKP';
     }
 
     /**
@@ -34,7 +48,7 @@ class DigitalPayment extends Resource
 
     public function subtitle()
     {
-        return 'kerangkaAcuan.rincian';
+        return $this->kerangkaAcuan->rincian ?? 'Tidak ada uraian';
     }
 
     /**
@@ -56,6 +70,9 @@ class DigitalPayment extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            BelongsTo::make('Kerangka Acuan', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class)
+                ->sortable()
+                ->onlyOnDetail(),
             Text::make('Uraian', 'kerangkaAcuan.rincian')
                 ->sortable(),
             Select::make('Jenis', 'jenis')
@@ -69,18 +86,15 @@ class DigitalPayment extends Resource
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->filterable()
                 ->sortable(),
+            Numeric::make('Jumlah', 'jumlah')
+                ->rules('required', 'gt:0', 'numeric')
+                ->sortable(),
+            Boolean::make('Sudah Dibayar', fn () => ! is_null($this->tanggal_pembayaran))
+                ->filterable(),
             Text::make('Nomor SP2D/SPBy', 'nomor')
-                ->rules('nullable', 'bail', 'max:50')
-                ->sortable()
-                ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                ->help('Masukkan nomor SP2D untuk pembayaran KKP atau Nomor SPBY untuk CMS'),
+                ->onlyOnDetail(),
             Date::make('Tanggal Pembayaran', 'tanggal_pembayaran')
-                ->rules('nullable', 'bail', 'after_or_equal:tanggal_transaksi')
-                ->sortable()
-                ->readonly(! Policy::make()->allowedFor('ppk')->get())
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
-                ->filterable()
-                ->help('Masukkan tanggal SP2D untuk pembayaran KKP atau tanggal Persetujuan SPBy oleh PPK untuk CMS'),
+                ->onlyOnDetail(),
         ];
     }
 
@@ -91,7 +105,16 @@ class DigitalPayment extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsDigitalPayment::query()->whereYear('tanggal_transaksi', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-digital-payment')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal_transaksi', 'trend-digital-payment')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Pembayaran', $model, 'nomor', 'keberadaan-digital-payment')
+                ->refreshWhenActionsRun(),
+        ];
     }
 
     /**
@@ -101,7 +124,10 @@ class DigitalPayment extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            Keberadaan::make('Pembayaran', 'nomor')
+                ->is_null(),
+        ];
     }
 
     /**
@@ -111,9 +137,7 @@ class DigitalPayment extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [
-            new Lenses\MonitoringDigitalPayment,
-        ];
+        return [];
     }
 
     /**
@@ -123,6 +147,36 @@ class DigitalPayment extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        if (Policy::make()->allowedFor('ppk,ppspm')->get()) {
+            $actions[] =
+           SetPembayaranDigitalPayment::make()
+               ->showInline()
+               ->showOnDetail()
+               ->exceptOnIndex()
+               ->confirmButtonText('Ubah')
+               ->canSee(function ($request) {
+                   if ($request instanceof ActionRequest) {
+                       return true;
+                   }
+
+                   return $this->resource instanceof Model && $this->resource->nomor == null;
+               });
+            $actions[] = Action::using('Batalkan Pembayaran', function (ActionFields $fields, Collection $models) {
+                $models->each->update(['nomor' => null, 'tanggal_pembayaran' => null]);
+            })->showInline()
+                ->showOnDetail()
+                ->exceptOnIndex()
+                ->confirmButtonText('Batalkan')
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->nomor !== null;
+                });
+        }
+
+        return $actions;
     }
 }

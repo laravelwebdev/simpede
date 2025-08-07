@@ -60,7 +60,7 @@ class Main extends Dashboard
                 ->addItem(icon: 'office-building', title: 'Pemeliharaan BMN', content: 'Fitur yang disediakan untuk memonitor pemeliharaan Barang Milik Negara dan mencetak Kartu Kendali Pemeliharaan.')
                 ->addItem(icon: 'truck', title: 'Perjalanan Dinas', content: 'Fitur yang disediakan untuk membuat Surat Tugas dan Surat Perintah Perjalanan Dinas, mencetak kuitansi perjalanan dinas dan Surat Pernyataan Tidak Menggunakan Kendaran Dinas')
                 ->addItem(icon: 'film', title: 'Dokumentasi', content: 'Fitur yang disediakan untuk menyimpan dokumentasi foto-foto kegiatan dan Link Penting.')
-                ->addItem(icon: 'credit-card', title: 'Digital Payment', content: 'Fitur yang disediakan untuk melakukan monitoring penggunaan CMS dan Kartu Kredit Pemerintah (KKP).')
+                ->addItem(icon: 'credit-card', title: 'Digital Payment', content: 'Fitur yang disediakan untuk melakukan monitoring penggunaan ATM dan Kartu Kredit Pemerintah (KKP).')
                 ->addItem(icon: 'library', title: 'Manajemen Rapat', content: 'Fitur yang disediakan untuk membuat Surat Undangan, Daftar Hadir dan Template Notula rapat internal')
                 ->addItem(icon: 'calendar', title: 'Kalender Kegiatan', content: 'Fitur yang menampilkan kalender kegiatan,deadline dan tanggal penting lainnya. Selain itu juga mengirimkan reminder deadline kegiatan melalui Whatsapp (Aktualisasi Latsar Ilman Mimin Maulana)')
                 ->addItem(icon: 'document-chart-bar', title: 'Pengelolaan SAKIP', content: 'Fitur untuk pencatatan realisasi kinerja, kendala dan solusi, rencana dan pelaksanaan tindak lanjut dalam rangka pencapaian target kinerja.'),

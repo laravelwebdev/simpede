@@ -72,7 +72,7 @@ class Helper
     ];
 
     const JENIS_DIGITAL_PAYMENT = [
-        'cms' => 'CMS',
+        'atm' => 'ATM',
         'kkp' => 'KKP',
     ];
 

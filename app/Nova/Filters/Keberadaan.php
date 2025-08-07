@@ -8,12 +8,22 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Keberadaan extends Filter
 {
     protected $judul;
+
     protected $column;
+
+    protected $is_null = false;
 
     public function __construct($judul, $column)
     {
         $this->judul = $judul;
         $this->column = $column;
+    }
+
+    public function is_null()
+    {
+        $this->is_null = true;
+
+        return $this;
     }
 
     public function name()
@@ -31,25 +41,26 @@ class Keberadaan extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where($this->column, $value, 0);
+        return $this->is_null ? $query->where($this->column, $value, null) : $query->where($this->column, $value, 0);
     }
 
     /**
      * Get the filter's available options.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function options(NovaRequest $request)
     {
-        return [
+        return $this->is_null ? [
+            'Ada' => '!=',
+            'Tidak Ada' => '=',
+        ] : [
             'Ada' => '>',
             'Tidak Ada' => '<=',
         ];

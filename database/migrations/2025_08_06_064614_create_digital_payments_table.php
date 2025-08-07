@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_transaksi')->nullable();
             $table->string('jenis', 3)->nullable();
+            $table->mediumInteger('jumlah')->nullable()->unsigned();
             $table->date('tanggal_pembayaran')->nullable();
             $table->string('nomor', 50)->nullable();
             $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();

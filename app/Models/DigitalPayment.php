@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DigitalPayment extends Model
 {
+    protected $fillable = [
+        'tanggal_pembayaran',
+        'nomor',
+    ];
+
     protected function casts(): array
     {
         return [

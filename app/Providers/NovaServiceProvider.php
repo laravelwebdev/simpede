@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DigitalPayment as ModelsDigitalPayment;
 use App\Models\MataAnggaran;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
@@ -125,7 +126,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
-                    MenuItem::resource(DigitalPayment::class),
+                    MenuItem::resource(DigitalPayment::class)
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->count('id') > 0),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),

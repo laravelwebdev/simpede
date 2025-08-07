@@ -74,7 +74,8 @@ class DigitalPayment extends Resource
                 ->sortable()
                 ->onlyOnDetail(),
             Text::make('Uraian', 'kerangkaAcuan.rincian')
-                ->sortable(),
+                ->sortable()
+                ->exceptOnForms(),
             Select::make('Jenis', 'jenis')
                 ->options(Helper::JENIS_DIGITAL_PAYMENT)
                 ->displayUsingLabels()

@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
 
 class PulsaKegiatan extends Model
 {
@@ -36,33 +34,17 @@ class PulsaKegiatan extends Model
         return $this->belongsTo(UnitKerja::class);
     }
 
+    public function kerangkaAcuan(): BelongsTo
+    {
+        return $this->belongsTo(KerangkaAcuan::class);
+    }
+
     /**
      * Get the daftar pulsa mitra.
      */
     public function daftarPulsaMitra(): HasMany
     {
         return $this->hasMany(DaftarPulsaMitra::class);
-    }
-
-    private function replicateDaftarPulsaMitra(): void
-    {
-        Nova::whenServing(function (NovaRequest $request) {
-            $fromResourceId = $request->input('fromResourceId');
-
-            if ($fromResourceId) {
-                $this->copyDaftar($fromResourceId);
-            }
-        });
-    }
-
-    private function copyDaftar($fromResourceId): void
-    {
-        $daftar = DaftarPulsaMitra::where('pulsa_kegiatan_id', $fromResourceId)->get();
-        foreach ($daftar as $item) {
-            $copyItem = $item->replicate(['handphone', 'file']);
-            $copyItem->pulsa_kegiatan_id = $this->id;
-            $copyItem->save();
-        }
     }
 
     protected static function booted(): void
@@ -73,15 +55,14 @@ class PulsaKegiatan extends Model
             $pulsa->token = $token;
             $pulsa->status = 'open';
             $pulsa->link = url(config('nova.path')).'/pulsa/'.$token;
+        });
+        static::updating(function (PulsaKegiatan $pulsa) {
             $dataKetua = Helper::getDataPegawaiByUserId($pulsa->koordinator_user_id, $pulsa->tanggal);
             $pulsa->unit_kerja_id = optional($dataKetua)->unit_kerja_id;
         });
         static::deleting(function (PulsaKegiatan $pulsa) {
             $DaftarPulsaMitraIds = DaftarPulsaMitra::where('pulsa_kegiatan_id', $pulsa->id)->pluck('id');
             DaftarPulsaMitra::destroy($DaftarPulsaMitraIds);
-        });
-        static::created(function (PulsaKegiatan $pulsa) {
-            $pulsa->replicateDaftarPulsaMitra();
         });
     }
 

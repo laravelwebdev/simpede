@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('token', 32)->nullable();
             $table->string('link')->nullable();
             $table->string('status', 20)->nullable();
+            $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
             $table->mediumInteger('unit_kerja_id')->nullable()->unsigned();
             $table->mediumInteger('mata_anggaran_id')->nullable()->unsigned();
             $table->mediumInteger('koordinator_user_id')->nullable()->unsigned();

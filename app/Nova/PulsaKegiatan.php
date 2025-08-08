@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\AnggaranKerangkaAcuan;
 use App\Models\PulsaKegiatan as ModelsPulsaKegiatan;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportDaftarPulsa;
@@ -11,11 +12,13 @@ use App\Nova\Actions\SetStatus;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
@@ -32,7 +35,7 @@ class PulsaKegiatan extends Resource
      */
     public static $model = \App\Models\PulsaKegiatan::class;
 
-    public static $with = ['mataAnggaran', 'jenisPulsa', 'unitKerja', 'daftarPulsaMitra'];
+    public static $with = ['mataAnggaran', 'jenisPulsa', 'unitKerja', 'daftarPulsaMitra', 'kerangkaAcuan'];
 
     public static function label()
     {
@@ -80,7 +83,11 @@ class PulsaKegiatan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Hidden::make('Kerangka Acuan ID', 'kerangka_acuan_id'),
             Panel::make('Keterangan SPJ', [
+                BelongsTo::make('Kerangka Acuan', 'kerangkaAcuan', \App\Nova\KerangkaAcuan::class)
+                    ->sortable()
+                    ->onlyOnDetail(),
                 Text::make('Nama Kegiatan', 'kegiatan')
                     ->rules('required', 'max:255')
                     ->sortable()
@@ -116,11 +123,19 @@ class PulsaKegiatan extends Resource
                     ->copyable(),
             ]),
             Panel::make('Anggaran', [
-                BelongsTo::make('Item Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
-                    ->hideFromIndex()
-                    ->withSubtitles()
+                BelongsTo::make('Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
                     ->searchable()
-                    ->rules('required'),
+                    ->withSubtitles()
+                    ->hideFromIndex()
+                    ->rules('required')
+                    ->dependsOn('kerangka_acuan_id', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                        $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                            $mataAnggaranIds = AnggaranKerangkaAcuan::where('kerangka_acuan_id', $formData->kerangka_acuan_id)
+                                ->pluck('mata_anggaran_id');
+
+                            return $query->whereIn('id', $mataAnggaranIds);
+                        });
+                    }),
             ]),
             Panel::make('Penanda Tangan', [
                 Select::make('Pembuat Daftar', 'koordinator_user_id')
@@ -237,13 +252,5 @@ class PulsaKegiatan extends Resource
         }
 
         return $actions;
-    }
-
-    public function replicate()
-    {
-        return tap(parent::replicate(), function ($resource) {
-            $model = $resource->model();
-            $model->tanggal = null;
-        });
     }
 }

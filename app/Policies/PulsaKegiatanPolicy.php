@@ -35,9 +35,7 @@ class PulsaKegiatanPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return false;
     }
 
     /**
@@ -69,9 +67,7 @@ class PulsaKegiatanPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota')
-            ->get();
+        return false;
     }
 
     /**

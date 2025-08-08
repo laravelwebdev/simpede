@@ -1009,11 +1009,14 @@ class Cetak
             }
         }
         if ($jenis === 'pulsa') {
-            $honor = PulsaKegiatan::where('id', $model_id)->first();
-            $notConfirmed = DaftarPulsaMitra::where('pulsa_kegiatan_id', $honor->id)
+            $pulsa = PulsaKegiatan::where('id', $model_id)->first();
+            if (is_null($pulsa->tanggal)) {
+                return 'Mohon lengkapi seluruh isian pada daftar pulsa ini sebelum mencetak!';
+            }
+            $notConfirmed = DaftarPulsaMitra::where('pulsa_kegiatan_id', $pulsa->id)
                 ->where('confirmed', false)
                 ->count();
-            $notUploaded = DaftarPulsaMitra::where('pulsa_kegiatan_id', $honor->id)
+            $notUploaded = DaftarPulsaMitra::where('pulsa_kegiatan_id', $pulsa->id)
                 ->whereNull('file')
                 ->count();
             if ($notConfirmed > 0) {

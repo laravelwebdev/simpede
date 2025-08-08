@@ -8,6 +8,7 @@ use App\Models\Dipa;
 use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
 use App\Nova\Actions\AddDigitalPayment;
 use App\Nova\Actions\AddPerjalananDinas;
+use App\Nova\Actions\AddPulsaKegiatan;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Metrics\MetricPartition;
@@ -216,6 +217,11 @@ class KerangkaAcuan extends Resource
                ->exceptOnIndex();
             $actions[] =
            AddDigitalPayment::make()
+               ->onlyInline()
+               ->confirmButtonText('Tambahkan')
+               ->exceptOnIndex();
+            $actions[] =
+           AddPulsaKegiatan::make()
                ->onlyInline()
                ->confirmButtonText('Tambahkan')
                ->exceptOnIndex();

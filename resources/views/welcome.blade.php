@@ -285,8 +285,10 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Pulsa Mitra</a>
-                            <p class="text-slate-400 mt-3">Pembuatan SPJ Pulsa Mitra</p>
-                            <p class="text-slate-400 mt-3">Monitoring Penggantian Pulsa Mitra</p>
+                            <p class="text-slate-400 mt-3">Rekapitulasi Bulanan Penggantian Pulsa Mitra</p>
+                            <p class="text-slate-400 mt-3">Form Konfirmasi Nomor Handphone</p>
+                            <p class="text-slate-400 mt-3">Form upload bukti masuk pulsa</p>
+                            <p class="text-slate-400 mt-3">Cetak Otomatis tanda terima pulsa</p>
                        
                         </div>
                         <div class="absolute bottom-0 -end-16">

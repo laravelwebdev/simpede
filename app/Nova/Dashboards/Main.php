@@ -5,6 +5,7 @@ namespace App\Nova\Dashboards;
 use App\Helpers\Helper;
 use App\Helpers\Inspiring;
 use App\Nova\Metrics\Deadline;
+use App\Nova\Metrics\Rapat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -48,6 +49,10 @@ class Main extends Dashboard
                 ->avatar(url: Storage::disk('images')->url('quotes.svg'))
                 ->width('1/2'),
             Deadline::make()
+                ->emptyText('Tidak ada deadline')
+                ->width('full'),
+            Rapat::make()
+                ->emptyText('Tidak ada rapat')
                 ->width('full'),
 
         ];

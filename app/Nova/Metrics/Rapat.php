@@ -9,9 +9,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
-class Deadline extends Table
+class Rapat extends Table
 {
-    public $name = 'Deadline';
+    public $name = 'Rapat';
 
     /**
      * Calculate the value of the metric.
@@ -21,7 +21,7 @@ class Deadline extends Table
     public function calculate(NovaRequest $request): array
     {
         $rows = [];
-        $deadlines = DaftarKegiatan::where('jenis', 'deadline')
+        $deadlines = DaftarKegiatan::where('jenis', 'rapat')
             ->whereDate('awal', '>=', now()->toDateString())
             ->orderBy('awal', 'asc')
             ->get();

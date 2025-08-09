@@ -96,6 +96,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
                 ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
+                ->prepend(MenuItem::link('Backups', '/backups')
+                    ->canSee(fn () => Policy::make()
+                        ->allowedFor('admin')
+                        ->get())
+                )
                 ->prepend(MenuItem::dashboard(SystemHealth::class)->canSee(fn () => Policy::make()
                     ->allowedFor('admin')
                     ->get())
@@ -313,6 +318,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Updater::make()->canSee(fn () => Policy::make()
                 ->allowedFor('admin')
                 ->get()),
+            new \Spatie\BackupTool\BackupTool,
         ];
     }
 

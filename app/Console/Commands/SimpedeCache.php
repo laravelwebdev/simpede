@@ -9,11 +9,13 @@ use App\Models\HargaSatuan;
 use App\Models\JenisBelanja;
 use App\Models\JenisKontrak;
 use App\Models\JenisNaskah;
+use App\Models\JenisPulsa;
 use App\Models\KamusAnggaran;
 use App\Models\KepkaMitra;
 use App\Models\KodeArsip;
 use App\Models\KodeBank;
 use App\Models\KodeNaskah;
+use App\Models\LimitPulsa;
 use App\Models\MasterBarangPemeliharaan;
 use App\Models\MasterPersediaan;
 use App\Models\MasterWilayah;
@@ -28,6 +30,8 @@ use App\Models\TataNaskah;
 use App\Models\Template;
 use App\Models\UnitKerja;
 use App\Models\User;
+use App\Models\UserEksternal;
+use App\Models\WhatsappGroup;
 use Illuminate\Console\Command;
 
 class SimpedeCache extends Command
@@ -58,24 +62,28 @@ class SimpedeCache extends Command
         JenisBelanja::cache()->updateAll();
         JenisKontrak::cache()->updateAll();
         JenisNaskah::cache()->updateAll();
+        JenisPulsa::cache()->updateAll();
         KamusAnggaran::cache()->updateAll();
         KepkaMitra::cache()->updateAll();
         KodeArsip::cache()->updateAll();
+        KodeBank::cache()->updateAll();
         KodeNaskah::cache()->updateAll();
+        LimitPulsa::cache()->updateAll();
         MasterBarangPemeliharaan::cache()->updateAll();
         MasterPersediaan::cache()->updateAll();
+        MasterWilayah::cache()->updateAll();
         MataAnggaran::cache()->updateAll();
         Mitra::cache()->updateAll();
         NaskahDefault::cache()->updateAll();
         Pengelola::cache()->updateAll();
+        RateTranslok::cache()->updateAll();
+        SkTranslok::cache()->updateAll();
         TargetSerapanAnggaran::cache()->updateAll();
         TataNaskah::cache()->updateAll();
         Template::cache()->updateAll();
         UnitKerja::cache()->updateAll();
         User::cache()->updateAll();
-        KodeBank::cache()->updateAll();
-        MasterWilayah::cache()->updateAll();
-        SkTranslok::cache()->updateAll();
-        RateTranslok::cache()->updateAll();
+        UserEksternal::cache()->updateAll();
+        WhatsappGroup::cache()->updateAll();
     }
 }

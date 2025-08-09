@@ -8,6 +8,10 @@
         {
             "url": "https://github.com/laravelwebdev/admin-simpede.git",
             "type": "git"
+        },
+        {
+            "url": "https://github.com/laravelwebdev/nova-backup-tool.git",
+            "type": "git"
         }
     ],
     "authors": [
@@ -32,11 +36,14 @@
         "laravelwebdev/time": "^1.0",
         "laravelwebdev/updater": "^1.0",
         "laravelwebdev/welcome": "^1.0",
+        "masbug/flysystem-google-drive-ext": "^2.4",
         "mostafaznv/laracache": "^2.4",
         "pekhota/nova-scroll-buttons": "*",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
         "sentry/sentry-laravel": "*",
+        "spatie/laravel-backup": "^9.3",
+        "spatie/nova-backup-tool": "^6.0",
         "sweetalert2/laravel": "^0.1.0"
     },
     "require-dev": {
@@ -103,5 +110,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "version": "2.13.0"
+    "version": "2.14.0"
 }

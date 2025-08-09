@@ -1,11 +1,12 @@
 #!/bin/bash
+sudo apt update -y && sudo apt install -y mariadb-client
 
 echo --- Copy the environment file ...
 cp .env.example .env
 
 echo --- Update .env with desired values ...
 # Define new values
-new_db_connection="DB_CONNECTION=mysql"
+new_db_connection="DB_CONNECTION=mariadb"
 new_db_host="DB_HOST=mariadb"
 new_db_port="DB_PORT=3306"
 new_db_database="DB_DATABASE=simpede"

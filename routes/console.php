@@ -12,13 +12,19 @@ Schedule::command('holidays:sync')->daily()
     ->sentryMonitor();
 if (config('app.auto_update')) {
     Schedule::command('simpede:update')->dailyAt('1:00')
-        ->runInBackground()
         ->withoutOverlapping()
         ->timezone(config('app.schedule_timezone'))
         ->sentryMonitor();
 }
 Schedule::command('db:optimize')->monthlyOn(1, '2:00')
-    ->runInBackground()
+    ->withoutOverlapping()
+    ->timezone(config('app.schedule_timezone'))
+    ->sentryMonitor();
+Schedule::command('backup:clean')->dailyAt('3:00')
+    ->withoutOverlapping()
+    ->timezone(config('app.schedule_timezone'))
+    ->sentryMonitor();
+Schedule::command('backup:run')->dailyAt('5:30')
     ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();

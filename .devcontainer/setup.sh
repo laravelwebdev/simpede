@@ -27,6 +27,6 @@ echo "--- Install dependencies ..."
 composer update --ignore-platform-req=ext-zip
 
 echo "--- Generate the application key ..."
-php artisan key:generate
+php artisan key:generate --ansi
 
 echo "--- SETUP DONE ---"

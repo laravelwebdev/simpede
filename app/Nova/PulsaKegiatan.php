@@ -242,7 +242,7 @@ class PulsaKegiatan extends Resource
 
                 return $this->resource instanceof Model && $this->resource->status !== 'open';
             });
-        if (Policy::make()->allowedFor('ppk,pbj')->get()) {
+        if (Policy::make()->allowedFor('ppk,pbj,ppspm,bendahara')->get()) {
             $actions[] =
             ExportDaftarPulsa::make()
                 ->showInline()

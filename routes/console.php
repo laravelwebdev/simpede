@@ -20,11 +20,11 @@ Schedule::command('db:optimize')->monthlyOn(1, '02:00')
     ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();
-Schedule::command('backup:clean')->dailyAt('17:00')
+Schedule::command('backup:clean')->dailyAt('16:30')
     ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();
-Schedule::command('backup:run')->dailyAt('18:00')
+Schedule::command('backup:run')->dailyAt('17:00')
     ->withoutOverlapping()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();

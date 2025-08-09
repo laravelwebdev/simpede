@@ -54,8 +54,8 @@ class Update extends Command
             $this->call('optimize:clear');
             $this->call('optimize');
             $this->call('simpede:cache');
-            $this->call('storage:link');
             $error ? $this->error('Update Gagal!') : $this->info('Update Sukses! ');
+            $this->call('storage:link');
         }
     }
 }

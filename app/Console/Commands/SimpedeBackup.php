@@ -27,7 +27,7 @@ class SimpedeBackup extends Command
     public function handle()
     {
         $this->call('action-events:clear');
-        $this->call('queue:clear');
+        $this->call('queue:clear', ['--force' => true]);
         $this->call('backup:run');
         $this->call('backup:clean');
         Storage::disk('google')->getAdapter()->emptyTrash([]);

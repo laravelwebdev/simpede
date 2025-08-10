@@ -26,8 +26,10 @@ class Update extends Command
      */
     public function handle()
     {
-        $success = SimpedeUpdater::update($this->option('dev'));
-        $success ? $this->info('Update Sukses') : $this->error('Update Gagal');
+        $messages = SimpedeUpdater::getOutput($this->option('dev'));
+        foreach ($messages as $message) {
+            $this->line($message);
+        }
 
     }
 }

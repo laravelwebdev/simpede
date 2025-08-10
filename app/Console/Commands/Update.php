@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\SimpedeUpdater;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 
 class Update extends Command
 {
@@ -26,39 +26,8 @@ class Update extends Command
      */
     public function handle()
     {
-        $error = false;
-        try {
-            $this->call('maintenance', ['action' => 'start']);
-            $process = new Process(['git', 'pull', 'origin', 'main']);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
-            }
+        $success = SimpedeUpdater::update($this->option('dev'));
+        $success ? $this->info('Update Sukses') : $this->error('Update Gagal');
 
-            $composer = config('app.composer');
-            $home = config('app.composer_home');
-            $devFlag = $this->option('dev') ? '' : '--no-dev';
-            $process = Process::fromShellCommandline("$composer update $devFlag", base_path(), ['COMPOSER_HOME' => $home]);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
-            }
-
-            $process = Process::fromShellCommandline("$composer clear-cache", base_path(), ['COMPOSER_HOME' => $home]);
-            $process->run();
-            if (! $process->isSuccessful()) {
-                $error = true;
-            }
-        } finally {
-            $this->call('maintenance', ['action' => 'stop']);
-            $this->call('optimize:clear');
-            $this->call('optimize');
-            $this->call('simpede:cache');
-            if (! is_link(public_path('storage'))) {
-                $this->call('storage:link');
-            }
-            $error ? $this->error('Update Gagal!') : $this->info('Update Sukses! ');
-
-        }
     }
 }

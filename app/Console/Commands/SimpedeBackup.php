@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class SimpedeBackup extends Command
 {
@@ -29,5 +30,6 @@ class SimpedeBackup extends Command
         $this->call('queue:clear');
         $this->call('backup:run');
         $this->call('backup:clean');
+        Storage::disk('google')->getAdapter()->emptyTrash([]);
     }
 }

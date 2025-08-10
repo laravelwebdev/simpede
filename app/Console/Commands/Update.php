@@ -30,6 +30,5 @@ class Update extends Command
         foreach ($messages as $message) {
             $this->line($message);
         }
-
     }
 }

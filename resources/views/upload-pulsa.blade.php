@@ -13,7 +13,7 @@
         @if($uploaded && $edit !== 'edit')
             <div class="form-group">
                 <p class="form-tips">
-                    SUDAH PERNAH UPLOAD                    
+                    TELAH MELAKUKAN UPLOAD BUKTI PENERIMAAN PULSA                    
                 </p>
             </div>
         @endif
@@ -112,11 +112,9 @@
             </div>
             @endforeach
             @endif
-        @if($uploaded && $edit !== 'edit')
             <div class="form-group">
                 <button type="button" class="back-btn" onclick="window.location='{{ route('pulsa-actions', ['token' => $token]) }}'">KEMBALI</button>
             </div>
-        @endif
            <!-- Submit Button -->
             <button type="submit" class="submit-btn"
                 >       

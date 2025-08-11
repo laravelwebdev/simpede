@@ -14,7 +14,7 @@
         @if($confirmed && $edit !== 'edit')
             <div class="form-group">
                 <p class="form-tips">
-                    SUDAH PERNAH KONFIRMASI                    
+                    TELAH MELAKUKAN KONFIRMASI                    
                 </p>
             </div>
         @endif
@@ -99,11 +99,9 @@
             </div>
             @endforeach
             @endif
-        @if($confirmed && $edit !== 'edit')
             <div class="form-group">
                 <button type="button" class="back-btn" onclick="window.location='{{ route('pulsa-actions', ['token' => $token]) }}'">KEMBALI</button>
             </div>
-        @endif
             <!-- Submit Button -->
             <button type="submit" class="submit-btn">
                 @if($confirmed && $edit !== 'edit')

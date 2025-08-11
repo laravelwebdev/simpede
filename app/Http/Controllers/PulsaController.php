@@ -161,7 +161,7 @@ class PulsaController extends Controller
             ]);
         }
 
-        return redirect()->route('pulsa-actions', ['token' => $token]);
+        return redirect()->route('pulsa-confirm', ['token' => $token]);
     }
 
     public function upload(Request $request)
@@ -246,6 +246,6 @@ class PulsaController extends Controller
             ]);
         }
 
-        return redirect()->route('pulsa-actions', ['token' => request()->route('token')]);
+        return redirect()->route('pulsa-upload', ['token' => request()->route('token')]);
     }
 }

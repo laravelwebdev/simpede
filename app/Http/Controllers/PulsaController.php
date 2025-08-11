@@ -15,8 +15,10 @@ class PulsaController extends Controller
     {
         $judul = PulsaKegiatan::getJudulByToken(request()->route('token'));
         $token = request()->route('token');
+        $version = Helper::version();
+        $satker = 'BPS '.config('satker.kabupaten');
 
-        return view('index-pulsa', compact('judul', 'token'));
+        return view('index-pulsa', compact('judul', 'token', 'version', 'satker'));
     }
 
     public function verifikasi(Request $request)
@@ -61,8 +63,10 @@ class PulsaController extends Controller
         $token = request()->route('token');
         $nik = $mitra->nik;
         $nama = $mitra->nama;
+        $version = Helper::version();
+        $satker = 'BPS '.config('satker.kabupaten');
 
-        return view('actions-choice-pulsa', compact('judul', 'token', 'nik', 'nama'));
+        return view('actions-choice-pulsa', compact('judul', 'token', 'nik', 'nama', 'version', 'satker'));
     }
 
     public function choice(Request $request)
@@ -103,8 +107,10 @@ class PulsaController extends Controller
         $nik = $mitra->nik;
         $nama = $mitra->nama;
         $handphone = $mitra->no_pulsa;
+        $version = Helper::version();
+        $satker = 'BPS '.config('satker.kabupaten');
 
-        return view('konfirmasi-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone'));
+        return view('konfirmasi-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'version', 'satker'));
     }
 
     public function submitConfirm(Request $request)
@@ -169,8 +175,10 @@ class PulsaController extends Controller
             ->where('mitra_id', session('mitraId'))
             ->whereNotNull('file')
             ->exists();
+        $version = Helper::version();
+        $satker = 'BPS '.config('satker.kabupaten');
 
-        return view('upload-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'nominal', 'uploaded'));
+        return view('upload-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'nominal', 'uploaded', 'version', 'satker'));
     }
 
     public function submitUpload(Request $request)

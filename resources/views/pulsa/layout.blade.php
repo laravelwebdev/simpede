@@ -177,6 +177,28 @@
         outline: none;
         box-shadow: 0 0 0 3px rgba(8, 136, 36, 0.5); /* focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 */
     }
+            .footer {
+            position: static;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #f3f4f6;
+            text-align: center;
+            font-size: 0.85rem;
+            padding: 0.5rem 0;
+            color: #4b5563;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+            z-index: 100;
+        }
+        .footer-link {
+            color: #0bb430ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+            color: #087824;
+        }
 
     /* Mobile Responsive Styles */
     @media (max-width: 640px) {
@@ -189,6 +211,10 @@
         .form-title {
             font-size: 1.5rem;
         }
+        .footer {
+            font-size: 0.75rem;
+            padding: 0.4rem 0;
+        }
     }
 </style>
     <title>Penggantian Pulsa</title>
@@ -200,6 +226,24 @@
       @yield('form')
     </div>
 </div>
+    <footer class="footer">
+        <div>
+            <div>
+                Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik &middot; v.{{ $version }}
+            </div>
+            <div>
+                Copyright &copy; 2021 -
+                <span id="copyright">
+                    <script>
+                        document.getElementById("copyright").appendChild(document.createTextNode(new Date().getFullYear()));
+                    </script>
+                </span>
+                <a href="{{ config('satker.website') }}" target="_blank" class="footer-link">
+                    {{ $satker }}
+                </a>
+            </div>
+        </div>
+    </footer>
 @include('sweetalert2::index')
   </body>
 </html>

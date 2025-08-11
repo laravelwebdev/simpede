@@ -240,7 +240,7 @@ class PulsaController extends Controller
         }
         // Store new file with new extension
         $attachment = $request->file('attachment')->storeAs(
-            date('Y'),
+            date('Y').'/'.session('pulsaKegiatanId'),
             session('pulsaKegiatanId').'-'.session('mitraId').'.'.$request->file('attachment')->getClientOriginalExtension(),
             'pulsa'
         );

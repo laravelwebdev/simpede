@@ -30,14 +30,15 @@ class Update extends Command
         $status = null;
         foreach ($messages as $key => $message) {
             if ($key === 'status') {
-            $status = $message;
-            continue;
+                $status = $message;
+
+                continue;
             }
             if ($message !== null && $message !== '' && $key !== 'status') {
-            $this->line($message);
+                $this->line($message);
             }
         }
-    $status ? $this->info('UPDATE SUKSES.') : 
-              $this->error('UPDATE GAGAL.');
+        $status ? $this->info('UPDATE SUKSES.') :
+                  $this->error('UPDATE GAGAL.');
     }
 }

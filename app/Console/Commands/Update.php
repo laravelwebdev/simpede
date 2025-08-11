@@ -27,8 +27,17 @@ class Update extends Command
     public function handle()
     {
         $messages = SimpedeUpdater::getOutput($this->option('dev'));
-        foreach ($messages as $message) {
+        $status = null;
+        foreach ($messages as $key => $message) {
+            if ($key === 'status') {
+            $status = $message;
+            continue;
+            }
+            if ($message !== null && $message !== '' && $key !== 'status') {
             $this->line($message);
+            }
         }
+    $status ? $this->info('UPDATE SUKSES.') : 
+              $this->error('UPDATE GAGAL.');
     }
 }

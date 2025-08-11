@@ -178,7 +178,7 @@
         box-shadow: 0 0 0 3px rgba(8, 136, 36, 0.5); /* focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 */
     }
             .footer {
-            position: static;
+            position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;

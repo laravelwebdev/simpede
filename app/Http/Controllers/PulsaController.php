@@ -7,8 +7,8 @@ use App\Models\DaftarPulsaMitra;
 use App\Models\Mitra;
 use App\Models\PulsaKegiatan;
 use Illuminate\Http\Request;
-use SweetAlert2\Laravel\Swal;
 use Illuminate\Support\Facades\Storage;
+use SweetAlert2\Laravel\Swal;
 
 class PulsaController extends Controller
 {
@@ -131,10 +131,10 @@ class PulsaController extends Controller
             abort(404);
         }
 
-        if ($request->input('edit') === 'edit'){
+        if ($request->input('edit') === 'edit') {
             return redirect()->route('pulsa-confirm', [
                 'token' => request()->route('token'),
-                'edit' => $request->input('edit')
+                'edit' => $request->input('edit'),
             ]);
         }
         $request->validate([
@@ -186,7 +186,7 @@ class PulsaController extends Controller
             ->where('mitra_id', session('mitraId'))
             ->whereNotNull('file')
             ->first();
-        $uploaded = !is_null($daftar);
+        $uploaded = ! is_null($daftar);
         $path = $uploaded ? $daftar->file : null;
         $version = Helper::version();
         $satker = 'BPS '.config('satker.kabupaten');
@@ -207,14 +207,29 @@ class PulsaController extends Controller
         if (! $mitra || ! $matchKegiatan || ! $matchMitra) {
             abort(404);
         }
-        if ($request->input('edit') === 'edit'){
+        if ($request->input('edit') === 'edit') {
             return redirect()->route('pulsa-upload', [
                 'token' => request()->route('token'),
-                'edit' => $request->input('edit')
+                'edit' => $request->input('edit'),
             ]);
         }
+
         $request->validate([
-            'attachment' => 'required|image|max:10240',
+            'attachment' => [
+                'required',
+                'image',
+                'max:10240',
+                function ($attribute, $value, $fail) use ($request) {
+                    $image = $request->file('attachment');
+                    if ($image) {
+                        [$width, $height] = getimagesize($image->getPathname());
+                        $ratio = $height / $width;
+                        if ($ratio >= 1.7) {
+                            $fail('Sepertinya Anda mengirim full screenshot layar. Silakan crop dulu sesuai petunjuk di bawah ini');
+                        }
+                    }
+                },
+            ],
         ]);
         // Remove previous file if exists
         $existing = DaftarPulsaMitra::where('pulsa_kegiatan_id', session('pulsaKegiatanId'))

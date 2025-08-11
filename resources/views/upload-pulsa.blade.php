@@ -69,27 +69,10 @@
                  <img class="form-image" src="{{ Storage::disk('pulsa')->url($path) }}" alt="Contoh Bukti Pulsa" class="example-image" />
                 <input type="hidden" name="edit" value="edit" />
             @else
-            <div class="form-group">
-                <p class="form-tips">
-                   Contoh yang BENAR: <br/> Foto berfokus pada isi chat/SMS yang menunjukkan nominal yang jelas terlihat.                    
-                </p>
-                <img class="form-image" src="{{ asset('images/benar.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
-            </div>
-            <div class="form-group">
-                <p class="form-tips">
-                   Contoh yang BENAR: <br/> Jika lebih dari 1 SMS/Chat, gabung/buat collage terlebih dahulu. <br/> Untuk membuat beberapa foto menjadi satu, Anda bisa lakukan melalui link berikut: <a href="https://www.photocollage.com/" target="_blank">Photo Collage</a>.                    
-                </p>
-                <img class="form-image" src="{{ asset('images/collage.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
-            </div>
-                <div class="form-group">
-                <p class="form-warning">
-                   Contoh yang SALAH: <br/> Screen capture layar penuh tidak berfokus pada isi chat/SMS pulsa masuk.                   
-                </p>
-                <img class="form-image" src="{{ asset('images/salah.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
-            </div>
+   
             <div class="form-group">
                 <label for="attachment" class="form-label"
-                    >Upload Gambar Bukti Pulsa masuk sesuai petunjuk.</label
+                    >Bukti Pulsa Masuk</label
                 >
                 <input
                     type="file"
@@ -123,6 +106,30 @@
                 @else
                 KIRIM
                 @endif
-                </button
+        </button>
+                <div class="form-group">
+                <p class="form-description">
+                   BACA DULU PETUNJUK UPLOAD SEBELUM KIRIM!!!.                    
+                </p>
+              
+            </div>
+                 <div class="form-group">
+                <p class="form-tips">
+                   Contoh yang BENAR: <br/> Foto berfokus pada isi chat/SMS yang menunjukkan nominal yang jelas terlihat.                    
+                </p>
+                <img class="form-image" src="{{ asset('images/benar.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
+            </div>
+            <div class="form-group">
+                <p class="form-tips">
+                   Contoh yang BENAR: <br/> Jika lebih dari 1 SMS/Chat, gabung/buat collage terlebih dahulu. <br/> Untuk membuat beberapa foto menjadi satu, Anda bisa lakukan melalui link berikut: <a href="https://www.photocollage.com/" target="_blank">Photo Collage</a>.                    
+                </p>
+                <img class="form-image" src="{{ asset('images/collage.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
+            </div>
+                <div class="form-group">
+                <p class="form-warning">
+                   Contoh yang SALAH: <br/> Screen capture layar penuh tidak berfokus pada isi chat/SMS pulsa masuk.                   
+                </p>
+                <img class="form-image" src="{{ asset('images/salah.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
+            </div>
         </form>
 @endsection

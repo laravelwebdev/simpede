@@ -10,6 +10,14 @@
                 <h2 class="form-title">Penggantian Pulsa {{ $judul }}</h2>
 
             </div>
+            
+        @if($confirmed && $edit !== 'edit')
+            <div class="form-group">
+                <p class="form-tips">
+                    SUDAH PERNAH KONFIRMASI                    
+                </p>
+            </div>
+        @endif
 
             <!-- Employee / Requester Information -->
                 <div class="form-group">
@@ -36,6 +44,20 @@
                     value="{{ $nama }}"
                 />
             </div>
+        @if($confirmed && $edit !== 'edit')
+            <div class="form-group">
+                <label for="handphone" class="form-label">Nomor Handphone*</label>
+                <input
+                    type="text"
+                    name="handphone"
+                    id="handphone"
+                    class="form-input"
+                    readonly
+                    value="{{ $handphone }}"
+                />
+                <input type="hidden" name="edit" value="edit" />
+            </div>
+            @else
             <div class="form-group">
                 <p class="form-description">
                     Isikan Nomor Handphone yang ingin diisikan pulsa. Perbaiki isian ini jika belum sesuai.
@@ -67,6 +89,7 @@
                     required
                 />
             </div>
+        @endif
             @if ($errors->any())
             @foreach ($errors->all() as $error)
             <div class="form-group">
@@ -76,10 +99,20 @@
             </div>
             @endforeach
             @endif
-
+        @if($confirmed && $edit !== 'edit')
+            <div class="form-group">
+                <button type="button" class="back-btn" onclick="window.location='{{ route('pulsa-actions', ['token' => $token]) }}'">KEMBALI</button>
+            </div>
+        @endif
             <!-- Submit Button -->
-            <button type="submit" class="submit-btn"
-                >Kirim</button
+            <button type="submit" class="submit-btn">
+                @if($confirmed && $edit !== 'edit')
+                UBAH
+                @else
+                KIRIM
+                @endif
+
+                </button
             >
         </form>
 @endsection

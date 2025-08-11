@@ -8,6 +8,7 @@ use App\Models\Mitra;
 use App\Models\PulsaKegiatan;
 use Illuminate\Http\Request;
 use SweetAlert2\Laravel\Swal;
+use Illuminate\Support\Facades\Storage;
 
 class PulsaController extends Controller
 {
@@ -43,7 +44,7 @@ class PulsaController extends Controller
 
             return redirect()->route('pulsa-actions', ['token' => $token]);
         } else {
-            return redirect()->back()->withErrors(['NIK tidak terdaftar atau sudah diverifikasi.']);
+            return redirect()->back()->withErrors(['NIK tidak terdaftar.']);
         }
     }
 
@@ -96,9 +97,10 @@ class PulsaController extends Controller
         $matchKegiatan = PulsaKegiatan::where('id', session('pulsaKegiatanId'))
             ->where('token', request()->route('token'))
             ->exists();
-        $matchMitra = DaftarPulsaMitra::where('mitra_id', session('mitraId'))
+        $daftarMitra = DaftarPulsaMitra::where('mitra_id', session('mitraId'))
             ->where('pulsa_kegiatan_id', session('pulsaKegiatanId'))
-            ->exists();
+            ->first();
+        $matchMitra = ! is_null($daftarMitra);
         if (! $mitra || ! $matchKegiatan || ! $matchMitra) {
             abort(404);
         }
@@ -109,8 +111,11 @@ class PulsaController extends Controller
         $handphone = $mitra->no_pulsa;
         $version = Helper::version();
         $satker = 'BPS '.config('satker.kabupaten');
+        $confirmed = optional($daftarMitra)->confirmed;
+        $no_confirmed = optional($daftarMitra)->handphone;
+        $edit = $request->input('edit');
 
-        return view('konfirmasi-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'version', 'satker'));
+        return view('konfirmasi-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'version', 'satker', 'confirmed', 'no_confirmed', 'edit'));
     }
 
     public function submitConfirm(Request $request)
@@ -125,11 +130,17 @@ class PulsaController extends Controller
         if (! $mitra || ! $matchKegiatan || ! $matchMitra) {
             abort(404);
         }
+
+        if ($request->input('edit') === 'edit'){
+            return redirect()->route('pulsa-confirm', [
+                'token' => request()->route('token'),
+                'edit' => $request->input('edit')
+            ]);
+        }
         $request->validate([
             'handphone' => 'required|regex:/^\+?[0-9]{10,15}$/',
             'confirm' => 'required|same:handphone',
         ]);
-
         $token = request()->route('token');
         $handphone = $request->input('handphone');
         $mitraModel = Mitra::find(session('mitraId'));
@@ -171,14 +182,17 @@ class PulsaController extends Controller
         $nama = $mitra->nama;
         $handphone = $mitra->no_pulsa;
         $nominal = DaftarPulsaMitra::getNominalByMitraIdAndKegiatanId(session('mitraId'), session('pulsaKegiatanId'));
-        $uploaded = DaftarPulsaMitra::where('pulsa_kegiatan_id', session('pulsaKegiatanId'))
+        $daftar = DaftarPulsaMitra::where('pulsa_kegiatan_id', session('pulsaKegiatanId'))
             ->where('mitra_id', session('mitraId'))
             ->whereNotNull('file')
-            ->exists();
+            ->first();
+        $uploaded = !is_null($daftar);
+        $path = $uploaded ? $daftar->file : null;
         $version = Helper::version();
         $satker = 'BPS '.config('satker.kabupaten');
+        $edit = $request->input('edit');
 
-        return view('upload-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'nominal', 'uploaded', 'version', 'satker'));
+        return view('upload-pulsa', compact('judul', 'token', 'nik', 'nama', 'handphone', 'nominal', 'uploaded', 'version', 'satker', 'edit', 'path'));
     }
 
     public function submitUpload(Request $request)
@@ -193,9 +207,23 @@ class PulsaController extends Controller
         if (! $mitra || ! $matchKegiatan || ! $matchMitra) {
             abort(404);
         }
+        if ($request->input('edit') === 'edit'){
+            return redirect()->route('pulsa-upload', [
+                'token' => request()->route('token'),
+                'edit' => $request->input('edit')
+            ]);
+        }
         $request->validate([
             'attachment' => 'required|image|max:10240',
         ]);
+        // Remove previous file if exists
+        $existing = DaftarPulsaMitra::where('pulsa_kegiatan_id', session('pulsaKegiatanId'))
+            ->where('mitra_id', session('mitraId'))
+            ->value('file');
+        if ($existing) {
+            Storage::disk('pulsa')->delete($existing);
+        }
+        // Store new file with new extension
         $attachment = $request->file('attachment')->storeAs(
             date('Y'),
             session('pulsaKegiatanId').'-'.session('mitraId').'.'.$request->file('attachment')->getClientOriginalExtension(),

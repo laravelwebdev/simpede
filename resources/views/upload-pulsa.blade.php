@@ -10,16 +10,10 @@
             <h2 class="form-title">Penggantian Pulsa {{ $judul }}</h2>
         </div>
 
-        @if($uploaded)
+        @if($uploaded && $edit !== 'edit')
             <div class="form-group">
                 <p class="form-tips">
                     SUDAH PERNAH UPLOAD                    
-                </p>
-            </div>
-        @else
-            <div class="form-group">
-                <p class="form-description">
-                    BELUM PERNAH UPLOAD.
                 </p>
             </div>
         @endif
@@ -59,7 +53,7 @@
                     value="{{ $handphone }}"
                 />
             </div>
-                        <div class="form-group">
+            <div class="form-group">
                 <label for="nominal" class="form-label">Nominal*</label>
                 <input
                     type="text"
@@ -71,7 +65,11 @@
                     value="{{ $nominal }}"
                 />
             </div>
-                <div class="form-group">
+            @if($uploaded && $edit !== 'edit')
+                 <img class="form-image" src="{{ Storage::disk('pulsa')->url($path) }}" alt="Contoh Bukti Pulsa" class="example-image" />
+                <input type="hidden" name="edit" value="edit" />
+            @else
+            <div class="form-group">
                 <p class="form-tips">
                    Contoh yang BENAR: <br/> Foto berfokus pada isi chat/SMS yang menunjukkan nominal yang jelas terlihat.                    
                 </p>
@@ -84,7 +82,7 @@
                 <img class="form-image" src="{{ asset('images/collage.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
             </div>
                 <div class="form-group">
-                <p class="form-description">
+                <p class="form-warning">
                    Contoh yang SALAH: <br/> Screen capture layar penuh tidak berfokus pada isi chat/SMS pulsa masuk.                   
                 </p>
                 <img class="form-image" src="{{ asset('images/salah.png') }}" alt="Contoh Bukti Pulsa" class="example-image" />
@@ -102,6 +100,9 @@
                     required
                 />
             </div>
+            @endif
+
+ 
             @if ($errors->any())
             @foreach ($errors->all() as $error)
             <div class="form-group">
@@ -111,9 +112,19 @@
             </div>
             @endforeach
             @endif
+        @if($uploaded && $edit !== 'edit')
+            <div class="form-group">
+                <button type="button" class="back-btn" onclick="window.location='{{ route('pulsa-actions', ['token' => $token]) }}'">KEMBALI</button>
+            </div>
+        @endif
            <!-- Submit Button -->
             <button type="submit" class="submit-btn"
-                >Upload</button
-            >
+                >       
+                @if($uploaded && $edit !== 'edit')
+                UBAH
+                @else
+                KIRIM
+                @endif
+                </button
         </form>
 @endsection

@@ -56,6 +56,14 @@
     }
 
     .form-description {
+        background-color: #59c4eeff; /* bg-red-50 */
+        padding: 10px;
+        background-clip: padding-box;
+        border: dotted darkblue;
+        font-size: 15px;
+    }
+
+    .form-warning {
         background-color: #f0c8c8ff; /* bg-red-50 */
         padding: 10px;
         background-clip: padding-box;
@@ -63,7 +71,8 @@
         font-size: 15px;
     }
 
-        .form-tips {
+
+    .form-tips {
         background-color: #8df4a3ff; /* bg-red-50 */
         padding: 10px;
         background-clip: padding-box;
@@ -169,6 +178,19 @@
         transition: background-color 0.3s, box-shadow 0.3s;
     }
 
+    .back-btn {
+        width: 100%;
+        border-radius: 0.375rem; /* rounded-md */
+        background-color: #d1351aff; /* bg-indigo-600 */
+        padding: 0.75rem 1.5rem; /* px-6 py-3 */
+        font-weight: 500; /* font-medium */
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        text-decoration:none;
+    }
+
     .submit-btn:hover {
         background-color: rgba(8, 136, 36, 0.5); /* hover:bg-indigo-700 */
     }
@@ -176,6 +198,14 @@
     .submit-btn:focus {
         outline: none;
         box-shadow: 0 0 0 3px rgba(8, 136, 36, 0.5); /* focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 */
+    }
+    .back-btn:hover {
+        background-color: rgba(209, 53, 26, 0.5); /* hover:bg-indigo-700 */
+    }
+
+    .back-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(209, 53, 26, 0.5); /* focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 */
     }
         .footer {
             position: sticky;

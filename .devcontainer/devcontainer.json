@@ -22,25 +22,5 @@
         "8080": {
             "label": "PHPMyAdmin"
         }
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "atommaterial.a-file-icon-vscode",
-                "GitHub.copilot",
-                "GitHub.copilot-chat",
-                "oderwat.indent-rainbow",
-                "laravel.vscode-laravel",
-                "open-southeners.laravel-pint",
-                "shd101wyy.markdown-preview-enhanced",
-                "unifiedjs.vscode-mdx",
-                "mintlify.mintlify-snippets",
-                "Cardinal90.multi-cursor-case-preserve",
-                "bmewburn.vscode-intelephense-client",
-                "fabiospampinato.vscode-todo-plus",
-                "AntiAntiSepticeye.vscode-color-picker",
-                "MehediDracula.php-namespace-resolver"
-            ]
-        }
     }
 }

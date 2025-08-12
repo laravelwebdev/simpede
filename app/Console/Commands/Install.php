@@ -37,6 +37,8 @@ class Install extends Command
             return;
         }
         $this->info('Memulai proses installasi');
+        $this->info('Setting Applications key');
+        $this->call('key:generate', ['--ansi' => true]);
         $this->call('migrate:fresh');
         $this->info('Membuat User Admin. Silakan Masukkan data Admin Sementara');
         $this->call('nova:user');

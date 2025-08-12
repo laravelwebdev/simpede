@@ -24,9 +24,6 @@ sed -i "s/^DB_USERNAME=.*/${new_db_username}/" .env
 sed -i "s/^DB_PASSWORD=.*/${new_db_password}/" .env
 
 echo "--- Install dependencies ..."
-composer update --ignore-platform-req=ext-zip
-
-echo "--- Generate the application key ..."
-php artisan key:generate --ansi
+composer update
 
 echo "--- SETUP DONE ---"

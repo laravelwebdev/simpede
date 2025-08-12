@@ -29,12 +29,12 @@ class Update extends Command
         $messages = SimpedeUpdater::getOutput($this->option('dev'));
         $status = null;
         foreach ($messages as $key => $message) {
-            if ($key === 'status') {
-                $status = $message;
+            if ($key === 'success') {
+                $success = $message;
 
                 continue;
             }
-            if ($message !== null && $message !== '' && $key !== 'status') {
+            if ($message !== null && $message !== '' && $key !== 'success') {
                 $this->line($message);
             }
         }

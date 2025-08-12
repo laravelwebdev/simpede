@@ -26,11 +26,12 @@ class Update extends Command
      */
     public function handle()
     {
+        $this->info('Melakukan Pembaharuan Alikasi... Silakan Tunggu');
         $messages = SimpedeUpdater::getOutput($this->option('dev'));
         $status = null;
         foreach ($messages as $key => $message) {
             if ($key === 'success') {
-                $success = $message;
+                $status = $message;
 
                 continue;
             }

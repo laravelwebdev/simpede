@@ -136,28 +136,33 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Kontrak Mitra', [
                     MenuItem::resource(KontrakMitra::class),
                     MenuItem::resource(BastMitra::class),
-                ])->icon('clipboard-document-check'),
+                ])->collapsable()
+                    ->icon('clipboard-document-check'),
                 MenuSection::make('Naskah Dinas', [
                     MenuItem::resource(NaskahMasuk::class),
                     MenuItem::resource(NaskahKeluar::class),
-                ])->icon('envelope'),
+                ])->collapsable()
+                    ->icon('envelope'),
                 MenuSection::make('Persediaan', [
                     MenuItem::resource(PembelianPersediaan::class),
                     MenuItem::resource(PersediaanMasuk::class),
                     MenuItem::resource(PermintaanPersediaan::class),
                     MenuItem::resource(PersediaanKeluar::class),
-                ])->icon('archive-box'),
+                ])->collapsable()
+                    ->icon('archive-box'),
 
                 MenuSection::make('Dokumentasi', [
                     MenuItem::resource(DokumentasiKegiatan::class),
                     MenuItem::resource(DokumentasiLink::class),
                 ])
+                    ->collapsable()
                     ->icon('database'),
 
                 MenuSection::make('Kepegawaian', [
                     MenuItem::resource(User::class),
                     MenuItem::resource(RewardPegawai::class),
                 ])
+                    ->collapsable()
                     ->icon('user-group'),
 
                 MenuSection::make('SAKIP', [
@@ -165,6 +170,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(AnalisisSakip::class),
                     MenuItem::resource(TindakLanjut::class),
                 ])
+                    ->collapsable()
                     ->icon('document-chart-bar'),
 
                 MenuSection::make('Kalender', [
@@ -172,6 +178,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(DaftarKegiatan::class),
                     MenuItem::resource(DaftarReminder::class),
                 ])
+                    ->collapsable()
                     ->icon('calendar'),
                 MenuSection::make('Anggaran', [
                     MenuItem::resource(DaftarSp2d::class),
@@ -179,6 +186,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
                         ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->count('id') > 0),
                 ])
+                    ->collapsable()
                     ->icon('currency-dollar'),
                 MenuSection::make('Referensi', [
                     MenuItem::resource(HargaSatuan::class),
@@ -191,11 +199,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(TataNaskah::class),
                     // MenuItem::resource(UserEksternal::class),
                 ])
+                    ->collapsable()
                     ->icon('book-open'),
 
                 MenuSection::make('Share', [
                     MenuItem::resource(ShareLink::class),
                 ])
+                    ->collapsable()
                     ->icon('share'),
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),
@@ -203,6 +213,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Template::class),
                     MenuItem::resource(UnitKerja::class),
                 ])
+                    ->collapsable()
                     ->icon('lock-open'),
 
             ];

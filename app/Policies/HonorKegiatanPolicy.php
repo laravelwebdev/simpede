@@ -46,7 +46,10 @@ class HonorKegiatanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($honor->tahun)
-            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $honor->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 
@@ -58,7 +61,10 @@ class HonorKegiatanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($honor->tahun)
-            ->andEqual($honor->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $honor->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 

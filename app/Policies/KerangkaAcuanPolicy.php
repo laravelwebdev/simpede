@@ -49,7 +49,10 @@ class KerangkaAcuanPolicy
             return Policy::make()
                 ->allowedFor('koordinator,anggota')
                 ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
-                ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+                ->andEqual(
+                    $kerangkaAcuan->unit_kerja_id,
+                    optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+                )
                 ->get();
         }
 
@@ -67,7 +70,10 @@ class KerangkaAcuanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
-            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $kerangkaAcuan->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 
@@ -79,7 +85,10 @@ class KerangkaAcuanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
-            ->andEqual($kerangkaAcuan->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $kerangkaAcuan->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 

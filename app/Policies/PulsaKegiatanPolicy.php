@@ -46,7 +46,10 @@ class PulsaKegiatanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($pulsa->tahun)
-            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $pulsa->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 
@@ -58,7 +61,10 @@ class PulsaKegiatanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($pulsa->tahun)
-            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $pulsa->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 
@@ -82,7 +88,10 @@ class PulsaKegiatanPolicy
         return Policy::make()
             ->allowedFor('koordinator,anggota')
             ->withYear($pulsa->tahun)
-            ->andEqual($pulsa->unit_kerja_id, Helper::getDataPegawaiByUserId($user->id, now())->unit_kerja_id)
+            ->andEqual(
+                $pulsa->unit_kerja_id,
+                optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
+            )
             ->get();
     }
 }

@@ -69,7 +69,7 @@ class PulsaKegiatan extends Resource
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,pbj')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            return $query->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+            return $query->where('unit_kerja_id', optional(Helper::getDataPegawaiByUserId($request->user()->id, now()))->unit_kerja_id);
         }
 
         return $query;
@@ -176,7 +176,7 @@ class PulsaKegiatan extends Resource
         if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
             $model = $model;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
-            $model = $model->where('unit_kerja_id', Helper::getDataPegawaiByUserId($request->user()->id, now())->unit_kerja_id);
+            $model = $model->where('unit_kerja_id', optional(Helper::getDataPegawaiByUserId($request->user()->id, now()))->unit_kerja_id);
         }
 
         return [

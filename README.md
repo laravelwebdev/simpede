@@ -136,5 +136,10 @@ php artisan schedule:run >> /dev/null 2>&1
     php artisan maintenance stop
     ```
 
-
+## Restore Backup
+Isi dari file backup adalah dump sql database dan file di dalam folder storage/app/public
+Restore dilakukan manual. Setelah selesai jalankan command:
+```bash
+    php artisan simpede:cache
+```
 

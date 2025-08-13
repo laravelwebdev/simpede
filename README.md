@@ -47,6 +47,13 @@ Akun Fonnte
 Akun Sentry
 - Buat akun di website [sentry.io](https://sentry.io/)
 
+Sediakan 1 akun Google Drive Baru untuk Backup Aplikasi dan buat folder Simpede
+
+Buat Google Drive API
+- [Getting your Client ID and Secret](https://github.com/laravelwebdev/laravel-google-drive-demo/blob/master/README/1-getting-your-dlient-id-and-secret.md)
+- [Getting your Refresh Token](https://github.com/laravelwebdev/laravel-google-drive-demo/blob/master/README/2-getting-your-refresh-token.md)
+
+
 ## Deployment
 
 Rekomendasi shared hosting murah: 
@@ -97,6 +104,14 @@ Ubah setting Sentry pada file `.env`
 * `SENTRY_ORGANIZATION_ID`: Isi Sentry Organization id Anda
 * `SENTRY_PROJECT_ID`: Project id
 * `SENTRY_AUTH_TOKEN`: Auth token
+
+## Setup Google Drive
+Aplikasi ini menggunakan google drive untuk menyimpan backup harian.
+Ubah setting Google Drive pada file `.env`
+* `GOOGLE_DRIVE_CLIENT_ID` : isi dengan Client ID
+* `GOOGLE_DRIVE_CLIENT_SECRET` : Isi dengan Client Secret
+* `GOOGLE_DRIVE_REFRESH_TOKEN` : Isi dengan Refresh Token
+* `GOOGLE_DRIVE_FOLDER`: isi dengan folder  google drive untuk menyimpan backup, pastikan di dalam nya dibuat folder Simpede
 
 ## Install
 - Lakukan installasi aplikasi:

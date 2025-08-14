@@ -22,5 +22,24 @@
         "8080": {
             "label": "PHPMyAdmin"
         }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "lyn-inc.HTML-Speed-Viewer",
+                "oderwat.indent-rainbow",
+                "laravel.vscode-laravel",
+                "open-southeners.laravel-pint",
+                "shd101wyy.markdown-preview-enhanced",
+                "unifiedjs.vscode-mdx",
+                "Cardinal90.multi-cursor-case-preserve",
+                "bmewburn.vscode-intelephense-client",
+                "MehediDracula.php-namespace-resolver",
+                "fabiospampinato.vscode-todo-plus",
+                "AntiAntiSepticeye.vscode-color-picker"
+            ]
+        }
     }
 }

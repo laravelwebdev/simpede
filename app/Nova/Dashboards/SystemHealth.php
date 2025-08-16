@@ -21,10 +21,11 @@ class SystemHealth extends Dashboard
         return [
             ServerResource::make()->refreshIntervalSeconds(60),
             ServerResource::make('inode')->refreshIntervalSeconds(60),
-            ServerResource::make('backup')->help(''),
+            ServerResource::make('backup')->help('')->refreshIntervalSeconds(60),
             SystemInfo::make()->versions()->width('1/2'),
             BackupsTable::make()->width('1/2')
-                ->emptyText('No backups found.'),
+                ->emptyText('No backups found.')
+                ->refreshIntervalSeconds(60),
             OutdatedTable::make()->width('1/2')
                 ->emptyText('All packages are already up to date.'),
             IssuesTable::make()->width('1/2')

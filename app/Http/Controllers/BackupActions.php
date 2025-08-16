@@ -30,10 +30,10 @@ class BackupActions extends Controller
         return redirect()->back()->with('status', 'Backup cleaned successfully.');
     }
 
-    public function createBackup()
-    {
-        Artisan::call('simpede:backup');
+    // public function createBackup()
+    // {
+    //     Artisan::call('simpede:backup');
 
-        return redirect()->back()->with('status', 'Backup created successfully.');
-    }
+    //     return redirect()->back()->with('status', 'Backup created successfully.');
+    // }
 }

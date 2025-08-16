@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArsipController;
+use App\Http\Controllers\BackupActions;
 use App\Http\Controllers\DumpDownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PulsaController;
@@ -12,10 +13,16 @@ use Laravel\Nova\Nova;
 
 Route::get('/', HomeController::class)->name('welcome');
 
-Route::get('/dump-download/{filename}', DumpDownloadController::class)
-    ->name('dump-download')
-    ->middleware(Authenticate::class)
-    ->prefix(Nova::path());
+Route::middleware([Authenticate::class])
+    ->prefix(Nova::path())
+    ->group(function () {
+        Route::get('/dump-download/{filename}', DumpDownloadController::class)
+            ->name('dump-download');
+        Route::get('/backup/download/{filename}', [BackupActions::class, 'downloadBackup'])
+            ->name('backup-download');
+        Route::get('/backup/clean', [BackupActions::class, 'cleanBackup'])
+            ->name('backup-clean');
+    });
 
 Route::middleware([ValidateAccessToken::class])
     ->prefix(Nova::path())

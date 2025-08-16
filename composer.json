@@ -22,6 +22,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "fidum/laravel-nova-metrics-polling": "^1.0",
         "intervention/image-laravel": "*",
         "laravel/framework": "^12.0",
         "laravel/nova": "^5.0",
@@ -36,15 +37,14 @@
         "laravelwebdev/time": "^1.0",
         "laravelwebdev/updater": "^1.0",
         "laravelwebdev/welcome": "^1.0",
-        "masbug/flysystem-google-drive-ext": "^2.4",
         "mostafaznv/laracache": "^2.4",
         "pekhota/nova-scroll-buttons": "*",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
         "sentry/sentry-laravel": "*",
         "spatie/laravel-backup": "^9.3",
-        "spatie/nova-backup-tool": "^6.0",
-        "sweetalert2/laravel": "^0.1.0"
+        "sweetalert2/laravel": "^0.1.0",
+        "yaza/laravel-google-drive-storage": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "*",

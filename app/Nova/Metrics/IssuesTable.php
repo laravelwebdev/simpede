@@ -4,12 +4,15 @@ namespace App\Nova\Metrics;
 
 use App\Helpers\Api;
 use DateTimeInterface;
+use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
 class IssuesTable extends Table
 {
+    use SupportsPolling;
+
     public $name = 'Bugs & Issues';
 
     /**

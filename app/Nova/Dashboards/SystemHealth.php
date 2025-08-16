@@ -2,7 +2,7 @@
 
 namespace App\Nova\Dashboards;
 
-use App\Nova\Metrics\Issues;
+use App\Nova\Metrics\BackupsTable;
 use App\Nova\Metrics\IssuesTable;
 use App\Nova\Metrics\OutdatedTable;
 use App\Nova\Metrics\ServerResource;
@@ -19,13 +19,16 @@ class SystemHealth extends Dashboard
     public function cards(): array
     {
         return [
-            ServerResource::make(),
-            ServerResource::make('inode'),
-            Issues::make(),
-            SystemInfo::make()->versions(),
+            ServerResource::make()->refreshIntervalSeconds(60),
+            ServerResource::make('inode')->refreshIntervalSeconds(60),
+            ServerResource::make('backup')->help(''),
+            SystemInfo::make()->versions()->width('1/2'),
+            BackupsTable::make()->width('1/2')
+                ->emptyText('No backups found.'),
             OutdatedTable::make()->width('1/2')
                 ->emptyText('All packages are already up to date.'),
             IssuesTable::make()->width('1/2')
+                ->refreshIntervalSeconds(60)
                 ->emptyText('No issues found.'),
         ];
     }

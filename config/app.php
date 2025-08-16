@@ -153,6 +153,7 @@ return [
 
     'disk_space_limit' => env('DISK_SPACE_LIMIT', 107374182400),
     'disk_inode_limit' => env('DISK_INODE_LIMIT', 400000),
+    'disk_backup_limit' => env('DISK_BACKUP_LIMIT', 15728640),
 
     /*
     |--------------------------------------------------------------------------

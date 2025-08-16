@@ -46,7 +46,6 @@ class ServerResource extends Partition
             $used = isset($backupInfo[0]['usedStorage']) ? round($backupInfo[0]['usedStorage'] / 1024 / 1024 / 1024, 2) : 0;
             $value = round($used, 2);
             $total = round((int) config('app.disk_backup_limit') / 1024 / 1024, 2);
-
         } else {
             $command = $this->type === 'inode'
             ? ['du', '--inodes', '-s']

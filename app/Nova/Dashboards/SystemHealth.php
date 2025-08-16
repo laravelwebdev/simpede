@@ -24,7 +24,8 @@ class SystemHealth extends Dashboard
             ServerResource::make('backup')->help('')->refreshIntervalSeconds(60),
             SystemInfo::make()->versions()->width('1/2')->refreshIntervalSeconds(60),
             BackupsTable::make()->width('1/2')
-                ->emptyText('No backups found.'),
+                ->emptyText('No backups found.')
+                ->refreshIntervalSeconds(60),
             OutdatedTable::make()->width('1/2')
                 ->emptyText('All packages are already up to date.'),
             IssuesTable::make()->width('1/2')

@@ -3,17 +3,20 @@
 namespace App\Nova\Metrics;
 
 use DateTimeInterface;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
+use Spatie\Backup\Helpers\Format;
+use Illuminate\Support\Facades\Cache;
+use Laravel\Nova\Metrics\MetricTableRow;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Helpers\Format;
+use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
 
 class BackupsTable extends Table
 {
+    use SupportsPolling;
+
     public function name(): string
     {
         return 'Latest 3 Backups';

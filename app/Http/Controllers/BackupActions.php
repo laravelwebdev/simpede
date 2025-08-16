@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class BackupActions extends Controller
@@ -24,7 +25,15 @@ class BackupActions extends Controller
     public function cleanBackup()
     {
         Artisan::call('backup:clean');
+        Storage::disk('google')->getAdapter()->emptyTrash([]);
 
         return redirect()->back()->with('status', 'Backup cleaned successfully.');
+    }
+
+    public function createBackup()
+    {
+        Artisan::call('simpede:backup');
+
+        return redirect()->back()->with('status', 'Backup created successfully.');
     }
 }

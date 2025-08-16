@@ -54,6 +54,7 @@ class BackupsTable extends Table
                 ->subtitle('Created: '.$backup['date'].', Size: '.$backup['size'])
                 ->actions(fn () => [
                     MenuItem::externalLink('Download', config('app.url').config('nova.path').'/backup/download'.basename($backup['path'])),
+
                     MenuItem::externalLink('Clean Backup', config('app.url').config('nova.path').'/backup/clean'),
                 ]);
         }

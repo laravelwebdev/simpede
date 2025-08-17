@@ -4,7 +4,7 @@
 @section('code', '429')
 @section('message', __('Too Many Requests'))
 @php
-    $inspiration = \App\Helpers\Inspiring::show();
+    $inspiration = Laravelwebdev\NovaQuotes\Inspiring\Inspiring::show();
 @endphp
 
 @section('quote', $inspiration['quote'])

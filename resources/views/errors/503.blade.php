@@ -4,7 +4,7 @@
 @section('code', '503')
 @section('message', __('Service Unavailable'))
 @php
-    $inspiration = \App\Helpers\Inspiring::show();
+    $inspiration = Laravelwebdev\NovaQuotes\Inspiring\Inspiring::show();
 @endphp
 
 @section('quote', $inspiration['quote'])

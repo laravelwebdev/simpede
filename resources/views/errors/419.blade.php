@@ -4,7 +4,7 @@
 @section('code', '419')
 @section('message', __('Page Expired'))
 @php
-    $inspiration = \App\Helpers\Inspiring::show();
+    $inspiration = Laravelwebdev\NovaQuotes\Inspiring\Inspiring::show();
 @endphp
 
 @section('quote', $inspiration['quote'])

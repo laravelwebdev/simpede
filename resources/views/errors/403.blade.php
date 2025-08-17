@@ -4,7 +4,7 @@
 @section('code', '403')
 @section('message', __($exception->getMessage() ?: 'Forbidden'))
 @php
-    $inspiration = \App\Helpers\Inspiring::show();
+    $inspiration = Laravelwebdev\NovaQuotes\Inspiring\Inspiring::show();
 @endphp
 
 @section('quote', $inspiration['quote'])

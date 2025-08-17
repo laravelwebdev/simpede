@@ -3,13 +3,10 @@
 namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
-use App\Helpers\Inspiring;
 use App\Nova\Metrics\Deadline;
 use App\Nova\Metrics\Rapat;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
-use Laravelwebdev\Greeter\Greeter;
+use Laravelwebdev\NovaQuotes\NovaQuotes;
 
 class Main extends Dashboard
 {
@@ -34,26 +31,19 @@ class Main extends Dashboard
             return Helper::ROLE[$key];
         }, session('role'));
 
-        $quotes = Inspiring::show();
         $cards = [
-            Greeter::make()
-                ->user(name: Auth::user()->name, title: Auth::user()->email)
-                ->message(text: __('Welcome Back!'))
-                ->avatar(url: Storage::disk('avatars')->url(Auth::user()->avatar))
-                ->verified(text: implode(', ', $values))
-                ->width('1/2'),
-            Greeter::make()
-                ->user(name: 'Kata-kata Hari Ini', title: $quotes['quote'])
-                ->message(text: '')
-                ->verified(text: $quotes['author'])
-                ->avatar(url: Storage::disk('images')->url('quotes.svg'))
-                ->width('1/2'),
+            NovaQuotes::make()
+                ->greetings(__('Welcome Back!'))
+                ->user(auth()->user()->name ?? 'Guest')
+                ->width('full')
+                ->description('Role: '.implode(', ', $values))
+                ->render(),
             Deadline::make()
                 ->emptyText('Tidak ada deadline')
-                ->width('full'),
+                ->width('1/2'),
             Rapat::make()
                 ->emptyText('Tidak ada rapat')
-                ->width('full'),
+                ->width('1/2'),
 
         ];
 

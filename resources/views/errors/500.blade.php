@@ -4,7 +4,7 @@
 @section('code', '500')
 @section('message', __('Server Error'))
 @php
-    $inspiration = \App\Helpers\Inspiring::show();
+    $inspiration = Laravelwebdev\NovaQuotes\Inspiring\Inspiring::show();
 @endphp
 
 @section('quote', $inspiration['quote'])

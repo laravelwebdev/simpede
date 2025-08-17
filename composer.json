@@ -30,6 +30,7 @@
         "laravelwebdev/filepond": "^1.0",
         "laravelwebdev/greeter": "^1.0",
         "laravelwebdev/nova-calendar": "^2.1",
+        "laravelwebdev/nova-quotes": "^1.0",
         "laravelwebdev/numeric": "^1.0",
         "laravelwebdev/repeatable": "^1.0",
         "laravelwebdev/system-info": "^1.0",

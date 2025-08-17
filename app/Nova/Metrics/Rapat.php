@@ -11,7 +11,7 @@ use Laravel\Nova\Metrics\Table;
 
 class Rapat extends Table
 {
-    public $name = 'Rapat';
+    public $name = 'Rapat Mendatang';
 
     /**
      * Calculate the value of the metric.

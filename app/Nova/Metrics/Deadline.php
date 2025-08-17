@@ -11,7 +11,7 @@ use Laravel\Nova\Metrics\Table;
 
 class Deadline extends Table
 {
-    public $name = 'Deadline';
+    public $name = 'Deadline Mendatang';
 
     /**
      * Calculate the value of the metric.
@@ -22,7 +22,7 @@ class Deadline extends Table
     {
         $rows = [];
         $deadlines = DaftarKegiatan::where('jenis', 'deadline')
-            // ->whereDate('awal', '>=', now()->toDateString())
+            ->whereDate('awal', '>=', now()->toDateString())
             ->orderBy('awal', 'asc')
             ->get();
         foreach ($deadlines as $deadline) {

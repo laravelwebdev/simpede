@@ -42,13 +42,13 @@ class Main extends Dashboard
                 ->render(),
             Kegiatan::make('Deadline')
                 ->emptyText('Tidak ada deadline')
-                ->width('1/2'),
+                ->width('1/3'),
             Kegiatan::make('Rapat')
                 ->emptyText('Tidak ada rapat')
-                ->width('1/2'),
+                ->width('1/3'),
             Kegiatan::make('Libur')
                 ->emptyText('Tidak ada hari libur')
-                ->width('full'),
+                ->width('1/3'),
         ];
 
         return $cards;

@@ -73,6 +73,7 @@ use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravelwebdev\NovaCalendar\NovaCalendar;
+use Laravelwebdev\SessionYear\SessionYear;
 use Laravelwebdev\Updater\Updater;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -313,6 +314,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Updater::make()->canSee(fn () => Policy::make()
                 ->allowedFor('admin')
                 ->get()),
+            SessionYear::make(),
         ];
     }
 

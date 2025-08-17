@@ -33,6 +33,7 @@
         "laravelwebdev/nova-quotes": "^1.0",
         "laravelwebdev/numeric": "^1.0",
         "laravelwebdev/repeatable": "^1.0",
+        "laravelwebdev/session-year": "^1.0",
         "laravelwebdev/system-info": "^1.0",
         "laravelwebdev/table": "^1.0",
         "laravelwebdev/time": "^1.0",

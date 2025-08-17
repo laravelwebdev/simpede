@@ -26,13 +26,16 @@ class BackupActions extends Controller
         dispatch(function () {
             Artisan::call('simpede:backup clean');
         })->name('Clean Backup');
+
         return redirect()->back()->with('status', 'Backup cleaning processed in background.');
     }
 
-    // public function createBackup()
-    // {
-    //     Artisan::call('simpede:backup');
+    public function createBackup()
+    {
+        dispatch(function () {
+            Artisan::call('simpede:backup create');
+        })->name('Create Backup');
 
-    //     return redirect()->back()->with('status', 'Backup created successfully.');
-    // }
+        return redirect()->back()->with('status', 'Backup creation processed in background.');
+    }
 }

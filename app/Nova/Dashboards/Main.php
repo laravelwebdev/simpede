@@ -5,6 +5,7 @@ namespace App\Nova\Dashboards;
 use App\Helpers\Helper;
 use App\Nova\Metrics\Rapat;
 use App\Nova\Metrics\Deadline;
+use App\Nova\Metrics\Kegiatan;
 use Laravelwebdev\Welcome\Welcome;
 use Laravelwebdev\NovaQuotes\NovaQuotes;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -39,12 +40,15 @@ class Main extends Dashboard
                 ->width('full')
                 ->description('Role: '.implode(', ', $values))
                 ->render(),
-            Deadline::make()
+            Kegiatan::make('Deadline')
                 ->emptyText('Tidak ada deadline')
                 ->width('1/2'),
-            Rapat::make()
+            Kegiatan::make('Rapat')
                 ->emptyText('Tidak ada rapat')
-                ->width('1/2'),           
+                ->width('1/2'),
+            Kegiatan::make('Libur')
+                ->emptyText('Tidak ada hari libur')
+                ->width('full'),
         ];
 
         return $cards;

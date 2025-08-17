@@ -9,9 +9,28 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
-class Deadline extends Table
+class Kegiatan extends Table
 {
-    public $name = 'Deadline Mendatang';
+    protected $jenis = 'Rapat';
+
+    public function __construct($jenis)
+    {
+        $this->jenis = $jenis;
+    }
+
+    public function name()
+    {
+        switch ($this->jenis) {
+            case 'Rapat':
+            return 'Rapat Mendatang';
+            case 'Deadline':
+            return 'Deadline Mendatang';
+            case 'Libur':
+            return 'Hari Libur Nasional';
+            default:
+            return 'Kegiatan ' . ucfirst($this->jenis);
+        }
+    }
 
     /**
      * Calculate the value of the metric.
@@ -21,8 +40,10 @@ class Deadline extends Table
     public function calculate(NovaRequest $request): array
     {
         $rows = [];
-        $deadlines = DaftarKegiatan::where('jenis', 'deadline')
-            ->whereDate('awal', '>=', now()->toDateString())
+        $deadlines = DaftarKegiatan::where('jenis', $this->jenis)
+            ->when($this->jenis !== 'Libur', function ($query) {
+                $query->whereDate('awal', '>=', now()->toDateString());
+            })
             ->orderBy('awal', 'asc')
             ->get();
         foreach ($deadlines as $deadline) {

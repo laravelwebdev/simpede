@@ -102,6 +102,8 @@ class DaftarPulsaMitra extends Resource
                 Text::make('Bulan', fn () => Helper::terbilangBulan($this->pulsaKegiatan->bulan))
                     ->filterable()
                     ->onlyOnIndex(),
+                Text::make('Kegiatan', 'pulsaKegiatan.kegiatan')
+                    ->onlyOnIndex(),
                 Number::make('Jumlah OJP/Kegiatan/dsb', 'volume')
                     ->onlyOnIndex(),
                 Numeric::make('Nominal Pulsa', 'nominal')
@@ -188,7 +190,7 @@ class DaftarPulsaMitra extends Resource
                 ->onlyOnIndex()
                 ->addFields($this->fieldforAdd($request));
         }
-        if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResourceId) {
+        if (Policy::make()->allowedFor('koordinator,anggota')->get() && $request->viaResource === 'pulsa-kegiatans') {
             $actions[] =
                 ImportDaftarPulsaMitra::make($request->viaResourceId)
                     ->standalone()

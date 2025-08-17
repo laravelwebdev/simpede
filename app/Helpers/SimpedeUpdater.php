@@ -61,10 +61,10 @@ class SimpedeUpdater
             $output['simpede_cache_output'] = Artisan::output();
 
             // Storage link
-            if (! is_link(public_path('storage'))) {
-                Artisan::call('storage:link');
-                $output['storage_link_output'] = Artisan::output();
-            }
+    
+            Artisan::call('storage:link');
+            $output['storage_link_output'] = Artisan::output();
+ 
             $output['success'] = ! $error;
         }
 

@@ -58,7 +58,7 @@ class BackupsTable extends Table
                 ->actions(fn () => [
                     MenuItem::externalLink('Download', config('app.url').config('nova.path').'/backup/download'.basename($backup['path'])),
                     // MenuItem::externalLink('Create Backup', config('app.url').config('nova.path').'/backup/create'),
-                    MenuItem::externalLink('Clean Backup', config('app.url').config('nova.path').'/backup/clean'),
+                    // MenuItem::externalLink('Clean Backup', config('app.url').config('nova.path').'/backup/clean'),
                 ]);
         }
 

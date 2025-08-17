@@ -14,7 +14,7 @@ Schedule::command('db:optimize')->monthlyOn(1, '02:00')
     ->runInBackground()
     ->timezone(config('app.schedule_timezone'))
     ->sentryMonitor();
-Schedule::command('simpede:backup')->dailyAt('18:00')
+Schedule::command('simpede:backup create')->dailyAt('18:00')
     ->withoutOverlapping()
     ->runInBackground()
     ->timezone(config('app.schedule_timezone'))

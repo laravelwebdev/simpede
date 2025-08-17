@@ -12,7 +12,7 @@ class SimpedeBackup extends Command
      *
      * @var string
      */
-    protected $signature = 'simpede:backup';
+    protected $signature = 'simpede:backup {action}';
 
     /**
      * The console command description.
@@ -26,10 +26,18 @@ class SimpedeBackup extends Command
      */
     public function handle()
     {
-        $this->call('action-events:clear');
-        $this->call('queue:clear', ['--force' => true]);
-        $this->call('backup:run');
-        $this->call('backup:clean');
-        Storage::disk('google')->getAdapter()->emptyTrash([]);
+        $action = $this->argument('action');
+
+        if ($action === 'create') {
+            $this->call('action-events:clear');
+            $this->call('backup:run');
+            $this->call('backup:clean');
+            Storage::disk('google')->getAdapter()->emptyTrash([]);
+        } elseif ($action === 'clean') {
+            $this->call('backup:clean');
+            Storage::disk('google')->getAdapter()->emptyTrash([]);
+        } else {
+            $this->error('Invalid action. Use "create" or "clean".');
+        }
     }
 }

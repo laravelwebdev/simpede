@@ -124,6 +124,10 @@ Setting Cron Job dengan pengaturan tiap jam untuk menjalankan perintah
 ```bash
 php artisan schedule:run >> /dev/null 2>&1
 ```
+Setting Cron Job dengan pengaturan tiap 30 menit (atau disesuaikan) untuk menjalankan perintah
+```bash
+php artisan queue:work >> /dev/null 2>&1
+```
     
 ## Maintenance Mode
 

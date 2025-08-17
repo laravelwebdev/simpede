@@ -17,7 +17,7 @@ class Main extends Dashboard
      */
     public function name()
     {
-        return 'Tahun '.session('year');
+        return 'Beranda';
     }
 
     /**

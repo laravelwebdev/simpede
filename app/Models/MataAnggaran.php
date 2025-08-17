@@ -17,6 +17,7 @@ class MataAnggaran extends Model
     {
         return [
             'is_manual' => 'boolean',
+            'is_pok' => 'boolean',
         ];
     }
 

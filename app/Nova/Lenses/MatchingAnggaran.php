@@ -25,7 +25,7 @@ class MatchingAnggaran extends Lens
     public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         return $request->withOrdering($request->withFilters(
-            $query->where('is_manual', true)
+            $query->where('is_manual', true)->where('is_pok', true)
         ));
     }
 

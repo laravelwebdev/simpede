@@ -84,7 +84,8 @@ class MataAnggaran extends Resource
             Boolean::make('Manual', 'is_manual')
                 ->default(true)
                 ->immutable(),
-
+            Boolean::make('Bukan POK Satker', 'is_pok')
+                ->default(true),
         ];
     }
 

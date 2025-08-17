@@ -48,8 +48,14 @@ class Kegiatan extends Table
             ->get();
         foreach ($deadlines as $deadline) {
             $rows[] = MetricTableRow::make()
-                ->icon('calendar')
-                ->iconClass('text-red-500')
+                ->icon(
+                    $this->jenis === 'Libur' ? 'calendar' :
+                    ($this->jenis === 'Deadline' ? 'exclamation-triangle' : 'user-group')
+                )
+                ->iconClass(
+                    $this->jenis === 'Libur' ? 'text-red-500' :
+                    ($this->jenis === 'Deadline' ? 'text-orange-500' : 'text-blue-500')
+                )
                 ->subtitle($deadline->kegiatan)
                 ->title(Helper::terbilangTanggal($deadline->awal));
         }

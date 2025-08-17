@@ -53,8 +53,8 @@ class Kegiatan extends Table
                     ($this->jenis === 'Deadline' ? 'exclamation-triangle' : 'user-group')
                 )
                 ->iconClass(
-                    $this->jenis === 'Libur' ? 'text-red-500' :
-                    ($this->jenis === 'Deadline' ? 'text-orange-500' : 'text-blue-500')
+                    $this->jenis === 'Rapat' ? 'text-green-500' :
+                    ($this->jenis === 'Deadline' ? 'text-red-500' : 'text-blue-500')
                 )
                 ->subtitle($deadline->kegiatan)
                 ->title(Helper::terbilangTanggal($deadline->awal));

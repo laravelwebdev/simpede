@@ -2,12 +2,12 @@
 
 namespace App\Nova\Dashboards;
 
-use Laravel\Nova\Dashboard;
-use App\Nova\Metrics\SystemInfo;
-use App\Nova\Metrics\IssuesTable;
 use App\Nova\Metrics\BackupsTable;
+use App\Nova\Metrics\IssuesTable;
 use App\Nova\Metrics\OutdatedTable;
 use App\Nova\Metrics\ServerResource;
+use App\Nova\Metrics\SystemInfo;
+use Laravel\Nova\Dashboard;
 
 class SystemHealth extends Dashboard
 {

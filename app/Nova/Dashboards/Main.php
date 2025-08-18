@@ -4,10 +4,9 @@ namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
 use App\Models\Announcement;
-use App\Models\DaftarKegiatan;
+use App\Nova\Metrics\Kegiatan;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Dashboards\Main as Dashboard;
-use Laravelwebdev\ListCard\ListCard;
 use Laravelwebdev\NewsCard\NewsCard;
 use Laravelwebdev\NovaQuotes\NovaQuotes;
 use Richardkeep\NovaTimenow\NovaTimenow;
@@ -36,40 +35,6 @@ class Main extends Dashboard
         }, session('role'));
 
         $cards = [];
-
-        $items = DaftarKegiatan::whereIn('jenis', ['Libur', 'Deadline', 'Rapat'])
-            ->where(function ($query) {
-                $query->where('jenis', 'Libur')
-                    ->orWhere(function ($q) {
-                        $q->whereIn('jenis', ['Deadline', 'Rapat'])
-                            ->whereDate('awal', '>=', now()->toDateString());
-                    });
-            })
-            ->orderBy('awal')
-            ->get()
-            ->groupBy('jenis');
-
-        $kegiatan = ($items['Libur'] ?? collect())->map(function ($item) {
-            return [
-                'title' => Helper::terbilangHari($item->awal).', '.Helper::terbilangTanggal($item->awal),
-                'description' => $item->kegiatan,
-            ];
-        })->values()->toArray();
-
-        $deadline = ($items['Deadline'] ?? collect())->map(function ($item) {
-            return [
-                'title' => Helper::terbilangHari($item->awal).', '.Helper::terbilangTanggal($item->awal),
-                'description' => $item->kegiatan,
-            ];
-        })->values()->toArray();
-
-        $rapat = ($items['Rapat'] ?? collect())->map(function ($item) {
-            return [
-                'title' => Helper::terbilangHari($item->awal).', '.Helper::terbilangTanggal($item->awal),
-                'description' => $item->kegiatan,
-            ];
-        })->values()->toArray();
-
         $pengumuman = Announcement::cache()->get('latest');
 
         $cards[] = NovaQuotes::make()
@@ -97,20 +62,20 @@ class Main extends Dashboard
             );
         }
 
-        $cards[] = ListCard::make()
-            ->title('Deadline Mendatang')
-            ->items($deadline)
-            ->emptyText('Tidak ada Deadline');
+        $cards[] = Kegiatan::make('Deadline')
+            ->emptyText('Tidak ada deadline')
+            ->scrollable()
+            ->width('1/3');
 
-        $cards[] = ListCard::make()
-            ->title('Rapat Mendatang')
-            ->items($rapat)
-            ->emptyText('Tidak ada Rapat');
+        $cards[] = Kegiatan::make('Rapat')
+            ->emptyText('Tidak ada Rapat')
+            ->scrollable()
+            ->width('1/3');
 
-        $cards[] = ListCard::make()
-            ->title('Hari Libur Nasional')
-            ->items($kegiatan)
-            ->emptyText('Tidak ada hari libur nasional');
+        $cards[] = Kegiatan::make('Libur')
+            ->emptyText('Tidak ada hari libur nasional')
+            ->scrollable()
+            ->width('1/3');
 
         return $cards;
     }

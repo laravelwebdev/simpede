@@ -22,13 +22,13 @@ class Kegiatan extends Table
     {
         switch ($this->jenis) {
             case 'Rapat':
-            return 'Rapat Mendatang';
+                return 'Rapat Mendatang';
             case 'Deadline':
-            return 'Deadline Mendatang';
+                return 'Deadline Mendatang';
             case 'Libur':
-            return 'Hari Libur Nasional';
+                return 'Hari Libur Nasional';
             default:
-            return 'Kegiatan ' . ucfirst($this->jenis);
+                return 'Kegiatan '.ucfirst($this->jenis);
         }
     }
 

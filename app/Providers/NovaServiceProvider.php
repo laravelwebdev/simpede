@@ -9,6 +9,7 @@ use App\Models\MataAnggaran;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
 use App\Nova\AnalisisSakip;
+use App\Nova\Announcement;
 use App\Nova\BastMitra;
 use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
@@ -128,6 +129,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(PerjalananDinas::class),
                     MenuItem::resource(PulsaKegiatan::class),
                     MenuItem::resource(RapatInternal::class),
+                    MenuItem::resource(Announcement::class),
                 ]),
                 MenuSection::make('Kontrak Mitra', [
                     MenuItem::resource(KontrakMitra::class),

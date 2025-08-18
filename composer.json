@@ -29,6 +29,8 @@
         "laravel/tinker": "^2.10.1",
         "laravelwebdev/filepond": "^1.0",
         "laravelwebdev/greeter": "^1.0",
+        "laravelwebdev/list-card": "^1.0",
+        "laravelwebdev/news-card": "^1.0",
         "laravelwebdev/nova-calendar": "^2.1",
         "laravelwebdev/nova-quotes": "^1.0",
         "laravelwebdev/numeric": "^1.0",
@@ -103,5 +105,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "version": "2.14.3"
+    "version": "2.15.0"
 }

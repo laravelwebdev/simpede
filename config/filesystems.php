@@ -76,6 +76,14 @@ return [
             'throw' => false,
         ],
 
+        'announcement' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/announcement'),
+            'url' => env('APP_URL').'/storage/announcement',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         'template_naskah' => [
             'driver' => 'local',
             'root' => storage_path('app/public/templates/naskah'),

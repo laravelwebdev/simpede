@@ -19,7 +19,7 @@ class BackupsTable extends Table
 
     public function name(): string
     {
-        return 'Latest 3 Backups';
+        return 'Backups';
     }
 
     /**
@@ -47,9 +47,7 @@ class BackupsTable extends Table
         });
 
         $rows = [];
-        // Ambil 4 backup terbaru saja
-        $latestBackups = array_slice($backups, 0, 3);
-        foreach ($latestBackups as $backup) {
+        foreach ($backups as $backup) {
             $rows[] = MetricTableRow::make()
                 ->icon('inbox')
                 ->iconClass('text-green-500')

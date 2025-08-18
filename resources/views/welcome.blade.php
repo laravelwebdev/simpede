@@ -23,13 +23,13 @@
 
              /* Default selection color */
             ::selection {
-                background-color:rgba(219, 15, 110, 1); /* Light orange */
+                background-color:rgb(19, 207, 182); /* Light orange */
                 color: #ffffff; /* White text */
             }
 
             /* For Mozilla browsers */
             ::-moz-selection {
-                background-color:rgba(219, 15, 110, 1);
+                background-color:rgb(19, 207, 182);
                 color: #ffffff;
             }
 
@@ -52,9 +52,9 @@
                     <ul class="list-none menu-social mb-0">
                         <li class="inline">
                             @auth
-                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-white-500 text-red uppercase">Panel</a>
+                            <a href="{{ config('nova.path') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Panel</a>
                             @else
-                            <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-red-500 text-white uppercase">Masuk</a>
+                            <a href="{{ route('login') }}" class="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white uppercase">Masuk</a>
                             @endauth
                         </li> 
                     </ul>
@@ -90,28 +90,25 @@
         <!-- Navbar End -->
 
         <!-- Start Hero -->
-        <section class="relative md:py-48 py-40 bg-red-500/5 dark:bg-red-500/20" id="home" style="background-image: url('{{ asset('images/hutri.jpg') }}'); background-size: cover; background-position: center; min-height: 920px;">
-            <div class="absolute inset-0 bg-black/50 dark:bg-black/50 pointer-events-none" style="background: rgba(255, 255, 255, 0.2);"></div>
-            <div class="relative z-10">
-                {{-- <div class="container relative mt-8">
-                    <div class="grid md:grid-cols-2 grid-cols-1 gap-6 items-center">
-                        <div>
-                            <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">Simpede</h1>
-                            <p class="text-lg max-w-xl">Aplikasi Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik (Simpede) merupakan aplikasi yang dirancang untuk menyederhanakan proses ketatausahaan dengan menyediakan fitur-fitur komprehensif.</p>
-                            
-                            <div class="mt-6">
-                                <a target="_blank" href="https://docs.simpede.my.id" class="h-10 px-6 tracking-wide inline-flex items-center justify-center font-medium rounded-md bg-red-500 text-white">Panduan</a>
-                            </div>
-                        </div>
-
-                        <div class="lg:ms-8">
-                            <div class="relative image-container">
-                                <img src="{{ asset('images/hero-media-dark.png') }}" class="relative top-8 hidden dark:inline-block" alt="">
-                                <img src="{{ asset('images/hero-media-light.png') }}" class="relative top-8 inline-block dark:hidden" alt="">
-                            </div>
+        <section class="relative md:py-48 py-40 bg-teal-500/5 dark:bg-teal-500/20" id="home">
+            <div class="container relative mt-8">
+                <div class="grid md:grid-cols-2 grid-cols-1 gap-6 items-center">
+                    <div>
+                        <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">Simpede</h1>
+                        <p class="text-slate-400 text-lg max-w-xl">Aplikasi Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik (Simpede) merupakan aplikasi yang dirancang untuk menyederhanakan proses ketatausahaan dengan menyediakan fitur-fitur komprehensif.</p>
+                        
+                        <div class="mt-6">
+                            <a target="_blank" href="https://docs.simpede.my.id" class="h-10 px-6 tracking-wide inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white">Panduan</a>
                         </div>
                     </div>
-                </div> --}}
+
+                    <div class="lg:ms-8">
+                        <div class="relative image-container">
+                            <img src="{{ asset('images/hero-media-dark.png') }}" class="relative top-8 hidden dark:inline-block" alt="">
+                            <img src="{{ asset('images/hero-media-light.png') }}" class="relative top-8 inline-block dark:hidden" alt="">
+                        </div>
+                    </div>
+                </div>
             </div>
         </section><!--end section-->
         <!-- End Hero -->
@@ -128,7 +125,7 @@
                 <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6 mt-6">
                     
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="truck" class="size-6 rotate-45"></i>
                         </div>
 
@@ -147,7 +144,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="archive" class="size-6 rotate-45"></i>
                         </div>
 
@@ -164,7 +161,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="users" class="size-6 rotate-45"></i>
                         </div>
 
@@ -186,7 +183,7 @@
     
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="user-check" class="size-6 rotate-45"></i>
                         </div>
 
@@ -203,7 +200,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="trending-up" class="size-6 rotate-45"></i>
                         </div>
 
@@ -219,7 +216,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="camera" class="size-6 rotate-45"></i>
                         </div>
 
@@ -234,7 +231,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="file-text" class="size-6 rotate-45"></i>
                         </div>
 
@@ -249,7 +246,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="calendar" class="size-6 rotate-45"></i>
                         </div>
 
@@ -265,7 +262,7 @@
 
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="coffee" class="size-6 rotate-45"></i>
                         </div>
 
@@ -282,7 +279,7 @@
                     </div><!--end feature content-->
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="wifi" class="size-6 rotate-45"></i>
                         </div>
 
@@ -301,7 +298,7 @@
 
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="mail" class="size-6 rotate-45"></i>
                         </div>
 
@@ -315,7 +312,7 @@
                         </div>
                     </div><!--end feature content-->
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="home" class="size-6 rotate-45"></i>
                         </div>
 
@@ -330,7 +327,7 @@
                     </div><!--end feature content-->
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="link-2" class="size-6 rotate-45"></i>
                         </div>
 
@@ -344,7 +341,7 @@
                     </div><!--end feature content-->
 
                     <div class="group rounded-md shadow dark:shadow-gray-700 relative bg-white dark:bg-slate-900 p-6 overflow-hidden md:h-[400px] lg:h-[400px]">
-                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-red-500/10 duration-500">
+                        <div class="flex items-center justify-center size-14 -rotate-45 bg-gradient-to-r from-transparent to-teal-500/10 text-teal-500 text-center rounded-full group-hover:bg-teal-500/10 duration-500">
                             <i data-feather="credit-card" class="size-6 rotate-45"></i>
                         </div>
 
@@ -465,7 +462,7 @@
         <!-- Footer End -->
 
         <!-- Back to top -->
-        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fixed hidden text-lg rounded-full z-10 bottom-5 right-5 w-12 h-12 flex items-center justify-center bg-red-500 text-white"><i data-feather="arrow-up"></i></a>
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fixed hidden text-lg rounded-full z-10 bottom-5 right-5 w-12 h-12 flex items-center justify-center bg-teal-500 text-white"><i data-feather="arrow-up"></i></a>
         <!-- Back to top -->
 
         <!-- LTR & RTL Mode Code -->

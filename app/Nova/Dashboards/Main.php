@@ -65,16 +65,19 @@ class Main extends Dashboard
         $cards[] = Kegiatan::make('Deadline')
             ->emptyText('Tidak ada deadline')
             ->scrollable()
+            ->refreshIntervalSeconds(60)
             ->width('1/3');
 
         $cards[] = Kegiatan::make('Rapat')
             ->emptyText('Tidak ada Rapat')
             ->scrollable()
+            ->refreshIntervalSeconds(60)
             ->width('1/3');
 
         $cards[] = Kegiatan::make('Libur')
             ->emptyText('Tidak ada hari libur nasional')
             ->scrollable()
+            ->refreshIntervalSeconds(60)
             ->width('1/3');
 
         return $cards;

@@ -5,12 +5,15 @@ namespace App\Nova\Metrics;
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan;
 use DateTimeInterface;
+use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
 class Kegiatan extends Table
 {
+    use SupportsPolling;
+
     protected $jenis = 'Rapat';
 
     public function __construct($jenis)
@@ -22,13 +25,13 @@ class Kegiatan extends Table
     {
         switch ($this->jenis) {
             case 'Rapat':
-            return 'Rapat Mendatang';
+                return 'Rapat Mendatang';
             case 'Deadline':
-            return 'Deadline Mendatang';
+                return 'Deadline Mendatang';
             case 'Libur':
-            return 'Hari Libur Nasional';
+                return 'Hari Libur Nasional';
             default:
-            return 'Kegiatan ' . ucfirst($this->jenis);
+                return 'Kegiatan '.ucfirst($this->jenis);
         }
     }
 

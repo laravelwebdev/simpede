@@ -3,6 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\Announcement as ModelsAnnouncement;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -76,7 +79,16 @@ class Announcement extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsAnnouncement::whereYear('created_at', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-announcemen')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'created_at', 'trend-announcemen')
+                ->refreshWhenActionsRun()
+                ->width('1/2'),
+        ];
     }
 
     /**

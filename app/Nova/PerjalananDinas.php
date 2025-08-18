@@ -7,6 +7,9 @@ use App\Models\AnggaranKerangkaAcuan;
 use App\Models\JenisNaskah;
 use App\Models\KodeArsip;
 use App\Models\NaskahKeluar;
+use App\Models\PerjalananDinas as ModelsPerjalananDinas;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use App\Nova\NaskahKeluar as ResourceNaskahKeluar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -196,7 +199,16 @@ class PerjalananDinas extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsPerjalananDinas::whereYear('tanggal_spd', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-spd')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal_spd', 'trend-spd')
+                ->refreshWhenActionsRun()
+                ->width('1/2'),
+        ];
     }
 
     /**

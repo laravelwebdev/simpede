@@ -57,7 +57,7 @@ class Kegiatan extends Table
                     ($this->jenis === 'Deadline' ? 'text-red-500' : 'text-blue-500')
                 )
                 ->subtitle($deadline->kegiatan)
-                ->title(Helper::terbilangTanggal($deadline->awal));
+                ->title(Helper::terbilangHari($deadline->awal).', '.Helper::terbilangTanggal($deadline->awal));
         }
 
         return $rows;

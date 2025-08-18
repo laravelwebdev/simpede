@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Artisan;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class BackupActions extends Controller
@@ -19,23 +18,5 @@ class BackupActions extends Controller
             'Content-Type' => $readStream->ext,
             'Content-disposition' => 'attachment; filename="'.$filename.'"', // force download?
         ]);
-    }
-
-    public function cleanBackup()
-    {
-        dispatch(function () {
-            Artisan::call('simpede:backup clean');
-        })->name('Clean Backup');
-
-        return redirect()->back()->with('status', 'Backup cleaning processed in background.');
-    }
-
-    public function createBackup()
-    {
-        dispatch(function () {
-            Artisan::call('simpede:backup create');
-        })->name('Create Backup');
-
-        return redirect()->back()->with('status', 'Backup creation processed in background.');
     }
 }

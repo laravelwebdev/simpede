@@ -3,12 +3,10 @@
 namespace App\Nova\Dashboards;
 
 use App\Helpers\Helper;
-use App\Nova\Metrics\Rapat;
-use App\Nova\Metrics\Deadline;
 use App\Nova\Metrics\Kegiatan;
-use Laravelwebdev\Welcome\Welcome;
-use Laravelwebdev\NovaQuotes\NovaQuotes;
 use Laravel\Nova\Dashboards\Main as Dashboard;
+use Laravelwebdev\NovaQuotes\NovaQuotes;
+use Richardkeep\NovaTimenow\NovaTimenow;
 
 class Main extends Dashboard
 {
@@ -37,9 +35,16 @@ class Main extends Dashboard
             NovaQuotes::make()
                 ->greetings(__('Welcome Back!'))
                 ->user(auth()->user()->name ?? 'Guest')
-                ->width('full')
+                ->width('2/3')
                 ->description('Role: '.implode(', ', $values))
                 ->render(),
+            NovaTimenow::make()
+                ->width('1/3')
+                ->timezones([
+                    'Asia/Pontianak',
+                    'Asia/Makassar',
+                    'Asia/Jayapura',
+                ])->defaultTimezone(config('app.timezone')),
             Kegiatan::make('Deadline')
                 ->emptyText('Tidak ada deadline')
                 ->width('1/3'),

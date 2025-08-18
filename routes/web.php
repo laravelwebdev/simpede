@@ -20,10 +20,6 @@ Route::middleware([Authenticate::class])
             ->name('dump-download');
         Route::get('/backup/download/{filename}', [BackupActions::class, 'downloadBackup'])
             ->name('backup-download');
-        Route::get('/backup/clean', [BackupActions::class, 'cleanBackup'])
-            ->name('backup-clean');
-        Route::get('/backup/create', [BackupActions::class, 'createBackup'])
-            ->name('backup-create');
     });
 
 Route::middleware([ValidateAccessToken::class])

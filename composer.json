@@ -42,6 +42,7 @@
         "pekhota/nova-scroll-buttons": "*",
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
+        "richardkeep/nova-timenow": "^3.0",
         "sentry/sentry-laravel": "*",
         "spatie/laravel-backup": "^9.3",
         "sweetalert2/laravel": "^0.1.0",

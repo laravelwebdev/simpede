@@ -95,7 +95,6 @@ class Main extends Dashboard
                 link: $item->link,
                 buttonCaption: 'Pelajari'
             );
-
         }
 
         $cards[] = ListCard::make()

@@ -21,11 +21,6 @@ class SystemHealth extends Dashboard
      */
     public function cards(): array
     {
-        $outdated = array_map(fn ($package) => [
-            'title' => $package['name'],
-            'description' => 'Installed: '.$package['version'].' | Latest: '.$package['latest'],
-        ], Api::getComposerOutdatedPackages());
-
         $disk = config('backup.backup.destination.disks')[0] ?? 'local';
         $backupDestination = BackupDestination::create($disk, config('backup.backup.name'));
         $backups = Cache::remember("backups-{$disk}", now()->addSeconds(4), function () use ($backupDestination) {
@@ -72,7 +67,7 @@ class SystemHealth extends Dashboard
             ListCard::make()
                 ->width('1/2')
                 ->title('Outdated Packages')
-                ->items($outdated)
+                ->items(Api::getComposerOutdatedPackages())
                 ->emptyText('All packages are already up to date.'),
             ListCard::make()
                 ->width('1/2')

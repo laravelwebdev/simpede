@@ -52,6 +52,9 @@ class Api
         $process = Process::fromShellCommandline($composer.' clear-cache', base_path(), ['COMPOSER_HOME' => $home]);
         $process->run();
 
-        return $data['installed'] ?? [];
+        return array_map(fn ($package) => [
+            'title' => $package['name'],
+            'description' => 'Installed: '.$package['version'].' | Latest: '.$package['latest'],
+        ], $data['installed'] ?? []);
     }
 }

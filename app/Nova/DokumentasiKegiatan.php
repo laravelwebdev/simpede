@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Models\DokumentasiKegiatan as ModelsDokumentasiKegiatan;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Boolean;

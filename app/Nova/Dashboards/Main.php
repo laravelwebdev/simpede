@@ -35,7 +35,7 @@ class Main extends Dashboard
         }, session('role'));
 
         $cards = [];
-        $pengumuman = Announcement::cache()->get('latest');
+        $pengumuman = Announcement::cache()->get('latest') ?? [];
 
         $cards[] = NovaQuotes::make()
             ->greetings(__('Welcome Back!'))

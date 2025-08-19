@@ -9,14 +9,13 @@ class BackupActions extends Controller
     public function downloadBackup(string $filename)
     {
         $backupPath = config('backup.backup.name')."/{$filename}";
+        if (! Gdrive::exists($backupPath)) {
+            abort(404, 'Backup file not found.');
+        }
+        $data = Gdrive::get($backupPath);
 
-        $readStream = Gdrive::readStream($backupPath);
-
-        return response()->stream(function () use ($readStream) {
-            fpassthru($readStream->file);
-        }, 200, [
-            'Content-Type' => $readStream->ext,
-            'Content-disposition' => 'attachment; filename="'.$filename.'"', // force download?
-        ]);
+        return response($data->file, 200)
+            ->header('Content-Type', $data->ext)
+            ->header('Content-disposition', 'attachment; filename="'.$data->filename.'"');
     }
 }

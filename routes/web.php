@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ArsipController;
-use App\Http\Controllers\BackupActions;
 use App\Http\Controllers\DumpDownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PulsaController;
@@ -18,8 +17,6 @@ Route::middleware([Authenticate::class])
     ->group(function () {
         Route::get('/dump-download/{filename}', DumpDownloadController::class)
             ->name('dump-download');
-        Route::get('/backup/download/{filename}', [BackupActions::class, 'downloadBackup'])
-            ->name('backup-download');
     });
 
 Route::middleware([ValidateAccessToken::class])

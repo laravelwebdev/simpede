@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 
 class Api
@@ -53,5 +54,32 @@ class Api
         $process->run();
 
         return $data['installed'] ?? [];
+    }
+
+    public static function getGoogleDriveDownloadLink($path)
+    {
+        $backupPath = config('backup.backup.name')."/{$path}";
+        $fileId = self::getFileIdFromPath($backupPath);
+
+        return "https://drive.google.com/uc?export=download&id={$fileId}";
+    }
+
+    private static function getFileIdFromPath(string $path): ?string
+    {
+        $adapter = Storage::disk('google')->getAdapter();
+        $service = $adapter->getService();
+
+        $filename = basename($path);
+
+        $results = $service->files->listFiles([
+            'q' => "name = '{$filename}' and trashed = false",
+            'fields' => 'files(id, name)',
+        ]);
+
+        foreach ($results->getFiles() as $file) {
+            return $file->id;
+        }
+
+        return null;
     }
 }

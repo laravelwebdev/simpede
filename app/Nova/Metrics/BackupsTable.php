@@ -2,6 +2,7 @@
 
 namespace App\Nova\Metrics;
 
+use App\Helpers\Api;
 use DateTimeInterface;
 use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
 use Illuminate\Support\Facades\Cache;
@@ -52,10 +53,10 @@ class BackupsTable extends Table
                 ->icon('inbox')
                 ->iconClass('text-green-500')
                 ->title($backup['path'])
-                ->subtitle('Created: '.$backup['date'].', Size: '.$backup['size'])
+                ->subtitle('Created: '.$backup['date'].', Size: '.$backup['size'].', Password: '.config('backup.backup.password'))
                 ->actions(fn () => [
-                    MenuItem::externalLink('Download', config('app.url').config('nova.path').'/backup/download/'.basename($backup['path'])),
-
+                    MenuItem::externalLink('Download', Api::getGoogleDriveDownloadLink(basename($backup['path'])))
+                        ->openInNewTab(),
                 ]);
         }
 

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
+use App\Models\DokumentasiKegiatan as ModelsDokumentasiKegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Boolean;
@@ -100,7 +101,16 @@ class DokumentasiKegiatan extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsDokumentasiKegiatan::whereYear('tanggal', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-dokumentasi')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'tanggal', 'trend-dokumentasi')
+                ->refreshWhenActionsRun()
+                ->width('1/2'),
+        ];
     }
 
     /**

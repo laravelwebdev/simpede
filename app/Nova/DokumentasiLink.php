@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Models\DokumentasiLink as ModelsDokumentasiLink;
+use App\Nova\Metrics\MetricTrend;
+use App\Nova\Metrics\MetricValue;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -72,7 +75,16 @@ class DokumentasiLink extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        $model = ModelsDokumentasiLink::whereYear('created_at', session('year'));
+
+        return [
+            MetricValue::make($model, 'total-link')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
+            MetricTrend::make($model, 'created_at', 'trend-link')
+                ->refreshWhenActionsRun()
+                ->width('1/2'),
+        ];
     }
 
     /**

@@ -45,8 +45,8 @@ class ServerResource extends Partition
             // Get used storage from backup info
             $quota = GoogleDriveQuota::getQuota();
 
-            $value = isset($quota['used']) ? $quota['used'] : 0;   // dalam GB
-            $total = isset($quota['total']) ? $quota['total'] : 0; // dalam GB
+            $value = $quota['used'];   // dalam GB
+            $total = $quota['total'];  // dalam GB
         } else {
             $command = $this->type === 'inode'
             ? ['du', '--inodes', '-s']

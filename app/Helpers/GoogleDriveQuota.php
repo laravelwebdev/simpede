@@ -12,7 +12,9 @@ class GoogleDriveQuota
         $clientSecret = config('app.google.client_secret');
         $refreshToken = config('app.google.refresh_token');
 
-        // Step 1: Refresh token -> Access token
+        $used = 0;
+        $total = 0;
+
         $response = Http::asForm()->post('https://oauth2.googleapis.com/token', [
             'client_id' => $clientId,
             'client_secret' => $clientSecret,
@@ -20,31 +22,24 @@ class GoogleDriveQuota
             'grant_type' => 'refresh_token',
         ]);
 
-        if ($response->failed()) {
-            return [
-                'used_gb' => null,
-                'total_gb' => null,
-                'error' => $response->json(),
-            ];
+        if ($response->ok()) {
+            $accessToken = $response->json()['access_token'] ?? null;
+            if ($accessToken) {
+                $about = Http::withToken($accessToken)
+                    ->get('https://www.googleapis.com/drive/v3/about?fields=storageQuota')
+                    ->json();
+
+                $limit = $about['storageQuota']['limit'] ?? 0;
+                $usage = $about['storageQuota']['usage'] ?? 0;
+
+                $total = $limit ? round($limit / (1024 ** 3), 2) : 0;
+                $used = $usage ? round($usage / (1024 ** 3), 2) : 0;
+            }
         }
 
-        $accessToken = $response->json()['access_token'];
-
-        // Step 2: Get storage info
-        $about = Http::withToken($accessToken)
-            ->get('https://www.googleapis.com/drive/v3/about?fields=storageQuota')
-            ->json();
-
-        $limit = $about['storageQuota']['limit'] ?? 0;
-        $usage = $about['storageQuota']['usage'] ?? 0;
-
-        // Convert bytes to GB
-        $limitGb = $limit ? round($limit / (1024 ** 3), 2) : 0;
-        $usageGb = $usage ? round($usage / (1024 ** 3), 2) : 0;
-
         return [
-            'used' => $usageGb,
-            'total' => $limitGb,
+            'used' => $used,
+            'total' => $total,
         ];
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Nova\Metrics;
 
-use DateTimeInterface;
 use App\Helpers\GoogleDriveQuota;
-use Laravel\Nova\Metrics\Partition;
-use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
-use Laravel\Nova\Metrics\PartitionResult;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
+use DateTimeInterface;
 use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
+use Illuminate\Support\Facades\Cache;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\PartitionResult;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Symfony\Component\Process\Process;
 
 class ServerResource extends Partition
 {
@@ -45,12 +45,8 @@ class ServerResource extends Partition
             // Get used storage from backup info
             $quota = GoogleDriveQuota::getQuota();
 
-            $used = $quota['used'];   // dalam GB
+            $value = $quota['used'];   // dalam GB
             $total = $quota['total']; // dalam GB
-            $backupInfo = $this->getBackupInfo();
-            $used = isset($backupInfo[0]['usedStorage']) ? round($backupInfo[0]['usedStorage'] / 1024 / 1024 / 1024, 2) : 0;
-            $value = round($used, 2);
-            $total = round((int) config('app.disk_backup_limit') / 1024 / 1024, 2);
         } else {
             $command = $this->type === 'inode'
             ? ['du', '--inodes', '-s']

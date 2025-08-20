@@ -87,7 +87,7 @@ class HtmlGenerator
           <tr class="bg-gray-100 dark:bg-gray-700">
             <th class="border p-2 text-left">No</th>
             <th class="border p-2 text-left">Kegiatan</th>
-            <th class="border p-2 text-right">Jumlah Honor</th>
+            <th class="border p-2 text-right">Jumlah Pulsa</th>
           </tr>
         </thead>
         <tbody>';

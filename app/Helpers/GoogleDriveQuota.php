@@ -8,23 +8,23 @@ class GoogleDriveQuota
 {
     public static function getQuota(): array
     {
-        $clientId     = config('app.google.client_id');
+        $clientId = config('app.google.client_id');
         $clientSecret = config('app.google.client_secret');
         $refreshToken = config('app.google.refresh_token');
 
         // Step 1: Refresh token -> Access token
         $response = Http::asForm()->post('https://oauth2.googleapis.com/token', [
-            'client_id'     => $clientId,
+            'client_id' => $clientId,
             'client_secret' => $clientSecret,
             'refresh_token' => $refreshToken,
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
         ]);
 
         if ($response->failed()) {
             return [
-                'used_gb'  => null,
+                'used_gb' => null,
                 'total_gb' => null,
-                'error'    => $response->json(),
+                'error' => $response->json(),
             ];
         }
 
@@ -43,10 +43,8 @@ class GoogleDriveQuota
         $usageGb = $usage ? round($usage / (1024 ** 3), 2) : 0;
 
         return [
-            'used'  => $usageGb,
+            'used' => $usageGb,
             'total' => $limitGb,
         ];
     }
 }
-
-

@@ -26,7 +26,7 @@ class DetailPulsaMitra extends Action
         $model = $models->first();
 
         return ModalResponse::html(HtmlGenerator::detailPulsaMitra($model))
-            ->title('Detail Penggantian Pulsa');
+            ->title('Detail Penggantian Pulsa')->size('5xl');
     }
 
     /**

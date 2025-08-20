@@ -26,7 +26,7 @@ class DetailHonorMitra extends Action
         $model = $models->first();
 
         return ModalResponse::html(HtmlGenerator::detailHonorMitra($model))
-            ->title('Daftar Honor Mitra');
+            ->title('Daftar Honor Mitra')->size('5xl');
     }
 
     /**

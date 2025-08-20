@@ -87,8 +87,6 @@ class MitraPolicy
 
     public function runAction(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return true;
     }
 }

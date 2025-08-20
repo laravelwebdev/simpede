@@ -9,7 +9,7 @@ class HtmlGenerator
 {
     public static function detailHonorMitra($model)
     {
-        $html = '<div class="p-6">
+        $html = '<div class="p-2">
     <!-- Header -->
     <div class="flex justify-between mb-6">
       <div>
@@ -71,7 +71,7 @@ class HtmlGenerator
 
     public static function detailPulsaMitra($model)
     {
-        $html = '<div class="p-6">
+        $html = '<div class="p-2">
     <!-- Header -->
     <div class="flex justify-between mb-6">
       <div>

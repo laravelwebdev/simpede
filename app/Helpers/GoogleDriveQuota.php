@@ -2,41 +2,51 @@
 
 namespace App\Helpers;
 
-use Google\Client;
-use Google\Service\Drive;
+use Illuminate\Support\Facades\Http;
 
 class GoogleDriveQuota
 {
     public static function getQuota(): array
     {
-        $client = new Client();
-        $client->setClientId(config('app.google.client_id'));
-        $client->setClientSecret(config('app.google.client_secret'));
-        $client->setRedirectUri(env('APP_URL') . '/google/oauth/callback');
-        $client->setAccessType('offline');
-        $client->setScopes(['https://www.googleapis.com/auth/drive.metadata.readonly']);
-
-        // refresh token -> access token
+        $clientId     = config('app.google.client_id');
+        $clientSecret = config('app.google.client_secret');
         $refreshToken = config('app.google.refresh_token');
-        $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
-        $client->setAccessToken($accessToken);
 
-        $service = new Drive($client);
-        $about = $service->about->get(['fields' => 'storageQuota']);
-        $q = $about->getStorageQuota();
+        // Step 1: Refresh token -> Access token
+        $response = Http::asForm()->post('https://oauth2.googleapis.com/token', [
+            'client_id'     => $clientId,
+            'client_secret' => $clientSecret,
+            'refresh_token' => $refreshToken,
+            'grant_type'    => 'refresh_token',
+        ]);
 
-        $limit = $q->getLimit();   // total bytes
-        $usage = $q->getUsage();   // used bytes
+        if ($response->failed()) {
+            return [
+                'used_gb'  => null,
+                'total_gb' => null,
+                'error'    => $response->json(),
+            ];
+        }
+
+        $accessToken = $response->json()['access_token'];
+
+        // Step 2: Get storage info
+        $about = Http::withToken($accessToken)
+            ->get('https://www.googleapis.com/drive/v3/about?fields=storageQuota')
+            ->json();
+
+        $limit = $about['storageQuota']['limit'] ?? 0;
+        $usage = $about['storageQuota']['usage'] ?? 0;
+
+        // Convert bytes to GB
+        $limitGb = $limit ? round($limit / (1024 ** 3), 2) : 0;
+        $usageGb = $usage ? round($usage / (1024 ** 3), 2) : 0;
 
         return [
-            'used'  => self::toGB($usage),
-            'total' => self::toGB($limit),
+            'used'  => $usageGb,
+            'total' => $limitGb,
         ];
     }
-
-    private static function toGB($bytes): ?float
-    {
-        if ($bytes === null) return null;
-        return round($bytes / (1024 ** 3), 2); // convert to GB (2 decimal)
-    }
 }
+
+

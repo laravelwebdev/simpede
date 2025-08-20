@@ -10,14 +10,16 @@ class GoogleDriveQuota
     public static function getQuota(): array
     {
         $client = new Client();
-        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
+        $client->setClientId(config('app.google.client_id'));
+        $client->setClientSecret(config('app.google.client_secret'));
         $client->setRedirectUri(env('APP_URL') . '/google/oauth/callback');
         $client->setAccessType('offline');
         $client->setScopes(['https://www.googleapis.com/auth/drive.metadata.readonly']);
 
         // refresh token -> access token
-        $client->fetchAccessTokenWithRefreshToken(env('GOOGLE_DRIVE_REFRESH_TOKEN'));
+        $refreshToken = config('app.google.refresh_token');
+        $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
+        $client->setAccessToken($accessToken);
 
         $service = new Drive($client);
         $about = $service->about->get(['fields' => 'storageQuota']);

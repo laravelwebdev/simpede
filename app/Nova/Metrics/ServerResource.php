@@ -3,14 +3,15 @@
 namespace App\Nova\Metrics;
 
 use DateTimeInterface;
-use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Helpers\GoogleDriveQuota;
 use Laravel\Nova\Metrics\Partition;
-use Laravel\Nova\Metrics\PartitionResult;
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\Process;
+use Laravel\Nova\Metrics\PartitionResult;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
+use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class ServerResource extends Partition
 {
@@ -42,6 +43,10 @@ class ServerResource extends Partition
         $command = [];
         if ($this->type === 'backup') {
             // Get used storage from backup info
+            $quota = GoogleDriveQuota::getQuota();
+
+            $used = $quota['used'];   // dalam GB
+            $total = $quota['total']; // dalam GB
             $backupInfo = $this->getBackupInfo();
             $used = isset($backupInfo[0]['usedStorage']) ? round($backupInfo[0]['usedStorage'] / 1024 / 1024 / 1024, 2) : 0;
             $value = round($used, 2);

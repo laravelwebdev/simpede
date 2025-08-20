@@ -3,6 +3,7 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
+use App\Nova\Actions\DetailHonorMitra;
 use App\Nova\Filters\BulanFilter;
 use App\Nova\Metrics\JumlahKegiatan;
 use App\Nova\Metrics\JumlahMitra;
@@ -142,7 +143,12 @@ class RekapHonorMitra extends Lens
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            DetailHonorMitra::make()
+                ->sole()
+                ->onlyInline()
+                ->withoutConfirmation(),
+        ];
     }
 
     /**

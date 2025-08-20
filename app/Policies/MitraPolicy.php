@@ -24,6 +24,10 @@ class MitraPolicy
      */
     public function view(): bool
     {
+        if (str_contains(request()->url(), 'lens/')) {
+            return false;
+        }
+
         return true;
     }
 
@@ -79,5 +83,12 @@ class MitraPolicy
     public function replicate(): bool
     {
         return false;
+    }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 }

@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-client
 
 echo --- Copy the environment file ...
 cp .env.example .env

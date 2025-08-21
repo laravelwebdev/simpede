@@ -141,9 +141,8 @@ php artisan queue:work >> /dev/null 2>&1
     ```
 
 ## Restore Backup
-Isi dari file backup adalah dump sql database dan file di dalam folder storage/app/public
-Restore dilakukan manual. Setelah selesai jalankan command:
+Untuk melakukan restore jalankan command:
 ```bash
-    php artisan simpede:cache
+    php artisan simpede:restore
 ```
 

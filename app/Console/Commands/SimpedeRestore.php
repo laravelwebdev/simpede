@@ -64,6 +64,8 @@ class SimpedeRestore extends Command
         $databaseOnly = $this->option('database-only');
         $filesOnly = $this->option('files-only');
 
+        $tempDir = null; // <-- Tambahan variabel tempDir global handle
+
         try {
             // Find the backup file
             $backupFile = $this->findBackupFile($disk, $backup);
@@ -81,10 +83,20 @@ class SimpedeRestore extends Command
             // Check if this backup contains database dumps
             $hasDatabase = $this->backupContainsDatabase($disk, $backupFile);
 
+            // Extract backup ONCE jika restore database atau files
+            if ((! $filesOnly && $hasDatabase) || ! $databaseOnly) {
+                $tempDir = $this->extractBackup($disk, $backupFile);
+                if (! $tempDir) {
+                    $this->error('❌ Failed to extract backup!');
+
+                    return 1;
+                }
+            }
+
             // Restore database first (if backup contains database and not files-only)
             if (! $filesOnly && $hasDatabase) {
                 $this->info('🗄️  Restoring database...');
-                if (! $this->restoreDatabase($disk, $backupFile)) {
+                if (! $this->restoreDatabase($disk, $backupFile, $tempDir)) {
                     $success = false;
                 }
             } elseif (! $filesOnly && ! $hasDatabase) {
@@ -92,23 +104,13 @@ class SimpedeRestore extends Command
             }
 
             // Restore files (if not database-only)
-            if (! $databaseOnly && $success) {
+            if (! $databaseOnly && $success && $tempDir) {
                 $this->info('📁 Restoring files...');
-
-                // Extract backup to temporary location
-                $tempDir = $this->extractBackup($disk, $backupFile);
-                if (! $tempDir) {
-                    $this->error('❌ Failed to extract backup!');
-
-                    return 1;
-                }
-
                 if (! $this->restoreFiles($tempDir)) {
                     $success = false;
                 }
 
                 $this->cleanup($tempDir);
-
             }
 
             if ($success) {
@@ -133,6 +135,9 @@ class SimpedeRestore extends Command
 
         } catch (Exception $e) {
             $this->error('❌ Restore failed with error: '.$e->getMessage());
+            if ($tempDir) {
+                $this->cleanup($tempDir);
+            }
 
             return 1;
         }
@@ -372,47 +377,38 @@ class SimpedeRestore extends Command
         $failed = 0;
 
         try {
-            // Look for the storage directory in the backup
-            $storagePath = $this->findStoragePathInBackup($tempDir);
+            // Ambil mapping folder source => target dari config
+            $folders = config('backup.backup.source.files.include'); // array: 'folder' => targetPath
 
-            if (! $storagePath) {
-                $this->error('❌ Storage directory not found in backup');
-                $this->warn('💡 Available directories in backup:');
-                $this->listBackupContents($tempDir, 2);
+            if (empty($folders)) {
+                $this->error('❌ No folders configured to restore');
 
                 return false;
             }
 
-            $this->info('📁 Found storage directory: '.basename($storagePath));
+            // Cari semua folder di backup
+            $backupPaths = $this->findBackupPaths($tempDir);
 
-            // Restore storage directory to the current storage path
-            $targetStoragePath = storage_path();
+            foreach ($folders as $folder => $targetPath) {
+                // Cek apakah folder ada di backup
+                $sourcePath = $backupPaths[$folder] ?? null;
+                if (! $sourcePath) {
+                    $this->warn("⚠️  Folder {$folder} not found in backup");
+                    $failed++;
 
-            $this->info('🔄 Restoring storage from: '.basename($storagePath));
-            $this->info('🔄 Restoring storage to: '.$targetStoragePath);
+                    continue;
+                }
 
-            if ($this->restoreDirectory($storagePath, $targetStoragePath)) {
-                $this->info('✅ Restored storage directory');
-                $restored++;
-            } else {
-                $this->error('❌ Failed to restore storage directory');
-                $failed++;
-            }
-
-            // Also try to restore public directories if they exist
-            $publicPaths = $this->findPublicPathsInBackup($tempDir);
-            foreach ($publicPaths as $publicPath) {
-                $this->info('🔄 Restoring public directory: '.basename($publicPath));
-                if ($this->restorePublicDirectory($publicPath)) {
-                    $this->info('✅ Restored public directory: '.basename($publicPath));
+                $this->info("🔄 Restoring {$folder} to {$targetPath}");
+                if ($this->restoreDirectory($sourcePath, $targetPath)) {
+                    $this->info("✅ Restored {$folder}");
                     $restored++;
                 } else {
-                    $this->warn('⚠️  Failed to restore public directory: '.basename($publicPath));
+                    $this->warn("⚠️  Failed to restore {$folder}");
                     $failed++;
                 }
             }
 
-            // Fix permissions after restoration
             if ($restored > 0) {
                 $this->info('🔧 Fixing file permissions...');
                 $this->fixPermissions();
@@ -429,32 +425,32 @@ class SimpedeRestore extends Command
         }
     }
 
-    private function findStoragePathInBackup($tempDir)
+    private function findBackupPaths($tempDir)
     {
-        // Look for storage directory in common locations
-        $possiblePaths = [
-            $tempDir.'/storage/app/public',
-        ];
+        $paths = [];
 
-        foreach ($possiblePaths as $path) {
-            if (File::exists($path) && File::isDirectory($path)) {
-                $this->info('✅ Found storage directory: '.basename($path));
+        // Ambil daftar folder/file dari config
+        $includes = config('backup.backup.source.files.include', []);
 
-                return $path;
+        foreach ($includes as $relative) {
+            $possiblePath = $tempDir.'/'.ltrim($relative, '/');
+
+            if (File::exists($possiblePath) && File::isDirectory($possiblePath)) {
+                $this->info('✅ Found directory: '.basename($possiblePath));
+                $paths[] = $possiblePath;
+            } else {
+                // Kalau tidak ada di lokasi umum, cari rekursif
+                $found = $this->findDirectoryRecursively($tempDir, basename($relative));
+                if ($found) {
+                    $this->info('✅ Found directory recursively: '.basename($found));
+                    $paths[] = $found;
+                } else {
+                    $this->warn("⚠️  Directory not found: {$relative}");
+                }
             }
         }
 
-        // If not found in common locations, search recursively
-        $this->info('🔍 Searching for storage directory in backup...');
-        $storagePath = $this->findDirectoryRecursively($tempDir, 'storage');
-
-        if ($storagePath) {
-            $this->info('✅ Found storage directory recursively: '.basename($storagePath));
-        } else {
-            $this->warn('⚠️  Storage directory not found in common locations');
-        }
-
-        return $storagePath;
+        return $paths;
     }
 
     private function findDirectoryRecursively($dir, $targetDir)
@@ -462,8 +458,7 @@ class SimpedeRestore extends Command
         $items = File::directories($dir);
 
         foreach ($items as $item) {
-            $basename = basename($item);
-            if ($basename === $targetDir) {
+            if (basename($item) === $targetDir) {
                 return $item;
             }
 
@@ -474,71 +469,6 @@ class SimpedeRestore extends Command
         }
 
         return null;
-    }
-
-    private function findPublicPathsInBackup($tempDir)
-    {
-        $publicPaths = [];
-
-        // Look for public directories in common locations
-        $possiblePaths = [
-            $tempDir.'/public',
-        ];
-
-        foreach ($possiblePaths as $path) {
-            if (File::exists($path) && File::isDirectory($path) && ! str_contains($path, '/storage/')) {
-                $publicPaths[] = $path;
-            }
-        }
-
-        // If not found in common locations, search recursively
-        if (empty($publicPaths)) {
-            $this->info('🔍 Searching for public directories in backup...');
-            $publicPath = $this->findDirectoryRecursively($tempDir, 'public');
-            if ($publicPath && ! str_contains($publicPath, '/storage/')) {
-                $publicPaths[] = $publicPath;
-            }
-        }
-
-        return $publicPaths;
-    }
-
-    private function restorePublicDirectory($publicPath)
-    {
-        try {
-            $targetPublicPath = public_path();
-
-            // Check if this is a ShynDorca TP project (has uploads/download directories)
-            $hasUploads = File::exists($publicPath.'/uploads');
-            $hasDownload = File::exists($publicPath.'/download');
-
-            if ($hasUploads || $hasDownload) {
-                $this->info('📁 Detected ShynDorca TP public directory');
-
-                // Restore specific directories that are backed up
-                if ($hasUploads) {
-                    $this->info('🔄 Restoring uploads directory...');
-                    $this->copyDirectoryContents($publicPath.'/uploads', $targetPublicPath.'/uploads');
-                }
-
-                if ($hasDownload) {
-                    $this->info('🔄 Restoring download directory...');
-                    $this->copyDirectoryContents($publicPath.'/download', $targetPublicPath.'/download');
-                }
-
-                return true;
-            } else {
-                // For other projects, restore the entire public directory
-                $this->info('🔄 Restoring entire public directory...');
-
-                return $this->restoreDirectory($publicPath, $targetPublicPath);
-            }
-
-        } catch (Exception $e) {
-            $this->error('❌ Failed to restore public directory: '.$e->getMessage());
-
-            return false;
-        }
     }
 
     private function restoreDirectory($source, $destination)
@@ -842,7 +772,7 @@ class SimpedeRestore extends Command
     {
         try {
             if (! File::exists($dumpFile)) {
-                echo "❌ Dump file tidak ditemukan: $dumpFile\n";
+                echo "❌ Dump file not found: $dumpFile\n";
 
                 return false;
             }
@@ -903,26 +833,26 @@ class SimpedeRestore extends Command
                     break;
 
                 default:
-                    echo "❌ Driver [$connection] tidak didukung untuk restore.\n";
+                    echo "❌ Driver [$connection] is not supported for restore.\n";
 
                     return false;
             }
 
-            echo "▶ Menjalankan perintah: $command\n";
+            echo "▶ Running command: $command\n";
             exec($command, $output, $resultCode);
 
             if ($resultCode === 0) {
-                echo "✅ Database berhasil direstore dari $dumpFile\n";
+                echo "✅ Database successfully restored from $dumpFile\n";
 
                 return true;
             }
 
-            echo "❌ Restore gagal. Output:\n".implode("\n", $output)."\n";
+            echo "❌ Restore failed. Output:\n".implode("\n", $output)."\n";
 
             return false;
 
         } catch (\Throwable $e) {
-            echo '⚠️ Terjadi error: '.$e->getMessage()."\n";
+            echo '⚠️ Error occurred: '.$e->getMessage()."\n";
 
             return false;
         }

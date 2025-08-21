@@ -119,11 +119,9 @@ class SimpedeRestore extends Command
             } else {
                 $this->error('❌ Restore failed!');
             }
-
         } catch (Exception $e) {
             $this->error('❌ Restore failed with error: '.$e->getMessage());
             $success = false;
-
         } finally {
             if ($tempDir) {
                 $this->cleanup($tempDir);
@@ -276,7 +274,6 @@ class SimpedeRestore extends Command
 
                 return false;
             }
-
         } catch (Exception $e) {
             $this->error('❌ Database restore error: '.$e->getMessage());
 
@@ -330,7 +327,6 @@ class SimpedeRestore extends Command
             $this->info("📊 File restoration completed: {$restored} successful, {$failed} failed");
 
             return $failed === 0;
-
         } catch (Exception $e) {
             $this->error('❌ File restoration failed with error: '.$e->getMessage());
 
@@ -517,7 +513,6 @@ class SimpedeRestore extends Command
                 if (count($backups) > 10) {
                     $this->line('   ... and '.(count($backups) - 10).' more backups');
                 }
-
             } catch (Exception $e) {
                 $this->line('   Error accessing disk: '.$e->getMessage());
             }
@@ -586,7 +581,6 @@ class SimpedeRestore extends Command
             $this->info('✅ All tables dropped successfully');
 
             return true;
-
         } catch (Exception $e) {
             $this->error('❌ Failed to drop tables: '.$e->getMessage());
 
@@ -711,7 +705,6 @@ class SimpedeRestore extends Command
             echo "❌ Restore failed. Output:\n".implode("\n", $output)."\n";
 
             return false;
-
         } catch (\Throwable $e) {
             echo '⚠️ Error occurred: '.$e->getMessage()."\n";
 

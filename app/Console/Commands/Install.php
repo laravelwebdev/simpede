@@ -64,12 +64,12 @@ class Install extends Command
             [
                 'nama' => 'Template Kerangka Acuan Kerja',
                 'jenis' => 'kak',
-                'file' => 'ReAdPXzRYWqgpho3W0mX4U3rxg3UfZ3F4MmKlxsP.docx',
+                'file' => 'kli5jt06bmTBJnLoQiQQN5md2iujNW317bGeQ46E.docx',
             ],
             [
                 'nama' => 'Template SPJ',
                 'jenis' => 'spj',
-                'file' => 'd2z8X186YFymCM29dPa84LH7rTrqljrmfhmyc7C4.docx',
+                'file' => '8UaqlK0dwmtx64Ih8scHARLKk9yXEtAsMsDhAyqT.docx',
             ],
             [
                 'nama' => 'Template SK Petugas',
@@ -184,7 +184,7 @@ class Install extends Command
             [
                 'nama' => 'Template Tanda Terima Pulsa',
                 'jenis' => 'pulsa',
-                'file' => 'uzvdQmXrt7hesC2ULRZVQhmcQEkTJdIwIJvKALmX.docx',
+                'file' => 'AuX5vZ1DGxJvIJksXLGfXO35fBRFCR9BdAI1bZH5.docx',
             ],
         ];
 

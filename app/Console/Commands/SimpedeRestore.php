@@ -21,10 +21,9 @@ class SimpedeRestore extends Command
                             {--disk= : The disk to restore from (local, google)}
                             {--backup= : Specific backup file to restore (optional)}
                             {--connection= : Database connection to restore to}
-                            {--reset : Drop all tables before restoring}
-                            {--database-only : Restore only database}
-                            {--files-only : Restore only files}
                             {--list : List available backups}
+                            {--only-db : Restoring database only}
+                            {--only-files : Restoring files only}
                             {--force : Skip confirmation prompts}';
 
     /**
@@ -46,7 +45,6 @@ class SimpedeRestore extends Command
         $this->info('🔄 Complete Backup Restore Tool');
         $this->line('');
 
-        // Safety warnings
         if (! $this->option('force')) {
             $this->warn('⚠️  WARNING: This will restore your database AND files from backup!');
             $this->warn('⚠️  This operation will overwrite your current data and files.');
@@ -61,13 +59,10 @@ class SimpedeRestore extends Command
 
         $disk = $this->option('disk') ?? config('backup.backup.destination.disks')[0];
         $backup = $this->option('backup');
-        $databaseOnly = $this->option('database-only');
-        $filesOnly = $this->option('files-only');
-
-        $tempDir = null; // <-- Tambahan variabel tempDir global handle
-
+        $tempDir = null;
+        $success = true;
+        $this->call('maintenance', ['action' => 'start']);
         try {
-            // Find the backup file
             $backupFile = $this->findBackupFile($disk, $backup);
             if (! $backupFile) {
                 $this->error('❌ Backup file not found!');
@@ -78,69 +73,66 @@ class SimpedeRestore extends Command
             $this->info('📁 Using backup: '.basename($backupFile));
             $this->line('');
 
-            $success = true;
+            $tempDir = $this->extractBackup($disk, $backupFile);
+            if (! $tempDir) {
+                $this->error('❌ Failed to extract backup!');
 
-            // Check if this backup contains database dumps
-            $hasDatabase = $this->backupContainsDatabase($disk, $backupFile);
-
-            // Extract backup ONCE jika restore database atau files
-            if ((! $filesOnly && $hasDatabase) || ! $databaseOnly) {
-                $tempDir = $this->extractBackup($disk, $backupFile);
-                if (! $tempDir) {
-                    $this->error('❌ Failed to extract backup!');
-
-                    return 1;
-                }
+                return 1;
             }
 
-            // Restore database first (if backup contains database and not files-only)
-            if (! $filesOnly && $hasDatabase) {
+            // Check database dumps
+            $sqlFiles = File::glob($tempDir.'/db-dumps/*.sql') ?: [];
+            $hasDatabase = ! empty($sqlFiles);
+
+            // Restore database
+            if ($hasDatabase && ! $this->option('only-files')) {
                 $this->info('🗄️  Restoring database...');
-                if (! $this->restoreDatabase($disk, $backupFile, $tempDir)) {
-                    $success = false;
-                }
-            } elseif (! $filesOnly && ! $hasDatabase) {
-                $this->info('ℹ️  No database found in backup (files-only backup)');
+                $success = $this->restoreDatabase($tempDir) && $success;
+            } elseif (! $hasDatabase) {
+                $this->info('ℹ️  No database found in backup.');
+                $success = false;
+            } elseif ($this->option('only-files')) {
+                $this->info('ℹ️  Skipping database restore (files-only mode).');
             }
 
-            // Restore files (if not database-only)
-            if (! $databaseOnly && $success && $tempDir) {
-                $this->info('📁 Restoring files...');
-                if (! $this->restoreFiles($tempDir)) {
-                    $success = false;
-                }
+            // Restore files
+            $hasOtherFolders = collect(File::directories($tempDir))
+                ->contains(fn ($dir) => basename($dir) !== 'db-dumps');
 
-                $this->cleanup($tempDir);
+            if ($hasOtherFolders && ! $this->option('only-db')) {
+                $this->info('📁 Restoring files...');
+                $success = $this->restoreFiles($tempDir) && $success;
+            } elseif ($this->option('only-db')) {
+                $this->info('ℹ️  Skipping file restore (database-only mode).');
+            } elseif (! $hasOtherFolders) {
+                $this->info('ℹ️  No files found in backup.');
             }
 
             if ($success) {
                 $this->info('');
                 $this->info('✅ Complete restore finished successfully!');
                 $this->info('🎉 Your application is ready to use!');
-
-                // Suggest next steps
                 $this->line('');
                 $this->info('💡 Recommended next steps:');
-                $this->line('   • Clear application cache: php artisan cache:clear');
-                $this->line('   • Clear config cache: php artisan config:clear');
                 $this->line('   • Check file permissions');
                 $this->line('   • Test critical functionality');
-
-                return 0;
             } else {
                 $this->error('❌ Restore failed!');
-
-                return 1;
             }
 
         } catch (Exception $e) {
             $this->error('❌ Restore failed with error: '.$e->getMessage());
+            $success = false;
+
+        } finally {
             if ($tempDir) {
                 $this->cleanup($tempDir);
             }
-
-            return 1;
+            $this->call('simpede:update');
+            $this->call('maintenance', ['action' => 'stop']);
         }
+
+        return $success ? 0 : 1;
     }
 
     private function findBackupFile($disk, $backup = null)
@@ -260,90 +252,16 @@ class SimpedeRestore extends Command
         }
     }
 
-    private function restoreDatabase($disk, $backupFile)
+    private function restoreDatabase($tempDir)
     {
         try {
-            $this->info('📥 Downloading backup file...');
-
-            // Download the backup file to a temporary location
-            $tempDir = storage_path('app/temp-restore-'.time());
-            File::makeDirectory($tempDir, 0755, true);
-
-            $localBackupPath = $tempDir.'/backup.zip';
-            $this->info('⏳ Downloading from '.$disk.' disk...');
-
-            // Download with progress indicator
-            $backupContent = Storage::disk($disk)->get($backupFile);
-            if (! $backupContent) {
-                $this->error('❌ Failed to download backup file from '.$disk.' disk');
-                File::deleteDirectory($tempDir);
-
-                return false;
-            }
-
-            File::put($localBackupPath, $backupContent);
-            $this->info('✅ Backup file downloaded successfully ('.$this->formatBytes(strlen($backupContent)).')');
-
-            // Extract the backup
-            $this->info('📦 Extracting backup archive...');
-            $extractDir = $tempDir.'/extracted';
-            File::makeDirectory($extractDir, 0755, true);
-
-            $zip = new ZipArchive;
-            if ($zip->open($localBackupPath) !== true) {
-                $this->error('❌ Failed to open backup ZIP file');
-                File::deleteDirectory($tempDir);
-
-                return false;
-            }
-
-            // Check if backup requires password
-            $password = env('BACKUP_ARCHIVE_PASSWORD');
-            if (! $password) {
-                // Try alternative methods to get the password
-                $password = config('backup.backup.password');
-            }
-            if (! $password) {
-                // Try reading directly from .env file
-                $envPath = base_path('.env');
-                if (file_exists($envPath)) {
-                    $envContent = file_get_contents($envPath);
-                    if (preg_match('/BACKUP_ARCHIVE_PASSWORD=(.+)/', $envContent, $matches)) {
-                        $password = trim($matches[1]);
-                        // Remove quotes if present
-                        $password = trim($password, '"\'');
-                    }
-                }
-            }
-
-            if ($password) {
-                $zip->setPassword($password);
-                $this->info('🔐 Using configured backup password');
-            } else {
-                $this->warn('⚠️  No backup password found - trying without password');
-            }
-
-            $zip->extractTo($extractDir);
-            $zip->close();
-            $this->info('✅ Backup extracted successfully');
-
             // Find the database dump file
-            $dbFiles = File::glob($extractDir.'/**/*.sql');
-            if (empty($dbFiles)) {
-                $this->error('❌ No SQL dump file found in backup');
-                File::deleteDirectory($tempDir);
-
-                return false;
-            }
-
+            $dbFiles = File::glob($tempDir.'/db-dumps/*.sql');
             $dbFile = $dbFiles[0];
             $this->info('🗄️  Found database dump: '.basename($dbFile));
 
-            // Reset database if requested
-            if ($this->option('reset')) {
-                $this->warn('🗑️  Dropping all existing tables...');
-                $this->dropAllTables();
-            }
+            $this->warn('🗑️  Dropping all existing tables...');
+            $this->dropAllTables();
 
             // Restore the database
             $this->info('🚀 Restoring database from dump...');
@@ -351,21 +269,16 @@ class SimpedeRestore extends Command
 
             if ($this->importDatabaseDump($dbFile, $connection)) {
                 $this->info('✅ Database restored successfully');
-                File::deleteDirectory($tempDir);
 
                 return true;
             } else {
                 $this->error('❌ Database restore failed');
-                File::deleteDirectory($tempDir);
 
                 return false;
             }
 
         } catch (Exception $e) {
             $this->error('❌ Database restore error: '.$e->getMessage());
-            if (isset($tempDir) && File::exists($tempDir)) {
-                File::deleteDirectory($tempDir);
-            }
 
             return false;
         }
@@ -569,7 +482,7 @@ class SimpedeRestore extends Command
         $this->info('📋 Available Backups');
         $this->line('');
 
-        $disks = ['local', 'google'];
+        $disks = config('backup.backup.destination.disks');
         $backupName = config('backup.backup.name');
 
         foreach ($disks as $disk) {
@@ -613,7 +526,7 @@ class SimpedeRestore extends Command
         }
 
         $this->info('💡 To restore a specific backup:');
-        $this->line('   php artisan backup:restore-complete --backup="filename.zip"');
+        $this->line('   php artisan simpede:restore --backup="filename.zip"');
 
         return 0;
     }
@@ -622,6 +535,10 @@ class SimpedeRestore extends Command
     {
         if (File::exists($tempDir)) {
             File::deleteDirectory($tempDir);
+            // Ensure directory is removed if still exists (sometimes File::deleteDirectory leaves empty folder)
+            if (is_dir($tempDir)) {
+                rmdir($tempDir);
+            }
             $this->info('🧹 Cleaned up temporary files');
         }
     }
@@ -672,62 +589,6 @@ class SimpedeRestore extends Command
 
         } catch (Exception $e) {
             $this->error('❌ Failed to drop tables: '.$e->getMessage());
-
-            return false;
-        }
-    }
-
-    private function backupContainsDatabase($disk, $backupFile)
-    {
-        try {
-            // Download and extract a small portion to check for database files
-            $tempDir = storage_path('app/temp-check-'.time());
-            File::makeDirectory($tempDir, 0755, true);
-
-            $localBackupPath = $tempDir.'/backup-check.zip';
-            $backupContent = Storage::disk($disk)->get($backupFile);
-
-            if (! $backupContent) {
-                File::deleteDirectory($tempDir);
-
-                return false;
-            }
-
-            File::put($localBackupPath, $backupContent);
-
-            // Extract just to check contents
-            $zip = new ZipArchive;
-            if ($zip->open($localBackupPath) !== true) {
-                File::deleteDirectory($tempDir);
-
-                return false;
-            }
-
-            // Check if backup requires password
-            $password = env('BACKUP_ARCHIVE_PASSWORD');
-            if ($password) {
-                $zip->setPassword($password);
-            }
-
-            // Look for database files in the archive
-            $hasDatabase = false;
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $filename = $zip->getNameIndex($i);
-                if (str_ends_with($filename, '.sql') || str_contains($filename, 'db-dumps/')) {
-                    $hasDatabase = true;
-                    break;
-                }
-            }
-
-            $zip->close();
-            File::deleteDirectory($tempDir);
-
-            return $hasDatabase;
-
-        } catch (Exception $e) {
-            if (isset($tempDir) && File::exists($tempDir)) {
-                File::deleteDirectory($tempDir);
-            }
 
             return false;
         }

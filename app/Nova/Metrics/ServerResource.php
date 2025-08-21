@@ -46,7 +46,7 @@ class ServerResource extends Partition
             $quota = GoogleDriveQuota::getQuota();
 
             $value = $quota['used'];   // dalam GB
-            $total = $quota['total']; // dalam GB
+            $total = $quota['total'];  // dalam GB
         } else {
             $command = $this->type === 'inode'
             ? ['du', '--inodes', '-s']

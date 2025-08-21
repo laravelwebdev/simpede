@@ -85,5 +85,7 @@ class SimpedeCache extends Command
         User::cache()->updateAll();
         UserEksternal::cache()->updateAll();
         WhatsappGroup::cache()->updateAll();
+
+        $this->info('All cache updated successfully.');
     }
 }

@@ -29,5 +29,7 @@ class ClearActionEventsLogs extends Command
         DB::table('action_events')
             ->where('status', 'finished')
             ->delete();
+
+        $this->info('Finished action events logs cleared successfully.');
     }
 }

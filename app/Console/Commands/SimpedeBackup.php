@@ -28,14 +28,20 @@ class SimpedeBackup extends Command
     {
         $action = $this->argument('action');
 
+        $backupDisks = config('backup.backup.destination.disks', []);
+
         if ($action === 'create') {
             $this->call('action-events:clear');
             $this->call('backup:run');
             $this->call('backup:clean');
-            Storage::disk('google')->getAdapter()->emptyTrash([]);
+            foreach ($backupDisks as $disk) {
+                Storage::disk($disk)->getAdapter()->emptyTrash([]);
+            }
         } elseif ($action === 'clean') {
             $this->call('backup:clean');
-            Storage::disk('google')->getAdapter()->emptyTrash([]);
+            foreach ($backupDisks as $disk) {
+                Storage::disk($disk)->getAdapter()->emptyTrash([]);
+            }
         } else {
             $this->error('Invalid action. Use "create" or "clean".');
         }

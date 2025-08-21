@@ -31,5 +31,7 @@ class SendReminder extends Command
         foreach ($reminders as $reminder) {
             Helper::sendReminder($reminder);
         }
+
+        $this->info('Scheduled reminders sent successfully.');
     }
 }

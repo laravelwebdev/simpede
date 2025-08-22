@@ -62,7 +62,7 @@ class SinkronisasiDataAnggaran extends Action
         move_uploaded_file($filePath, $newFilePath);
 
         MataAnggaran::cache()->disable();
-        MataAnggaran::where('dipa_id', $model->id)->whereNull('is_manual')->update(['updated_at' => null]);
+        MataAnggaran::where('dipa_id', $model->id)->where('is_pok', true)->whereNull('is_manual')->update(['updated_at' => null]);
         $collections = (new FastExcel)->import($newFilePath);
         $index = 0;
         foreach ($collections as $row) {
@@ -96,7 +96,7 @@ class SinkronisasiDataAnggaran extends Action
                 $mataAnggaran->rpd_11 = $row['POK_NILAI_11'];
                 $mataAnggaran->rpd_12 = $row['POK_NILAI_12'];
             }
-
+            $mataAnggaran->is_pok = true;
             $mataAnggaran->updated_at = now();
             $index++;
             $mataAnggaran->ordered = $index;

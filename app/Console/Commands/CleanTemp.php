@@ -26,7 +26,6 @@ class CleanTemp extends Command
      */
     public function handle()
     {
-
         $folderPath = storage_path('app/filepond/temp');
 
         // Hapus semua isi folder (file dan subfolder)

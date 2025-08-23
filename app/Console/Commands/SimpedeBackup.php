@@ -31,6 +31,7 @@ class SimpedeBackup extends Command
         $backupDisks = config('backup.backup.destination.disks', []);
 
         if ($action === 'create') {
+            $this->call('simpede:clean-temp');
             $this->call('action-events:clear');
             $this->call('backup:run');
             $this->call('backup:clean');

@@ -33,7 +33,9 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+            'serve' => true,
             'throw' => false,
+            'report' => false,
         ],
 
         'public' => [
@@ -42,6 +44,7 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'avatars' => [
@@ -50,6 +53,7 @@ return [
             'url' => env('APP_URL').'/storage/avatars',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'arsip' => [
@@ -58,6 +62,7 @@ return [
             'url' => env('APP_URL').'/storage/arsip',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'images' => [
@@ -66,6 +71,7 @@ return [
             'url' => env('APP_URL').'/storage/images',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'naskah' => [
@@ -74,6 +80,7 @@ return [
             'url' => env('APP_URL').'/storage/naskah',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'announcement' => [
@@ -82,6 +89,7 @@ return [
             'url' => env('APP_URL').'/storage/announcement',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'template_naskah' => [
@@ -90,6 +98,7 @@ return [
             'url' => env('APP_URL').'/storage/templates/naskah',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'templates' => [
@@ -98,6 +107,7 @@ return [
             'url' => env('APP_URL').'/storage/templates',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'izin_keluar' => [
@@ -106,6 +116,7 @@ return [
             'url' => env('APP_URL').'/storage/izinkeluar',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'pulsa' => [
@@ -114,6 +125,7 @@ return [
             'url' => env('APP_URL').'/storage/pulsa',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'dokumentasi' => [
@@ -130,6 +142,7 @@ return [
             'url' => env('APP_URL').'/storage/sakip',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         'temp' => [
@@ -138,6 +151,7 @@ return [
             'url' => env('APP_URL').'/storage/.temp',
             'visibility' => 'public',
             'throw' => false,
+            'report' => false,
         ],
 
         's3' => [
@@ -150,6 +164,7 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+            'report' => false,
         ],
         'google' => [
             'driver' => 'google',

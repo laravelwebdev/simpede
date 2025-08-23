@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Nova\Actions\ActionResource;
+use Fidum\NovaPackageBundler\Http\Middleware\OverrideNovaPackagesMiddleware;
 
 return [
 
@@ -84,6 +85,7 @@ return [
         'web',
         \Laravel\Nova\Http\Middleware\HandleInertiaRequests::class,
         'nova:serving',
+        OverrideNovaPackagesMiddleware::class
     ],
 
     'api_middleware' => [

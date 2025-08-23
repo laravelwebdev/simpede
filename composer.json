@@ -23,6 +23,7 @@
     "require": {
         "php": "^8.2",
         "fidum/laravel-nova-metrics-polling": "^1.0",
+        "fidum/nova-package-bundler-command": "^1.8",
         "intervention/image-laravel": "*",
         "laravel/framework": "^12.0",
         "laravel/nova": "^5.0",
@@ -77,7 +78,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan nova:publish --ansi"
+            "@php artisan nova:publish --ansi",
+            "@php artisan nova:tools:publish"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

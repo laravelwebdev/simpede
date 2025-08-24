@@ -97,7 +97,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
                 ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
-                ->prepend(MenuItem::link('System Report', '/resources/error-logs/lens/error-log')
+                ->prepend(MenuItem::link('System Report', '/resources/error-logs/lens/system-report')
                     ->canSee(fn () => Policy::make()
                         ->allowedFor('admin')
                         ->get())

@@ -59,6 +59,9 @@ class SerapanAnggaran extends Progress
                         'daftar_sp2ds.id'
                     );
             }, column: 'nilai', target: MataAnggaran::whereRaw("SUBSTRING(mak,8,2) = '".$this->program."'")->where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')))
+                ->format([
+                    'average' => false,
+                ])
             : $this->sum($request, RealisasiAnggaran::class, function ($query) use ($filtered_ro, $filtered_bulan, $dipa_id) {
                 return $query->when(! empty($filtered_ro), function ($query) use ($filtered_ro) {
                     return $query->whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'");
@@ -77,7 +80,10 @@ class SerapanAnggaran extends Progress
                         '=',
                         'daftar_sp2ds.id'
                     );
-            }, column: 'nilai', target: ! empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')) : MataAnggaran::where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')));
+            }, column: 'nilai', target: ! empty($filtered_ro) ? MataAnggaran::whereRaw("SUBSTRING(mak,11,12) ='".$filtered_ro."'")->where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')) : MataAnggaran::where('dipa_id', $dipa_id)->sum(DB::raw('total - blokir')))
+                ->format([
+                    'average' => false,
+                ]);
     }
 
     /**

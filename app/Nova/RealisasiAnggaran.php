@@ -32,16 +32,23 @@ class RealisasiAnggaran extends Resource
      */
     public static $model = \App\Models\RealisasiAnggaran::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'daftarSp2d.nomor_spp';
+    protected function titleNomorSpp()
+    {
+        return $this->relationLoaded('daftarSp2d')
+            ? $this->daftarSp2d->nomor_spp
+            : $this->daftarSp2d()->value('nomor_spp');
+    }
 
     public function subtitle()
     {
-        return $this->daftarSp2d->uraian;
+        return $this->relationLoaded('daftarSp2d')
+            ? $this->daftarSp2d->uraian
+            : $this->daftarSp2d()->value('uraian');
+    }
+
+    public function title()
+    {
+        return $this->titleNomorSpp();
     }
 
     public static $search = [

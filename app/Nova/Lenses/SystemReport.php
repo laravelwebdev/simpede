@@ -11,6 +11,7 @@ use App\Nova\Metrics\SystemInfo;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Http\Requests\LensRequest;
@@ -48,7 +49,7 @@ class SystemReport extends Lens
     {
         return $request->withOrdering($request->withFilters(
             $query->where('resolved', false)
-        ));
+        )->orderBy('updated_at', 'desc'));
     }
 
     /**
@@ -88,6 +89,9 @@ class SystemReport extends Lens
                 })->asSmall(),
             ]),
             Numeric::make('Count')->sortable(),
+            Date::make('Last Occurred', 'updated_at')
+                ->displayUsing(fn ($value) => $value ? $value->diffForHumans() : '')
+                ->sortable(),
         ];
     }
 

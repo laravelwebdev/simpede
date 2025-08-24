@@ -34,11 +34,24 @@ class DataPegawai extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public function title()
+    {
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return 'Golongan: '.$this->golongan.', Jabatan: '.$this->jabatan.', Unit Kerja: '.$this->unitKerja->unit.'(Sejak: '.Helper::terbilangTanggal($this->tanggal).')';
+        $unit = $this->relationLoaded('unitKerja')
+            ? $this->unitKerja
+            : $this->unitKerja()->first(); // ambil record tanpa lazy load
+
+        return $unit ? 'Golongan: '.$this->golongan.
+            ', Jabatan: '.$this->jabatan.
+            ', Unit Kerja: '.$unit->unit.
+            ' (Sejak: '.Helper::terbilangTanggal($this->tanggal).')' : null;
     }
 
     public static $search = [

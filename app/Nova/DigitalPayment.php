@@ -32,7 +32,7 @@ class DigitalPayment extends Resource
      */
     public static $model = \App\Models\DigitalPayment::class;
 
-    public static $with = ['kerangkaAcuan'];
+    public static $with = ['kerangkaAcuan', 'kerangkaAcuan.naskahKeluar'];
 
     public static function label()
     {
@@ -44,11 +44,23 @@ class DigitalPayment extends Resource
      *
      * @var string
      */
-    public static $title = 'kerangkaAcuan.naskahKeluar.nomor';
+    public function title()
+    {
+        return $this->relationLoaded('kerangkaAcuan') && $this->kerangkaAcuan->relationLoaded('naskahKeluar')
+            ? $this->kerangkaAcuan->naskahKeluar->nomor
+            : $this->kerangkaAcuan()
+                ->with('naskahKeluar')
+                ->first()?->naskahKeluar?->nomor;
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return $this->kerangkaAcuan->rincian ?? 'Tidak ada uraian';
+        $kerangka = $this->relationLoaded('kerangkaAcuan')
+            ? $this->kerangkaAcuan
+            : $this->kerangkaAcuan()->first();
+
+        return $kerangka ? ($kerangka->rincian ?? 'Tidak ada uraian') : 'Tidak ada uraian';
     }
 
     /**

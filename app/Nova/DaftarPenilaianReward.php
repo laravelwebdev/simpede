@@ -27,7 +27,12 @@ class DaftarPenilaianReward extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public function title()
+    {
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name'); // ambil nilai tanpa lazy load
+    }
 
     /**
      * The columns that should be searched.

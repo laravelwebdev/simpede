@@ -42,11 +42,23 @@ class DaftarKontrakMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'mitra.nama';
+    public function title()
+    {
+        return $this->relationLoaded('mitra')
+            ? $this->mitra->nama
+            : $this->mitra()->value('nama');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return $this->KontrakMitra->nama_kontrak.': '.Helper::formatRupiah($this->nilai_kontrak);
+        $kontrak = $this->relationLoaded('kontrakMitra')
+            ? $this->kontrakMitra
+            : $this->kontrakMitra()->first(); // ambil record tanpa lazy load
+
+        return $kontrak
+            ? $kontrak->nama_kontrak.': '.Helper::formatRupiah($this->nilai_kontrak)
+            : null;
     }
 
     /**

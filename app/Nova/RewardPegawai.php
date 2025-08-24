@@ -52,7 +52,9 @@ class RewardPegawai extends Resource
 
     public function subtitle()
     {
-        return $this->user->name;
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name'); // query langsung tanpa lazy load
     }
 
     /**

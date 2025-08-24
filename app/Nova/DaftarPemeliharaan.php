@@ -31,11 +31,21 @@ class DaftarPemeliharaan extends Resource
      *
      * @var string
      */
-    public static $title = 'masterBarangPemeliharaan.nama_barang';
+    public function title()
+    {
+        return $this->relationLoaded('masterBarangPemeliharaan')
+            ? $this->masterBarangPemeliharaan->nama_barang
+            : $this->masterBarangPemeliharaan()->value('nama_barang');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return $this->pemeliharaan->rincian;
+        $pemeliharaan = $this->relationLoaded('pemeliharaan')
+            ? $this->pemeliharaan
+            : $this->pemeliharaan()->first(); // ambil record tanpa lazy load
+
+        return $pemeliharaan ? $pemeliharaan->rincian : null;
     }
 
     /**

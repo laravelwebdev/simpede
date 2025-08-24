@@ -45,7 +45,12 @@ class IzinKeluar extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public function title()
+    {
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name'); // query langsung tanpa lazy load
+    }
 
     public function subtitle()
     {

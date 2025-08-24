@@ -33,11 +33,21 @@ class DaftarHonorPegawai extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public function title()
+    {
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return 'Kegiatan: '.$this->honorKegiatan->kegiatan;
+        $kegiatan = $this->relationLoaded('honorKegiatan')
+            ? $this->honorKegiatan
+            : $this->honorKegiatan()->first(); // ambil record tanpa lazy load
+
+        return $kegiatan ? 'Kegiatan: '.$kegiatan->kegiatan : null;
     }
 
     public static $search = [

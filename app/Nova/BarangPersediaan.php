@@ -44,15 +44,24 @@ class BarangPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'masterPersediaan.barang';
+    public function title()
+    {
+        return $this->relationLoaded('masterPersediaan')
+            ? $this->masterPersediaan->barang
+            : $this->masterPersediaan()->value('barang');
+    }
 
     public function subtitle()
     {
-        return match ($this->barangPersediaanable::class) {
-            PembelianPersediaan::class => $this->barangPersediaanable->rincian,
-            PersediaanMasuk::class => $this->barangPersediaanable->rincian,
-            PersediaanKeluar::class => $this->barangPersediaanable->rincian,
-            PermintaanPersediaan::class => $this->barangPersediaanable->kegiatan,
+        $item = $this->relationLoaded('barangPersediaanable')
+            ? $this->barangPersediaanable
+            : $this->barangPersediaanable()->first(); // ambil record tanpa lazy load
+
+        return match ($item::class) {
+            PembelianPersediaan::class => $item->rincian,
+            PersediaanMasuk::class => $item->rincian,
+            PersediaanKeluar::class => $item->rincian,
+            PermintaanPersediaan::class => $item->kegiatan,
         };
     }
 

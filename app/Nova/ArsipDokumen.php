@@ -45,7 +45,9 @@ class ArsipDokumen extends Resource
 
     public function subtitle()
     {
-        return $this->kerangkaAcuan->rincian;
+        return $this->relationLoaded('kerangkaAcuan')
+            ? $this->kerangkaAcuan->rincian
+            : $this->kerangkaAcuan()->value('rincian');
     }
 
     /**

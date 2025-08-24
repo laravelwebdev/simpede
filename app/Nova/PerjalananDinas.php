@@ -50,7 +50,12 @@ class PerjalananDinas extends Resource
      *
      * @var string
      */
-    public static $title = 'spdNaskahKeluar.nomor';
+    public function title()
+    {
+        return $this->relationLoaded('spdNaskahKeluar')
+            ? $this->spdNaskahKeluar->nomor
+            : $this->spdNaskahKeluar()->value('nomor');
+    }
 
     public function subtitle()
     {

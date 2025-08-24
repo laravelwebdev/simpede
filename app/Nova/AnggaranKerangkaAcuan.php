@@ -35,11 +35,18 @@ class AnggaranKerangkaAcuan extends Resource
      *
      * @var string
      */
-    public static $title = 'mataAnggaran.mak';
+    public function title()
+    {
+        return $this->relationLoaded('mataAnggaran')
+            ? $this->mataAnggaran->mak
+            : $this->mataAnggaran()->value('mak');
+    }
 
     public function subtitle()
     {
-        return $this->mataAnggaran->uraian;
+        return $this->relationLoaded('mataAnggaran')
+            ? $this->mataAnggaran->uraian
+            : $this->mataAnggaran()->value('uraian');
     }
 
     /**

@@ -39,11 +39,21 @@ class DaftarPesertaPerjalanan extends Resource
      *
      * @var string
      */
-    public static $title = 'user.name';
+    public function title()
+    {
+        return $this->relationLoaded('user')
+            ? $this->user->name
+            : $this->user()->value('name');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return $this->perjalananDinas->uraian;
+        $perjalanan = $this->relationLoaded('perjalananDinas')
+            ? $this->perjalananDinas
+            : $this->perjalananDinas()->first(); // ambil record tanpa lazy load
+
+        return $perjalanan ? $perjalanan->uraian : null;
     }
 
     /**

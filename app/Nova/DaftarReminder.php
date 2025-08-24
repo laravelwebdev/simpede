@@ -36,7 +36,12 @@ class DaftarReminder extends Resource
      *
      * @var string
      */
-    public static $title = 'daftarKegiatan.kegiatan';
+    public function title()
+    {
+        return $this->relationLoaded('daftarKegiatan')
+            ? $this->daftarKegiatan->kegiatan
+            : $this->daftarKegiatan()->value('kegiatan'); // query langsung tanpa lazy load
+    }
 
     public function subtitle()
     {

@@ -48,11 +48,18 @@ class BastMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'kontrakMitra.nama_kontrak';
+    public function title()
+    {
+        return $this->relationLoaded('kontrakMitra')
+            ? $this->kontrakMitra->nama_kontrak
+            : $this->kontrakMitra()->value('nama_kontrak');
+    }
 
     public function subtitle()
     {
-        return $this->kontrakMitra->jenis_honor;
+        return $this->relationLoaded('kontrakMitra')
+            ? $this->kontrakMitra->jenis_honor
+            : $this->kontrakMitra()->value('jenis_honor');
     }
 
     /**

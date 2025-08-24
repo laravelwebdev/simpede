@@ -67,12 +67,14 @@ class KerangkaAcuan extends Resource
      */
     public function title()
     {
-        return $this->naskahKeluar->nomor;
+        return $this->relationLoaded('naskahKeluar')
+            ? $this->naskahKeluar->nomor
+            : $this->naskahKeluar()->value('nomor');
     }
 
     public function subtitle()
     {
-        return $this->rincian;
+        return $this->rincian; // aman karena bukan relasi
     }
 
     /**

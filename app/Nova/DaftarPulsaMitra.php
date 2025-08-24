@@ -39,11 +39,21 @@ class DaftarPulsaMitra extends Resource
      *
      * @var string
      */
-    public static $title = 'mitra.nama';
+    public function title()
+    {
+        return $this->relationLoaded('mitra')
+            ? $this->mitra->nama
+            : $this->mitra()->value('nama');
+    }
 
+    // Override subtitle() untuk akses relasi dengan aman
     public function subtitle()
     {
-        return 'Kegiatan: '.$this->pulsaKegiatan->kegiatan;
+        $kegiatan = $this->relationLoaded('pulsaKegiatan')
+            ? $this->pulsaKegiatan
+            : $this->pulsaKegiatan()->first(); // ambil record tanpa lazy load
+
+        return $kegiatan ? 'Kegiatan: '.$kegiatan->kegiatan : null;
     }
 
     /**

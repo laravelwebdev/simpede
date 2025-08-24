@@ -19,7 +19,6 @@ use App\Nova\DigitalPayment;
 use App\Nova\Dipa;
 use App\Nova\DokumentasiKegiatan;
 use App\Nova\DokumentasiLink;
-use App\Nova\ErrorLog;
 use App\Nova\HargaSatuan;
 use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
@@ -34,7 +33,6 @@ use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
 use App\Nova\Lenses\RekapPulsaMitra;
 use App\Nova\Lenses\RencanaPenarikanDana;
-use App\Nova\Lenses\SystemReport;
 use App\Nova\LimitPulsa;
 use App\Nova\MasterBarangPemeliharaan;
 use App\Nova\MasterPersediaan;
@@ -99,9 +97,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu
                 ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
                 ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
-                ->prepend(MenuItem::lens(ErrorLog::class, SystemReport::class)->canSee(fn () => Policy::make()
-                    ->allowedFor('admin')
-                    ->get())
+                ->prepend(MenuItem::link('System Report', '/resources/error-logs/lens/error-log')
+                    ->canSee(fn () => Policy::make()
+                        ->allowedFor('admin')
+                        ->get())
                 );
         });
 
@@ -325,10 +324,5 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function register()
     {
         parent::register();
-        // Nova::report(function ($exception) {
-        //     if (app()->bound('sentry')) {
-        //         app('sentry')->captureException($exception);
-        //     }
-        // });
     }
 }

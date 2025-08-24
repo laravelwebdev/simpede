@@ -25,9 +25,21 @@ class SystemReport extends Lens
      *
      * @var array
      */
-    public static $search = [];
+    public static $search = [
+        'level',
+        'context',
+        'file',
+        'line',
+        'message',
+    ];
+
+    public $name = 'Log Error';
 
     public static $showPollingToggle = true;
+
+    public static $polling = true;
+
+    public static $pollingInterval = 60;
 
     /**
      * Get the query builder / paginator for the lens.
@@ -136,6 +148,6 @@ class SystemReport extends Lens
      */
     public function uriKey(): string
     {
-        return 'error-log';
+        return 'system-report';
     }
 }

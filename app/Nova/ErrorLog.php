@@ -73,13 +73,21 @@ class ErrorLog extends Resource
                 ])
                 ->withIcons()
                 ->filterable(),
-            Textarea::make('Context')->alwaysShow()->onlyOnDetail(),
             Text::make('File', function ($model) {
-                return $model->file.' :'.$model->line;
+                if (is_null($model->file)) {
+                    return null;
+                }
+
+                return $model->file.' on Line :'.$model->line;
             })->onlyOnDetail(),
             Stack::make('Details', [
+                Text::make('Context'),
                 Line::make('File', function ($model) {
-                    return $model->file.' :'.$model->line;
+                    if (is_null($model->file)) {
+                        return null;
+                    }
+
+                    return $model->file.' on Line :'.$model->line;
                 })->asBase(),
                 Line::make('Message', function ($model) {
                     return strlen($model->message) > 175

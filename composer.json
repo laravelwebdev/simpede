@@ -10,7 +10,7 @@
             "type": "git"
         },
         {
-            "url": "https://github.com/laravelwebdev/nova-backup-tool.git",
+            "url": "https://github.com/laravelwebdev/laravel-query-detector.git",
             "type": "git"
         }
     ],
@@ -107,5 +107,5 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "version": "2.15.1",
-    "laravel": "12.3.1"
+    "laravel": "12.3.2"
 }

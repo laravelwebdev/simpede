@@ -24,6 +24,8 @@ class DatabaseLogger extends AbstractProcessingHandler
         $file = null;
         $line = null;
 
+        $e = null;
+
         if (isset($context['exception']) && $context['exception'] instanceof \Throwable) {
             $e = $context['exception'];
             $trace = $e->getTrace();
@@ -57,9 +59,9 @@ class DatabaseLogger extends AbstractProcessingHandler
         } else {
             ErrorLog::create([
                 'message' => $message,
-                'context' => get_class($e),
+                'context' => $e ? get_class($e) : 'System Log',
                 'level' => $level,
-                'file' => $this->pathToClass($file),
+                'file' => $file ? $this->pathToClass($file) : null,
                 'line' => $line,
                 'resolved' => false,
                 'count' => 1,

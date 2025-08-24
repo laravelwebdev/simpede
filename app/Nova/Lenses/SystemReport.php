@@ -66,7 +66,8 @@ class SystemReport extends Lens
                     if (is_null($model->file)) {
                         return null;
                     }
-                    return $model->file . ' on Line :' . $model->line;
+
+                    return $model->file.' on Line :'.$model->line;
                 })->asBase(),
                 Line::make('Message', function ($model) {
                     return strlen($model->message) > 175

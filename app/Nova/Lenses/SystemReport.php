@@ -119,14 +119,16 @@ class SystemReport extends Lens
      */
     public function actions(NovaRequest $request): array
     {
-        return [SetStatus::make()
-            ->confirmButtonText('Ubah Status')
-            ->confirmText('Pastikan Error sudah diperbaiki. Yakin akan melanjutkan?')
-            ->setName('Resolve Error')
-            ->setStatus(true, 'resolved')
-            ->sole()
-            ->onlyInline()
-            ->canSee(fn () => Policy::make()->allowedFor('admin')->get()), ];
+        return [
+            SetStatus::make()
+                ->confirmButtonText('Ubah Status')
+                ->confirmText('Pastikan Error sudah diperbaiki. Yakin akan melanjutkan?')
+                ->setName('Resolve Error')
+                ->setStatus(true, 'resolved')
+                ->sole()
+                ->onlyInline()
+                ->canSee(fn () => Policy::make()->allowedFor('admin')->get()),
+        ];
     }
 
     /**

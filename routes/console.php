@@ -18,5 +18,5 @@ Schedule::command('simpede:backup create')->dailyAt('18:00')
     ->timezone(config('app.schedule_timezone'));
 Schedule::command('reminder:send')->hourly();
 Schedule::command('holidays:sync')->daily();
-Schedule::command('simpede:clear-error-log')->weeklyOn('03:00')
+Schedule::command('simpede:clear-error-log')->weeklyOn(0, '03:00')
     ->timezone(config('app.schedule_timezone'));

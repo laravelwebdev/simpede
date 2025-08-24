@@ -41,7 +41,6 @@ class DatabaseLogger extends AbstractProcessingHandler
                 $file = $e->getFile();
                 $line = $e->getLine();
             }
-
         }
 
         // Cek duplikat log

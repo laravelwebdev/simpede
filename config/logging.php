@@ -143,7 +143,7 @@ return [
         'stack' => [
             'driver' => 'stack',
             'channels' => ['database', 'fallback'],
-            'ignore_exceptions' => false, 
+            'ignore_exceptions' => false,
         ],
 
     ],

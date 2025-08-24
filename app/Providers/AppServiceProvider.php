@@ -30,6 +30,5 @@ class AppServiceProvider extends ServiceProvider
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
             Log::warning(sprintf('N+1 Query detected in %s::%s', get_class($model), $relation));
         });
-
     }
 }

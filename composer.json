@@ -22,7 +22,6 @@
     ],
     "require": {
         "php": "^8.2",
-        "beyondcode/laravel-query-detector": "*",
         "fidum/laravel-nova-metrics-polling": "^1.0",
         "fidum/nova-package-bundler-command": "^1.8",
         "intervention/image-laravel": "*",

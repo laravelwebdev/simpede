@@ -87,6 +87,9 @@ class JumlahKegiatan extends Value
         return $this->result($bulan_ini)
             ->previous($bulan_lalu)
             ->suffix('Kegiatan')
+            ->format([
+                'average' => false,
+            ])
             ->withoutSuffixInflection();
     }
 

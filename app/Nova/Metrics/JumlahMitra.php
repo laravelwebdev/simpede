@@ -78,6 +78,9 @@ class JumlahMitra extends Trend
             return (new TrendResult)->trend($arr)
                 ->result($arr[Helper::BULAN[$filtered_bulan]])
                 ->suffix('Mitra')
+                ->format([
+                    'average' => false,
+                ])
                 ->withoutSuffixInflection();
         }
     }

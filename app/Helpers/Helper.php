@@ -449,7 +449,7 @@ class Helper
      */
     public static function formatUang($angka)
     {
-        return number_format($angka, 0, ',', '.');
+        return number_format($angka ?? 0, 0, ',', '.');
     }
 
     /**

@@ -44,9 +44,6 @@ Dibuat menggunakan Laravel 12 dan memerlukan ekstensi server berikut:
 Akun Fonnte
 - Buat akun di website [fonnte.com](https://fonnte.com/)
 
-Akun Sentry
-- Buat akun di website [sentry.io](https://sentry.io/)
-
 Sediakan 1 akun Google Drive Baru untuk Backup Aplikasi dan buat folder Simpede
 
 Buat Google Drive API
@@ -97,14 +94,6 @@ Aplikasi ini menggunakan Whatsapp API dari [Fonnte](https://fonnte.com) agar bis
     ```bash 
     https://domainanda/webhook.php (Sesuaikan dengan nama domain Anda)
     ```
-## Setup Sentry
-Aplikasi ini menggunakan website [Sentry](https://sentry.io/) sebagai sarana untuk memonitor error dan performa.
-Ubah setting Sentry pada file `.env`
-* `SENTRY_LARAVEL_DSN`: Isi DSN Sentry yang anda miliki.
-* `SENTRY_ORGANIZATION_ID`: Isi Sentry Organization id Anda
-* `SENTRY_PROJECT_ID`: Project id
-* `SENTRY_AUTH_TOKEN`: Auth token
-
 ## Setup Google Drive
 Aplikasi ini menggunakan google drive untuk menyimpan backup harian.
 Ubah setting Google Drive pada file `.env`

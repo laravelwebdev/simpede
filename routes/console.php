@@ -6,20 +6,17 @@ if (config('app.auto_update')) {
     Schedule::command('simpede:update')->dailyAt('01:00')
         ->withoutOverlapping()
         ->runInBackground()
-        ->timezone(config('app.schedule_timezone'))
-        ->sentryMonitor();
+        ->timezone(config('app.schedule_timezone'));
 }
 Schedule::command('db:optimize')->monthlyOn(1, '02:00')
     ->withoutOverlapping()
     ->runInBackground()
-    ->timezone(config('app.schedule_timezone'))
-    ->sentryMonitor();
+    ->timezone(config('app.schedule_timezone'));
 Schedule::command('simpede:backup create')->dailyAt('18:00')
     ->withoutOverlapping()
     ->runInBackground()
-    ->timezone(config('app.schedule_timezone'))
-    ->sentryMonitor();
-Schedule::command('reminder:send')->hourly()
-    ->sentryMonitor();
-Schedule::command('holidays:sync')->daily()
-    ->sentryMonitor();
+    ->timezone(config('app.schedule_timezone'));
+Schedule::command('reminder:send')->hourly();
+Schedule::command('holidays:sync')->daily();
+Schedule::command('simpede:clear-error-log')->weeklyOn('03:00')
+    ->timezone(config('app.schedule_timezone'));

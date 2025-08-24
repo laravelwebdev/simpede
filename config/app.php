@@ -156,16 +156,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | SENTRY API
-    |--------------------------------------------------------------------------
-    |
-    */
-    'sentry_organization' => env('SENTRY_ORGANIZATION_ID'),
-    'sentry_project' => env('SENTRY_PROJECT_ID'),
-    'sentry_token' => env('SENTRY_AUTH_TOKEN'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Auto Update for Application and Composer Dependencies
     |--------------------------------------------------------------------------
     |

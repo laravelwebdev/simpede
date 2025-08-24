@@ -22,6 +22,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "beyondcode/laravel-query-detector": "*",
         "fidum/laravel-nova-metrics-polling": "^1.0",
         "fidum/nova-package-bundler-command": "^1.8",
         "intervention/image-laravel": "*",
@@ -45,7 +46,6 @@
         "phpoffice/phpword": "^1.2",
         "rap2hpoutre/fast-excel": "^5.5",
         "richardkeep/nova-timenow": "^3.0",
-        "sentry/sentry-laravel": "*",
         "spatie/laravel-backup": "^9.3",
         "sweetalert2/laravel": "^0.1.0",
         "yaza/laravel-google-drive-storage": "^4.1"

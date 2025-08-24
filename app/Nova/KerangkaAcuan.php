@@ -34,7 +34,7 @@ use Laravelwebdev\Numeric\Numeric;
 
 class KerangkaAcuan extends Resource
 {
-    public static $with = ['unitKerja',  'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan', 'daftarSp2d'];
+    public static $with = ['unitKerja', 'naskahKeluar', 'arsipDokumen', 'anggaranKerangkaAcuan', 'spesifikasiKerangkaAcuan', 'daftarSp2d'];
 
     public static function label()
     {

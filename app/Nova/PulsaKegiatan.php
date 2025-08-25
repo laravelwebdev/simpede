@@ -124,7 +124,6 @@ class PulsaKegiatan extends Resource
             ]),
             Panel::make('Anggaran', [
                 BelongsTo::make('Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
-                    ->searchable()
                     ->withSubtitles()
                     ->hideFromIndex()
                     ->rules('required')

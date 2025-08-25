@@ -176,7 +176,6 @@ class PerjalananDinas extends Resource
                 ->hideFromIndex()
                 ->rules('required'),
             BelongsTo::make('Mata Anggaran', 'mataAnggaran', MataAnggaran::class)
-                ->searchable()
                 ->withSubtitles()
                 ->hideFromIndex()
                 ->rules('required')

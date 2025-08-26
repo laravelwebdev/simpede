@@ -177,7 +177,7 @@ class ExportTemplateCmsBri extends Action
         $outputHandle = fopen($outputFile, 'w');
 
         if ($inputHandle !== false && $outputHandle !== false) {
-            while (($data = fgetcsv($inputHandle, 0, '|', '"')) !== false) {
+            while (($data = fgetcsv($inputHandle, 0, '|', '"', '')) !== false) {
                 fwrite($outputHandle, implode('|', $data).PHP_EOL);
             }
             fclose($inputHandle);

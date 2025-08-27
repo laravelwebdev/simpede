@@ -2303,9 +2303,15 @@ class Helper
         ]);
         $recipients = implode(',', collect($kegiatan->wa_group_id)->pluck('id')->toArray());
         $response = Fonnte::make()->sendWhatsAppMessage($recipients, $pesan);
+        if $response['status'] {
         $reminder->status = $response['data']['process'] ?? 'Gagal';
         $reminder->message_id = $response['data']['id'][0];
         $reminder->save();
+        return 'Reminder Terkirim';
+        }
+        else {
+            retun 'Gagal Mengirim Reminder'. $response['error'];
+        }
     }
 
     /**

@@ -28,10 +28,17 @@ class SendReminder extends Command
     public function handle()
     {
         $reminders = DaftarReminder::getRemindersForToday();
+        $result = [];
         foreach ($reminders as $reminder) {
             Helper::sendReminder($reminder);
         }
 
-        $this->info('Scheduled reminders sent successfully.');
+        if (! empty($result) && count(array_filter($result, function ($v) {
+            return $v !== true;
+        })) === 0) {
+            $this->info('Scheduled reminders sent successfully.');
+        } else {
+            $this->error('Failed to send some scheduled reminders.');
+        }
     }
 }

@@ -2294,7 +2294,7 @@ class Helper
     public static function sendReminder($reminder, $method = 'auto')
     {
         $kegiatan = $reminder->daftarKegiatan;
-        $hari = floor($kegiatan->awal->diffInDays($method === 'auto' ? $reminder->tanggal : now()));
+        $hari = floor(($method === 'auto' ? $reminder->tanggal : now())->diffInDays($kegiatan->awal));
         $pesan = strtr($kegiatan->pesan, [
             '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
             '{tanggal}' => self::terbilangTanggal($kegiatan->awal),
@@ -2304,12 +2304,11 @@ class Helper
         $recipients = implode(',', collect($kegiatan->wa_group_id)->pluck('id')->toArray());
         $response = Fonnte::make()->sendWhatsAppMessage($recipients, $pesan);
         if ($response['status']) {
-        $reminder->status = $response['data']['process'] ?? 'Gagal';
-        $reminder->message_id = $response['data']['id'][0];
-        $reminder->save();
-        return 'Reminder Terkirim';
-        }
-        else {
+            $reminder->status = $response['data']['process'] ?? 'Gagal';
+            $reminder->message_id = $response['data']['id'][0];
+            $reminder->save();
+            return 'Reminder Terkirim';
+        } else {
             return 'Gagal Mengirim Reminder'. $response['error'];
         }
     }

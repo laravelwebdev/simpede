@@ -2310,7 +2310,7 @@ class Helper
         return 'Reminder Terkirim';
         }
         else {
-            retun 'Gagal Mengirim Reminder'. $response['error'];
+            return 'Gagal Mengirim Reminder'. $response['error'];
         }
     }
 

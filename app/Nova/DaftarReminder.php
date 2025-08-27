@@ -131,7 +131,9 @@ class DaftarReminder extends Resource
         return [
             Action::using('Kirim Sekarang', function (ActionFields $fields, Collection $models) {
                 $reminder = $models->first();
-                Helper::sendReminder($reminder, 'manual');
+                $success = Helper::sendReminder($reminder, 'manual');
+                return $success === true ? Action::message('Reminder berhasil dikirim!')
+                    : Action::danger('Gagal mengirim reminder. Error: ' . ($success ?? 'Unknown error'));
             })
                 ->sole()
                 ->canSee(fn () => $this->resource->status !== 'sent'),

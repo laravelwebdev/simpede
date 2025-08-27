@@ -35,28 +35,28 @@ class Fonnte
      */
     protected function makeRequest($endpoint, $params = [])
     {
-        $token = $this->account_token;
-
-        if (! $token) {
-            return ['status' => false, 'error' => 'API token or device token is required.'];
+        if (! $this->account_token) {
+            return ['status' => false, 'error' => 'API token is required.'];
         }
 
-        // Gunakan JSON format dan pastikan Content-Type header benar
         $response = Http::withHeaders([
-            'Authorization' => $token,
-            'Content-Type' => 'application/json', // Tambahkan header
+            'Authorization' => $this->account_token,
+            'Content-Type' => 'application/json',
         ])->post($endpoint, $params);
 
-        if ($response->failed()) {
+        $body = $response->json();
+
+        if (! ($body['status'] ?? false)) {
             return [
                 'status' => false,
-                'error' => $response->json()['reason'] ?? 'Unknown error occurred',
+                'error' => $body['reason'] ?? 'Unknown error',
+                'data' => $body,
             ];
         }
 
         return [
             'status' => true,
-            'data' => $response->json(),
+            'data' => $body,
         ];
     }
 

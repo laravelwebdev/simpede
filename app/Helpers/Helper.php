@@ -2307,9 +2307,10 @@ class Helper
             $reminder->status = $response['data']['process'] ?? 'Gagal';
             $reminder->message_id = $response['data']['id'][0];
             $reminder->save();
-            return 'Reminder Terkirim';
+
+            return true;
         } else {
-            return 'Gagal Mengirim Reminder'. $response['error'];
+            return $response['error'] ?? 'Gagal Mengirim Reminder';
         }
     }
 

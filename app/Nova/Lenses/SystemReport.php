@@ -107,14 +107,13 @@ class SystemReport extends Lens
             ServerResource::make('inode')->refreshIntervalSeconds(60),
             ServerResource::make('backup')->help('')->refreshIntervalSeconds(60),
             SystemInfo::make()->width('1/3')->refreshIntervalSeconds(60)->scrollable(),
+            OutdatedTable::make()->width('1/3')
+                ->scrollable()
+                ->emptyText('All packages are already up to date.'),
             BackupsTable::make()->width('1/3')
                 ->emptyText('No backups found.')
                 ->scrollable()
                 ->refreshIntervalSeconds(60),
-            OutdatedTable::make()->width('1/3')
-                ->scrollable()
-                ->emptyText('All packages are already up to date.'),
-
         ];
     }
 

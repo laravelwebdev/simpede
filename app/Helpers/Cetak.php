@@ -87,9 +87,9 @@ class Cetak
         Settings::setOutputEscapingEnabled(true);
         $templateProcessor = new TemplateProcessor(Helper::getTemplatePathById($template_id)['path']);
         if ($tanggal || $pengelola) {
-            $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id, $tanggal, $pengelola);
+            $data = call_user_func([self::class, $jenis], $id, $tanggal, $pengelola);
         } else {
-            $data = call_user_func('App\Helpers\Cetak::'.$jenis, $id);
+            $data = call_user_func([self::class, $jenis], $id);
         }
         if ($jenis === 'kak') {
             $templateProcessor->cloneRowAndSetValues('anggaran_no', Helper::formatAnggaran($data['anggaran']));

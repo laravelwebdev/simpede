@@ -41,9 +41,8 @@
         <!-- Navbar Start -->
         <nav class="navbar" id="navbar">
             <div class="container relative flex flex-wrap items-center justify-between">
-                <a class="navbar-brand md:me-8 w-40" href="#" style="width:160px;">
-                    <img src="{{ asset('images/light.svg') }}" class="inline-block dark:hidden" alt="">
-                    <img src="{{ asset('images/dark.svg') }}" class="hidden dark:inline-block" alt="">
+                <a class="navbar-brand md:me-8 w-40" href="#" style="width:110px;">
+                    <img src="{{ asset('images/logo.svg') }}" class="inline-block alt="">
                 </a>
 
                 <div class="nav-icons flex items-center lg_992:order-2 ms-auto md:ms-8">

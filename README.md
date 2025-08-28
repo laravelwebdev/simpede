@@ -1,5 +1,4 @@
-![Simpede logo](resources/img/dark.svg#gh-dark-mode-only)
-![Simpede logo](resources/img/light.svg#gh-light-mode-only)
+<img src="public/images/logo.svg" alt="Simpede logo" width="320">
 
 [![StyleCI](https://github.styleci.io/repos/840671846/shield?branch=main)](https://github.styleci.io/repos/840671846?branch=main)
 

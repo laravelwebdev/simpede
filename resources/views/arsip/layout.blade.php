@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Arsip Dokumen - {{ $level }}</title>
     <link rel="stylesheet" href="{{ asset('css/bulma.min.css') }}">
+
     <link rel="stylesheet" href="{{ asset('css/toasr.min.css') }}">
     <script type="text/javascript" src="{{ asset('js/toast.min.js') }}"></script>
   </head>
@@ -13,7 +14,7 @@
         <nav class="navbar is-transparent">
           <div class="container">
             <div class="navbar-brand">
-              <a href="{{ route('welcome') }}"class="navbar-item">
+              <a href="{{ route('welcome') }}"class="navbar-item" style="width:160px;">
                 <img src="{{ asset('images/logo.svg') }}" alt="Logo" style="max-height: 3rem;">
               </a>
               <span class="navbar-item" style="position:absolute;right:5px;top:5px">

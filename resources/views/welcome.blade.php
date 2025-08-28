@@ -41,7 +41,7 @@
         <!-- Navbar Start -->
         <nav class="navbar" id="navbar">
             <div class="container relative flex flex-wrap items-center justify-between">
-                <a class="navbar-brand md:me-8 w-40" href="#" style="width:110px;">
+                <a class="navbar-brand md:me-8 w-40" href="#" style="width:150px;">
                     <img src="{{ asset('images/logo.svg') }}" class="inline-block alt="">
                 </a>
 

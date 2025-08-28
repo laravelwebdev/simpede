@@ -31,8 +31,9 @@ class AddSessionOnLogin
             ->toArray();
 
         // Jika login via remember-me tapi cookie simpede_year hilang → paksa logout
-        if ($event->remember && !request()->hasCookie('simpede_year')) {
+        if ($event->remember && ! request()->hasCookie('simpede_year')) {
             auth()->logout();
+
             return; // Laravel akan arahkan user ke login page default
         }
 
@@ -43,5 +44,4 @@ class AddSessionOnLogin
 
         session(['role' => $roles, 'year' => $year]);
     }
-
 }

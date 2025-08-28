@@ -23,13 +23,25 @@ class AddSessionOnLogin
     {
         $user = $event->user;
 
+        // Cek roles user aktif
         $roles = Pengelola::cache()->get('all')
             ->where('user_id', $user->id)
             ->whereNull('inactive')
             ->pluck('role')
             ->toArray();
-        $year = $event->remember ? request()->cookie('simpede_year') : request()->input('year');
-        Session::put('role', $roles);
-        Session::put('year', $year ?? date('Y'));
+
+        // Jika login via remember-me tapi cookie simpede_year hilang → paksa logout
+        if ($event->remember && !request()->hasCookie('simpede_year')) {
+            auth()->logout();
+            return; // Laravel akan arahkan user ke login page default
+        }
+
+        // Set year di session
+        $year = $event->remember
+            ? request()->cookie('simpede_year')
+            : request()->input('year', date('Y'));
+
+        session(['role' => $roles, 'year' => $year]);
     }
+
 }

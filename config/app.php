@@ -132,7 +132,7 @@ return [
     |
     */
 
-    'initialyear' => env('NOVA_INITIAL_YEAR', 2024),
+    'initialyear' => env('INITIAL_YEAR', 2024),
 
     /*
     |--------------------------------------------------------------------------

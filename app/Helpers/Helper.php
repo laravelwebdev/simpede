@@ -76,6 +76,12 @@ class Helper
         'kkp' => 'KKP',
     ];
 
+    const JENIS_UANG_PERSEDIAAN = [
+        'gup' => 'GUP',
+        'kkp' => 'KKP',
+    ];
+
+
     const JENIS_KEGIATAN = [
         'Libur' => 'Libur',
         'Deadline' => 'Deadline',

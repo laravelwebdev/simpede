@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('uang_persediaans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal')->nullable();
+            $table->string('jenis', 20)->nullable();
+            $table->integer('limit')->nullable()->unsigned();
             $table->timestamps();
         });
     }

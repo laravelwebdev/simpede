@@ -15,7 +15,7 @@ class UangPersediaan extends Resource
 
     public static function label()
     {
-        return 'UangPersediaan';
+        return 'Uang Persediaan';
     }
 
     /**
@@ -23,10 +23,13 @@ class UangPersediaan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return Helper::JENIS_UANG_PERSEDIAAN[$this->jenis] ?? '';
+    }
 
     public function subtitle(){
-        return $this->id;
+        return $this->limit ? 'Nilai GUP: '.Helper::formatUang($this->limit) : null;
     }
 
     /**
@@ -35,7 +38,7 @@ class UangPersediaan extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'jenis',
     ];
 
     /**
@@ -47,7 +50,19 @@ class UangPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            
+            Date::make('Tanggal', 'tanggal')
+                ->sortable()
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->rules('required'),
+            Select::make('Jenis', 'jenis')
+                ->options(Helper::JENIS_UANG_PERSEDIAAN)
+                ->displayUsingLabels()
+                ->sortable()
+                ->rules('required'),
+            Numeric::make('Nilai GUP', 'limit')
+                ->sortable()
+                ->rules('required', 'integer', 'gte:1'),
+
         ];
     }
 

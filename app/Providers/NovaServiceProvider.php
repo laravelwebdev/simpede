@@ -58,6 +58,7 @@ use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\TindakLanjut;
+use App\Nova\UangPersediaan;
 use App\Nova\UnitKerja;
 use App\Nova\User;
 use App\Nova\UserEksternal;
@@ -195,6 +196,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
+                    MenuItem::resource(UangPersediaan::class),
                     // MenuItem::resource(UserEksternal::class),
                 ])
                     ->collapsable()

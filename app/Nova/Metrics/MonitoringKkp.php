@@ -43,11 +43,11 @@ class MonitoringKkp extends Table
         ]);
 
         $this->data([
-            (Row::make(
+            Row::make(
                 Cell::make($target ? Helper::formatUang($target) : '-')->class('text-right'),
                 Cell::make($realisasi ? Helper::formatUang($realisasi) : '-')->class('text-right'),
                 Cell::make($selisih ? Helper::formatUang($selisih) : '-')->class('text-right')
-            )),
+            ),
         ]
         );
     }

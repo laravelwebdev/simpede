@@ -2422,7 +2422,6 @@ class Helper
                 'akhir' => Carbon::instance($endDate),
                 'hari' => $days,
             ];
-
         }
 
         return [
@@ -2430,12 +2429,10 @@ class Helper
             'akhir' => '-',
             'hari' => 0,
         ];
-
     }
 
     public static function setReminderForUangPersediaan($jenis, $tanggal)
     {
-
         $kegiatan = new DaftarKegiatan;
         $kegiatan->jenis = 'Deadline';
         $kegiatan->kegiatan = $jenis === 'gup' ? 'SPM Penggantian UP (GUP)' : 'SPM Pertanggungjawaban TUP (GTUP)';

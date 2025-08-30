@@ -48,16 +48,16 @@ class MonitoringUpPerJenis extends Table
         ]);
 
         $this->data([
-            (Row::make(
+            Row::make(
                 Cell::make('GUP'),
                 Cell::make($gup ? Helper::terbilangTanggal($gup['akhir']) : '-'),
                 Cell::make($minGup ? Helper::formatUang($minGup) : '-')->class('text-right')
-            )),
-            (Row::make(
+            ),
+            Row::make(
                 Cell::make('TUP'),
                 Cell::make(($tup && $tup['akhir'] !== '-') ? Helper::terbilangTanggal($tup['akhir']) : ($tup['akhir'] ?? '-')),
                 Cell::make($latestTup ? Helper::formatUang(optional($latestTup)->nilai) : '-')->class('text-right')
-            )),
+            ),
         ]
         );
     }

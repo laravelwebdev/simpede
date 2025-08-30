@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('target_serapan_anggarans', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('bulan')->unsigned()->nullable();
-            $table->decimal('nilai', 5)->nullable();
+            $table->bigInteger('nilai')->nullable();
             $table->mediumInteger('jenis_belanja_id')->nullable()->unsigned();
             $table->timestamps();
         });

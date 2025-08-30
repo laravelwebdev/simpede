@@ -29,9 +29,11 @@ use App\Models\NaskahKeluar;
 use App\Models\Pengelola;
 use App\Models\TataNaskah;
 use App\Models\Template;
+use App\Models\UangPersediaan;
 use App\Models\UnitKerja;
 use App\Models\User;
 use App\Models\WhatsappGroup;
+use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -64,6 +66,15 @@ class Helper
         'Lainnya' => 'Lainnya',
     ];
 
+    const JENIS_UP = [
+        'GTUP NIHIL',
+        'GUP NIHIL',
+        'GUP KKP',
+        'TUP',
+        'GUP',
+        'UP',
+    ];
+
     const AKUN_PERJALANAN = [
         '524111',
         '524113',
@@ -75,12 +86,6 @@ class Helper
         'atm' => 'ATM',
         'kkp' => 'KKP',
     ];
-
-    const JENIS_UANG_PERSEDIAAN = [
-        'gup' => 'GUP',
-        'kkp' => 'KKP',
-    ];
-
 
     const JENIS_KEGIATAN = [
         'Libur' => 'Libur',
@@ -1972,6 +1977,42 @@ class Helper
         return optional(TataNaskah::cache()->get('all')->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first())->id;
     }
 
+    public static function getLatestUangPersediaan($tahun, array $jenis)
+    {
+        $dipa = Dipa::cache()
+            ->get('all')
+            ->where('tahun', $tahun)
+            ->first();
+        $dipaId = optional($dipa)->id;
+
+        $latestUp = UangPersediaan::where('dipa_id', $dipaId)
+            ->whereIn('jenis', $jenis)
+            ->whereNowOrPast('tanggal')
+            ->latest('tanggal')
+            ->first();
+
+        return $latestUp;
+    }
+
+    public static function getLatestUp($tahun)
+    {
+        return self::getLatestUangPersediaan($tahun, ['UP']);
+    }
+
+    public static function getLatestGup($tahun)
+    {
+        $gup = self::getLatestUangPersediaan($tahun, ['GUP']);
+
+        return $gup ?? self::getLatestUp($tahun);
+    }
+
+    public static function getLatestTup($tahun)
+    {
+        $tup = self::getLatestUangPersediaan($tahun, ['TUP', 'GTUP NIHIL']);
+
+        return $tup === 'GTUP NIHIL' ? null : $tup;
+    }
+
     /**
      * Get the latest Harga Satuan ID based on the given date.
      *
@@ -2300,7 +2341,7 @@ class Helper
     public static function sendReminder($reminder, $method = 'auto')
     {
         $kegiatan = $reminder->daftarKegiatan;
-        $hari = floor(($method === 'auto' ? $reminder->tanggal : now())->diffInDays($kegiatan->awal));
+        $hari = floor(($method === 'auto' ? $reminder->tanggal : now())->diffInDays($kegiatan->awal, true));
         $pesan = strtr($kegiatan->pesan, [
             '{judul}' => $hari > 0 ? '[Reminder Deadline (H-'.$hari.')]' : '[Reminder Deadline]',
             '{tanggal}' => self::terbilangTanggal($kegiatan->awal),
@@ -2342,5 +2383,72 @@ class Helper
 
             return $version;
         });
+    }
+
+    public static function hitungPeriodeGup($tanggalGup): array
+    {
+        if (isset($tanggalGup)) {
+            $date = $tanggalGup;
+
+            $bulan = (int) $date->format('m');
+            $tahun = (int) $date->format('Y');
+            $hari = (int) $date->format('d');
+
+            $daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+
+            // Cari bulan berikutnya
+            $nextMonth = $bulan + 1;
+            $nextYear = $tahun;
+            if ($nextMonth > 12) {
+                $nextMonth = 1;
+                $nextYear++;
+            }
+            $daysInNextMonth = cal_days_in_month(CAL_GREGORIAN, $nextMonth, $nextYear);
+
+            if ($hari == $daysInCurrentMonth) {
+                // Jika tanggal terakhir bulan → pakai tanggal terakhir bulan berikutnya
+                $endDate = new DateTime("$nextYear-$nextMonth-$daysInNextMonth");
+                $days = $daysInNextMonth;
+            } else {
+                // Jika bukan tanggal terakhir → pakai tanggal sama di bulan berikutnya
+                // Hati-hati jika bulan berikutnya tidak punya tanggal tsb (misalnya 30 Feb)
+                $endDay = min($hari, $daysInNextMonth);
+                $endDate = new DateTime("$nextYear-$nextMonth-$endDay");
+                $days = $daysInCurrentMonth;
+            }
+
+            return [
+                'awal' => Carbon::instance($date),
+                'akhir' => Carbon::instance($endDate),
+                'hari' => $days,
+            ];
+
+        }
+
+        return [
+            'awal' => '-',
+            'akhir' => '-',
+            'hari' => 0,
+        ];
+
+    }
+
+    public static function setReminderForUangPersediaan($jenis, $tanggal)
+    {
+
+        $kegiatan = new DaftarKegiatan;
+        $kegiatan->jenis = 'Deadline';
+        $kegiatan->kegiatan = $jenis === 'gup' ? 'SPM Penggantian UP (GUP)' : 'SPM Pertanggungjawaban TUP (GTUP)';
+        $kegiatan->awal = $tanggal;
+        $kegiatan->akhir = $tanggal;
+        $kegiatan->wa_group_id = [['id' => '6287814885714-1605499798@g.us']];
+        $kegiatan->pesan = "*{judul}*\n\nDeadline : {tanggal}\nPerihal : {kegiatan}\nPenanggung jawab: *{pj}*\n\nMohon untuk segera membuat ".($jenis === 'gup' ? 'SPM Penggantian UP (GUP)' : 'SPM Pertanggungjawaban TUP (GTUP)')." sebelum tanggal ({tanggal}).\ndengan memperhatikan jumlah minimum yang telah ditentukan.\n\nTerimakasih ✨✨";
+        $kegiatan->waktu_reminder = [
+            ['hari' => 3, 'referensi_waktu' => 'HK', 'waktu_kirim' => '08:00:00'],
+            ['hari' => 1, 'referensi_waktu' => 'HK', 'waktu_kirim' => '08:00:00'],
+        ];
+        $kegiatan->daftar_kegiatanable_id = 1;
+        $kegiatan->daftar_kegiatanable_type = 'App\\Models\\UnitKerja';
+        $kegiatan->save();
     }
 }

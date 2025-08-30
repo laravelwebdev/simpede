@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Announcement;
 use App\Models\DataPegawai;
 use App\Models\DerajatNaskah;
 use App\Models\Dipa;
@@ -25,6 +26,7 @@ use App\Models\NaskahDefault;
 use App\Models\Pengelola;
 use App\Models\RateTranslok;
 use App\Models\SkTranslok;
+use App\Models\TargetKkp;
 use App\Models\TargetSerapanAnggaran;
 use App\Models\TataNaskah;
 use App\Models\Template;
@@ -55,6 +57,7 @@ class SimpedeCache extends Command
      */
     public function handle()
     {
+        Announcement::cache()->updateAll();
         DataPegawai::cache()->updateAll();
         DerajatNaskah::cache()->updateAll();
         Dipa::cache()->updateAll();
@@ -78,6 +81,7 @@ class SimpedeCache extends Command
         Pengelola::cache()->updateAll();
         RateTranslok::cache()->updateAll();
         SkTranslok::cache()->updateAll();
+        TargetKkp::cache()->updateAll();
         TargetSerapanAnggaran::cache()->updateAll();
         TataNaskah::cache()->updateAll();
         Template::cache()->updateAll();

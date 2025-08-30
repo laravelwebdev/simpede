@@ -3,24 +3,26 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use App\Nova\Lenses\MonitoringUp;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
 
-class UangPersediaan extends Resource
+class TargetKkp extends Resource
 {
+    public static $with = ['dipa'];
+
+    public static $globalSearchResults = 12;
+
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\UangPersediaan>
+     * @var class-string<\App\Models\TargetKkp>
      */
-    public static $model = \App\Models\UangPersediaan::class;
+    public static $model = \App\Models\TargetKkp::class;
 
     public static function label()
     {
-        return 'SP2D Uang Persediaan';
+        return 'Target Penggunaan KKP';
     }
 
     /**
@@ -30,12 +32,12 @@ class UangPersediaan extends Resource
      */
     public function title()
     {
-        return $this->nomor_sp2d;
+        return Helper::BULAN[$this->bulan];
     }
 
     public function subtitle()
     {
-        return Helper::terbilangTanggal($this->tanggal);
+        return 'Target: '.Helper::formatUang($this->nilai);
     }
 
     /**
@@ -44,7 +46,7 @@ class UangPersediaan extends Resource
      * @var array
      */
     public static $search = [
-        'jenis', 'nomor_sp2d', 'nilai', 'tanggal',
+        'bulan',
     ];
 
     /**
@@ -55,19 +57,14 @@ class UangPersediaan extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Tanggal SP2D', 'tanggal')
-                ->sortable()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            Text::make('Jenis', 'jenis')
-                ->sortable()
-                ->rules('required'),
-            Text::make('Nomor SP2D', 'nomor_sp2d')
-                ->sortable()
-                ->copyable()
-                ->rules('required'),
-            Numeric::make('Nilai UP', 'nilai')
-                ->sortable(),
-
+            Select::make('Bulan', 'bulan')
+                ->readonly()
+                ->searchable()
+                ->filterable()
+                ->options(Helper::BULAN)
+                ->displayUsingLabels(),
+            Numeric::make('Target', 'nilai')
+                ->rules('gte:0', 'required'),
         ];
     }
 
@@ -98,9 +95,7 @@ class UangPersediaan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [
-            MonitoringUp::make(),
-        ];
+        return [];
     }
 
     /**
@@ -111,5 +106,20 @@ class UangPersediaan extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static $indexDefaultOrder = [
+        'bulan' => 'asc',
+    ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+
+            return $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));
+        }
+
+        return $query;
     }
 }

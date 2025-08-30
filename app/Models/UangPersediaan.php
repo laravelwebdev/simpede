@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Mostafaznv\LaraCache\CacheEntity;
-use Mostafaznv\LaraCache\Traits\LaraCache;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UangPersediaan extends Model
 {
-    use LaraCache;
+    protected $fillable = [
+        'dipa_id', 'nomor_sp2d',
+    ];
 
     protected function casts(): array
     {
@@ -17,13 +18,8 @@ class UangPersediaan extends Model
         ];
     }
 
-    public static function cacheEntities(): array
+    public function dipa(): BelongsTo
     {
-        return [
-            CacheEntity::make('all')
-                ->cache(function () {
-                    return UangPersediaan::all();
-                }),
-        ];
+        return $this->belongsTo(Dipa::class);
     }
 }

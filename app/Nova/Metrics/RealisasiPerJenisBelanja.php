@@ -18,13 +18,13 @@ class RealisasiPerJenisBelanja extends Table
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Persen', 'Selisih']);
         $this->viewAll([
-            'label' => 'Target Serapan Anggaran yang tercantum adalah target pada akhir triwulan berjalan',
+            'label' => 'Triwulanan',
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', // URL to navigate when the link is clicked
             'position' => 'top', // (Possible values `top` - `bottom`)
             'style' => 'button', // (Possible values `link` - `button`)
         ]);
 
-        $this->title('Target Serapan Anggaran Per Jenis Belanja Periode ini');
+        $this->title('Target Serapan Anggaran Per Jenis Belanja Triwulan ini');
         $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
         $bulan = (int) date('m');
 
@@ -53,12 +53,7 @@ class RealisasiPerJenisBelanja extends Table
                         ->first()->id)
                     ->first()->nilai;
 
-                $total = DB::table('mata_anggarans')
-                    ->where('jenis_belanja', $item->jenis_belanja)
-                    ->where('dipa_id', $dipaId)
-                    ->sum(DB::raw('total - blokir'));
-
-                $item->target = round(($total / 100) * $targetSerapan, 0);
+                $item->target = $targetSerapan;
                 $item->realisasi = $item->realisasi ?? 0;
                 $item->selisih = $item->realisasi - $item->target;
                 $item->persen = ($item->target == 0)

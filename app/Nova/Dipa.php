@@ -5,6 +5,9 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportRealisasiAnggaran;
+use App\Nova\Actions\ImportSp2dUp;
+use App\Nova\Actions\ImportTargetKkp;
+use App\Nova\Actions\ImportTargetSerapan;
 use App\Nova\Actions\SinkronisasiDataAnggaran;
 use App\Nova\Metrics\HelperSinkronisasiAnggaran;
 use Laravel\Nova\Fields\Date;
@@ -22,7 +25,7 @@ class Dipa extends Resource
         return 'DIPA';
     }
 
-    public static $with = ['mataAnggaran', 'jenisBelanja'];
+    public static $with = ['mataAnggaran', 'jenisBelanja', 'targetKkp', 'uangPersediaan'];
 
     /**
      * The model the resource corresponds to.
@@ -82,9 +85,21 @@ class Dipa extends Resource
             Date::make('Tanggal Data realisasi', 'tanggal_realisasi')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
                 ->exceptOnForms(),
+            Date::make('Tanggal Nihil', 'tanggal_nihil')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal))
+                ->rules('required', 'date', function ($attribute, $value, $fail) {
+                    $bulan = date('m', strtotime($value));
+                    $tahun = date('Y', strtotime($value));
+                    $sessionYear = session('year');
+                    if ($bulan != '12' || $tahun != $sessionYear) {
+                        $fail('Tanggal Nihil harus di bulan Desember tahun '.$sessionYear.'.');
+                    }
+                }),
             Tab::group('Anggaran dan Target Serapan', [
                 HasMany::make('Mata Anggaran'),
                 HasMany::make('Jenis Belanja'),
+                HasMany::make('Target Penggunaan KKP', 'targetKkp', TargetKkp::class),
+                HasMany::make('SP2D UP/TUP', 'uangPersediaan', UangPersediaan::class),
             ]),
         ];
     }
@@ -144,6 +159,27 @@ class Dipa extends Resource
         if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
             $actions[] =
                 ImportRealisasiAnggaran::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
+            $actions[] =
+                ImportTargetSerapan::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
+            $actions[] =
+                ImportTargetKkp::make()
+                    ->showInline()
+                    ->showOnDetail()
+                    ->exceptOnIndex();
+        }
+        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
+            $actions[] =
+                ImportSp2dUp::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();

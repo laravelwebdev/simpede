@@ -3,9 +3,9 @@
 namespace App\Nova;
 
 use App\Helpers\Helper;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class TargetSerapanAnggaran extends Resource
 {
@@ -32,7 +32,7 @@ class TargetSerapanAnggaran extends Resource
 
     public function subtitle()
     {
-        return 'Target: '.$this->nilai.'%';
+        return 'Target: '.Helper::formatUang($this->nilai);
     }
 
     /**
@@ -58,13 +58,8 @@ class TargetSerapanAnggaran extends Resource
                 ->filterable()
                 ->options(Helper::BULAN)
                 ->displayUsingLabels(),
-            Number::make('Target(%)', 'nilai')
-                ->rules('gte:0', 'lte:100')
-                ->step(0.01)
-                ->min(0)
-                ->max(100)
-                ->displayUsing(fn ($value) => $value.'%')
-                ->help('Persentase (%) dari total belanja'),
+            Numeric::make('Target', 'nilai')
+                ->rules('gte:0', 'required'),
 
         ];
     }

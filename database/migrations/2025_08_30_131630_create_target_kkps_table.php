@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('uang_persediaans', function (Blueprint $table) {
+        Schema::create('target_kkps', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal')->nullable();
-            $table->string('nomor_sp2d')->nullable();
-            $table->string('jenis', 20)->nullable();
+            $table->tinyInteger('bulan')->unsigned()->nullable();
             $table->bigInteger('nilai')->nullable();
             $table->mediumInteger('dipa_id')->nullable()->unsigned();
             $table->timestamps();
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uang_persediaans');
+        Schema::dropIfExists('target_kkps');
     }
 };

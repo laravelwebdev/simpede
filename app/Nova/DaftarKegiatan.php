@@ -151,16 +151,7 @@ class DaftarKegiatan extends Resource
                     })
                     ->alwaysShow()
                     ->rows(15)
-                    ->default('*{judul}*
-
-Deadline : {tanggal}
-Perihal : {kegiatan}
-Penanggung jawab: *{pj}*
-Keterangan Lain: Bisa ditambahkan data -data tentang AKB, dll
-
-Mohon agar *mengirimkan* hasil desain dan _caption_ ke grup *maksimal H-1 hari kerja*  tanggal tayang ({tanggal})
-
-Terimakasih ✨✨'),
+                    ->default("*{judul}*\n\nDeadline : {tanggal}\nPerihal : {kegiatan}\nPenanggung jawab: *{pj}*\n\nIsi Reminder\n\nTerimakasih ✨✨"),
                 Repeatable::make('Waktu Reminder', 'waktu_reminder', [
                     Number::make('H-', 'hari')
                         ->min(0)

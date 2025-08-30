@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class UangPersediaanPolicy
+class TargetKkpPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -35,7 +35,9 @@ class UangPersediaanPolicy
      */
     public function update(): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('admin')
+            ->get();
     }
 
     /**
@@ -52,12 +54,5 @@ class UangPersediaanPolicy
     public function replicate(): bool
     {
         return false;
-    }
-
-    public function runAction(): bool
-    {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
     }
 }

@@ -48,7 +48,7 @@ class JenisBelanja extends Model
                 $targetSerapan = new TargetSerapanAnggaran;
                 $targetSerapan->jenis_belanja_id = $jenis->id;
                 $targetSerapan->bulan = $bulan;
-                $targetSerapan->nilai = 100;
+                $targetSerapan->nilai = 0;
                 $targetSerapan->save();
             }
         });

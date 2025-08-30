@@ -105,6 +105,6 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "version": "2.15.3",
+    "version": "3.0.0",
     "laravel": "12.3.2"
 }

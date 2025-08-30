@@ -18,6 +18,7 @@ class Dipa extends Model
             'tanggal' => 'date',
             'tanggal_revisi' => 'date',
             'tanggal_realisasi' => 'date',
+            'tanggal_nihil' => 'date',
         ];
     }
 
@@ -32,6 +33,16 @@ class Dipa extends Model
     public function jenisBelanja(): HasMany
     {
         return $this->hasMany(JenisBelanja::class);
+    }
+
+    public function targetKkp(): HasMany
+    {
+        return $this->hasMany(TargetKkp::class);
+    }
+
+    public function uangPersediaan(): HasMany
+    {
+        return $this->hasMany(UangPersediaan::class);
     }
 
     /**
@@ -70,8 +81,24 @@ class Dipa extends Model
             JenisBelanja::destroy($jenisIds);
             JenisBelanja::cache()->enable();
             JenisBelanja::cache()->updateAll();
+            $kkpIds = TargetKkp::where('dipa_id', $dipa->id)->pluck('id');
+            TargetKkp::cache()->disable();
+            TargetKkp::destroy($kkpIds);
+            TargetKkp::cache()->enable();
+            TargetKkp::cache()->updateAll();
+            $uangPersediaan = UangPersediaan::where('dipa_id', $dipa->id)->pluck('id');
+            UangPersediaan::destroy($uangPersediaan);
             $realisasiIds = RealisasiAnggaran::where('dipa_id', $dipa->id)->pluck('id');
             RealisasiAnggaran::destroy($realisasiIds);
+        });
+        static::created(function (Dipa $dipa) {
+            foreach (range(1, 12) as $bulan) {
+                $targetKkp = new TargetKkp;
+                $targetKkp->dipa_id = $dipa->id;
+                $targetKkp->bulan = $bulan;
+                $targetKkp->nilai = 0;
+                $targetKkp->save();
+            }
         });
     }
 

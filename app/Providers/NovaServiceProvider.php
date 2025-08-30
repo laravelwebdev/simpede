@@ -58,7 +58,6 @@ use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
 use App\Nova\Template;
 use App\Nova\TindakLanjut;
-use App\Nova\UangPersediaan;
 use App\Nova\UnitKerja;
 use App\Nova\User;
 use App\Nova\UserEksternal;
@@ -69,6 +68,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Nova\Menu\Menu;
+use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
@@ -109,15 +109,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Monitoring', [
+
                     Menuitem::lens(PerjanjianKinerja::class, FormRencanaAksi::class),
-                    MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
-                    MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(Mitra::class, RekapPulsaMitra::class),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
+                    MenuGroup::make('IKPA', [
+                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
+                        MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                        MenuItem::link('Monitoring UP dan TUP', '/resources/uang-persediaans/lens/monitoring-up'),
+                    ])->collapsable(),
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
@@ -196,7 +201,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
-                    MenuItem::resource(UangPersediaan::class),
                     // MenuItem::resource(UserEksternal::class),
                 ])
                     ->collapsable()

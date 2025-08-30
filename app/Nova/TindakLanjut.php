@@ -40,12 +40,12 @@ class TindakLanjut extends Resource
      */
     public function title()
     {
-        return 'Tindak Lanjut Triwulan  '.$this->triwulan;
+        return 'Tindak Lanjut Triwulan  '.$this->triwulan.' '.$this->tahun;
     }
 
     public function subtitle()
     {
-        return $this->tahun;
+        return $this->tindak_lanjut;
     }
 
     /**

@@ -58,10 +58,14 @@ class ImportSp2dUp extends Action
         $latestTup = Helper::getLatestTup($model->tahun);
         if ($latestGup) {
             $deadline = Helper::hitungPeriodeGup($latestGup->tanggal)['akhir'];
+            $deadline = ($deadline > $model->tanggal_nihil ? $model->tanggal_nihil : $deadline);
+            $deadline = Helper::getTanggalSebelum($deadline, 0, 'HK');
             Helper::setReminderForUangPersediaan('gup', $deadline);
         }
         if ($latestTup) {
             $deadline = Helper::hitungPeriodeGup($latestTup->tanggal)['akhir'];
+            $deadline = ($deadline > $model->tanggal_nihil ? $model->tanggal_nihil : $deadline);
+            $deadline = Helper::getTanggalSebelum($deadline, 0, 'HK');
             Helper::setReminderForUangPersediaan('tup', $deadline);
         }
 

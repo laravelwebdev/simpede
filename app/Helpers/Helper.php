@@ -565,15 +565,19 @@ class Helper
     public static function getTanggalSebelum($tanggal_deadline, $jumlah_hari, $ref = 'h')
     {
         $tanggal_deadline = Carbon::parse($tanggal_deadline);
+
         if ($ref === 'HK') {
             $hariLibur = DaftarKegiatan::where('jenis', 'Libur')->pluck('awal')->toArray();
-            $hariLibur = array_map(function ($date) {
-                return Carbon::parse($date)->format('Y-m-d');
-            }, $hariLibur);
+            $hariLibur = array_map(fn ($date) => Carbon::parse($date)->format('Y-m-d'), $hariLibur);
+
+            while ($tanggal_deadline->isWeekend() || in_array($tanggal_deadline->format('Y-m-d'), $hariLibur)) {
+                $tanggal_deadline->subDay();
+            }
 
             $count = 0;
             while ($count < $jumlah_hari) {
                 $tanggal_deadline->subDay();
+
                 if ($tanggal_deadline->isWeekend() || in_array($tanggal_deadline->format('Y-m-d'), $hariLibur)) {
                     continue;
                 }

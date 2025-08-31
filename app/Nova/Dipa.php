@@ -99,7 +99,6 @@ class Dipa extends Resource
                 HasMany::make('Mata Anggaran'),
                 HasMany::make('Jenis Belanja'),
                 HasMany::make('Target Penggunaan KKP', 'targetKkp', TargetKkp::class),
-                HasMany::make('SP2D UP/TUP', 'uangPersediaan', UangPersediaan::class),
             ]),
         ];
     }

@@ -77,7 +77,7 @@ Rekomendasi shared hosting murah:
     * `DB_PASSWORD`: Password database.
     * `APP_ENV`: Set menjadi `production`.
     * `APP_DEBUG`: Set menjadi `false`.
-    * `LOG_CHANNEL`: set menjadi `"null"`
+    * `LOG_CHANNEL`: set menjadi `database`
     * `INITIAL_YEAR`: set menjadi tahun pertama aplikasi digunakan
 
 - Ubah seluruh setting di bagian `# CONFIG SATKER` pada file `.env` sesuai dengan satker Anda. 

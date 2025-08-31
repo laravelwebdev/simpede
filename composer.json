@@ -46,7 +46,7 @@
         "rap2hpoutre/fast-excel": "^5.5",
         "richardkeep/nova-timenow": "^3.0",
         "spatie/laravel-backup": "^9.3",
-        "sweetalert2/laravel": "^0.1.0",
+        "sweetalert2/laravel": "^1.0",
         "yaza/laravel-google-drive-storage": "^4.1"
     },
     "require-dev": {

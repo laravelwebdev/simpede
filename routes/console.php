@@ -8,10 +8,6 @@ if (config('app.auto_update')) {
         ->runInBackground()
         ->timezone(config('app.schedule_timezone'));
 }
-Schedule::command('db:optimize')->monthlyOn(1, '02:00')
-    ->withoutOverlapping()
-    ->runInBackground()
-    ->timezone(config('app.schedule_timezone'));
 Schedule::command('simpede:backup create')->dailyAt('18:00')
     ->withoutOverlapping()
     ->runInBackground()

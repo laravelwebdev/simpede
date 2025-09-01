@@ -407,7 +407,7 @@
                                 <img src="{{ asset('images/monitoring-dark.png') }}" class="shadow dark:shadow-gray-700 rounded-md hidden dark:inline-block" alt="">
                                 <div class="mt-6">
                                     <h5 class="text-lg font-medium">Dashboard Monitoring</h5>
-                                    <p class="text-slate-400 mt-4">Dashboard Monitoring menyediakan informasi real-time mengenai honor mitra, serapan anggaran, rencana penarikan dana, form rencana aksi, barang persediaan, dan pemeliharaan BMN. Hal ini memungkinkan pengguna untuk memantau dan mengelola berbagai aspek operasional secara efisien dan efektif.</p>
+                                    <p class="text-slate-400 mt-4">Dashboard Monitoring menyediakan informasi real-time mengenai honor mitra, serapan anggaran, rencana penarikan dana, monitoring UP, TUP dan Penggunaan KKP, form rencana aksi, barang persediaan, dan pemeliharaan BMN. Hal ini memungkinkan pengguna untuk memantau dan mengelola berbagai aspek operasional secara efisien dan efektif.</p>
                                  </div>
                             </div>
                             <div class="hidden " id="settings" role="tabpanel" aria-labelledby="settings-tab">

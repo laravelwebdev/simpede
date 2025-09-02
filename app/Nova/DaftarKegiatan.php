@@ -83,7 +83,7 @@ class DaftarKegiatan extends Resource
                             $field
                                 ->readonly();
                         }
-                    }),
+                    })
                     ->rules('required'),
                 Text::make('Kegiatan')
                     ->sortable()

@@ -87,7 +87,7 @@ class DaftarKegiatan extends Resource
                     ->rules('required'),
                 Text::make('Kegiatan')
                     ->sortable()
-                    ->readonly(fn() => in_array($this->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)']))
+                    ->readonly(fn () => in_array($this->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)']))
                     ->help('Contoh: Posting Konten Peringatan Hari Ibu')
                     ->rules('required', 'max:255'),
                 Date::make('Tanggal', 'awal')

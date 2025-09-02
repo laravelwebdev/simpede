@@ -54,7 +54,7 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            'channels' => ['database', 'single'],
             'ignore_exceptions' => false,
         ],
 
@@ -131,19 +131,6 @@ return [
             'driver' => 'monolog',
             'handler' => App\Logging\DatabaseLogger::class,
             'level' => env('LOG_LEVEL', 'warning'),
-        ],
-
-        'fallback' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'warning'),
-            'days' => 14,
-        ],
-
-        'stack' => [
-            'driver' => 'stack',
-            'channels' => ['database', 'fallback'],
-            'ignore_exceptions' => false,
         ],
 
     ],

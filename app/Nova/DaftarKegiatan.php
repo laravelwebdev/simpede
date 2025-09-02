@@ -94,6 +94,12 @@ class DaftarKegiatan extends Resource
                     ->sortable()
                     ->filterable()
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
+                    ->dependsOn(['kegiatan'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if (in_array($formData->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)'])) {
+                            $field
+                                ->readonly();
+                        }
+                    })
                     ->rules('required'),
                 Date::make('s.d Tanggal', 'akhir')
                     ->sortable()
@@ -115,7 +121,7 @@ class DaftarKegiatan extends Resource
                     ->searchable()
                     ->hide()
                     ->withSubtitles()
-                    ->dependsOn(['jenis'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['jenis', 'kegiatan'], function (MorphTo $field, NovaRequest $request, FormData $formData) {
                         if ($formData->jenis != 'Libur') {
                             $field
                                 ->show()
@@ -125,6 +131,10 @@ class DaftarKegiatan extends Resource
                                         $query->whereNull('inactive');
                                     }
                                 });
+                        }
+                        if (in_array($formData->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)'])) {
+                            $field
+                                ->readonly();
                         }
                     }),
             ]),

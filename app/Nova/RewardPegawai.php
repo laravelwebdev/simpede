@@ -316,18 +316,19 @@ class RewardPegawai extends Resource
 
                     return $this->resource instanceof Model && $this->resource->status === 'ditetapkan';
                 });
+            $actions[] =
             AnnounceEom::make()
-                ->showInline()
-                ->showOnDetail()
-                ->confirmButtonText('Kirim')
-                ->exceptOnIndex()
-                ->canSee(function ($request) {
-                    if ($request instanceof ActionRequest) {
-                        return true;
-                    }
+            ->showInline()
+            ->showOnDetail()
+            ->confirmButtonText('Kirim')
+            ->exceptOnIndex()
+            ->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
 
-                    return $this->resource instanceof Model && $this->resource->arsip_sertifikat;
-                });
+                return $this->resource instanceof Model && $this->resource->arsip_sertifikat;
+            });
         }
 
         return $actions;

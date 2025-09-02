@@ -46,7 +46,7 @@ class DatabaseLogger extends AbstractProcessingHandler
         // Cek duplikat log
         $existing = ErrorLog::where('message', $message)
             ->where('level', $level)
-            ->where('file', $file)
+            ->where('file', $file ? $this->pathToClass($file) : null)
             ->where('line', $line)
             ->where('resolved', false)
             ->latest('id')

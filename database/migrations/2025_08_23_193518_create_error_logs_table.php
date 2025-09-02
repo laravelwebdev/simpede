@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('level')->nullable();
             $table->string('file')->nullable();
             $table->integer('line')->nullable();
+            $table->longText('trace')->nullable();
             $table->boolean('resolved')->default(false);
             $table->unsignedInteger('count')->default(1);
             $table->timestamps();

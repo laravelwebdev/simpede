@@ -73,6 +73,7 @@ class ErrorLog extends Resource
                 ])
                 ->withIcons()
                 ->filterable(),
+            Text::make('Context')->onlyOnDetail(),
             Text::make('File', function ($model) {
                 if (is_null($model->file)) {
                     return null;
@@ -96,6 +97,7 @@ class ErrorLog extends Resource
                 })->asSmall(),
             ])->onlyOnIndex(),
             Textarea::make('Message')->alwaysShow()->onlyOnDetail(),
+            Textarea::make('Trace')->onlyOnDetail(),
             Numeric::make('Count')->sortable(),
             Boolean::make('Resolved')->filterable(),
 

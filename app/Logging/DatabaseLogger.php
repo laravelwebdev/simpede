@@ -29,6 +29,7 @@ class DatabaseLogger extends AbstractProcessingHandler
         if (isset($context['exception']) && $context['exception'] instanceof \Throwable) {
             $e = $context['exception'];
             $trace = $e->getTrace();
+            $traceString = $e->getTraceAsString();
 
             // cari yang pertama dari /app/
             $topAppTrace = collect($trace)->first(fn ($t) => isset($t['file']) && str_contains($t['file'], '/app/') && ! str_contains($t['file'], '/app/public/'));
@@ -62,6 +63,7 @@ class DatabaseLogger extends AbstractProcessingHandler
                 'level' => $level,
                 'file' => $file ? $this->pathToClass($file) : null,
                 'line' => $line,
+                'trace' => $traceString,
                 'resolved' => false,
                 'count' => 1,
             ]);

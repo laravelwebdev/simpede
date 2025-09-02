@@ -78,6 +78,12 @@ class DaftarKegiatan extends Resource
                     ->options(Helper::JENIS_KEGIATAN)
                     ->sortable()
                     ->filterable()
+                    ->dependsOn(['kegiatan'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        if (in_array($formData->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)'])) {
+                            $field
+                                ->readonly();
+                        }
+                    }),
                     ->rules('required'),
                 Text::make('Kegiatan')
                     ->sortable()

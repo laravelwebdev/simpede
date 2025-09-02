@@ -2443,7 +2443,7 @@ class Helper
         $kegiatan->awal = $tanggal;
         $kegiatan->akhir = $tanggal;
         $kegiatan->wa_group_id = [['id' => '6287814885714-1605499798@g.us']];
-        $kegiatan->pesan = "*{judul}*\n\nDeadline : {tanggal}\nPerihal : {kegiatan}\nPenanggung jawab: *{pj}*\n\nMohon untuk segera membuat ".($jenis === 'gup' ? 'SPM Penggantian UP (GUP)' : 'SPM Pertanggungjawaban TUP (GTUP)')." sebelum tanggal ({tanggal}).\ndengan memperhatikan jumlah minimum yang telah ditentukan.\n\nTerimakasih ✨✨";
+        $kegiatan->pesan = "*{judul}*\n\nDeadline : {tanggal}\nPerihal : {kegiatan}\nPenanggung jawab: *{pj}*\n\nMohon untuk segera membuat ".($jenis === 'gup' ? 'SPM Penggantian UP (GUP)' : 'SPM Pertanggungjawaban TUP (GTUP)')." sebelum tanggal ({tanggal}). Harap tetap memperhatikan jumlah minimum yang telah ditentukan.\n\nTerimakasih ✨✨";
         $kegiatan->waktu_reminder = [
             ['hari' => 3, 'referensi_waktu' => 'HK', 'waktu_kirim' => '08:00:00'],
             ['hari' => 1, 'referensi_waktu' => 'HK', 'waktu_kirim' => '08:00:00'],

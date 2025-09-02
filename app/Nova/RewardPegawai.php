@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Nova\Actions\AnnounceEom;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ImportRekapPresensi;
 use App\Nova\Actions\SetStatus;
@@ -314,6 +315,18 @@ class RewardPegawai extends Resource
                     }
 
                     return $this->resource instanceof Model && $this->resource->status === 'ditetapkan';
+                });
+            AnnounceEom::make()
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Kirim')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->arsip_sertifikat;
                 });
         }
 

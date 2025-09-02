@@ -94,7 +94,7 @@ class DaftarKegiatan extends Resource
                     ->sortable()
                     ->filterable()
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
-                    ->dependsOn(['kegiatan'], function (Select $field, NovaRequest $request, FormData $formData) {
+                    ->dependsOn(['kegiatan'], function (Date $field, NovaRequest $request, FormData $formData) {
                         if (in_array($formData->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)'])) {
                             $field
                                 ->readonly();

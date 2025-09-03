@@ -634,9 +634,9 @@ class Helper
      * @param  string  $jam
      * @return string
      */
-    public static function formatJam($jam)
+    public static function formatJam($jam, $suffix = 'WITA')
     {
-        return date('H:i', strtotime($jam));
+        return date('H:i', strtotime($jam)).' '.$suffix;
     }
 
     /**

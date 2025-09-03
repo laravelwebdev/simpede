@@ -29,7 +29,7 @@ class KirimUndanganRapat extends Action
     {
         $model = $models->first();
         $recipients = $fields->id;
-        $pesan = "*[Undangan Rapat]*\n\nYth. ".$model->tujuan."\n\nSehubungan dengan akan dilaksanakannya ".$model->tema.", Kami mengundang Bapak/Ibu untuk dapat berhadir :\n\npada hari/tanggal	:	".Helper::terbilanghari($model->tanggal_rapat).', '.Helper::terbilangTanggal($model->tanggal_rapat)."\nwaktu 	:	".Helper::formatJam($model->mulai)."  – selesai\ntempat	:	".$model->tempat."\nagenda	:	".$model->agenda."\n\nLink Undangan: \n".Storage::disk('arsip')->url(urlencode($model->signed_undangan))." \n\nTerimakasih ✨✨";
+        $pesan = "*[Undangan Rapat]*\n\nYth. ".$model->tujuan."\n\nSehubungan dengan akan dilaksanakannya ".$model->tema.", Kami mengundang Bapak/Ibu untuk dapat berhadir :\n\npada hari/tanggal	:	".Helper::terbilanghari($model->tanggal_rapat).', '.Helper::terbilangTanggal($model->tanggal_rapat)."\nwaktu 	:	".Helper::formatJam($model->mulai)."  – selesai\ntempat	:	".$model->tempat."\nagenda	:	".$model->agenda."\n\nLink Undangan: \n".Storage::disk('arsip')->url(rawurlencode($model->signed_undangan))." \n\nTerimakasih ✨✨";
         $response = Fonnte::make()->sendWhatsAppMessage($recipients, $pesan);
 
         return $response['status'] ? Action::message('Pesan berhasil dikirim.') : Action::danger('Pesan gagal dikirim.');

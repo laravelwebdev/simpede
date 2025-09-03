@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Models\RapatInternal as ModelsRapatInternal;
 use App\Nova\Actions\Download;
+use App\Nova\Actions\KirimUndanganRapat;
 use App\Nova\Metrics\MetricKeberadaan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -317,6 +318,20 @@ class RapatInternal extends Resource
 
                     return $this->resource instanceof Model && ! empty($this->peserta);
                 }),
+            $actions[] =
+            KirimUndanganRapat::make()
+                ->showInline()
+                ->showOnDetail()
+                ->confirmButtonText('Kirim')
+                ->exceptOnIndex()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->signed_undangan;
+                }),
+
         ];
 
         return $actions;

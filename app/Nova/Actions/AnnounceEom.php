@@ -29,7 +29,7 @@ class AnnounceEom extends Action
     {
         $model = $models->first();
         $recipients = $fields->id;
-        $pesan = '*[_Employee Of The Month_ Bulan '.Helper::BULAN[$model->bulan].' '.$model->tahun."]*\n\n🎉Selamat Kepada ".optional(Helper::getPegawaiByUserId($model->user_id))->name.' yang terpilih sebagai _Employee of the Month_ bulan '.Helper::BULAN[$model->bulan]."! Terima kasih atas dedikasi dan kerja kerasnya 👏🔥\nLink Sertifikat Penghargaan: \n".Storage::disk('arsip')->url(urlencode($model->arsip_sertifikat))." \n\nTerimakasih ✨✨";
+        $pesan = '*[*_Employee Of The Month_ Bulan '.Helper::BULAN[$model->bulan].' '.$model->tahun." *]*\n\n🎉Selamat Kepada ".optional(Helper::getPegawaiByUserId($model->user_id))->name.' yang terpilih sebagai _Employee of the Month_ bulan '.Helper::BULAN[$model->bulan]."! Terima kasih atas dedikasi dan kerja kerasnya 👏🔥\nLink Sertifikat Penghargaan: \n".Storage::disk('arsip')->url(rawurlencode($model->arsip_sertifikat))." \n\nTerimakasih ✨✨";
         $response = Fonnte::make()->sendWhatsAppMessage($recipients, $pesan);
 
         return $response['status'] ? Action::message('Pesan berhasil dikirim.') : Action::danger('Pesan gagal dikirim.');

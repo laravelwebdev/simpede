@@ -1355,59 +1355,62 @@ class Helper
      */
     public static function formatDaftarPersediaan($id, $spek)
     {
-        // Pastikan semua relasi yang dibutuhkan sudah eager loaded
-        $spek->loadMissing([
-            'barangPersediaanable' => function ($morphTo) {
-                $morphTo->morphWith([
-                    \App\Models\PembelianPersediaan::class => ['bastNaskahKeluar'],
-                    \App\Models\PermintaanPersediaan::class => ['naskahKeluar', 'user'],
-                    \App\Models\PersediaanMasuk::class => ['naskahMasuk'],
-                    \App\Models\PersediaanKeluar::class => ['naskahKeluar'],
-                ]);
-            },
-        ]);
-
-        // Ambil stok awal
         $stok = self::cekStokPersediaan($id, (session('year') - 1).'-12-31');
-
         $spek->transform(function ($item, $index) use (&$stok) {
+            // Add serial number
             $item['no'] = $index + 1;
-            $item['tanggal_buku'] = self::terbilangTanggal($item['tanggal_transaksi']);
 
+            // Convert transaction date to book date
+            $item['tanggal_buku'] = self::terbilangTanggal(
+                $item['tanggal_transaksi']
+            );
+
+            // Get document number based on inventory item type
             $item['nomor_dokumen'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable->bastNaskahKeluar->nomor,
-                \App\Models\PermintaanPersediaan::class => $item->barangPersediaanable->naskahKeluar->nomor,
-                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable->naskahMasuk->nomor,
-                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->naskahKeluar->nomor,
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
+                    ->bastNaskahKeluar->nomor,
+                \App\Models\PermintaanPersediaan::class => $item->barangPersediaanable
+                    ->naskahKeluar->nomor,
+                \App\Models\PersediaanMasuk::class => $item->barangPersediaanable
+                    ->naskahMasuk->nomor,
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable
+                    ->naskahKeluar->nomor,
             };
 
+            // Get description based on inventory item type
             $item['uraian'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable->rincian,
+                \App\Models\PembelianPersediaan::class => $item->barangPersediaanable
+                    ->rincian,
                 \App\Models\PermintaanPersediaan::class => 'Permintaan Persediaan oleh '.
-                    $item->barangPersediaanable->user->name.' untuk '.$item->barangPersediaanable->kegiatan,
+                  $item->barangPersediaanable->user->name.
+                  ' untuk '.
+                  $item->barangPersediaanable->kegiatan,
                 \App\Models\PersediaanMasuk::class => $item->barangPersediaanable->rincian,
-                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->rincian,
+                \App\Models\PersediaanKeluar::class => $item->barangPersediaanable->rincian
             };
 
+            // Calculate incoming and outgoing volume
             $item['masuk'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class,
+                \App\Models\PembelianPersediaan::class => $item->volume,
                 \App\Models\PersediaanMasuk::class => $item->volume,
-                default => '-',
+                default => '-'
             };
 
             $item['keluar'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PermintaanPersediaan::class,
+                \App\Models\PermintaanPersediaan::class => $item->volume,
                 \App\Models\PersediaanKeluar::class => $item->volume,
-                default => '-',
+                default => '-'
             };
 
+            // Calculate remaining stock
             $item['sisa'] = match (get_class($item->barangPersediaanable)) {
-                \App\Models\PembelianPersediaan::class,
-                \App\Models\PersediaanMasuk::class => $stok + $item['volume'],
+                \App\Models\PembelianPersediaan::class, \App\Models\PersediaanMasuk::class => $stok +
+                  $item['volume'],
                 \App\Models\PermintaanPersediaan::class,
-                \App\Models\PersediaanKeluar::class => $stok - $item['volume'],
+                \App\Models\PersediaanKeluar::class => $stok - $item['volume']
             };
 
+            // Update stock
             $stok = $item['sisa'];
             unset($item->barangPersediaanable);
 
@@ -1416,17 +1419,7 @@ class Helper
 
         $arrayspek = $spek->toArray();
 
-        return empty($arrayspek)
-            ? [[
-                'no' => 1,
-                'nomor_dokumen' => '-',
-                'tanggal_buku' => '-',
-                'uraian' => '-',
-                'masuk' => '-',
-                'keluar' => '-',
-                'sisa' => $stok,
-            ]]
-            : $arrayspek;
+        return empty($arrayspek) ? [['no' => 1, 'nomor_dokumen' => '-', 'tanggal_buku' => '-', 'uraian' => '-', 'masuk' => '-', 'keluar' => '-', 'sisa' => $stok]] : $arrayspek;
     }
 
     /**

@@ -26,6 +26,8 @@ class DatabaseLogger extends AbstractProcessingHandler
 
         $e = null;
 
+        $traceString = null;
+
         if (isset($context['exception']) && $context['exception'] instanceof \Throwable) {
             $e = $context['exception'];
             $trace = $e->getTrace();

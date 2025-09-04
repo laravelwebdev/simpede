@@ -30,7 +30,6 @@ class ImportMasterBarangPemeliharaan extends Action
         (new FastExcel)->import($fields->file, function ($row) {
             if (
                 ! empty($row['Kode Barang']) &&
-                ! empty($row['No PSP']) &&
                 ($row['Kondisi'] == 'Baik' || $row['Kondisi'] == 'Rusak Ringan') &&
                 substr($row['Kode Barang'], 0, 7) != '6010102'
             ) {

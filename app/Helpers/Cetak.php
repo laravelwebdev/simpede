@@ -429,7 +429,16 @@ class Cetak
             'daftar_persediaan' => BarangPersediaan::whereYear('tanggal_transaksi', session('year'))
                 ->whereDate('tanggal_transaksi', '<=', $tanggal)
                 ->where('master_persediaan_id', $id)
-                ->with('barangPersediaanable')
+                ->with([
+                    'barangPersediaanable' => function ($morphTo) {
+                        $morphTo->morphWith([
+                            \App\Models\PembelianPersediaan::class => ['bastNaskahKeluar'],
+                            \App\Models\PermintaanPersediaan::class => ['naskahKeluar', 'user'],
+                            \App\Models\PersediaanMasuk::class => ['naskahMasuk'],
+                            \App\Models\PersediaanKeluar::class => ['naskahKeluar'],
+                        ]);
+                    },
+                ])
                 ->orderBy('tanggal_transaksi', 'asc')
                 ->orderBy('id', 'asc')
                 ->get(),

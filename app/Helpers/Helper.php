@@ -768,7 +768,9 @@ class Helper
                 true
             ));
 
-        $filterValue = $filters[$filterKey];
+        if (isset($filters[$filterKey])) {
+            $filterValue = $filters[$filterKey];
+        }
 
         return $filterValue;
     }

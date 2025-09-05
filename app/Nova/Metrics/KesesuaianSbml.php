@@ -78,8 +78,7 @@ class KesesuaianSbml extends Partition
                             'nik',
                             'sbml',
                             'jenis_kontrak_id',
-                        ])
-                )
+                        ]), 'honor_summary')
                 ->get();
         }
         if ($this->model == 'pulsa') {
@@ -116,8 +115,7 @@ class KesesuaianSbml extends Partition
                             'nama',
                             'nik',
                             'limit',
-                        ])
-                )
+                        ]), 'pulsa_summary')
                 ->get();
         }
         $arr->transform(function ($item, $index) {

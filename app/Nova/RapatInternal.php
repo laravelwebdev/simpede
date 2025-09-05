@@ -329,7 +329,7 @@ class RapatInternal extends Resource
                         return true;
                     }
 
-                    return $this->resource instanceof Model && $this->resource->signed_undangan;
+                    return $this->resource instanceof Model && ! empty($this->signed_undangan);
                 }),
 
         ];

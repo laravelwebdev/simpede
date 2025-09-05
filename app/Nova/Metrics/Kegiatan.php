@@ -2,13 +2,14 @@
 
 namespace App\Nova\Metrics;
 
+use DateTimeInterface;
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan;
-use DateTimeInterface;
-use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\MetricTableRow;
+use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Metrics\Table;
+use Laravel\Nova\Metrics\MetricTableRow;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
 
 class Kegiatan extends Table
 {
@@ -60,6 +61,9 @@ class Kegiatan extends Table
                     ($this->jenis === 'Deadline' ? 'text-red-500' : 'text-blue-500')
                 )
                 ->subtitle($deadline->kegiatan)
+                ->actions(fn () => [
+                    MenuItem::link('Lihat Kalender', '/kalender-kegiatan'),
+                ])
                 ->title(Helper::terbilangHari($deadline->awal).', '.Helper::terbilangTanggal($deadline->awal));
         }
 

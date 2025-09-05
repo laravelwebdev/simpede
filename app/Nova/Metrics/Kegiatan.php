@@ -2,14 +2,14 @@
 
 namespace App\Nova\Metrics;
 
-use DateTimeInterface;
 use App\Helpers\Helper;
 use App\Models\DaftarKegiatan;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Metrics\Table;
-use Laravel\Nova\Metrics\MetricTableRow;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use DateTimeInterface;
 use Fidum\LaravelNovaMetricsPolling\Concerns\SupportsPolling;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Metrics\MetricTableRow;
+use Laravel\Nova\Metrics\Table;
 
 class Kegiatan extends Table
 {

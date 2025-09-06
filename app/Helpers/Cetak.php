@@ -47,99 +47,29 @@ class Cetak
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
-        $batchSize = 100;
-        $chunks = $models->chunk($batchSize);
-        $batchFiles = [];
+        $mainTemplate = null;
+        $mainXml = '';
 
-        foreach ($chunks as $chunk) {
-            // di sini $chunk adalah Collection, jadi ubah ke array
-            $batchFile = self::cetakBatch($jenis, $chunk->all(), $template_id, $tanggal, $pengelola);
-            $batchFiles[] = $batchFile;
-        }
-
-        $filename .= '_'.uniqid().'.docx';
-        $finalPath = Storage::disk('temp')->path($filename);
-
-        self::mergeDocx($batchFiles, $finalPath);
-
-        // hapus file sementara
-        foreach ($batchFiles as $file) {
-            @unlink($file);
-        }
-
-        return $filename;
-    }
-
-    public static function cetakBatch($jenis, $models, $template_id, $tanggal, $pengelola)
-    {
-        $files = [];
-        foreach ($models as $model) {
+        foreach ($models as $index => $model) {
             $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
-            $filename = 'temp_'.$model->id.'_'.uniqid().'.docx';
-            $path = Storage::disk('temp')->path($filename);
-            $template->saveAs($path);
-            $files[] = $path;
-        }
-
-        $batchFile = Storage::disk('temp')->path('batch_'.uniqid().'.docx');
-        self::mergeDocx($files, $batchFile);
-
-        // hapus file per model
-        foreach ($files as $file) {
-            @unlink($file);
-        }
-
-        return $batchFile;
-    }
-
-    public static function mergeDocx(array $batchFiles, string $finalPath)
-    {
-        if (empty($batchFiles)) {
-            throw new \Exception('Tidak ada file batch untuk digabung.');
-        }
-
-        // Ambil file pertama sebagai template utama
-        $mainFile = $batchFiles[0];
-        $zip = new \ZipArchive;
-        $zip->open($mainFile);
-        $mainXml = $zip->getFromName('word/document.xml');
-        $zip->close();
-
-        // Hapus penutup body & document di file utama
-        $mainXml = preg_replace('/<\/w:body>.*<\/w:document>/s', '', $mainXml);
-
-        foreach (array_slice($batchFiles, 1) as $file) {
-            $zip = new \ZipArchive;
-            $zip->open($file);
-            $xml = $zip->getFromName('word/document.xml');
-            $zip->close();
-
-            // Ambil isi dalam <w:body>...</w:body>
-            if (preg_match('/<w:body>(.*)<\/w:body>/s', $xml, $matches)) {
-                $innerXml = $matches[1];
-
-                // Hapus section properties di akhir (bisa bikin isi hilang)
-                $innerXml = preg_replace('/<w:sectPr[^>]*>.*<\/w:sectPr>/sU', '', $innerXml);
-
-                // Trim supaya tidak ada whitespace aneh
-                $innerXml = trim($innerXml);
-
-                // Tambahkan ke dokumen utama
-                $mainXml .= $innerXml;
+            if ($index === 0) {
+                $mainTemplate = $template;
+                $mainXml = self::getMainXml($mainTemplate);
+            } else {
+                $innerXml = self::getModifiedInnerXml($template);
+                $mainXml = preg_replace('/<\/w:body>/', $innerXml.'</w:body>', $mainXml);
             }
         }
 
-        // Tutup kembali body & document
-        $mainXml .= '</w:body></w:document>';
+        if ($mainTemplate === null) {
+            throw new \Exception('Main template could not be created.');
+        }
 
-        // Copy file pertama sebagai basis final
-        copy($mainFile, $finalPath);
+        $mainTemplate->settempDocumentMainPart($mainXml);
+        $filename .= '_'.uniqid().'.docx';
+        $mainTemplate->saveAs(Storage::disk('temp')->path($filename));
 
-        // Overwrite document.xml di file final
-        $zip = new \ZipArchive;
-        $zip->open($finalPath);
-        $zip->addFromString('word/document.xml', $mainXml);
-        $zip->close();
+        return $filename;
     }
 
     /**

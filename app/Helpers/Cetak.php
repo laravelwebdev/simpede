@@ -98,17 +98,16 @@ class Cetak
             throw new \Exception('Tidak ada file batch untuk digabung.');
         }
 
-        // Ambil file pertama sebagai "utama"
+        // Ambil file pertama sebagai template utama
         $mainFile = $batchFiles[0];
         $zip = new \ZipArchive;
         $zip->open($mainFile);
         $mainXml = $zip->getFromName('word/document.xml');
         $zip->close();
 
-        // Ambil isi <w:body> dari file utama
+        // Hapus penutup body & document di file utama
         $mainXml = preg_replace('/<\/w:body>.*<\/w:document>/s', '', $mainXml);
 
-        // Gabungkan semua batch berikutnya
         foreach (array_slice($batchFiles, 1) as $file) {
             $zip = new \ZipArchive;
             $zip->open($file);
@@ -118,19 +117,25 @@ class Cetak
             // Ambil isi dalam <w:body>...</w:body>
             if (preg_match('/<w:body>(.*)<\/w:body>/s', $xml, $matches)) {
                 $innerXml = $matches[1];
-                // Hapus <w:sectPr> kalau ada (biar tidak pecah section tiap gabung)
-                $innerXml = preg_replace('/<w:sectPr>.*<\/w:sectPr>/s', '', $innerXml);
+
+                // Hapus section properties di akhir (bisa bikin isi hilang)
+                $innerXml = preg_replace('/<w:sectPr[^>]*>.*<\/w:sectPr>/sU', '', $innerXml);
+
+                // Trim supaya tidak ada whitespace aneh
+                $innerXml = trim($innerXml);
+
+                // Tambahkan ke dokumen utama
                 $mainXml .= $innerXml;
             }
         }
 
-        // Tutup <w:body> & <w:document>
+        // Tutup kembali body & document
         $mainXml .= '</w:body></w:document>';
 
-        // Copy file pertama jadi final
+        // Copy file pertama sebagai basis final
         copy($mainFile, $finalPath);
 
-        // Overwrite document.xml
+        // Overwrite document.xml di file final
         $zip = new \ZipArchive;
         $zip->open($finalPath);
         $zip->addFromString('word/document.xml', $mainXml);

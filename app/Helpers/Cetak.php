@@ -92,37 +92,47 @@ class Cetak
         return $batchFile;
     }
 
-    public static function mergeDocx(array $files, string $finalFile)
+    public static function mergeDocx(array $batchFiles, string $finalPath)
     {
-        if (empty($files)) {
-            throw new \Exception('Tidak ada file untuk digabung.');
+        if (empty($batchFiles)) {
+            throw new \Exception('Tidak ada file batch untuk digabung.');
         }
 
-        // copy file pertama sebagai basis
-        copy($files[0], $finalFile);
-
+        // Ambil file pertama sebagai "utama"
+        $mainFile = $batchFiles[0];
         $zip = new \ZipArchive;
-        if ($zip->open($finalFile) !== true) {
-            throw new \Exception('Gagal membuka file DOCX');
-        }
-
+        $zip->open($mainFile);
         $mainXml = $zip->getFromName('word/document.xml');
-        $mainXml = preg_replace('/<\/w:body>\s*<\/w:document>/', '', $mainXml);
+        $zip->close();
 
-        foreach (array_slice($files, 1) as $file) {
-            $z = new \ZipArchive;
-            $z->open($file);
-            $xml = $z->getFromName('word/document.xml');
-            $z->close();
+        // Ambil isi <w:body> dari file utama
+        $mainXml = preg_replace('/<\/w:body>.*<\/w:document>/s', '', $mainXml);
 
-            $inner = preg_replace('/^[\s\S]*<w:body>(.*)<\/w:body>[\s\S]*$/', '$1', $xml);
-            $inner = preg_replace('/<w:sectPr[^>]*>.*<\/w:sectPr>/', '', $inner);
+        // Gabungkan semua batch berikutnya
+        foreach (array_slice($batchFiles, 1) as $file) {
+            $zip = new \ZipArchive;
+            $zip->open($file);
+            $xml = $zip->getFromName('word/document.xml');
+            $zip->close();
 
-            $mainXml .= $inner;
+            // Ambil isi dalam <w:body>...</w:body>
+            if (preg_match('/<w:body>(.*)<\/w:body>/s', $xml, $matches)) {
+                $innerXml = $matches[1];
+                // Hapus <w:sectPr> kalau ada (biar tidak pecah section tiap gabung)
+                $innerXml = preg_replace('/<w:sectPr>.*<\/w:sectPr>/s', '', $innerXml);
+                $mainXml .= $innerXml;
+            }
         }
 
+        // Tutup <w:body> & <w:document>
         $mainXml .= '</w:body></w:document>';
 
+        // Copy file pertama jadi final
+        copy($mainFile, $finalPath);
+
+        // Overwrite document.xml
+        $zip = new \ZipArchive;
+        $zip->open($finalPath);
         $zip->addFromString('word/document.xml', $mainXml);
         $zip->close();
     }

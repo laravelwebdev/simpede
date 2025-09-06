@@ -47,29 +47,84 @@ class Cetak
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
-        $mainTemplate = null;
-        $mainXml = '';
+        $batchSize = 100;
+        $chunks = $models->chunk($batchSize);
+        $batchFiles = [];
 
-        foreach ($models as $index => $model) {
-            $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
-            if ($index === 0) {
-                $mainTemplate = $template;
-                $mainXml = self::getMainXml($mainTemplate);
-            } else {
-                $innerXml = self::getModifiedInnerXml($template);
-                $mainXml = preg_replace('/<\/w:body>/', $innerXml.'</w:body>', $mainXml);
-            }
+        foreach ($chunks as $chunk) {
+            // di sini $chunk adalah Collection, jadi ubah ke array
+            $batchFile = self::cetakBatch($jenis, $chunk->all(), $template_id, $tanggal, $pengelola);
+            $batchFiles[] = $batchFile;
         }
 
-        if ($mainTemplate === null) {
-            throw new \Exception('Main template could not be created.');
-        }
-
-        $mainTemplate->settempDocumentMainPart($mainXml);
         $filename .= '_'.uniqid().'.docx';
-        $mainTemplate->saveAs(Storage::disk('temp')->path($filename));
+        $finalPath = Storage::disk('temp')->path($filename);
+
+        self::mergeDocx($batchFiles, $finalPath);
+
+        // hapus file sementara
+        foreach ($batchFiles as $file) {
+            @unlink($file);
+        }
 
         return $filename;
+    }
+
+    public static function cetakBatch($jenis, $models, $template_id, $tanggal, $pengelola)
+    {
+        $files = [];
+        foreach ($models as $model) {
+            $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
+            $filename = 'temp_'.$model->id.'_'.uniqid().'.docx';
+            $path = Storage::disk('temp')->path($filename);
+            $template->saveAs($path);
+            $files[] = $path;
+        }
+
+        $batchFile = Storage::disk('temp')->path('batch_'.uniqid().'.docx');
+        self::mergeDocx($files, $batchFile);
+
+        // hapus file per model
+        foreach ($files as $file) {
+            @unlink($file);
+        }
+
+        return $batchFile;
+    }
+
+    public static function mergeDocx(array $files, string $finalFile)
+    {
+        if (empty($files)) {
+            throw new \Exception('Tidak ada file untuk digabung.');
+        }
+
+        // copy file pertama sebagai basis
+        copy($files[0], $finalFile);
+
+        $zip = new \ZipArchive;
+        if ($zip->open($finalFile) !== true) {
+            throw new \Exception('Gagal membuka file DOCX');
+        }
+
+        $mainXml = $zip->getFromName('word/document.xml');
+        $mainXml = preg_replace('/<\/w:body>\s*<\/w:document>/', '', $mainXml);
+
+        foreach (array_slice($files, 1) as $file) {
+            $z = new \ZipArchive;
+            $z->open($file);
+            $xml = $z->getFromName('word/document.xml');
+            $z->close();
+
+            $inner = preg_replace('/^[\s\S]*<w:body>(.*)<\/w:body>[\s\S]*$/', '$1', $xml);
+            $inner = preg_replace('/<w:sectPr[^>]*>.*<\/w:sectPr>/', '', $inner);
+
+            $mainXml .= $inner;
+        }
+
+        $mainXml .= '</w:body></w:document>';
+
+        $zip->addFromString('word/document.xml', $mainXml);
+        $zip->close();
     }
 
     /**

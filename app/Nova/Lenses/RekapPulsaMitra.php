@@ -23,8 +23,11 @@ class RekapPulsaMitra extends Lens
     {
         return 'Pulsa Mitra';
     }
+    public static $showPollingToggle = true;
 
-    // public static $showPollingToggle = true;
+    public static $polling = true;
+
+    public static $pollingInterval = 60;
 
     /**
      * The columns that should be searched.

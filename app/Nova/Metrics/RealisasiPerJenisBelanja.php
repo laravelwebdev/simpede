@@ -24,7 +24,7 @@ class RealisasiPerJenisBelanja extends Table
             'style' => 'button', // (Possible values `link` - `button`)
         ]);
 
-        $this->title('Target Serapan Anggaran Per Jenis Belanja Triwulan ini');
+        $this->title('Monitoring Serapan Anggaran');
         $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
         $bulan = (int) date('m');
 

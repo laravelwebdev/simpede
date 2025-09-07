@@ -23,9 +23,11 @@ class RekapHonorMitra extends Lens
     {
         return 'Honor Mitra';
     }
+    public static $showPollingToggle = true;
 
-    // public static $showPollingToggle = true;
+    public static $polling = true;
 
+    public static $pollingInterval = 60;
     /**
      * The columns that should be searched.
      *

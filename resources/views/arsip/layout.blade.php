@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Arsip Dokumen - {{ $level }}</title>
     <link rel="stylesheet" href="{{ asset('css/bulma.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toasr.min.css') }}">
     <script type="text/javascript" src="{{ asset('js/toast.min.js') }}"></script>
   </head>

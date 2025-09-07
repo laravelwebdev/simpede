@@ -89,7 +89,7 @@
         <!-- Navbar End -->
 
         <!-- Start Hero -->
-        <section class="relative md:py-48 py-40 bg-teal-500/5 dark:bg-teal-500/20" id="home">
+        <section class="relative md:py-48 py-40 bg-teal-500/10 dark:bg-teal-500/20" id="home">
             <div class="container relative mt-8">
                 <div class="grid md:grid-cols-2 grid-cols-1 gap-6 items-center">
                     <div>

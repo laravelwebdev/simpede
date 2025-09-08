@@ -47,24 +47,38 @@ class Cetak
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
+        static $globalIndex = 0; // counter global agar tidak reset antar chunk
+
         $mainTemplate = null;
         $mainXml = '';
+        $innerXmlList = []; // simpan semua inner xml dulu
 
-        foreach ($models as $index => $model) {
+        foreach ($models as $model) {
             $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
-            if ($index === 0) {
+
+            if ($globalIndex === 0) {
+                // simpan template pertama
                 $mainTemplate = $template;
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
-                $innerXml = self::getModifiedInnerXml($template);
-                $mainXml = preg_replace('/<\/w:body>/', $innerXml.'</w:body>', $mainXml);
+                // kumpulkan inner xml
+                $innerXmlList[] = self::getModifiedInnerXml($template);
             }
+
+            $globalIndex++;
         }
 
         if ($mainTemplate === null) {
             throw new \Exception('Main template could not be created.');
         }
 
+        // gabungkan semua inner XML sekali saja
+        if (! empty($innerXmlList)) {
+            $allInnerXml = implode('', $innerXmlList);
+            $mainXml = preg_replace('/<\/w:body>/', $allInnerXml.'</w:body>', $mainXml, 1);
+        }
+
+        // simpan hasil
         $mainTemplate->settempDocumentMainPart($mainXml);
         $filename .= '_'.uniqid().'.docx';
         $mainTemplate->saveAs(Storage::disk('temp')->path($filename));

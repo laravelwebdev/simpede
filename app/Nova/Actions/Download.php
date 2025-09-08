@@ -19,7 +19,7 @@ class Download extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public static $chunkCount = 500;
+    // public static $chunkCount = 500;
 
     public $withoutActionEvents = true;
 
@@ -79,9 +79,9 @@ class Download extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        if ($models->count() > self::$chunkCount) {
-            return Action::danger('Maksimal '.self::$chunkCount.' data yang dapat diunduh sekaligus.');
-        }
+        // if ($models->count() > self::$chunkCount) {
+        //     return Action::danger('Maksimal '.self::$chunkCount.' data yang dapat diunduh sekaligus.');
+        // }
         if (! empty($this->filter)) {
             if ($models->contains(function ($model) {
                 return empty($model->{$this->filter});

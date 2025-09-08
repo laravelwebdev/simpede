@@ -47,43 +47,46 @@ class Cetak
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
-        static $globalIndex = 0; // counter global agar tidak reset antar chunk
-
-        $mainTemplate = null;
-        $mainXml = '';
-        $innerXmlList = []; // simpan semua inner xml dulu
+        static $globalIndex = 0;
+        static $mainTemplate = null;
+        static $mainXml = '';
+        static $innerXmlList = [];
 
         foreach ($models as $model) {
             $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
 
-            if ($globalIndex === 0) {
-                // simpan template pertama
+            if ($globalIndex === 0 && $mainTemplate === null) {
                 $mainTemplate = $template;
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
-                // kumpulkan inner xml
                 $innerXmlList[] = self::getModifiedInnerXml($template);
             }
 
             $globalIndex++;
         }
 
-        if ($mainTemplate === null) {
-            throw new \Exception('Main template could not be created.');
+        // kalau ini adalah chunk terakhir (misalnya dipanggil dengan tanda khusus),
+        // baru digabungkan
+        if ($models->last() === $models->get($models->count() - 1)) {
+            if (! empty($innerXmlList)) {
+                $allInnerXml = implode('', $innerXmlList);
+                $mainXml = preg_replace('/<\/w:body>/', $allInnerXml.'</w:body>', $mainXml, 1);
+            }
+
+            $mainTemplate->settempDocumentMainPart($mainXml);
+            $filename .= '_'.uniqid().'.docx';
+            $mainTemplate->saveAs(Storage::disk('temp')->path($filename));
+
+            // reset static agar siap next call
+            $globalIndex = 0;
+            $mainTemplate = null;
+            $mainXml = '';
+            $innerXmlList = [];
+
+            return $filename;
         }
 
-        // gabungkan semua inner XML sekali saja
-        if (! empty($innerXmlList)) {
-            $allInnerXml = implode('', $innerXmlList);
-            $mainXml = preg_replace('/<\/w:body>/', $allInnerXml.'</w:body>', $mainXml, 1);
-        }
-
-        // simpan hasil
-        $mainTemplate->settempDocumentMainPart($mainXml);
-        $filename .= '_'.uniqid().'.docx';
-        $mainTemplate->saveAs(Storage::disk('temp')->path($filename));
-
-        return $filename;
+        return null; // chunk sementara, belum ada file
     }
 
     /**

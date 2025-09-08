@@ -18,6 +18,8 @@ class GenerateNomorBastMitra extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Generate Nomor BAST Mitra';
 
     /**

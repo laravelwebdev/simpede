@@ -14,6 +14,8 @@ class GenerateBastMitra extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Generate BAST Mitra';
 
     /**

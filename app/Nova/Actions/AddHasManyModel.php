@@ -16,6 +16,8 @@ class AddHasManyModel extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     protected $resourceId;
 
     protected $fields;

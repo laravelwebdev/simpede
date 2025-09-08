@@ -21,6 +21,8 @@ class ImportMasterPersediaan extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import Master Persediaan';
 
     /**

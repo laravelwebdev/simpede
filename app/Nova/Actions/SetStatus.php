@@ -17,6 +17,8 @@ class SetStatus extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     protected $status;
 
     protected bool $withTanggal = false;

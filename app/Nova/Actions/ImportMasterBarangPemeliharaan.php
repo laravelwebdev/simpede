@@ -16,6 +16,8 @@ class ImportMasterBarangPemeliharaan extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import Master Barang Pemeliharaan';
 
     /**

@@ -18,6 +18,8 @@ class EditRekening extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $confirmButtonText = 'Edit';
 
     public $name = 'Edit Rekening';

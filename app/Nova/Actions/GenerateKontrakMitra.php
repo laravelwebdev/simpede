@@ -18,6 +18,8 @@ class GenerateKontrakMitra extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Generate Kontrak Mitra';
 
     /**

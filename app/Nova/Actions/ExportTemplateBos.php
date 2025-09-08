@@ -19,6 +19,8 @@ class ExportTemplateBos extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public function name()
     {
         return 'Export Template BOS';

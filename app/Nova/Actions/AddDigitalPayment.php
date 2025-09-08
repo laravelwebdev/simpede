@@ -15,6 +15,8 @@ class AddDigitalPayment extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public function name()
     {
         return 'Tambahkan Penggunaan Digital Payment';

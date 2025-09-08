@@ -23,6 +23,8 @@ class ImportDaftarHonorMitra extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import dari BOS';
 
     protected $model;

@@ -16,6 +16,8 @@ class AddPerjalananDinas extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public function name()
     {
         return 'Tambahkan Perjalalan Dinas';

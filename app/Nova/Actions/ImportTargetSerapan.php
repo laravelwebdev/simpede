@@ -18,6 +18,8 @@ class ImportTargetSerapan extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import Target Serapan Anggaran';
 
     /**

@@ -69,7 +69,7 @@ abstract class Resource extends NovaResource
      */
     public static function perPageOptions()
     {
-        return [25, 50, 100];
+        return [25, 50, 100, 200];
     }
 
     /**

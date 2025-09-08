@@ -47,55 +47,27 @@ class Cetak
      */
     public static function cetak($jenis, $models, $filename, $template_id, $tanggal = null, $pengelola = null)
     {
-        // static untuk simpan state antar chunk
-        static $globalIndex = 0;
-        static $mainTemplate = null;
-        static $mainXml = '';
-        static $innerXmlList = [];
+        $mainTemplate = null;
+        $mainXml = '';
 
-        foreach ($models as $model) {
+        foreach ($models as $index => $model) {
             $template = self::getTemplate($jenis, $model->id, $template_id, $tanggal, $pengelola);
-
-            if ($globalIndex === 0 && $mainTemplate === null) {
-                // pertama kali → ambil template utama
+            if ($index === 0) {
                 $mainTemplate = $template;
                 $mainXml = self::getMainXml($mainTemplate);
             } else {
-                // simpan inner xml
-                $innerXmlList[] = self::getModifiedInnerXml($template);
+                $innerXml = self::getModifiedInnerXml($template);
+                $mainXml = preg_replace('/<\/w:body>/', $innerXml.'</w:body>', $mainXml);
             }
-
-            $globalIndex++;
         }
 
-        // 🚨 jangan langsung return di sini,
-        // tunggu sampai action selesai semua chunk dulu.
-        // Kita bisa tahu chunk terakhir dari Nova:
-        // kalau jumlah models < chunk size → berarti chunk terakhir.
-        $chunkSize = property_exists(static::class, 'chunkCount') ? (new static)->chunkCount() : null;
-        $isLastChunk = $chunkSize === null || $models->count() < $chunkSize;
-
-        if (! $isLastChunk) {
-            // masih ada chunk berikutnya
-            return null;
+        if ($mainTemplate === null) {
+            throw new \Exception('Main template could not be created.');
         }
 
-        // ✅ chunk terakhir → merge semua XML
-        if (! empty($innerXmlList)) {
-            $allInnerXml = implode('', $innerXmlList);
-            $mainXml = preg_replace('/<\/w:body>/', $allInnerXml.'</w:body>', $mainXml, 1);
-        }
-
-        // simpan hasil
         $mainTemplate->settempDocumentMainPart($mainXml);
         $filename .= '_'.uniqid().'.docx';
         $mainTemplate->saveAs(Storage::disk('temp')->path($filename));
-
-        // reset static supaya action berikutnya bersih
-        $globalIndex = 0;
-        $mainTemplate = null;
-        $mainXml = '';
-        $innerXmlList = [];
 
         return $filename;
     }
@@ -457,16 +429,7 @@ class Cetak
             'daftar_persediaan' => BarangPersediaan::whereYear('tanggal_transaksi', session('year'))
                 ->whereDate('tanggal_transaksi', '<=', $tanggal)
                 ->where('master_persediaan_id', $id)
-                ->with([
-                    'barangPersediaanable' => function ($morphTo) {
-                        $morphTo->morphWith([
-                            \App\Models\PembelianPersediaan::class => ['bastNaskahKeluar'],
-                            \App\Models\PermintaanPersediaan::class => ['naskahKeluar', 'user'],
-                            \App\Models\PersediaanMasuk::class => ['naskahMasuk'],
-                            \App\Models\PersediaanKeluar::class => ['naskahKeluar'],
-                        ]);
-                    },
-                ])
+                ->with('barangPersediaanable')
                 ->orderBy('tanggal_transaksi', 'asc')
                 ->orderBy('id', 'asc')
                 ->get(),

@@ -68,15 +68,15 @@ class Download extends Action
         return $this->title;
     }
 
-    /**
+     /**
      * Perform the action on the given models.
      *
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        if ($models->count() > 1000) {
-            return Action::danger('Maksimal 1000 data yang dapat diunduh sekaligus.');
+        if ($models->count() > 100) {
+            return Action::danger('Maksimal 100 data yang dapat diunduh sekaligus.');
         }
         if (! empty($this->filter)) {
             if ($models->contains(function ($model) {
@@ -133,10 +133,5 @@ class Download extends Action
         }
 
         return $fields;
-    }
-
-    public function chunkCount()
-    {
-        return 0;
     }
 }

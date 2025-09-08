@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Download extends Action
@@ -100,6 +101,21 @@ class Download extends Action
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
         ]));
+    }
+
+    public function handleRequest(ActionRequest $request)
+    {
+        $total = $request->selectedResourceIds()
+            ? $request->selectedResourceIds()->count()
+            : $request->toSelectedResourceQuery()->count();
+
+        if ($total > self::$chunkCount) {
+            return static::danger(
+                'Maksimal '.self::$chunkCount.' data yang dapat diunduh sekaligus.'
+            );
+        }
+
+        return parent::handleRequest($request);
     }
 
     /**

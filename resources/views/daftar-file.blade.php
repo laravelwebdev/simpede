@@ -14,7 +14,7 @@
         $filename = end($arr);
         @endphp
         <tr>
-            <td data-label="Nama File">{{ $filename }}</td>
+            <td class="filename-wrap" data-label="Nama File">{{ $filename }}</td>
             <td class="actions">
                 <a target="_blank" href="{{ \Illuminate\Support\Facades\Storage::disk('arsip')->url($item) }}" class="action-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">

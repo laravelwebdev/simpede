@@ -116,7 +116,7 @@ class Dipa extends Model
                 $keywords = explode('.', $search);
                 foreach ($keywords as $keyword) {
                     $query->where('mak', 'like', '%'.$keyword.'%')
-                    ->orWhere('uraian', 'like', '%'.$keyword.'%');
+                        ->orWhere('uraian', 'like', '%'.$keyword.'%');
                 }
 
                 return $query;

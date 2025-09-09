@@ -11,7 +11,7 @@
         @forelse ($data as $item)
         @php
         $arr = explode('/', $item);
-        $filename = end($arr);
+        $filename = strstr(end($arr), '_', true) ?: end($arr);
         @endphp
         <tr>
             <td data-label="Nama File">{{ $filename }}</td>

@@ -1,35 +1,40 @@
 @if ($paginator->hasPages())
-<br/>
-<nav class="pagination" role="navigation" aria-label="pagination">
-  @if ($paginator->onFirstPage())
-  <a class="pagination-previous is-disabled" title="This is the first page">Sebelumnya</a>
-  @else
-  <a href="{{ $paginator->previousPageUrl() }}" class="pagination-previous">Sebelumnya</a>
-  @endif
-
-  @if ($paginator->hasMorePages())
-  <a href="{{ $paginator->nextPageUrl() }}" class="pagination-next">Berikutnya</a>
-  @else
-  <a class="pagination-next is-disabled">Berikutnya</a>
-  @endif
-
-  <ul class="pagination-list">
-    @foreach ($elements as $element)
-    @if (is_string($element))
-    <li><span class="pagination-ellipsis">&hellip;</span></li>
-    @endif
-
-    @if (is_array($element))
-    @foreach ($element as $page => $url)
-    @if ($page == $paginator->currentPage())
-    <li><a class="pagination-link is-current" aria-label="Page {{ $page }}" aria-current="page">{{ $page }}</a></li>
+<div class="pagination">
+    {{-- Tombol Halaman Pertama & Sebelumnya --}}
+    @if ($paginator->onFirstPage())
+        <span class="disabled">«</span>
+        <span class="disabled">‹</span>
     @else
-    <li><a href="{{ $url }}" class="pagination-link" aria-label="Goto page {{ $page }}">{{ $page }}</a></li>
+        <a href="{{ $paginator->url(1) }}">«</a>
+        <a href="{{ $paginator->previousPageUrl() }}">‹</a>
     @endif
-    @endforeach
-    @endif
-    @endforeach
-  </ul>
-</nav>
-@endif
 
+    {{-- Nomor Halaman --}}
+    @foreach ($elements as $element)
+        {{-- Ellipsis --}}
+        @if (is_string($element))
+            <span class="ellipsis">{{ $element }}</span>
+        @endif
+
+        {{-- Link Halaman --}}
+        @if (is_array($element))
+            @foreach ($element as $page => $url)
+                @if ($page == $paginator->currentPage())
+                    <span class="active">{{ $page }}</span>
+                @else
+                    <a href="{{ $url }}">{{ $page }}</a>
+                @endif
+            @endforeach
+        @endif
+    @endforeach
+
+    {{-- Tombol Halaman Berikutnya & Terakhir --}}
+    @if ($paginator->hasMorePages())
+        <a href="{{ $paginator->nextPageUrl() }}">›</a>
+        <a href="{{ $paginator->url($paginator->lastPage()) }}">»</a>
+    @else
+        <span class="disabled">›</span>
+        <span class="disabled">»</span>
+    @endif
+</div>
+@endif

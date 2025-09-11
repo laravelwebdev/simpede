@@ -53,7 +53,7 @@ class PerjalananDinas extends Resource
     public function title()
     {
         return $this->relationLoaded('spdNaskahKeluar')
-            ? $this->spdNaskahKeluar->nomor
+            ? optional($this->spdNaskahKeluar)->nomor
             : $this->spdNaskahKeluar()->value('nomor');
     }
 

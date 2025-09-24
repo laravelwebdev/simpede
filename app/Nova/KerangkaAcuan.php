@@ -44,7 +44,7 @@ class KerangkaAcuan extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         $query->withSum('anggaranKerangkaAcuan as anggaran', 'perkiraan')->whereYear('tanggal', session('year'));
-        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm')->get()) {
+        if (Policy::make()->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,pbj')->get()) {
             return $query;
         } elseif (Policy::make()->allowedFor('koordinator,anggota')->get()) {
             return $query->where('unit_kerja_id', optional(Helper::getDataPegawaiByUserId($request->user()->id, now()))->unit_kerja_id);

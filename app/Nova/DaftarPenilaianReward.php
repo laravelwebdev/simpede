@@ -30,7 +30,7 @@ class DaftarPenilaianReward extends Resource
     public function title()
     {
         return $this->relationLoaded('user')
-            ? $this->user->name
+            ? optional($this->user)->name
             : $this->user()->value('name'); // ambil nilai tanpa lazy load
     }
 

@@ -47,7 +47,7 @@ class BarangPersediaan extends Resource
     public function title()
     {
         return $this->relationLoaded('masterPersediaan')
-            ? $this->masterPersediaan->barang
+            ? optional($this->masterPersediaan)->barang
             : $this->masterPersediaan()->value('barang');
     }
 

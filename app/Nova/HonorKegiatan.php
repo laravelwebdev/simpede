@@ -431,13 +431,7 @@ class HonorKegiatan extends Resource
             });
         if (Policy::make()->allowedFor('bendahara')->get()) {
             $actions[] =
-            ExportTemplateCmsBri::make($this->kegiatan, 'ft')
-                ->showInline()
-                ->showOnDetail()
-                ->exceptOnIndex()
-                ->confirmButtonText('Export');
-            $actions[] =
-            ExportTemplateCmsBri::make($this->kegiatan, 'cn')
+            ExportTemplateCmsBri::make($this->kegiatan)
                 ->showInline()
                 ->showOnDetail()
                 ->exceptOnIndex()

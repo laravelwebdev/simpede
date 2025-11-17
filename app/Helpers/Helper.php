@@ -1764,13 +1764,13 @@ class Helper
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->reject(function ($item) {
-                return $item['netto'] == 0 || $item['kode_bank_id'] != 11;
+                return $item['netto'] == 0 ;
             })
             ->flatten()
             ->transform(function ($item, $index) use ($satker_rekening, $remark) {
                 $item['No'] = $index + 1;
                 $item['CustRefNo'] = uniqid();
-                $item['InstructionCode'] = 'IFT';
+                $item['InstructionCode'] = $item['kode_bank_id'] == 11 ? 'IFT' : 'BIF';
                 $item['ValueDate'] = '';
                 $item['Debit Account'] = $satker_rekening;
                 $item['Sender Name'] = 'BPS '.config('satker.kabupaten');
@@ -1782,7 +1782,7 @@ class Helper
                 $item['Currency'] = 'IDR';
                 $item['TrxRemark'] = $remark;
                 $item['Notification'] = '';
-                $item['Charge Type'] = 'OUR';
+                $item['Charge Type'] = item['kode_bank_id'] == 11 ? 'OUR' : 'BEN';
                 $item['FxCode'] = 'ID';
                 $item['Rate Voucher Code'] = '';
                 $item['Sender Address'] = 'BARABAI';
@@ -1823,52 +1823,6 @@ class Helper
             });
     }
 
-    /**
-     * Create a collection for mass credit note.
-     *
-     * @param  int  $honor_kegiatan_id
-     * @param  string  $tanggal
-     * @param  string  $satker_rekening
-     * @param  string  $remark
-     * @return \Illuminate\Support\Collection
-     */
-    public static function makeCollectionForMassCn($honor_kegiatan_id, $tanggal, $satker_rekening, $remark)
-    {
-        return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
-            ->reject(function ($item) {
-                return $item['netto'] == 0 || $item['kode_bank_id'] == 11;
-            })
-            ->flatten()
-            ->transform(function ($item, $index) use ($satker_rekening, $remark) {
-                $item['No'] = $index + 1;
-                $item['Sender Account'] = $satker_rekening;
-                $item['Benef Account'] = $item['rekening'];
-                $item['Benef Name'] = $item['nama'];
-                $item['Benef Address'] = strtoupper(str_replace('Kabupaten ', '', config('satker.kabupaten')));
-                $item['Benef Bank'] = optional(self::getKodeBankById($item['kode_bank_id']))->kode;
-                $item['Benef eMail'] = '';
-                $item['Amount'] = $item['netto'];
-                $item['Charge Type'] = 'BEN';
-                $item['Remark'] = $remark;
-                $item['Reference Number'] = uniqid();
-                unset($item['nip_lama']);
-                unset($item['volume']);
-                unset($item['harga_satuan']);
-                unset($item['persen_pajak']);
-                unset($item['bruto']);
-                unset($item['nama']);
-                unset($item['nip']);
-                unset($item['jabatan']);
-                unset($item['kode_bank_id']);
-                unset($item['rekening']);
-                unset($item['golongan']);
-                unset($item['bruto']);
-                unset($item['pajak']);
-                unset($item['netto']);
-
-                return $item;
-            });
-    }
 
     /**
      * Create Surat Keterangan (SK) for both Mitra and Pegawai.

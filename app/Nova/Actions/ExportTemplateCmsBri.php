@@ -19,19 +19,16 @@ class ExportTemplateCmsBri extends Action
 
     public $withoutActionEvents = true;
 
-    protected $type;
-
     protected $kegiatan;
 
-    public function __construct($kegiatan, $type = 'ft')
+    public function __construct($kegiatan)
     {
-        $this->type = $type;
         $this->kegiatan = $kegiatan;
     }
 
     public function name()
     {
-        return 'Export Template QLOLA MASS '.strtoupper($this->type);
+        return 'Export Template QLOLA MASS ';
     }
 
     /**
@@ -43,7 +40,6 @@ class ExportTemplateCmsBri extends Action
     {
         $model = $models->first();
         $collection = null;
-        if ($this->type === 'ft') {
             $collection = Helper::makeCollectionForMassFt($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();
             $sum = $collection->sum('Amount');
@@ -128,68 +124,7 @@ class ExportTemplateCmsBri extends Action
                 ]
             );
             $collection = $collection->merge($summary);
-        } else {
-            $collection = Helper::makeCollectionForMassCn($model->id, now(), $fields->rekening_bendahara, $fields->remark);
-            $count = $collection->count();
-            $sum = $collection->sum('Amount');
-            $summary = collect(
-                [
-                    [
-                        'No' => 'COUNT',
-                        'Sender Account' => $count,
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'Benef Address' => '',
-                        'Benef Bank' => '',
-                        'Benef eMail' => '',
-                        'Amount' => '',
-                        'Charge Type' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'TOTAL',
-                        'Sender Account' => $sum,
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'Benef Address' => '',
-                        'Benef Bank' => '',
-                        'Benef eMail' => '',
-                        'Amount' => '',
-                        'Charge Type' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'DATE',
-                        'Sender Account' => '',
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'Benef Address' => '',
-                        'Benef Bank' => '',
-                        'Benef eMail' => '',
-                        'Amount' => '',
-                        'Charge Type' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'TIME',
-                        'Sender Account' => '',
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'Benef Address' => '',
-                        'Benef Bank' => '',
-                        'Benef eMail' => '',
-                        'Amount' => '',
-                        'Charge Type' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                ]
-            );
-            $collection = $collection->merge($summary);
-        }
+
         $filename = $fields->filename.'.xlsx';
         (new FastExcel($collection))->export(Storage::disk('temp')->path($filename));
         return Action::redirect(route('dump-download', [

@@ -45,69 +45,69 @@ class ExportTemplateCmsBri extends Action
         $collection = null;
         if ($this->type === 'ft') {
             $collection = Helper::makeCollectionForMassFt($model->id, now(), $fields->rekening_bendahara, $fields->remark);
-            $count = $collection->count();
-            $sum = $collection->sum('Amount');
-            $summary = collect(
-                [
-                    [
-                        'No' => 'COUNT',
-                        'Sender Account' => $count,
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'eMail' => '',
-                        'Amount' => '',
-                        'Currency' => '',
-                        'Charge Type' => '',
-                        'Voucher Code' => '',
-                        'BI Trx Code' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'TOTAL',
-                        'Sender Account' => $sum,
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'eMail' => '',
-                        'Amount' => '',
-                        'Currency' => '',
-                        'Charge Type' => '',
-                        'Voucher Code' => '',
-                        'BI Trx Code' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'DATE',
-                        'Sender Account' => '',
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'eMail' => '',
-                        'Amount' => '',
-                        'Currency' => '',
-                        'Charge Type' => '',
-                        'Voucher Code' => '',
-                        'BI Trx Code' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                    [
-                        'No' => 'TIME',
-                        'Sender Account' => '',
-                        'Benef Account' => '',
-                        'Benef Name' => '',
-                        'eMail' => '',
-                        'Amount' => '',
-                        'Currency' => '',
-                        'Charge Type' => '',
-                        'Voucher Code' => '',
-                        'BI Trx Code' => '',
-                        'Remark' => '',
-                        'Reference Number' => '',
-                    ],
-                ]
-            );
-            $collection = $collection->merge($summary);
+            // $count = $collection->count();
+            // $sum = $collection->sum('Amount');
+            // $summary = collect(
+            //     [
+            //         [
+            //             'No' => 'COUNT',
+            //             'Sender Account' => $count,
+            //             'Benef Account' => '',
+            //             'Benef Name' => '',
+            //             'eMail' => '',
+            //             'Amount' => '',
+            //             'Currency' => '',
+            //             'Charge Type' => '',
+            //             'Voucher Code' => '',
+            //             'BI Trx Code' => '',
+            //             'Remark' => '',
+            //             'Reference Number' => '',
+            //         ],
+            //         [
+            //             'No' => 'TOTAL',
+            //             'Sender Account' => $sum,
+            //             'Benef Account' => '',
+            //             'Benef Name' => '',
+            //             'eMail' => '',
+            //             'Amount' => '',
+            //             'Currency' => '',
+            //             'Charge Type' => '',
+            //             'Voucher Code' => '',
+            //             'BI Trx Code' => '',
+            //             'Remark' => '',
+            //             'Reference Number' => '',
+            //         ],
+            //         [
+            //             'No' => 'DATE',
+            //             'Sender Account' => '',
+            //             'Benef Account' => '',
+            //             'Benef Name' => '',
+            //             'eMail' => '',
+            //             'Amount' => '',
+            //             'Currency' => '',
+            //             'Charge Type' => '',
+            //             'Voucher Code' => '',
+            //             'BI Trx Code' => '',
+            //             'Remark' => '',
+            //             'Reference Number' => '',
+            //         ],
+            //         [
+            //             'No' => 'TIME',
+            //             'Sender Account' => '',
+            //             'Benef Account' => '',
+            //             'Benef Name' => '',
+            //             'eMail' => '',
+            //             'Amount' => '',
+            //             'Currency' => '',
+            //             'Charge Type' => '',
+            //             'Voucher Code' => '',
+            //             'BI Trx Code' => '',
+            //             'Remark' => '',
+            //             'Reference Number' => '',
+            //         ],
+            //     ]
+            // );
+            // $collection = $collection->merge($summary);
         } else {
             $collection = Helper::makeCollectionForMassCn($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();

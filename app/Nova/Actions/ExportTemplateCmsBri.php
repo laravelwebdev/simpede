@@ -31,7 +31,7 @@ class ExportTemplateCmsBri extends Action
 
     public function name()
     {
-        return 'Export Template CMS BRI MASS '.strtoupper($this->type);
+        return 'Export Template QLOLA MASS '.strtoupper($this->type);
     }
 
     /**
@@ -45,69 +45,89 @@ class ExportTemplateCmsBri extends Action
         $collection = null;
         if ($this->type === 'ft') {
             $collection = Helper::makeCollectionForMassFt($model->id, now(), $fields->rekening_bendahara, $fields->remark);
-            // $count = $collection->count();
-            // $sum = $collection->sum('Amount');
-            // $summary = collect(
-            //     [
-            //         [
-            //             'No' => 'COUNT',
-            //             'Sender Account' => $count,
-            //             'Benef Account' => '',
-            //             'Benef Name' => '',
-            //             'eMail' => '',
-            //             'Amount' => '',
-            //             'Currency' => '',
-            //             'Charge Type' => '',
-            //             'Voucher Code' => '',
-            //             'BI Trx Code' => '',
-            //             'Remark' => '',
-            //             'Reference Number' => '',
-            //         ],
-            //         [
-            //             'No' => 'TOTAL',
-            //             'Sender Account' => $sum,
-            //             'Benef Account' => '',
-            //             'Benef Name' => '',
-            //             'eMail' => '',
-            //             'Amount' => '',
-            //             'Currency' => '',
-            //             'Charge Type' => '',
-            //             'Voucher Code' => '',
-            //             'BI Trx Code' => '',
-            //             'Remark' => '',
-            //             'Reference Number' => '',
-            //         ],
-            //         [
-            //             'No' => 'DATE',
-            //             'Sender Account' => '',
-            //             'Benef Account' => '',
-            //             'Benef Name' => '',
-            //             'eMail' => '',
-            //             'Amount' => '',
-            //             'Currency' => '',
-            //             'Charge Type' => '',
-            //             'Voucher Code' => '',
-            //             'BI Trx Code' => '',
-            //             'Remark' => '',
-            //             'Reference Number' => '',
-            //         ],
-            //         [
-            //             'No' => 'TIME',
-            //             'Sender Account' => '',
-            //             'Benef Account' => '',
-            //             'Benef Name' => '',
-            //             'eMail' => '',
-            //             'Amount' => '',
-            //             'Currency' => '',
-            //             'Charge Type' => '',
-            //             'Voucher Code' => '',
-            //             'BI Trx Code' => '',
-            //             'Remark' => '',
-            //             'Reference Number' => '',
-            //         ],
-            //     ]
-            // );
-            // $collection = $collection->merge($summary);
+            $count = $collection->count();
+            $sum = $collection->sum('Amount');
+            $summary = collect(
+                [
+                    [
+                        'No' => 'Total Records',
+                        'CustRefNo' => '',
+                        'InstructionCode' => $count,
+                        'ValueDate' => '',
+                        'Debit Account' => '',
+                        'Sender Name' => '',
+                        'BenBankIdentifier' => '',
+                        'Credit Account' => '',
+                        'Beneficiary Name' => '',
+                        'Beneficiary Address' => '',
+                        'Amount' => '',
+                        'Currency' => '',
+                        'TrxRemark' => '',
+                        'Notification' => '',
+                        'Charge Type' => '',
+                        'FxCode' => '',
+                        'Rate Voucher Code' => '',
+                        'Sender Address' => '',
+                        'Ben Mobile Number' => '',
+                        'Sender Country Code' => '',
+                        'Beneficiary Country Code' => '',
+                        'BenBankName' => '',
+                        'BenBankAddress' => '',
+                        'BenBankCountryCode' => '',
+                        'InterBankIdentifier' => '',
+                        'InterBankName' => '',
+                        'InterBankAddress' => '',
+                        'InterBankCountryCode' => '',
+                        'Beneficiary Category' => '',
+                        'Beneficiary Relation' => '',
+                        'BI Transaction Code' => '',
+                        'Simodis Info' => '',
+                        'Enrichment Details 1' => '',
+                        'Enrichment Details 2' => '',
+                        'Enrichment Details 3' => '',            
+                        'Enrichment Details 4' => '',
+                    ],
+                    [
+                        'No' => 'Total Amount',
+                        'CustRefNo' => '',
+                        'InstructionCode' => $sum,
+                        'ValueDate' => '',
+                        'Debit Account' => '',
+                        'Sender Name' => '',
+                        'BenBankIdentifier' => '',
+                        'Credit Account' => '',
+                        'Beneficiary Name' => '',
+                        'Beneficiary Address' => '',
+                        'Amount' => '',
+                        'Currency' => '',
+                        'TrxRemark' => '',
+                        'Notification' => '',
+                        'Charge Type' => '',
+                        'FxCode' => '',
+                        'Rate Voucher Code' => '',
+                        'Sender Address' => '',
+                        'Ben Mobile Number' => '',
+                        'Sender Country Code' => '',
+                        'Beneficiary Country Code' => '',
+                        'BenBankName' => '',
+                        'BenBankAddress' => '',
+                        'BenBankCountryCode' => '',
+                        'InterBankIdentifier' => '',
+                        'InterBankName' => '',
+                        'InterBankAddress' => '',
+                        'InterBankCountryCode' => '',
+                        'Beneficiary Category' => '',
+                        'Beneficiary Relation' => '',
+                        'BI Transaction Code' => '',
+                        'Simodis Info' => '',
+                        'Enrichment Details 1' => '',
+                        'Enrichment Details 2' => '',
+                        'Enrichment Details 3' => '',            
+                        'Enrichment Details 4' => '',
+                    ],
+                ]
+            );
+            $collection = $collection->merge($summary);
         } else {
             $collection = Helper::makeCollectionForMassCn($model->id, now(), $fields->rekening_bendahara, $fields->remark);
             $count = $collection->count();
@@ -170,25 +190,8 @@ class ExportTemplateCmsBri extends Action
             );
             $collection = $collection->merge($summary);
         }
-        $filename = $fields->filename.'.csv';
-        (new FastExcel($collection))->configureCsv(delimiter: '|')->export(Storage::disk('temp')->path($filename));
-        $inputFile = Storage::disk('temp')->path($filename);
-        $outputFile = Storage::disk('temp')->path('clean_'.$filename);
-
-        $inputHandle = fopen($inputFile, 'r');
-        $outputHandle = fopen($outputFile, 'w');
-
-        if ($inputHandle !== false && $outputHandle !== false) {
-            while (($data = fgetcsv($inputHandle, 0, '|', '"', '')) !== false) {
-                fwrite($outputHandle, implode('|', $data).PHP_EOL);
-            }
-            fclose($inputHandle);
-            fclose($outputHandle);
-        }
-
-        Storage::disk('temp')->delete($filename);
-        Storage::disk('temp')->move('clean_'.$filename, $filename);
-
+        $filename = $fields->filename.'.xlsx';
+        (new FastExcel($collection))->export(Storage::disk('temp')->path($filename));
         return Action::redirect(route('dump-download', [
             'filename' => $filename,
         ]));

@@ -1764,7 +1764,7 @@ class Helper
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->reject(function ($item) {
-                return $item['netto'] == 0 ;
+                return $item['netto'] == 0;
             })
             ->flatten()
             ->transform(function ($item, $index) use ($satker_rekening, $remark) {
@@ -1822,7 +1822,6 @@ class Helper
                 return $item;
             });
     }
-
 
     /**
      * Create Surat Keterangan (SK) for both Mitra and Pegawai.

@@ -1764,13 +1764,13 @@ class Helper
     {
         return self::makeBaseListMitraAndPegawai($honor_kegiatan_id, $tanggal)
             ->reject(function ($item) {
-                return $item['netto'] == 0;
+                return $item['netto'] == 0 || $item['kode_bank_id'] === 11;
             })
             ->flatten()
             ->transform(function ($item, $index) use ($satker_rekening, $remark) {
                 $item['No'] = $index + 1;
                 $item['CustRefNo'] = uniqid();
-                $item['InstructionCode'] = $item['kode_bank_id'] == 11 ? 'IFT' : 'BIF';
+                $item['InstructionCode'] = $item['kode_bank_id'] === 11 ? 'IFT' : 'BIF';
                 $item['ValueDate'] = '';
                 $item['Debit Account'] = $satker_rekening;
                 $item['Sender Name'] = 'BPS '.config('satker.kabupaten');
@@ -1782,7 +1782,7 @@ class Helper
                 $item['Currency'] = 'IDR';
                 $item['TrxRemark'] = $remark;
                 $item['Notification'] = '';
-                $item['Charge Type'] = $item['kode_bank_id'] == 11 ? 'OUR' : 'BEN';
+                $item['Charge Type'] = $item['kode_bank_id'] === 11 ? 'OUR' : 'BEN';
                 $item['FxCode'] = 'ID';
                 $item['Rate Voucher Code'] = '';
                 $item['Sender Address'] = 'BARABAI';

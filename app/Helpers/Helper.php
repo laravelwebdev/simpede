@@ -1782,7 +1782,7 @@ class Helper
                 $item['Currency'] = 'IDR';
                 $item['TrxRemark'] = $remark;
                 $item['Notification'] = '';
-                $item['Charge Type'] = item['kode_bank_id'] == 11 ? 'OUR' : 'BEN';
+                $item['Charge Type'] = $item['kode_bank_id'] == 11 ? 'OUR' : 'BEN';
                 $item['FxCode'] = 'ID';
                 $item['Rate Voucher Code'] = '';
                 $item['Sender Address'] = 'BARABAI';

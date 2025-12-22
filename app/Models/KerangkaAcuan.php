@@ -165,12 +165,7 @@ class KerangkaAcuan extends Model
     private function createInitialArsipDokumen(): void
     {
         $slugs = [
-            'Kerangka Acuan Kerja',
-            'Form Permintaan',
-            'Bukti Setor Pajak',
-            'SPJ',
-            'Mutasi Rekening',
-            'Identifikasi RUP',
+            'Scan SPJ',
         ];
 
         foreach ($slugs as $slug) {

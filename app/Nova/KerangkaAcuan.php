@@ -13,7 +13,6 @@ use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
 use App\Nova\Lenses\MonitoringRekapBos;
 use App\Nova\Lenses\MonitoringRekapSirup;
-use App\Nova\Lenses\PemberkasanArsip;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;

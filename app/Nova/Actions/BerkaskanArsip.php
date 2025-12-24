@@ -62,7 +62,6 @@ class BerkaskanArsip extends Action
         KakSp2d::where('id', $model->id)->update(['catatan' => $fields->catatan]);
 
         return Action::message('Arsip berhasil diberkaskan.');
-
     }
 
     /**
@@ -72,7 +71,6 @@ class BerkaskanArsip extends Action
      */
     public function fields(NovaRequest $request): array
     {
-
         return $this->newFolder ? [
             Text::make('Kode Klasifikasi', 'kode_klasifikasi')
                 ->rules('required', 'max:255')

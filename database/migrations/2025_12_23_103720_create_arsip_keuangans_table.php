@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('arsip_keuangans', function (Blueprint $table) {
             $table->id();
-            $table->integer('nomor')->unsigned()->nullable();            
+            $table->integer('nomor')->unsigned()->nullable();
             $table->string('kode_klasifikasi')->nullable();
             $table->string('kode_unit_cipta')->nullable();
             $table->text('uraian')->nullable();

@@ -8,11 +8,17 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Stack;
 use App\Nova\Filters\Keberadaan;
+use Laravel\Nova\Fields\Boolean;
+use App\Nova\Metrics\MetricValue;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Actions\BerkaskanArsip;
+use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricKeberadaan;
-use App\Nova\Metrics\MetricValue;
+use App\Nova\Filters\KelengkapanBerkas;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ActionRequest;
 
 class KakSp2d extends Resource
 {
@@ -67,10 +73,16 @@ class KakSp2d extends Resource
             ])->sortable(),
             Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
                 ->sortable(),
-
             BelongsTo::make('Arsip Keuangan', 'arsipKeuangan', ArsipKeuangan::class)
                 ->sortable()
                 ->searchable(),
+            Textarea::make('Catatan', 'catatan')
+                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Kosongkan jika berkas sudah lengkap.')
+                ->alwaysShow(),
+            Boolean::make('Lengkap', function () {
+                return is_null($this->catatan) && ! is_null($this->arsip_keuangan_id);
+            }),
+
         ];
     }
 
@@ -82,14 +94,21 @@ class KakSp2d extends Resource
     public function cards(NovaRequest $request)
     {
         $model = static::$model::query();
+
         return [
             MetricValue::make($model, 'jumlah-berkas')
-                ->width('1/2')
+                ->width('1/3')
                 ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Rekap Pengarsipan Berkas', $model, 'arsip_keuangan_id', 'keberadaan-arsip-keuangan')
                 ->setAdaLabel('Sudah Diarsipkan')
-                ->width('1/2')
+                ->width('1/3')
                 ->setTidakAdaLabel('Belum Diarsipkan')
+                ->refreshWhenActionsRun(),
+            MetricKeberadaan::make('Kelengkapan Arsip Keuangan', $model, 'catatan', 'kelengkapan-arsip-keuangan')
+                ->width('1/3')
+                ->setAdaLabel('Belum Lengkap')
+                ->setTidakAdaLabel('Lengkap')
+                ->invertColors()
                 ->refreshWhenActionsRun(),
         ];
     }
@@ -103,6 +122,7 @@ class KakSp2d extends Resource
     {
         return [
             Keberadaan::make('Keberadaan Arsip Keuangan', 'arsip_keuangan_id')->is_null(),
+            KelengkapanBerkas::make('Kelengkapan Berkas'),
         ];
     }
 
@@ -125,7 +145,22 @@ class KakSp2d extends Resource
     {
         $actions = [];
         if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
-            $actions[] = BerkaskanArsip::make()->sole();
+            $actions[] = BerkaskanArsip::make()->sole()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->arsip_keuangan_id !== null;
+                });
+            $actions[] = BerkaskanArsip::make(true)->sole()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->arsip_keuangan_id === null;
+                });
         }
 
         return $actions;

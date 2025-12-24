@@ -9,7 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
 
@@ -17,6 +19,14 @@ class BerkaskanArsip extends Action
 {
     use InteractsWithQueue;
     use Queueable;
+
+    private $newFolder;
+
+    public function __construct($newFolder = false)
+    {
+        $this->newFolder = $newFolder;
+        $this->name = $this->newFolder ? 'Berkaskan' : 'Buat Catatan';
+    }
 
     /**
      * Perform the action on the given models.
@@ -26,27 +36,30 @@ class BerkaskanArsip extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $model = $models->first();
-        $kerangkaAcuan = $model->kerangkaAcuan;
-        $daftarSpd2d = $model->daftarSp2d;
-        $mak = $kerangkaAcuan
-            ->anggaranKerangkaAcuan
-            ->map(fn ($item) => $item->mataAnggaran?->mak)
-            ->filter() 
-            ->unique()
-            ->implode(', ');
-        $arsip = $model->arsipKeuangan()->make();
-        $arsip->kode_klasifikasi = $fields->kode_klasifikasi;
-        $arsip->kode_unit_cipta = $fields->kode_unit_cipta;
-        $arsip->tingkat_perkembangan = $fields->tingkat_perkembangan;
-        $arsip->media_simpan = $fields->media_simpan;
-        $arsip->kondisi = $fields->kondisi;
-        $arsip->jumlah = $fields->jumlah;
-        $arsip->kode_ruang = $fields->kode_ruang;
-        $arsip->nomor_lemari = $fields->nomor_lemari;
-        $arsip->uraian = 'SPM No: '.$daftarSpd2d->nomor_spp.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_spm).
-        ' dengan SP2D No: '.$daftarSpd2d->nomor_sp2d.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_sp2d).' dengan rincian '.$kerangkaAcuan->rincian.' dengan MAK: '.$mak;
-        $arsip->save();
-        KakSp2d::where('id', $model->id)->update(['arsip_keuangan_id' => $arsip->id]);
+        if ($this->newFolder) {
+            $kerangkaAcuan = $model->kerangkaAcuan;
+            $daftarSpd2d = $model->daftarSp2d;
+            $mak = $kerangkaAcuan
+                ->anggaranKerangkaAcuan
+                ->map(fn ($item) => $item->mataAnggaran?->mak)
+                ->filter()
+                ->unique()
+                ->implode(', ');
+            $arsip = $model->arsipKeuangan()->make();
+            $arsip->kode_klasifikasi = $fields->kode_klasifikasi;
+            $arsip->kode_unit_cipta = $fields->kode_unit_cipta;
+            $arsip->tingkat_perkembangan = $fields->tingkat_perkembangan;
+            $arsip->media_simpan = $fields->media_simpan;
+            $arsip->kondisi = $fields->kondisi;
+            $arsip->jumlah = $fields->jumlah;
+            $arsip->kode_ruang = $fields->kode_ruang;
+            $arsip->nomor_lemari = $fields->nomor_lemari;
+            $arsip->uraian = 'SPM No: '.$daftarSpd2d->nomor_spp.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_spm).
+            ' dengan SP2D No: '.$daftarSpd2d->nomor_sp2d.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_sp2d).' dengan rincian '.$kerangkaAcuan->rincian.' dengan MAK: '.$mak;
+            $arsip->save();
+            KakSp2d::where('id', $model->id)->update(['arsip_keuangan_id' => $arsip->id]);
+        }
+        KakSp2d::where('id', $model->id)->update(['catatan' => $fields->catatan]);
 
         return Action::message('Arsip berhasil diberkaskan.');
 
@@ -59,7 +72,8 @@ class BerkaskanArsip extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        return [
+
+        return $this->newFolder ? [
             Text::make('Kode Klasifikasi', 'kode_klasifikasi')
                 ->rules('required', 'max:255')
                 ->hideFromIndex()
@@ -100,6 +114,15 @@ class BerkaskanArsip extends Action
                 ->hideFromIndex()
                 ->placeholder('01.1.1')
                 ->sortable(),
+            Heading::make('Catatan Ketidaklengkapan Arsip'),
+            Textarea::make('Catatan', 'catatan')
+                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai.')
+                ->alwaysShow(),
+        ] : [
+            Heading::make('Catatan Ketidaklengkapan Arsip'),
+            Textarea::make('Catatan', 'catatan')
+                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai.')
+                ->alwaysShow(),
         ];
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('kak_sp2d', function (Blueprint $table) {
             $table->after('daftar_sp2d_id', function (Blueprint $table) {
                 $table->mediumInteger('arsip_keuangan_id')->unsigned()->nullable();
+                $table->text('catatan')->nullable();
             });
         });
     }
@@ -25,6 +26,7 @@ return new class extends Migration
     {
         Schema::table('kak_sp2d', function (Blueprint $table) {
             $table->dropColumn('arsip_keuangan_id');
+            $table->dropColumn('catatan');
         });
     }
 };

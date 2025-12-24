@@ -11,6 +11,9 @@ use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\AddPulsaKegiatan;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Lenses\MonitoringRekapBos;
+use App\Nova\Lenses\MonitoringRekapSirup;
+use App\Nova\Lenses\PemberkasanArsip;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
@@ -144,7 +147,7 @@ class KerangkaAcuan extends Resource
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
                 HasMany::make('Arsip Dokumen', 'arsipDokumen', ArsipDokumen::class),
-                BelongsToMany::make('SP2D', 'daftarSp2d', DaftarSp2d::class),
+                // BelongsToMany::make('SP2D', 'daftarSp2d', DaftarSp2d::class),
             ]),
         ];
     }
@@ -194,7 +197,10 @@ class KerangkaAcuan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            MonitoringRekapBos::make(),
+            MonitoringRekapSirup::make(),
+        ];
     }
 
     /**

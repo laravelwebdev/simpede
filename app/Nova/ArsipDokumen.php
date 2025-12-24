@@ -2,16 +2,18 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\AddHasManyModel;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Filepond\Filepond;
+use Laravelwebdev\Numeric\Numeric;
 
 class ArsipDokumen extends Resource
 {
@@ -71,6 +73,10 @@ class ArsipDokumen extends Resource
             Text::make('Jenis Dokumen', 'slug')
                 ->sortable()
                 ->rules('required', 'max:50'),
+            Date::make('Tanggal Dokumen', 'tanggal_dokumen')
+                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            Numeric::make('Jumlah Halaman ', 'jumlah_halaman')
+                ->rules('required', 'gt:0'),
             Filepond::make('File')
                 ->disk('arsip')
                 ->disableCredits()
@@ -95,15 +101,6 @@ class ArsipDokumen extends Resource
                 ->displayUsing(fn () => 'Lihat')->onlyOnIndex()
                 :
             Text::make('Arsip', fn () => null)->onlyOnIndex(),
-        ];
-    }
-
-    public function fieldsForHasMany(NovaRequest $request)
-    {
-        return [
-            Text::make('Jenis Dokumen', 'slug')
-                ->sortable()
-                ->rules('required'),
         ];
     }
 
@@ -145,12 +142,6 @@ class ArsipDokumen extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            AddHasManyModel::make('ArsipDokumen', 'KerangkaAcuan', $request->viaResourceId)
-                ->confirmButtonText('Tambah')
-                // ->size('7xl')
-                ->standalone()
-                ->onlyOnIndex()
-                ->addFields($this->fieldsForHasMany($request)),
         ];
     }
 
@@ -161,6 +152,11 @@ class ArsipDokumen extends Resource
      * @return \Laravel\Nova\URL|string
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kerangka-acuans'.'/';
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
         return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kerangka-acuans'.'/';
     }

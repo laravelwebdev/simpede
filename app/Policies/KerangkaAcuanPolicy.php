@@ -27,6 +27,7 @@ class KerangkaAcuanPolicy
         return Policy::make()
             ->allowedFor('ppk,arsiparis,bendahara,kpa,ppspm,bmn,koordinator,anggota')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual(str_contains(request()->url(), 'lens'), false)
             ->get();
     }
 
@@ -37,6 +38,8 @@ class KerangkaAcuanPolicy
     {
         return Policy::make()
             ->allowedFor('koordinator,anggota')
+            ->andEqual(str_contains(request()->url(), 'lens'), false)
+            ->andEqual(request()->viaResource, null)
             ->get();
     }
 
@@ -53,12 +56,16 @@ class KerangkaAcuanPolicy
                     $kerangkaAcuan->unit_kerja_id,
                     optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
                 )
+                ->andEqual(str_contains(request()->url(), 'lens'), false)
+                ->andEqual(request()->viaResource, null)
                 ->get();
         }
 
         return Policy::make()
             ->allowedFor('arsiparis,ppspm')
             ->withYear(Helper::getYearFromDate($kerangkaAcuan->tanggal))
+            ->andEqual(str_contains(request()->url(), 'lens'), false)
+            ->andEqual(request()->viaResource, null)
             ->get();
     }
 
@@ -74,6 +81,8 @@ class KerangkaAcuanPolicy
                 $kerangkaAcuan->unit_kerja_id,
                 optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
             )
+            ->andEqual(str_contains(request()->url(), 'lens'), false)
+            ->andEqual(request()->viaResource, null)
             ->get();
     }
 
@@ -89,6 +98,8 @@ class KerangkaAcuanPolicy
                 $kerangkaAcuan->unit_kerja_id,
                 optional(Helper::getDataPegawaiByUserId($user->id, now()))->unit_kerja_id
             )
+            ->andEqual(str_contains(request()->url(), 'lens'), false)
+            ->andEqual(request()->viaResource, null)
             ->get();
     }
 

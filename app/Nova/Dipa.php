@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportRealisasiAnggaran;
-use App\Nova\Actions\ImportSp2dUp;
 use App\Nova\Actions\ImportTargetKkp;
 use App\Nova\Actions\ImportTargetSerapan;
 use App\Nova\Actions\SinkronisasiDataAnggaran;
@@ -172,13 +171,6 @@ class Dipa extends Resource
         if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
             $actions[] =
                 ImportTargetKkp::make()
-                    ->showInline()
-                    ->showOnDetail()
-                    ->exceptOnIndex();
-        }
-        if (Policy::make()->allowedFor('admin,kpa,ppk,ppspm')->get()) {
-            $actions[] =
-                ImportSp2dUp::make()
                     ->showInline()
                     ->showOnDetail()
                     ->exceptOnIndex();

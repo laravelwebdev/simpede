@@ -39,6 +39,7 @@ class KakSp2d extends Pivot
                     'slug' => 'Surat Perintah Membayar',
                 ],
                 [
+                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_spm,
                     'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
                 ]
             );
@@ -51,6 +52,8 @@ class KakSp2d extends Pivot
                     'slug' => 'SP2D',
                 ],
                 [
+                    'jumlah_halaman' => '1 halaman',
+                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_sp2d,
                     'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SP2D_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
                 ]
             );
@@ -63,6 +66,7 @@ class KakSp2d extends Pivot
                     'slug' => 'Lampiran SPM',
                 ],
                 [
+                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_spm,
                     'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
                 ]
             );

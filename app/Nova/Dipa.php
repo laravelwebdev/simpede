@@ -178,4 +178,8 @@ class Dipa extends Resource
 
         return $actions;
     }
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('tahun', session('year'));
+    }
 }

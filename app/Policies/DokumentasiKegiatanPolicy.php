@@ -2,9 +2,10 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\DokumentasiKegiatan;
-use App\Models\User;
 
 class DokumentasiKegiatanPolicy
 {
@@ -19,9 +20,12 @@ class DokumentasiKegiatanPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, DokumentasiKegiatan $kegiatan): bool
     {
-        return true;
+        return Policy::make()
+            ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($kegiatan->tanggal))
+            ->get();
     }
 
     /**
@@ -39,6 +43,7 @@ class DokumentasiKegiatanPolicy
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($kegiatan->tanggal))
             ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }
@@ -50,6 +55,7 @@ class DokumentasiKegiatanPolicy
     {
         return Policy::make()
             ->allowedFor('all')
+            ->withYear(Helper::getYearFromDate($kegiatan->tanggal))
             ->andEqual($user->id, $kegiatan->user_id)
             ->get();
     }

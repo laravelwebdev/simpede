@@ -21,11 +21,11 @@ class RewardPegawaiPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, RewardPegawai $reward): bool
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear(session('year'))
+            ->withYear($reward->tahun)
             ->get();
     }
 
@@ -46,7 +46,7 @@ class RewardPegawaiPolicy
     {
         return Policy::make()
             ->allowedFor('kasubbag,arsiparis')
-            ->withYear(session('year'))
+            ->withYear($reward->tahun)
             ->get();
     }
 
@@ -57,7 +57,7 @@ class RewardPegawaiPolicy
     {
         return Policy::make()
             ->allowedFor('kasubbag')
-            ->withYear(session('year'))
+            ->withYear($reward->tahun)
             ->andNotEqual($reward->status, 'ditetapkan')
             ->get();
     }

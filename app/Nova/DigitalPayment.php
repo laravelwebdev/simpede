@@ -192,4 +192,9 @@ class DigitalPayment extends Resource
 
         return $actions;
     }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->whereYear('tanggal_transaksi', session('year'));
+    }
 }

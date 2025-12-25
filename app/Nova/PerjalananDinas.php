@@ -244,4 +244,9 @@ class PerjalananDinas extends Resource
     {
         return [];
     }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->whereYear('tanggal_spd', session('year'));
+    }
 }

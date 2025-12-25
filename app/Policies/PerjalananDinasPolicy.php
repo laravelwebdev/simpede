@@ -2,7 +2,10 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\PerjalananDinas;
 
 class PerjalananDinasPolicy
 {
@@ -19,10 +22,11 @@ class PerjalananDinasPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, PerjalananDinas $perjalananDinas): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
+            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 
@@ -37,20 +41,22 @@ class PerjalananDinasPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, PerjalananDinas $perjalananDinas): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
+            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, PerjalananDinas $perjalananDinas): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
+            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 

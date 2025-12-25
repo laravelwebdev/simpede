@@ -2,84 +2,84 @@
 
 namespace App\Providers;
 
+use App\Nova\Dipa;
+use App\Nova\User;
+use App\Nova\Mitra;
+use App\Nova\KakSp2d;
+use App\Nova\KodeBank;
+use App\Nova\Template;
+use Laravel\Nova\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use App\Models\DigitalPayment as ModelsDigitalPayment;
-use App\Models\MataAnggaran;
-use App\Models\Pengelola;
-use App\Models\User as UserModel;
-use App\Nova\AnalisisSakip;
-use App\Nova\Announcement;
-use App\Nova\ArsipKeuangan;
 use App\Nova\BastMitra;
-use App\Nova\DaftarKegiatan;
-use App\Nova\DaftarReminder;
-use App\Nova\DaftarSp2d;
-use App\Nova\Dashboards\Main;
-use App\Nova\DigitalPayment;
-use App\Nova\Dipa;
-use App\Nova\DokumentasiKegiatan;
-use App\Nova\DokumentasiLink;
-use App\Nova\HargaSatuan;
-use App\Nova\HonorKegiatan;
-use App\Nova\IzinKeluar;
-use App\Nova\KakSp2d;
-use App\Nova\KepkaMitra;
-use App\Nova\KerangkaAcuan;
-use App\Nova\KodeBank;
-use App\Nova\KontrakMitra;
-use App\Nova\Lenses\FormRencanaAksi;
-use App\Nova\Lenses\MatchingAnggaran;
-use App\Nova\Lenses\MonitoringRekapBos;
-use App\Nova\Lenses\MonitoringRekapSirup;
-use App\Nova\Lenses\PemeliharaanBarang;
-use App\Nova\Lenses\RekapBarangPersediaan;
-use App\Nova\Lenses\RekapHonorMitra;
-use App\Nova\Lenses\RekapPulsaMitra;
-use App\Nova\Lenses\RencanaPenarikanDana;
-use App\Nova\LimitPulsa;
-use App\Nova\MasterBarangPemeliharaan;
-use App\Nova\MasterPersediaan;
-use App\Nova\MasterWilayah;
-use App\Nova\MataAnggaran as MataAnggaranResource;
-use App\Nova\Mitra;
-use App\Nova\NaskahKeluar;
-use App\Nova\NaskahMasuk;
-use App\Nova\PembelianPersediaan;
-use App\Nova\Pemeliharaan;
-use App\Nova\PerjalananDinas;
-use App\Nova\PerjanjianKinerja;
-use App\Nova\PermintaanPersediaan;
-use App\Nova\PersediaanKeluar;
-use App\Nova\PersediaanMasuk;
-use App\Nova\PulsaKegiatan;
-use App\Nova\RapatInternal;
-use App\Nova\RealisasiAnggaran;
-use App\Nova\RealisasiKinerja;
-use App\Nova\RewardPegawai;
 use App\Nova\ShareLink;
+use App\Nova\UnitKerja;
+use App\Nova\DaftarSp2d;
+use App\Nova\IzinKeluar;
+use App\Nova\KepkaMitra;
+use App\Nova\LimitPulsa;
 use App\Nova\SkTranslok;
 use App\Nova\TataNaskah;
-use App\Nova\Template;
+use App\Models\Pengelola;
+use App\Nova\HargaSatuan;
+use App\Nova\NaskahMasuk;
+use App\Nova\Announcement;
+use App\Nova\KontrakMitra;
+use App\Nova\NaskahKeluar;
+use App\Nova\Pemeliharaan;
 use App\Nova\TindakLanjut;
-use App\Nova\UnitKerja;
-use App\Nova\User;
+use App\Nova\AnalisisSakip;
+use App\Nova\ArsipKeuangan;
+use App\Nova\HonorKegiatan;
+use App\Nova\KerangkaAcuan;
+use App\Nova\MasterWilayah;
+use App\Nova\PulsaKegiatan;
+use App\Nova\RapatInternal;
+use App\Nova\RewardPegawai;
 use App\Nova\UserEksternal;
+use Laravel\Nova\Menu\Menu;
+use App\Models\MataAnggaran;
+use App\Nova\DaftarKegiatan;
+use App\Nova\DaftarReminder;
+use App\Nova\DigitalPayment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Laravel\Fortify\Fortify;
+use App\Nova\Dashboards\Main;
+use App\Nova\DokumentasiLink;
+use App\Nova\PerjalananDinas;
+use App\Nova\PersediaanMasuk;
+use Laravel\Fortify\Features;
+use App\Nova\MasterPersediaan;
+use App\Nova\PersediaanKeluar;
+use App\Nova\RealisasiKinerja;
+use App\Nova\PerjanjianKinerja;
+use App\Nova\RealisasiAnggaran;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuGroup;
+use App\Models\Dipa as ModelDipa;
+use App\Models\User as UserModel;
+use App\Nova\DokumentasiKegiatan;
+use App\Nova\PembelianPersediaan;
+use App\Nova\PermintaanPersediaan;
+use Laravel\Nova\Menu\MenuSection;
+use Laravelwebdev\Updater\Updater;
+use App\Nova\Lenses\FormRencanaAksi;
+use App\Nova\Lenses\RekapHonorMitra;
+use App\Nova\Lenses\RekapPulsaMitra;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Fortify\Features;
-use Laravel\Fortify\Fortify;
-use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuGroup;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Menu\MenuSection;
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
-use Laravelwebdev\NovaCalendar\NovaCalendar;
+use App\Nova\Lenses\MatchingAnggaran;
+use App\Nova\MasterBarangPemeliharaan;
+use App\Nova\Lenses\MonitoringRekapBos;
+use App\Nova\Lenses\PemeliharaanBarang;
+use App\Nova\Lenses\MonitoringRekapSirup;
+use App\Nova\Lenses\RencanaPenarikanDana;
+use App\Nova\Lenses\RekapBarangPersediaan;
 use Laravelwebdev\SessionYear\SessionYear;
-use Laravelwebdev\Updater\Updater;
+use Laravelwebdev\NovaCalendar\NovaCalendar;
+use Laravel\Nova\NovaApplicationServiceProvider;
+use App\Nova\MataAnggaran as MataAnggaranResource;
+use App\Models\DigitalPayment as ModelsDigitalPayment;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -131,7 +131,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Manajemen', [
                     MenuItem::resource(DigitalPayment::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->count('id') > 0),
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->whereYear('tanggal_transaksi', session('year'))->count('id') > 0),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),
@@ -192,7 +192,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
                     MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->count('id') > 0),
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->where('dipa_id', ModelDipa::where('tahun', session('year'))->value('id'))->count('id') > 0),
                 ])
                     ->collapsable()
                     ->icon('currency-dollar'),
@@ -243,10 +243,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             if ($user &&
                 Hash::check($request->password, $user->password)) {
-                if ($request->remember) {
-                    Cookie::queue('simpede_year', $request->year, 576000); // Cookie berlaku selama 400 hari
-                }
-
                 return $user;
             }
         });

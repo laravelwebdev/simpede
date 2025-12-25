@@ -2,7 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\User;
 use App\Helpers\Policy;
+use App\Models\KepkaMitra;
 
 class KepkaMitraPolicy
 {
@@ -17,9 +19,12 @@ class KepkaMitraPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, KepkaMitra $kepkaMitra): bool
     {
-        return true;
+        return Policy::make()
+            ->allowedFor('all')
+            ->withYear($kepkaMitra->tahun)
+            ->get();
     }
 
     /**
@@ -35,20 +40,22 @@ class KepkaMitraPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, KepkaMitra $kepkaMitra): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->withYear($kepkaMitra->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, KepkaMitra $kepkaMitra): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->withYear($kepkaMitra->tahun)
             ->get();
     }
 
@@ -57,8 +64,6 @@ class KepkaMitraPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 }

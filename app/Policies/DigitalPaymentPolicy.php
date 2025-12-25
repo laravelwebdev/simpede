@@ -2,7 +2,10 @@
 
 namespace App\Policies;
 
+use App\Helpers\Helper;
 use App\Helpers\Policy;
+use App\Models\DigitalPayment;
+use App\Models\User;
 
 class DigitalPaymentPolicy
 {
@@ -19,10 +22,11 @@ class DigitalPaymentPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, DigitalPayment $digitalPayment): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
+            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 
@@ -37,20 +41,22 @@ class DigitalPaymentPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, DigitalPayment $digitalPayment): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
+            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, DigitalPayment $digitalPayment): bool
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
+            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 

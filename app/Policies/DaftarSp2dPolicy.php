@@ -77,6 +77,7 @@ class DaftarSp2dPolicy
             ->andNotEqual($sp2d->arsip_spm, null)
             ->andNotEqual($sp2d->arsip_spp, null)
             ->andNotEqual($sp2d->arsip_lampiran, null)
+            ->andNotEqual($sp2d->arsip_lampiran_spp, null)
             ->get();
     }
 

@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -23,7 +25,7 @@ use Laravelwebdev\Filepond\Filepond;
 
 class DaftarSp2d extends Resource
 {
-    public static $with = ['kerangkaAcuan', 'realisasiAnggaran'];
+    public static $with = ['kerangkaAcuan', 'realisasiAnggaran', 'arsipKeuangans', 'dipa'];
 
     /**
      * The model the resource corresponds to.
@@ -70,19 +72,26 @@ class DaftarSp2d extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Tanggal SP2D', 'tanggal_sp2d')
-                ->sortable()
-                ->readonly()
-                ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-
-            Text::make('Nomor SPP', 'nomor_spp')
-                ->sortable()
-                ->readonly(),
-
-            Text::make('Nomor SP2D', 'nomor_sp2d')
-                ->sortable()
-                ->copyable()
-                ->readonly(),
+            Stack::make('SP2D', 'tanggal_sp2d', [
+                Text::make('Nomor SP2D', 'nomor_sp2d')
+                    ->sortable()
+                    ->copyable()
+                    ->readonly(),
+                Date::make('Tanggal SP2D', 'tanggal_sp2d')
+                    ->sortable()
+                    ->readonly()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->sortable(),
+            Stack::make('SPM', 'nomor_spp', [
+                Text::make('Nomor SPM', 'nomor_spp')
+                    ->sortable()
+                    ->copyable()
+                    ->readonly(),
+                Date::make('Tanggal SPM', 'tanggal_spm')
+                    ->sortable()
+                    ->readonly()
+                    ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->sortable(),
 
             Text::make('Uraian', 'uraian')
                 ->sortable()
@@ -118,6 +127,28 @@ class DaftarSp2d extends Resource
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
                 Text::make('SPP', fn () => null)->onlyOnDetail(),
+
+                Filepond::make('Lampiran SPP', 'arsip_lampiran_spp')
+                    ->disk('arsip')
+                    ->disableCredits()
+                    ->onlyOnForms()
+                    ->mimesTypes(['application/pdf'])
+                    ->creationRules('required')
+                    ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
+                    ->storeAs(function (Request $request) {
+                        $originalName = 'Lampiran_SPP_'.$this->nomor_spp;
+                        $extension = $request->arsip_lampiran_spp->getClientOriginalExtension();
+
+                        return $originalName.'_'.uniqid().'.'.$extension;
+                    })
+                    ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
+                    ->prunable(),
+                $this->arsip_lampiran_spp ?
+                URL::make('Lampiran SPP', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_lampiran_spp))
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
+                    :
+                Text::make('Lampiran SPP', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('SPM', 'arsip_spm')
                     ->disk('arsip')
@@ -163,7 +194,7 @@ class DaftarSp2d extends Resource
                     :
                 Text::make('Lampiran SPM', fn () => null)->onlyOnDetail(),
 
-                Filepond::make('DRPP', 'arsip_drpp')
+                Filepond::make('DPT', 'arsip_dpt')
                     ->disk('arsip')
                     ->disableCredits()
                     ->onlyOnForms()
@@ -171,19 +202,19 @@ class DaftarSp2d extends Resource
                     ->creationRules('required')
                     ->path(session('year').'/'.static::uriKey().'/'.$this->nomor_spp)
                     ->storeAs(function (Request $request) {
-                        $originalName = 'DRPP_'.$this->nomor_spp;
-                        $extension = $request->arsip_drpp->getClientOriginalExtension();
+                        $originalName = 'DPT_'.$this->nomor_spp;
+                        $extension = $request->arsip_dpt->getClientOriginalExtension();
 
                         return $originalName.'_'.uniqid().'.'.$extension;
                     })
                     ->canSee(fn () => Policy::make()->allowedFor('arsiparis,ppspm')->get())
                     ->prunable(),
-                $this->arsip_drpp ?
-                URL::make('DRPP', fn () => Storage::disk('arsip')
-                    ->url($this->arsip_drpp))
+                $this->arsip_dpt ?
+                URL::make('DPT', fn () => Storage::disk('arsip')
+                    ->url($this->arsip_dpt))
                     ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('DRPP', fn () => null)->onlyOnDetail(),
+                Text::make('DPT', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('SSP', 'arsip_ssp')
                     ->disk('arsip')
@@ -228,11 +259,13 @@ class DaftarSp2d extends Resource
                     ->displayUsing(fn () => 'Lihat')->exceptOnForms()
                     :
                 Text::make('SP2D', fn () => null)->exceptOnForms(),
+
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', RealisasiAnggaran::class),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
                 ->searchable()
                 ->withSubtitles(),
+            HasManyThrough::make('Arsip Keuangan', 'arsipKeuangans', ArsipKeuangan::class),
         ];
     }
 

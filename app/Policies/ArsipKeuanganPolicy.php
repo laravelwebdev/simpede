@@ -3,8 +3,10 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\ArsipKeuangan;
+use App\Models\User;
 
-class ArsipDokumenPolicy
+class ArsipKeuanganPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -12,17 +14,19 @@ class ArsipDokumenPolicy
     public function viewAny(): bool
     {
         return Policy::make()
-            ->allowedFor('all')
-            ->andEqual(request()->is('resources/arsip-dokumens'), false)
+            ->allowedFor('admin,arsiparis')
             ->get();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, ArsipKeuangan $arsipKeuangan): bool
     {
-        return false;
+        return Policy::make()
+            ->allowedFor('all')
+            ->withYear($arsipKeuangan->kurun_awal)
+            ->get();
     }
 
     /**
@@ -30,18 +34,17 @@ class ArsipDokumenPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
-            ->get();
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, ArsipKeuangan $arsipKeuangan): bool
     {
         return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
+            ->allowedFor('admin,arsiparis')
+            ->withYear($arsipKeuangan->kurun_awal)
             ->get();
     }
 
@@ -50,9 +53,7 @@ class ArsipDokumenPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
-            ->get();
+        return false;
     }
 
     /**

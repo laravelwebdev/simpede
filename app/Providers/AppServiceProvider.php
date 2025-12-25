@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment('local')) {
             URL::forceRootUrl(env('APP_URL'));
-            URL::forceScheme('https');
+            // URL::forceScheme('https');
         }
         Model::preventLazyLoading();
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {

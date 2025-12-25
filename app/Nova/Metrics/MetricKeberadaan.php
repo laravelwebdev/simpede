@@ -18,6 +18,8 @@ class MetricKeberadaan extends Partition
 
     private $key;
 
+    private $invert = false;
+
     private $title;
 
     private $adaLabel = 'Ada';
@@ -55,6 +57,13 @@ class MetricKeberadaan extends Partition
         return $this;
     }
 
+    public function invertColors(bool $value = true)
+    {
+        $this->invert = $value;
+
+        return $this;
+    }
+
     /**
      * Calculate the value of the metric.
      */
@@ -81,8 +90,8 @@ class MetricKeberadaan extends Partition
                 'tidak' => $this->tidakAdaLabel
             })
             ->colors([
-                'tidak' => 'rgb(213, 86, 54)',
-                'ada' => 'rgb(12, 197, 83)',
+                'tidak' => $this->invert ? 'rgb(12, 197, 83)' : 'rgb(213, 86, 54)',
+                'ada' => $this->invert ? 'rgb(213, 86, 54)' : 'rgb(12, 197, 83)',
             ]);
     }
 

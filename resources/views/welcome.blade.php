@@ -220,10 +220,11 @@
                         </div>
 
                         <div class="content mt-6 relative z-1">
-                            <a class="title text-lg font-semibold hover:text-teal-500">Pendokumentasian Kegiatan</a>
+                            <a class="title text-lg font-semibold hover:text-teal-500">Dokumentasi & Arsip</a>
                             <p class="text-slate-400 mt-3">Pendokumentasian Arsip Naskah Masuk</p>
                             <p class="text-slate-400 mt-3">Pendokumentasian Arsip Naskah Keluar</p>
                             <p class="text-slate-400 mt-3">Pendokumentasian Foto-Foto Kegiatan</p>
+                            <p class="text-slate-400 mt-3">Pengelolaan Arsip Keuangan (Cetak Daftar Berkas dan Template Unggah Aplikasi SEKAR)</p>
                         </div>
                         <div class="absolute bottom-0 -end-16">
                             <i data-feather="camera" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>

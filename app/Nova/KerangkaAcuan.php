@@ -9,12 +9,16 @@ use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
 use App\Nova\Actions\AddDigitalPayment;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\AddPulsaKegiatan;
+use App\Nova\Actions\CatatanArsip;
 use App\Nova\Actions\Download;
 use App\Nova\Filters\StatusFilter;
+use App\Nova\Lenses\MonitoringRekapBos;
+use App\Nova\Lenses\MonitoringRekapSirup;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -27,6 +31,7 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Tabs\Tab;
@@ -108,6 +113,16 @@ class KerangkaAcuan extends Resource
             Status::make('Status', 'status')
                 ->loadingWhen(['dibuat'])
                 ->failedWhen(['outdated']),
+            Status::make('Pengarsipan', 'status_arsip')
+                ->loadingWhen(['Catat SP2D', 'Berkas Lengkap'])
+                ->sortable()
+                ->failedWhen(['Proses Bayar']),
+            Badge::make('Catatan', 'catatan', function ($value) {
+                return empty($value) ? 'OK' : '!';
+            })->map([
+                'OK' => 'success',
+                '!' => 'danger',
+            ])->sortable(),
 
         ];
     }
@@ -132,19 +147,20 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id),
             ]),
-            Select::make('Jumlah SP2D', 'daftar_sp2d_count')
-                ->options([
-                    0 => 'Belum SP2D',
-                ])
-                ->filterable(function ($request, $query, $value, $attribute) {
-                    $query->has('daftarSp2d', '<=', $value);
-                })
-                ->onlyOnIndex(),
+            new Panel('Catatan Arsip', [
+                Textarea::make('Catatan', 'catatan')
+                    ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Biarkan kosong jika berkas sudah sesuai.')
+                    ->alwaysShow()
+                    ->exceptOnForms(),
+                Status::make('Pengarsipan', 'status_arsip')
+                    ->loadingWhen(['Catat SP2D', 'Berkas Lengkap'])
+                    ->failedWhen(['Proses Bayar']),
+            ]),
             Tab::group('Detail', [
                 HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
                 HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
                 HasMany::make('Arsip Dokumen', 'arsipDokumen', ArsipDokumen::class),
-                BelongsToMany::make('SP2D', 'daftarSp2d', DaftarSp2d::class),
+                // BelongsToMany::make('SP2D', 'daftarSp2d', DaftarSp2d::class),
             ]),
         ];
     }
@@ -194,7 +210,10 @@ class KerangkaAcuan extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            MonitoringRekapBos::make(),
+            MonitoringRekapSirup::make(),
+        ];
     }
 
     /**
@@ -227,6 +246,18 @@ class KerangkaAcuan extends Resource
                ->onlyInline()
                ->confirmButtonText('Tambahkan')
                ->exceptOnIndex();
+        }
+        if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
+            $actions[] = CatatanArsip::make()
+                ->confirmButtonText('Simpan')
+                ->onlyOnDetail()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->status_arsip === 'Catat SP2D';
+                });
         }
 
         return $actions;

@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use App\Models\AnggaranKerangkaAcuan;
+use App\Models\ArsipDokumen;
+use App\Models\ArsipKeuangan;
 use App\Models\BarangPersediaan;
 use App\Models\BastMitra;
 use App\Models\DaftarKontrakMitra;
@@ -10,8 +12,10 @@ use App\Models\DaftarPemeliharaan;
 use App\Models\DaftarPenilaianReward;
 use App\Models\DaftarPesertaPerjalanan;
 use App\Models\DaftarPulsaMitra;
+use App\Models\DaftarSp2d;
 use App\Models\Dipa;
 use App\Models\HonorKegiatan;
+use App\Models\KakSp2d;
 use App\Models\KerangkaAcuan;
 use App\Models\KontrakMitra;
 use App\Models\MasterBarangPemeliharaan;
@@ -158,6 +162,11 @@ class Cetak
         if ($jenis === 'karken_persediaan') {
             $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarPersediaan($id, $data['daftar_persediaan']));
             unset($data['daftar_persediaan']);
+        }
+
+        if ($jenis === 'daftar_berkas') {
+            $templateProcessor->cloneRowAndSetValues('no', Helper::formatDaftarBerkas($data['daftar_berkas']));
+            unset($data['daftar_berkas']);
         }
 
         if ($jenis === 'spj') {
@@ -973,6 +982,31 @@ class Cetak
             'pimpinan' => optional($pimpinan)->name,
             'notulis' => Helper::namaTanpaGelar(optional($notulis)->name),
             'peserta' => Helper::formatDaftarNama($data->peserta),
+        ];
+    }
+
+    public static function daftar_berkas($id)
+    {
+        $data = ArsipKeuangan::find($id);
+        $kasubbagUserId = optional(Helper::getDataPegawaiByUserJabatan('Kepala Subbagian Umum', now()))->user_id;
+        $nama = optional(Helper::getPegawaiByUserId($kasubbagUserId))->name;
+        $sp2d = KakSp2d::where('arsip_keuangan_id', $id)->first();
+        $sp2dId = optional($sp2d)->daftar_sp2d_id;
+        $kerangkaAcuanId = optional($sp2d)->kerangka_acuan_id;
+
+        return [
+            'satker' => 'BPS '.config('satker.kabupaten'),
+            'unit' => 'Subbagian Umum',
+            'nama' => $nama,
+            'jabatan' => 'Kepala Subbagian Umum',
+            'alamat_satker' => config('satker.alamat'),
+            'folder' => '['.$data->kurun_awal.'] '.$data->kode_ruang.'.'.$data->nomor_lemari.'.'.$data->nomor,
+            'klasifikasi' => $data->kode_klasifikasi,
+            'uraian' => optional(DaftarSp2d::find($sp2dId))->uraian ?? '',
+            'tahun' => $data->kurun_awal,
+            'inaktif' => '5 Tahun',
+            'keterangan' => 'Dinilai Kembali',
+            'daftar_berkas' => ArsipDokumen::where('kerangka_acuan_id', $kerangkaAcuanId)->get(),
         ];
     }
 

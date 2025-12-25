@@ -4,17 +4,14 @@ namespace App\Policies;
 
 use App\Helpers\Policy;
 
-class ArsipDokumenPolicy
+class KakSp2dPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->andEqual(request()->is('resources/arsip-dokumens'), false)
-            ->get();
+        return true;
     }
 
     /**
@@ -22,7 +19,7 @@ class ArsipDokumenPolicy
      */
     public function view(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,9 +27,7 @@ class ArsipDokumenPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
-            ->get();
+        return false;
     }
 
     /**
@@ -40,9 +35,7 @@ class ArsipDokumenPolicy
      */
     public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
-            ->get();
+        return false;
     }
 
     /**
@@ -50,9 +43,7 @@ class ArsipDokumenPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('koordinator,anggota,arsiparis')
-            ->get();
+        return false;
     }
 
     /**
@@ -61,5 +52,12 @@ class ArsipDokumenPolicy
     public function replicate(): bool
     {
         return false;
+    }
+
+    public function runAction(): bool
+    {
+        return Policy::make()
+            ->allowedFor('admin,arsiparis')
+            ->get();
     }
 }

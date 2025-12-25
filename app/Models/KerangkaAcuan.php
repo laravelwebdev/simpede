@@ -13,7 +13,7 @@ use Laravel\Nova\Nova;
 
 class KerangkaAcuan extends Model
 {
-    protected $fillable = ['status', 'daftar_sp2d_id'];
+    protected $fillable = ['status', 'daftar_sp2d_id', 'rekap_bos', 'rekap_sirup'];
 
     protected function casts(): array
     {
@@ -107,7 +107,7 @@ class KerangkaAcuan extends Model
         });
 
         static::created(function (KerangkaAcuan $kak) {
-            $kak->createInitialArsipDokumen();
+            // $kak->createInitialArsipDokumen();
             $kak->replicateAnggaranAndSpesifikasi();
         });
         static::saving(function (KerangkaAcuan $kak) {

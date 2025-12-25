@@ -179,6 +179,7 @@ class Helper
         'daftar_hadir' => 'Daftar Hadir',
         'notula' => 'Notula',
         'pulsa' => 'Tanda Terima Pulsa',
+        'daftar_berkas' => 'Daftar Berkas',
     ];
 
     const JENIS_HONOR = [
@@ -849,20 +850,10 @@ class Helper
 
         $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', optional($kode_naskah)->id);
         $max_no_urut = $naskah->max('no_urut') ?? 0;
-        $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
+        $no_urut = $max_no_urut + 1;
+        $segmen = 0;
 
-        if ($tanggal >= $max_tanggal) {
-            $no_urut = $max_no_urut + 1;
-            $segmen = 0;
-        } else {
-            $no_urut = $naskah->whereDate('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
-            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
-                ->where('kode_naskah_id', optional($kode_naskah)->id)
-                ->where('no_urut', $no_urut)
-                ->max('segmen') + 1;
-        }
-
-        $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
+        $replaces['<no_urut>'] = $no_urut;
         $format = optional($kode_naskah)->format;
         $nomor = strtr($format, $replaces);
 
@@ -961,6 +952,11 @@ class Helper
     public static function getDataPegawaiByUserId($user_id, $tanggal)
     {
         return DataPegawai::cache()->get('all')->where('user_id', $user_id)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
+    }
+
+    public static function getDataPegawaiByUserJabatan($jabatan, $tanggal)
+    {
+        return DataPegawai::cache()->get('all')->where('jabatan', $jabatan)->where('tanggal', '<=', $tanggal)->sortByDesc('tanggal')->first();
     }
 
     /**
@@ -1328,6 +1324,22 @@ class Helper
         $arrayspek = $spek->toArray();
 
         return empty($arrayspek) ? [['no' => 1, 'tanggal_pemeliharaan' => '-', 'uraian' => '-', 'penyedia' => '-', 'biaya' => '-']] : $arrayspek;
+    }
+
+    public static function formatDaftarBerkas($spek)
+    {
+        $spek->transform(function ($item, $index) {
+            $item['no'] = $index + 1;
+            $item['tingkat_perkembangan'] = 'Asli';
+            $item['jumlah'] = $item['jumlah_halaman'] ? $item['jumlah_halaman'].' halaman' : '';
+            $item['tanggal'] = $item['tanggal_dokumen'] ? self::terbilangTanggal($item['tanggal_dokumen']) : '';
+
+            return $item;
+        });
+
+        $arrayspek = $spek->toArray();
+
+        return $arrayspek;
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Models\Pengelola;
 use App\Models\User as UserModel;
 use App\Nova\AnalisisSakip;
 use App\Nova\Announcement;
+use App\Nova\ArsipKeuangan;
 use App\Nova\BastMitra;
 use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
@@ -22,12 +23,15 @@ use App\Nova\DokumentasiLink;
 use App\Nova\HargaSatuan;
 use App\Nova\HonorKegiatan;
 use App\Nova\IzinKeluar;
+use App\Nova\KakSp2d;
 use App\Nova\KepkaMitra;
 use App\Nova\KerangkaAcuan;
 use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\FormRencanaAksi;
 use App\Nova\Lenses\MatchingAnggaran;
+use App\Nova\Lenses\MonitoringRekapBos;
+use App\Nova\Lenses\MonitoringRekapSirup;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
 use App\Nova\Lenses\RekapHonorMitra;
@@ -109,20 +113,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::make('Monitoring', [
-
+                    MenuGroup::make('IKPA', [
+                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
+                        MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
+                        MenuItem::link('Monitoring UP dan TUP', '/resources/uang-persediaans/lens/monitoring-up'),
+                    ])->collapsable(),
                     Menuitem::lens(PerjanjianKinerja::class, FormRencanaAksi::class),
-
+                    MenuItem::lens(KerangkaAcuan::class, MonitoringRekapBos::class),
+                    MenuItem::lens(KerangkaAcuan::class, MonitoringRekapSirup::class),
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(Mitra::class, RekapPulsaMitra::class),
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
-                    MenuGroup::make('IKPA', [
-                        MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),
-                        MenuItem::link('Realisasi Anggaran', '/resources/realisasi-anggarans/lens/realisasi-anggaran'),
-                        MenuItem::link('Monitoring UP dan TUP', '/resources/uang-persediaans/lens/monitoring-up'),
-                    ])->collapsable(),
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
@@ -211,6 +215,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])
                     ->collapsable()
                     ->icon('share'),
+                MenuSection::make('Pengarsipan', [
+                    MenuItem::resource(ArsipKeuangan::class),
+                    MenuItem::resource(KakSp2d::class),
+                ])
+                    ->collapsable()
+                    ->icon('archive-box-arrow-down'),
                 MenuSection::make('Administrasi', [
                     MenuItem::resource(KodeBank::class),
                     MenuItem::resource(MasterWilayah::class),

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mostafaznv\LaraCache\CacheEntity;
 use Mostafaznv\LaraCache\Traits\LaraCache;
@@ -37,6 +38,11 @@ class MataAnggaran extends Model
     public function realisasiAnggaran(): HasMany
     {
         return $this->hasMany(RealisasiAnggaran::class);
+    }
+
+    public function dipa(): BelongsTo
+    {
+        return $this->belongsTo(Dipa::class);
     }
 
     protected static function booted(): void

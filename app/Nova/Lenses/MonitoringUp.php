@@ -39,7 +39,7 @@ class MonitoringUp extends Lens
             ->first();
 
         return $request->withOrdering($request->withFilters(
-            $query->where('dipa_id', $dipa->id)
+            $query->where('dipa_id', optional($dipa)->id)
         ), fn ($query) => $query->orderBy('tanggal', 'desc'));
     }
 

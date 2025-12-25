@@ -21,10 +21,11 @@ class MataAnggaranPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, MataAnggaran $mataAnggaran): bool
     {
         return Policy::make()
             ->allowedFor('admin,koordinator,ppk,anggota')
+            ->withYear($mataAnggaran->dipa->tahun)
             ->get();
     }
 
@@ -39,10 +40,11 @@ class MataAnggaranPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, MataAnggaran $mataAnggaran): bool
     {
         return Policy::make()
             ->allowedFor('admin,koordinator,ppk')
+            ->withYear($mataAnggaran->dipa->tahun)
             ->get();
     }
 
@@ -54,6 +56,7 @@ class MataAnggaranPolicy
         return Policy::make()
             ->allowedFor('admin,koordinator,ppk')
             ->andEqual($mataAnggaran->is_manual, true)
+            ->withYear($mataAnggaran->dipa->tahun)
             ->get();
     }
 

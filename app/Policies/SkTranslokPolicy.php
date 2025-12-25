@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\Policy;
+use App\Models\SkTranslok;
+use App\Models\User;
 
 class SkTranslokPolicy
 {
@@ -17,9 +19,12 @@ class SkTranslokPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, SkTranslok $skTranslok): bool
     {
-        return true;
+        return Policy::make()
+            ->allowedFor('all')
+            ->withYear($skTranslok->tahun)
+            ->get();
     }
 
     /**
@@ -35,20 +40,22 @@ class SkTranslokPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, SkTranslok $skTranslok): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->withYear($skTranslok->tahun)
             ->get();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, SkTranslok $skTranslok): bool
     {
         return Policy::make()
             ->allowedFor('admin')
+            ->withYear($skTranslok->tahun)
             ->get();
     }
 

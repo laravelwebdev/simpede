@@ -850,10 +850,20 @@ class Helper
 
         $naskah = NaskahKeluar::whereYear('tanggal', $tahun)->where('kode_naskah_id', optional($kode_naskah)->id);
         $max_no_urut = $naskah->max('no_urut') ?? 0;
-        $no_urut = $max_no_urut + 1;
-        $segmen = 0;
+        $max_tanggal = $naskah->max('tanggal') ?? '1970-01-01';
 
-        $replaces['<no_urut>'] = $no_urut;
+        if ($tanggal >= $max_tanggal || $tahun > 2025) {
+            $no_urut = $max_no_urut + 1;
+            $segmen = 0;
+        } else {
+            $no_urut = $naskah->whereDate('tanggal', '<=', $tanggal)->max('no_urut') ?? 1;
+            $segmen = NaskahKeluar::whereYear('tanggal', $tahun)
+                ->where('kode_naskah_id', optional($kode_naskah)->id)
+                ->where('no_urut', $no_urut)
+                ->max('segmen') + 1;
+        }
+
+        $replaces['<no_urut>'] = ($segmen > 0) ? "{$no_urut}.{$segmen}" : $no_urut;
         $format = optional($kode_naskah)->format;
         $nomor = strtr($format, $replaces);
 

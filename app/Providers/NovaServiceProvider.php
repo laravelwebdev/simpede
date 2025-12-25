@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\DigitalPayment as ModelsDigitalPayment;
+use App\Models\Dipa as ModelDipa;
 use App\Models\MataAnggaran;
 use App\Models\Pengelola;
 use App\Models\User as UserModel;
@@ -66,7 +67,6 @@ use App\Nova\UnitKerja;
 use App\Nova\User;
 use App\Nova\UserEksternal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
@@ -131,7 +131,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Manajemen', [
                     MenuItem::resource(DigitalPayment::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->count('id') > 0),
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->whereYear('tanggal_transaksi', session('year'))->count('id') > 0),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),
@@ -192,7 +192,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
                     MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->count('id') > 0),
+                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->where('dipa_id', ModelDipa::where('tahun', session('year'))->value('id'))->count('id') > 0),
                 ])
                     ->collapsable()
                     ->icon('currency-dollar'),
@@ -243,10 +243,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             if ($user &&
                 Hash::check($request->password, $user->password)) {
-                if ($request->remember) {
-                    Cookie::queue('simpede_year', $request->year, 576000); // Cookie berlaku selama 400 hari
-                }
-
                 return $user;
             }
         });

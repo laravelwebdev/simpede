@@ -30,6 +30,8 @@ class KakSp2d extends Pivot
     protected static function booted(): void
     {
         static::saving(function (KakSp2d $kakSp2d) {
+            KerangkaAcuan::where('id', $kakSp2d->kerangka_acuan_id)
+                ->update(['status_arsip' => 'Catat SP2D']);
             Storage::disk('arsip')
                 ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_spm,
                     session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
@@ -126,6 +128,8 @@ class KakSp2d extends Pivot
             }
         });
         static::deleting(function (KakSp2d $kakSp2d) {
+            KerangkaAcuan::where('id', $kakSp2d->kerangka_acuan_id)
+                ->update(['status_arsip' => 'Proses Bayar']);
             Storage::disk('arsip')
                 ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
             ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)

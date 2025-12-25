@@ -15,6 +15,8 @@ return new class extends Migration
             $table->after('status', function (Blueprint $table) {
                 $table->boolean('rekap_bos')->default(false);
                 $table->boolean('rekap_sirup')->default(false);
+                $table->text('catatan')->default('Belum Lengkap')->nullable();
+                $table->string('status_arsip')->default('Proses Bayar');
             });
         });
     }
@@ -27,6 +29,8 @@ return new class extends Migration
         Schema::table('kerangka_acuans', function (Blueprint $table) {
             $table->dropColumn('rekap_bos');
             $table->dropColumn('rekap_sirup');
+            $table->dropColumn('catatan');
+            $table->dropColumn('status_arsip');
         });
     }
 };

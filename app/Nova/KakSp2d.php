@@ -76,9 +76,9 @@ class KakSp2d extends Resource
                 ->sortable()
                 ->searchable(),
             Textarea::make('Catatan', 'catatan')
-                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Kosongkan jika berkas sudah lengkap.')
+                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Biarkan kosong jika berkas sudah sesuai.')
                 ->alwaysShow(),
-            Boolean::make('Lengkap', function () {
+            Boolean::make('Pemeriksaan', function () {
                 return is_null($this->catatan) && ! is_null($this->arsip_keuangan_id);
             }),
 
@@ -103,10 +103,10 @@ class KakSp2d extends Resource
                 ->width('1/3')
                 ->setTidakAdaLabel('Belum Diarsipkan')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Kelengkapan Arsip Keuangan', $model, 'catatan', 'kelengkapan-arsip-keuangan')
+            MetricKeberadaan::make('Pemeriksaan Arsip', $model, 'catatan', 'kelengkapan-arsip-keuangan')
                 ->width('1/3')
-                ->setAdaLabel('Belum Lengkap')
-                ->setTidakAdaLabel('Lengkap')
+                ->setAdaLabel('Belum Sesuai')
+                ->setTidakAdaLabel('Sesuai')
                 ->invertColors()
                 ->refreshWhenActionsRun(),
         ];
@@ -175,6 +175,8 @@ class KakSp2d extends Resource
                         ->from('dipas')
                         ->where('tahun', session('year'));
                 });
+        })->whereHas('kerangkaAcuan', function ($q) {
+            $q->where('status_arsip', 'Berkas Lengkap');
         });
     }
 }

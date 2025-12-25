@@ -4,6 +4,7 @@ namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
 use App\Models\KakSp2d;
+use App\Models\KerangkaAcuan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -58,8 +59,11 @@ class BerkaskanArsip extends Action
             ' dengan SP2D No: '.$daftarSpd2d->nomor_sp2d.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_sp2d).' dengan rincian '.$kerangkaAcuan->rincian.' dengan MAK: '.$mak;
             $arsip->save();
             KakSp2d::where('id', $model->id)->update(['arsip_keuangan_id' => $arsip->id]);
+            KerangkaAcuan::where('id', $kerangkaAcuan->id)
+                ->update(['status_arsip' => 'Selesai']);
+        } else {
+            KakSp2d::where('id', $model->id)->update(['catatan' => $fields->catatan]);
         }
-        KakSp2d::where('id', $model->id)->update(['catatan' => $fields->catatan]);
 
         return Action::message('Arsip berhasil diberkaskan.');
     }
@@ -112,14 +116,10 @@ class BerkaskanArsip extends Action
                 ->hideFromIndex()
                 ->placeholder('01.1.1')
                 ->sortable(),
-            Heading::make('Catatan Ketidaklengkapan Arsip'),
-            Textarea::make('Catatan', 'catatan')
-                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai.')
-                ->alwaysShow(),
         ] : [
-            Heading::make('Catatan Ketidaklengkapan Arsip'),
+            Heading::make('Catatan Pemeriksaan Arsip'),
             Textarea::make('Catatan', 'catatan')
-                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai.')
+                ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Biarkan kosong jika berkas sudah sesuai.')
                 ->alwaysShow(),
         ];
     }

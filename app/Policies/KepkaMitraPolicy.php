@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Helpers\Policy;
 use App\Models\KepkaMitra;
+use App\Models\User;
 
 class KepkaMitraPolicy
 {

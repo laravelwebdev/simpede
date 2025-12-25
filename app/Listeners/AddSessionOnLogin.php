@@ -37,6 +37,4 @@ class AddSessionOnLogin
 
         session(['role' => $roles, 'year' => $year]);
     }
-
-    
 }

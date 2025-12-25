@@ -178,6 +178,4 @@ class IzinKeluar extends Resource
     {
         return [];
     }
-
-    
 }

@@ -83,6 +83,7 @@ class KerangkaAcuanPolicy
             )
             ->andEqual(str_contains(request()->url(), 'lens'), false)
             ->andEqual(request()->viaResource, null)
+            ->andEqual($kerangkaAcuan->daftarSp2d()->exists(), false)
             ->get();
     }
 

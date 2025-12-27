@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KakSp2d extends Pivot
 {
     protected $table = 'kak_sp2d';
 
-    protected $fillable = ['arsip_keuangan_id'];
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    protected $fillable = ['arsip_keuangan_id', 'catatan', 'rekap_bos', 'rekap_sirup'];
 
     public function kerangkaAcuan(): BelongsTo
     {
@@ -27,144 +32,147 @@ class KakSp2d extends Pivot
         return $this->belongsTo(ArsipKeuangan::class);
     }
 
+    public function arsipDokumens(): HasMany
+    {
+        return $this->hasMany(ArsipDokumen::class, 'kak_sp2d_id');
+    }
+
     protected static function booted(): void
     {
-        static::saving(function (KakSp2d $kakSp2d) {
-            KerangkaAcuan::where('id', $kakSp2d->kerangka_acuan_id)
-                ->update(['status_arsip' => 'Catat SP2D']);
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_spm,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+        static::saved(function (KakSp2d $kakSp2d) {
+            $daftarSp2d = DaftarSp2d::find($kakSp2d->daftar_sp2d_id);
+            $year = session('year');
+            $basePath = $year.'/arsip-dokumens/'.$kakSp2d->kerangka_acuan_id.'/';
+            $nomorSpp = $daftarSp2d->nomor_spp;
+            $nomorSp2d = $daftarSp2d->nomor_sp2d;
+            
+            // Copy SP2D
+            $sp2dPath = $basePath.'SP2D_'.$nomorSp2d.'.pdf';
+            Storage::disk('arsip')->copy($daftarSp2d->arsip_sp2d, $sp2dPath);
             ArsipDokumen::updateOrCreate(
                 [
-                    'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                    'slug' => 'Surat Perintah Membayar',
+                    'kak_sp2d_id' => $kakSp2d->id,
+                    'slug' => 'SP2D '.$nomorSp2d,
                 ],
                 [
-                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_spm,
-                    'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                    'jumlah_halaman' => 1,
+                    'tanggal_dokumen' => $daftarSp2d->tanggal_sp2d,
+                    'file' => $sp2dPath,
                 ]
             );
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_sp2d,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SP2D_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+
+            // Copy SPM
+            $spmPath = $basePath.'SPM_'.$nomorSpp.'.pdf';
+
+            Storage::disk('arsip')->copy($daftarSp2d->arsip_spm, $spmPath);
+
             ArsipDokumen::updateOrCreate(
                 [
-                    'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                    'slug' => 'SP2D',
+                    'kak_sp2d_id' => $kakSp2d->id,
+                    'slug' => 'Surat Perintah Membayar '.$nomorSpp,
                 ],
                 [
-                    'jumlah_halaman' => '1 halaman',
-                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_sp2d,
-                    'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SP2D_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                    'tanggal_dokumen' => $daftarSp2d->tanggal_spm,
+                    'file' => $spmPath,
                 ]
             );
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_lampiran,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+
+            // Copy Lampiran SPM
+            $lampiranSpmPath = $basePath.'Lampiran_SPM_'.$nomorSpp.'.pdf';
+            Storage::disk('arsip')->copy($daftarSp2d->arsip_lampiran, $lampiranSpmPath);
             ArsipDokumen::updateOrCreate(
                 [
-                    'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                    'slug' => 'Lampiran SPM',
+                    'kak_sp2d_id' => $kakSp2d->id,
+                    'slug' => 'Lampiran SPM '.$nomorSpp,
                 ],
                 [
-                    'tanggal_dokumen' => DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->tanggal_spm,
-                    'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                    'tanggal_dokumen' => $daftarSp2d->tanggal_spm,
+                    'file' => $lampiranSpmPath,
                 ]
             );
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_spp,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+
+            // Copy SPP
+            $sppPath = $basePath.'SPP_'.$nomorSpp.'.pdf';
+            Storage::disk('arsip')->copy($daftarSp2d->arsip_spp, $sppPath);
             ArsipDokumen::updateOrCreate(
                 [
-                    'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                    'slug' => 'Surat Permintaan Pembayaran',
+                    'kak_sp2d_id' => $kakSp2d->id,
+                    'slug' => 'Surat Permintaan Pembayaran '.$nomorSpp,
                 ],
                 [
-                    'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                    'file' => $sppPath,
                 ]
             );
-            Storage::disk('arsip')
-                ->copy(DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_lampiran_spp,
-                    session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+
+            // Copy Lampiran SPP
+            $lampiranSppPath = $basePath.'Lampiran_SPP_'.$nomorSpp.'.pdf';
+            Storage::disk('arsip')->copy($daftarSp2d->arsip_lampiran_spp, $lampiranSppPath);
             ArsipDokumen::updateOrCreate(
                 [
-                    'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                    'slug' => 'Lampiran SPP',
+                    'kak_sp2d_id' => $kakSp2d->id,
+                    'slug' => 'Lampiran SPP '.$nomorSpp,
                 ],
                 [
-                    'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                    'file' => $lampiranSppPath,
                 ]
             );
-            $arsipSsp = DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_ssp;
+            
+            // Copy SSP
+            $arsipSsp = $daftarSp2d->arsip_ssp;
             if ($arsipSsp) {
-                Storage::disk('arsip')
-                    ->copy($arsipSsp,
-                        session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SSP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+                $sspPath = $basePath.'SSP_'.$nomorSpp.'.pdf';
+                Storage::disk('arsip')->copy($arsipSsp, $sspPath);
                 ArsipDokumen::updateOrCreate(
                     [
-                        'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                        'slug' => 'Surat Setoran Pajak',
+                        'kak_sp2d_id' => $kakSp2d->id,
+                        'slug' => 'Surat Setoran Pajak '.$nomorSpp,
                     ],
                     [
-                        'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SSP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                        'file' => $sspPath,
                     ]
                 );
             }
-            $arsipDpt = DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->arsip_dpt;
+
+            // Copy DPT
+            $arsipDpt = $daftarSp2d->arsip_dpt;
             if ($arsipDpt) {
-                Storage::disk('arsip')
-                    ->copy($arsipDpt,
-                        session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/DPT_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
+                $dptPath = $basePath.'DPT_'.$nomorSpp.'.pdf';
+                Storage::disk('arsip')->copy($arsipDpt, $dptPath);
                 ArsipDokumen::updateOrCreate(
                     [
-                        'kerangka_acuan_id' => $kakSp2d->kerangka_acuan_id,
-                        'slug' => 'Daftar Pembayaran Tagihan',
+                        'kak_sp2d_id' => $kakSp2d->id,
+                        'slug' => 'Daftar Pembayaran Tagihan '.$nomorSpp,
                     ],
                     [
-                        'file' => session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/DPT_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf',
+                        'file' => $dptPath,
                     ]
                 );
             }
         });
+
         static::deleting(function (KakSp2d $kakSp2d) {
-            KerangkaAcuan::where('id', $kakSp2d->kerangka_acuan_id)
-                ->update(['status_arsip' => 'Proses Bayar']);
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Surat Perintah Membayar')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SP2D_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'SP2D')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPM_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Lampiran SPM')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Surat Permintaan Pembayaran')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/SSP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Surat Setoran Pajak')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/Lampiran_SPP_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Lampiran SPP')
-                ->delete();
-            Storage::disk('arsip')
-                ->delete(session('year').'/'.'arsip-dokumens'.'/'.$kakSp2d->kerangka_acuan_id.'/DPT_'.DaftarSp2d::find($kakSp2d->daftar_sp2d_id)->nomor_spp.'.pdf');
-            ArsipDokumen::where('kerangka_acuan_id', $kakSp2d->kerangka_acuan_id)
-                ->where('slug', 'Daftar Pembayaran Tagihan')
-                ->delete();
+            $daftarSp2d = DaftarSp2d::find($kakSp2d->daftar_sp2d_id);
+            $year = session('year');
+            $basePath = $year.'/arsip-dokumens/'.$kakSp2d->kerangka_acuan_id.'/';
+            $nomorSpp = $daftarSp2d->nomor_spp;
+            $nomorSp2d = $daftarSp2d->nomor_sp2d;
+
+            $filesAndSlugs = [
+                ['SPM_'.$nomorSpp.'.pdf', 'Surat Perintah Membayar '.$nomorSpp],
+                ['SP2D_'.$nomorSp2d.'.pdf', 'SP2D '.$nomorSp2d],
+                ['Lampiran_SPM_'.$nomorSpp.'.pdf', 'Lampiran SPM '.$nomorSpp],
+                ['SPP_'.$nomorSpp.'.pdf', 'Surat Permintaan Pembayaran '.$nomorSpp],
+                ['Lampiran_SPP_'.$nomorSpp.'.pdf', 'Lampiran SPP '.$nomorSpp],
+                ['SSP_'.$nomorSpp.'.pdf', 'Surat Setoran Pajak '.$nomorSpp],
+                ['DPT_'.$nomorSpp.'.pdf', 'Daftar Pembayaran Tagihan '.$nomorSpp],
+            ];
+
+            foreach ($filesAndSlugs as [$file, $slug]) {
+                Storage::disk('arsip')->delete($basePath.$file);
+                ArsipDokumen::where('kak_sp2d_id', $kakSp2d->id)
+                    ->where('slug', $slug)
+                    ->delete();
+            }
         });
     }
 }

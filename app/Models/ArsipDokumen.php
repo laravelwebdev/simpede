@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class ArsipDokumen extends Model
 {
-    protected $fillable = ['slug', 'file', 'kerangka_acuan_id'];
+    protected $fillable = ['slug', 'file', 'kak_sp2d_id', 'tanggal_dokumen', 'jumlah_halaman'];
+
+     public function kakSp2d()
+    {
+        return $this->belongsTo(KakSp2d::class);
+    }
 
     protected function casts(): array
     {
         return [
             'tanggal_dokumen' => 'date',
         ];
-    }
-
-    public function kerangkaAcuan(): BelongsTo
-    {
-        return $this->belongsTo(KerangkaAcuan::class);
     }
 }

@@ -17,7 +17,6 @@ use Laravelwebdev\Numeric\Numeric;
 
 class ArsipDokumen extends Resource
 {
-    public static $with = ['kerangkaAcuan'];
 
     /**
      * Get the label for the resource.
@@ -45,22 +44,16 @@ class ArsipDokumen extends Resource
      */
     public static $title = 'slug';
 
-    public function subtitle()
-    {
-        return $this->relationLoaded('kerangkaAcuan')
-            ? $this->kerangkaAcuan->rincian
-            : $this->kerangkaAcuan()->value('rincian');
-    }
-
-    /**
+   /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
         'slug',
-        'kerangkaAcuan.rincian',
     ];
+
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -71,7 +64,7 @@ class ArsipDokumen extends Resource
     {
         return [
             Text::make('Jenis Dokumen', 'slug')
-                ->sortable()
+                ->help('Tuliskan dengan Nomor Dokumen atau keterangan kegiatan jika tidak ada nomor. Misal: SPBy Nomor 123/XYZ/2024 atau Laporan Perjalanan Dinas Kegiatan ABC')
                 ->rules('required', 'max:50'),
             Date::make('Tanggal Dokumen', 'tanggal_dokumen')
                 ->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
@@ -153,11 +146,23 @@ class ArsipDokumen extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kerangka-acuans'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kak_sp2ds'.'/';
     }
 
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
-        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kerangka-acuans'.'/';
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kak_sp2ds'.'/';
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+
+            // Sort numerik
+            $query->orderByRaw('id ASC');
+        }
+
+        return $query;
     }
 }

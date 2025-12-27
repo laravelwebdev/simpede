@@ -34,7 +34,7 @@ class DaftarSp2d extends Model
         );
     }
 
-    protected $fillable = ['dipa_id', 'nomor_sp2d', 'tanggal_spm'];
+    protected $fillable = ['dipa_id', 'nomor_sp2d', 'tanggal_spm', 'jumlah'];
 
     public function kerangkaAcuan(): BelongsToMany
     {

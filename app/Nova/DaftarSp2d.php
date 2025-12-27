@@ -22,6 +22,7 @@ use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravelwebdev\Filepond\Filepond;
+use Laravelwebdev\Numeric\Numeric;
 
 class DaftarSp2d extends Resource
 {
@@ -96,6 +97,9 @@ class DaftarSp2d extends Resource
             Text::make('Uraian', 'uraian')
                 ->sortable()
                 ->readonly(),
+            Numeric::make('Jumlah', 'jumlah')
+                ->sortable()
+                ->exceptOnForms(),
 
             Select::make('KAK', 'kerangka_acuan_count')
                 ->options([
@@ -168,9 +172,9 @@ class DaftarSp2d extends Resource
                 $this->arsip_spm ?
                 URL::make('SPM', fn () => Storage::disk('arsip')
                     ->url($this->arsip_spm))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('SPM', fn () => null)->exceptOnForms(),
+                Text::make('SPM', fn () => null)->onlyOnDetail(),
 
                 Filepond::make('Lampiran SPM', 'arsip_lampiran')
                     ->disk('arsip')
@@ -256,9 +260,9 @@ class DaftarSp2d extends Resource
                 $this->arsip_sp2d ?
                 URL::make('SP2D', fn () => Storage::disk('arsip')
                     ->url($this->arsip_sp2d))
-                    ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                    ->displayUsing(fn () => 'Lihat')->onlyOnDetail()
                     :
-                Text::make('SP2D', fn () => null)->exceptOnForms(),
+                Text::make('SP2D', fn () => null)->onlyOnDetail(),
 
             ]),
             HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', RealisasiAnggaran::class),

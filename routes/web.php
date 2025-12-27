@@ -30,10 +30,10 @@ Route::middleware([ValidateAccessToken::class])
             ->where(['token' => '[A-Za-z0-9]+', 'coa' => '[0-9]+']);
         Route::get('/arsip-dokumen/{token}/kak/{kak}', [ArsipController::class, 'daftarFile'])
             ->name('daftar-file')
-            ->where(['token' => '[A-Za-z0-9]+', 'kak' => '[0-9]+']);
+            ->where(['token' => '[A-Za-z0-9]+', 'kak' => '[A-Za-z0-9]+']);
         Route::get('/download-folder/{token}/kak/{kak}', [ArsipController::class, 'downloadFolder'])
             ->name('download-folder')
-            ->where(['token' => '[A-Za-z0-9]+', 'kak' => '[0-9]+']);
+            ->where(['token' => '[A-Za-z0-9]+', 'kak' => '[A-Za-z0-9]+']);
     });
 
 Route::middleware([ValidatePulsaToken::class])

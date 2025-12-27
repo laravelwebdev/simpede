@@ -6,13 +6,14 @@ use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateSekar;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravelwebdev\Numeric\Numeric;
 
 class ArsipKeuangan extends Resource
 {
-    public static $with = ['daftarBerkas'];
+    public static $with = ['daftarBerkas', 'arsipDokumens'];
 
     /**
      * The model the resource corresponds to.
@@ -115,7 +116,7 @@ class ArsipKeuangan extends Resource
                 ->hideFromIndex()
                 ->sortable(),
 
-            HasMany::make('Daftar Berkas', 'daftarBerkas', KakSp2d::class),
+            HasManyThrough::make('Daftar Berkas', 'arsipDokumens', ArsipDokumen::class),
 
         ];
     }

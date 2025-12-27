@@ -115,4 +115,9 @@ class KerangkaAcuanPolicy
     {
         return false;
     }
+
+    public function attachAnyDaftarSp2d(): bool
+    {
+        return false;
+    }
 }

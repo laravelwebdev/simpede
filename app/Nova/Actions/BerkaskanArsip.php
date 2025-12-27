@@ -4,7 +4,6 @@ namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
 use App\Models\KakSp2d;
-use App\Models\KerangkaAcuan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -58,9 +57,8 @@ class BerkaskanArsip extends Action
             $arsip->uraian = 'SPM No: '.$daftarSpd2d->nomor_spp.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_spm).
             ' dengan SP2D No: '.$daftarSpd2d->nomor_sp2d.' tanggal '.Helper::terbilangTanggal($daftarSpd2d->tanggal_sp2d).' dengan rincian '.$kerangkaAcuan->rincian.' dengan MAK: '.$mak;
             $arsip->save();
-            KakSp2d::where('id', $model->id)->update(['arsip_keuangan_id' => $arsip->id]);
-            KerangkaAcuan::where('id', $kerangkaAcuan->id)
-                ->update(['status_arsip' => 'Selesai']);
+            $model->arsip_keuangan_id = $arsip->id;
+            $model->save();
         } else {
             KakSp2d::where('id', $model->id)->update(['catatan' => $fields->catatan]);
         }

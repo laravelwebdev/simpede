@@ -13,6 +13,8 @@ class MetricValue extends Value
 
     private $key;
 
+    private $title = 'Jumlah';
+
     public function __construct($model, $key)
     {
         $this->model = $model;
@@ -31,7 +33,14 @@ class MetricValue extends Value
 
     public function name()
     {
-        return 'Jumlah';
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     /**

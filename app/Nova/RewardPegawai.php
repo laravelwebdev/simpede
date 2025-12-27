@@ -334,16 +334,13 @@ class RewardPegawai extends Resource
         return $actions;
     }
 
-    public static $indexDefaultOrder = [
-        'bulan' => 'asc',
-    ];
-
     public static function indexQuery(NovaRequest $request, $query)
     {
         if (empty($request->get('orderBy'))) {
             $query->getQuery()->orders = [];
 
-            $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));
+            // Sort numerik
+            $query->orderByRaw('CAST(bulan AS UNSIGNED) ASC');
         }
 
         return $query->where('tahun', session('year'));

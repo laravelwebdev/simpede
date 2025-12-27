@@ -49,7 +49,6 @@ class KerangkaAcuan extends Model
         return $this->hasMany(KakSp2d::class);
     }
 
-
     public function spesifikasiKerangkaAcuan(): HasMany
     {
         return $this->hasMany(SpesifikasiKerangkaAcuan::class);
@@ -161,7 +160,6 @@ class KerangkaAcuan extends Model
         $this->deleteOldAnggaran();
         SpesifikasiKerangkaAcuan::destroy(SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $this->id)->pluck('id'));
     }
-
 
     private function replicateAnggaranAndSpesifikasi(): void
     {

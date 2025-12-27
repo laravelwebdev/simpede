@@ -207,7 +207,6 @@ class KakSp2d extends Resource
                 ->showInline();
         }
 
-
         return $actions;
     }
 

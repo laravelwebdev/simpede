@@ -27,10 +27,8 @@ return new class extends Migration
         Schema::table('arsip_dokumens', function (Blueprint $table) {
             $table->after('file', function (Blueprint $table) {
                 $table->mediumInteger('kerangka_acuan_id')->nullable()->unsigned();
-                         
             });
             $table->dropColumn('kak_sp2d_id');
-   
         });
     }
 };

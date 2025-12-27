@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Storage;
 
 class KakSp2d extends Pivot
 {
@@ -45,7 +45,7 @@ class KakSp2d extends Pivot
             $basePath = $year.'/arsip-dokumens/'.$kakSp2d->kerangka_acuan_id.'/';
             $nomorSpp = $daftarSp2d->nomor_spp;
             $nomorSp2d = $daftarSp2d->nomor_sp2d;
-            
+
             // Copy SP2D
             $sp2dPath = $basePath.'SP2D_'.$nomorSp2d.'.pdf';
             Storage::disk('arsip')->copy($daftarSp2d->arsip_sp2d, $sp2dPath);
@@ -116,7 +116,7 @@ class KakSp2d extends Pivot
                     'file' => $lampiranSppPath,
                 ]
             );
-            
+
             // Copy SSP
             $arsipSsp = $daftarSp2d->arsip_ssp;
             if ($arsipSsp) {

@@ -2,41 +2,33 @@
 
 namespace App\Nova;
 
-use App\Models\Dipa;
-use App\Nova\KakSp2d;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
-use Laravel\Nova\Panel;
-use Laravel\Nova\Tabs\Tab;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Text;
+use App\Models\Dipa;
+use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
+use App\Nova\Actions\AddDigitalPayment;
+use App\Nova\Actions\AddPerjalananDinas;
+use App\Nova\Actions\AddPulsaKegiatan;
 use App\Nova\Actions\Download;
-use Laravel\Nova\Fields\Badge;
-use Laravel\Nova\Fields\Stack;
-use Laravel\Nova\Fields\Hidden;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Status;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
+use App\Nova\Filters\StatusFilter;
+use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Textarea;
-use App\Nova\Actions\CatatanArsip;
-use App\Nova\Filters\StatusFilter;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravelwebdev\Numeric\Numeric;
-use App\Nova\Metrics\MetricPartition;
-use App\Nova\Actions\AddPulsaKegiatan;
-use Laravel\Nova\Fields\BelongsToMany;
-use App\Nova\Actions\AddDigitalPayment;
-use App\Nova\Lenses\MonitoringRekapBos;
 use Illuminate\Database\Eloquent\Model;
-use App\Nova\Actions\AddPerjalananDinas;
-use App\Nova\Lenses\MonitoringRekapSirup;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
+use Laravel\Nova\Fields\Status;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Http\Requests\ActionRequest;
-use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
+use Laravel\Nova\Panel;
+use Laravelwebdev\Numeric\Numeric;
 
 class KerangkaAcuan extends Resource
 {
@@ -138,9 +130,9 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id),
             ]),
-                HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
-                HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
-                HasMany::make('Daftar Arsip dan SP2D', 'daftarArsip', KakSp2d::class),
+            HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
+            HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
+            HasMany::make('Daftar Arsip dan SP2D', 'daftarArsip', KakSp2d::class),
         ];
     }
 

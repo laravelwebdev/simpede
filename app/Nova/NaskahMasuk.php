@@ -41,7 +41,7 @@ class NaskahMasuk extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if (empty($request->get('orderBy'))) {
+        if (empty($request->query('orderBy'))) {
             $query->getQuery()->orders = [];
 
             $query->orderBy(key(static::$indexDefaultOrder), reset(static::$indexDefaultOrder));

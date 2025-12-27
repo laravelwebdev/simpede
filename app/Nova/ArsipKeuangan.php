@@ -47,7 +47,7 @@ class ArsipKeuangan extends Resource
      * @var array
      */
     public static $search = [
-        'nomor',
+        'nomor', 'kode_ruang', 'kode_klasifikasi','kode_unit_cipta','uraian','kurun_awal','kurun_akhir','tingkat_perkembangan','media_simpan','kondisi','jumlah','nomor_lemari',
     ];
 
     /**

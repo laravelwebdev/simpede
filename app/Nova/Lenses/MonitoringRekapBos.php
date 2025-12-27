@@ -28,7 +28,7 @@ class MonitoringRekapBos extends Lens
      * @var array
      */
     public static $search = [
-        'naskahKeluar.nomor', 'tanggal', 'rincian', 'status',
+        'kerangkaAcuan.naskahKeluar.nomor', 'daftarSp2d.nomor_sp2d', 'kerangkaAcuan.rincian',
     ];
 
     /**
@@ -61,19 +61,16 @@ class MonitoringRekapBos extends Lens
     public function fields(NovaRequest $request): array
     {
         return [
-            Stack::make('KAK', 'tanggal', [
-                BelongsTo::make('KAK', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
-                    ->sortable(),
+            Stack::make('KAK', [
+                BelongsTo::make('KAK', 'kerangkaAcuan', ResourceKerangkaAcuan::class),
                 Date::make('Tanggal KAK', 'kerangkaAcuan.naskahKeluar.tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
-            Stack::make('SPM', 'tanggal', [
+            ]),
+            Stack::make('SPM', [
                 BelongsTo::make('SPM', 'daftarSp2d', ResourceDaftarSp2d::class)
-                    ->sortable()
                     ->searchable(),
                 Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
-            Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
-                ->sortable(),
+            ]),
+            Text::make('Rincian KAK', 'kerangkaAcuan.rincian'),
             Boolean::make('Rekap BOS', 'rekap_bos')
                 ->sortable()
                 ->filterable()

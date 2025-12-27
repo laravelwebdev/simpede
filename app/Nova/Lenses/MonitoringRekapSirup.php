@@ -28,7 +28,7 @@ class MonitoringRekapSirup extends Lens
      * @var array
      */
     public static $search = [
-        'naskahKeluar.nomor', 'tanggal', 'rincian', 'status',
+        'kerangkaAcuan.naskahKeluar.nomor', 'daftarSp2d.nomor_sp2d', 'kerangkaAcuan.rincian',
     ];
 
     /**
@@ -65,18 +65,16 @@ class MonitoringRekapSirup extends Lens
     {
         return [
             Stack::make('KAK', 'tanggal', [
-                BelongsTo::make('KAK', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
-                    ->sortable(),
+                BelongsTo::make('KAK', 'kerangkaAcuan', ResourceKerangkaAcuan::class),
                 Date::make('Tanggal KAK', 'kerangkaAcuan.naskahKeluar.tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
+            ]),
             Stack::make('SPM', 'tanggal', [
                 BelongsTo::make('SPM', 'daftarSp2d', ResourceDaftarSp2d::class)
-                    ->sortable()
+
                     ->searchable(),
                 Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
-            Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
-                ->sortable(),
+            ]),
+            Text::make('Rincian KAK', 'kerangkaAcuan.rincian'),
             Boolean::make('Rekap Sirup', 'rekap_sirup')
                 ->sortable()
                 ->filterable()

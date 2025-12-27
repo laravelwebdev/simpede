@@ -45,6 +45,8 @@ class KakSp2d extends Resource
      */
     public static $title = 'id';
 
+    public static $globallySearchable = false;
+
     /**
      * The columns that should be searched.
      *
@@ -68,12 +70,12 @@ class KakSp2d extends Resource
                         ->resolveUsing(fn ($nomorSpp) => $nomorSpp ? $nomorSpp.'/'.config('satker.kode').'/'.session('year') : '-')
                         ->copyable(),
                     Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-                ])->sortable(),
+                ]),
                 Stack::make('Nomor SP2D/Tanggal', [
                     Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
                         ->copyable(),
                     Date::make('Tanggal SP2D', 'daftarSp2d.tanggal_sp2d')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-                ])->sortable(),
+                ]),
                 BelongsTo::make('Arsip Keuangan', 'arsipKeuangan', ArsipKeuangan::class)
                     ->sortable()
                     ->searchable(),
@@ -81,19 +83,32 @@ class KakSp2d extends Resource
         }
 
         return [
-            Stack::make('KAK', 'tanggal', [
-                BelongsTo::make('KAK', 'kerangkaAcuan', KerangkaAcuan::class)
-                    ->sortable(),
+            Stack::make('KAK', 'kerangkaAcuan.naskahKeluar.tanggal', [
+                Text::make('Nomor SPM', 'kerangkaAcuan.naskahKeluar.nomor')
+                    ->copyable(),
                 Date::make('Tanggal KAK', 'kerangkaAcuan.naskahKeluar.tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
-            Stack::make('SPM', 'tanggal', [
+            ])->onlyOnDetail(),
+            Stack::make('KAK', 'kerangkaAcuan.naskahKeluar.tanggal', [
+                BelongsTo::make('KAK', 'kerangkaAcuan', KerangkaAcuan::class),
+                Date::make('Tanggal KAK', 'kerangkaAcuan.naskahKeluar.tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->hideFromDetail(),
+            Stack::make('SPM', 'daftarSp2d.tanggal_spm', [
+                Text::make('Nomor SPM', 'daftarSp2d.nomor_spp')
+                    ->resolveUsing(fn ($nomorSpp) => $nomorSpp ? $nomorSpp.'/'.config('satker.kode').'/'.session('year') : '-')
+                    ->copyable(),
+                Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->onlyOnDetail(),
+            Stack::make('SP2D', 'daftarSp2d.tanggal_spm', [
+                Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
+                    ->copyable(),
+                Date::make('Tanggal SP2D', 'daftarSp2d.tanggal_sp2d')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->onlyOnDetail(),
+            Stack::make('SPM', 'daftarSp2d.tanggal_spm', [
                 BelongsTo::make('SPM', 'daftarSp2d', DaftarSp2d::class)
-                    ->sortable()
                     ->searchable(),
                 Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
-            ])->sortable(),
-            Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
-                ->sortable(),
+            ])->hideFromDetail(),
+            Text::make('Rincian KAK', 'kerangkaAcuan.rincian'),
             BelongsTo::make('Arsip Keuangan', 'arsipKeuangan', ArsipKeuangan::class)
                 ->sortable()
                 ->hideFromIndex()

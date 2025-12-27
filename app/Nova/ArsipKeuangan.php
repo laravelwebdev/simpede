@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Helpers\Policy;
 use App\Nova\Actions\Download;
 use App\Nova\Actions\ExportTemplateSekar;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasManyThrough;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;

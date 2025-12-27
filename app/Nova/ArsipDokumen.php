@@ -17,7 +17,6 @@ use Laravelwebdev\Numeric\Numeric;
 
 class ArsipDokumen extends Resource
 {
-
     /**
      * Get the label for the resource.
      *
@@ -44,7 +43,7 @@ class ArsipDokumen extends Resource
      */
     public static $title = 'slug';
 
-   /**
+    /**
      * The columns that should be searched.
      *
      * @var array

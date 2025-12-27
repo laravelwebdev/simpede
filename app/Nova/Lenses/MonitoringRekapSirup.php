@@ -37,22 +37,22 @@ class MonitoringRekapSirup extends Lens
     /**
      * Get the query builder / paginator for the lens.
      */
-public static function query(LensRequest $request, Builder $query)
-{
-    return $request->withOrdering(
-        $request->withFilters(
-            $query
-                ->whereHas('daftarSp2d', function ($q) {
-                    $q->whereHas('dipa', function ($q2) {
-                        $q2->where('tahun', session('year'));
-                    });
-                })
-                ->whereHas('kerangkaAcuan', function ($q) {
-                    $q->where('jenis', 'Penyedia');
-                })
-        )
-    );
-}
+    public static function query(LensRequest $request, Builder $query)
+    {
+        return $request->withOrdering(
+            $request->withFilters(
+                $query
+                    ->whereHas('daftarSp2d', function ($q) {
+                        $q->whereHas('dipa', function ($q2) {
+                            $q2->where('tahun', session('year'));
+                        });
+                    })
+                    ->whereHas('kerangkaAcuan', function ($q) {
+                        $q->where('jenis', 'Penyedia');
+                    })
+            )
+        );
+    }
 
     /**
      * Get the fields available to the lens.

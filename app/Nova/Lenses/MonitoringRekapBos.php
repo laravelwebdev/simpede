@@ -18,9 +18,9 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
 
-class MonitoringRekapSirup extends Lens
+class MonitoringRekapBos extends Lens
 {
-    public $name = 'Pencatatan Non Tender';
+    public $name = 'Rekap BOS';
 
     /**
      * The columns that should be searched.
@@ -49,9 +49,6 @@ class MonitoringRekapSirup extends Lens
                             $q2->where('tahun', session('year'));
                         });
                     })
-                    ->whereHas('kerangkaAcuan', function ($q) {
-                        $q->where('jenis', 'Penyedia');
-                    })
             )
         );
     }
@@ -77,7 +74,7 @@ class MonitoringRekapSirup extends Lens
             ])->sortable(),
             Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
                 ->sortable(),
-            Boolean::make('Rekap Sirup', 'rekap_sirup')
+            Boolean::make('Rekap BOS', 'rekap_bos')
                 ->sortable()
                 ->filterable()
                 ->exceptOnForms(),
@@ -100,20 +97,17 @@ class MonitoringRekapSirup extends Lens
                 $q->whereHas('dipa', function ($q2) {
                     $q2->where('tahun', session('year'));
                 });
-            })
-            ->whereHas('kerangkaAcuan', function ($q) {
-                $q->where('jenis', 'Penyedia');
             });
 
         return [
-            MetricValue::make($model, 'total-kak-non-tender')
+            MetricValue::make($model, 'total-rekap-bos')
                 ->width('1/2')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Pencatatan Non Tender', $model, 'rekap_sirup', 'keberadaan-rekap-sirup')
+            MetricKeberadaan::make('Rekap BOS', $model, 'rekap_bos', 'keberadaan-rekap-bos')
                 ->nullStrict(false)
-                ->setAdaLabel('Sudah Dicatat')
+                ->setAdaLabel('Sudah Direkap')
                 ->width('1/2')
-                ->setTidakAdaLabel('Belum Dicatat')
+                ->setTidakAdaLabel('Belum Direkap')
                 ->refreshWhenActionsRun(),
 
         ];
@@ -138,9 +132,7 @@ class MonitoringRekapSirup extends Lens
      */
     public function actions(NovaRequest $request): array
     {
-        $actions = [];
-
-        return $actions;
+        return [];
     }
 
     /**
@@ -148,6 +140,6 @@ class MonitoringRekapSirup extends Lens
      */
     public function uriKey(): string
     {
-        return 'monitoring-rekap-sirup';
+        return 'monitoring-rekap-bos';
     }
 }

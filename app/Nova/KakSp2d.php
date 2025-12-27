@@ -8,6 +8,7 @@ use App\Nova\Actions\BerkaskanArsip;
 use App\Nova\Actions\UbahStatusRekap;
 use App\Nova\Filters\Keberadaan;
 use App\Nova\Filters\KelengkapanBerkas;
+use App\Nova\Lenses\MonitoringRekapBos;
 use App\Nova\Lenses\MonitoringRekapSirup;
 use App\Nova\Metrics\MetricKeberadaan;
 use Illuminate\Database\Eloquent\Model;
@@ -34,12 +35,7 @@ class KakSp2d extends Resource
 
     public static function label()
     {
-        return 'Pengarsipan dan Rekap BOS';
-    }
-
-    public static function singularLabel()
-    {
-        return 'Pengarsipan dan Rekap BOS';
+        return 'Pemberkasan Arsip Keuangan';
     }
 
     /**
@@ -106,16 +102,16 @@ class KakSp2d extends Resource
                 ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Biarkan kosong jika berkas sudah sesuai.')
                 ->onlyOnDetail()
                 ->alwaysShow(),
-            Boolean::make('Rekap BOS', 'rekap_bos')
-                ->sortable()
-                ->filterable()
-                ->exceptOnForms(),
             Boolean::make('Pengarsipan', function () {
                 return ! is_null($this->arsip_keuangan_id);
             }),
             Boolean::make('Kesesuaian Arsip', function () {
                 return is_null($this->catatan) && ! is_null($this->arsip_keuangan_id);
             }),
+            Boolean::make('Rekap Sirup', 'rekap_sirup')
+                ->onlyOnDetail(),
+            Boolean::make('Rekap BOS', 'rekap_bos')
+                ->onlyOnDetail(),
             HasMany::make('Arsip Dokumen', 'arsipDokumens', ArsipDokumen::class),
 
         ];
@@ -173,6 +169,7 @@ class KakSp2d extends Resource
     {
         return [
             MonitoringRekapSirup::make(),
+            MonitoringRekapBos::make(),
         ];
     }
 
@@ -204,7 +201,18 @@ class KakSp2d extends Resource
         }
         if (Policy::make()->allowedFor('admin,arsiparis,bendahara')->get()) {
             $actions[] = UbahStatusRekap::make('bos')
-                ->showInline();
+                ->onlyOnDetail();
+        }
+        if (Policy::make()->allowedFor('admin,arsiparis,ppk')->get()) {
+            $actions[] = UbahStatusRekap::make('sirup')
+                ->onlyOnDetail()
+                ->canSee(function ($request) {
+                    if ($request instanceof ActionRequest) {
+                        return true;
+                    }
+
+                    return $this->resource instanceof Model && $this->resource->kerangkaAcuan->jenis === 'Penyedia';
+                });
         }
 
         return $actions;

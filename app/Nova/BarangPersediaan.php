@@ -90,7 +90,7 @@ class BarangPersediaan extends Resource
                     ->get())
                 ->copyable(),
             Text::make('Kode Barang Sakti', 'masterPersediaan.kode')
-                ->displayUsing(fn ($value) => substr($value, 0, 10))
+                ->displayUsing(fn ($value) => substr($value ?? '', 0, 10))
                 ->hideFromIndex(! Policy::make()
                     ->allowedFor('ppk,bmn,arsiparis')
                     ->get()),

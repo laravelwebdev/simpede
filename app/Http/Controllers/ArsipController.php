@@ -15,7 +15,7 @@ class ArsipController extends Controller
     {
         $tahun = ShareLink::getTahunByToken($token);
         $dipa = Dipa::getByTahun($tahun);
-        $search = request()->get('search');
+        $search = request()->query('search');
         $data = Dipa::getMataAnggarans(! empty($dipa) ? $dipa->id : null, $search)
             ->paginate()
             ->withQueryString();
@@ -33,7 +33,7 @@ class ArsipController extends Controller
     public function perKak($token, $coa)
     {
         $tahun = ShareLink::getTahunByToken($token);
-        $search = request()->get('search');
+        $search = request()->query('search');
         $data = KerangkaAcuan::getKerangkaAcuans($coa, $search)
             ->paginate()
             ->withQueryString();
@@ -55,7 +55,7 @@ class ArsipController extends Controller
         $path = $tahun.'/'.'arsip-dokumens'.'/'.$kakId;
         $files = Storage::disk('arsip')->files($path);
         $perPage = 15;
-        $page = request()->get('page', 1);
+        $page = request()->query('page', 1);
         $offset = ($page - 1) * $perPage;
         $data = array_slice($files, $offset, $perPage);
         $data = (new \Illuminate\Pagination\LengthAwarePaginator($data, count($files), $perPage, $page, [

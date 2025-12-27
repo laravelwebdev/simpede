@@ -31,6 +31,7 @@ use App\Nova\KodeBank;
 use App\Nova\KontrakMitra;
 use App\Nova\Lenses\FormRencanaAksi;
 use App\Nova\Lenses\MatchingAnggaran;
+use App\Nova\Lenses\MonitoringRekapBos;
 use App\Nova\Lenses\MonitoringRekapSirup;
 use App\Nova\Lenses\PemeliharaanBarang;
 use App\Nova\Lenses\RekapBarangPersediaan;
@@ -124,6 +125,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
+                    MenuItem::lens(KakSp2d::class, MonitoringRekapSirup::class),
+                    MenuItem::lens(KakSp2d::class, MonitoringRekapBos::class),
                 ])->icon('chart-bar'),
 
                 MenuSection::make('Manajemen', [
@@ -148,10 +151,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(NaskahKeluar::class),
                 ])->collapsable()
                     ->icon('envelope'),
-                MenuSection::make('Rekap & Pengarsipan', [
+                MenuSection::make('Pengarsipan', [
                     MenuItem::resource(ArsipKeuangan::class),
                     MenuItem::resource(KakSp2d::class),
-                    MenuItem::lens(KakSp2d::class, MonitoringRekapSirup::class),
                 ])
                     ->collapsable()
                     ->icon('archive-box-arrow-down'),

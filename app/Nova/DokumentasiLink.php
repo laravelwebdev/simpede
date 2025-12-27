@@ -80,9 +80,11 @@ class DokumentasiLink extends Resource
         return [
             MetricValue::make($model, 'total-link')
                 ->width('1/2')
+                ->setTitle('Jumlah Tahun Ini')
                 ->refreshWhenActionsRun(),
             MetricTrend::make($model, 'created_at', 'trend-link')
                 ->refreshWhenActionsRun()
+                ->setTitle('Trend Tahun Ini')
                 ->width('1/2'),
         ];
     }

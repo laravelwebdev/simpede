@@ -91,7 +91,7 @@ class ImportRealisasiAnggaran extends Action
             $nomorSp2d = str_replace("'", '', trim($row['Nomor SP2D']));
             if (! empty($nomorSp2d)) {
                 $tanggal = Carbon::createFromFormat('d-m-Y', $row['Tanggal Invoice'])->format('Y-m-d');
-                DaftarSp2d::where('nomor_sp2d', $nomorSp2d)->update(['tanggal_spm' => $tanggal]);
+                DaftarSp2d::where('nomor_sp2d', $nomorSp2d)->update(['tanggal_spm' => $tanggal, 'jumlah' => $row['Nilai SP2D']]);
             }
         });
 

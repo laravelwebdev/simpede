@@ -51,7 +51,8 @@ class ArsipController extends Controller
     public function daftarFile($token, $kak)
     {
         $tahun = ShareLink::getTahunByToken($token);
-        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
+        $kakId = optional(KerangkaAcuan::where('id_link', $kak)->get()->first())->id;
+        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kakId;
         $files = Storage::disk('arsip')->files($path);
         $perPage = 15;
         $page = request()->get('page', 1);
@@ -74,7 +75,8 @@ class ArsipController extends Controller
     public function downloadFolder($token, $kak)
     {
         $tahun = ShareLink::getTahunByToken($token);
-        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kak;
+        $kakId = optional(KerangkaAcuan::where('id_link', $kak)->get()->first())->id;
+        $path = $tahun.'/'.'arsip-dokumens'.'/'.$kakId;
         $folderPath = Storage::disk('arsip')->path($path);
         $files = Storage::disk('arsip')->files($path);
         $zipFileName = uniqid().'.zip';

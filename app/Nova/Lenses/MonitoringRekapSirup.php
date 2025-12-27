@@ -3,25 +3,23 @@
 namespace App\Nova\Lenses;
 
 use App\Helpers\Helper;
-use App\Models\Dipa;
-use App\Models\KerangkaAcuan;
+use App\Helpers\Policy;
+use App\Models\KakSp2d;
 use App\Nova\Actions\UbahStatusRekap;
+use App\Nova\DaftarSp2d as ResourceDaftarSp2d;
+use App\Nova\KerangkaAcuan as ResourceKerangkaAcuan;
 use App\Nova\Metrics\MetricKeberadaan;
-use App\Nova\Metrics\MetricTrend;
-use App\Nova\NaskahKeluar;
+use App\Nova\Metrics\MetricValue;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Stack;
-use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
-use Laravelwebdev\Numeric\Numeric;
 
 class MonitoringRekapSirup extends Lens
 {
@@ -39,15 +37,21 @@ class MonitoringRekapSirup extends Lens
     /**
      * Get the query builder / paginator for the lens.
      */
-    public static function query(LensRequest $request, Builder $query): Builder|Paginator
+    public static function query(LensRequest $request, Builder $query)
     {
-        return $request->withOrdering($request->withFilters(
-            $query
-                ->join('dipas', 'dipas.id', '=', 'kerangka_acuans.dipa_id')
-                ->where('dipas.tahun', session('year'))
-                ->select('kerangka_acuans.*')
-                ->distinct('kerangka_acuans.id')
-        ));
+        return $request->withOrdering(
+            $request->withFilters(
+                $query
+                    ->whereHas('daftarSp2d', function ($q) {
+                        $q->whereHas('dipa', function ($q2) {
+                            $q2->where('tahun', session('year'));
+                        });
+                    })
+                    ->whereHas('kerangkaAcuan', function ($q) {
+                        $q->where('jenis', 'Penyedia');
+                    })
+            )
+        );
     }
 
     /**
@@ -58,20 +62,23 @@ class MonitoringRekapSirup extends Lens
     public function fields(NovaRequest $request): array
     {
         return [
-            // ID::make(__('ID'), 'id')->sortable(),
-            Stack::make('Nomor/Tanggal', 'tanggal', [
-                BelongsTo::make('Nomor', 'naskahKeluar', NaskahKeluar::class),
-                Date::make('Tanggal KAK', 'tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            Stack::make('KAK', 'tanggal', [
+                BelongsTo::make('KAK', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
+                    ->sortable(),
+                Date::make('Tanggal KAK', 'kerangkaAcuan.naskahKeluar.tanggal')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
             ])->sortable(),
-            Text::make('Rincian'),
-            Numeric::make('Perkiraan', 'anggaran')
+            Stack::make('SPM', 'tanggal', [
+                BelongsTo::make('SPM', 'daftarSp2d', ResourceDaftarSp2d::class)
+                    ->sortable()
+                    ->searchable(),
+                Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+            ])->sortable(),
+            Text::make('Rincian KAK', 'kerangkaAcuan.rincian')
                 ->sortable(),
-            BelongsTo::make('Unit Kerja')
-                ->filterable(),
-            Status::make('Status', 'status')
-                ->loadingWhen(['dibuat'])
-                ->failedWhen(['outdated']),
-            Boolean::make('Pencatatan Sirup', 'rekap_sirup')->filterable(),
+            Boolean::make('Rekap Sirup', 'rekap_sirup')
+                ->sortable()
+                ->filterable()
+                ->exceptOnForms(),
         ];
     }
 
@@ -82,19 +89,27 @@ class MonitoringRekapSirup extends Lens
      */
     public function cards(NovaRequest $request): array
     {
-        $dipaId = Dipa::where('tahun', session('year'))->pluck('id');
-        $model = KerangkaAcuan::whereIn('dipa_id', $dipaId);
+        $model = KakSp2d::query()
+            ->whereHas('daftarSp2d', function ($q) {
+                $q->whereHas('dipa', function ($q2) {
+                    $q2->where('tahun', session('year'));
+                });
+            })
+            ->whereHas('kerangkaAcuan', function ($q) {
+                $q->where('jenis', 'Penyedia');
+            });
 
         return [
+            MetricValue::make($model, 'total-kak-non-tender')
+                ->width('1/2')
+                ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Pencatatan Non Tender', $model, 'rekap_sirup', 'keberadaan-rekap-sirup')
                 ->nullStrict(false)
                 ->setAdaLabel('Sudah Dicatat')
                 ->width('1/2')
                 ->setTidakAdaLabel('Belum Dicatat')
                 ->refreshWhenActionsRun(),
-            MetricTrend::make($model, 'tanggal', 'trend-rekap-sirup')
-                ->width('1/2')
-                ->refreshWhenActionsRun(),
+
         ];
     }
 
@@ -117,10 +132,13 @@ class MonitoringRekapSirup extends Lens
      */
     public function actions(NovaRequest $request): array
     {
-        return [
-            UbahStatusRekap::make('sirup')
-                ->showInline(),
-        ];
+        $actions = [];
+        if (Policy::make()->allowedFor('admin,arsiparis,ppk')->get()) {
+            $actions[] = UbahStatusRekap::make('sirup')
+                ->showInline();
+        }
+
+        return $actions;
     }
 
     /**

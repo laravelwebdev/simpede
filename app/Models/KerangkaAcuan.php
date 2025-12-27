@@ -13,7 +13,7 @@ use Laravel\Nova\Nova;
 
 class KerangkaAcuan extends Model
 {
-    protected $fillable = ['status', 'daftar_sp2d_id', 'rekap_bos', 'rekap_sirup'];
+    protected $fillable = ['status', 'daftar_sp2d_id', 'rekap_bos', 'rekap_sirup', 'id_link'];
 
     protected function casts(): array
     {
@@ -39,14 +39,14 @@ class KerangkaAcuan extends Model
         return $this->belongsToMany(DaftarSp2d::class, 'kak_sp2d');
     }
 
-    public function arsipDokumen(): HasMany
-    {
-        return $this->hasMany(ArsipDokumen::class);
-    }
-
     public function anggaranKerangkaAcuan(): HasMany
     {
         return $this->hasMany(AnggaranKerangkaAcuan::class);
+    }
+
+    public function daftarArsip(): HasMany
+    {
+        return $this->hasMany(KakSp2d::class);
     }
 
     public function spesifikasiKerangkaAcuan(): HasMany
@@ -58,6 +58,7 @@ class KerangkaAcuan extends Model
     {
         static::creating(function (KerangkaAcuan $kak) {
             $kak->status = 'dibuat';
+            $kak->id_link = md5(uniqid());
             $kak->createNaskahKeluar();
         });
 
@@ -107,7 +108,6 @@ class KerangkaAcuan extends Model
         });
 
         static::created(function (KerangkaAcuan $kak) {
-            // $kak->createInitialArsipDokumen();
             $kak->replicateAnggaranAndSpesifikasi();
         });
         static::saving(function (KerangkaAcuan $kak) {
@@ -158,22 +158,7 @@ class KerangkaAcuan extends Model
     {
         NaskahKeluar::destroy($this->naskah_keluar_id);
         $this->deleteOldAnggaran();
-        ArsipDokumen::destroy(ArsipDokumen::where('kerangka_acuan_id', $this->id)->pluck('id'));
         SpesifikasiKerangkaAcuan::destroy(SpesifikasiKerangkaAcuan::where('kerangka_acuan_id', $this->id)->pluck('id'));
-    }
-
-    private function createInitialArsipDokumen(): void
-    {
-        $slugs = [
-            'Scan SPJ',
-        ];
-
-        foreach ($slugs as $slug) {
-            $arsipDokumen = new ArsipDokumen;
-            $arsipDokumen->slug = $slug;
-            $arsipDokumen->kerangka_acuan_id = $this->id;
-            $arsipDokumen->save();
-        }
     }
 
     private function replicateAnggaranAndSpesifikasi(): void
@@ -234,7 +219,7 @@ class KerangkaAcuan extends Model
             ->toArray();
 
         return DB::table('kerangka_acuans')
-            ->select(['id', 'rincian'])
+            ->select(['id', 'rincian', 'id_link'])
             ->when($search, function ($query, $search) {
                 return $query->where('rincian', 'like', '%'.$search.'%');
             })

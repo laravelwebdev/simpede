@@ -61,9 +61,11 @@ class UbahStatusRekap extends Action
         $fields = [];
         if ($this->jenis === 'bos') {
             $fields[] = Boolean::make('Rekap BOS', 'rekap_bos')
+                ->help('Centang jika sudah melakukan rekap di BOS')
                 ->rules('required');
         } else {
             $fields[] = Boolean::make('Pencatatan Sirup', 'rekap_sirup')
+                ->help('Centang jika sudah melakukan pencatatan di Sirup atau bukan pengadaan non tender')
                 ->rules('required');
         }
 

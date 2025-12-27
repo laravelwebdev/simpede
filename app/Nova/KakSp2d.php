@@ -5,14 +5,16 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\BerkaskanArsip;
+use App\Nova\Actions\UbahStatusRekap;
 use App\Nova\Filters\Keberadaan;
 use App\Nova\Filters\KelengkapanBerkas;
+use App\Nova\Lenses\MonitoringRekapSirup;
 use App\Nova\Metrics\MetricKeberadaan;
-use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -21,7 +23,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class KakSp2d extends Resource
 {
-    public static $with = ['kerangkaAcuan', 'daftarSp2d', 'arsipKeuangan', 'kerangkaAcuan.naskahKeluar', 'daftarSp2d.dipa'];
+    public static $with = ['kerangkaAcuan', 'daftarSp2d', 'arsipKeuangan', 'kerangkaAcuan.naskahKeluar', 'daftarSp2d.dipa', 'arsipDokumens'];
 
     /**
      * The model the resource corresponds to.
@@ -32,7 +34,12 @@ class KakSp2d extends Resource
 
     public static function label()
     {
-        return 'Pemberkasan Arsip';
+        return 'Pengarsipan dan Rekap BOS';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Pengarsipan dan Rekap BOS';
     }
 
     /**
@@ -58,6 +65,25 @@ class KakSp2d extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        if ($request->viaResource === 'kerangka-acuans') {
+            return [
+                Stack::make('Nomor SPM/Tanggal', [
+                    Text::make('Nomor SPM', 'daftarSp2d.nomor_spp')
+                        ->resolveUsing(fn ($nomorSpp) => $nomorSpp ? $nomorSpp.'/'.config('satker.kode').'/'.session('year') : '-')
+                        ->copyable(),
+                    Date::make('Tanggal SPM', 'daftarSp2d.tanggal_spm')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                ])->sortable(),
+                Stack::make('Nomor SP2D/Tanggal', [
+                    Text::make('Nomor SP2D', 'daftarSp2d.nomor_sp2d')
+                        ->copyable(),
+                    Date::make('Tanggal SP2D', 'daftarSp2d.tanggal_sp2d')->displayUsing(fn ($tanggal) => Helper::terbilangTanggal($tanggal)),
+                ])->sortable(),
+                BelongsTo::make('Arsip Keuangan', 'arsipKeuangan', ArsipKeuangan::class)
+                    ->sortable()
+                    ->searchable(),
+            ];
+        }
+
         return [
             Stack::make('KAK', 'tanggal', [
                 BelongsTo::make('KAK', 'kerangkaAcuan', KerangkaAcuan::class)
@@ -74,13 +100,23 @@ class KakSp2d extends Resource
                 ->sortable(),
             BelongsTo::make('Arsip Keuangan', 'arsipKeuangan', ArsipKeuangan::class)
                 ->sortable()
+                ->hideFromIndex()
                 ->searchable(),
             Textarea::make('Catatan', 'catatan')
                 ->help('Isi hanya jika ada arsip yang kurang atau tidak sesuai. Biarkan kosong jika berkas sudah sesuai.')
+                ->onlyOnDetail()
                 ->alwaysShow(),
-            Boolean::make('Pemeriksaan', function () {
+            Boolean::make('Rekap BOS', 'rekap_bos')
+                ->sortable()
+                ->filterable()
+                ->exceptOnForms(),
+            Boolean::make('Pengarsipan', function () {
+                return ! is_null($this->arsip_keuangan_id);
+            }),
+            Boolean::make('Kesesuaian Arsip', function () {
                 return is_null($this->catatan) && ! is_null($this->arsip_keuangan_id);
             }),
+            HasMany::make('Arsip Dokumen', 'arsipDokumens', ArsipDokumen::class),
 
         ];
     }
@@ -92,18 +128,21 @@ class KakSp2d extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        $model = static::$model::query();
+        $model = static::indexQuery($request, static::$model::query());
 
         return [
-            MetricValue::make($model, 'jumlah-berkas')
+            MetricKeberadaan::make('Rekap BOS', $model, 'rekap_bos', 'keberadaan-rekap-bos')
+                ->setAdaLabel('Sudah Direkap')
+                ->nullStrict(false)
                 ->width('1/3')
+                ->setTidakAdaLabel('Belum Direkap')
                 ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Rekap Pengarsipan Berkas', $model, 'arsip_keuangan_id', 'keberadaan-arsip-keuangan')
                 ->setAdaLabel('Sudah Diarsipkan')
                 ->width('1/3')
                 ->setTidakAdaLabel('Belum Diarsipkan')
                 ->refreshWhenActionsRun(),
-            MetricKeberadaan::make('Pemeriksaan Arsip', $model, 'catatan', 'kelengkapan-arsip-keuangan')
+            MetricKeberadaan::make('Kesesuaian Arsip', $model, 'catatan', 'kelengkapan-arsip-keuangan')
                 ->width('1/3')
                 ->setAdaLabel('Belum Sesuai')
                 ->setTidakAdaLabel('Sesuai')
@@ -132,7 +171,9 @@ class KakSp2d extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            MonitoringRekapSirup::make(),
+        ];
     }
 
     /**
@@ -152,7 +193,7 @@ class KakSp2d extends Resource
 
                     return $this->resource instanceof Model && $this->resource->arsip_keuangan_id !== null;
                 });
-            $actions[] = BerkaskanArsip::make(true)->sole()
+            $actions[] = BerkaskanArsip::make(true)->sole()->onlyOnDetail()
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;
@@ -160,6 +201,10 @@ class KakSp2d extends Resource
 
                     return $this->resource instanceof Model && $this->resource->arsip_keuangan_id === null;
                 });
+        }
+        if (Policy::make()->allowedFor('admin,arsiparis,bendahara')->get()) {
+            $actions[] = UbahStatusRekap::make('bos')
+                ->showInline();
         }
 
         return $actions;
@@ -175,8 +220,6 @@ class KakSp2d extends Resource
                         ->from('dipas')
                         ->where('tahun', session('year'));
                 });
-        })->whereHas('kerangkaAcuan', function ($q) {
-            $q->where('status_arsip', 'Berkas Lengkap');
         });
     }
 }

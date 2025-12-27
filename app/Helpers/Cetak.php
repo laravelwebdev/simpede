@@ -1006,7 +1006,7 @@ class Cetak
             'tahun' => $data->kurun_awal,
             'inaktif' => '5 Tahun',
             'keterangan' => 'Dinilai Kembali',
-            'daftar_berkas' => ArsipDokumen::where('kerangka_acuan_id', $kerangkaAcuanId)->get(),
+            'daftar_berkas' => ArsipDokumen::where('kak_sp2d_id', $sp2d->id)->get(),
         ];
     }
 

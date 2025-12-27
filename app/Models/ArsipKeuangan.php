@@ -3,14 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 class ArsipKeuangan extends Model
 {
-    public function daftarBerkas(): HasMany
+    public function daftarBerkas(): HasOne
     {
-        return $this->hasMany(KakSp2d::class);
+        return $this->hasOne(KakSp2d::class);
+    }
+
+    public function arsipDokumens(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ArsipDokumen::class,
+            KakSp2d::class,
+            'arsip_keuangan_id', // FK di KAKSp2d
+            'kak_sp2d_id',       // FK di ArsipDokumen
+            'id',                // PK di ArsipKeuangan
+            'id'                 // PK di KAKSp2d
+        );
     }
 
     protected static function booted(): void

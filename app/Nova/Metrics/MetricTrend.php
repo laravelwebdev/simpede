@@ -13,6 +13,8 @@ class MetricTrend extends Trend
 
     private $key;
 
+    private $title = 'Trend';
+
     private $column;
 
     public function __construct($model, $column, $key)
@@ -55,7 +57,14 @@ class MetricTrend extends Trend
 
     public function name()
     {
-        return 'Trend';
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     /**

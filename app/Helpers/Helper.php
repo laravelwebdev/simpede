@@ -450,7 +450,7 @@ class Helper
      */
     public static function namaTanpaGelar($nama)
     {
-        return explode(',', $nama)[0];
+        return explode(',', $nama ?? '')[0];
     }
 
     /**
@@ -739,7 +739,7 @@ class Helper
         if (isset($queries[$filterUri])) {
             $filters = array_merge(
                 ...json_decode(
-                    base64_decode($queries[$filterUri], true),
+                    base64_decode($queries[$filterUri], true) ?? '',
                     true
                 )
             );
@@ -765,7 +765,7 @@ class Helper
         $filterValue = $defaultValue ?? '';
         $filters = array_merge(
             ...json_decode(
-                base64_decode($filter, true),
+                base64_decode($filter, true) ?? '',
                 true
             ));
 
@@ -1477,7 +1477,7 @@ class Helper
             $item['jabatan'] = 'Mitra Statistik';
             $item['volume'] = $item['volume_realisasi'];
             $item['bruto'] = $item['volume_realisasi'] * $item['harga_satuan'];
-            $item['pajak'] = round($item['volume_realisasi'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
+            $item['pajak'] = round(($item['volume_realisasi'] ?? 0) * ($item['harga_satuan'] ?? 0) * ($item['persen_pajak'] ?? 0) / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             unset($item['mitra_id']);
             unset($item['id']);
@@ -1580,7 +1580,7 @@ class Helper
             $item['kode_bank_id'] = optional($pegawai)->kode_bank_id;
             $item['golongan'] = optional(self::getDataPegawaiByUserId($item['user_id'], $tanggal_spj))->golongan;
             $item['bruto'] = $item['volume'] * $item['harga_satuan'];
-            $item['pajak'] = round($item['volume'] * $item['harga_satuan'] * $item['persen_pajak'] / 100, 0, PHP_ROUND_HALF_UP);
+            $item['pajak'] = round(($item['volume'] ?? 0) * ($item['harga_satuan'] ?? 0) * ($item['persen_pajak'] ?? 0) / 100, 0, PHP_ROUND_HALF_UP);
             $item['netto'] = $item['bruto'] - $item['pajak'];
             unset($item['user_id']);
             unset($item['id']);

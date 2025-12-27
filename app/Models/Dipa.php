@@ -113,7 +113,7 @@ class Dipa extends Model
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', $dipaId)
             ->when($search, function ($query, $search) {
-                $keywords = explode('.', $search);
+                $keywords = explode('.', $search ?? '');
                 foreach ($keywords as $keyword) {
                     $query->where('mak', 'like', '%'.$keyword.'%')
                         ->orWhere('uraian', 'like', '%'.$keyword.'%');

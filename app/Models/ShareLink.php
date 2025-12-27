@@ -21,7 +21,7 @@ class ShareLink extends Model
     {
         $tahun = $this->where('token', $token)->first()->tahun;
         $dipa = Dipa::where('tahun', $tahun)->first();
-        $search = request()->get('search');
+        $search = request()->query('search');
         $data = DB::table('mata_anggarans')
             ->select(['mak', 'id', 'uraian'])
             ->where('dipa_id', ! empty($dipa) ? $dipa->id : null)

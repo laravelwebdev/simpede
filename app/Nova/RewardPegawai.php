@@ -336,7 +336,7 @@ class RewardPegawai extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if (empty($request->get('orderBy'))) {
+        if (empty($request->query('orderBy'))) {
             $query->getQuery()->orders = [];
 
             // Sort numerik

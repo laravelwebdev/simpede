@@ -48,7 +48,7 @@ class MetricPartition extends Partition
                 $request, $this->model, $this->column, 'id'
             );
 
-        return $result->label(fn ($value) => $this->labels[$value] ?? ucfirst($value));
+        return $result->label(fn ($value) => $this->labels[$value] ?? ucfirst($value ?? ''));
     }
 
     /**

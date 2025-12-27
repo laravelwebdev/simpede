@@ -546,7 +546,7 @@ class SimpedeRestore extends Command
             $bytes /= 1024;
         }
 
-        return round($bytes, $precision).' '.$units[$i];
+        return round($bytes ?? 0, $precision).' '.$units[$i];
     }
 
     private function dropAllTables()

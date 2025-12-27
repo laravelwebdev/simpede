@@ -344,7 +344,7 @@ class RapatInternal extends Resource
 
     protected static function afterValidation(NovaRequest $request, $validator)
     {
-        if (Helper::cekGanda(json_decode($request->peserta), 'peserta_user_id')) {
+        if (Helper::cekGanda(json_decode($request->peserta ?? '[]'), 'peserta_user_id')) {
             $validator->errors()->add('peserta', 'Terdapat duplikasi peserta');
         }
     }

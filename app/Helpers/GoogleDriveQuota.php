@@ -32,8 +32,8 @@ class GoogleDriveQuota
                 $limit = $about['storageQuota']['limit'] ?? 0;
                 $usage = $about['storageQuota']['usage'] ?? 0;
 
-                $total = $limit ? round($limit / (1024 ** 3), 2) : 0;
-                $used = $usage ? round($usage / (1024 ** 3), 2) : 0;
+                $total = $limit ? round(($limit ?? 0) / (1024 ** 3), 2) : 0;
+                $used = $usage ? round(($usage ?? 0) / (1024 ** 3), 2) : 0;
             }
         }
 

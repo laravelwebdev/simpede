@@ -20,7 +20,7 @@ class Api
         $process = Process::fromShellCommandline($composer.' outdated '.$flag.' -f json', base_path(), ['COMPOSER_HOME' => $home]);
         $process->run();
         $value = $process->getOutput();
-        $data = json_decode($value, true);
+        $data = json_decode($value ?? '', true);
         $process = Process::fromShellCommandline($composer.' clear-cache', base_path(), ['COMPOSER_HOME' => $home]);
         $process->run();
 

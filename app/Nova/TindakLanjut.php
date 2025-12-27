@@ -173,7 +173,7 @@ class TindakLanjut extends Resource
 
     protected static function afterValidation(NovaRequest $request, $validator)
     {
-        if (Helper::cekGanda(json_decode($request->penanggung_jawab), 'penanggung_jawab_id')) {
+        if (Helper::cekGanda(json_decode($request->penanggung_jawab ?? '[]'), 'penanggung_jawab_id')) {
             $validator->errors()->add('penanggung_jawab', 'Terdapat duplikasi penanggung jawab');
         }
     }

@@ -91,8 +91,8 @@ class ErrorLog extends Resource
                     return $model->file.' on Line :'.$model->line;
                 })->asBase(),
                 Line::make('Message', function ($model) {
-                    return strlen($model->message) > 175
-                        ? substr($model->message, 0, 175).'...'
+                    return strlen($model->message ?? '') > 175
+                        ? substr($model->message ?? '', 0, 175).'...'
                         : $model->message;
                 })->asSmall(),
             ])->onlyOnIndex(),

@@ -472,7 +472,7 @@ class Helper
      */
     public static function asterikNik($nik)
     {
-        return substr($nik, 0, 4).str_repeat('*', 10).substr($nik, 14);
+        return substr($nik ?? '', 0, 4).str_repeat('*', 10).substr($nik ?? '', 14);
     }
 
     /**
@@ -1092,7 +1092,7 @@ class Helper
     {
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
 
-        return $mak == in_array(substr($mak, -6), self::AKUN_HONOR);
+        return $mak == in_array(substr($mak ?? '', -6), self::AKUN_HONOR);
     }
 
     /**
@@ -1117,7 +1117,7 @@ class Helper
     {
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
 
-        return $mak == in_array(substr($mak, -6), self::AKUN_PERSEDIAAN);
+        return $mak == in_array(substr($mak ?? '', -6), self::AKUN_PERSEDIAAN);
     }
 
     /**
@@ -1130,7 +1130,7 @@ class Helper
     {
         $mak = MataAnggaran::cache()->get('all')->where('id', $mata_anggaran_id)->first()->mak;
 
-        return $mak == in_array(substr($mak, -6), self::AKUN_PEMELIHARAAN);
+        return $mak == in_array(substr($mak ?? '', -6), self::AKUN_PEMELIHARAAN);
     }
 
     /**
@@ -1185,18 +1185,18 @@ class Helper
 
         ];
         $kode = [
-            'program' => '('.Str::substr($mak, 0, 9).') ',
-            'kegiatan' => '('.Str::substr($mak, 10, 4).') ',
-            'kro' => '('.Str::substr($mak, 10, 8).') ',
-            'ro' => '('.Str::substr($mak, 10, 12).') ',
-            'komponen' => '('.Str::substr($mak, 23, 3).') ',
-            'sub' => '('.Str::substr($mak, 27, 1).') ',
-            'akun' => '('.Str::substr($mak, 29, 6).') ',
+            'program' => '('.Str::substr($mak ?? '', 0, 9).') ',
+            'kegiatan' => '('.Str::substr($mak ?? '', 10, 4).') ',
+            'kro' => '('.Str::substr($mak ?? '', 10, 8).') ',
+            'ro' => '('.Str::substr($mak ?? '', 10, 12).') ',
+            'komponen' => '('.Str::substr($mak ?? '', 23, 3).') ',
+            'sub' => '('.Str::substr($mak ?? '', 27, 1).') ',
+            'akun' => '('.Str::substr($mak ?? '', 29, 6).') ',
 
         ];
         $kamus = KamusAnggaran::cache()->get($level)
             ->where('dipa_id', Dipa::cache()->get('all')->where('tahun', $tahun)->first()->id)
-            ->where('mak', substr($mak, 0, $length[$level]))
+            ->where('mak', substr($mak ?? '', 0, $length[$level]))
             ->first();
         $detail = $kamus == null ? 'edit manual karena belum ada di POK' : $kamus->detail;
 
@@ -2146,7 +2146,7 @@ class Helper
     public static function hasAkun($kak_id, array $akun): bool
     {
         return KerangkaAcuan::find($kak_id)->anggaranKerangkaAcuan->contains(function ($anggaran) use ($akun) {
-            return in_array(substr($anggaran->mataAnggaran->mak, 29, 6), $akun);
+            return in_array(substr($anggaran->mataAnggaran->mak ?? '', 29, 6), $akun);
         });
     }
 
@@ -2264,7 +2264,7 @@ class Helper
             ->pluck('detail', 'mak')
             ->mapWithKeys(function ($item, $key) {
                 return [
-                    substr($key, 10, 12) => $item,
+                    substr($key ?? '', 10, 12) => $item,
                 ];
             })
             ->toArray();

@@ -52,7 +52,7 @@ class MataAnggaran extends Model
             RealisasiAnggaran::destroy($Ids);
         });
         static::saving(function (MataAnggaran $mataAnggaran) {
-            $mataAnggaran->jenis_belanja = substr($mataAnggaran->mak, 29, 2);
+            $mataAnggaran->jenis_belanja = substr($mataAnggaran->mak ?? '', 29, 2);
         });
     }
 }

@@ -23,7 +23,6 @@ class KepkaMitraPolicy
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear($kepkaMitra->tahun)
             ->get();
     }
 
@@ -44,7 +43,6 @@ class KepkaMitraPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear($kepkaMitra->tahun)
             ->get();
     }
 
@@ -55,7 +53,6 @@ class KepkaMitraPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear($kepkaMitra->tahun)
             ->get();
     }
 

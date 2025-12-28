@@ -2213,16 +2213,14 @@ class Helper
 
     /**
      * Create option values for the DIPA year select field.
-     *
-     * @return array
      */
-    public static function setOptionTahunDipa()
+    public static function setOptionTahunDipa(): array
     {
         $year = session('year');
 
         return [
-            $year => $year,
-            $year + 1 => $year + 1,
+            (string) $year => $year,
+            (string) ($year + 1) => $year + 1,
         ];
     }
 

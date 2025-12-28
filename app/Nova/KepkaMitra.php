@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Nova\Actions\ImportMitra;
+use App\Nova\Filters\FilterTahunDipa;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -84,7 +85,9 @@ class KepkaMitra extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            FilterTahunDipa::make('tahun'),
+        ];
     }
 
     /**
@@ -115,10 +118,5 @@ class KepkaMitra extends Resource
         }
 
         return $actions;
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where('tahun', session('year'));
     }
 }

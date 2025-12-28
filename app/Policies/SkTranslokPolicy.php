@@ -23,7 +23,6 @@ class SkTranslokPolicy
     {
         return Policy::make()
             ->allowedFor('all')
-            ->withYear($skTranslok->tahun)
             ->get();
     }
 
@@ -44,7 +43,6 @@ class SkTranslokPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear($skTranslok->tahun)
             ->get();
     }
 
@@ -55,7 +53,6 @@ class SkTranslokPolicy
     {
         return Policy::make()
             ->allowedFor('admin')
-            ->withYear($skTranslok->tahun)
             ->get();
     }
 

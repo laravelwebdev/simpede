@@ -8,6 +8,7 @@ use App\Nova\Actions\ImportRealisasiAnggaran;
 use App\Nova\Actions\ImportTargetKkp;
 use App\Nova\Actions\ImportTargetSerapan;
 use App\Nova\Actions\SinkronisasiDataAnggaran;
+use App\Nova\Filters\FilterTahunDipa;
 use App\Nova\Metrics\HelperSinkronisasiAnggaran;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
@@ -90,8 +91,8 @@ class Dipa extends Resource
                     $bulan = date('m', strtotime($value));
                     $tahun = date('Y', strtotime($value));
                     $sessionYear = session('year');
-                    if ($bulan != '12' || $tahun != $sessionYear) {
-                        $fail('Tanggal Nihil harus di bulan Desember tahun '.$sessionYear.'.');
+                    if ($bulan != '12' || ($tahun != $sessionYear && $tahun != ($sessionYear + 1))) {
+                        $fail('Tanggal Nihil harus di bulan Desember tahun '.$sessionYear.' atau '.($sessionYear + 1).'.');
                     }
                 }),
             Tab::group('Anggaran dan Target Serapan', [
@@ -126,7 +127,9 @@ class Dipa extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            FilterTahunDipa::make('tahun'),
+        ];
     }
 
     /**
@@ -177,10 +180,5 @@ class Dipa extends Resource
         }
 
         return $actions;
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where('tahun', session('year'));
     }
 }

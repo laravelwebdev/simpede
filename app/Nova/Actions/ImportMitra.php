@@ -48,7 +48,6 @@ class ImportMitra extends Action
                 $mitra->alamat = $row['Alamat Detail'];
                 $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tgl lahir']);
                 $mitra->telepon = $row['No Telp'];
-                $mitra->npwp = $row['NPWP'];
                 $mitra->idsobat = $row['SOBAT ID'];
                 $mitra->updated_at = now();
 
@@ -60,7 +59,7 @@ class ImportMitra extends Action
         (new FastExcel)->import($fields->file_nik, function ($row) use ($model) {
             Mitra::where('kepka_mitra_id', $model->id)
                 ->where('email', $row['Email'])
-                ->update(['nik' => $row['NIK']]);
+                ->update(['nik' => $row['NIK'], 'npwp' => $row['NPWP']]);
         });
         Mitra::cache()->enable();
         Mitra::cache()->updateAll();

@@ -46,12 +46,7 @@ class ImportMitra extends Action
 
                 $mitra->nama = $row['Nama Lengkap'];
                 $mitra->alamat = $row['Alamat Detail'];
-                    // ✅ FIX UTAMA DI SINI
-                if ($row['Tgl lahir'] instanceof DateTimeInterface) {
-                    $mitra->tanggal_lahir = Carbon::instance($row['Tgl lahir'])->format('Y-m-d');
-                } else {
-                    $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tgl lahir'])->format('Y-m-d');
-                }
+                $mitra->tanggal_lahir = Carbon::instance($row['Tgl lahir'])->format('Y-m-d');
                 $mitra->telepon = $row['No Telp'];
                 $mitra->idsobat = $row['SOBAT ID'];
                 $mitra->updated_at = now();

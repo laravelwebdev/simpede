@@ -47,7 +47,7 @@ class ImportMitra extends Action
                 $mitra->nama = $row['Nama Lengkap'];
                 $mitra->alamat = $row['Alamat Detail'];
                 $mitra->tanggal_lahir = Carbon::createFromFormat('d/m/Y', $row['Tgl lahir']);
-                $mitra->telepon = $row['No Telp'];                
+                $mitra->telepon = $row['No Telp'];
                 $mitra->idsobat = $row['SOBAT ID'];
                 $mitra->updated_at = now();
 

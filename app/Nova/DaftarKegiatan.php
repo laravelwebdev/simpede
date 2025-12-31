@@ -106,7 +106,7 @@ class DaftarKegiatan extends Resource
                     ->hide()
                     ->displayUsing(fn ($value) => Helper::terbilangTanggal($value))
                     ->dependsOn(['jenis', 'awal'], function (Date $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->jenis == 'Kegiatan') {
+                        if ($formData->jenis == 'Kegiatan' || $formData->jenis == 'Aula') {
                             $field
                                 ->show()
                                 ->rules('required', 'after_or_equal:awal')

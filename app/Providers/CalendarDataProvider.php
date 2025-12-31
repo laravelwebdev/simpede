@@ -79,6 +79,9 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             'Rapat' => [
                 'background-color' => '#498dd6',
             ],
+            'Aula' => [
+                'background-color' => '#830fb5ff',
+            ],
         ];
     }
 
@@ -89,11 +92,14 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             $event->addBadges('👨‍👩‍👧‍👦');
             $event->notes('Mulai: '.RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
-        if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline') {
+        if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline' || $event->model()->jenis == 'Aula') {
             $pj = $event->model()->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
             $event->notes('PJ: '.$pj);
             if ($event->model()->jenis == 'Kegiatan') {
                 $event->addBadges('🏢');
+            }
+            if ($event->model()->jenis == 'Aula') {
+                $event->addBadges('👥');
             }
         }
         if ($event->model()->jenis == 'Libur') {
@@ -121,6 +127,9 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             }),
             new CallbackFilter('Rapat', function ($event) {
                 return $event->model() && $event->model()->jenis == 'Rapat';
+            }),
+            new CallbackFilter('Aula', function ($event) {
+                return $event->model() && $event->model()->jenis == 'Aula';
             }),
         ];
     }

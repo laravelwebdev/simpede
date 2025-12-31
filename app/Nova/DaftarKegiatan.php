@@ -41,7 +41,7 @@ class DaftarKegiatan extends Resource
 
     public static function label()
     {
-        return 'Tanggal Penting';
+        return 'Agenda Kegiatan';
     }
 
     /**
@@ -49,11 +49,16 @@ class DaftarKegiatan extends Resource
      *
      * @var string
      */
-    public static $title = 'kegiatan';
+    // public static $title = 'kegiatan';
+
+    public function title()
+    {
+        return Helper::JENIS_KEGIATAN[$this->jenis];
+    }
 
     public function subtitle()
     {
-        return Helper::terbilangTanggal($this->awal).' - '.Helper::terbilangTanggal($this->akhir);
+        return $this->kegiatan;
     }
 
     /**
@@ -78,6 +83,7 @@ class DaftarKegiatan extends Resource
                     ->options(Helper::JENIS_KEGIATAN)
                     ->sortable()
                     ->filterable()
+                    ->displayUsingLabels()
                     ->dependsOn(['kegiatan'], function (Select $field, NovaRequest $request, FormData $formData) {
                         if (in_array($formData->kegiatan, ['SPM Penggantian UP (GUP)', 'SPM Pertanggungjawaban TUP (GTUP)'])) {
                             $field

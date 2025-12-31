@@ -320,7 +320,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new NovaCalendar('kalender-kegiatan')->withMenuLabel('Kalender')->withMenuIcon('calendar'),
+            new NovaCalendar('kalender-kegiatan'),
             Updater::make()->canSee(fn () => Policy::make()
                 ->allowedFor('admin')
                 ->get()),

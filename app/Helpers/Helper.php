@@ -92,6 +92,7 @@ class Helper
         'Deadline' => 'Deadline',
         'Kegiatan' => 'Kegiatan',
         'Aula' => 'Peminjaman Aula',
+        'Rapat' => 'Rapat',
     ];
 
     const WAKTU_REMINDER = [

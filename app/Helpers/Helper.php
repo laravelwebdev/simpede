@@ -91,6 +91,7 @@ class Helper
         'Libur' => 'Libur',
         'Deadline' => 'Deadline',
         'Kegiatan' => 'Kegiatan',
+        'Aula' => 'Peminjaman Aula',
     ];
 
     const WAKTU_REMINDER = [

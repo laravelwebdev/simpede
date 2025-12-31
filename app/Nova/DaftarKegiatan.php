@@ -81,12 +81,12 @@ class DaftarKegiatan extends Resource
             Panel::make('Keterangan', [
                 Select::make('Jenis')
                     ->options(
-                            array_filter(
-                                Helper::JENIS_KEGIATAN,
-                                fn ($value, $key) => $key !== 'Rapat',
-                                ARRAY_FILTER_USE_BOTH
-                            )
+                        array_filter(
+                            Helper::JENIS_KEGIATAN,
+                            fn ($value, $key) => $key !== 'Rapat',
+                            ARRAY_FILTER_USE_BOTH
                         )
+                    )
                     ->sortable()
                     ->filterable()
                     ->displayUsingLabels()

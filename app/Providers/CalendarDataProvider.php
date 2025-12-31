@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\RapatInternal;
-use App\Models\UnitKerja;
-use App\Models\User;
 use App\Nova\DaftarKegiatan;
 use Laravelwebdev\NovaCalendar\DataProvider\AbstractCalendarDataProvider;
 use Laravelwebdev\NovaCalendar\Event;
@@ -90,16 +87,13 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         $event->addStyle($event->model()->jenis);
         if ($event->model()->jenis == 'Rapat') {
             $event->addBadges('👨‍👩‍👧‍👦');
-            $event->notes('Mulai: '.RapatInternal::find($event->model()->rapat_internal_id)->mulai);
         }
         if ($event->model()->jenis == 'Kegiatan' || $event->model()->jenis == 'Deadline' || $event->model()->jenis == 'Aula') {
-            $pj = $event->model()->daftar_kegiatanable_type == \App\Models\UnitKerja::class ? UnitKerja::find($event->model()->daftar_kegiatanable_id)->unit : User::find($event->model()->daftar_kegiatanable_id)->name;
-            $event->notes('PJ: '.$pj);
             if ($event->model()->jenis == 'Kegiatan') {
-                $event->addBadges('🏢');
+                $event->addBadges('📋');
             }
             if ($event->model()->jenis == 'Aula') {
-                $event->addBadges('👥');
+                $event->addBadges('🏢');
             }
         }
         if ($event->model()->jenis == 'Libur') {
@@ -108,6 +102,8 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
         if ($event->model()->jenis == 'Deadline') {
             $event->addBadges('⚠️');
         }
+
+        $event->notes($event->model()->kegiatan);
 
         return $event;
     }
@@ -128,7 +124,7 @@ class CalendarDataProvider extends AbstractCalendarDataProvider
             new CallbackFilter('Rapat', function ($event) {
                 return $event->model() && $event->model()->jenis == 'Rapat';
             }),
-            new CallbackFilter('Aula', function ($event) {
+            new CallbackFilter('Peminjaman Aula', function ($event) {
                 return $event->model() && $event->model()->jenis == 'Aula';
             }),
         ];

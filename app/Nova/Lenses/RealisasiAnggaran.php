@@ -156,8 +156,10 @@ class RealisasiAnggaran extends Lens
      */
     public function filters(NovaRequest $request)
     {
+        $bulan = session('year') < date('Y') ? 12 : null;
+
         return [
-            BulanFilter::make(),
+            BulanFilter::make(default: $bulan),
             RoFilter::make(),
         ];
     }

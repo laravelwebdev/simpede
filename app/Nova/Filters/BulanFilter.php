@@ -16,7 +16,7 @@ class BulanFilter extends Filter
 
     protected $default;
 
-    public function __construct($embedded = true, $column = 'bulan', $isdate = false, $default = 'cm')
+    public function __construct($embedded = true, $column = 'bulan', $isdate = false, $default = null)
     {
         $this->column = $column;
         $this->isdate = $isdate;
@@ -56,6 +56,6 @@ class BulanFilter extends Filter
 
     public function default()
     {
-        return $this->default == 'cm' ? (int) date('m') : $this->default;
+        return $this->default ?? (int) date('m');
     }
 }

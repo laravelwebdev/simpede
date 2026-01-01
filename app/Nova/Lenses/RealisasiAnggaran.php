@@ -136,6 +136,7 @@ class RealisasiAnggaran extends Lens
     public function cards(NovaRequest $request)
     {
         return [
+            RealisasiPerJenisBelanja::make(),
             SerapanAnggaran::make()
                 ->help('Persentase total kumulatif serapan anggaran berdasarkan Rincian Output dan bulan realisasi')
                 ->refreshWhenFiltersChange(),
@@ -145,7 +146,6 @@ class RealisasiAnggaran extends Lens
             SerapanAnggaran::make('GG')
                 ->help('Persentase total kumulatif serapan anggaran PPIS berdasarkan bulan realisasi')
                 ->refreshWhenFiltersChange(),
-            RealisasiPerJenisBelanja::make(),
         ];
     }
 

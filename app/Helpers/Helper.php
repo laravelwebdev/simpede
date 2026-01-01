@@ -2218,12 +2218,14 @@ class Helper
      */
     public static function setOptionTahunDipa(): array
     {
-        $year = session('year');
+        $years = [];
+        $oldYear = config('app.initialyear');
+        $currentYear = date('Y');
+        foreach (range($oldYear, $currentYear + 1) as $y) {
+            $years[(string) $y] = $y;
+        }
 
-        return [
-            (string) $year => $year,
-            (string) ($year + 1) => $year + 1,
-        ];
+        return $years;
     }
 
     /**

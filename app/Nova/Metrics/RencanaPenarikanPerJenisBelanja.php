@@ -24,7 +24,7 @@ class RencanaPenarikanPerJenisBelanja extends Table
         ]);
 
         $this->title('Monitoring Rencana Penarikan Dana');
-        $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;        
+        $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
 
         $datas = DB::table('mata_anggarans')
             ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')

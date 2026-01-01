@@ -36,7 +36,7 @@ class MonitoringUpPerJenis extends Table
         }
 
         $this->viewAll([
-            'label' => Helper::terbilangTanggal(session('year') < now()->year ? Carbon::parse((session('year')) . '-12-31') : now()),
+            'label' => Helper::terbilangTanggal(session('year') < now()->year ? Carbon::parse(session('year').'-12-31') : now()),
             'link' => Nova::path().'/resources/uang-persediaans/lens/monitoring-up',
             'position' => 'top',
             'style' => 'button',

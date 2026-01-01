@@ -15,12 +15,13 @@ class MonitoringKkp extends Table
 {
     public function __construct()
     {
+        $bulan = session('year') < date('Y') ? 12 : (int) date('m');
         $dipa = Dipa::cache()->get('all')
             ->where('tahun', session('year'))
             ->first();
         $target = optional(TargetKkp::cache()->get('all')
             ->where('dipa_id', optional($dipa)->id)
-            ->where('bulan', (int) date('m'))
+            ->where('bulan', $bulan)
             ->first())->nilai ?? 0;
         $realisasi = UangPersediaan::where('dipa_id', optional($dipa)->id)
             ->where('jenis', 'GUP KKP')
@@ -28,7 +29,7 @@ class MonitoringKkp extends Table
             ->sum('nilai');
         $selisih = $realisasi - $target;
         $this->viewAll([
-            'label' => 'Triwulanan', // Label for the link
+            'label' => 'Triwulan '.ceil($bulan / 3), // Label for the link
             'link' => Nova::path().'/resources/uang-persediaans/lens/monitoring-up', // URL to navigate when the link is clicked
             'position' => 'top', // (Possible values `top` - `bottom`)
             'style' => 'button', // (Possible values `link` - `button`)

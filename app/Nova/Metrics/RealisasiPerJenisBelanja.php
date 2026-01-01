@@ -17,8 +17,9 @@ class RealisasiPerJenisBelanja extends Table
     public function __construct()
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Persen', 'Selisih']);
+        $bulan = session('year') < date('Y') ? 12 : (int) date('m');
         $this->viewAll([
-            'label' => 'Triwulanan',
+            'label' => 'Triwulan '.ceil($bulan / 3),
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/realisasi-anggaran', // URL to navigate when the link is clicked
             'position' => 'top', // (Possible values `top` - `bottom`)
             'style' => 'button', // (Possible values `link` - `button`)
@@ -26,7 +27,6 @@ class RealisasiPerJenisBelanja extends Table
 
         $this->title('Monitoring Serapan Anggaran');
         $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
-        $bulan = (int) date('m');
 
         $datas = DB::table('mata_anggarans')
             ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')

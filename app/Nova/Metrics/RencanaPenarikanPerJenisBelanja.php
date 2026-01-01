@@ -15,16 +15,16 @@ class RencanaPenarikanPerJenisBelanja extends Table
     public function __construct()
     {
         $header = collect(['Jenis Belanja', 'Target', 'Realisasi', 'Deviasi', 'Persen Deviasi']);
+        $bulan = session('year') < date('Y') ? 12 : (int) date('m');
         $this->viewAll([
-            'label' => 'Bulan '.Helper::BULAN[(int) date('m')], // Label for the link
+            'label' => 'Bulan '.Helper::BULAN[$bulan], // Label for the link
             'link' => Nova::path().'/resources/realisasi-anggarans/lens/rencana-penarikan-dana', // URL to navigate when the link is clicked
             'position' => 'top', // (Possible values `top` - `bottom`)
             'style' => 'button', // (Possible values `link` - `button`)
         ]);
 
         $this->title('Monitoring Rencana Penarikan Dana');
-        $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;
-        $bulan = (int) date('m');
+        $dipaId = optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id;        
 
         $datas = DB::table('mata_anggarans')
             ->selectRaw('jenis_belanja, SUM(nilai) as realisasi')

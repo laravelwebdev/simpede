@@ -40,7 +40,7 @@ class TriwulanFilter extends Filter
 
     public function default()
     {
-        $triwulan = now()->quarter;
+        $triwulan = session('year') < date('Y') ? 4 : now()->quarter;
 
         return (string) $triwulan;
     }

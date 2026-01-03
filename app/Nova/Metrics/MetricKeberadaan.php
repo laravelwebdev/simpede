@@ -83,8 +83,10 @@ class MetricKeberadaan extends Partition
             ->fromSub($table, 'sub')
             ->get()
             ->toArray();
-
-        return $this->result((array) $results[0])
+        $hasil = (array) $results[0];
+        $hasil['ada'] = $hasil['ada'] ?? 0;
+        $hasil['tidak'] = $hasil['tidak'] ?? 0;
+        return $this->result($hasil)
             ->label(fn ($value) => match ($value) {
                 'ada' => $this->adaLabel,
                 'tidak' => $this->tidakAdaLabel

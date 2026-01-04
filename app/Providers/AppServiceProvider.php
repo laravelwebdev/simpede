@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use Log;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
 
-            $url = Request::fullUrl(); // URL lengkap yang sedang diakses
+            $url = request()->fullUrl(); // URL lengkap yang sedang diakses
 
             Log::warning(sprintf(
                 'N+1 Query detected. URL: %s | Model: %s::%s',

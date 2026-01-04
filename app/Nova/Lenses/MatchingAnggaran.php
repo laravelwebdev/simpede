@@ -22,15 +22,18 @@ class MatchingAnggaran extends Lens
     /**
      * Get the query builder / paginator for the lens.
      */
-    public static function query(LensRequest $request, Builder $query): Builder|Paginator
+    public static function query(LensRequest $request, Builder $query)
     {
-        return $request->withOrdering($request->withFilters(
-            $query->where('is_manual', true)
-                ->where('is_pok', true)
-                ->whereHas('dipa', function ($q) {
-                    $q->where('tahun', session('year'));
-                })
-        ));
+        return $request->withOrdering(
+            $request->withFilters(
+                $query->with('dipa') // 🔒 AMAN
+                    ->where('is_manual', true)
+                    ->where('is_pok', true)
+                    ->whereHas('dipa', function ($q) {
+                        $q->where('tahun', session('year'));
+                    })
+            )
+        );
     }
 
     /**

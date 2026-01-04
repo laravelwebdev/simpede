@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\ServiceProvider;
 use Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,15 @@ class AppServiceProvider extends ServiceProvider
         }
         Model::preventLazyLoading();
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
-            Log::warning(sprintf('N+1 Query detected in %s::%s', get_class($model), $relation));
+
+            $url = Request::fullUrl(); // URL lengkap yang sedang diakses
+
+            Log::warning(sprintf(
+                'N+1 Query detected. URL: %s | Model: %s::%s',
+                $url,
+                get_class($model),
+                $relation
+            ));
         });
     }
 }

@@ -35,7 +35,7 @@ use Laravelwebdev\Filepond\Filepond;
 
 class PembelianPersediaan extends Resource
 {
-    public static $with = ['bastNaskahKeluar',  'kerangkaAcuan.naskahKeluar', 'daftarBarangPersediaans'];
+    public static $with = ['bastNaskahKeluar',  'kerangkaAcuan', 'kerangkaAcuan.naskahKeluar', 'daftarBarangPersediaans'];
 
     /**
      * The model the resource corresponds to.

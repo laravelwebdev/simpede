@@ -75,7 +75,9 @@ class DaftarReminder extends Resource
                 ->default(9)
                 ->displayUsingLabels()
                 ->rules('required'),
-            BelongsTo::make('Daftar Kegiatan'),
+            Text::make('Daftar Kegiatan', 'daftarKegiatan.kegiatan')
+                ->sortable()
+                ->exceptOnForms(),
             Text::make('Status')->exceptOnForms(),
         ];
     }

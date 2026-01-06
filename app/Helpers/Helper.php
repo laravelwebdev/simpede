@@ -66,6 +66,30 @@ class Helper
         'Lainnya' => 'Lainnya',
     ];
 
+    const PRIORITAS = [
+        'Rendah' => 'Rendah',
+        'Sedang' => 'Sedang',
+        'Tinggi' => 'Tinggi',
+    ];
+
+    const KATEGORI_KONTEN = [
+        'Harian' => 'Harian',
+        'Mingguan' => 'Mingguan',
+        'Bulanan' => 'Bulanan',
+        'Triwulanan' => 'Triwulanan',
+        'Semesteran' => 'Semesteran',
+        'Tahunan' => 'Tahunan',
+    ];
+
+    const STATUS_KONTEN = [
+        'Belum Mulai' => 'Belum Mulai',
+        'Dalam Proses' => 'Dalam Proses',
+        'Selesai' => 'Selesai',
+        'Dibatalkan' => 'Dibatalkan',
+        'Terlambat' => 'Terlambat',
+        'Terlewat' => 'Terlewat',
+    ];
+
     const JENIS_UP = [
         'GTUP NIHIL',
         'GUP NIHIL',

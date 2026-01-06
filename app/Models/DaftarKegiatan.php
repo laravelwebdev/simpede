@@ -11,6 +11,7 @@ class DaftarKegiatan extends Model
 {
     protected $fillable = [
         'rapat_internal_id',
+        'posting_konten_id',
         'jenis',
         'awal',
         'status',

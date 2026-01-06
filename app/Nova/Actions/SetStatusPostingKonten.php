@@ -3,13 +3,15 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
-use App\Models\DaftarKegiatan;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Text;
+use App\Models\DaftarKegiatan;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\FormData;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SetStatusPostingKonten extends Action
@@ -30,6 +32,9 @@ class SetStatusPostingKonten extends Action
     {
         foreach ($models as $model) {
             $model->status = $fields->status;
+            if ($fields->status === 'Selesai' && isset($fields->link)) {
+                $model->link = $fields->link;
+            }
             $model->save();
             if ($fields->status === 'Selesai' || $fields->status === 'Dibatalkan') {
                 $daftarKegiatan = DaftarKegiatan::where('posting_konten_id', $model->id);
@@ -54,6 +59,14 @@ class SetStatusPostingKonten extends Action
             Select::make('Status')
                 ->options(Helper::STATUS_KONTEN)
                 ->displayUsingLabels(),
+            Text::make('Link')
+                ->hide()
+                ->dependsOn(['status'], function (Text $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->status === 'Selesai') {
+                        $field->show();
+                        $field->rules('required', 'url', 'max:255');
+                    }
+                }),
         ];
     }
 }

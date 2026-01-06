@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal')->nullable();
             $table->string('status', 20)->nullable();
             $table->text('reminder')->nullable();
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }

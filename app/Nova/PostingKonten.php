@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PostingKonten extends Resource
@@ -123,6 +124,11 @@ class PostingKonten extends Resource
                     'Terlewat' => 'danger',
                 ])
                 ->onlyOnIndex(),
+            $this->link ?
+            URL::make('Link', 'link')
+                ->displayUsing(fn () => 'Lihat')->exceptOnForms()
+                :
+            Text::make('Link', fn () => null)->exceptOnForms(),
             Textarea::make('Isi Reminder', 'reminder')
                 ->alwaysShow()
                 ->dependsOn(['kegiatan', 'user_id', 'tanggal'], function (Textarea $field, NovaRequest $request, FormData $form) {
@@ -193,7 +199,7 @@ class PostingKonten extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            SetStatusPostingKonten::make()->showInline(),
+            SetStatusPostingKonten::make()->showInline()->size('7xl'),
         ];
     }
 

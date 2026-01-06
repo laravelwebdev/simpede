@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('prioritas', 20)->nullable();
             $table->mediumInteger('user_id')->nullable()->unsigned();
             $table->date('tanggal')->nullable();
-            $table->string('status', 20)->nullable();      
+            $table->string('status', 20)->nullable();
             $table->text('reminder')->nullable();
             $table->timestamps();
         });

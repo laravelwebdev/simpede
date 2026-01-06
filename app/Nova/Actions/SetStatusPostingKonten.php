@@ -38,7 +38,6 @@ class SetStatusPostingKonten extends Action
                     $kegiatan->daftarReminder()->update(['status' => 'sent']);
                 }
             }
-
         }
 
         return Action::message('Status berhasil diubah menjadi '.$fields->status);

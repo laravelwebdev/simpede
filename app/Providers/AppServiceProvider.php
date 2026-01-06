@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
         }
         Model::preventLazyLoading();
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
-
             $url = request()->fullUrl(); // URL lengkap yang sedang diakses
 
             Log::warning(sprintf(

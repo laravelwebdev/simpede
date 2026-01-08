@@ -106,13 +106,13 @@ a {
 </style>
 </head>
 <body>
+<div class="row">
 <?php
 $color = ['red', 'blue', 'green', 'orange'];
 $indexcolor = 0;
 while ($rowFitur = mysqli_fetch_array($resultFitur)) {
     $cardColor = $color[$indexcolor % count($color)];
     echo '
-<div class="row">
   <div class="column"><a href="'.$rowFitur['path'].'">
     <div class="card '.$cardColor.'">
      <img src="'.$rowFitur['image'].'">

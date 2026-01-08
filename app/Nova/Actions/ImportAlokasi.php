@@ -33,29 +33,29 @@ class ImportAlokasi extends DestructiveAction
         SusenasAlokasi::query()->delete();
         SusenasCacah::query()->delete();
         (new FastExcel)->import($fields->file, function ($line) {
-            SusenasAlokasi::create([
-                'prov' => $line['Kode Prov'],
-                'kab' => $line['Kode Kab'],
-                'nks' => $line['NKS'],
-                'kode_pcl' => $line['Kode PCL'],
-                'pcl' => $line['Nama PCL'],
-                'kode_pml' => $line['Kode PML'],
-                'pml' => $line['Nama PML'],
-                'statusc' => 'belum',
-            ]);
-            for ($nus = 1; $nus <= 10; $nus++) {
-                SusenasCacah::create([
-                    'prov' => $line['Kode Prov'],
-                    'kab' => $line['Kode Kab'],
+            $alokasi = SusenasAlokasi::firstOrNew(['nks' => $line['NKS']]);
+            $alokasi->prov = $line['Kode Prov'];
+            $alokasi->kab = $line['Kode Kab'];
+            $alokasi->kode_pcl = $line['Kode PCL'];
+            $alokasi->pcl = $line['Nama PCL'];
+            $alokasi->kode_pml = $line['Kode PML'];
+            $alokasi->pml = $line['Nama PML'];
+            $alokasi->statusc = 'belum';
+            $alokasi->save();
+            for ($nus = 1; $nus <= $line['Jumlah Sampel']; $nus++) {
+                $cacah = SusenasCacah::firstOrNew([
                     'nks' => $line['NKS'],
-                    'kode_pcl' => $line['Kode PCL'],
-                    'pcl' => $line['Nama PCL'],
-                    'kode_pml' => $line['Kode PML'],
-                    'pml' => $line['Nama PML'],
                     'nus' => $nus,
-                    'nus0324' => $nus,
-                    'statusc' => 'belum',
                 ]);
+                $cacah->prov = $line['Kode Prov'];
+                $cacah->kab = $line['Kode Kab'];
+                $cacah->kode_pcl = $line['Kode PCL'];
+                $cacah->pcl = $line['Nama PCL'];
+                $cacah->kode_pml = $line['Kode PML'];
+                $cacah->pml = $line['Nama PML'];
+                $cacah->nus0324 = $nus;
+                $cacah->statusc = 'belum';
+                $cacah->save();
             }
         });
 

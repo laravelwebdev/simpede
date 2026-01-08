@@ -114,7 +114,7 @@ class SusenasAlokasi extends Resource
     {
         return [
             ImportAlokasi::make()
-                ->confirmText('Yakin untuk mengimpor Alokasi Petugas? Semua data Progress Pencacahan dan Rekap yang tersimpan akan DIHAPUS')
+                ->confirmText('Yakin untuk mengimpor Alokasi Petugas?')
                 ->standalone(),
         ];
     }

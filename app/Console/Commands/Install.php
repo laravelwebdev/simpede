@@ -207,6 +207,8 @@ class Install extends Command
             Template::create($template);
         }
 
+        $this->call('simpede:susenas');
+
         $this->call('simpede:cache');
         $is_public_html = select('Apakah Anda menggunakan public_html sebagai folder publik?', ['Ya', 'Tidak'], 'Ya');
         if ($is_public_html == 'Ya') {

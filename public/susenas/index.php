@@ -76,26 +76,8 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 10px;
   text-align: center;
+  color:white;
  }
-.red {
-  background-color: #dc3545;
-  color:white;
-}
-.blue {
-  background-color: #17a2b8;
-  color:white;
-}
-	
-.green {
-  background-color: #5cb85c;
-  color:white;
-}
-
-.orange {
-  background-color: #c7b137;
-  color:white;
-}
-
 
 img {
   width: 25%;
@@ -108,13 +90,33 @@ a {
 <body>
 <div class="row">
 <?php
-$color = ['red', 'blue', 'green', 'orange'];
+$color = [
+    "#A4C400",
+    "#60A917",
+    "#008A00",
+    "#00ABA9",
+    "#1BA1E2",
+    "#0050EF",
+    "#6A00FF",
+    "#AA00FF",
+    "#F472D0",
+    "#D80073",
+    "#A20025",
+    "#E51400",
+    "#FA6800",
+    "#F0A30A",
+    "#E3C800",
+    "#825A2C",
+    "#6D8764",
+    "#647687",
+    "#76608A",
+];
 $indexcolor = 0;
 while ($rowFitur = mysqli_fetch_array($resultFitur)) {
     $cardColor = $color[$indexcolor % count($color)];
     echo '
   <div class="column"><a href="'.$rowFitur['path'].'">
-    <div class="card '.$cardColor.'">
+    <div class="card" style="background-color:'.$cardColor.';">
      <img src="'.$rowFitur['image'].'">
       <h3>'.$rowFitur['nama_fitur'].'</h3>     
     </div>
@@ -126,7 +128,7 @@ while ($rowFitur = mysqli_fetch_array($resultFitur)) {
 ?>
              
               <div class="column">
-                <div onclick="about()" class="card">
+                <div onclick="about()" class="card" style="background-color:#87794E;">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABHNCSV
                 QICAgIfAhkiAAAAAlwSFlzAAAHYgAAB2IBOHqZ2wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYX
                 BlLm9yZ5vuPBoAACAASURBVHic7Z17mF1Vef+/71p7n3PmnLlmcgUpF8s1gNwviiAgULkEMgkBVA

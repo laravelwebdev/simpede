@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         /**
-         * TABLE: art
+         * TABLE: art.
          */
         Schema::create('art', function (Blueprint $table) {
             $table->id();
@@ -39,7 +39,7 @@ return new class extends Migration
         });
 
         /**
-         * TABLE: cacah
+         * TABLE: cacah.
          */
         Schema::create('cacah', function (Blueprint $table) {
             $table->id();
@@ -70,7 +70,7 @@ return new class extends Migration
         });
 
         /**
-         * TABLE: rentang_harga
+         * TABLE: rentang_harga.
          */
         Schema::create('rentang_harga', function (Blueprint $table) {
             $table->id();
@@ -84,7 +84,7 @@ return new class extends Migration
         });
 
         /**
-         * TABLE: updating
+         * TABLE: updating.
          */
         Schema::create('updating', function (Blueprint $table) {
             $table->id();

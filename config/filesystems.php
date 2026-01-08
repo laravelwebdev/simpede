@@ -154,7 +154,6 @@ return [
             'report' => false,
         ],
 
-
         'temp' => [
             'driver' => 'local',
             'root' => storage_path('app/public/.temp'),

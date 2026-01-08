@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Nova;
 
-Route::get('/', HomeController::class)->name('welcome');
+Route::get('/', [HomeController::class, 'home'])->name('welcome');
+Route::get('/isusenas', [HomeController::class, 'isusenas'])->name('isusenas');
 
 Route::middleware([Authenticate::class])
     ->prefix(Nova::path())

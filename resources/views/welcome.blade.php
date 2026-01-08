@@ -82,6 +82,9 @@
                         <li class="nav-item">
                             <a class="nav-link dark:text-gray-200" target="_blank" href="https://docs.simpede.my.id">Panduan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link dark:text-gray-200" href="{{ route('isusenas') }}">iSusenas</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -118,7 +118,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
-                MenuSection::dashboard(PortalAplikasi::class)->icon('home'),
+                MenuSection::dashboard(PortalAplikasi::class)->icon('command-line'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('IKPA', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),

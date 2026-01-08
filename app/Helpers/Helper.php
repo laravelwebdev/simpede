@@ -90,6 +90,11 @@ class Helper
         'Terlewat' => 'Terlewat',
     ];
 
+    const JENIS_PENGUMUMAN = [
+        'pengumuman' => 'Pengumuman',
+        'aplikasi' => 'Aplikasi',
+    ];
+
     const JENIS_UP = [
         'GTUP NIHIL',
         'GUP NIHIL',

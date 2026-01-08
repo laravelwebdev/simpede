@@ -17,6 +17,7 @@ use App\Nova\DaftarKegiatan;
 use App\Nova\DaftarReminder;
 use App\Nova\DaftarSp2d;
 use App\Nova\Dashboards\Main;
+use App\Nova\Dashboards\PortalAplikasi;
 use App\Nova\DigitalPayment;
 use App\Nova\Dipa;
 use App\Nova\DokumentasiKegiatan;
@@ -117,6 +118,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('home'),
+                MenuSection::dashboard(PortalAplikasi::class)->icon('home'),
                 MenuSection::make('Monitoring', [
                     MenuGroup::make('IKPA', [
                         MenuItem::lens(RealisasiAnggaran::class, RencanaPenarikanDana::class),

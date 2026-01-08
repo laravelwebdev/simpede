@@ -7,6 +7,7 @@ use App\Models\Announcement as ModelsAnnouncement;
 use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -54,6 +55,10 @@ class Announcement extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Select::make('Jenis', 'jenis')
+                ->options(Helper::JENIS_PENGUMUMAN)
+                ->rules('required')
+                ->displayUsingLabels(),
             Text::make('Judul', 'title')
                 ->rules('required', 'max:255'),
             Textarea::make('Deskripsi', 'description')

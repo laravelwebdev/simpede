@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SusenasFitur extends Model
 {
-        protected function casts(): array
+    protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
         ];
     }
 }
-

@@ -20,6 +20,8 @@ class BerkaskanArsip extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     private $newFolder;
 
     public function __construct($newFolder = false)

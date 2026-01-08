@@ -18,6 +18,8 @@ class AnnounceEom extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Umumkan di Grup Whatsapp';
 
     /**

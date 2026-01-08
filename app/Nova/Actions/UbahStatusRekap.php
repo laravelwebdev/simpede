@@ -16,6 +16,8 @@ class UbahStatusRekap extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     private $jenis;
 
     public function __construct($jenis = 'bos')

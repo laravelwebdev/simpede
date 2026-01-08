@@ -206,6 +206,8 @@ class Helper
         'notula' => 'Notula',
         'pulsa' => 'Tanda Terima Pulsa',
         'daftar_berkas' => 'Daftar Berkas',
+        'rentang_harga' => 'Rentang Harga',
+        'alokasi_susenas' => 'Alokasi Susenas',
     ];
 
     const JENIS_HONOR = [

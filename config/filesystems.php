@@ -145,6 +145,16 @@ return [
             'report' => false,
         ],
 
+        'susenas' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/susenas'),
+            'url' => env('APP_URL').'/storage/susenas',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+
         'temp' => [
             'driver' => 'local',
             'root' => storage_path('app/public/.temp'),

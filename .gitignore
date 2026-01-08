@@ -21,4 +21,5 @@ yarn-error.log
 .env
 /nova-components
 composer.lock
+/app/Helpers/database.php
 

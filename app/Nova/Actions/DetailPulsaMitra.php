@@ -16,6 +16,8 @@ class DetailPulsaMitra extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     /**
      * Perform the action on the given models.
      *

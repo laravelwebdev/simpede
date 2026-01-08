@@ -186,6 +186,21 @@ class Install extends Command
                 'jenis' => 'pulsa',
                 'file' => 'AuX5vZ1DGxJvIJksXLGfXO35fBRFCR9BdAI1bZH5.docx',
             ],
+            [
+                'nama' => 'Template Daftar Berkas',
+                'jenis' => 'daftar_berkas',
+                'file' => 'Eej95YAtCuyxvrSzrYcSp4G3ApwGIbKgQddzgSVG.docx',
+            ],
+            [
+                'nama' => 'Template Import Rentang Harga',
+                'jenis' => 'rentang_harga',
+                'file' => 'G1gt1ytusaHX6HHLeJQ7fCErwPicUNcyLBo7hl8X.xlsx',
+            ],
+            [
+                'nama' => 'Template Import Alokasi Petugas',
+                'jenis' => 'alokasi_susenas',
+                'file' => 'm5hNJw8cEbEEIcW5Rofo0qwhBoUXGFPgehc2o3Sx.xlsx',
+            ],
         ];
 
         foreach ($templates as $template) {

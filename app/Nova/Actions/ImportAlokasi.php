@@ -30,8 +30,8 @@ class ImportAlokasi extends DestructiveAction
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        SusenasAlokasi::query()->delete();
-        SusenasCacah::query()->delete();
+        SusenasAlokasi::query()->update(['updated_at' => null]);
+        SusenasCacah::query()->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($line) {
             $alokasi = SusenasAlokasi::firstOrNew(['nks' => $line['NKS']]);
             $alokasi->prov = $line['Kode Prov'];
@@ -41,6 +41,7 @@ class ImportAlokasi extends DestructiveAction
             $alokasi->kode_pml = $line['Kode PML'];
             $alokasi->pml = $line['Nama PML'];
             $alokasi->statusc = 'belum';
+            $alokasi->updated_at = now();
             $alokasi->save();
             for ($nus = 1; $nus <= $line['Jumlah Sampel']; $nus++) {
                 $cacah = SusenasCacah::firstOrNew([
@@ -55,9 +56,12 @@ class ImportAlokasi extends DestructiveAction
                 $cacah->pml = $line['Nama PML'];
                 $cacah->nus0324 = $nus;
                 $cacah->statusc = 'belum';
+                $cacah->updated_at = now();
                 $cacah->save();
             }
         });
+        SusenasAlokasi::where('updated_at', null)->delete();
+        SusenasCacah::where('updated_at', null)->delete();
 
         return Action::message('Alokasi Petugas sukses diimport!');
     }

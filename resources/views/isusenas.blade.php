@@ -79,7 +79,7 @@
                 <div class="grid md:grid-cols-2 grid-cols-1 gap-6 items-center">
                     <div>
                         <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">iSusenas</h1>
-                        <p class="text-slate-400 text-lg max-w-xl">iSusenas adalah aplikasi android untuk memudahkan pelaksanaan pendataan Survei Sosial Ekonomi Nasional (Susenas). Fitur utama meliputi pengecekan kesesuaian kuantitas dengan rentang harga, konversi ke satuan standar, perhitungan imputasi biaya-biaya, pelaporan progress, evaluasi dini pendataan dan alat bantu perhitungan rekapitulasi dokumen VSEN.KP</p>
+                        <p class="text-slate-400 text-lg max-w-xl">iSusenas adalah aplikasi android untuk memudahkan pelaksanaan pendataan Survei Sosial Ekonomi Nasional (Susenas). Fitur utama meliputi pengecekan kesesuaian kuantitas dengan rentang harga, konversi ke satuan standar, perhitungan imputasi biaya-biaya, pelaporan progress, evaluasi dini pendataan dan alat bantu perhitungan rekapitulasi dokumen Konsumsi Pengeluaran</p>
                         
                         <div class="mt-6">
                             <a target="_blank" href="{{ $apkUrl }}" class="h-10 px-6 tracking-wide inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white">Unduh</a>

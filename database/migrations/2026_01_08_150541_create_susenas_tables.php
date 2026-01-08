@@ -55,7 +55,7 @@ return new class extends Migration
             $table->string('kode_pml', 40)->nullable();
             $table->string('pml', 40)->nullable();
             $table->integer('pendidikan')->nullable();
-            $table->string('statusc', 5)->nullable();
+            $table->string('statusc', 5)->default('belum');
             $table->integer('p1c')->nullable();
             $table->integer('p2c')->nullable();
             $table->integer('p1p')->nullable();
@@ -95,7 +95,7 @@ return new class extends Migration
             $table->string('pcl', 40)->nullable();
             $table->string('kode_pml', 40)->nullable();
             $table->string('pml', 40)->nullable();
-            $table->string('statusc', 5)->nullable();
+            $table->string('statusc', 5)->default('belum');
             $table->integer('p1c')->nullable();
             $table->integer('p2c')->nullable();
             $table->integer('p3c')->nullable();

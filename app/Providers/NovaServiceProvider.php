@@ -325,6 +325,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             Main::make(),
+            PortalAplikasi::make(),
         ];
     }
 

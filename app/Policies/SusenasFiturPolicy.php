@@ -51,9 +51,7 @@ class SusenasFiturPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('admin')
-            ->get();
+        return false;
     }
 
     /**

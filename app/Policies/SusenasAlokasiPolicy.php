@@ -31,9 +31,7 @@ class SusenasAlokasiPolicy
      */
     public function create(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return false;
     }
 
     /**
@@ -41,9 +39,7 @@ class SusenasAlokasiPolicy
      */
     public function update(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return false;
     }
 
     /**
@@ -51,9 +47,7 @@ class SusenasAlokasiPolicy
      */
     public function delete(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return false;
     }
 
     /**
@@ -61,8 +55,6 @@ class SusenasAlokasiPolicy
      */
     public function replicate(): bool
     {
-        return Policy::make()
-            ->allowedFor('all')
-            ->get();
+        return false;
     }
 }

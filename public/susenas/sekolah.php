@@ -23,7 +23,7 @@
       </div>
       <br/>
       <div class="warning">
-        <p>Semester Ini (Juni 2024 - sekarang)</p>
+        <p>Semester Berjalan</p>
       </div>
       <br/>
       <div>
@@ -40,7 +40,7 @@
       </div>
 
       <div class="warning">
-        <p>Semester lalu (Jan - Juni 2024)</p>
+        <p>Semester lalu</p>
       </div>
       <br/>
       <div>

@@ -26,7 +26,7 @@ class PerjalananDinasPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
-            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
+            // ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 
@@ -45,7 +45,7 @@ class PerjalananDinasPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
-            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
+            // ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 
@@ -56,7 +56,7 @@ class PerjalananDinasPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk')
-            ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
+            // ->withYear(Helper::getYearFromDate($perjalananDinas->tanggal_spd))
             ->get();
     }
 

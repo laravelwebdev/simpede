@@ -66,6 +66,18 @@ class Policy
         return $this;
     }
 
+        /**
+     * Set access allowed for a specific year.
+     *
+     * @param  mixed  $year
+     */
+    public function withYearOrNull($year): self
+    {
+        $this->allowed = $this->allowed && (session('year') == $year || is_null($year));
+
+        return $this;
+    }
+
     /**
      * Set access allowed if two expressions are equal.
      *

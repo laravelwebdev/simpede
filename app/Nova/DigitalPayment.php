@@ -195,6 +195,6 @@ class DigitalPayment extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->whereYear('tanggal_transaksi', session('year'));
+        return $query->whereYear('tanggal_transaksi', session('year'))->orWhereNull('tanggal_transaksi');
     }
 }

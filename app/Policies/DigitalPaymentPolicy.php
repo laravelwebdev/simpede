@@ -26,7 +26,7 @@ class DigitalPaymentPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
-            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
+            ->withYearOrNull(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 
@@ -45,7 +45,7 @@ class DigitalPaymentPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
-            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
+            ->withYearOrNull(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 
@@ -56,7 +56,7 @@ class DigitalPaymentPolicy
     {
         return Policy::make()
             ->allowedFor('anggota,koordinator,ppk,bendahara')
-            ->withYear(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
+            ->withYearOrNull(Helper::getYearFromDate($digitalPayment->tanggal_transaksi))
             ->get();
     }
 

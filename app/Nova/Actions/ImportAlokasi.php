@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -30,6 +31,10 @@ class ImportAlokasi extends DestructiveAction
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        if ($fields->delete_old) {
+            SusenasAlokasi::query()->delete();
+            SusenasCacah::query()->delete();
+        }
         SusenasAlokasi::query()->update(['updated_at' => null]);
         SusenasCacah::query()->update(['updated_at' => null]);
         (new FastExcel)->import($fields->file, function ($line) {
@@ -76,7 +81,9 @@ class ImportAlokasi extends DestructiveAction
                 ->rules('required', 'mimes:xlsx')
                 ->acceptedTypes('.xlsx')
                 ->help('<a href = "'.Storage::disk('templates')->url(Helper::getTemplatePathByName('Template Import Alokasi Petugas')['filename']).'">Unduh Template</a>'),
-
+            Boolean::make('Reset Data', 'delete_old')
+                ->default(false)
+                ->help('WARNING: Jika dicentang akan mengakibatkan semua progress dan rekap petugas terhapus. Centang hanya untuk mengimpor data baru tanpa mempertahankan data lama. Misal menghapus data Susenas Maret untuk menggantinya dengan Susenas September'),
         ];
     }
 }

@@ -66,7 +66,7 @@ class Policy
         return $this;
     }
 
-        /**
+    /**
      * Set access allowed for a specific year.
      *
      * @param  mixed  $year

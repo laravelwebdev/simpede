@@ -648,7 +648,7 @@ class Helper
      */
     public static function getYearFromDate($tanggal)
     {
-        return $tanggal->format('Y');
+        return $tanggal ? $tanggal->format('Y') : null;
     }
 
     /**
@@ -659,7 +659,7 @@ class Helper
      */
     public static function getMonthFromDate($tanggal)
     {
-        return $tanggal->format('m');
+        return $tanggal ? $tanggal->format('m') : null;
     }
 
     /**

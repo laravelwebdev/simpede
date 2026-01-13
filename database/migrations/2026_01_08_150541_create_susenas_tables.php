@@ -90,7 +90,7 @@ return new class extends Migration
             $table->id();
             $table->string('prov', 2)->nullable();
             $table->string('kab', 2)->nullable();
-            $table->integer('nks')->nullable();
+            $table->string('nks', 10)->nullable();
             $table->string('kode_pcl', 40)->nullable();
             $table->string('pcl', 40)->nullable();
             $table->string('kode_pml', 40)->nullable();

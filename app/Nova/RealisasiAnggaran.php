@@ -83,6 +83,14 @@ class RealisasiAnggaran extends Resource
                     ->displayUsing(fn ($value) => Helper::getDetailAnggaran($value))->asSubTitle(),
                 Line::make('Item', 'mataAnggaran.uraian')->asSmall(),
             ]),
+            Text::make('MAK', 'mataAnggaran.mak')
+                ->readonly()
+                ->onlyOnForms()
+                ->sortable(),
+            Text::make('Uraian', 'mataAnggaran.uraian')
+                ->sortable()
+                ->onlyOnForms()
+                ->readonly(),
             Numeric::make('Nilai', 'nilai')
                 ->sortable(),
         ];
@@ -150,5 +158,15 @@ class RealisasiAnggaran extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kak_sp2ds'.'/';
+    }
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return $request->viaResource ? '/'.'resources'.'/'.$request->viaResource.'/'.$request->viaResourceId : '/'.'resources'.'/'.'kak_sp2ds'.'/';
     }
 }

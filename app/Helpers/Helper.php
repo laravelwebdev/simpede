@@ -99,6 +99,7 @@ class Helper
         'GTUP NIHIL',
         'GUP NIHIL',
         'GUP KKP',
+        'GUP-KKP',
         'TUP',
         'GUP',
         'UP',

@@ -12,7 +12,9 @@ class KakSp2d extends Pivot
     protected $table = 'kak_sp2d';
 
     protected $primaryKey = 'id';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
 
     protected $fillable = ['arsip_keuangan_id', 'catatan', 'rekap_bos', 'rekap_sirup'];
@@ -45,6 +47,18 @@ class KakSp2d extends Pivot
             $basePath = $year.'/arsip-dokumens/'.$kakSp2d->kerangka_acuan_id.'/';
             $nomorSpp = $daftarSp2d->nomor_spp;
             $nomorSp2d = $daftarSp2d->nomor_sp2d;
+            $anggaran = KerangkaAcuan::find($kakSp2d->kerangka_acuan_id)->anggaranKerangkaAcuan;
+            foreach ($anggaran as $row) {
+                $realisasiAnggaran = RealisasiAnggaran::firstOrNew(
+                    [
+                        'daftar_sp2d_id' => $daftarSp2d->id,
+                        'mata_anggaran_id' => $row->mata_anggaran_id,
+                        'dipa_id' => $daftarSp2d->dipa_id,
+                    ]
+                );
+                $realisasiAnggaran->nilai = $row->perkiraan;
+                $realisasiAnggaran->save();
+            }
 
             // Copy SP2D
             $sp2dPath = $basePath.'SP2D_'.$nomorSp2d.'.pdf';

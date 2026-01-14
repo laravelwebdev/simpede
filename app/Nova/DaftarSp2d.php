@@ -10,6 +10,7 @@ use App\Nova\KerangkaAcuan as ResourceKerangkaAcuan;
 use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
@@ -265,10 +266,11 @@ class DaftarSp2d extends Resource
                 Text::make('SP2D', fn () => null)->onlyOnDetail(),
 
             ]),
-            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', RealisasiAnggaran::class),
             BelongsToMany::make('Kerangka Acuan Kerja', 'kerangkaAcuan', ResourceKerangkaAcuan::class)
                 ->searchable()
                 ->withSubtitles(),
+            HasMany::make('Realisasi Anggaran', 'realisasiAnggaran', RealisasiAnggaran::class),
+
             HasManyThrough::make('Arsip Keuangan', 'arsipKeuangans', ArsipKeuangan::class),
         ];
     }
@@ -340,13 +342,20 @@ class DaftarSp2d extends Resource
 
         return $query->where('dipa_id', $dipa_id)
             ->whereIn('id', function ($query) use ($request) {
-                $query->select('kerangka_acuan_id')
-                    ->from('anggaran_kerangka_acuans')
-                    ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
-                        $subQuery->select('mata_anggaran_id')
-                            ->from('realisasi_anggarans')
-                            ->where('daftar_sp2d_id', $request->resourceId);
-                    });
+                if (DB::table('realisasi_anggarans')
+                    ->where('daftar_sp2d_id', $request->resourceId)
+                    ->exists()
+                ) {
+                    $query->select('kerangka_acuan_id')
+                        ->from('anggaran_kerangka_acuans')
+                        ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
+                            $subQuery->select('mata_anggaran_id')
+                                ->from('realisasi_anggarans')
+                                ->where('daftar_sp2d_id', $request->resourceId);
+                        });
+                } else {
+                    $query->select('id')->from('kerangka_acuans');
+                }
             });
     }
 }

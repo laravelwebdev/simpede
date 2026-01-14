@@ -156,7 +156,7 @@ class SinkronisasiDataAnggaran extends Action
             File::make('File')
                 ->rules('required', 'mimes:csv')
                 ->acceptedTypes('.csv')
-                ->help('File import diambil mon sakti (Anggaran - Download Data Mentah Penganggaran)'),
+                ->help('File import diambil MyIntress (Anggaran - Download Data Detail)'),
             Text::make('Kode Satker/Kementrian', 'kode')
                 ->rules('required')
                 ->default('054.01'),

@@ -2,6 +2,10 @@
 
 namespace App\Policies;
 
+use App\Helpers\Policy;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
 class RealisasiAnggaranPolicy
 {
     /**
@@ -33,7 +37,15 @@ class RealisasiAnggaranPolicy
      */
     public function update(): bool
     {
-        return false;
+        return Nova::whenServing(function (NovaRequest $request) {
+            if ($request->viaResource == 'daftar-sp2ds') {
+                return Policy::make()
+                    ->allowedFor('admin,kpa,ppk,ppspm,arsiparis')
+                    ->get();
+            }
+
+            return false;
+        });
     }
 
     /**
@@ -41,7 +53,15 @@ class RealisasiAnggaranPolicy
      */
     public function delete(): bool
     {
-        return false;
+        return Nova::whenServing(function (NovaRequest $request) {
+            if ($request->viaResource == 'daftar-sp2ds') {
+                return Policy::make()
+                    ->allowedFor('admin,kpa,ppk,ppspm,arsiparis')
+                    ->get();
+            }
+
+            return false;
+        });
     }
 
     /**

@@ -14,6 +14,7 @@ class DaftarSp2d extends Model
         return [
             'tanggal_sp2d' => 'date',
             'tanggal_spm' => 'date',
+            'tanggal_spp' => 'date',
         ];
     }
 

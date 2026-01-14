@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Date;
@@ -61,6 +62,10 @@ class ArsipDokumen extends Resource
      */
     public function fields(NovaRequest $request)
     {
+        $path = DB::table('kak_sp2d')
+            ->where('id', $request->viaResourceId)
+            ->value('kerangka_acuan_id');
+
         return [
             Text::make('Jenis Dokumen', 'slug')
                 ->help('Tuliskan dengan Nomor Dokumen atau keterangan kegiatan jika tidak ada nomor. Misal: SPBy Nomor 123/XYZ/2024 atau Laporan Perjalanan Dinas Kegiatan ABC')
@@ -74,7 +79,7 @@ class ArsipDokumen extends Resource
                 ->disableCredits()
                 ->rules('required')
                 ->mimesTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
-                ->path(session('year').'/'.static::uriKey().'/'.$request->viaResourceId)
+                ->path(session('year').'/'.static::uriKey().'/'.$path)
                 ->dependsOn(
                     ['slug'],
                     function (File $field, NovaRequest $request, FormData $formData) {

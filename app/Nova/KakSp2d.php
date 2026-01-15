@@ -142,19 +142,13 @@ class KakSp2d extends Resource
         $model = static::indexQuery($request, static::$model::query());
 
         return [
-            MetricKeberadaan::make('Rekap BOS', $model, 'rekap_bos', 'keberadaan-rekap-bos')
-                ->setAdaLabel('Sudah Direkap')
-                ->nullStrict(false)
-                ->width('1/3')
-                ->setTidakAdaLabel('Belum Direkap')
-                ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Rekap Pengarsipan Berkas', $model, 'arsip_keuangan_id', 'keberadaan-arsip-keuangan')
                 ->setAdaLabel('Sudah Diarsipkan')
-                ->width('1/3')
+                ->width('1/2')
                 ->setTidakAdaLabel('Belum Diarsipkan')
                 ->refreshWhenActionsRun(),
             MetricKeberadaan::make('Kesesuaian Arsip', $model, 'catatan', 'kelengkapan-arsip-keuangan')
-                ->width('1/3')
+                ->width('1/2')
                 ->setAdaLabel('Belum Sesuai')
                 ->setTidakAdaLabel('Sesuai')
                 ->invertColors()

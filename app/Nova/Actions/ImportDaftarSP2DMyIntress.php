@@ -69,7 +69,6 @@ class ImportDaftarSP2DMyIntress extends Action
                     $daftarSp2dUp->save();
                 }
             }
-
         });
 
         DaftarSp2d::where('updated_at', null)->delete();

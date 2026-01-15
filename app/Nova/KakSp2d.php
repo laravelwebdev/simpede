@@ -193,7 +193,7 @@ class KakSp2d extends Resource
         $actions = [];
         $kak_kode_arsip_id = DB::table('kerangka_acuans')
             ->where('id', $this->resource->kerangka_acuan_id)
-            ->value('kak_kode_arsip_id ');
+            ->value('kak_kode_arsip_id');
         if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
             $actions[] = BerkaskanArsip::make(false, $kak_kode_arsip_id)->sole()
                 ->canSee(function ($request) {

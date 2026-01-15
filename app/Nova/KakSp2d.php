@@ -195,7 +195,7 @@ class KakSp2d extends Resource
             ->where('id', $this->resource->kerangka_acuan_id)
             ->value('kak_kode_arsip_id');
         if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
-            $actions[] = BerkaskanArsip::make(false, $kak_kode_arsip_id)->sole()
+            $actions[] = BerkaskanArsip::make()->sole()
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;
@@ -203,7 +203,7 @@ class KakSp2d extends Resource
 
                     return $this->resource instanceof Model && $this->resource->arsip_keuangan_id !== null;
                 });
-            $actions[] = BerkaskanArsip::make(true)->sole()->onlyOnDetail()
+            $actions[] = BerkaskanArsip::make(true, $kak_kode_arsip_id)->sole()->onlyOnDetail()
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;

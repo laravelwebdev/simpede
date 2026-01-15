@@ -131,7 +131,7 @@ class KerangkaAcuan extends Model
             ->first();
         $naskahkeluar->tanggal = $this->tanggal;
         $naskahkeluar->jenis_naskah_id = optional($default_naskah)->jenis_naskah_id;
-        $naskahkeluar->kode_arsip_id = optional($default_naskah)->kode_arsip_id[0];
+        $naskahkeluar->kode_arsip_id = $this->kak_kode_arsip_id;
         $naskahkeluar->derajat_naskah_id = optional($default_naskah)->derajat_naskah_id;
         $naskahkeluar->tujuan = 'Pejabat Pembuat Komitmen';
         $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
@@ -144,6 +144,7 @@ class KerangkaAcuan extends Model
         if ($naskahkeluar) {
             $naskahkeluar->tanggal = $this->tanggal;
             $naskahkeluar->perihal = 'Form Permintaan '.$this->rincian;
+            $naskahkeluar->kode_arsip_id = $this->kak_kode_arsip_id;
             $naskahkeluar->save();
         }
     }

@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Policy;
 use App\Models\Dipa;
 use App\Models\KerangkaAcuan as ModelsKerangkaAcuan;
+use App\Models\NaskahDefault;
 use App\Nova\Actions\AddDigitalPayment;
 use App\Nova\Actions\AddPerjalananDinas;
 use App\Nova\Actions\AddPulsaKegiatan;
@@ -130,6 +131,22 @@ class KerangkaAcuan extends Resource
                     ->options(Helper::setOptionDipa())
                     ->default(optional(Dipa::cache()->get('all')->where('tahun', session('year'))->first())->id),
             ]),
+            new Panel('Klasifikasi Arsip', [
+                Select::make('Klasifikasi Arsip', 'kak_kode_arsip_id')
+                    ->hideFromIndex()
+                    ->rules('required')
+                    ->searchable()
+                    ->displayUsing(fn ($kode) => optional(KodeArsip::cache()->get('all')->where('id', $kode)->first())->kode)
+                    ->dependsOn(['tanggal'], function (Select $field, NovaRequest $request, FormData $formData) {
+                        $default_naskah = NaskahDefault::cache()
+                            ->get('all')
+                            ->where('jenis', 'kak')
+                            ->first();
+                        $field
+                            ->options(Helper::setOptionsKodeArsip($formData->date('tanggal'), optional($default_naskah)->kode_arsip_id));
+                    }),
+            ]),
+
             HasMany::make('Anggaran', 'anggaranKerangkaAcuan', AnggaranKerangkaAcuan::class),
             HasMany::make('Spesifikasi', 'spesifikasiKerangkaAcuan', SpesifikasiKerangkaAcuan::class),
             HasMany::make('Daftar Arsip dan SP2D', 'daftarArsip', KakSp2d::class),

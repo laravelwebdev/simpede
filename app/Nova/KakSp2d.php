@@ -190,8 +190,9 @@ class KakSp2d extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
+        $kak_kode_arsip_id = $this->kerangkaAcuan->kak_kode_arsip_id ?? null;
         if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
-            $actions[] = BerkaskanArsip::make()->sole()
+            $actions[] = BerkaskanArsip::make(false, $kak_kode_arsip_id)->sole()
                 ->canSee(function ($request) {
                     if ($request instanceof ActionRequest) {
                         return true;

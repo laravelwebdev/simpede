@@ -4,16 +4,17 @@ namespace App\Nova\Actions;
 
 use App\Helpers\Helper;
 use App\Models\KakSp2d;
+use App\Models\KodeArsip;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Support\Collection;
 use Laravelwebdev\Numeric\Numeric;
+use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Queue\InteractsWithQueue;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class BerkaskanArsip extends Action
 {
@@ -24,9 +25,12 @@ class BerkaskanArsip extends Action
 
     private $newFolder;
 
-    public function __construct($newFolder = false)
+    private $kode_arsip_id;
+
+    public function __construct($newFolder = false, $kode_arsip_id = null)
     {
         $this->newFolder = $newFolder;
+        $this->kode_arsip_id = $kode_arsip_id;
         $this->name = $this->newFolder ? 'Berkaskan' : 'Buat Catatan';
     }
 
@@ -75,11 +79,12 @@ class BerkaskanArsip extends Action
      */
     public function fields(NovaRequest $request): array
     {
+        $kode = optional(KodeArsip::cache()->get('all')->where('id', $this->kode_arsip_id)->first())->kode;
         return $this->newFolder ? [
             Text::make('Kode Klasifikasi', 'kode_klasifikasi')
                 ->rules('required', 'max:255')
                 ->hideFromIndex()
-                ->default('KU.320')
+                ->default($kode)
                 ->sortable(),
             Text::make('Kode Unit Cipta', 'kode_unit_cipta')
                 ->rules('required', 'max:255')

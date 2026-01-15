@@ -6,15 +6,15 @@ use App\Helpers\Helper;
 use App\Models\KakSp2d;
 use App\Models\KodeArsip;
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Fields\Heading;
-use Laravel\Nova\Fields\Textarea;
-use Illuminate\Support\Collection;
-use Laravelwebdev\Numeric\Numeric;
-use Laravel\Nova\Fields\ActionFields;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Heading;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravelwebdev\Numeric\Numeric;
 
 class BerkaskanArsip extends Action
 {
@@ -79,12 +79,11 @@ class BerkaskanArsip extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        $kode = optional(KodeArsip::cache()->get('all')->where('id', $this->kode_arsip_id)->first())->kode;
         return $this->newFolder ? [
             Text::make('Kode Klasifikasi', 'kode_klasifikasi')
                 ->rules('required', 'max:255')
                 ->hideFromIndex()
-                ->default($kode)
+                ->default(fn () => optional(KodeArsip::cache()->get('all')->where('id', $this->kode_arsip_id)->first())->kode)
                 ->sortable(),
             Text::make('Kode Unit Cipta', 'kode_unit_cipta')
                 ->rules('required', 'max:255')

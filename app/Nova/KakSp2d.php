@@ -4,23 +4,24 @@ namespace App\Nova;
 
 use App\Helpers\Helper;
 use App\Helpers\Policy;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Stack;
+use App\Nova\Filters\Keberadaan;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Textarea;
+use Illuminate\Support\Facades\DB;
+use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Actions\BerkaskanArsip;
 use App\Nova\Actions\UbahStatusRekap;
-use App\Nova\Filters\Keberadaan;
+use App\Nova\Metrics\MetricKeberadaan;
 use App\Nova\Filters\KelengkapanBerkas;
 use App\Nova\Lenses\MonitoringRekapBos;
-use App\Nova\Lenses\MonitoringRekapSirup;
-use App\Nova\Metrics\MetricKeberadaan;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Stack;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\ActionRequest;
+use App\Nova\Lenses\MonitoringRekapSirup;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ActionRequest;
 
 class KakSp2d extends Resource
 {
@@ -190,7 +191,9 @@ class KakSp2d extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [];
-        $kak_kode_arsip_id = $this->kerangkaAcuan->kak_kode_arsip_id ?? null;
+        $kak_kode_arsip_id = DB::table('kerangka_acuans')
+            ->where('id', $this->kerangka_acuan_id)
+            ->value('kak_kode_arsip_id ');
         if (Policy::make()->allowedFor('admin,arsiparis')->get()) {
             $actions[] = BerkaskanArsip::make(false, $kak_kode_arsip_id)->sole()
                 ->canSee(function ($request) {

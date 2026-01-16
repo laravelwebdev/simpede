@@ -16,6 +16,8 @@ class SetPembayaranDigitalPayment extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Set Pembayaran Digital';
 
     /**

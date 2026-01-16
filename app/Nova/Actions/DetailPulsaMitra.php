@@ -6,7 +6,7 @@ use App\Helpers\HtmlGenerator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use App\Nova\Actions;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Markwalet\NovaModalResponse\ModalResponse;
@@ -15,8 +15,6 @@ class DetailPulsaMitra extends Action
 {
     use InteractsWithQueue;
     use Queueable;
-
-    
 
     /**
      * Perform the action on the given models.

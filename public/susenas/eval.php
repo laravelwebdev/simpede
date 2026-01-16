@@ -1,83 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-  <meta content="utf-8" http-equiv="encoding">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box;font-family:Segoe UI,Roboto,sans-serif}
+body{
+    margin:0;
+    padding:14px;
+    background:#f4f6f8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+/* GRID 2 KOLOM */
+.row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
-/* Float four columns side by side */
-.column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-}
-.footer {
-  color: #4990a1;
-  margin-bottom: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  display: block;
-  text-align: center;
+/* TILE */
+.card{
+    position:relative;
+    height:92px;
+    border-radius:14px;
+    padding:12px;
+    color:#fff;
+    overflow:hidden;
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
 }
 
-/* Remove extra left and right margins, due to padding */
-.row {margin: 0 -5px; }
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+/* TEXT */
+.card h3{
+    position:absolute;
+    left:14px;
+    bottom:12px;
+    margin:0;
+    font-size:13px;
+    font-weight:500;
+    z-index:2;
 }
 
-/* Responsive columns */
-
-.column {
-    width: 50%;
-    display: block;
-    margin-bottom: 20px;
-  }
-
-
-/* Style the counter cards */
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  text-align: center;
- }
-.red {
-  background-color: #dc3545;
-  color:white;
-}
-.blue {
-  background-color: #17a2b8;
-  color:white;
-}
-	
-.green {
-  background-color: #5cb85c;
-  color:white;
+/* ICON IMAGE BESAR */
+.card img{
+    position:absolute;
+    right:-28px;
+    top:50%;
+    transform:translateY(-50%);
+    width:78px;
+    height:78px;
+    object-fit:contain;
+    opacity:.25;
+    z-index:1;
 }
 
-.orange {
-  background-color: #c7b137;
-  color:white;
-}
+a{text-decoration:none}
 
-
-img {
-  width: 25%;
-}
-a {
-	text-decoration: none;
+/* RESPONSIVE TABLET */
+@media(min-width:768px){
+    .row{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
@@ -86,8 +69,9 @@ a {
 <div class="row">
  
 
-              <div class="column"><a href="monitoring/updating/evaluasi.php">
-                <div class="card green">
+<a href="monitoring/updating/evaluasi.php">
+                <div class="card" style="background:#F0A30A">
+                                    <h3>PEMUTAKHIRAN</h3>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABHNCSV
 QICAgIfAhkiAAAAAlwSFlzAAAHYgAAB2IBOHqZ2wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYX
 BlLm9yZ5vuPBoAACAASURBVHic7d15kCVVnS/w78nlbrUvXVVdvcDQNMM2IPviQg8OKg0oNIjz1J
@@ -241,12 +225,11 @@ dx4GiEPCadH2HG/TXKch8IEb6nXIAGg0zRfEjXcpszZf2rVx63Rf06YFUQqkt3X4HOkcL9V0C8T1
 WFWH2RAPJ29B2DSyE4KLkPz4YBvQaLDkOS2jnNmtDJRNOIJjK/1WDe4fY2/+x6sbn2+42FpOSdzu
 4SvVeQvAbABgD9AHpVlMvqA9HsvIGoXxF6R7BoJyryZVTkG7BoHxwahUQRkgpH1u2TkOQAQoMGHR
 pSJITugmQZ0Iq6Zh7QSX9NILXN0fDo9T1bY/HeXrX/D4AvGx5Dam02AAAAAElFTkSuQmCC">
-                  <h3>PEMUTAKHIRAN</h3>
                 </div>
                 </a>
-              </div>
-            <div class="column"><a href="monitoring/cacah/evaluasi.php">
-                <div class="card orange">
+<a href="monitoring/cacah/evaluasi.php">
+                <div class="card" style="background:#60A917">
+                        <h3>PENCACAHAN</h3>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABHNCSV
 QICAgIfAhkiAAAAAlwSFlzAAAHYgAAB2IBOHqZ2wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYX
 BlLm9yZ5vuPBoAACAASURBVHic7d15kCVVnS/w78nlbrUvXVVdvcDQNMM2IPviQg8OKg0oNIjz1J
@@ -403,7 +386,6 @@ pSJITugmQZ0Iq6Zh7QSX9NILXN0fDo9T1bY/HeXrX/D4AvGx5Dam02AAAAAElFTkSuQmCC">
                   <h3>PENCACAHAN</h3>
                 </div>
                 </a>
-              </div>
   </div>
   
 

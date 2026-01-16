@@ -1,135 +1,109 @@
 <?php
-
 require_once dirname(__DIR__, 2).'/app/Helpers/database.php';
-
 date_default_timezone_set('Asia/Makassar');
 
-try {
-    $conn = getDbConnection();
+$conn = getDbConnection();
 
-    $queryVersion = 'SELECT version FROM susenas_settings  LIMIT 1';
-    $resultVersion = mysqli_query($conn, $queryVersion);
-    while ($rowVersion = mysqli_fetch_array($resultVersion)) {
-        $version = $rowVersion['version'];
-    }
+$queryVersion = 'SELECT version FROM susenas_settings LIMIT 1';
+$resultVersion = mysqli_query($conn, $queryVersion);
+$version = mysqli_fetch_assoc($resultVersion)['version'];
 
-    $queryFitur = 'SELECT * FROM susenas_fiturs WHERE is_active = 1';
-    $resultFitur = mysqli_query($conn, $queryFitur);
-
-} catch (Exception $e) {
-    exit('Database error');
-}
+$queryFitur = 'SELECT * FROM susenas_fiturs WHERE is_active = 1';
+$resultFitur = mysqli_query($conn, $queryFitur);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-  <meta content="utf-8" http-equiv="encoding">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box;font-family:Segoe UI,Roboto,sans-serif}
+body{
+    margin:0;
+    padding:14px;
+    background:#f4f6f8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+/* GRID 2 KOLOM */
+.row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
-/* Float four columns side by side */
-.column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-}
-.footer {
-  color: #4990a1;
-  margin-bottom: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  position: pixed;
-  bottom: 0;
+/* TILE */
+.card{
+    position:relative;
+    height:92px;
+    border-radius:14px;
+    padding:12px;
+    color:#fff;
+    overflow:hidden;
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
 }
 
-/* Remove extra left and right margins, due to padding */
-.row {margin: 0 -5px; }
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+/* TEXT */
+.card h3{
+    position:absolute;
+    left:14px;
+    bottom:12px;
+    margin:0;
+    font-size:13px;
+    font-weight:500;
+    z-index:2;
 }
 
-/* Responsive columns */
-
-.column {
-    width: 50%;
-    display: block;
-    margin-bottom: 20px;
-  }
-
-
-/* Style the counter cards */
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  text-align: center;
-  color:white;
- }
-
-img {
-  width: 25%;
+/* ICON IMAGE BESAR */
+.card img{
+    position:absolute;
+    right:-28px;
+    top:50%;
+    transform:translateY(-50%);
+    width:78px;
+    height:78px;
+    object-fit:contain;
+    opacity:.25;
+    z-index:1;
 }
-a {
-	text-decoration: none;
+
+a{text-decoration:none}
+
+/* RESPONSIVE TABLET */
+@media(min-width:768px){
+    .row{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
 <body>
+
 <div class="row">
 <?php
-$color = [
-    "#A4C400",
-    "#60A917",
-    "#008A00",
-    "#00ABA9",
-    "#1BA1E2",
-    "#0050EF",
-    "#6A00FF",
-    "#AA00FF",
-    "#F472D0",
-    "#D80073",
-    "#A20025",
-    "#E51400",
-    "#FA6800",
-    "#F0A30A",
-    "#E3C800",
-    "#825A2C",
-    "#6D8764",
-    "#647687",
-    "#76608A",
+$colors = [
+    '#A4C400', '#60A917', '#008A00', '#00ABA9', '#1BA1E2',
+    '#0050EF', '#6A00FF', '#AA00FF', '#F472D0', '#D80073',
+    '#A20025', '#E51400', '#FA6800', '#F0A30A', '#E3C800',
 ];
-$indexcolor = 0;
-while ($rowFitur = mysqli_fetch_array($resultFitur)) {
-    $cardColor = $color[$indexcolor % count($color)];
-    echo '
-  <div class="column"><a href="'.$rowFitur['path'].'">
-    <div class="card" style="background-color:'.$cardColor.';">
-     <img src="'.$rowFitur['image'].'">
-      <h3>'.$rowFitur['nama_fitur'].'</h3>     
+$i = 0;
+
+while ($row = mysqli_fetch_assoc($resultFitur)) {
+    $bg = $colors[$i++ % count($colors)];
+    ?>
+<a href="<?= $row['path'] ?>">
+    <div class="card" style="background:<?= $bg ?>">
+        <h3><?= htmlspecialchars($row['nama_fitur']) ?></h3>
+        <img src="<?= $row['image'] ?>" alt="">
     </div>
-    </a>
-  </div>
-';
-    $indexcolor++;
-}
-?>
-             
-              <div class="column">
-                <div onclick="about()" class="card" style="background-color:#87794E;">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABHNCSV
+</a>
+<?php } ?>
+
+<!-- ABOUT TILE -->
+<div onclick="about()" class="card" style="background:#87794E">
+    <h3>Versi Aplikasi: <?= htmlspecialchars($version) ?></h3>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABHNCSV
                 QICAgIfAhkiAAAAAlwSFlzAAAHYgAAB2IBOHqZ2wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYX
                 BlLm9yZ5vuPBoAACAASURBVHic7Z17mF1Vef+/71p7n3PmnLlmcgUpF8s1gNwviiAgULkEMgkBVA
                 pahbZaK1Zti6ho1WJtqxXb36+iVqVW5SaKihckgFySTMI1IIKCNPdkJjNzZs59r/X2jyQaQibMnL
@@ -326,18 +300,16 @@ while ($rowFitur = mysqli_fetch_array($resultFitur)) {
                 /YFuIwi3sFcOwZws3C18fRgOv8rYjLAByTMcpMf+4NqO/aFuKIDmcAjlfA4Psk8+W0CGtta3FEi3
                 sFcOxMA8B12+v0uc7fBrgMwLGD3wnWb6dFeMi2EEd8uAzAsW2gL9BHuM7ffrgMoL0ZZqKrvYXqdt
                 tCHHZwBtCmEPO9pPkKWuje9dsZZwDtRwPAZ+h4/iQRtG0xDrs4A2gvfiWg30bH4zHbQhzJwA0Ctg
-                83i4w+3nV+x864DKDVIWxi0Pneca4mv+OV/B/p5zWkHyBrxgAAAABJRU5ErkJggg==">
-                  <h3><?= htmlspecialchars($version) ?></h3>
-                </div>
-              </div>
-             
-  </div>
-  
-  <script>
-    function about() {
-      alert("Aplikasi iSusenas\nVersi <?= htmlspecialchars($version) ?>\nCreated by Muhlis Abdi");
-    }
-    </script>
+                83i4w+3nV+x864DKDVIWxi0Pneca4mv+OV/B/p5zWkHyBrxgAAAABJRU5ErkJggg==" />
+</div>
+
+</div>
+
+<script>
+function about(){
+    alert("Aplikasi iSusenas\nVersi <?= $version ?>\nCreated by Muhlis Abdi");
+}
+</script>
 
 </body>
 </html>

@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\MultiSelect;
@@ -18,8 +17,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportRekapPresensi extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Impor Rekap Presensi BOS';
 

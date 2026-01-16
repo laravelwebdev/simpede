@@ -7,7 +7,6 @@ use App\Models\RateTranslok;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Select;
@@ -17,8 +16,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportRateTranslok extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Import Rate Translok';
 

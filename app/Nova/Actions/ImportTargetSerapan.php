@@ -8,7 +8,6 @@ use Google\Service\CloudDeploy\Target;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -17,8 +16,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportTargetSerapan extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Import Target Serapan Anggaran';
 

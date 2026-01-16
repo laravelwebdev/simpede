@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Laravel\Nova\Actions\Action;
+use App\Nova\Actions;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Hidden;
@@ -15,8 +15,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class AddHasManyModel extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     protected $resourceId;
 

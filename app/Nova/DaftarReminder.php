@@ -7,7 +7,7 @@ use App\Models\DaftarReminder as ModelsDaftarReminder;
 use App\Nova\Metrics\MetricPartition;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
+use App\Nova\Actions;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;

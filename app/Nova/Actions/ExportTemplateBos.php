@@ -7,7 +7,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -18,8 +17,6 @@ use Rap2hpoutre\FastExcel\SheetCollection;
 class ExportTemplateBos extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     public function name()
     {

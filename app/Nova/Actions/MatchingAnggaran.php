@@ -20,8 +20,6 @@ class MatchingAnggaran extends DestructiveAction
     use InteractsWithQueue;
     use Queueable;
 
-    public $withoutActionEvents = true;
-
     private $dipa_id;
 
     private $mak;

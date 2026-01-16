@@ -8,7 +8,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -17,8 +16,6 @@ class KirimUndanganRapat extends Action
 {
     use InteractsWithQueue;
     use Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Kirim Undangan Rapat';
 

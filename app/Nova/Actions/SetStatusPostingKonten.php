@@ -7,7 +7,6 @@ use App\Models\DaftarKegiatan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
@@ -18,8 +17,6 @@ class SetStatusPostingKonten extends Action
 {
     use InteractsWithQueue;
     use Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Ubah Status';
 

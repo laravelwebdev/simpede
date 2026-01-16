@@ -12,7 +12,7 @@ use App\Nova\Metrics\MetricTrend;
 use App\Nova\Metrics\MetricValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
+use App\Nova\Actions;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;

@@ -6,7 +6,7 @@ use App\Models\TargetKkp;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
+use App\Nova\Actions;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -15,8 +15,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class ImportTargetKkp extends Action
 {
     use InteractsWithQueue, Queueable;
-
-    public $withoutActionEvents = true;
 
     public $name = 'Import Target Penggunaan KKP';
 

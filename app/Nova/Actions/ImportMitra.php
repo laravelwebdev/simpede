@@ -20,8 +20,6 @@ class ImportMitra extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $withoutActionEvents = true;
-
     public $name = 'Impor Mitra';
 
     /**

@@ -9,7 +9,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
@@ -21,8 +20,6 @@ class ImportAlokasi extends DestructiveAction
 {
     use InteractsWithQueue;
     use Queueable;
-
-    public $withoutActionEvents = true;
 
     /**
      * Perform the action on the given models.

@@ -7,6 +7,7 @@ use App\Models\NaskahDefault;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\FormData;
@@ -16,6 +17,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class GenerateNomorBastMitra extends Action
 {
     use InteractsWithQueue, Queueable;
+
+    public $withoutActionEvents = true;
 
     public $name = 'Generate Nomor BAST Mitra';
 

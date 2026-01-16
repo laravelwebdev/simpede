@@ -22,6 +22,8 @@ class Download extends Action
 
     public static $chunkCount = 200;
 
+    public $withoutActionEvents = true;
+
     protected $jenis;
 
     protected $title;

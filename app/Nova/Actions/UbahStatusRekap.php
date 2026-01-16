@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -14,6 +15,8 @@ class UbahStatusRekap extends Action
 {
     use InteractsWithQueue;
     use Queueable;
+
+    public $withoutActionEvents = true;
 
     private $jenis;
 

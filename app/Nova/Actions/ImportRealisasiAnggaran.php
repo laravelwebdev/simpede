@@ -22,6 +22,8 @@ class ImportRealisasiAnggaran extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import Realisasi Anggaran Monsakti';
 
     /**

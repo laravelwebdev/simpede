@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use App\Nova\Actions;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -18,7 +18,7 @@ class AnnounceEom extends Action
     use InteractsWithQueue;
     use Queueable;
 
-    
+    public $withoutActionEvents = true;
 
     public $name = 'Umumkan di Grup Whatsapp';
 

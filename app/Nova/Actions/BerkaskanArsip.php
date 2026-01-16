@@ -21,6 +21,8 @@ class BerkaskanArsip extends Action
     use InteractsWithQueue;
     use Queueable;
 
+    public $withoutActionEvents = true;
+
     private $newFolder;
 
     private $kode_arsip_id;

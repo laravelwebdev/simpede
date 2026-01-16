@@ -19,6 +19,8 @@ class ImportDaftarSP2DMyIntress extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     public $name = 'Import Daftar SP2D MyIntress';
 
     /**

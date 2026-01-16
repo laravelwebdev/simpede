@@ -17,6 +17,8 @@ class ExportTemplateCmsBri extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public $withoutActionEvents = true;
+
     protected $kegiatan;
 
     public function __construct($kegiatan)

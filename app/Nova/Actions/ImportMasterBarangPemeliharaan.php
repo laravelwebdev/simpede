@@ -6,7 +6,7 @@ use App\Models\MasterBarangPemeliharaan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use App\Nova\Actions;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -16,7 +16,7 @@ class ImportMasterBarangPemeliharaan extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    
+    public $withoutActionEvents = true;
 
     public $name = 'Import Master Barang Pemeliharaan';
 

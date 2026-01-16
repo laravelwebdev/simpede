@@ -19,6 +19,8 @@ class SetPembayaranDigitalPayment extends Action
 
     public $name = 'Set Pembayaran Digital';
 
+    public $withoutActionEvents = true;
+
     /**
      * Perform the action on the given models.
      *

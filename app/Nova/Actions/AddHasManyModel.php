@@ -23,6 +23,8 @@ class AddHasManyModel extends Action
     protected $fields;
 
     protected $modelName;
+    
+    protected $parentIdColumn;
 
     protected $parentModel;
 

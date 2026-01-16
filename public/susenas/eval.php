@@ -7,7 +7,7 @@
 *{box-sizing:border-box;font-family:Segoe UI,Roboto,sans-serif}
 body{
     margin:0;
-    padding:14px;
+    padding:12px;
     background:#f4f6f8;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
@@ -18,13 +18,13 @@ body{
 .row{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:14px;
+    gap:12px;
 }
 
 /* TILE */
 .card{
     position:relative;
-    height:92px;
+    height:102px;
     border-radius:14px;
     padding:12px;
     color:#fff;
@@ -35,7 +35,7 @@ body{
 /* TEXT */
 .card h3{
     position:absolute;
-    left:14px;
+    left:12px;
     bottom:12px;
     margin:0;
     font-size:13px;

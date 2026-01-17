@@ -37,12 +37,12 @@ body,
 }
 
 .label-result {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 
 a {
-  color: #2c3e50;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -401,7 +401,7 @@ table{
 }
 
 .td-small {
-  width: 40px;
+  width: 60px;
 }
 .grey {
   background-color: #808080;
@@ -458,4 +458,67 @@ table.blue {
 
 table.orange {
   background-color: #f4f8e3;
+}
+
+
+.blue {
+
+  height: 20px;
+
+  margin: 0px;
+
+}
+
+.blue p {
+
+  background: #157de6;
+
+  color: #ffffff;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  text-align: left;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+
+  border-radius: 0.25em;
+
+  padding: 5px;
+
+}
+
+
+
+.red {
+
+  height: 20px;
+
+  margin: 0px;
+
+}
+
+.red p {
+
+  background: #c52d13;
+
+  color: #ffffff;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  text-align: left;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+
+  border-radius: 0.25em;
+
+  padding: 5px;
+
 }

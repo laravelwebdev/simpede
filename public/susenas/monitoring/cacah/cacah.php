@@ -57,7 +57,7 @@ if ($data['p2k'] == 1) {
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">  
+  <link rel="stylesheet" href="../../css/style.css">  
 </head>
 
 <body>
@@ -162,12 +162,14 @@ if ($data['p2k'] == 1) {
         <input type="number" onClick="this.select()"  name="p5p" id="p5p" required="" ref="p5p" min=0 value="<?php echo $data['p5p']; ?>">
       </div>
       <div>
-        <label class="label" for="p2p">Pengeluaran Makanan Sebulan(Blok IV.3.2 Rincian 16 kol 5)</label>
-        <input type="number" onClick="this.select()"  name="p2p" id="p2p" required="" ref="p2p" min=0 value="<?php echo $data['p2p']; ?>">
+        <label class="label" for="p2p_view">Pengeluaran Makanan Sebulan(Blok IV.3.2 Rincian 16 kol 5)</label>
+        <input type="text" inputmode="numeric" onClick="this.select()"  name="p2p_view" id="p2p_view" required="" ref="p2p_view" min=0 data-number="view" data-target="p2p" style="text-align: right;">
+        <input type="hidden" data-number="raw" name="p2p" id="p2p" required="">
       </div>
       <div>
-        <label class="label" for="p3p">Pengeluaran Bukan Makanan Sebulan (Blok IV.3.3 Rincian 8 kol 3)</label>
-        <input type="number" onClick="this.select()"  name="p3p" id="p3p" required="" ref="p3p" min=0 value="<?php echo $data['p3p']; ?>">
+        <label class="label" for="p3p_view">Pengeluaran Bukan Makanan Sebulan (Blok IV.3.3 Rincian 8 kol 3)</label>
+        <input type="text" inputmode="numeric" onClick="this.select()"  name="p3p_view" id="p3p_view" required="" ref="p3p_view" min=0 data-number="view" data-target="p3p" style="text-align: right;">
+        <input type="hidden" data-number="raw" name="p3p" id="p3p" required="">
       </div>
       <div>
         <h4>Apakah Blok VIII. Catatan Terisi?</h4>
@@ -191,6 +193,33 @@ if ($data['p2k'] == 1) {
   </form>
 
 </div>
+
+<script>
+document.addEventListener('input', e => {
+  const view = e.target;
+  if (!view.matches('[data-number="view"]')) return;
+
+  const raw = document.getElementById(view.dataset.target);
+  if (!raw) return;
+
+  const clean = view.value.replace(/\D/g, '');
+  view.value = clean.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  raw.value  = clean;
+});
+
+// fungsi load dari PHP
+function setNumber(viewId, value) {
+  const view = document.getElementById(viewId);
+  const raw  = document.getElementById(view.dataset.target);
+
+  raw.value  = value;
+  view.value = String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+</script>
+<script>
+setNumber('p2p_view', <?= (int)$data['p2p'] ?>);
+setNumber('p3p_view', <?= (int)$data['p3p'] ?>);
+</script>
 
 </body>
 

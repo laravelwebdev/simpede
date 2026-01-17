@@ -32,7 +32,7 @@ try {
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
         <div id="app">
@@ -1174,21 +1174,24 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
             </fieldset>
         </form>
         </div>
-        <script src="../vue.min.js"></script>
-        <script src="../currency.js"></script>
-        <script src="rekap.js"></script> 
+        <script src="../js/vue.min.js"></script>
+        <script src="../js/currency.js"></script>
+        <script src="../js/rekap.js"></script> 
         <script>
             <?php
-                while ($row = mysqli_fetch_array($result)) {
-                    $data = json_decode($row['data']);
-                }
-foreach ($data as $key => $value) {
-    if (($key != 'nks') && ($key != 'nus') && ($key != 'makanan') && ($key != 'nonmakanan')) {
-        $value = str_replace(' ', '', $value);
-        echo '
-                  let '.$key.' = document.getElementById("'.$key.'");
-                      '.$key.'.value ='.$value.';    
-                      '.$key.'.dispatchEvent(new Event("input"));';
+                $data = null;
+while ($row = mysqli_fetch_array($result)) {
+    $data = isset($row['data']) ? json_decode($row['data'], true) : null;
+}
+if ($data && is_array($data)) {
+    foreach ($data as $key => $value) {
+        if (($key != 'nks') && ($key != 'nus') && ($key != 'makanan') && ($key != 'nonmakanan')) {
+            $value = str_replace(' ', '', $value);
+            echo '
+                      let '.$key.' = document.getElementById("'.$key.'");
+                          '.$key.'.value ='.$value.';    
+                          '.$key.'.dispatchEvent(new Event("input"));';
+        }
     }
 }
 ?>

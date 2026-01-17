@@ -7,7 +7,7 @@
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">  
+  <link rel="stylesheet" href="css/style.css">  
 </head>
 
 <body>
@@ -60,9 +60,9 @@
 
 </div>
   
-<script src="vue.min.js"></script>
-<script src="currency.js"></script>
-<script src="pbb.js"></script> 
+<script src="js/vue.min.js"></script>
+<script src="js/currency.js"></script>
+<script src="js/pbb.js"></script> 
 </body>
 
 </html>

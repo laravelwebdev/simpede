@@ -63,7 +63,7 @@ $rpml = mysqli_query($conn, $qpml);
           <p>Selesai</p>
         </div></td>
         <td class="td-small"><div class="success">
-          <p>Detail</p>
+          <p>Aksi</p>
         </div></td>
       </tr>
       <?php

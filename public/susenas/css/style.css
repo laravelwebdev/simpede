@@ -301,12 +301,12 @@ header h1 {
   height: 20px;
   margin: 0px;
 }
+
 .success p {
   background: #06bd86;
   color: #ffffff;
   font-size: 1rem;
   font-weight: bold;
-  text-align: left;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: 0.25em;
@@ -322,7 +322,6 @@ header h1 {
   color: #ffffff;
   font-size: 1rem;
   font-weight: bold;
-  text-align: left;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: 0.25em;
@@ -389,12 +388,13 @@ header h1 {
   }
 }
 
-td{
+td {
   max-width:50%;
-  padding: 5px;
+  padding: 5px 1.5px;
+  border-bottom: 1pt dashed rgb(120, 121, 122);
 }
 
-table{
+table {
   width:100%;
   table-layout:fixed;
 }
@@ -414,10 +414,6 @@ table{
 
 table {
   border-collapse: separate;
-}
-
-td {
-  border-bottom: 1pt dashed rgb(120, 121, 122);
 }
 
 td.noborder {
@@ -461,63 +457,41 @@ table.orange {
 
 
 .blue {
-
   height: 20px;
-
   margin: 0px;
-
 }
 
 .blue p {
-
   background: #157de6;
-
   color: #ffffff;
-
   font-size: 1rem;
-
   font-weight: bold;
-
-  text-align: left;
-
   -webkit-font-smoothing: antialiased;
-
   -moz-osx-font-smoothing: grayscale;
-
   border-radius: 0.25em;
-
   padding: 5px;
-
 }
 
-
-
 .red {
-
   height: 20px;
-
   margin: 0px;
-
 }
 
 .red p {
-
   background: #c52d13;
-
   color: #ffffff;
-
   font-size: 1rem;
-
   font-weight: bold;
-
-  text-align: left;
-
   -webkit-font-smoothing: antialiased;
-
   -moz-osx-font-smoothing: grayscale;
-
   border-radius: 0.25em;
-
   padding: 5px;
+}
 
+.center-text {
+  text-align: center;
+}
+
+.right-text {
+  text-align: right;
 }

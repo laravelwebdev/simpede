@@ -52,7 +52,7 @@ try {
         <td><div class="success">
           <p>NUS</p>
         </div></td>
-        <td><div class="success">
+        <td><div class="success center-text">
           <p>Aksi</p>
         </div></td>
       </tr>
@@ -62,7 +62,7 @@ try {
                echo '<tr>
         <td><label class="label-result">'.$row['nks'].'</label></td>
         <td><label class="label-result">'.$row['nus'].'</label></td>
-        <td><div class="blue">
+        <td><div class="blue center-text">
           <p><a href="rekap.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Ubah</a></p>
         </div></td>
       </tr>

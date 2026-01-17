@@ -59,7 +59,7 @@ try {
         <td><div class="success">
           <p>Status</p>
         </div></td>
-        <td><div class="success">
+        <td><div class="success center-text">
           <p>Aksi</p>
         </div></td>
       </tr>
@@ -77,7 +77,7 @@ try {
         <td><label class="label-result">'.$row['nks'].' ['.$nus.']'.'</label></td>
         <td><label class="label-result">'.$krt.'</label></td>
         <td><label class="label-result">'.$row['statusc'].'</label></td>
-        <td><div class="blue">
+        <td><div class="blue center-text">
           <p><a href="cacah.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Ubah</a></p>
         </div></td>
       </tr>

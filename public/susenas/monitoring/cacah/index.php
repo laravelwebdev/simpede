@@ -50,9 +50,6 @@ $rpml = mysqli_query($conn, $qpml);
     </div>
 
     <fieldset>
-      <div class="success">
-      <p>Per PCL</p>
-    </div>
     <table>
       <tr>
         <td><div class="success">
@@ -61,7 +58,7 @@ $rpml = mysqli_query($conn, $qpml);
         <td class="td-small"><div class="success">
           <p>Progress</p>
         </div></td>
-        <td class="td-small"><div class="success">
+        <td class="td-small"><div class="success center-text">
           <p>Aksi</p>
         </div></td>
       </tr>
@@ -71,8 +68,8 @@ $rpml = mysqli_query($conn, $qpml);
 
                echo '<tr>
         <td><label class="label-result">'.$row['pcl'].'</label></td>
-        <td><div class="'.$colorc.'"><p>'.$row['sudah'].'/'.$row['total'].'</p></div></td>
-        <td><div class="blue">
+        <td><div class="'.$colorc.' center-text"><p>'.$row['sudah'].'/'.$row['total'].'</p></div></td>
+        <td><div class="blue center-text">
           <p><a href="index2.php?nama='.$row['kode_pcl'].'">Lihat</a></p>
         </div></td>
       </tr>
@@ -81,26 +78,21 @@ $rpml = mysqli_query($conn, $qpml);
 ?>
       <tr>
         <td><label class="label-result">TOTAL</label></td>
-        <td><div class="success">
+        <td><div class="success right-text">
           <p><?php echo $total; ?></p>
         </div></td>
-        <td><div class="success">
+        <td><div class="success right-text">
           <p><?php echo $sampel > 0 ? round(100 * $total / $sampel, 2).'%' : '0%'; ?></p>
         </div></td>
       </tr>
      
       </table>
-
-      <div class="warning">
-        <p>Per PML</p>
-      </div>
-
       <table>
         <tr>
           <td colspan="3"><div class="warning">
             <p>Nama PML</p>
           </div></td>
-          <td><div class="warning">
+          <td><div class="warning center-text">
             <p>Progress</p>
           </div></td>          
         </tr>
@@ -109,7 +101,7 @@ $rpml = mysqli_query($conn, $qpml);
           $colork = 'blue';
           echo '<tr>
         <td colspan="3"><label class="label-result">'.$rowpml['pml'].'</label></td>
-        <td class="right"><div class="'.$colork.'"><p>'.$rowpml['sudah'].'/'.$rowpml['total'].'</p></div></td>
+        <td class="right"><div class="'.$colork.' center-text"><p>'.$rowpml['sudah'].'/'.$rowpml['total'].'</p></div></td>
 
       </tr>
       ';
@@ -120,7 +112,7 @@ $rpml = mysqli_query($conn, $qpml);
           <td colspan="3"><div class="warning">
             <p>TOTAL</p>
           </div></td>
-          <td><div class="warning">
+          <td><div class="warning right-text">
             <p><?php echo $total; ?></p>
           </div></td>          
         </tr>

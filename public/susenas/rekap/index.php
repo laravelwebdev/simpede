@@ -40,7 +40,7 @@ try {
         <td><div class="success">
           <p>Nama PCL</p>
         </div></td>
-        <td><div class="success">
+        <td><div class="success center-text">
           <p>Aksi</p>
         </div></td>
       </tr>
@@ -49,7 +49,7 @@ try {
 
                echo '<tr>
         <td><label class="label-result">'.$row['pcl'].'</label></td>
-        <td><div class="blue">
+        <td><div class="blue center-text">
           <p><a href="index2.php?nama='.$row['kode_pcl'].'">Lihat</a></p>
         </div></td>
       </tr>

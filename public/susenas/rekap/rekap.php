@@ -851,17 +851,17 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Pembelian</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Produksi</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Total</p>
                                 </div>
                             </td>
@@ -974,12 +974,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Sebulan</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Setahun</p>
                                 </div>
                             </td>
@@ -1059,12 +1059,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 2</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 4</p>
                                 </div>
                             </td>
@@ -1122,12 +1122,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 2</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 4</p>
                                 </div>
                             </td>

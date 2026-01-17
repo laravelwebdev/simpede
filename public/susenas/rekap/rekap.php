@@ -781,11 +781,11 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                             <td class="noborder"><label class="label">Rincian 1 Kolom 4</label></td>
                         </tr>
                         <tr>
-                            <td style='text-align:right;background-color:grey;'>
-                            Dihitung Otomatis
+                            <td style='text-align:center;background-color:grey;'>
+                            Tidak Diinput
                             </td>
-                            <td style='text-align:right;background-color:grey;'>
-                            Dihitung Otomatis
+                            <td style='text-align:center;background-color:grey;'>
+                           Tidak Diinput
                             </td>
                         </tr>
                         <tr>

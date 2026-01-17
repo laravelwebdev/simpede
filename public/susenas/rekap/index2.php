@@ -49,7 +49,7 @@ try {
           <p>NKS</p>
         </div></td>
         <td><div class="success">
-          <p>Rekap</p>
+          <p>Aksi</p>
         </div></td>
       </tr>
       <?php
@@ -58,7 +58,7 @@ try {
                echo '<tr>
         <td><label class="label-result">'.$row['nks'].'</label></td>
         <td><div class="blue">
-          <p><a href="dcacah.php?nks='.$row['nks'].'&nama='.$_GET['nama'].'">Rekap</a></p>
+          <p><a href="dcacah.php?nks='.$row['nks'].'&nama='.$_GET['nama'].'">Lihat</a></p>
         </div></td>
       </tr>
       ';

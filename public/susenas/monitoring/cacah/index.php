@@ -59,10 +59,10 @@ $rpml = mysqli_query($conn, $qpml);
           <p>Nama PCL</p>
         </div></td>
         <td class="td-small"><div class="success">
-          <p>Cacah</p>
+          <p>Progress</p>
         </div></td>
         <td class="td-small"><div class="success">
-          <p>Detail</p>
+          <p>Aksi</p>
         </div></td>
       </tr>
       <?php
@@ -73,7 +73,7 @@ $rpml = mysqli_query($conn, $qpml);
         <td><label class="label-result">'.$row['pcl'].'</label></td>
         <td><div class="'.$colorc.'"><p>'.$row['sudah'].'/'.$row['total'].'</p></div></td>
         <td><div class="blue">
-          <p><a href="index2.php?nama='.$row['kode_pcl'].'">Detail</a></p>
+          <p><a href="index2.php?nama='.$row['kode_pcl'].'">Lihat</a></p>
         </div></td>
       </tr>
       ';
@@ -101,7 +101,7 @@ $rpml = mysqli_query($conn, $qpml);
             <p>Nama PML</p>
           </div></td>
           <td><div class="warning">
-            <p>Jumlah</p>
+            <p>Progress</p>
           </div></td>          
         </tr>
       <?php

@@ -19,6 +19,9 @@ $files = [
     "$baseUrl/r502.php",
     "$baseUrl/sekolah.php",
     "$baseUrl/stnk.php",
+    "$baseUrl/version.php",
+    "$baseUrl/makanan.php",
+    "$baseUrl/sw.js",
     "$baseUrl/eval.php",
     "$baseUrl/monitoring/index.php",
 ];

@@ -53,7 +53,7 @@ try {
           <p>NUS</p>
         </div></td>
         <td><div class="success">
-          <p>Rekap</p>
+          <p>Aksi</p>
         </div></td>
       </tr>
       <?php
@@ -63,7 +63,7 @@ try {
         <td><label class="label-result">'.$row['nks'].'</label></td>
         <td><label class="label-result">'.$row['nus'].'</label></td>
         <td><div class="blue">
-          <p><a href="rekap.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Rekap</a></p>
+          <p><a href="rekap.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Ubah</a></p>
         </div></td>
       </tr>
       ';

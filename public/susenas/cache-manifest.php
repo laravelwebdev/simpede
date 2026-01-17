@@ -24,7 +24,6 @@ $files = [
     "$baseUrl/makanan.php",
     "$baseUrl/sw.js",
     "$baseUrl/eval.php",
-    "$baseUrl/index.php",
     "$baseUrl/monitoring/index.php",
 ];
 

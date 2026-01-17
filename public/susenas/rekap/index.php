@@ -50,7 +50,7 @@ try {
                echo '<tr>
         <td><label class="label-result">'.$row['pcl'].'</label></td>
         <td><div class="blue">
-          <p><a href="index2.php?nama='.$row['kode_pcl'].'">Ubah</a></p>
+          <p><a href="index2.php?nama='.$row['kode_pcl'].'">Lihat</a></p>
         </div></td>
       </tr>
       ';

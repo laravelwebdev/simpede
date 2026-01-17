@@ -3,66 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-*{box-sizing:border-box;font-family:Segoe UI,Roboto,sans-serif}
-body{
-    margin:0;
-    padding:12px;
-    background:#f4f6f8;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-}
-
-/* GRID 2 KOLOM */
-.row{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-}
-
-/* TILE */
-.card{
-    position:relative;
-    height:102px;
-    border-radius:8px;
-    padding:12px;
-    color:#fff;
-    overflow:hidden;
-    box-shadow:0 8px 18px rgba(0,0,0,.25);
-}
-
-/* TEXT */
-.card h3{
-    position:absolute;
-    left:12px;
-    bottom:12px;
-    margin:0;
-    font-size:13px;
-    font-weight:500;
-    z-index:2;
-}
-
-/* ICON IMAGE BESAR */
-.card img{
-    position:absolute;
-    right:-28px;
-    top:50%;
-    transform:translateY(-50%);
-    width:78px;
-    height:78px;
-    object-fit:contain;
-    opacity:.25;
-    z-index:1;
-}
-
-a{text-decoration:none}
-
-/* RESPONSIVE TABLET */
-@media(min-width:768px){
-    .row{grid-template-columns:repeat(3,1fr)}
-}
-</style>
+<link rel="stylesheet" href="css/menu.css">  
 </head>
 <body>
 

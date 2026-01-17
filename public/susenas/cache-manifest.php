@@ -5,8 +5,20 @@ $baseUrl = '/susenas';
 $root = __DIR__;
 
 $files = [
-    "$baseUrl/",
-    "$baseUrl/index.php",
+    "$baseUrl/bpjs.php",
+    "$baseUrl/imunisasi.php",
+    "$baseUrl/kesehatan.php",
+    "$baseUrl/konsistensi.php",
+    "$baseUrl/konversi.php",
+    "$baseUrl/listrik.php",
+    "$baseUrl/oop.php",
+    "$baseUrl/pbb.php",
+    "$baseUrl/menu.php",
+    "$baseUrl/pdam.php",
+    "$baseUrl/pph.php",
+    "$baseUrl/r502.php",
+    "$baseUrl/sekolah.php",
+    "$baseUrl/stnk.php",
     "$baseUrl/eval.php",
     "$baseUrl/monitoring/index.php",
 ];

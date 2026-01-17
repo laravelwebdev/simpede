@@ -782,12 +782,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                         </tr>
                         <tr>
                             <td>
-                           <div class="warning center-text">
+                           <div class="red center-text">
                                     <p>Tidak Diinput</p>
                                 </div>
                             </td>
                             <td>
-                           <div class="warning center-text">
+                           <div class="red center-text">
                                     <p>Tidak Diinput</p>
                                 </div>
                             </td>

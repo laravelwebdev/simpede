@@ -60,7 +60,7 @@ $rpml = mysqli_query($conn, $qpml);
           <p>Nama PCL</p>
         </div></td>
         <td class="td-small"><div class="success">
-          <p>Selesai</p>
+          <p>Progress</p>
         </div></td>
         <td class="td-small"><div class="success">
           <p>Aksi</p>
@@ -103,7 +103,7 @@ $rpml = mysqli_query($conn, $qpml);
             <p>Nama PML</p>
           </div></td>
           <td><div class="warning">
-            <p>Jumlah</p>
+            <p>Progress</p>
           </div></td>          
         </tr>
       <?php

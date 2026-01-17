@@ -60,7 +60,7 @@ try {
           <p>Status</p>
         </div></td>
         <td><div class="success">
-          <p>Update</p>
+          <p>Aksi</p>
         </div></td>
       </tr>
       <?php
@@ -78,7 +78,7 @@ try {
         <td><label class="label-result">'.$krt.'</label></td>
         <td><label class="label-result">'.$row['statusc'].'</label></td>
         <td><div class="blue">
-          <p><a href="cacah.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Update</a></p>
+          <p><a href="cacah.php?nks='.$row['nks'].'&nus='.$row['nus'].'&nama='.$_GET['nama'].'">Ubah</a></p>
         </div></td>
       </tr>
       ';

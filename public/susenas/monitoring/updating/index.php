@@ -75,7 +75,7 @@ $rpml = mysqli_query($conn, $qpml);
         <td><label class="label-result">'.$row["pcl"].'</label></td>
         <td><div class="'.$colorc.'"><p>'.$row["sudah"].'/'.$row["total"].'</p></div></td>
         <td><div class="blue">
-          <p><a href="dcacah.php?nama='.$row["kode_pcl"].'">Detail</a></p>
+          <p><a href="dcacah.php?nama='.$row["kode_pcl"].'">Lihat</a></p>
         </div></td>
       </tr>
       ';

@@ -781,11 +781,15 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                             <td class="noborder"><label class="label">Rincian 1 Kolom 4</label></td>
                         </tr>
                         <tr>
-                            <td style='text-align:right;background-color:grey;'>
-                            Dihitung Otomatis
+                            <td>
+                           <div class="red center-text">
+                                    <p>Tidak Diinput</p>
+                                </div>
                             </td>
-                            <td style='text-align:right;background-color:grey;'>
-                            Dihitung Otomatis
+                            <td>
+                           <div class="red center-text">
+                                    <p>Tidak Diinput</p>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -851,17 +855,17 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Pembelian</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Produksi</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Total</p>
                                 </div>
                             </td>
@@ -974,12 +978,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Sebulan</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Setahun</p>
                                 </div>
                             </td>
@@ -1059,12 +1063,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 2</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 4</p>
                                 </div>
                             </td>
@@ -1122,12 +1126,12 @@ echo '<option value="'.$_GET['nus'].'">'.$_GET['nus'].'</option>';
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 2</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="success">
+                                <div class="success center-text">
                                     <p>Kolom 4</p>
                                 </div>
                             </td>

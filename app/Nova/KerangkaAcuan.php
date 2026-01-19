@@ -315,7 +315,7 @@ class KerangkaAcuan extends Resource
     {
         return [
             Select::make('Identifikasi Pemaketan', 'jenis')
-                ->help('Non Pengadaan Contohnya:Gaji. Swakelola contohnya: Honor Non Mitra non OB, Biaya Perjalanan Dinas, Transport Lokal')
+                ->help('Non Pengadaan Contohnya: Belanja Gaji (51), Honor Mitra. Swakelola contohnya: Honor non OB selain honor mitra, Biaya Perjalanan Dinas, Transport Lokal')
                 ->options([
                     'Swakelola' => 'Swakelola',
                     'Penyedia' => 'Penyedia',

@@ -43,7 +43,7 @@ class ImportMasterBarangPemeliharaan extends Action
                     ]
                 );
                 $MasterBarangPemeliharaan->nama_barang = $row['Nama Barang'];
-                $MasterBarangPemeliharaan->merk = $row['Merk'];
+                $MasterBarangPemeliharaan->merk = $row['Nama'];
                 $MasterBarangPemeliharaan->nopol = $row['No Polisi'];
                 $MasterBarangPemeliharaan->kondisi = $row['Kondisi'];
                 $MasterBarangPemeliharaan->lokasi = $row['Lokasi Ruang'];

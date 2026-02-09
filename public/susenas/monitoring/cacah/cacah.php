@@ -126,7 +126,7 @@ if ($data['p2k'] == 1) {
         <input type="number" onClick="this.select()"  name="p1p" id="p1p" required="" ref="p1p" min=0 value="<?php echo $data['p1p']; ?>">
       </div>
       <div>
-        <label class="label" for="pendidikan">Pendidkan KRT (Rincian 615 baris pertama)</label>
+        <label class="label" for="pendidikan">Pendidkan KRT (Rincian 614 baris pertama)</label>
         <input type="number" onClick="this.select()"  name="pendidikan" id="pendidikan" required="" ref="pendidikan" min=0 value="<?php echo $data['pendidikan']; ?>">
       </div>      
     <div>

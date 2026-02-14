@@ -13,10 +13,11 @@ if (! isset($_GET['nama']) || ! isset($_GET['nks'])) {
 try {
     $conn = getDbConnection();
     $nama = sanitizeInput($_GET['nama']);
+    $nks = sanitizeInput($_GET['nks']);
 
-    $query = 'SELECT nks, nus, statusc FROM cacah WHERE kode_pcl = ? ORDER BY nks ASC, nus + 0 ASC';
+    $query = 'SELECT nks, nus, statusc FROM cacah WHERE kode_pcl = ? and nks = ? ORDER BY nks ASC, nus + 0 ASC';
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, 's', $nama);
+    mysqli_stmt_bind_param($stmt, 'ss', $nama, $nks);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 } catch (Exception $e) {

@@ -491,6 +491,7 @@ class Cetak
             'mak' => optional(Helper::getMataAnggaranById($perjalanan->mata_anggaran_id))->mak,
             'item_biaya' => $item_biaya,
             'biaya_terbilang' => Helper::terbilang(Helper::sumSpek($itemdengannilai, 'nilai'), 'uw', ' rupiah'),
+            'tgl_kuitansi' => Helper::terbilangTanggal($data->tanggal_kuitansi),
         ];
     }
 

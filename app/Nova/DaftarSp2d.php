@@ -342,20 +342,7 @@ class DaftarSp2d extends Resource
 
         return $query->where('dipa_id', $dipa_id)
             ->whereIn('id', function ($query) use ($request) {
-                if (DB::table('realisasi_anggarans')
-                    ->where('daftar_sp2d_id', $request->resourceId)
-                    ->exists()
-                ) {
-                    $query->select('kerangka_acuan_id')
-                        ->from('anggaran_kerangka_acuans')
-                        ->whereIn('mata_anggaran_id', function ($subQuery) use ($request) {
-                            $subQuery->select('mata_anggaran_id')
-                                ->from('realisasi_anggarans')
-                                ->where('daftar_sp2d_id', $request->resourceId);
-                        });
-                } else {
-                    $query->select('id')->from('kerangka_acuans');
-                }
+                 $query->select('id')->from('kerangka_acuans');
             });
     }
 }

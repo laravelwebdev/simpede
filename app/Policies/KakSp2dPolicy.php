@@ -57,7 +57,7 @@ class KakSp2dPolicy
     public function runAction(): bool
     {
         return Policy::make()
-            ->allowedFor('admin,arsiparis')
+            ->allowedFor('admin,arsiparis,bendahara')
             ->get();
     }
 }

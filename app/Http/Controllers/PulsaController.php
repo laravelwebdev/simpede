@@ -31,7 +31,7 @@ class PulsaController extends Controller
         $token = $request->route('token');
         $nik = $request->input('nik');
         $tahunPulsa = PulsaKegiatan::getTahunByToken($token);
-        $mitraId = Helper::getMitraIdByNIK($nik);
+        $mitraId = Helper::getMitraIdByNIK($nik, $tahunPulsa);
 
         $pulsaKegiatanId = PulsaKegiatan::getIdByToken($token);
 

@@ -1034,9 +1034,20 @@ class Helper
      * @param  string  $nik  The NIK of the Mitra to search for.
      * @return int|null The ID of the matching Mitra, or null if not found.
      */
-    public static function getMitraIdByNik($nik)
+    public static function getMitraIdByNik($nik, $tahun = null)
     {
-        return optional(Mitra::cache()->get('all')->where('nik', $nik)->first())->id;
+        $mitras = Mitra::cache()->get('all')->where('nik', $nik);
+    
+        if (!is_null($tahun)) {
+            $kepkaMitraIds = KepkaMitra::cache()
+                ->get('all')
+                ->where('tahun', $tahun)
+                ->pluck('id');
+    
+            $mitras = $mitras->whereIn('kepka_mitra_id', $kepkaMitraIds);
+        }
+    
+        return optional($mitras->first())->id;
     }
 
     /**

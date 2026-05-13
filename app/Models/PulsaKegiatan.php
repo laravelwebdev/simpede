@@ -75,4 +75,8 @@ class PulsaKegiatan extends Model
     {
         return optional(self::where('token', $token)->first())->id;
     }
+    public static function getTahunByToken($token)
+    {
+        return optional(self::where('token', $token)->first())->tahun;
+    }
 }

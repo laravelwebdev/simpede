@@ -97,21 +97,23 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-        Nova::footer(fn () => '<p class="mt-8 text-center text-xs text-80">        
-        Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik <span class="px-1">&middot;</span> v.'.Helper::version().'
+        Nova::footer(
+            fn() => '<p class="mt-8 text-center text-xs text-80">        
+        Sistem Integrasi Pekerjaan dan Dokumentasi secara Elektronik <span class="px-1">&middot;</span> v.' . Helper::version() . '
         </p>
-        <p class="mt-8 text-center text-xs text-80">  Copyright &copy;2021 - '.date('Y').' <a href="'.config('satker.website').'" class="text-primary dim no-underline">BPS '.config('satker.kabupaten').'</a> 
+        <p class="mt-8 text-center text-xs text-80">  Copyright &copy;2021 - ' . date('Y') . ' <a href="' . config('satker.website') . '" class="text-primary dim no-underline">BPS ' . config('satker.kabupaten') . '</a> 
         </p>'
         );
 
         Nova::userMenu(function (Request $request, Menu $menu) {
             return $menu
-                ->prepend(MenuItem::link('Profil Saya', '/resources/users/'.$request->user()->getKey()))
+                ->prepend(MenuItem::link('Profil Saya', '/resources/users/' . $request->user()->getKey()))
                 ->prepend(MenuItem::externalLink('Panduan', 'https://docs.simpede.my.id/')->openInNewTab())
-                ->prepend(MenuItem::link('System Report', '/resources/error-logs/lens/system-report')
-                    ->canSee(fn () => Policy::make()
-                        ->allowedFor('admin')
-                        ->get())
+                ->prepend(
+                    MenuItem::link('System Report', '/resources/error-logs/lens/system-report')
+                        ->canSee(fn() => Policy::make()
+                            ->allowedFor('admin')
+                            ->get())
                 );
         });
 
@@ -129,7 +131,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::lens(MasterPersediaan::class, RekapBarangPersediaan::class),
                     MenuItem::lens(Mitra::class, RekapHonorMitra::class),
                     MenuItem::lens(Mitra::class, RekapPulsaMitra::class),
-                    MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn () => Policy::make()
+                    MenuItem::lens(MasterBarangPemeliharaan::class, PemeliharaanBarang::class)->canSee(fn() => Policy::make()
                         ->allowedFor('admin,anggota,koordinator,kasubbag,bmn,kepala')
                         ->get()),
                     MenuItem::lens(KakSp2d::class, MonitoringRekapSirup::class),
@@ -138,7 +140,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('Manajemen', [
                     MenuItem::resource(DigitalPayment::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => ModelsDigitalPayment::whereNull('nomor')->whereYear('tanggal_transaksi', session('year'))->count('id') > 0),
+                        ->withBadgeIf(fn() => '!', 'danger', fn() => ModelsDigitalPayment::whereNull('nomor')->whereYear('tanggal_transaksi', session('year'))->count('id') > 0),
                     MenuItem::resource(HonorKegiatan::class),
                     MenuItem::resource(IzinKeluar::class),
                     MenuItem::resource(KerangkaAcuan::class),
@@ -186,13 +188,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->collapsable()
                     ->icon('user-group'),
 
+                // MenuSection::make('SAKIP', [
+                //     MenuItem::resource(RealisasiKinerja::class),
+                //     MenuItem::resource(AnalisisSakip::class),
+                //     MenuItem::resource(TindakLanjut::class),
+                // ])
+                //     ->collapsable()
+                //     ->icon('document-chart-bar'),
+
                 MenuSection::make('SAKIP', [
-                    MenuItem::resource(RealisasiKinerja::class),
-                    MenuItem::resource(AnalisisSakip::class),
-                    MenuItem::resource(TindakLanjut::class),
+                    MenuItem::resource(PerjanjianKinerja::class),
                 ])
                     ->collapsable()
                     ->icon('document-chart-bar'),
+
 
                 MenuSection::make('Kalender', [
                     MenuItem::link(__('Kalender'), NovaCalendar::pathToCalendar('kalender-kegiatan')),
@@ -206,7 +215,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(DaftarSp2d::class),
                     MenuItem::resource(Dipa::class),
                     MenuItem::lens(MataAnggaranResource::class, MatchingAnggaran::class)
-                        ->withBadgeIf(fn () => '!', 'danger', fn () => MataAnggaran::where('is_manual', true)->where('dipa_id', ModelDipa::where('tahun', session('year'))->value('id'))->count('id') > 0),
+                        ->withBadgeIf(fn() => '!', 'danger', fn() => MataAnggaran::where('is_manual', true)->where('dipa_id', ModelDipa::where('tahun', session('year'))->value('id'))->count('id') > 0),
                 ])
                     ->collapsable()
                     ->icon('currency-dollar'),
@@ -216,7 +225,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(MasterBarangPemeliharaan::class),
                     MenuItem::resource(MasterPersediaan::class),
                     MenuItem::resource(LimitPulsa::class),
-                    MenuItem::resource(PerjanjianKinerja::class),
                     MenuItem::resource(SkTranslok::class),
                     MenuItem::resource(TataNaskah::class),
                     // MenuItem::resource(UserEksternal::class),
@@ -257,8 +265,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->orWhereRaw('LEFT(email ,LOCATE("@", email) -1) = ?', [$request->email])
                 ->first();
 
-            if ($user &&
-                Hash::check($request->password, $user->password)) {
+            if (
+                $user &&
+                Hash::check($request->password, $user->password)
+            ) {
                 return $user;
             }
         });
@@ -338,7 +348,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new NovaCalendar('kalender-kegiatan'),
-            Updater::make()->canSee(fn () => Policy::make()
+            Updater::make()->canSee(fn() => Policy::make()
                 ->allowedFor('admin')
                 ->get()),
             SessionYear::make(),

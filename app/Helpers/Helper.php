@@ -101,6 +101,7 @@ class Helper
         'GUP KKP',
         'GUP-KKP',
         'TUP',
+        'PTUP',
         'GUP',
         'UP',
     ];

@@ -34,7 +34,7 @@ class ImportDaftarSP2DMyIntress extends Action
 
         UangPersediaan::where('dipa_id', $model->id)->update(['updated_at' => null]);
         DaftarSp2d::where('dipa_id', $model->id)->update(['updated_at' => null]);
-        (new FastExcel)->startRow(2)->import($fields->myintress, function ($row) use ($model) {
+        (new FastExcel)->startRow(6)->import($fields->myintress, function ($row) use ($model) {
             $no_sp2d = str_replace("'", '', trim($row['No. SP2D']));
             $no_spp = str_replace("'", '', trim($row['No. SPP/SPM']));
             $jenis_spp = trim(explode(' - ', $row['Jenis SPP/SPM'])[1]);

@@ -135,8 +135,8 @@
                             <a href="" class="title text-lg font-semibold hover:text-teal-500">Perjalanan Dinas</a>
                             <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor Surat Tugas</p>
                             <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor SPPD</p>
-                            <p class="text-slate-400 mt-3">Otomatisasi  Pembuatan Surat Tugas</p>
-                            <p class="text-slate-400 mt-3">Otomatisasi  Pembuatan SPPD</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Surat Tugas</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan SPPD</p>
                             <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kuitansi</p>
                             <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Pernyataan Tidak Menggunakan Kendaraan Dinas</p>
                         </div>
@@ -155,7 +155,7 @@
                             <p class="text-slate-400 mt-3">Pencatatan Barang Persediaan Masuk</p>
                             <p class="text-slate-400 mt-3">Pencatatan Barang Persediaan Keluar</p>
                             <p class="text-slate-400 mt-3">Pembuatan Bon Permintaan Barang Persediaan</p>
-                            <p class="text-slate-400 mt-3">Otomatisasi Kartu Kendali Barang Persediaan</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kartu Kendali Barang Persediaan</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -192,9 +192,9 @@
 
                         <div class="content mt-6 relative z-1">
                             <a  class="title text-lg font-semibold hover:text-teal-500">Kepegawaian</a>
-                            <p class="text-slate-400 mt-3">Pembuatan Kertas Kerja untuk <em>Employee of the Month</em></p>
-                            <p class="text-slate-400 mt-3">Pembuatan SK untuk <em>Employee of the Month</em></p>
-                            <p class="text-slate-400 mt-3">Pembuatan Sertifikat untuk <em>Employee of the Month</em></p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kertas Kerja untuk <em>Employee of the Month</em></p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan SK untuk <em>Employee of the Month</em></p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Sertifikat untuk <em>Employee of the Month</em></p>
                             <p class="text-slate-400 mt-3">Pencatatan Izin Keluar Kantor</p>
                         </div>
 
@@ -291,8 +291,8 @@
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Rapat</a>
                             <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Undangan Rapat</p>
-                            <p class="text-slate-400 mt-3">Otomatisasi Template Daftar Hadir Rapat</p>
-                            <p class="text-slate-400 mt-3">Otomatisasi Template Notula Rapat</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Template Daftar Hadir Rapat</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Template Notula Rapat</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -320,7 +320,7 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Pemeliharaan BMN</a>
-                            <p class="text-slate-400 mt-3">Otomatisasi Kartu Kendali Pemeliharaan BMN</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kartu Kendali Pemeliharaan BMN</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">

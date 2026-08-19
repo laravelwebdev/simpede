@@ -133,12 +133,12 @@
 
                         <div class="content mt-6 relative z-1">
                             <a href="" class="title text-lg font-semibold hover:text-teal-500">Perjalanan Dinas</a>
-                            <p class="text-slate-400 mt-3">Pembuatan Nomor Surat Tugas</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Nomor SPPD</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Surat Tugas</p>
-                            <p class="text-slate-400 mt-3">Pembuatan SPPD</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Kuitansi</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Pernyataan Tidak Menggunakan Kendaraan Dinas</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor Surat Tugas</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor SPPD</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi  Pembuatan Surat Tugas</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi  Pembuatan SPPD</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kuitansi</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Pernyataan Tidak Menggunakan Kendaraan Dinas</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -155,7 +155,7 @@
                             <p class="text-slate-400 mt-3">Pencatatan Barang Persediaan Masuk</p>
                             <p class="text-slate-400 mt-3">Pencatatan Barang Persediaan Keluar</p>
                             <p class="text-slate-400 mt-3">Pembuatan Bon Permintaan Barang Persediaan</p>
-                            <p class="text-slate-400 mt-3">Kartu Kendali Barang Persediaan</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Kartu Kendali Barang Persediaan</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -169,12 +169,13 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Mitra Statistik</a>
-                            <p class="text-slate-400 mt-3">Pembuatan SPJ Honor</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Surat Tugas Mitra</p>
-                            <p class="text-slate-400 mt-3">Pembuatan SK Mitra</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Kontrak Mitra</p>
-                            <p class="text-slate-400 mt-3">Pembuatan BAST Kontrak Mitra</p>
-                            <p class="text-slate-400 mt-3">Template CMS BRI</p>
+                            <p class="text-slate-400 mt-3">Monitoring Keseuaian Honor dengan SBML</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan SPJ Honor</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Surat Tugas Mitra</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan SK Mitra</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Kontrak Mitra</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan BAST Kontrak Mitra</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Template Pembayaran Honor via QLOLA BRI</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -227,7 +228,8 @@
                             <p class="text-slate-400 mt-3">Pendokumentasian Arsip Naskah Masuk</p>
                             <p class="text-slate-400 mt-3">Pendokumentasian Arsip Naskah Keluar</p>
                             <p class="text-slate-400 mt-3">Pendokumentasian Foto-Foto Kegiatan</p>
-                            <p class="text-slate-400 mt-3">Pengelolaan Arsip Keuangan (Cetak Daftar Berkas dan Template Unggah Aplikasi SEKAR)</p>
+                            <p class="text-slate-400 mt-3">Pengelolaan Arsip Keuangan (Otomatisasi Cetak Daftar Berkas dan Template Unggah Aplikasi SEKAR)</p>
+                            <p class="text-slate-400 mt-3">Pengelolaan Arsip Keuangan Digital (Daftar Berkas digital dan Penunjuk Lokasi Berkas di Ruang Arsip</p>
                         </div>
                         <div class="absolute bottom-0 -end-16">
                             <i data-feather="camera" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
@@ -240,11 +242,11 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Pulsa Mitra</a>
+                            <p class="text-slate-400 mt-3">Monitoring Keseuaian Jumlah Penggantian Pulsa dengan SBML</p>
                             <p class="text-slate-400 mt-3">Rekapitulasi Bulanan Penggantian Pulsa Mitra</p>
                             <p class="text-slate-400 mt-3">Form Konfirmasi Nomor Handphone</p>
                             <p class="text-slate-400 mt-3">Form upload bukti masuk pulsa</p>
-                            <p class="text-slate-400 mt-3">Cetak Otomatis tanda terima pulsa</p>
-                       
+                            <p class="text-slate-400 mt-3">Otomatisasi Cetak tanda terima pulsa</p>                       
                         </div>
                         <div class="absolute bottom-0 -end-16">
                             <i data-feather="wifi" class="size-48 text-teal-500 opacity-[0.04] dark:opacity-[0.04] group-hover:opacity-10 duration-500"></i>
@@ -258,7 +260,7 @@
                         <div class="content mt-6 relative z-1">
                             <a  class="title text-lg font-semibold hover:text-teal-500">Kerangka Acuan Kerja</a>
                             <p class="text-slate-400 mt-3">Pembuatan Kerangka Acuan Kerja</p>
-                            <p class="text-slate-400 mt-3">Pembuatan Nomor Form Permintaan</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor Form Permintaan</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -288,9 +290,9 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Rapat</a>
-                            <p class="text-slate-400 mt-3">Pembuatan Undangan Rapat</p>
-                            <p class="text-slate-400 mt-3">Template Daftar Hadir Rapat</p>
-                            <p class="text-slate-400 mt-3">Template Notula Rapat</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Undangan Rapat</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Template Daftar Hadir Rapat</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Template Notula Rapat</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -304,7 +306,7 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Naskah Dinas</a>
-                            <p class="text-slate-400 mt-3">Pembuatan Nomor Naskah Keluar</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Pembuatan Nomor Naskah Keluar</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
@@ -318,7 +320,7 @@
 
                         <div class="content mt-6 relative z-1">
                             <a class="title text-lg font-semibold hover:text-teal-500">Pemeliharaan BMN</a>
-                            <p class="text-slate-400 mt-3">Kartu Kendali Pemeliharaan BMN</p>
+                            <p class="text-slate-400 mt-3">Otomatisasi Kartu Kendali Pemeliharaan BMN</p>
                         </div>
 
                         <div class="absolute bottom-0 -end-16">
